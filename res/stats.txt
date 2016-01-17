@@ -1,4 +1,4 @@
-#Name		Class			Lv	HP	Str	Mag	Skl	Spd	Lck	Def	Res	Con	Mov		HP	Str	Mag	Skl	Spd	Lck	Def	Res		Gender
+#Name		Class	Lv	HP	Str	Mag	Skl	Spd	Lck	Def	Res	Con	Mov		HP	Str	Mag	Skl	Spd	Lck	Def	Res		Gender
 Marisa      Assassin        20	34	9	2	20	22	16	6	6	6	6		75	30	10	55	50	50	15	25		-
 Matthew     Assassin        20	31	11	0	16	25	11	7	3	8	6		75	30	0	45	70	50	25	20		-
 
