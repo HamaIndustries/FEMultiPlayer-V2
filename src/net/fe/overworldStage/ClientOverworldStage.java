@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.HashMap;
 
 import net.fe.Command;
 import net.fe.FEMultiplayer;
@@ -26,6 +27,7 @@ import net.fe.overworldStage.context.WaitForMessages;
 import net.fe.transition.OverworldEndTransition;
 import net.fe.unit.Item;
 import net.fe.unit.MapAnimation;
+import net.fe.unit.RiseTome;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
 
@@ -380,6 +382,55 @@ public class ClientOverworldStage extends OverworldStage {
 						unit.setMoved(true);
 						FEMultiplayer.goToFightStage(cmds.unit, 
 								other, cmds.attackRecords);
+					}
+				};
+			}
+			else if(obj.equals("SUMMON")) {
+				final int dropX = (Integer) cmds.commands[++i];
+				final int dropY = (Integer) cmds.commands[++i];
+				callback = new Command() {
+					public void execute() {
+						HashMap<String, Integer> bases = new HashMap();
+						HashMap<String, Integer> growths = new HashMap();
+						bases.put("HP", 1);
+						bases.put("Str", 5);
+						bases.put("Def", 0);
+						bases.put("Mag", 0);
+						bases.put("Res", 0);
+						bases.put("Lck", 0);
+						bases.put("Skl", 2);
+						bases.put("Spd", 4);
+						bases.put("Mov", 5);
+						growths.put("HP", 0);
+						growths.put("Str", 55);
+						growths.put("Def", 15);
+						growths.put("Mag", 15);
+						growths.put("Res", 15);
+						growths.put("Lck", 50);
+						growths.put("Skl", 35);
+						growths.put("Spd", 45);
+						growths.put("Mov", 0);
+						final Unit summon = new Unit("Phantom", net.fe.unit.Class.createClass("Berserker"), '-', bases, growths);
+						summon.addToInventory(Item.getItem("Iron Axe"));
+						summon.initializeEquipment();
+						summon.setLevel(unit.get("Lvl"));
+						summon.fillHp();
+						summon.setParty(unit.getParty());
+						summon.setMoved(true);
+						summon.loadMapSprites();
+						
+						int tomeToUse = 0;
+						List<Item> items = unit.getInventory();
+						for(int i = 0; i < items.size(); i++){
+							if (items.get(i) instanceof RiseTome){
+								tomeToUse = i;
+							}
+						}
+						
+						ClientOverworldStage.this.addUnit(summon, dropX, dropY);
+						unit.setMoved(true);
+						unit.use(tomeToUse);
+						checkEndGame();
 					}
 				};
 			}

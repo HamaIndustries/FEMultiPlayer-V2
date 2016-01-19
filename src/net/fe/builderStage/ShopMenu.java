@@ -7,6 +7,7 @@ import net.fe.overworldStage.ItemMenu;
 import net.fe.unit.HealingItem;
 import net.fe.unit.Item;
 import net.fe.unit.ItemDisplay;
+import net.fe.unit.RiseTome;
 import net.fe.unit.Weapon;
 import net.fe.unit.WeaponFactory;
 
@@ -54,6 +55,7 @@ public class ShopMenu extends Entity {
 		shops[8].addItem(new ItemDisplay(0,0,HealingItem.VULNERARY.getCopy(), false));
 		shops[8].addItem(new ItemDisplay(0,0,HealingItem.CONCOCTION.getCopy(), false));
 		shops[8].addItem(new ItemDisplay(0,0,HealingItem.ELIXIR.getCopy(), false));
+		shops[6].addItem(new ItemDisplay(0,0,new RiseTome(), false));
 		
 		for(ItemMenu shop: shops){
 			shop.sortItems();

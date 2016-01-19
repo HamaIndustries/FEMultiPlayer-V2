@@ -105,6 +105,10 @@ public class Class implements Serializable {
 			return new Class("Falconknight", 
 					"Knights who control pegasi with great mastery.",
 					0, new Crisis(), Weapon.Type.LANCE, Weapon.Type.SWORD);
+		if(name.equals("Phantom"))
+			return new Class("Phantom", 
+					"A phantom that fights for its summoner.",
+					0, new Miracle(), Weapon.Type.AXE);
 		return null;
 		
 	}
