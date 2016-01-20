@@ -26,7 +26,7 @@ public class UnitInfo extends Entity implements DoNotDestroy{
 	private Texture dragons;
 	private ItemDisplay[] items;
 	public UnitInfo() {
-		super(50, Game.getWindowHeight()-80);
+		super(50, Game.getWindowHeight()/net.fe.FEResources.getWindowScale()-80);
 		renderDepth = 0.8f;
 		dragons = FEResources.getTexture("dragon_separator");
 	}

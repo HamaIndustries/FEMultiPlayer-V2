@@ -15,7 +15,7 @@ public class TerrainInfo extends Entity implements DoNotDestroy{
 	private static Texture dragons = FEResources.getTexture("dragon_separator");
 
 	public TerrainInfo(Cursor c) {
-		super(0, Game.getWindowHeight()-80);
+		super(0, Game.getWindowHeight()/net.fe.FEResources.getWindowScale()-80);
 		renderDepth = 0.8f;
 	}
 	
