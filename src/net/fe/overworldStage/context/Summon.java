@@ -1,6 +1,7 @@
 package net.fe.overworldStage.context;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import chu.engine.anim.AudioPlayer;
@@ -102,5 +103,41 @@ public class Summon extends OverworldContext {
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
 	}
-
+	
+	private static int summonCount = 0;
+	public static Unit generateSummon(Unit summoner) {
+		net.fe.unit.WeaponFactory.loadWeapons();
+		
+		HashMap<String, Integer> bases = new HashMap();
+		HashMap<String, Integer> growths = new HashMap();
+		bases.put("HP", 1);
+		bases.put("Str", 5);
+		bases.put("Def", 0);
+		bases.put("Mag", 0);
+		bases.put("Res", 0);
+		bases.put("Lck", 0);
+		bases.put("Skl", 2);
+		bases.put("Spd", 4);
+		bases.put("Mov", 5);
+		growths.put("HP", 0);
+		growths.put("Str", 55);
+		growths.put("Def", 15);
+		growths.put("Mag", 15);
+		growths.put("Res", 15);
+		growths.put("Lck", 50);
+		growths.put("Skl", 35);
+		growths.put("Spd", 45);
+		growths.put("Mov", 0);
+		summonCount = summonCount + 1;
+		final Unit summon = new Unit("Phantom " + summonCount, net.fe.unit.Class.createClass("Berserker"), '-', bases, growths);
+		summon.addToInventory(net.fe.unit.Item.getItem("Iron Axe"));
+		summon.initializeEquipment();
+		summon.setLevel(summoner.get("Lvl"));
+		summon.fillHp();
+		summon.setMoved(true);
+		
+		summoner.getParty().addUnit(summon);
+		summon.stage = summoner.stage;
+		return summon;
+	}
 }

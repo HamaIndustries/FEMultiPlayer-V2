@@ -390,34 +390,7 @@ public class ClientOverworldStage extends OverworldStage {
 				final int dropY = (Integer) cmds.commands[++i];
 				callback = new Command() {
 					public void execute() {
-						HashMap<String, Integer> bases = new HashMap();
-						HashMap<String, Integer> growths = new HashMap();
-						bases.put("HP", 1);
-						bases.put("Str", 5);
-						bases.put("Def", 0);
-						bases.put("Mag", 0);
-						bases.put("Res", 0);
-						bases.put("Lck", 0);
-						bases.put("Skl", 2);
-						bases.put("Spd", 4);
-						bases.put("Mov", 5);
-						growths.put("HP", 0);
-						growths.put("Str", 55);
-						growths.put("Def", 15);
-						growths.put("Mag", 15);
-						growths.put("Res", 15);
-						growths.put("Lck", 50);
-						growths.put("Skl", 35);
-						growths.put("Spd", 45);
-						growths.put("Mov", 0);
-						final Unit summon = new Unit("Phantom", net.fe.unit.Class.createClass("Berserker"), '-', bases, growths);
-						summon.addToInventory(Item.getItem("Iron Axe"));
-						summon.initializeEquipment();
-						summon.setLevel(unit.get("Lvl"));
-						summon.fillHp();
-						summon.setParty(unit.getParty());
-						summon.setMoved(true);
-						summon.loadMapSprites();
+						final Unit summon = net.fe.overworldStage.context.Summon.generateSummon(unit);
 						
 						int tomeToUse = 0;
 						List<Item> items = unit.getInventory();
@@ -427,6 +400,7 @@ public class ClientOverworldStage extends OverworldStage {
 							}
 						}
 						
+						summon.loadMapSprites();
 						ClientOverworldStage.this.addUnit(summon, dropX, dropY);
 						unit.setMoved(true);
 						unit.use(tomeToUse);

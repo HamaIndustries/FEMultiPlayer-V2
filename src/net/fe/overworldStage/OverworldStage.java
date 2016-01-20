@@ -311,6 +311,23 @@ public class OverworldStage extends Stage {
 				HealCalculator calc = new HealCalculator(cmds.unit, (UnitIdentifier) cmds.commands[++i], false);
 				cmds.attackRecords = calc.getAttackQueue();
 			}
+			else if(obj.equals("SUMMON")) {
+				final int dropX = (Integer) cmds.commands[++i];
+				final int dropY = (Integer) cmds.commands[++i];
+				
+				final Unit summon = net.fe.overworldStage.context.Summon.generateSummon(unit);
+				int tomeToUse = 0;
+				List<Item> items = unit.getInventory();
+				for(int z = 0; z < items.size(); z++){
+					if (items.get(z) instanceof RiseTome){
+						tomeToUse = z;
+					}
+				}
+				
+				OverworldStage.this.addUnit(summon, dropX, dropY);
+				unit.use(tomeToUse);
+				checkEndGame();
+			}
 		}
 		FEServer.getServer().broadcastMessage(message);
 		checkEndGame();
