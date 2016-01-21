@@ -1812,6 +1812,36 @@
 			"freeze":	0
 		},
 		{
+			"name":		"ike_axe_attack",
+			"path":		"res/battle_anim/ike_axe_attack.png",
+			"width":	240,
+			"height":	160,
+			"frames":	16,
+			"columns":	4,
+			"offsetX":	170,
+			"offsetY":	110,
+			"freeze":	0,
+			"hitframes":[7],
+			"soundMap": [
+				{
+					"frame":	2,
+					"sound":	"sheath"
+				},
+				{
+					"frame":	5,
+					"sound":	"jump"
+				},
+				{
+					"frame":	6,
+					"sound":	"axe_swipe3"
+				},
+				{
+					"frame":	14,
+					"sound":	"cape"
+				}
+			]
+		},
+		{
 			"name":		"lyn_sword_attack",
 			"path":		"res/battle_anim/lyn_sword_attack.png",
 			"width":	118,
