@@ -70,7 +70,7 @@ public class FEMultiplayer extends Game{
 //			SoundTrack.enabled = false;
 			game.init(480, 320, "Fire Emblem Multiplayer");
 			/* Testing code */
-			game.testFightStage();
+//			game.testFightStage();
 //			game.testOverworldStage();
 //			game.testDraftStage();
 			game.loop();
