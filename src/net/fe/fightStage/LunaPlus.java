@@ -4,10 +4,10 @@ import net.fe.RNG;
 import net.fe.unit.Unit;
 
 /** A skill that always negates enemy defenses */
-public class LunaPlus extends CombatTrigger {
+public final class LunaPlus extends CombatTrigger {
 	private static final long serialVersionUID = -6539654970701395612L;
 	public LunaPlus(){
-		super(REPLACE_NAME_AFTER_PRE, YOUR_TURN_PRE);
+		super(NO_NAME_MOD, YOUR_TURN_PRE);
 	}
 	@Override
 	public boolean attempt(Unit user, int range) {
@@ -21,8 +21,17 @@ public class LunaPlus extends CombatTrigger {
 		return true;
 	}
 	
+	public String getName() {
+		return "Luna";
+	}
+	
 	public CombatTrigger getCopy(){
 		return new LunaPlus();
 	}
-
+	
+	@Override
+	public boolean equals(Object o){
+		return o instanceof LunaPlus;
+	}
+	public int hashCode() { return (int)serialVersionUID; }
 }
