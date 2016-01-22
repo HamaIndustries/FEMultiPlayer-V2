@@ -1816,23 +1816,23 @@
 			"path":		"res/battle_anim/ike_axe_attack.png",
 			"width":	240,
 			"height":	160,
-			"frames":	16,
+			"frames":	18,
 			"columns":	4,
-			"offsetX":	170,
-			"offsetY":	110,
+			"offsetX":	150,
+			"offsetY":	103,
 			"freeze":	0,
-			"hitframes":[7],
+			"hitframes":[9],
 			"soundMap": [
 				{
 					"frame":	2,
 					"sound":	"sheath"
 				},
 				{
-					"frame":	5,
+					"frame":	3,
 					"sound":	"jump"
 				},
 				{
-					"frame":	6,
+					"frame":	8,
 					"sound":	"axe_swipe3"
 				},
 				{

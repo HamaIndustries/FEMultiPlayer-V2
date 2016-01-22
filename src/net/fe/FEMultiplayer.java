@@ -70,7 +70,7 @@ public class FEMultiplayer extends Game{
 //			SoundTrack.enabled = false;
 			game.init(480, 320, "Fire Emblem Multiplayer");
 			/* Testing code */
-//			game.testFightStage();
+			game.testFightStage();
 //			game.testOverworldStage();
 //			game.testDraftStage();
 			game.loop();
@@ -152,7 +152,7 @@ public class FEMultiplayer extends Game{
 		Unit u1 = UnitFactory.getUnit("Ike");
 		u1.getInventory().add(WeaponFactory.getWeapon("Brave Axe"));
 		map.addUnit(u1, 0, 0);
-		u1.equip(0);
+		u1.equip(1);
 		u1.setLevel(20);
 		u1.loadMapSprites();
 		p1.getParty().addUnit(u1);
