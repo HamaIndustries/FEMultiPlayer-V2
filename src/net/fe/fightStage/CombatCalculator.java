@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import static java.lang.System.out;
 
 import net.fe.FEMultiplayer;
 import net.fe.RNG;
@@ -218,7 +219,7 @@ public class CombatCalculator {
 		}
 		
 	}
-
+	
 	public void addToAttackQueue(Unit a, Unit d, String animation, int damage, int drain) {
 		AttackRecord rec = new AttackRecord();
 		rec.attacker = new UnitIdentifier(a);

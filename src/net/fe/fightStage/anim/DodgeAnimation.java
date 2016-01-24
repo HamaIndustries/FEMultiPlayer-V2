@@ -8,6 +8,7 @@ public class DodgeAnimation extends Animation {
 	
 	public static final float DODGE_DURATION = 0.25f;
 	public static final float NORMAL_SPEED = .06f;
+	private float defaultSpeed = NORMAL_SPEED;
 	
 	private float dodgeTimer;
 	private boolean dodging;
@@ -17,6 +18,9 @@ public class DodgeAnimation extends Animation {
 				data.columns, data.offsetX, data.offsetY,
 				DodgeAnimation.NORMAL_SPEED);
 		dodgeTimer = 0;
+		if(data.speed != 0) {
+			defaultSpeed = data.speed;
+		}
 	}
 	
 	@Override
@@ -43,6 +47,10 @@ public class DodgeAnimation extends Animation {
 			dodging = false;
 			dodgeTimer = 0;
 		}
+	}
+	
+	public float getDefaultSpeed() {
+		return defaultSpeed;
 	}
 
 }

@@ -630,6 +630,22 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	public void setTempMod(String stat, int val) {
 		tempMods.put(stat, val);
 	}
+	
+	public void debugDodge(){
+		stats.put("Spd", 9999f);
+	}
+	
+	public void debugCrit(int might){
+		getWeapon().crit=100;
+		getWeapon().hit=100;
+		getWeapon().mt=might;
+	}
+	
+	public void debugCrit(){
+		getWeapon().crit=100;
+		getWeapon().hit=100;
+		getWeapon().mt=100;
+	}
 
 	public void clearTempMods() {
 		tempMods.clear();

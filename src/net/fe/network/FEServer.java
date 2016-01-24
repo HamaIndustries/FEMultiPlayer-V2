@@ -82,6 +82,7 @@ public class FEServer extends Game {
 		maps = new HashMap<String, Objective[]>();
 		maps.put("delphino", new Objective[]{rout});
 		maps.put("town", new Objective[]{rout});
+		maps.put("alpea", new Objective[]{seize});
 		maps.put("plains", new Objective[]{rout, seize});
 		maps.put("fort", new Objective[]{rout, seize});
 		maps.put("decay", new Objective[]{rout, seize});

@@ -10,6 +10,7 @@ import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 
+import static java.lang.System.out;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -70,7 +71,7 @@ public class FEMultiplayer extends Game{
 //			SoundTrack.enabled = false;
 			game.init(480, 320, "Fire Emblem Multiplayer");
 			/* Testing code */
-			game.testFightStage();
+//			game.testFightStage();
 //			game.testOverworldStage();
 //			game.testDraftStage();
 			game.loop();
@@ -150,16 +151,17 @@ public class FEMultiplayer extends Game{
 		
 		map = new ClientOverworldStage(testSession);
 		Unit u1 = UnitFactory.getUnit("Ike");
-		u1.getInventory().add(WeaponFactory.getWeapon("Brave Axe"));
+		u1.getInventory().add(WeaponFactory.getWeapon("Tomahawk"));
+		u1.equip(0);
 		map.addUnit(u1, 0, 0);
 		u1.equip(1);
 		u1.setLevel(20);
 		u1.loadMapSprites();
 		p1.getParty().addUnit(u1);
 		
-		Unit u2 = UnitFactory.getUnit("Joshua");
-		u2.getInventory().add(WeaponFactory.getWeapon("Wo Dao"));
-		map.addUnit(u2, 1, 0);
+		Unit u2 = UnitFactory.getUnit("Dart");
+		u2.getInventory().add(WeaponFactory.getWeapon("Tomahawk"));
+		map.addUnit(u2, 2, 0);
 		u2.equip(0);
 		u2.setLevel(15);
 		u2.loadMapSprites();
@@ -167,14 +169,21 @@ public class FEMultiplayer extends Game{
 		
 		map.processAddStack();
 		int u2Uses = u2.getWeapon().getMaxUses();
+
+		//u1.debugCrit();
+		u1.debugDodge();
+		
+		//put all pre-calc stuff here -------
+		
 		CombatCalculator calc = new CombatCalculator(new UnitIdentifier(u1), new UnitIdentifier(u2), true);
 		System.out.println(calc.getAttackQueue());
 		
-		u1.getInventory().add(WeaponFactory.getWeapon("Debug Noodle"));
-		u1.equip(0);
+		
 		u2.getWeapon().setUsesDEBUGGING(u2Uses);
 		u1.fillHp();
 		u2.fillHp();
+		
+		
 		setCurrentStage(new FightStage(new UnitIdentifier(u1), new UnitIdentifier(u2), calc.getAttackQueue()));
 	}
 	

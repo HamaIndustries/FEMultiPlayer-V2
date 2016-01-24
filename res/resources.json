@@ -1842,6 +1842,122 @@
 			]
 		},
 		{
+			"name":		"ike_axe_critical",
+			"path":		"res/battle_anim/ike_axe_critical.png",
+			"width":	240,
+			"height":	160,
+			"frames":	39,
+			"columns":	5,
+			"offsetX":	150,
+			"offsetY":	103,
+			"freeze":	1,
+			"hitframes":[16,32],
+			"soundMap": [
+				{
+					"frame":	2,
+					"sound":	"sheath"
+				},
+				{
+					"frame":	3,
+					"sound":	"jump"
+				},
+				{
+					"frame":	8,
+					"sound":	"axe_swipe3"
+				},
+				{
+					"frame":	14,
+					"sound":	"cape"
+				}
+				{
+					"frame":	18,
+					"sound":	"jump"
+				},
+				{
+					"frame":	25,
+					"sound":	"fly"
+				},
+			]
+		},
+		{
+			"name":		"ike_axe_dodge",
+			"path":		"res/battle_anim/ike_axe_dodge.png",
+			"width":	240,
+			"height":	160,
+			"frames":	2,
+			"columns":	2,
+			"offsetX":	194,
+			"offsetY":	107,
+			"freeze":	0
+		},
+		{
+			"name":		"ike_handaxe_attack",
+			"path":		"res/battle_anim/ike_handaxe_attack.png",
+			"width":	240,
+			"height":	160,
+			"frames":	12,
+			"columns":	4,
+			"offsetX":	150,
+			"offsetY":	103,
+			"freeze":	1,
+			"hitframes":[5],
+			"soundMap": [
+				{
+					"frame":	3,
+					"sound":	"axe_throw"
+				},
+				{
+					"frame":	10,
+					"sound":	"catch"
+				},
+			]
+		},
+		{
+			"name":		"ike_handaxe_critical",
+			"path":		"res/battle_anim/ike_handaxe_critical.png",
+			"width":	240,
+			"height":	160,
+			"frames":	14,
+			"columns":	7,
+			"offsetX":	150,
+			"offsetY":	103,
+			"freeze":	1,
+			"hitframes":[8],
+			"soundMap": [
+				{
+					"frame":	2,
+					"sound":	"axe_swipe1"
+				},
+				{
+					"frame":	3,
+					"sound":	"axe_swipe1"
+				},
+				{
+					"frame":	4,
+					"sound":	"axe_swipe1"
+				},
+				{
+					"frame":	7,
+					"sound":	"axe_throw"
+				},
+				{
+					"frame":	12,
+					"sound":	"catch"
+				},
+			]
+		},
+		{
+			"name":		"ike_handaxe_dodge",
+			"path":		"res/battle_anim/ike_handaxe_dodge.png",
+			"width":	222,
+			"height":	114,
+			"frames":	3,
+			"columns":	3,
+			"offsetX":	0,
+			"offsetY":	0,
+			"freeze":	0
+		},
+		{
 			"name":		"lyn_sword_attack",
 			"path":		"res/battle_anim/lyn_sword_attack.png",
 			"width":	118,
@@ -3906,6 +4022,7 @@
 				}
 			]
 		},
+		
 		{
 			"name":		"hit_effect_attack_critical",
 			"path":		"res/battle_anim/hit_effect_critical.png",

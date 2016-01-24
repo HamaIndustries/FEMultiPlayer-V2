@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
+import static java.lang.System.out;
 
 import net.fe.FEMultiplayer;
 import net.fe.FEResources;
@@ -229,7 +230,11 @@ public class FightStage extends Stage {
 				addEntity(new SkillIndicator(messages.get(i), attacker == left, i));
 			}
 			a.setAnimation(rec.animation);
-			a.sprite.setSpeed(((AttackAnimation)a.sprite.getCurrentAnimation()).getDefaultSpeed());//TODO: check here for bug - dodge being cast to attack?
+			try{
+				a.sprite.setSpeed(((AttackAnimation)a.sprite.getCurrentAnimation()).getDefaultSpeed());
+			}catch(ClassCastException e){
+				a.sprite.setSpeed(((DodgeAnimation)a.sprite.getCurrentAnimation()).getDefaultSpeed());
+			}
 			a.sprite.setFrame(0);
 			
 			d.sprite.setAnimation("ATTACK");
@@ -444,6 +449,14 @@ public class FightStage extends Stage {
 					+ currentEvent + " to " + event);
 		}
 
+	}
+	
+	private static boolean typeTest(AttackAnimation a){
+		return true;
+	}
+	
+	private static boolean typeTest(DodgeAnimation a){
+		return true;
 	}
 	
 	public void setDarkness(float dark){
