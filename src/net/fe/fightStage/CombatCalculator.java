@@ -238,15 +238,23 @@ public class CombatCalculator {
 	
 	public static int calculateBaseDamage(Unit a, Unit d){
 		boolean effective = a.getWeapon().effective.contains(d.noGenderName());
+		// Triggers with a guaranteed activation
+		boolean hasLunaPlus = a.getTriggers().contains(new LunaPlus());
+		boolean hasHpToOne = a.getTriggers().contains(new EclipseSix());
+		
 		int base;
 		if (a.getWeapon().isMagic()) {
 			base = a.get("Mag")
 					+ (a.getWeapon().mt + a.getWeapon().triMod(d.getWeapon()))
-					* (effective ? 3: 1) - d.get("Res");
+					* (effective ? 3: 1) - (hasLunaPlus ? 0 : d.get("Res"));
 		} else {
 			base = a.get("Str")
 					+ (a.getWeapon().mt + a.getWeapon().triMod(d.getWeapon()))
-					* (effective? 3:1) - d.get("Def");
+					* (effective? 3:1) - (hasLunaPlus ? 0 : d.get("Def"));
+		}
+		
+		if (hasHpToOne) {
+			base = new EclipseSix().runDamageMod(a,d,base);
 		}
 		return Math.max(base, 0);
 	}
