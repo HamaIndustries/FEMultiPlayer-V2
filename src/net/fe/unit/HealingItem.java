@@ -32,6 +32,8 @@ public class HealingItem extends Item {
 	public int compareTo(Item that) {
 		if(that instanceof HealingItem){
 			return amount - ((HealingItem) that).amount;
+		} else if(that instanceof RiseTome){
+			return -1;
 		} else {
 			return 1;
 		}

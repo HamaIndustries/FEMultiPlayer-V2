@@ -12,7 +12,10 @@ import net.fe.overworldStage.Node;
 import net.fe.overworldStage.OverworldContext;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.Zone;
+import net.fe.unit.Item;
+import net.fe.unit.RiseTome;
 import net.fe.unit.Unit;
+import net.fe.unit.Weapon;
 
 public class UnitMoved extends MenuContext<String> {
 	private Unit unit;
@@ -73,6 +76,8 @@ public class UnitMoved extends MenuContext<String> {
 			new TakeTarget(stage, this, zone, unit).startContext();
 		} else if (selectedItem.equals("Drop")){
 			new DropTarget(stage, this, zone, unit).startContext();
+		} else if (selectedItem.equals("Summon")){
+			new Summon(stage, this, zone, unit).startContext();
 		}
 			
 	}
@@ -102,7 +107,7 @@ public class UnitMoved extends MenuContext<String> {
 					new Node(unit.getXCoord(), unit.getYCoord()),
 					unit.getTotalWepRange(true)), Zone.HEAL_DARK);
 			stage.addEntity(zone);
-		} else if (Arrays.asList("Trade", "Give", "Take", "Drop", "Rescue")
+		} else if (Arrays.asList("Trade", "Give", "Take", "Drop", "Rescue", "Summon")
 				.contains(menu.getSelection())) {
 			zone = new Zone(grid.getRange(
 					new Node(unit.getXCoord(), unit.getYCoord()), 1),
@@ -148,6 +153,7 @@ public class UnitMoved extends MenuContext<String> {
 		boolean give = false;
 		boolean take = false;
 		boolean drop = false;
+		boolean summon = false;
 		range = grid.getRange(new Node(u.getXCoord(), u.getYCoord()), 1);
 		for (Node n : range) {
 			Unit p = grid.getUnit(n.x, n.y);
@@ -167,6 +173,12 @@ public class UnitMoved extends MenuContext<String> {
 					.rescuedUnit().get("Mov")){
 				drop = true;
 			}
+			if(p == null && unit.getTheClass().usableWeapon.contains(Weapon.Type.DARK)) {
+				for (Item i : unit.getInventory()) {
+					if (i instanceof RiseTome)
+						summon = true;
+				}
+			}
 			
 		}
 		if (trade && !fromTrade && !fromTake)
@@ -179,6 +191,8 @@ public class UnitMoved extends MenuContext<String> {
 			list.add("Take");
 		if (drop && !fromTrade)
 			list.add("Drop");
+		if (summon)
+			list.add("Summon");
 		
 		list.add("Item");
 		list.add("Wait");
