@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.HashMap;
 
 import net.fe.Command;
 import net.fe.FEMultiplayer;
@@ -26,6 +27,7 @@ import net.fe.overworldStage.context.WaitForMessages;
 import net.fe.transition.OverworldEndTransition;
 import net.fe.unit.Item;
 import net.fe.unit.MapAnimation;
+import net.fe.unit.RiseTome;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
 
@@ -380,6 +382,29 @@ public class ClientOverworldStage extends OverworldStage {
 						unit.setMoved(true);
 						FEMultiplayer.goToFightStage(cmds.unit, 
 								other, cmds.attackRecords);
+					}
+				};
+			}
+			else if(obj.equals("SUMMON")) {
+				final int dropX = (Integer) cmds.commands[++i];
+				final int dropY = (Integer) cmds.commands[++i];
+				callback = new Command() {
+					public void execute() {
+						final Unit summon = net.fe.overworldStage.context.Summon.generateSummon(unit);
+						
+						int tomeToUse = 0;
+						List<Item> items = unit.getInventory();
+						for(int i = 0; i < items.size(); i++){
+							if (items.get(i) instanceof RiseTome){
+								tomeToUse = i;
+							}
+						}
+						
+						summon.loadMapSprites();
+						ClientOverworldStage.this.addUnit(summon, dropX, dropY);
+						unit.setMoved(true);
+						unit.use(tomeToUse);
+						checkEndGame();
 					}
 				};
 			}

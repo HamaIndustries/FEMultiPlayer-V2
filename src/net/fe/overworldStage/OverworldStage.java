@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.HashMap;
 
 import net.fe.FEMultiplayer;
 import net.fe.Party;
@@ -29,6 +30,7 @@ import net.fe.network.message.QuitMessage;
 import net.fe.overworldStage.context.TradeContext;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.unit.Item;
+import net.fe.unit.RiseTome;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
 
@@ -308,6 +310,23 @@ public class OverworldStage extends Stage {
 				//This updates HP so we're ok
 				HealCalculator calc = new HealCalculator(cmds.unit, (UnitIdentifier) cmds.commands[++i], false);
 				cmds.attackRecords = calc.getAttackQueue();
+			}
+			else if(obj.equals("SUMMON")) {
+				final int dropX = (Integer) cmds.commands[++i];
+				final int dropY = (Integer) cmds.commands[++i];
+				
+				final Unit summon = net.fe.overworldStage.context.Summon.generateSummon(unit);
+				int tomeToUse = 0;
+				List<Item> items = unit.getInventory();
+				for(int z = 0; z < items.size(); z++){
+					if (items.get(z) instanceof RiseTome){
+						tomeToUse = z;
+					}
+				}
+				
+				OverworldStage.this.addUnit(summon, dropX, dropY);
+				unit.use(tomeToUse);
+				checkEndGame();
 			}
 		}
 		FEServer.getServer().broadcastMessage(message);
