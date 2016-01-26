@@ -7,6 +7,8 @@ import net.fe.fightStage.anim.AttackAnimation;
 import net.fe.fightStage.anim.DodgeAnimation;
 import net.fe.unit.Unit;
 
+import static java.lang.System.out;
+
 import org.newdawn.slick.Color;
 
 import chu.engine.Entity;
@@ -41,6 +43,8 @@ public class FightUnit extends Entity {
 		filename.append("_");
 		filename.append(animArgs.wepAnimName);
 		filename.append("_");
+
+		
 		String base = filename.toString().toLowerCase();
 		
 		for(String anim: animArgs.unit.getAttackAnims()){
@@ -54,7 +58,6 @@ public class FightUnit extends Entity {
 		DodgeAnimation dodge = new DodgeAnimation(FEResources.getTextureData(base+"dodge"));
 		sprite.addAnimation("DODGE", dodge);
 		sprite.setAnimation("ATTACK");
-		
 		
 		renderDepth = FightStage.UNIT_DEPTH;
 	}

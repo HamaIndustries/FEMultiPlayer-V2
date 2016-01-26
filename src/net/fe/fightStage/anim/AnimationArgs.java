@@ -3,6 +3,7 @@ package net.fe.fightStage.anim;
 import net.fe.unit.Unit;
 import net.fe.unit.Weapon;
 import net.fe.unit.Weapon.Type;
+import static java.lang.System.out;
 
 public class AnimationArgs {
 	public String userclass;

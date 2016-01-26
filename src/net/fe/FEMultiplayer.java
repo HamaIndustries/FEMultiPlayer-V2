@@ -151,7 +151,7 @@ public class FEMultiplayer extends Game{
 		
 		map = new ClientOverworldStage(testSession);
 		Unit u1 = UnitFactory.getUnit("Ike");
-		u1.getInventory().add(WeaponFactory.getWeapon("Tomahawk"));
+		u1.getInventory().add(WeaponFactory.getWeapon("Ragnell"));
 		u1.equip(0);
 		map.addUnit(u1, 0, 0);
 		u1.equip(1);
@@ -170,8 +170,9 @@ public class FEMultiplayer extends Game{
 		map.processAddStack();
 		int u2Uses = u2.getWeapon().getMaxUses();
 
-		//u1.debugCrit();
-		u1.debugDodge();
+		
+		u1.debugStat("Skl");
+		u1.debugStat("Str", -9999);
 		
 		//put all pre-calc stuff here -------
 		

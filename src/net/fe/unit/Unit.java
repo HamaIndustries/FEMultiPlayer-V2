@@ -631,8 +631,12 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		tempMods.put(stat, val);
 	}
 	
-	public void debugDodge(){
-		stats.put("Spd", 9999f);
+	public void debugStat(String stat){
+		stats.put(stat, 9999f);
+	}
+	
+	public void debugStat(String stat, int value){
+		stats.put(stat, value*1.0f);
 	}
 	
 	public void debugCrit(int might){

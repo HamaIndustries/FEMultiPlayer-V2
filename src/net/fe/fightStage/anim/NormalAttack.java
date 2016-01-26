@@ -1,6 +1,9 @@
 package net.fe.fightStage.anim;
 
 import net.fe.fightStage.FightStage;
+
+import static java.lang.System.out;
+
 import chu.engine.AnimationData;
 import chu.engine.anim.AudioPlayer;
 

@@ -1,5 +1,7 @@
 package net.fe.fightStage.anim;
 
+import static java.lang.System.out;
+
 import java.util.HashMap;
 
 import net.fe.fightStage.FightStage;
