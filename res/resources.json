@@ -1736,6 +1736,90 @@
 			"offsetY":	31,
 			"freeze":	0
 		},
+		
+		{
+			"name":		"ike_rangedsword_attack",
+			"path":		"res/battle_anim/ike_rangedsword_attack.png",
+			"width":	96,
+			"height":	70,
+			"frames":	23,
+			"columns":	5,
+			"offsetX":	71,
+			"offsetY":	66,
+			"freeze":	0,
+			"hitframes":[12],
+			"soundMap": [
+				{
+					"frame":	2,
+					"sound":	"sheath"
+				},
+				{
+					"frame":	5,
+					"sound":	"cape"
+				}
+				{
+					"frame":	7,
+					"sound":	"cape"
+				}
+				{
+					"frame":	9,
+					"sound":	"cape"
+				}
+				{
+					"frame":	11,
+					"sound":	"axe_swipe4"
+				},
+				{
+					"frame":	19,
+					"sound":	"sword_swipe3"
+				},
+			]
+		},
+		{
+			"name":		"ike_rangedsword_critical",
+			"path":		"res/battle_anim/ike_rangedsword_critical.png",
+			"width":	150,
+			"height":	125,
+			"frames":	44,
+			"columns":	7,
+			"offsetX":	124,
+			"offsetY":	123,
+			"freeze":	125,
+			"hitframes":[34],
+			"soundMap": [
+				{
+					"frame":	12,
+					"sound":	"sheath"
+				},
+				{
+					"frame":	20,
+					"sound":	"aureola3"
+				}
+				{
+					"frame":	36,
+					"sound":	"sword_swipe1"
+				}
+				{
+					"frame":	39,
+					"sound":	"axe_swipe1"
+				}
+				{
+					"frame":	43,
+					"sound":	"axe_swipe2"
+				},
+			]
+		},
+		{
+			"name":		"ike_rangedsword_dodge",
+			"path":		"res/battle_anim/ike_sword_dodge.png",
+			"width":	43,
+			"height":	47,
+			"frames":	2,
+			"columns":	2,
+			"offsetX":	13,
+			"offsetY":	42,
+			"freeze":	0
+		},
 		{
 			"name":		"ike_sword_attack",
 			"path":		"res/battle_anim/ike_sword_attack.png",
@@ -1953,8 +2037,8 @@
 			"height":	114,
 			"frames":	3,
 			"columns":	3,
-			"offsetX":	0,
-			"offsetY":	0,
+			"offsetX":	168,
+			"offsetY":	77,
 			"freeze":	0
 		},
 		{
@@ -4007,6 +4091,24 @@
 		
 		{
 			"name":		"hit_effect_attack",
+			"path":		"res/battle_anim/hit_effect_attack.png",
+			"width":	240,
+			"height":	160,
+			"frames":	9,
+			"columns":	3,
+			"offsetX":	88,
+			"offsetY":	110,
+			"freeze":	-1,
+			"soundMap": [
+				{
+					"frame": 0,
+					"sound":"hit_normal"
+				}
+			]
+		},
+		
+		{
+			"name":		"hit_effect_ragnell",
 			"path":		"res/battle_anim/hit_effect_attack.png",
 			"width":	240,
 			"height":	160,
