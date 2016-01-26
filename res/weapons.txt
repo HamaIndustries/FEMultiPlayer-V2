@@ -63,7 +63,6 @@ Debug Purge	Light	3-10	10	70	5	2	3000	-	-	-
 Aura		Light	1-2	12	85	15	10	8000	-	-	-
 Aureola		Light	1-2	15	90	5	10	15000	-	-	Res 5
 Flux		Dark	1-2	7	80	0	22	900	-	-	-
-Nosferatu	Dark	1-2	10	70	0	10	3200	-	-	-
 Eclipse		Dark	3-10	0	10	-900	2	4000	-	-	-
 Luna		Dark	1-2	0	50	0	17	4200	-	-	-
 Debug Fenrir	Dark	1-2	15	70	0	10	9000	-	-	-
