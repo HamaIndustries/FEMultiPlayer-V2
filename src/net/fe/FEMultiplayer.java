@@ -171,8 +171,8 @@ public class FEMultiplayer extends Game{
 		int u2Uses = u2.getWeapon().getMaxUses();
 
 		
-		//u1.debugStat("Skl");
-		//u1.debugStat("Str", -9999);
+		u1.debugStat("Skl");
+		u1.debugStat("Str", -9999);
 		
 		//put all pre-calc stuff here -------
 		
