@@ -2668,6 +2668,206 @@
 			"freeze":	0
 		},
 		{
+			"name":		"paladin_axe_attack",
+			"path":		"res/battle_anim/paladin_axe_attack.png",
+			"width":	121,
+			"height":	89,
+			"frames":	29,
+			"columns":	6,
+			"offsetX":	75,
+			"offsetY":	77,
+			"freeze":	0,
+			"hitframes":[7],
+			"speed":	0.055,
+			"soundMap": [
+				{
+					"frame":	1,
+					"sound":	"horse_step"
+				},
+				{
+					"frame":	5,
+					"sound":	"horse_step"
+				},
+				{
+					"frame":	6,
+					"sound":	"axe_swipe3"
+				},
+				{
+					"frame":	8,
+					"sound":	"axe_swipe2"
+				},
+				{
+					"frame":	20,
+					"sound":	"horse_step"
+				},
+				{
+					"frame":	22,
+					"sound":	"horse_step"
+				},
+				{
+					"frame":	26,
+					"sound":	"horse_step"
+				},
+			]
+		},
+		{
+			"name":		"paladin_axe_critical",
+			"path":		"res/battle_anim/paladin_axe_critical.png",
+			"width":	143,
+			"height":	89,
+			"frames":	71,
+			"columns":	9,
+			"offsetX":	75,
+			"offsetY":	77,
+			"freeze":	0,
+			"hitframes":[49],
+			"speed":	0.055,
+			"soundMap": [
+				{
+					"frame":	1,
+					"sound":	"horse_step"
+				},
+				{
+					"frame":	3,
+					"sound":	"horse_step"
+				},
+				{
+					"frame":	4,
+					"sound":	"horse_whinny"
+				},
+				{
+					"frame":	5,
+					"sound":	"spin_short"
+				},
+				{
+					"frame":	17,
+					"sound":	"horse_gallop"
+				},
+				{
+					"frame":	24,
+					"sound":	"horse_gallop"
+				},
+				{
+					"frame":	31,
+					"sound":	"horse_gallop"
+				},
+				{
+					"frame":	38,
+					"sound":	"horse_gallop"
+				},
+				{
+					"frame":	45,
+					"sound":	"horse_step"
+				},
+				{
+					"frame":	46,
+					"sound":	"horse_step"
+				},
+				{
+					"frame":	48,
+					"sound":	"axe_swipe3"
+				},
+				{
+					"frame":	51,
+					"sound":	"horse_step"
+				},
+				{
+					"frame":	53,
+					"sound":	"horse_step"
+				},
+				{
+					"frame":	62,
+					"sound":	"horse_step"
+				},
+				{
+					"frame":	64,
+					"sound":	"horse_step"
+				},
+				{
+					"frame":	68,
+					"sound":	"horse_step"
+				},
+				{
+					"frame":	70,
+					"sound":	"horse_step"
+				},
+			]
+		},
+		{
+			"name":		"paladin_axe_dodge",
+			"path":		"res/battle_anim/paladin_axe_dodge.png",
+			"width":	59,
+			"height":	61,
+			"frames":	2,
+			"columns":	2,
+			"offsetX":	19,
+			"offsetY":	57,
+			"freeze":	0
+		},
+		{
+			"name":		"paladin_handaxe_dodge",
+			"path":		"res/battle_anim/paladin_handaxe_dodge.png",
+			"width":	59,
+			"height":	61,
+			"frames":	2,
+			"columns":	2,
+			"offsetX":	19,
+			"offsetY":	57,
+			"freeze":	0
+		},
+		{
+			"name":		"paladin_handaxe_attack",
+			"path":		"res/battle_anim/paladin_handaxe_attack.png",
+			"width":	238,
+			"height":	89,
+			"frames":	16,
+			"columns":	4,
+			"offsetX":	177,
+			"offsetY":	75,
+			"freeze":	0,
+			"hitframes":[11],
+			"soundMap": [
+				{
+					"frame":	1,
+					"sound":	"horse_step"
+				},
+				{
+					"frame":	8,
+					"sound":	"axe_throw"
+				},
+			]
+		},
+		{
+			"name":		"paladin_handaxe_critical",
+			"path":		"res/battle_anim/paladin_handaxe_critical.png",
+			"width":	238,
+			"height":	89,
+			"frames":	22,
+			"columns":	5,
+			"offsetX":	177,
+			"offsetY":	75,
+			"freeze":	0,
+			"hitframes":[16],
+			"soundMap": [
+				{
+					"frame":	1,
+					"sound":	"horse_step"
+				},
+				{
+					"frame":	5,
+					"sound":	"axe_swipe4"
+				},
+				{
+					"frame":	8,
+					"sound":	"axe_swipe4"
+				},
+				{
+					"frame":	15,
+					"sound":	"axe_throw"
+				},
+			]
+		},
+		{
 			"name":		"roy_sword_critical",
 			"path":		"res/battle_anim/roy_sword_critical.png",
 			"width":	142,

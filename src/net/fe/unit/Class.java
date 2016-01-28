@@ -80,7 +80,7 @@ public class Class implements Serializable {
 		if(name.equals("Paladin"))
 			return new Class("Paladin", 
 					"An experienced and dignified knight, possessing high mobility.",
-					0, new Sol(false), Weapon.Type.LANCE, Weapon.Type.SWORD);
+					0, new Sol(false), Weapon.Type.LANCE, Weapon.Type.SWORD, Weapon.Type.AXE);
 		if(name.equals("Sage"))
 			return new Class("Sage", 
 					"A powerful magic user who wields mighty tomes.",
