@@ -4899,6 +4899,59 @@
 			]
 		},
 		{
+			"name":		"magic_effect_eclipse",
+			"path":		"res/battle_anim/magic_effect_null.png",
+			"width":	8,
+			"height":	8,
+			"frames":	1,
+			"columns":	1,
+			"offsetX":	0,
+			"offsetY":	0,
+			"freeze":	-1
+		},
+		{
+			"name":		"bg_effect_eclipse",
+			"path":		"res/battle_anim/magic_effect_null.png",
+			"width":	8,
+			"height":	8,
+			"frames":	1,
+			"columns":	1,
+			"offsetX":	0,
+			"offsetY":	0,
+			"freeze":	-1
+		},
+		{
+			"name":		"hit_effect_eclipse",
+			"path":		"res/battle_anim/hit_effect_eclipse.png",
+			"width":	167,
+			"height":	100,
+			"frames":	126,
+			"columns":	7,
+			"offsetX":	85,
+			"offsetY":	85,
+			"freeze":	-1,
+			"hitframes": [125],
+			"shakeIntensity": 7,
+			"soundMap": [
+				{
+					"frame":12,
+					"sound":"eclipse1"
+				},
+				{
+					"frame":36,
+					"sound":"eclipse1"
+				},
+				{
+					"frame":77,
+					"sound":"eclipse2"
+				}
+				{
+					"frame":110,
+					"sound":"eclipse3"
+				},
+			]
+		},
+		{
 			"name":		"magic_effect_excalibur",
 			"path":		"res/battle_anim/magic_effect_excalibur.png",
 			"width":	245,
