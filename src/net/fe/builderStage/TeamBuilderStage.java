@@ -37,8 +37,7 @@ public class TeamBuilderStage extends Stage {
 	private int funds;
 	private int exp;
 	private TeamSelectionStage select;
-	private Button end, save, load, back;
-	private Button[] buttons;
+	private final List<Button> buttons;
 	private int currButton;
 	private Session session;
 	private boolean control = true;
@@ -58,8 +57,9 @@ public class TeamBuilderStage extends Stage {
 		repeatTimers = new float[4];
 		addEntity(new RunesBg(new Color(0xd2b48c)));
 		session = s;
-		buttons = new Button[4];
 		canEditUnits = (presetUnits == null);
+		
+		Button end;
 		
 		controls = new ControlsDisplay();
 		controls.addControl("Z", "Items/Train");
@@ -109,7 +109,6 @@ public class TeamBuilderStage extends Stage {
 				}
 			};
 		}
-		buttons[0] = end;
 		addEntity(end);
 		
 		if(canEditUnits) {
@@ -117,36 +116,36 @@ public class TeamBuilderStage extends Stage {
 			units = new ArrayList<Unit>();
 			setUnits(select.getSelectedUnits());
 			
-			save = new Button(220, 270, "Save", Color.blue, 80){
+			Button save = new Button(220, 270, "Save", Color.blue, 80){
 				@Override
 				public void execute() {
 					new TeamNameInput(true).setStage(TeamBuilderStage.this);
 				}
 				
 			};
-			buttons[2] = save;
 			addEntity(save);
 			
-			load = new Button(305, 270, "Load", Color.blue, 80){
+			Button load = new Button(305, 270, "Load", Color.blue, 80){
 				@Override
 				public void execute() {
 					new TeamNameInput(false).setStage(TeamBuilderStage.this);
 				}
 			};
-			buttons[3] = load;
 			addEntity(load);
 			
-			back = new Button(10,270, "Back to Unit Selection", Color.red, 120){
+			Button back = new Button(10,270, "Back to Unit Selection", Color.red, 120){
 				public void execute() {
 					AudioPlayer.playAudio("cancel");
 					select.refresh();
 					FEMultiplayer.setCurrentStage(select);
 				}
 			};
-			buttons[1] = back;
 			addEntity(back);
+			
+			buttons = Arrays.asList( end, back, save, load );
 		} else {
 			units = presetUnits;
+			buttons = Arrays.asList( end );
 		}
 		
 		setFunds(FUNDS);
@@ -243,7 +242,7 @@ public class TeamBuilderStage extends Stage {
 				repeatTimers[0] = 0.15f;
 				if(control)
 				if(!cursor.on){
-					buttons[currButton].setHover(false);
+					buttons.get(currButton).setHover(false);
 					cursor.on = true;
 					cursor.index = cursor.max - 1;
 					cursor.instant = true;
@@ -251,7 +250,7 @@ public class TeamBuilderStage extends Stage {
 				}else if(cursor.index == 0){
 					cursor.on = false;
 					controls.set("Z", "Select");
-					buttons[currButton].setHover(true);
+					buttons.get(currButton).setHover(true);
 				} else {
 					cursor.up();
 				}
@@ -260,7 +259,7 @@ public class TeamBuilderStage extends Stage {
 			if (Keyboard.isKeyDown(FEResources.getKeyMapped(Keyboard.KEY_DOWN)) && repeatTimers[1] == 0) {
 				repeatTimers[1] = 0.15f;
 				if(!cursor.on){
-					buttons[currButton].setHover(false);
+					buttons.get(currButton).setHover(false);
 					cursor.on = true;
 					cursor.index = 0;
 					cursor.instant = true;
@@ -268,7 +267,7 @@ public class TeamBuilderStage extends Stage {
 				}else if(cursor.index == cursor.max -1){
 					cursor.on = false;
 					controls.set("Z", "Select");
-					buttons[currButton].setHover(true);
+					buttons.get(currButton).setHover(true);
 				} else {
 					cursor.down();
 				}
@@ -277,20 +276,20 @@ public class TeamBuilderStage extends Stage {
 			if (Keyboard.isKeyDown(FEResources.getKeyMapped(Keyboard.KEY_LEFT)) && repeatTimers[2] == 0) {
 				repeatTimers[2] = 0.15f;
 				if(!cursor.on){
-					buttons[currButton].setHover(false);
+					buttons.get(currButton).setHover(false);
 					currButton--;
-					if(currButton < 0) currButton+=4;
-					buttons[currButton].setHover(true);
+					if(currButton < 0) currButton += buttons.size();
+					buttons.get(currButton).setHover(true);
 					AudioPlayer.playAudio("cursor2");
 				}
 			}
 			if (Keyboard.isKeyDown(FEResources.getKeyMapped(Keyboard.KEY_RIGHT)) && repeatTimers[3] == 0) {
 				repeatTimers[3] = 0.15f;
 				if(!cursor.on){
-					buttons[currButton].setHover(false);
+					buttons.get(currButton).setHover(false);
 					currButton++;
-					currButton%=4;
-					buttons[currButton].setHover(true);
+					if (currButton >= buttons.size()) {currButton = 0;}
+					buttons.get(currButton).setHover(true);
 					AudioPlayer.playAudio("cursor2");
 				}
 			}
@@ -301,8 +300,8 @@ public class TeamBuilderStage extends Stage {
 						if(cursor.on){
 							FEMultiplayer.setCurrentStage(new UnitBuilderStage(units.get(cursor.getIndex()), this, session));
 						} else {
-							buttons[currButton].setHover(false);
-							buttons[currButton].execute();
+							buttons.get(currButton).setHover(false);
+							buttons.get(currButton).execute();
 						}
 						
 					} else if (ke.key == FEResources.getKeyMapped(Keyboard.KEY_X)){
@@ -313,7 +312,7 @@ public class TeamBuilderStage extends Stage {
 						}
 					} else if (ke.key == FEResources.getKeyMapped(Keyboard.KEY_RETURN)){
 						AudioPlayer.playAudio("select");
-						buttons[0].execute();
+						buttons.get(0).execute();
 					}
 						
 				}
