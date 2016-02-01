@@ -4,17 +4,20 @@ import net.fe.Player;
 import net.fe.overworldStage.OverworldStage;
 import net.fe.unit.Unit;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Rout.
+ */
 public class Rout implements Objective {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -4499698067587946141L;
 
 	/**
-	 * Returns winner if only one player has remaining units
-	 * @param stage
-	 * @return
+	 * Returns winner if only one player has remaining units.
+	 *
+	 * @param stage The current instance of OverworldStage being used in the client
+	 * @return id of the winning player.
 	 */
 	@Override
 	public int evaluate(OverworldStage stage) {
@@ -35,11 +38,17 @@ public class Rout implements Objective {
 		return winner;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.objective.Objective#getDescription()
+	 */
 	@Override
 	public String getDescription() {
 		return "Rout the enemy";
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Rout";

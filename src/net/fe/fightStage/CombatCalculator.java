@@ -15,13 +15,34 @@ import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
 import net.fe.unit.Weapon;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CombatCalculator.
+ */
 public class CombatCalculator {
+	
+	/** The right. */
 	protected Unit left, right;
+	
+	/** The attack queue. */
 	private ArrayList<AttackRecord> attackQueue;
+	
+	/** The range. */
 	private int range;
+	
+	/** The next attack. */
 	private Queue<String> nextAttack;
 	
+	/** The right triggers. */
 	private ArrayList<CombatTrigger> leftTriggers, rightTriggers;
+	
+	/**
+	 * Instantiates a new combat calculator.
+	 *
+	 * @param u1 the u1
+	 * @param u2 the u2
+	 * @param local the local
+	 */
 	public CombatCalculator(UnitIdentifier u1, UnitIdentifier u2, boolean local){
 		
 		if(local){
@@ -49,6 +70,10 @@ public class CombatCalculator {
 			FEServer.log("[BATL]0 BATTLEEND::");
 		}
 	}
+	
+	/**
+	 * Calculate.
+	 */
 	protected void calculate() {
 		// Determine turn order
 		ArrayList<Boolean> attackOrder = new ArrayList<Boolean>();
@@ -83,6 +108,14 @@ public class CombatCalculator {
 		}
 	}
 	
+	/**
+	 * Should attack.
+	 *
+	 * @param a the a
+	 * @param d the d
+	 * @param range the range
+	 * @return true, if successful
+	 */
 	public static boolean shouldAttack(Unit a, Unit d, int range){
 		if(a.getHp() <= 0) return false;
 		if(a.getWeapon() == null) return false;
@@ -92,10 +125,21 @@ public class CombatCalculator {
 		return true;
 	}
 	
+	/**
+	 * Adds the attack.
+	 *
+	 * @param effect the effect
+	 */
 	public void addAttack(String effect){
 		nextAttack.add(effect);
 	}
 
+	/**
+	 * Attack.
+	 *
+	 * @param leftAttacking the left attacking
+	 * @param currentEffect the current effect
+	 */
 	private void attack(boolean leftAttacking, String currentEffect) {
 		Unit a = leftAttacking?left: right;
 		Unit d = leftAttacking?right: left;
@@ -220,6 +264,15 @@ public class CombatCalculator {
 		
 	}
 	
+	/**
+	 * Adds the to attack queue.
+	 *
+	 * @param a the a
+	 * @param d the d
+	 * @param animation the animation
+	 * @param damage the damage
+	 * @param drain the drain
+	 */
 	public void addToAttackQueue(Unit a, Unit d, String animation, int damage, int drain) {
 		AttackRecord rec = new AttackRecord();
 		rec.attacker = new UnitIdentifier(a);
@@ -232,10 +285,22 @@ public class CombatCalculator {
 		System.out.println(rec);
 	}
 	
+	/**
+	 * Gets the attack queue.
+	 *
+	 * @return the attack queue
+	 */
 	public ArrayList<AttackRecord> getAttackQueue(){
 		return attackQueue;
 	}
 	
+	/**
+	 * Calculate base damage.
+	 *
+	 * @param a the a
+	 * @param d the d
+	 * @return the int
+	 */
 	public static int calculateBaseDamage(Unit a, Unit d){
 		boolean effective = a.getWeapon().effective.contains(d.noGenderName());
 		int base;
@@ -251,6 +316,13 @@ public class CombatCalculator {
 		return Math.max(base, 0);
 	}
 	
+	/**
+	 * Hit rate.
+	 *
+	 * @param a the a
+	 * @param d the d
+	 * @return the int
+	 */
 	public static int hitRate(Unit a, Unit d){
 		return a.hit() - d.avoid() + a.getWeapon().triMod(d.getWeapon()) * 15;
 	}

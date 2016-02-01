@@ -4,12 +4,18 @@ import net.fe.Player;
 import net.fe.overworldStage.OverworldStage;
 import net.fe.unit.Unit;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Seize.
+ */
 public class Seize implements Objective {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1608192440668201886L;
+	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.objective.Objective#evaluate(net.fe.overworldStage.OverworldStage)
+	 */
 	@Override
 	public int evaluate(OverworldStage stage) {
 		
@@ -43,11 +49,18 @@ public class Seize implements Objective {
 		else return -1;
 	}
 ;
+	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.objective.Objective#getDescription()
+	 */
 	@Override
 	public String getDescription() {
 		return "Seize the throne";
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Seize";

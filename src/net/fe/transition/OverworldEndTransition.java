@@ -9,12 +9,27 @@ import chu.engine.Game;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Transform;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class OverworldEndTransition.
+ */
 public class OverworldEndTransition extends Transition{
 	
+	/** The timer. */
 	private float timer;
+	
+	/** The end pos. */
 	private float endPos;
+	
+	/** The winner. */
 	private String winner;
 
+	/**
+	 * Instantiates a new overworld end transition.
+	 *
+	 * @param to the to
+	 * @param winner the winner
+	 */
 	public OverworldEndTransition(EndGameStage to, String winner) {
 		super(to);
 		timer = 0.0f;
@@ -22,6 +37,9 @@ public class OverworldEndTransition extends Transition{
 		this.winner = winner;
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render() {
 		String string = winner+" is the winner!";
 		int width = FEResources.getBitmapFont("default_med").getStringWidth(string);

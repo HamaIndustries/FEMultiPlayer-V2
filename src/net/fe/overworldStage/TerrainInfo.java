@@ -10,15 +10,28 @@ import chu.engine.Game;
 import chu.engine.anim.BitmapFont;
 import chu.engine.anim.Renderer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TerrainInfo.
+ */
 public class TerrainInfo extends Entity implements DoNotDestroy{
 	
+	/** The dragons. */
 	private static Texture dragons = FEResources.getTexture("dragon_separator");
 
+	/**
+	 * Instantiates a new terrain info.
+	 *
+	 * @param c the c
+	 */
 	public TerrainInfo(Cursor c) {
 		super(0, Game.getWindowHeight()/net.fe.FEResources.getWindowScale()-80);
 		renderDepth = 0.8f;
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render() {
 		Terrain terrain = ((ClientOverworldStage)stage).getHoveredTerrain();
 		

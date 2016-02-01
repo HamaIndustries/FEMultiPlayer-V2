@@ -13,22 +13,51 @@ import chu.engine.anim.Renderer;
 import chu.engine.anim.Tileset;
 import chu.engine.anim.Transform;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Zone.
+ */
 public class Zone extends Entity {
+	
+	/** The zone. */
 	private Set<Node> zone;
+	
+	/** The color. */
 	private Color color;
 	
+	/** The move dark. */
 	public static Color MOVE_DARK = new Color(0xC04444FF);
+	
+	/** The attack dark. */
 	public static Color ATTACK_DARK = new Color(0xC0FF4444);
+	
+	/** The heal dark. */
 	public static Color HEAL_DARK = new Color(0xC044FF44);
 	
+	/** The move light. */
 	public static Color MOVE_LIGHT = new Color(0xC08888FF);
+	
+	/** The attack light. */
 	public static Color ATTACK_LIGHT = new Color(0xC0FF8888);
+	
+	/** The heal light. */
 	public static Color HEAL_LIGHT = new Color(0xC088FF88);
 	
+	/** The frame. */
 	private static int frame;
+	
+	/** The timer. */
 	private static float timer;
+	
+	/** The tiles. */
 	private static Tileset tiles = new Tileset(FEResources.getTexture("zone_colors"), 15, 15);
 	
+	/**
+	 * Instantiates a new zone.
+	 *
+	 * @param zone the zone
+	 * @param c the c
+	 */
 	public Zone(Set<Node> zone, Color c) {
 		super(0,0);
 		this.zone = zone;
@@ -36,6 +65,10 @@ public class Zone extends Entity {
 		frame = 0;
 		renderDepth = ClientOverworldStage.ZONE_DEPTH;
 	}
+	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render(){
 		ClientOverworldStage cs = (ClientOverworldStage)stage;
 		Renderer.translate(-cs.camX, -cs.camY);
@@ -64,6 +97,9 @@ public class Zone extends Entity {
 		Renderer.translate(cs.camX, cs.camY);
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#beginStep()
+	 */
 	public void beginStep() {
 		timer += Game.getDeltaSeconds();
 		if(timer > 0.3f) {
@@ -73,9 +109,22 @@ public class Zone extends Entity {
 		}
 	}
 	
+	/**
+	 * Gets the nodes.
+	 *
+	 * @return the nodes
+	 */
 	public Set<Node> getNodes(){
 		return zone;
 	}
+	
+	/**
+	 * Minus.
+	 *
+	 * @param a the a
+	 * @param b the b
+	 * @return the zone
+	 */
 	public static Zone minus(Zone a, Zone b){
 		Set<Node> nodes = new HashSet<Node>(a.getNodes());
 		nodes.removeAll(b.getNodes());

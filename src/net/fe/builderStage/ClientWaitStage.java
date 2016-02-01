@@ -13,19 +13,35 @@ import net.fe.unit.Unit;
 import chu.engine.Game;
 import chu.engine.anim.Renderer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ClientWaitStage.
+ */
 public class ClientWaitStage extends WaitStage {
 	
+	/** The start. */
 	private boolean start;
 	
+	/**
+	 * Instantiates a new client wait stage.
+	 *
+	 * @param s the s
+	 */
 	public ClientWaitStage(Session s) {
 		super(s);
 		start = false;
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.builderStage.WaitStage#init()
+	 */
 	protected void init() {
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.builderStage.WaitStage#beginStep()
+	 */
 	public void beginStep() {
 		for(Message message : Game.getMessages()) {
 			if(message instanceof PartyMessage) {
@@ -49,6 +65,9 @@ public class ClientWaitStage extends WaitStage {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.builderStage.WaitStage#endStep()
+	 */
 	public void endStep() {
 		if(start) {
 			for(Player p : session.getPlayers()) {
@@ -61,6 +80,9 @@ public class ClientWaitStage extends WaitStage {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#render()
+	 */
 	public void render() {
 		Renderer.drawString("default_med", "Waiting for other players...", 200, 150, 0.0f);
 	}

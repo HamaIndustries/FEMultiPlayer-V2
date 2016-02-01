@@ -9,10 +9,25 @@ import chu.engine.Entity;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Transform;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Platform.
+ */
 public class Platform extends Entity {
+	
+	/** The left. */
 	private boolean left;
+	
+	/** The texture. */
 	private Texture texture;
 
+	/**
+	 * Instantiates a new platform.
+	 *
+	 * @param t the t
+	 * @param left the left
+	 * @param range the range
+	 */
 	public Platform(Terrain t, boolean left, int range) {
 		super(left ? 0 : FightStage.CENTRAL_AXIS, FightStage.FLOOR - 16);
 		this.left = left;
@@ -24,6 +39,9 @@ public class Platform extends Entity {
 		renderDepth = FightStage.PLATFORM_DEPTH;
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render() {
 		Transform t = new Transform();
 		if (!left) {

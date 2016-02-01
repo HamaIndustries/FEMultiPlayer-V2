@@ -10,14 +10,30 @@ import chu.engine.Entity;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Transform;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ObjectiveInfo.
+ */
 public class ObjectiveInfo extends Entity implements DoNotDestroy{
+	
+	/** The Constant WIDTH. */
 	//CONFIG
 	public static final int WIDTH = 102;
+	
+	/** The Constant HEIGHT. */
 	public static final int HEIGHT = 70;
+	
+	/**
+	 * Instantiates a new objective info.
+	 */
 	public ObjectiveInfo() {
 		super(480-WIDTH - 2, 2);
 		renderDepth = ClientOverworldStage.MENU_DEPTH;
 	}
+	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render(){
 		OverworldStage s = ((OverworldStage) stage);
 		String objective = s.getObjective().getDescription();

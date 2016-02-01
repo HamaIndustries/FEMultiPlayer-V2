@@ -10,10 +10,26 @@ import chu.engine.Game;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Transform;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RunesBg.
+ */
 public class RunesBg extends Entity implements DoNotDestroy{
+	
+	/** The color. */
 	private Color color;
+	
+	/** The runes. */
 	private Texture runes;
+	
+	/** The position. */
 	private float position;
+	
+	/**
+	 * Instantiates a new runes bg.
+	 *
+	 * @param c the c
+	 */
 	public RunesBg(Color c) {
 		super(0,0);
 		color = c;
@@ -21,6 +37,9 @@ public class RunesBg extends Entity implements DoNotDestroy{
 		renderDepth = 1;
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#onStep()
+	 */
 	public void onStep(){
 		super.onStep();
 		position += Game.getDeltaSeconds() * 20;
@@ -29,6 +48,9 @@ public class RunesBg extends Entity implements DoNotDestroy{
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render(){
 		Transform t = new Transform();
 		t.setColor(color);

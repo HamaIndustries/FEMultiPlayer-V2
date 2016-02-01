@@ -51,6 +51,11 @@ import chu.engine.Stage;
 import chu.engine.anim.Renderer;
 import chu.engine.menu.Notification;
 
+/**
+ * Main class for the Clientside program
+ * @author Shawn
+ *
+ */
 public class FEMultiplayer extends Game{
 	private static Stage currentStage;
 	private static Client client;
@@ -92,6 +97,9 @@ public class FEMultiplayer extends Game{
 	
 	
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Game#init(int, int, java.lang.String)
+	 */
 	public void init(int width, int height, String name) {
 		super.init(width, height, name);
 		Player p1 = new Player("Player", (byte) 0);
@@ -127,11 +135,14 @@ public class FEMultiplayer extends Game{
 		testSession = new Session();
 		testSession.setMaxUnits(6);
 		Player p2 = new Player("p2", (byte) 1);
+		Player p3 = new Player("p3", (byte) 2);
 		p2.getParty().setColor(Party.TEAM_RED);
+		p3.getParty().setColor(Party.TEAM_BLUE);
 		p2.getParty().addUnit(UnitFactory.getUnit("Mia"));
 		p2.getParty().addUnit(UnitFactory.getUnit("L'Arachel"));
 		testSession.addPlayer(p1);
 		testSession.addPlayer(p2);
+		testSession.addPlayer(p3);
 		currentStage = new TeamDraftStage(testSession);
 	}
 	

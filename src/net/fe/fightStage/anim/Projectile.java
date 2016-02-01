@@ -6,13 +6,37 @@ import chu.engine.Entity;
 import chu.engine.Game;
 import chu.engine.anim.Transform;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Projectile.
+ */
 public class Projectile extends Entity {
+	
+	/** The destination. */
 	private float destination;
+	
+	/** The dir. */
 	private int dir;
+	
+	/** The destroy on hit. */
 	private boolean destroyOnHit;
+	
+	/** The hit. */
 	private boolean hit;
+	
+	/** The name. */
 	private String name;
 	
+	/**
+	 * Instantiates a new projectile.
+	 *
+	 * @param name the name
+	 * @param y the y
+	 * @param f the f
+	 * @param left the left
+	 * @param destroyOnHit the destroy on hit
+	 * @param args the args
+	 */
 	public Projectile(String name, float y, FightStage f, 
 			boolean left, boolean destroyOnHit, AnimationArgs args){
 		super(0,y);
@@ -36,16 +60,25 @@ public class Projectile extends Entity {
 		hit = false;
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#onStep()
+	 */
 	public void onStep(){
 		x += dir*getVelocity(name)*40*Game.getDeltaSeconds();
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render(){
 		Transform t = new Transform();
 		if(dir == 1) t.flipHorizontal();
 		sprite.render(x, y, renderDepth, t);
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#endStep()
+	 */
 	public void endStep(){
 		if(dir*x > dir*destination && !hit){
 			getStage().setCurrentEvent(FightStage.ATTACKED);
@@ -59,10 +92,21 @@ public class Projectile extends Entity {
 			destroy();
 	}
 
+	/**
+	 * Gets the stage.
+	 *
+	 * @return the stage
+	 */
 	public FightStage getStage(){
 		return (FightStage) stage;
 	}
 	
+	/**
+	 * Gets the velocity.
+	 *
+	 * @param name the name
+	 * @return the velocity
+	 */
 	public static int getVelocity(String name){
 		//TODO
 		return 30;

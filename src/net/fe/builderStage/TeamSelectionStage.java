@@ -29,26 +29,58 @@ import chu.engine.Stage;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Renderer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TeamSelectionStage.
+ */
 public class TeamSelectionStage extends Stage {
+	
+	/** The vassal list. */
 	private UnitList vassalList;
+	
+	/** The lord list. */
 	private UnitList lordList;
+	
+	/** The builder stage. */
 	private TeamBuilderStage builderStage;
+	
+	/** The cursor. */
 	private Cursor cursor;
+	
+	/** The buttons. */
 	private Button[] buttons;
+	
+	/** The ok. */
 	private Button ok;
+	
+	/** The class sort. */
 	private Button classSort;
+	
+	/** The name sort. */
 	private Button nameSort;
+	
+	/** The controls. */
 	private ControlsDisplay controls;
 	
+	/** The max units. */
 	private int maxUnits = 8;
+	
+	/** The repeat timers. */
 	private float[] repeatTimers = new float[4];
 	
+	/** The Constant NS_BUTTON_X. */
 	//CONFIG
 	public static final int 
 	UNIT_LIST_X = 42, UNIT_LIST_Y  = 100, LORD_LIST_X = 42, LORD_LIST_Y = 40,
 	OK_BUTTON_X = 349, BUTTON_Y = 260, CS_BUTTON_X = 41, NS_BUTTON_X = 145;
 	
 	
+	/**
+	 * Instantiates a new team selection stage.
+	 *
+	 * @param stage the stage
+	 * @param s the s
+	 */
 	public TeamSelectionStage(TeamBuilderStage stage, Session s){
 		super("preparations");
 		builderStage = stage;
@@ -119,12 +151,23 @@ public class TeamSelectionStage extends Stage {
 		refresh();
 	}
 	
+	/**
+	 * Gets the unit.
+	 *
+	 * @param name the name
+	 * @return the unit
+	 */
 	public Unit getUnit(String name){
 		Unit u = lordList.getUnit(name);
 		if(u == null) u = vassalList.getUnit(name);
 		return u;
 	}
 	
+	/**
+	 * Select unit.
+	 *
+	 * @param u the u
+	 */
 	public void selectUnit(Unit u){
 		if(u.getTheClass().name.equals("Lord")){
 			lordList.selectUnit(u);
@@ -133,6 +176,9 @@ public class TeamSelectionStage extends Stage {
 		}
 	}
 	
+	/**
+	 * Deselect all.
+	 */
 	public void deselectAll(){
 		for(Unit u: lordList.getSelectedUnits()){
 			lordList.deSelectUnit(u);
@@ -142,6 +188,11 @@ public class TeamSelectionStage extends Stage {
 		}
 	}
 	
+	/**
+	 * Gets the selected units.
+	 *
+	 * @return the selected units
+	 */
 	public List<Unit> getSelectedUnits(){
 		ArrayList<Unit> units = new ArrayList<Unit>();
 		units.addAll(lordList.getSelectedUnits());
@@ -150,6 +201,9 @@ public class TeamSelectionStage extends Stage {
 		return units;
 	}
 	
+	/**
+	 * Refresh.
+	 */
 	public void refresh(){
 		lordList.refresh();
 		vassalList.refresh();
@@ -158,6 +212,10 @@ public class TeamSelectionStage extends Stage {
 		ok.setHover(false);
 		checkFlow();
 	}
+	
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#beginStep()
+	 */
 	@Override
 	public void beginStep() {
 		for(Entity e: entities){
@@ -204,6 +262,9 @@ public class TeamSelectionStage extends Stage {
 		}
 	}
 	
+	/**
+	 * Up.
+	 */
 	private void up(){
 		if(cursor.index < 0)
 			buttons[-cursor.index-1].setHover(false);
@@ -225,6 +286,9 @@ public class TeamSelectionStage extends Stage {
 		checkFlow();
 	}
 	
+	/**
+	 * Down.
+	 */
 	private void down(){
 		if(cursor.index < 0)
 			buttons[-cursor.index-1].setHover(false);
@@ -244,6 +308,9 @@ public class TeamSelectionStage extends Stage {
 		checkFlow();
 	}
 	
+	/**
+	 * Left.
+	 */
 	private void left(){
 		AudioPlayer.playAudio("cursor");
 		if(cursor.index < 0)
@@ -252,6 +319,9 @@ public class TeamSelectionStage extends Stage {
 		checkFlow();
 	}
 	
+	/**
+	 * Right.
+	 */
 	private void right(){
 		AudioPlayer.playAudio("cursor");
 		if(cursor.index < 0)
@@ -263,6 +333,9 @@ public class TeamSelectionStage extends Stage {
 		}
 	}
 	
+	/**
+	 * Check flow.
+	 */
 	private void checkFlow(){
 		if(cursor.index >= lordList.size() + vassalList.size()) {
 			cursor.index = -buttons.length;
@@ -284,6 +357,9 @@ public class TeamSelectionStage extends Stage {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#render()
+	 */
 	public void render(){
 		super.render();
 		
@@ -299,6 +375,9 @@ public class TeamSelectionStage extends Stage {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#onStep()
+	 */
 	@Override
 	public void onStep() {
 		
@@ -307,6 +386,9 @@ public class TeamSelectionStage extends Stage {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#endStep()
+	 */
 	@Override
 	public void endStep() {
 		for(Entity e: entities){
@@ -314,10 +396,20 @@ public class TeamSelectionStage extends Stage {
 		}
 	}
 	
+	/**
+	 * Gets the max units.
+	 *
+	 * @return the max units
+	 */
 	public int getMaxUnits(){
 		return maxUnits;
 	}
 	
+	/**
+	 * Gets the all units.
+	 *
+	 * @return the all units
+	 */
 	public List<Unit> getAllUnits() {
 		List<Unit> ans = new ArrayList<Unit>();
 		ans.addAll(vassalList.getUnits());
@@ -325,15 +417,31 @@ public class TeamSelectionStage extends Stage {
 		return ans;
 	}
 	
+	/**
+	 * The Class Cursor.
+	 */
 	private class Cursor extends Entity{
+		
+		/** The index. */
 		int index;
+		
+		/** The on. */
 		boolean on = true;
+		
+		/** The instant. */
 		boolean instant = false;
+		
+		/**
+		 * Instantiates a new cursor.
+		 */
 		public Cursor() {
 			super(0,0);
 			renderDepth = 0.5f;
 		}
 		
+		/* (non-Javadoc)
+		 * @see chu.engine.Entity#onStep()
+		 */
 		public void onStep(){
 			if(!on){
 				return;
@@ -366,6 +474,9 @@ public class TeamSelectionStage extends Stage {
 			}
 		}
 		
+		/**
+		 * Select.
+		 */
 		public void select(){
 			
 			if(on){
@@ -394,6 +505,9 @@ public class TeamSelectionStage extends Stage {
 			}
 		}
 		
+		/* (non-Javadoc)
+		 * @see chu.engine.Entity#render()
+		 */
 		public void render(){
 			if(on)
 			Renderer.drawRectangle(x+1, y+1, x+UnitList.WIDTH-1, 
@@ -402,14 +516,28 @@ public class TeamSelectionStage extends Stage {
 		
 	}
 	
+	/**
+	 * The Class SortByClass.
+	 */
 	private class SortByClass implements Comparator<UnitSet> {
+		
+		/* (non-Javadoc)
+		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+		 */
 		@Override
 		public int compare(UnitSet arg0, UnitSet arg1) {
 			return arg0.unit.getTheClass().name.compareTo(arg1.unit.getTheClass().name);
 		}
 	}
 	
+	/**
+	 * The Class SortByName.
+	 */
 	private class SortByName implements Comparator<UnitSet> {
+		
+		/* (non-Javadoc)
+		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+		 */
 		@Override
 		public int compare(UnitSet arg0, UnitSet arg1) {
 			return arg0.unit.name.compareTo(arg1.unit.name);
