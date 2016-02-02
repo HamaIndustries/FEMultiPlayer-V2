@@ -15,13 +15,14 @@ import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
 import net.fe.unit.Weapon;
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Class CombatCalculator.
+ * A calculator used to find damage, drain, effect and healing within fightstage.
+ * 
  */
 public class CombatCalculator {
 	
-	/** The right. */
+	/** The left & right units */
 	protected Unit left, right;
 	
 	/** The attack queue. */
@@ -33,15 +34,15 @@ public class CombatCalculator {
 	/** The next attack. */
 	private Queue<String> nextAttack;
 	
-	/** The right triggers. */
+	/** The attack triggers, weapon and unit skills */
 	private ArrayList<CombatTrigger> leftTriggers, rightTriggers;
 	
 	/**
 	 * Instantiates a new combat calculator.
 	 *
-	 * @param u1 the u1
-	 * @param u2 the u2
-	 * @param local the local
+	 * @param u1 the unit id of fighter 1
+	 * @param u2 the unit id of fighter 2
+	 * @param local whether the attack was made by the client (true) or opponent (false)
 	 */
 	public CombatCalculator(UnitIdentifier u1, UnitIdentifier u2, boolean local){
 		
@@ -72,7 +73,7 @@ public class CombatCalculator {
 	}
 	
 	/**
-	 * Calculate.
+	 * Main calculation method, determines attack order, which units should attack, sets triggers, and finally runs each attack
 	 */
 	protected void calculate() {
 		// Determine turn order
@@ -109,12 +110,13 @@ public class CombatCalculator {
 	}
 	
 	/**
-	 * Should attack.
+	 * 
+	 * Determines who should attack, according to health, equipped weapon, and if the unit is healing
 	 *
-	 * @param a the a
-	 * @param d the d
+	 * @param a the attacker
+	 * @param d the defender
 	 * @param range the range
-	 * @return true, if successful
+	 * @return true, if a is able to attack d
 	 */
 	public static boolean shouldAttack(Unit a, Unit d, int range){
 		if(a.getHp() <= 0) return false;
@@ -135,9 +137,10 @@ public class CombatCalculator {
 	}
 
 	/**
-	 * Attack.
+	 * Attack. Does most of the heavy lifting in this class, calculates the damage dealt and damage healed, if any.
+	 * TODO: put the damage calculation equations here.
 	 *
-	 * @param leftAttacking the left attacking
+	 * @param leftAttacking If the left fighter is attacking
 	 * @param currentEffect the current effect
 	 */
 	private void attack(boolean leftAttacking, String currentEffect) {
@@ -265,13 +268,13 @@ public class CombatCalculator {
 	}
 	
 	/**
-	 * Adds the to attack queue.
+	 * Adds the attack to attack queue.
 	 *
-	 * @param a the a
-	 * @param d the d
+	 * @param a the attacker
+	 * @param d the defender
 	 * @param animation the animation
 	 * @param damage the damage
-	 * @param drain the drain
+	 * @param drain the damage healed
 	 */
 	public void addToAttackQueue(Unit a, Unit d, String animation, int damage, int drain) {
 		AttackRecord rec = new AttackRecord();
@@ -295,11 +298,11 @@ public class CombatCalculator {
 	}
 	
 	/**
-	 * Calculate base damage.
+	 * Calculates base damage.
 	 *
-	 * @param a the a
-	 * @param d the d
-	 * @return the int
+	 * @param a the attacker
+	 * @param d the defender
+	 * @return the base damage
 	 */
 	public static int calculateBaseDamage(Unit a, Unit d){
 		boolean effective = a.getWeapon().effective.contains(d.noGenderName());
@@ -319,9 +322,9 @@ public class CombatCalculator {
 	/**
 	 * Hit rate.
 	 *
-	 * @param a the a
-	 * @param d the d
-	 * @return the int
+	 * @param a the attacker
+	 * @param d the defender
+	 * @return the hit rate
 	 */
 	public static int hitRate(Unit a, Unit d){
 		return a.hit() - d.avoid() + a.getWeapon().triMod(d.getWeapon()) * 15;
