@@ -200,7 +200,7 @@ public class Summon extends OverworldContext {
 		growths.put("Spd", 45);
 		growths.put("Mov", 0);
 		summonCount = summonCount + 1;
-		final Unit summon = new Unit("Phantom " + summonCount, net.fe.unit.Class.createClass("Berserker"), '-', bases, growths);
+		final Unit summon = new Unit(summoner.name + "'s Phantom " + summonCount, net.fe.unit.Class.createClass("Phantom"), '-', bases, growths);
 		summon.addToInventory(net.fe.unit.Item.getItem("Iron Axe"));
 		summon.initializeEquipment();
 		summon.setLevel(summoner.get("Lvl"));
