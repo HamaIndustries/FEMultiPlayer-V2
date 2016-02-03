@@ -135,7 +135,7 @@ public class FEMultiplayer extends Game{
 		FEResources.loadBitmapFonts();
 		WeaponFactory.loadWeapons();
 		UnitFactory.loadUnits();
-		p1.getParty().setColor(Party.TEAM_GREEN);
+		p1.getParty().setColor(Party.TEAM_BLUE);
 		
 		/* OpenGL final setup */
 		glEnable(GL_LINE_SMOOTH);
@@ -158,7 +158,7 @@ public class FEMultiplayer extends Game{
 		Player p2 = new Player("p2", (byte) 1);
 		Player p3 = new Player("p3", (byte) 2);
 		p2.getParty().setColor(Party.TEAM_RED);
-		p3.getParty().setColor(Party.TEAM_BLUE);
+		p3.getParty().setColor(Party.TEAM_GREEN);
 		p2.getParty().addUnit(UnitFactory.getUnit("Mia"));
 		p2.getParty().addUnit(UnitFactory.getUnit("L'Arachel"));
 		testSession.addPlayer(p1);
