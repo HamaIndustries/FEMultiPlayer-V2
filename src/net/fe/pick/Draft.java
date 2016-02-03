@@ -8,9 +8,8 @@ import net.fe.builderStage.TeamDraftStage;
 import net.fe.builderStage.WaitStage;
 import net.fe.network.FEServer;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Draft.
+ * Draft picking mode.
  */
 public class Draft implements PickMode {
 
@@ -26,10 +25,12 @@ public class Draft implements PickMode {
 			p.getParty().clear();
 		}
 		if(!FEMultiplayer.getLocalPlayer().isSpectator()) {
-			TeamDraftStage stage = new TeamDraftStage(session);
+			TeamDraftStage stage = new TeamDraftStage(session); //thar ye be yeh little scumbucket TODO
 			FEMultiplayer.setCurrentStage(stage);
 		} else {
 			ClientWaitStage stage = new ClientWaitStage(session);
+			//System.out.println(FEMultiplayer.getLocalPlayer().getParty().getColor()+"++++++++++++++++++++++++++");
+			//TeamDraftStage stage = new TeamDraftStage(session);
 			FEMultiplayer.setCurrentStage(stage);
 		}
 	}
