@@ -29,80 +29,37 @@ import chu.engine.Stage;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Renderer;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class TeamBuilderStage.
- */
 public class TeamBuilderStage extends Stage {
 	
-	/** The units. */
 	private List<Unit> units;
-	
-	/** The cursor. */
 	private Cursor cursor;
-	
-	/** The repeat timers. */
 	private float[] repeatTimers;
-	
-	/** The funds. */
 	private int funds;
-	
-	/** The exp. */
 	private int exp;
-	
-	/** The select. */
 	private TeamSelectionStage select;
-	
-	/** The back. */
-	private Button end, save, load, back;
-	
-	/** The buttons. */
-	private Button[] buttons;
-	
-	/** The curr button. */
+	private final List<Button> buttons;
 	private int currButton;
-	
-	/** The session. */
 	private Session session;
-	
-	/** The control. */
 	private boolean control = true;
-	
-	/** The controls. */
 	private ControlsDisplay controls;
-	
-	/** The can edit units. */
 	private boolean canEditUnits;
 	
-	/** The hgap. */
 	//CONFIG
 	private static int name = 30, clazz = 100, lv = 170, hgap = 30; //xvals
-	
-	/** The table_ystart. */
 	private static int yStart = 40, vgap = 20, table_ystart = 10;
-	
-	/** The funds. */
 	public static int FUNDS = 48000;
-	
-	/** The exp. */
 	public static int EXP = 84000;
 	
 	
 	
-	/**
-	 * Instantiates a new team builder stage.
-	 *
-	 * @param toMainMenu the to main menu
-	 * @param presetUnits the preset units
-	 * @param s the s
-	 */
 	public TeamBuilderStage(boolean toMainMenu, List<Unit> presetUnits, Session s) {
 		super("preparations");
 		repeatTimers = new float[4];
 		addEntity(new RunesBg(new Color(0xd2b48c)));
 		session = s;
-		buttons = new Button[4];
 		canEditUnits = (presetUnits == null);
+		
+		Button end;
 		
 		controls = new ControlsDisplay();
 		controls.addControl("Z", "Items/Train");
@@ -152,7 +109,6 @@ public class TeamBuilderStage extends Stage {
 				}
 			};
 		}
-		buttons[0] = end;
 		addEntity(end);
 		
 		if(canEditUnits) {
@@ -160,36 +116,36 @@ public class TeamBuilderStage extends Stage {
 			units = new ArrayList<Unit>();
 			setUnits(select.getSelectedUnits());
 			
-			save = new Button(220, 270, "Save", Color.blue, 80){
+			Button save = new Button(220, 270, "Save", Color.blue, 80){
 				@Override
 				public void execute() {
 					new TeamNameInput(true).setStage(TeamBuilderStage.this);
 				}
 				
 			};
-			buttons[2] = save;
 			addEntity(save);
 			
-			load = new Button(305, 270, "Load", Color.blue, 80){
+			Button load = new Button(305, 270, "Load", Color.blue, 80){
 				@Override
 				public void execute() {
 					new TeamNameInput(false).setStage(TeamBuilderStage.this);
 				}
 			};
-			buttons[3] = load;
 			addEntity(load);
 			
-			back = new Button(10,270, "Back to Unit Selection", Color.red, 120){
+			Button back = new Button(10,270, "Back to Unit Selection", Color.red, 120){
 				public void execute() {
 					AudioPlayer.playAudio("cancel");
 					select.refresh();
 					FEMultiplayer.setCurrentStage(select);
 				}
 			};
-			buttons[1] = back;
 			addEntity(back);
+			
+			buttons = Arrays.asList( end, back, save, load );
 		} else {
 			units = presetUnits;
+			buttons = Arrays.asList( end );
 		}
 		
 		setFunds(FUNDS);
@@ -216,11 +172,6 @@ public class TeamBuilderStage extends Stage {
 	
 	
 	
-	/**
-	 * Sets the units.
-	 *
-	 * @param units the new units
-	 */
 	public void setUnits(List<Unit> units){
 		this.units.removeAll(units);
 		for(Unit u: this.units){
@@ -240,9 +191,6 @@ public class TeamBuilderStage extends Stage {
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see chu.engine.Stage#render()
-	 */
 	@Override
 	public void render() {
 		
@@ -279,9 +227,6 @@ public class TeamBuilderStage extends Stage {
 		super.render();
 	}
 
-	/* (non-Javadoc)
-	 * @see chu.engine.Stage#beginStep()
-	 */
 	@Override
 	public void beginStep() {
 		boolean capture = control;
@@ -297,7 +242,7 @@ public class TeamBuilderStage extends Stage {
 				repeatTimers[0] = 0.15f;
 				if(control)
 				if(!cursor.on){
-					buttons[currButton].setHover(false);
+					buttons.get(currButton).setHover(false);
 					cursor.on = true;
 					cursor.index = cursor.max - 1;
 					cursor.instant = true;
@@ -305,7 +250,7 @@ public class TeamBuilderStage extends Stage {
 				}else if(cursor.index == 0){
 					cursor.on = false;
 					controls.set("Z", "Select");
-					buttons[currButton].setHover(true);
+					buttons.get(currButton).setHover(true);
 				} else {
 					cursor.up();
 				}
@@ -314,7 +259,7 @@ public class TeamBuilderStage extends Stage {
 			if (Keyboard.isKeyDown(FEResources.getKeyMapped(Keyboard.KEY_DOWN)) && repeatTimers[1] == 0) {
 				repeatTimers[1] = 0.15f;
 				if(!cursor.on){
-					buttons[currButton].setHover(false);
+					buttons.get(currButton).setHover(false);
 					cursor.on = true;
 					cursor.index = 0;
 					cursor.instant = true;
@@ -322,7 +267,7 @@ public class TeamBuilderStage extends Stage {
 				}else if(cursor.index == cursor.max -1){
 					cursor.on = false;
 					controls.set("Z", "Select");
-					buttons[currButton].setHover(true);
+					buttons.get(currButton).setHover(true);
 				} else {
 					cursor.down();
 				}
@@ -331,20 +276,20 @@ public class TeamBuilderStage extends Stage {
 			if (Keyboard.isKeyDown(FEResources.getKeyMapped(Keyboard.KEY_LEFT)) && repeatTimers[2] == 0) {
 				repeatTimers[2] = 0.15f;
 				if(!cursor.on){
-					buttons[currButton].setHover(false);
+					buttons.get(currButton).setHover(false);
 					currButton--;
-					if(currButton < 0) currButton+=4;
-					buttons[currButton].setHover(true);
+					if(currButton < 0) currButton += buttons.size();
+					buttons.get(currButton).setHover(true);
 					AudioPlayer.playAudio("cursor2");
 				}
 			}
 			if (Keyboard.isKeyDown(FEResources.getKeyMapped(Keyboard.KEY_RIGHT)) && repeatTimers[3] == 0) {
 				repeatTimers[3] = 0.15f;
 				if(!cursor.on){
-					buttons[currButton].setHover(false);
+					buttons.get(currButton).setHover(false);
 					currButton++;
-					currButton%=4;
-					buttons[currButton].setHover(true);
+					if (currButton >= buttons.size()) {currButton = 0;}
+					buttons.get(currButton).setHover(true);
 					AudioPlayer.playAudio("cursor2");
 				}
 			}
@@ -355,8 +300,8 @@ public class TeamBuilderStage extends Stage {
 						if(cursor.on){
 							FEMultiplayer.setCurrentStage(new UnitBuilderStage(units.get(cursor.getIndex()), this, session));
 						} else {
-							buttons[currButton].setHover(false);
-							buttons[currButton].execute();
+							buttons.get(currButton).setHover(false);
+							buttons.get(currButton).execute();
 						}
 						
 					} else if (ke.key == FEResources.getKeyMapped(Keyboard.KEY_X)){
@@ -367,7 +312,7 @@ public class TeamBuilderStage extends Stage {
 						}
 					} else if (ke.key == FEResources.getKeyMapped(Keyboard.KEY_RETURN)){
 						AudioPlayer.playAudio("select");
-						buttons[0].execute();
+						buttons.get(0).execute();
 					}
 						
 				}
@@ -382,9 +327,6 @@ public class TeamBuilderStage extends Stage {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see chu.engine.Stage#onStep()
-	 */
 	@Override
 	public void onStep() {
 		for (Entity e : entities) {
@@ -395,9 +337,6 @@ public class TeamBuilderStage extends Stage {
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see chu.engine.Stage#endStep()
-	 */
 	@Override
 	public void endStep() {
 		for (Entity e : entities) {
@@ -407,45 +346,22 @@ public class TeamBuilderStage extends Stage {
 		processRemoveStack();
 	}
 
-	/**
-	 * Gets the funds.
-	 *
-	 * @return the funds
-	 */
 	public int getFunds() {
 		return funds;
 	}
 
-	/**
-	 * Sets the funds.
-	 *
-	 * @param funds the new funds
-	 */
 	public void setFunds(int funds) {
 		this.funds = funds;
 	}
 
-	/**
-	 * Gets the exp.
-	 *
-	 * @return the exp
-	 */
 	public int getExp() {
 		return exp;
 	}
 
-	/**
-	 * Sets the exp.
-	 *
-	 * @param exp the new exp
-	 */
 	public void setExp(int exp) {
 		this.exp = exp;
 	}
 
-	/**
-	 * Refresh.
-	 */
 	public void refresh() {
 		cursor.destroy();
 		cursor = new Cursor(9, yStart-4, 462, vgap, units.size());
@@ -456,12 +372,6 @@ public class TeamBuilderStage extends Stage {
 		addEntity(cursor);
 	}
 	
-	/**
-	 * Save team.
-	 *
-	 * @param teamName the team name
-	 * @return true, if successful
-	 */
 	public boolean saveTeam(String teamName){
 		String[][] teamData = new String[units.size()][6];
 		for(int i = 0; i < units.size(); i++){
@@ -489,12 +399,6 @@ public class TeamBuilderStage extends Stage {
 		
 	}
 	
-	/**
-	 * Load team.
-	 *
-	 * @param teamName the team name
-	 * @return true, if successful
-	 */
 	public boolean loadTeam(String teamName){
 		String[][] teamData;
 		try{
@@ -562,31 +466,16 @@ public class TeamBuilderStage extends Stage {
 		return true;
 	}
 
-	/**
-	 * Checks for control.
-	 *
-	 * @return true, if successful
-	 */
 	public boolean hasControl() {
 		return control;
 	}
 
-	/**
-	 * Sets the control.
-	 *
-	 * @param control the new control
-	 */
 	public void setControl(boolean control) {
 		this.control = control;
 	}
 
 
 
-	/**
-	 * Gets the session.
-	 *
-	 * @return the session
-	 */
 	public Session getSession() {
 		return session;
 	}
