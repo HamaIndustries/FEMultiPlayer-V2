@@ -51,7 +51,6 @@ import chu.engine.Stage;
 import chu.engine.anim.Renderer;
 import chu.engine.menu.Notification;
 
-// TODO: Auto-generated Javadoc
 /**
  * Main class for the Clientside program.
  *
@@ -77,11 +76,10 @@ public class FEMultiplayer extends Game{
 	/** The lobby. */
 	public static ClientLobbyStage lobby;
 	
-	/** The connect. */
+	/** The connecting stage. */
 	public static ConnectStage connect;
 	
-	/** The test session. */
-	// For testing fightstage
+	/** The test session, for testing fightstage. */
 	private static Session testSession;
 
 	
@@ -171,6 +169,16 @@ public class FEMultiplayer extends Game{
 	
 	/**
 	 * Test fight stage.
+	 * 
+	 * Use debugStat on units to mess with fights, is also useful for testing animations. 
+	 * Intentionally crashes at the end for lack of session info, so don't worry about it.
+	 * 
+	 * range can be set by messing with map.addUnit(), and you can change all the other 
+	 * unit-related things to test them out. I can see us using this to use this bit for speed 
+	 * testing in the future, if I ever make a gui or something for it.
+	 * 
+	 * TODO: gui for speed balancing
+	 * 
 	 */
 	public void testFightStage(){
 		Player p1 = localPlayer;
@@ -211,7 +219,7 @@ public class FEMultiplayer extends Game{
 		u1.debugStat("Skl");
 		u1.debugStat("Str", -9999);
 		
-		//put all pre-calc stuff here -------
+		// ^------- put all pre-calc stuff here
 		
 		CombatCalculator calc = new CombatCalculator(new UnitIdentifier(u1), new UnitIdentifier(u2), true);
 		System.out.println(calc.getAttackQueue());
@@ -261,7 +269,7 @@ public class FEMultiplayer extends Game{
 	/**
 	 * Gets the unit.
 	 *
-	 * @param id the id
+	 * @param id the Unit Identifier
 	 * @return the unit
 	 */
 	public static Unit getUnit(UnitIdentifier id){
@@ -276,8 +284,8 @@ public class FEMultiplayer extends Game{
 	/**
 	 * Connect.
 	 *
-	 * @param nickname the nickname
-	 * @param ip the ip
+	 * @param nickname player nickname
+	 * @param ip the host ip
 	 */
 	public static void connect(String nickname, String ip) {
 		getLocalPlayer().setName(nickname);
@@ -336,19 +344,19 @@ public class FEMultiplayer extends Game{
 	/**
 	 * Report fight results.
 	 *
-	 * @param stage the stage
+	 * @param stage the Fightstage the results come from
 	 */
 	public static void reportFightResults(FightStage stage){ 
 		
 	}
 	
 	/**
-	 * Send.
+	 * Send. Used by the game to tell the unit on either client to attempt an action.
 	 *
-	 * @param u the u
-	 * @param moveX the move x
-	 * @param moveY the move y
-	 * @param cmds the cmds
+	 * @param u the unit Identifier
+	 * @param moveX the x-wards movement
+	 * @param moveY the y-wards movement
+	 * @param cmds the commands for the unit
 	 */
 	public static void send(UnitIdentifier u, int moveX, int moveY, Object... cmds){
 		for(Object o: cmds){
@@ -359,11 +367,12 @@ public class FEMultiplayer extends Game{
 	}
 	
 	/**
-	 * Go to fight stage.
+	 * Go to fight stage. Calls the fightstage to animate the battle calculations
+	 * which have already occurred.
 	 *
-	 * @param u the u
-	 * @param other the other
-	 * @param queue the queue
+	 * @param u the Unit Identifier
+	 * @param other the other Unit's Identifier
+	 * @param queue the attack record
 	 */
 	public static void goToFightStage(UnitIdentifier u, UnitIdentifier other, 
 			ArrayList<AttackRecord> queue) {
@@ -449,7 +458,8 @@ public class FEMultiplayer extends Game{
 	}
 	
 	/**
-	 * Disconnect game.
+	 * Disconnect from game. 
+	 * Allows for resetting server and client if triggered, but is not used in all situations.
 	 *
 	 * @param message the message
 	 */
