@@ -24,6 +24,7 @@ import chu.engine.anim.ShaderArgs;
 import chu.engine.anim.Transform;
 import chu.engine.menu.MenuButton;
 
+// TODO: Auto-generated Javadoc
 /**
  * Lobby where the players wait before the game.
  * @author Shawn
@@ -31,13 +32,26 @@ import chu.engine.menu.MenuButton;
  */
 public class ClientLobbyStage extends LobbyStage {
 	
+	/** The Constant BORDER_DARK. */
 	public static final Color BORDER_DARK = new Color(0x483828);
+	
+	/** The Constant BORDER_LIGHT. */
 	public static final Color BORDER_LIGHT = new Color(0xf8f0c8);
+	
+	/** The Constant NEUTRAL. */
 	public static final Color NEUTRAL = new Color(0xb0a878);
+	
+	/** The Constant NEUTRAL_DARK. */
 	public static final Color NEUTRAL_DARK = new Color(0x58543c);
 	
+	/** The chat input. */
 	private LobbyChatBox chatInput;
 	
+	/**
+	 * Instantiates a new client lobby stage.
+	 *
+	 * @param session the session
+	 */
 	public ClientLobbyStage(Session session) {
 		super(session);
 		chatInput = new LobbyChatBox();
@@ -155,6 +169,9 @@ public class ClientLobbyStage extends LobbyStage {
 		addEntity(chatInput);
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.lobbystage.LobbyStage#beginStep()
+	 */
 	@Override
 	public void beginStep() {
 		super.beginStep();
@@ -180,6 +197,9 @@ public class ClientLobbyStage extends LobbyStage {
 		processRemoveStack();
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.lobbystage.LobbyStage#onStep()
+	 */
 	@Override
 	public void onStep() {
 		super.onStep();
@@ -190,6 +210,9 @@ public class ClientLobbyStage extends LobbyStage {
 		processRemoveStack();
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.lobbystage.LobbyStage#endStep()
+	 */
 	@Override
 	public void endStep() {
 		for(Entity e : entities) {
@@ -199,6 +222,9 @@ public class ClientLobbyStage extends LobbyStage {
 		processRemoveStack();
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#render()
+	 */
 	@Override
 	public void render() {
 		super.render();

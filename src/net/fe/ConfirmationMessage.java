@@ -13,15 +13,30 @@ import chu.engine.KeyboardEvent;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Renderer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ConfirmationMessage.
+ */
 public abstract class ConfirmationMessage extends Entity{
+	
+	/** The yes hover. */
 	private boolean yesHover;
+	
+	/** The repeat timers. */
 	private float[] repeatTimers = new float[4];
+	
+	/**
+	 * Instantiates a new confirmation message.
+	 */
 	public ConfirmationMessage() {
 		super(190, 140);
 		renderDepth = 0.001f;
 		yesHover = false;
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#beginStep()
+	 */
 	public void beginStep(){
 		List<KeyboardEvent> keys = Game.getKeys();
 		if (Keyboard.isKeyDown(FEResources.getKeyMapped(Keyboard.KEY_LEFT)) && repeatTimers[2] == 0) {
@@ -58,6 +73,9 @@ public abstract class ConfirmationMessage extends Entity{
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render(){
 		Renderer.drawRectangle(0, 0, 480, 320, renderDepth, new Color(0,0,0,0.5f));
 		Renderer.drawBorderedRectangle(x, y, x+100, y+40, renderDepth,
@@ -74,8 +92,14 @@ public abstract class ConfirmationMessage extends Entity{
 		Renderer.setColor(null);
 	}
 	
+	/**
+	 * Confirm.
+	 */
 	public abstract void confirm();
 	
+	/**
+	 * Cancel.
+	 */
 	public void cancel(){
 		
 	}

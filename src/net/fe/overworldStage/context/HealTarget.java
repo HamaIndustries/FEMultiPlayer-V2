@@ -20,9 +20,23 @@ import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
 import net.fe.unit.Weapon;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class HealTarget.
+ */
 public class HealTarget extends SelectTargetContext {
+	
+	/** The selector. */
 	private StaffSelector selector;
 
+	/**
+	 * Instantiates a new heal target.
+	 *
+	 * @param stage the stage
+	 * @param context the context
+	 * @param z the z
+	 * @param u the u
+	 */
 	public HealTarget(ClientOverworldStage stage, OverworldContext context, Zone z,
 			Unit u) {
 		super(stage, context, z, u, true);
@@ -30,10 +44,16 @@ public class HealTarget extends SelectTargetContext {
 				new ArrayList<Weapon>());
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.SelectTargetContext#validTarget(net.fe.unit.Unit)
+	 */
 	public boolean validTarget(Unit u){
 		return super.validTarget(u) && u.get("HP") != u.getHp();
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.SelectTargetContext#unitSelected(net.fe.unit.Unit)
+	 */
 	@Override
 	public void unitSelected(Unit u) {
 		unit.equip(selector.getSelected());
@@ -47,14 +67,23 @@ public class HealTarget extends SelectTargetContext {
 		stage.reset();
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.SelectTargetContext#onLeft()
+	 */
 	public void onLeft() {
 		selector.prev();
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.SelectTargetContext#onRight()
+	 */
 	public void onRight() {
 		selector.next();
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.SelectTargetContext#updateCursor()
+	 */
 	public void updateCursor() {
 		super.updateCursor();
 		selector.setStaves(unit.equippableStaves(Grid.getDistance(unit,
@@ -65,11 +94,17 @@ public class HealTarget extends SelectTargetContext {
 		selector.y = getCurrentTarget().y - 26 - stage.camY;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.SelectTargetContext#startContext()
+	 */
 	public void startContext() {
 		super.startContext();
 		stage.addEntity(selector);
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.SelectTargetContext#cleanUp()
+	 */
 	public void cleanUp() {
 		super.cleanUp();
 		stage.removeEntity(selector);

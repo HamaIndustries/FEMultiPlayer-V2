@@ -18,25 +18,44 @@ import chu.engine.anim.ShaderArgs;
 import chu.engine.menu.MenuButton;
 import chu.engine.menu.TextInputBox;
 
+// TODO: Auto-generated Javadoc
 /**
- * Player selects name and server ip
- * @author Shawn
+ * Player selects name and server ip.
  *
+ * @author Shawn
  */
 public class ConnectStage extends Stage {
 	
+	/** The Constant BORDER_DARK. */
 	public static final Color BORDER_DARK = new Color(0x483828);
+	
+	/** The Constant BORDER_LIGHT. */
 	public static final Color BORDER_LIGHT = new Color(0xf8f0c8);
+	
+	/** The Constant NEUTRAL. */
 	public static final Color NEUTRAL = new Color(0xb0a878);
+	
+	/** The Constant NEUTRAL_DARK. */
 	public static final Color NEUTRAL_DARK = new Color(0x58543c);
 	
+	/** The Constant UNFOCUSED. */
 	private static final Color UNFOCUSED = new Color(0x58543c);
+	
+	/** The Constant FOCUSED. */
 	private static final Color FOCUSED = new Color(0x817b58);
+	
+	/** The Constant CURSOR. */
 	private static final Color CURSOR = new Color(0xeeeeee);
 	
+	/** The name. */
 	private ConnectInputBox name;
+	
+	/** The ip. */
 	private ConnectInputBox ip;
 	
+	/**
+	 * Instantiates a new connect stage.
+	 */
 	public ConnectStage() {
 		super("main_theme");
 		name = new ConnectInputBox(180,136,153,20);
@@ -65,6 +84,9 @@ public class ConnectStage extends Stage {
 		processAddStack();
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#beginStep()
+	 */
 	@Override
 	public void beginStep() {
 		for(Entity e : entities) {
@@ -72,6 +94,9 @@ public class ConnectStage extends Stage {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#onStep()
+	 */
 	@Override
 	public void onStep() {
 		for(Entity e : entities) {
@@ -79,6 +104,9 @@ public class ConnectStage extends Stage {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#endStep()
+	 */
 	@Override
 	public void endStep() {
 		for(Entity e : entities) {
@@ -86,6 +114,9 @@ public class ConnectStage extends Stage {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#render()
+	 */
 	public void render() {
 		// Draw and label boxes
 //		Renderer.drawRectangle(60, 110, 430, 240, 0.5f, NEUTRAL);
@@ -99,12 +130,27 @@ public class ConnectStage extends Stage {
 		super.render();
 	}
 	
+	/**
+	 * The Class ConnectInputBox.
+	 */
 	private class ConnectInputBox extends TextInputBox {
+		
+		/**
+		 * Instantiates a new connect input box.
+		 *
+		 * @param x the x
+		 * @param y the y
+		 * @param w the w
+		 * @param h the h
+		 */
 		public ConnectInputBox(int x, int y, int w, int h) {
 			super(x, y, w, h, "default_med");
 			renderDepth = 0.0f;
 		}
 		
+		/* (non-Javadoc)
+		 * @see chu.engine.menu.TextInputBox#beginStep()
+		 */
 		public void beginStep() {
 			List<MouseEvent> mouseEvents = Game.getMouseEvents();
 			for(MouseEvent event : mouseEvents) {
@@ -118,6 +164,9 @@ public class ConnectStage extends Stage {
 			super.beginStep();
 		}
 		
+		/* (non-Javadoc)
+		 * @see chu.engine.Entity#render()
+		 */
 		public void render() {
 			BitmapFont font = FEResources.getBitmapFont("default_med");
 			Renderer.drawRectangle(x-1, y-1, x+width+1, y+height+1, renderDepth, Color.black);
@@ -132,18 +181,36 @@ public class ConnectStage extends Stage {
 		}
 	}
 	
+	/**
+	 * The Class ConnectButton.
+	 */
 	private class ConnectButton extends MenuButton {
 
+		/**
+		 * Instantiates a new connect button.
+		 *
+		 * @param x the x
+		 * @param y the y
+		 * @param w the w
+		 * @param h the h
+		 */
 		public ConnectButton(float x, float y, float w, float h) {
 			super(x, y, w, h);
 			sprite.addAnimation("default", FEResources.getTexture("connect_button"));
 		}
 		
+		/* (non-Javadoc)
+		 * @see chu.engine.menu.MenuButton#onClick()
+		 */
 		@Override
 		public void onClick() {
 			AudioPlayer.playAudio("select");
 			FEMultiplayer.connect(name.getInput(), ip.getInput());
 		}
+		
+		/* (non-Javadoc)
+		 * @see chu.engine.Entity#render()
+		 */
 		@Override
 		public void render() {
 			if(hover) {

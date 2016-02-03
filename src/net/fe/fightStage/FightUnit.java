@@ -16,19 +16,48 @@ import chu.engine.Game;
 import chu.engine.anim.ShaderArgs;
 import chu.engine.anim.Transform;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FightUnit.
+ */
 public class FightUnit extends Entity {
+	
+	/** The left. */
 	private boolean left;
+	
+	/** The distance from center. */
 	private int distanceFromCenter;
+	
+	/** The state. */
 	public int state;
+	
+	/** The alpha. */
 	private float alpha;
+	
+	/** The anim args. */
 	private AnimationArgs animArgs;
+	
+	/** The flash timer. */
 	private float flashTimer;
+	
+	/** The flashes. */
 	private int flashes;
 	
+	/** The Constant ALIVE. */
 	public static final int ALIVE = 0;
+	
+	/** The Constant FLASHING. */
 	public static final int FLASHING = 1;
+	
+	/** The Constant FADING. */
 	public static final int FADING = 2;
 	
+	/**
+	 * Instantiates a new fight unit.
+	 *
+	 * @param animArgs the anim args
+	 * @param s the s
+	 */
 	public FightUnit(AnimationArgs animArgs, FightStage s){
 		super(0,0);
 		this.left = animArgs.left;
@@ -62,6 +91,9 @@ public class FightUnit extends Entity {
 		renderDepth = FightStage.UNIT_DEPTH;
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#beginStep()
+	 */
 	@Override
 	public void beginStep() {
 		if(state == FLASHING) {
@@ -81,6 +113,9 @@ public class FightUnit extends Entity {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	@Override
 	public void render() {
 		Transform t = new Transform();
@@ -98,10 +133,20 @@ public class FightUnit extends Entity {
 		}
 	}
 	
+	/**
+	 * Gets the anim args.
+	 *
+	 * @return the anim args
+	 */
 	public AnimationArgs getAnimArgs(){
 		return animArgs;
 	}
 	
+	/**
+	 * Sets the animation.
+	 *
+	 * @param animation the new animation
+	 */
 	public void setAnimation(String animation){
 		for(String s: FightStage.analyzeAnimation(animation, "(a)", false)){
 			s = s.toUpperCase();
@@ -117,6 +162,11 @@ public class FightUnit extends Entity {
 		}
 	}
 	
+	/**
+	 * Gets the unit.
+	 *
+	 * @return the unit
+	 */
 	public Unit getUnit() {
 		return animArgs.unit;
 	}

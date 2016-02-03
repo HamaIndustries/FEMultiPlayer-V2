@@ -31,13 +31,24 @@ import java.io.File;
 
 import java.util.Properties;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FEResources.
+ */
 public class FEResources {
+	
+	/** The search folders. */
 	private static String[] searchFolders = 
 		{"battle_anim", "battle_anim/static", "map_mugshots", "gui", "map_anim"};
 	
 	
+	/** The audio. */
 	private static HashMap<String, Audio> audio;
+	
+	/** The textures. */
 	private static HashMap<String, AnimationData> textures;
+	
+	/** The bitmap fonts. */
 	private static HashMap<String, BitmapFont> bitmapFonts;
 	
 	static {
@@ -46,14 +57,29 @@ public class FEResources {
 		bitmapFonts = new HashMap<String, BitmapFont>();
 	}
 
+	/**
+	 * Gets the texture.
+	 *
+	 * @param string the string
+	 * @return the texture
+	 */
 	public static Texture getTexture(String string) {
 		return getTextureData(string).getTexture();
 	}
 	
+	/**
+	 * Checks for texture.
+	 *
+	 * @param string the string
+	 * @return true, if successful
+	 */
 	public static boolean hasTexture(String string){
 		return textures.containsKey(string);
 	}
 	
+	/**
+	 * Load resources.
+	 */
 	public static void loadResources() {
 		try {
 			//Load bitmap fonts
@@ -73,6 +99,13 @@ public class FEResources {
 		}
 		System.gc();
 	}
+	
+	/**
+	 * Gets the map texture.
+	 *
+	 * @param name the name
+	 * @return the map texture
+	 */
 	public static AnimationData getMapTexture(String name){
 		AnimationData t = textures.get(name);
 		if(t!=null) return t;
@@ -90,6 +123,9 @@ public class FEResources {
 		return textures.get("whoops");
 	}
 
+	/**
+	 * Load textures.
+	 */
 	private static void loadTextures() {
 		long startTime = System.nanoTime();
 		// TODO Load textures from JSON
@@ -178,10 +214,19 @@ public class FEResources {
 		in.close();
 	}
 
+	/**
+	 * Gets the bitmap font.
+	 *
+	 * @param name the name
+	 * @return the bitmap font
+	 */
 	public static BitmapFont getBitmapFont(String name) {
 		return bitmapFonts.get(name);
 	}
 	
+	/**
+	 * Load bitmap fonts.
+	 */
 	public static void loadBitmapFonts() {
 		Scanner in = new Scanner(ResourceLoader.getResourceAsStream("res/fonts/fonts.txt"));
 		while(in.hasNextLine()) {
@@ -212,6 +257,12 @@ public class FEResources {
 		in.close();
 	}
 
+	/**
+	 * Gets the texture data.
+	 *
+	 * @param string the string
+	 * @return the texture data
+	 */
 	public static AnimationData getTextureData(String string) {
 		AnimationData t = textures.get(string);
 		if(t != null) {
@@ -231,6 +282,12 @@ public class FEResources {
 		}
 	}
 
+	/**
+	 * Gets the audio.
+	 *
+	 * @param name the name
+	 * @return the audio
+	 */
 	public static Audio getAudio(String name) {
 		Audio a = audio.get(name);
 		if(a == null) {
@@ -248,7 +305,14 @@ public class FEResources {
 		}
 	}
 
+	/** The prop. */
 	private static Properties prop;
+	
+	/**
+	 * Gets the properties.
+	 *
+	 * @return the properties
+	 */
 	//takes in a key such as Keyboard.KEY_Z and returns the corresponding key the user presses
 	private static Properties getProperties(){
 		if(prop==null){
@@ -286,18 +350,34 @@ public class FEResources {
 		return prop;
 	}
 	
+	/**
+	 * Gets the audio volume.
+	 *
+	 * @return the audio volume
+	 */
 	public static float getAudioVolume(){
 		String volumeStr = getProperties().getProperty("VOLUME"); 
 		float volume = Float.parseFloat(volumeStr);
 		return volume;
 	}
 	
+	/**
+	 * Gets the window scale.
+	 *
+	 * @return the window scale
+	 */
 	public static float getWindowScale(){
 		String scaleStr = getProperties().getProperty("SCALE"); 
 		float scale = Float.parseFloat(scaleStr);
 		return scale;
 	}
 	
+	/**
+	 * Gets the key mapped.
+	 *
+	 * @param internalKey the internal key
+	 * @return the key mapped
+	 */
 	public static int getKeyMapped(int internalKey){
 		//NOTE: LevelEditorStage does not use this. So its controls are still hard-coded.
 		//      However the level editor is not part of the user-facing game, so doesn't need them at the moment.
@@ -321,6 +401,12 @@ public class FEResources {
 		return internalKey;
 	}
 	
+	/**
+	 * Gets the key mapped name.
+	 *
+	 * @param internalKeyName the internal key name
+	 * @return the key mapped name
+	 */
 	public static String getKeyMappedName(String internalKeyName){
 		if(internalKeyName.toUpperCase().equals("ENTER")){
 			internalKeyName = "RETURN";

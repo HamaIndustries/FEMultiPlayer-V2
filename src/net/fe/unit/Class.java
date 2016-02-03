@@ -6,13 +6,39 @@ import java.util.List;
 
 import net.fe.fightStage.*;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Class.
+ */
 public class Class implements Serializable {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 9144407404798873761L;
+	
+	/** The crit. */
 	public final int crit;
+	
+	/** The master skill. */
 	public final CombatTrigger masterSkill;
+	
+	/** The usable weapon. */
 	public final List<Weapon.Type> usableWeapon;
+	
+	/** The name. */
 	public final String name;
+	
+	/** The description. */
 	public final String description;
+	
+	/**
+	 * Instantiates a new class.
+	 *
+	 * @param name the name
+	 * @param desc the desc
+	 * @param c the c
+	 * @param m the m
+	 * @param types the types
+	 */
 	private Class(String name, String desc, int c, CombatTrigger m, Weapon.Type... types){
 		crit = c;
 		masterSkill = m;
@@ -21,6 +47,12 @@ public class Class implements Serializable {
 		description = desc;
 	}
 	
+	/**
+	 * Creates the class.
+	 *
+	 * @param name the name
+	 * @return the class
+	 */
 	public static Class createClass(String name){
 		//Lords
 		if(name.equals("Roy"))

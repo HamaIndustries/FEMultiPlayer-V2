@@ -11,16 +11,36 @@ import chu.engine.Game;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Sprite;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TurnDisplay.
+ */
 public class TurnDisplay extends Entity {
 	
+	/** The text. */
 	private Sprite text;
+	
+	/** The flash. */
 	private Sprite flash;
+	
+	/** The xpos. */
 	private float xpos;
+	
+	/** The slowed. */
 	private boolean slowed;
 	
+	/** The Constant FLY_IN_SPEED. */
 	private static final float FLY_IN_SPEED = 2000.0f;
+	
+	/** The Constant SLOW_SPEED. */
 	private static final float SLOW_SPEED = 25.0f;
 
+	/**
+	 * Instantiates a new turn display.
+	 *
+	 * @param yourTurn the your turn
+	 * @param teamColor the team color
+	 */
 	public TurnDisplay(boolean yourTurn, Color teamColor) {
 		super(0, 0);
 		xpos = -512;
@@ -44,6 +64,9 @@ public class TurnDisplay extends Entity {
 		AudioPlayer.playAudio("turn_change");
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render() {
 		if(xpos < -30 || (xpos > 0 && slowed)){
 			xpos += FLY_IN_SPEED*Game.getDeltaSeconds();
@@ -57,6 +80,9 @@ public class TurnDisplay extends Entity {
 		text.render(xpos, 100, renderDepth);
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#endStep()
+	 */
 	public void endStep() {
 		if(xpos > 512) {
 			destroy();

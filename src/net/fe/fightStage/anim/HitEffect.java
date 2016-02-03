@@ -14,11 +14,30 @@ import chu.engine.anim.Animation;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Transform;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class HitEffect.
+ */
 public class HitEffect extends Entity {
+	
+	/** The left. */
 	private boolean left;
+	
+	/** The shake length. */
 	private float shakeLength;
+	
+	/** The shake intensity. */
 	private int shakeIntensity;
 
+	/**
+	 * Instantiates a new hit effect.
+	 *
+	 * @param name the name
+	 * @param leftAttacking the left attacking
+	 * @param crit the crit
+	 * @param loadTxt the load txt
+	 * @param primary the primary
+	 */
 	public HitEffect(String name, boolean leftAttacking, final boolean crit, boolean loadTxt, boolean primary) {
 		super(0, 0);
 		left = leftAttacking;
@@ -73,6 +92,9 @@ public class HitEffect extends Entity {
 		renderDepth = FightStage.EFFECT_DEPTH;
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	@Override
 	public void render() {
 		Transform t = new Transform();
@@ -85,14 +107,31 @@ public class HitEffect extends Entity {
 				FightStage.FLOOR, renderDepth, t);
 	}
 	
+	/**
+	 * Gets the shake length.
+	 *
+	 * @return the shake length
+	 */
 	public float getShakeLength(){
 		return shakeLength;
 	}
 	
+	/**
+	 * Gets the shake intensity.
+	 *
+	 * @return the shake intensity
+	 */
 	public int getShakeIntensity() {
 		return shakeIntensity;
 	}
 	
+	/**
+	 * Gets the hit texture name.
+	 *
+	 * @param name the name
+	 * @param crit the crit
+	 * @return the hit texture name
+	 */
 	public static String getHitTextureName(String name, boolean crit){
 		String critName = name + "_critical";
 		if(FEResources.hasTexture("hit_effect_" + critName) && crit){
@@ -102,6 +141,13 @@ public class HitEffect extends Entity {
 		}
 	}
 	
+	/**
+	 * Gets the hit texture.
+	 *
+	 * @param name the name
+	 * @param crit the crit
+	 * @return the hit texture
+	 */
 	public static AnimationData getHitTexture(String name, boolean crit) {
 		String critName = name + "_critical";
 		if(FEResources.hasTexture("hit_effect_" + critName) && crit){
@@ -111,6 +157,14 @@ public class HitEffect extends Entity {
 		}
 	}
 
+	/**
+	 * Gets the effects.
+	 *
+	 * @param animArgs the anim args
+	 * @param rec the rec
+	 * @param loadTex the load tex
+	 * @return the effects
+	 */
 	public static List<HitEffect> getEffects(AnimationArgs animArgs,
 			AttackRecord rec, boolean loadTex) {
 		boolean crit = rec.animation.contains("Critical");
@@ -125,6 +179,13 @@ public class HitEffect extends Entity {
 		return effects;
 	}
 	
+	/**
+	 * Gets the effect names.
+	 *
+	 * @param animArgs the anim args
+	 * @param rec the rec
+	 * @return the effect names
+	 */
 	public static List<String> getEffectNames(AnimationArgs animArgs, AttackRecord rec){
 		List<String> effects = new ArrayList<String>();
 		if(animArgs.unit.getWeapon() == null) return effects;

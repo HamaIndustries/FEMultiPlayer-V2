@@ -3,9 +3,24 @@ import net.fe.FEResources;
 import chu.engine.GriddedEntity;
 import chu.engine.anim.Animation;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Cursor.
+ */
 public class Cursor extends GriddedEntity  implements DoNotDestroy{
+	
+	/** The on. */
 	private boolean on;
+	
+	/** The Constant border. */
 	private static final int border = 64;
+	
+	/**
+	 * Instantiates a new cursor.
+	 *
+	 * @param xx the xx
+	 * @param yy the yy
+	 */
 	public Cursor(int xx, int yy) {
 		super(xx, yy);
 		sprite.addAnimation("default", new Animation(FEResources.getTexture("cursor"),
@@ -14,12 +29,18 @@ public class Cursor extends GriddedEntity  implements DoNotDestroy{
 		on = true;
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#onStep()
+	 */
 	public void onStep(){
 		sprite.update();
 		ClientOverworldStage s = ((ClientOverworldStage) stage);
 		s.unitInfo.setUnit(s.getHoveredUnit());
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render(){
 		ClientOverworldStage c = (ClientOverworldStage)stage;
 		if(c.hasControl() && on) {
@@ -28,16 +49,29 @@ public class Cursor extends GriddedEntity  implements DoNotDestroy{
 		}
 	}
 
+	/**
+	 * Sets the x coord.
+	 *
+	 * @param xcoord the new x coord
+	 */
 	public void setXCoord(int xcoord) {
 		this.xcoord = xcoord;
 		updateCamera();
 	}
 
+	/**
+	 * Sets the y coord.
+	 *
+	 * @param ycoord the new y coord
+	 */
 	public void setYCoord(int ycoord) {
 		this.ycoord = ycoord;
 		updateCamera();
 	}
 	
+	/**
+	 * Update camera.
+	 */
 	public void updateCamera() {
 		ClientOverworldStage c = (ClientOverworldStage)stage;
 		int rX = xcoord*16 - c.camX;
@@ -54,10 +88,16 @@ public class Cursor extends GriddedEntity  implements DoNotDestroy{
 		}
 	}
 	
+	/**
+	 * Off.
+	 */
 	public void off(){
 		on = false;
 	}
 	
+	/**
+	 * On.
+	 */
 	public void on(){
 		on = true;
 	}

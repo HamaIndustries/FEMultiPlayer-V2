@@ -14,13 +14,36 @@ import chu.engine.anim.Renderer;
 import chu.engine.anim.Sprite;
 import chu.engine.anim.Transform;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BattlePreview.
+ */
 public class BattlePreview extends Entity {
+	
+	/** The defender. */
 	private Unit attacker, defender;
+	
+	/** The sprites. */
 	private ArrayList<Sprite> sprites;
+	
+	/** The mod down. */
 	private Sprite leftArrow, rightArrow, x2, x4, modUp, modDown;
+	
+	/** The range. */
 	private int range;
+	
+	/** The timer. */
 	private float timer;
 
+	/**
+	 * Instantiates a new battle preview.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param a the a
+	 * @param d the d
+	 * @param range the range
+	 */
 	public BattlePreview(float x, float y, Unit a, Unit d, int range) {
 		super(x, y);
 //		System.out.println(d.getPartyColor());
@@ -54,6 +77,9 @@ public class BattlePreview extends Entity {
 		this.renderDepth = ClientOverworldStage.MENU_DEPTH;
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#onStep()
+	 */
 	public void onStep() {
 		for (Sprite s : sprites) {
 			s.update();
@@ -62,6 +88,9 @@ public class BattlePreview extends Entity {
 		if(timer > 2*Math.PI)timer -= 2*Math.PI;
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render() {
 		String aHit = " - ", aAtk = " - ", aCrit = " - ", dHit = " - ", dAtk = " - ", dCrit = " - ";
 		int aMult = 1;
@@ -184,11 +213,30 @@ public class BattlePreview extends Entity {
 		}
 	}
 	
+	/**
+	 * The Class CirclingSprite.
+	 */
 	private class CirclingSprite extends Sprite {
+		
+		/** The timer. */
 		private float timer;
+		
+		/** The radius. */
 		private float radius;
+		
+		/** The period. */
 		private float period;
+		
+		/** The clockwise. */
 		private boolean clockwise;
+		
+		/**
+		 * Instantiates a new circling sprite.
+		 *
+		 * @param radius the radius
+		 * @param period the period
+		 * @param clockwise the clockwise
+		 */
 		public CirclingSprite(float radius, float period, boolean clockwise) {
 			super();
 			timer = 0;
@@ -197,12 +245,18 @@ public class BattlePreview extends Entity {
 			this.clockwise = clockwise;
 		}
 		
+		/* (non-Javadoc)
+		 * @see chu.engine.anim.Sprite#update()
+		 */
 		public void update() {
 			super.update();
 			timer += Game.getDeltaSeconds();
 			if(timer > period) timer -= period;
 		}
 		
+		/* (non-Javadoc)
+		 * @see chu.engine.anim.Sprite#render(float, float, float)
+		 */
 		public void render(float x, float y, float depth) {
 			double radians = timer/period*2*Math.PI;
 			if(!clockwise) radians *= -1;

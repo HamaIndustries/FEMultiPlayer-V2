@@ -35,18 +35,46 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Game.
+ */
 public abstract class Game {
 	
+	/** The window width. */
 	protected static int windowWidth = 640;
+	
+	/** The window height. */
 	protected static int windowHeight = 480;
+	
+	/** The paused. */
 	protected boolean paused = false;
+	
+	/** The keys. */
 	protected static List<KeyboardEvent> keys;
+	
+	/** The mouse events. */
 	protected static List<MouseEvent> mouseEvents;
+	
+	/** The messages. */
 	protected static CopyOnWriteArrayList<Message> messages;
+	
+	/** The time. */
 	protected long time;
+	
+	/** The time delta. */
 	protected static long timeDelta;
+	
+	/** The gl context exists. */
 	protected static boolean glContextExists;
 	
+	/**
+	 * Inits the.
+	 *
+	 * @param width the width
+	 * @param height the height
+	 * @param name the name
+	 */
 	public void init(int width, int height, String name) {
 		time = System.nanoTime();
 		
@@ -87,9 +115,17 @@ public abstract class Game {
 		mouseEvents = new ArrayList<MouseEvent>();
 	}
 	
+	/**
+	 * Loop.
+	 */
 	public abstract void loop();
 
 
+	/**
+	 * Gets the input.
+	 *
+	 * @return the input
+	 */
 	public static void getInput() {
 		Keyboard.poll();
 		keys.clear();
@@ -114,46 +150,101 @@ public abstract class Game {
 		}
 	}
 	
+	/**
+	 * Gets the keys.
+	 *
+	 * @return the keys
+	 */
 	public static List<KeyboardEvent> getKeys() {
 		return keys;
 	}
 	
+	/**
+	 * Gets the mouse events.
+	 *
+	 * @return the mouse events
+	 */
 	public static List<MouseEvent> getMouseEvents() {
 		return mouseEvents;
 	}
 	
+	/**
+	 * Gets the messages.
+	 *
+	 * @return the messages
+	 */
 	public static List<Message> getMessages() {
 		return messages;
 	}
 
+	/**
+	 * Gets the delta.
+	 *
+	 * @return the delta
+	 */
 	public static long getDelta() {
 		return timeDelta;
 	}
 	
+	/**
+	 * Gets the delta millis.
+	 *
+	 * @return the delta millis
+	 */
 	public static float getDeltaMillis() {
 		return timeDelta/1000000.0f;
 	}
 	
+	/**
+	 * Gets the delta seconds.
+	 *
+	 * @return the delta seconds
+	 */
 	public static float getDeltaSeconds() {
 		return timeDelta/1000000000.0f;
 	}
 	
+	/**
+	 * Gets the window width.
+	 *
+	 * @return the window width
+	 */
 	public static int getWindowWidth() {
 		return windowWidth;
 	}
 	
+	/**
+	 * Gets the window height.
+	 *
+	 * @return the window height
+	 */
 	public static int getWindowHeight() {
 		return windowHeight;
 	}
 
+	/**
+	 * Gl context exists.
+	 *
+	 * @return true, if successful
+	 */
 	public static boolean glContextExists() {
 		return glContextExists;
 	}
 	
+	/**
+	 * Gets the scale x.
+	 *
+	 * @return the scale x
+	 */
 	public static float getScaleX() {
 		return net.fe.FEResources.getWindowScale();
 	}
 	
+	/**
+	 * Gets the scale y.
+	 *
+	 * @return the scale y
+	 */
 	public static float getScaleY() {
 		return net.fe.FEResources.getWindowScale();
 	}

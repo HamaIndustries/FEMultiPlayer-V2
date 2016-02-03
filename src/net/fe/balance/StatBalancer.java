@@ -12,11 +12,24 @@ import javax.swing.*;
 
 import net.fe.unit.*;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class StatBalancer.
+ */
 public class StatBalancer extends JFrame {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The class tabs. */
 	private TreeMap<String, BalancerTab> classTabs;
 	
 	
+	/**
+	 * Instantiates a new stat balancer.
+	 *
+	 * @param units the units
+	 */
 	public StatBalancer(List<Unit> units){
 		super("FE:Multiplayer Stat Balancer");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,6 +73,11 @@ public class StatBalancer extends JFrame {
 		pack();
 	}
 	
+	/**
+	 * Export.
+	 *
+	 * @param f the f
+	 */
 	private void export(File f){
 		try {
 			PrintWriter pw = new PrintWriter(f);
@@ -83,6 +101,11 @@ public class StatBalancer extends JFrame {
 		
 	}
 	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args){
 		SwingUtilities.invokeLater(new Runnable(){
 			@Override

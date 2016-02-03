@@ -5,12 +5,29 @@ import java.util.PriorityQueue;
 import java.util.Stack;
 import java.util.TreeSet;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Stage.
+ */
 public abstract class Stage {
+	
+	/** The entities. */
 	protected TreeSet<Entity> entities;
+	
+	/** The add stack. */
 	protected Stack<Entity> addStack;
+	
+	/** The remove stack. */
 	protected Stack<Entity> removeStack;
+	
+	/** The sound track. */
 	public final String soundTrack;
 	
+	/**
+	 * Instantiates a new stage.
+	 *
+	 * @param soundTrack the sound track
+	 */
 	public Stage(String soundTrack) {
 		entities = new TreeSet<Entity>(new SortByUpdate());
 		addStack = new Stack<Entity>();
@@ -18,16 +35,31 @@ public abstract class Stage {
 		this.soundTrack = soundTrack;
 	}
 	
+	/**
+	 * Gets the all entities.
+	 *
+	 * @return the all entities
+	 */
 	public TreeSet<Entity> getAllEntities() {
 		return entities;
 	}
 	
+	/**
+	 * Adds the entity.
+	 *
+	 * @param e the e
+	 */
 	public void addEntity(Entity e) {
 		addStack.push(e);
 		e.willBeRemoved = false;
 	}
 	
 	
+	/**
+	 * Removes the entity.
+	 *
+	 * @param e the e
+	 */
 	public void removeEntity(Entity e) {
 		if(e != null) {
 			e.flagForRemoval();
@@ -38,6 +70,9 @@ public abstract class Stage {
 		}
 	}
 	
+	/**
+	 * Update.
+	 */
 	public void update() {
 		for(Entity e : entities) {
 			e.onStep();
@@ -47,6 +82,9 @@ public abstract class Stage {
 		processRemoveStack();
 	}
 
+	/**
+	 * Render.
+	 */
 	public void render() {
 		SortByRender comparator = new SortByRender();
 		PriorityQueue<Entity> renderQueue = new PriorityQueue<Entity>(entities.size()+1, comparator);
@@ -56,6 +94,13 @@ public abstract class Stage {
 		}
 	}
 	
+	/**
+	 * Instance at.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @return the entity
+	 */
 	public Entity instanceAt(int x, int y) {
 		for(Entity e : entities) {
 			if(e.x == x && e.y == y && !e.willBeRemoved()) return e;
@@ -63,6 +108,13 @@ public abstract class Stage {
 		return null;
 	}
 	
+	/**
+	 * All instances at.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @return the entity[]
+	 */
 	public Entity[] allInstancesAt(int x, int y) {
 		ArrayList<Entity> ans = new ArrayList<Entity>();
 		for(Entity e : entities) {
@@ -80,6 +132,13 @@ public abstract class Stage {
 		return ret;
 	}
 	
+	/**
+	 * Collideable at.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @return the collidable[]
+	 */
 	public Collidable[] collideableAt(int x, int y) {
 		ArrayList<Collidable> ans = new ArrayList<Collidable>();
 		for(Entity e : entities) {
@@ -99,6 +158,9 @@ public abstract class Stage {
 		return ret;
 	}
 	
+	/**
+	 * Process add stack.
+	 */
 	public void processAddStack() {
 		while(!addStack.isEmpty()) {
 			Entity e = addStack.pop();
@@ -107,10 +169,19 @@ public abstract class Stage {
 		}
 	}
 	
+	/**
+	 * Will be removed.
+	 *
+	 * @param e the e
+	 * @return true, if successful
+	 */
 	public boolean willBeRemoved(Entity e) {
 		return removeStack.contains(e);
 	}
 	
+	/**
+	 * Process remove stack.
+	 */
 	public void processRemoveStack() {
 		while(!removeStack.isEmpty()) {
 			Entity e = removeStack.pop();
@@ -119,10 +190,19 @@ public abstract class Stage {
 		}
 	}
 
+	/**
+	 * Begin step.
+	 */
 	public abstract void beginStep();
 
+	/**
+	 * On step.
+	 */
 	public abstract void onStep();
 	
+	/**
+	 * End step.
+	 */
 	public abstract void endStep();
 	
 }

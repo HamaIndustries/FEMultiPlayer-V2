@@ -19,20 +19,51 @@ import chu.engine.Game;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Sprite;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UnitList.
+ */
 public class UnitList extends Entity {
+	
+	/** The units. */
 	private ArrayList<UnitSet> units;
+	
+	/** The selected units. */
 	private List<Unit> selectedUnits;
+	
+	/** The lookup. */
 	private HashMap<Unit, UnitSet> lookup;
+	
+	/** The height. */
 	private int height;
+	
+	/** The scroll pos. */
 	private int scrollPos;
+	
+	/** The scroll offset. */
 	private float scrollOffset;
+	
+	/** The drafted. */
 	private Sprite banned, drafted;
 	
+	/** The Constant WIDTH. */
 	//CONFIG
 	public static final int WIDTH = 80;
+	
+	/** The Constant HEIGHT. */
 	public static final int HEIGHT = 24;
+	
+	/** The units per row. */
 	public final int unitsPerRow;
 	
+	/**
+	 * Instantiates a new unit list.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param height the height
+	 * @param width the width
+	 */
 	public UnitList(float x, float y, int height, int width) {
 		super(x, y);
 		this.height = height;
@@ -47,6 +78,9 @@ public class UnitList extends Entity {
 		drafted.addAnimation("DEFAULT", FEResources.getTexture("drafted"));
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#onStep()
+	 */
 	public void onStep(){
 		int scrollOffsetS = scrollPos * HEIGHT;
 		float dy = scrollOffsetS - scrollOffset;
@@ -63,6 +97,9 @@ public class UnitList extends Entity {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render(){
 		Renderer.drawRectangle(x-2, y-2, 
 				x+WIDTH * unitsPerRow+2, 
@@ -106,6 +143,9 @@ public class UnitList extends Entity {
 		}
 	}
 	
+	/**
+	 * Refresh.
+	 */
 	public void refresh(){
 		Collections.sort(units, new Comparator<UnitSet>(){
 			@Override
@@ -122,22 +162,42 @@ public class UnitList extends Entity {
 		}
 	}
 	
+	/**
+	 * Adds the unit.
+	 *
+	 * @param u the u
+	 */
 	public void addUnit(Unit u){
 		UnitSet s = new UnitSet(u);
 		units.add(s);
 		lookup.put(u, s);
 	}
 	
+	/**
+	 * Adds the units.
+	 *
+	 * @param units the units
+	 */
 	public void addUnits(Collection<Unit> units){
 		for(Unit u: units){
 			addUnit(u);
 		}
 	}
 	
+	/**
+	 * Gets the selected units.
+	 *
+	 * @return the selected units
+	 */
 	public List<Unit> getSelectedUnits(){
 		return new ArrayList<Unit>(selectedUnits);
 	}
 	
+	/**
+	 * Gets the units.
+	 *
+	 * @return the units
+	 */
 	public List<Unit> getUnits(){
 		List<Unit> ans = new ArrayList<Unit>();
 		for(UnitSet u: units){
@@ -146,6 +206,11 @@ public class UnitList extends Entity {
 		return ans;
 	}
 	
+	/**
+	 * Select unit.
+	 *
+	 * @param u the u
+	 */
 	public void selectUnit(Unit u){
 		if(lookup.get(u).banned || lookup.get(u).drafted) 
 			return;
@@ -153,15 +218,32 @@ public class UnitList extends Entity {
 		lookup.get(u).icon.setGreyscale(false);
 	}
 	
+	/**
+	 * De select unit.
+	 *
+	 * @param u the u
+	 */
 	public void deSelectUnit(Unit u){
 		selectedUnits.remove(u);
 		lookup.get(u).icon.setGreyscale(true);
 	}
 	
+	/**
+	 * Unit at.
+	 *
+	 * @param index the index
+	 * @return the unit
+	 */
 	public Unit unitAt(int index){
 		return units.get(index).unit;
 	}
 	
+	/**
+	 * Gets the unit.
+	 *
+	 * @param name the name
+	 * @return the unit
+	 */
 	public Unit getUnit(String name){
 		for(UnitSet set: units){
 			if(set.unit.name.equals(name)){
@@ -171,6 +253,11 @@ public class UnitList extends Entity {
 		return null;
 	}
 	
+	/**
+	 * Ban.
+	 *
+	 * @param name the name
+	 */
 	public void ban(String name) {
 		for(UnitSet set: units){
 			if(set.unit.name.equals(name)){
@@ -179,6 +266,11 @@ public class UnitList extends Entity {
 		}
 	}
 	
+	/**
+	 * Draft.
+	 *
+	 * @param name the name
+	 */
 	public void draft(String name) {
 		for(UnitSet set: units){
 			if(set.unit.name.equals(name)){
@@ -187,18 +279,39 @@ public class UnitList extends Entity {
 		}
 	}
 	
+	/**
+	 * Checks if is selected.
+	 *
+	 * @param index the index
+	 * @return true, if is selected
+	 */
 	public boolean isSelected(int index){
 		return selectedUnits.contains(unitAt(index));
 	}
 	
+	/**
+	 * Size.
+	 *
+	 * @return the int
+	 */
 	public int size(){
 		return units.size();
 	}
 	
+	/**
+	 * Number selected.
+	 *
+	 * @return the int
+	 */
 	public int numberSelected(){
 		return selectedUnits.size();
 	}
 	
+	/**
+	 * Scroll to.
+	 *
+	 * @param index the index
+	 */
 	public void scrollTo(int index){
 		int row = index / unitsPerRow;
 		if(row < scrollPos){
@@ -209,17 +322,28 @@ public class UnitList extends Entity {
 		}
 	}
 	
+	/**
+	 * Gets the scroll pos.
+	 *
+	 * @return the scroll pos
+	 */
 	public int getScrollPos(){
 		return scrollPos;
 	}
 
+	/**
+	 * Sort.
+	 *
+	 * @param sort the sort
+	 */
 	public void sort(Comparator<UnitSet> sort) {
 		Collections.sort(units, sort);
 	}
 
 	/**
-	 * Selects i number of random units in the list
-	 * @param i
+	 * Selects i number of random units in the list.
+	 *
+	 * @param i the i
 	 */
 	public void selectRandom(int i) {
 		for(int j = 0; j < i-selectedUnits.size(); j++) {

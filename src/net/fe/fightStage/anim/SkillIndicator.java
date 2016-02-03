@@ -5,19 +5,49 @@ import chu.engine.Entity;
 import chu.engine.Game;
 import chu.engine.anim.Renderer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SkillIndicator.
+ */
 public class SkillIndicator extends Entity{
+	
+	/** The message. */
 	private String message;
+	
+	/** The elapsed time. */
 	private float elapsedTime;
+	
+	/** The extended. */
 	private boolean extended;
+	
+	/** The vx. */
 	private int vx;
+	
+	/** The x0. */
 	private int x0;
+	
+	/** The xt. */
 	private int xt;
+	
+	/** The left. */
 	private boolean left;
 	
+	/** The Constant MSG_TIME. */
 	public static final int MSG_TIME = 1;
+	
+	/** The Constant WIDTH. */
 	public static final int WIDTH = 50;
+	
+	/** The Constant HEIGHT. */
 	public static final int HEIGHT = 12;
 	
+	/**
+	 * Instantiates a new skill indicator.
+	 *
+	 * @param message the message
+	 * @param left the left
+	 * @param position the position
+	 */
 	public SkillIndicator(String message, boolean left, int position){
 		super(0,29 + position*(HEIGHT+2));
 		this.message = message;
@@ -32,6 +62,9 @@ public class SkillIndicator extends Entity{
 		renderDepth = FightStage.HUD_DEPTH;
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#onStep()
+	 */
 	public void onStep(){
 		if(extended){
 			elapsedTime += Game.getDeltaSeconds();
@@ -52,6 +85,9 @@ public class SkillIndicator extends Entity{
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render(){
 		if(left){
 			Renderer.drawRectangle(x-10, y, x+WIDTH, y + HEIGHT, 0, FightStage.NEUTRAL);

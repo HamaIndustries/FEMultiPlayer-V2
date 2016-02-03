@@ -51,20 +51,45 @@ import chu.engine.Stage;
 import chu.engine.anim.Renderer;
 import chu.engine.menu.Notification;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Main class for the Clientside program.
+ *
+ * @author Shawn
+ */
 public class FEMultiplayer extends Game{
+	
+	/** The current stage. */
 	private static Stage currentStage;
+	
+	/** The client. */
 	private static Client client;
+	
+	/** The local player. */
 	private static Player localPlayer;
 	
+	/** The turn. */
 	public static Player turn;
+	
+	/** The map. */
 	public static ClientOverworldStage map;
+	
+	/** The lobby. */
 	public static ClientLobbyStage lobby;
+	
+	/** The connect. */
 	public static ConnectStage connect;
 	
+	/** The test session. */
 	// For testing fightstage
 	private static Session testSession;
 
 	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		try{
 			FEMultiplayer game = new FEMultiplayer();
@@ -92,6 +117,9 @@ public class FEMultiplayer extends Game{
 	
 	
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Game#init(int, int, java.lang.String)
+	 */
 	public void init(int width, int height, String name) {
 		super.init(width, height, name);
 		Player p1 = new Player("Player", (byte) 0);
@@ -122,19 +150,28 @@ public class FEMultiplayer extends Game{
 		
 	}
 	
+	/**
+	 * Test draft stage.
+	 */
 	public void testDraftStage() {
 		Player p1 = localPlayer;
 		testSession = new Session();
 		testSession.setMaxUnits(6);
 		Player p2 = new Player("p2", (byte) 1);
+		Player p3 = new Player("p3", (byte) 2);
 		p2.getParty().setColor(Party.TEAM_RED);
+		p3.getParty().setColor(Party.TEAM_BLUE);
 		p2.getParty().addUnit(UnitFactory.getUnit("Mia"));
 		p2.getParty().addUnit(UnitFactory.getUnit("L'Arachel"));
 		testSession.addPlayer(p1);
 		testSession.addPlayer(p2);
+		testSession.addPlayer(p3);
 		currentStage = new TeamDraftStage(testSession);
 	}
 	
+	/**
+	 * Test fight stage.
+	 */
 	public void testFightStage(){
 		Player p1 = localPlayer;
 		testSession = new Session();
@@ -188,6 +225,9 @@ public class FEMultiplayer extends Game{
 		setCurrentStage(new FightStage(new UnitIdentifier(u1), new UnitIdentifier(u2), calc.getAttackQueue()));
 	}
 	
+	/**
+	 * Test overworld stage.
+	 */
 	public void testOverworldStage() {
 		testSession = new Session();
 		testSession.setMap("test");
@@ -218,6 +258,12 @@ public class FEMultiplayer extends Game{
 
 	}
 	
+	/**
+	 * Gets the unit.
+	 *
+	 * @param id the id
+	 * @return the unit
+	 */
 	public static Unit getUnit(UnitIdentifier id){
 		for(Player p : getPlayers().values()){
 			if(!p.isSpectator() && p.getParty().getColor().equals(id.partyColor)){
@@ -227,6 +273,12 @@ public class FEMultiplayer extends Game{
 		return null;
 	}
 	
+	/**
+	 * Connect.
+	 *
+	 * @param nickname the nickname
+	 * @param ip the ip
+	 */
 	public static void connect(String nickname, String ip) {
 		getLocalPlayer().setName(nickname);
 		client = new Client(ip, 21255);
@@ -240,6 +292,9 @@ public class FEMultiplayer extends Game{
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Game#loop()
+	 */
 	@Override
 	public void loop() {
 		while(!Display.isCloseRequested()) {
@@ -278,10 +333,23 @@ public class FEMultiplayer extends Game{
 		if(client != null && client.isOpen()) client.quit();
 	}
 	
+	/**
+	 * Report fight results.
+	 *
+	 * @param stage the stage
+	 */
 	public static void reportFightResults(FightStage stage){ 
 		
 	}
 	
+	/**
+	 * Send.
+	 *
+	 * @param u the u
+	 * @param moveX the move x
+	 * @param moveY the move y
+	 * @param cmds the cmds
+	 */
 	public static void send(UnitIdentifier u, int moveX, int moveY, Object... cmds){
 		for(Object o: cmds){
 			System.out.print(o + " ");
@@ -290,12 +358,24 @@ public class FEMultiplayer extends Game{
 		client.sendMessage(new CommandMessage(u, moveX, moveY, null, cmds));
 	}
 	
+	/**
+	 * Go to fight stage.
+	 *
+	 * @param u the u
+	 * @param other the other
+	 * @param queue the queue
+	 */
 	public static void goToFightStage(UnitIdentifier u, UnitIdentifier other, 
 			ArrayList<AttackRecord> queue) {
 			FightStage to = new FightStage(u, other, queue);
 			currentStage.addEntity(new OverworldFightTransition((ClientOverworldStage)currentStage, to, u, other));
 	}
 	
+	/**
+	 * Sets the current stage.
+	 *
+	 * @param stage the new current stage
+	 */
 	public static void setCurrentStage(Stage stage) {
 		currentStage = stage;
 		if(stage.soundTrack != null){
@@ -303,36 +383,76 @@ public class FEMultiplayer extends Game{
 		}
 	}
 
+	/**
+	 * Gets the overworld stage.
+	 *
+	 * @return the overworld stage
+	 */
 	public static Stage getOverworldStage() {
 		return map;
 	}
 	
+	/**
+	 * Gets the client.
+	 *
+	 * @return the client
+	 */
 	public static Client getClient() {
 		return client;
 	}
 
+	/**
+	 * Gets the current stage.
+	 *
+	 * @return the current stage
+	 */
 	public static Stage getCurrentStage() {
 		return currentStage;
 	}
 
+	/**
+	 * Sets the local player.
+	 *
+	 * @param p the new local player
+	 */
 	public static void setLocalPlayer(Player p) {
 		localPlayer = p;
 	}
 	
+	/**
+	 * Gets the local player.
+	 *
+	 * @return the local player
+	 */
 	public static Player getLocalPlayer() {
 		return localPlayer;
 	}
 	
+	/**
+	 * Gets the players.
+	 *
+	 * @return the players
+	 */
 	public static HashMap<Byte, Player> getPlayers() {
 		return getSession().getPlayerMap();
 	}
 	
+	/**
+	 * Gets the session.
+	 *
+	 * @return the session
+	 */
 	public static Session getSession() {
 		if(client == null)
 			return testSession;
 		return client.getSession();
 	}
 	
+	/**
+	 * Disconnect game.
+	 *
+	 * @param message the message
+	 */
 	public static void disconnectGame(String message){
 		/*
 		//wouldn't be hard to use something like this to reset to lobby rather than quit the game:

@@ -13,9 +13,16 @@ import org.newdawn.slick.opengl.Texture;
 
 import chu.engine.anim.ShaderArgs;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PaletteSwapper.
+ */
 public class PaletteSwapper {
 	
+	/** The lookup. */
 	public static Map<String, List<String>> lookup;
+	
+	/** The palettes. */
 	public static Map<String, Texture> palettes;
 	
 	static {
@@ -45,6 +52,12 @@ public class PaletteSwapper {
 		}
 	}
 
+	/**
+	 * Setup.
+	 *
+	 * @param u the u
+	 * @return the shader args
+	 */
 	public static ShaderArgs setup(FightUnit u) {
 		Unit unit = u.getUnit();
 		ShaderArgs args = new ShaderArgs();
@@ -64,6 +77,12 @@ public class PaletteSwapper {
 		return args;
 	}
 	
+	/**
+	 * Setup.
+	 *
+	 * @param u the u
+	 * @return the shader args
+	 */
 	public static ShaderArgs setup(Unit u) {
 		ShaderArgs args = new ShaderArgs();
 		int offset = u.getPartyColor().equals(Party.TEAM_BLUE) ? 0 : 1;

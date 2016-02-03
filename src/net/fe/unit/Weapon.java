@@ -8,16 +8,39 @@ import net.fe.fightStage.EclipseSix;
 import net.fe.fightStage.LunaPlus;
 import net.fe.fightStage.Nosferatu;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Weapon.
+ */
 public class Weapon extends Item {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 6496663141806177211L;
+	
+	/** The modifiers. */
 	public HashMap<String, Integer> modifiers;
+	
+	/** The crit. */
 	public int mt, hit, crit;
+	
+	/** The range. */
 	public List<Integer> range;
+	
+	/** The type. */
 	public Type type;
+	
+	/** The effective. */
 	public ArrayList<String> effective;
+	
+	/** The pref. */
 	public String pref;
 
 	
+	/**
+	 * Instantiates a new weapon.
+	 *
+	 * @param name the name
+	 */
 	public Weapon(String name) {
 		super(name);
 		// Initialize modifiers to 0
@@ -39,8 +62,34 @@ public class Weapon extends Item {
 		effective = new ArrayList<String>();
 	}
 	
+	/**
+	 * The Enum Type.
+	 */
 	public enum Type{
-		SWORD, LANCE, AXE, BOW, LIGHT, ANIMA, DARK, STAFF;
+		
+		/** The sword. */
+		SWORD, 
+ /** The lance. */
+ LANCE, 
+ /** The axe. */
+ AXE, 
+ /** The bow. */
+ BOW, 
+ /** The light. */
+ LIGHT, 
+ /** The anima. */
+ ANIMA, 
+ /** The dark. */
+ DARK, 
+ /** The staff. */
+ STAFF;
+		
+		/**
+		 * Triangle modifier.
+		 *
+		 * @param other the other
+		 * @return the int
+		 */
 		public int triangleModifier(Type other){
 			switch(this){
 			case SWORD:
@@ -73,10 +122,22 @@ public class Weapon extends Item {
 			}
 		}
 		
+		/**
+		 * Checks if is magic.
+		 *
+		 * @return true, if is magic
+		 */
 		public boolean isMagic(){
 			return this == ANIMA || this == LIGHT || this == DARK;
 		}
 	}
+	
+	/**
+	 * Tri mod.
+	 *
+	 * @param other the other
+	 * @return the int
+	 */
 	//Returns 1 if advantage, -1 if disadvantage
 	public int triMod(Weapon other){ 
 		if(other == null) return 0;
@@ -89,10 +150,20 @@ public class Weapon extends Item {
 		return type.triangleModifier(other.type);
 	}
 	
+	/**
+	 * Checks if is magic.
+	 *
+	 * @return true, if is magic
+	 */
 	public boolean isMagic(){
 		return type.isMagic();
 	}
 	
+	/**
+	 * Gets the triggers.
+	 *
+	 * @return the triggers
+	 */
 	public List<CombatTrigger> getTriggers(){
 		ArrayList<CombatTrigger> triggers = new ArrayList<CombatTrigger>();
 		if(name.contains("Brave")){
@@ -108,6 +179,9 @@ public class Weapon extends Item {
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see net.fe.unit.Item#getCopy()
+	 */
 	public Weapon getCopy(){
 		Weapon w = new Weapon(name);
 		w.type = type;
@@ -125,6 +199,9 @@ public class Weapon extends Item {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	@Override
 	public int compareTo(Item that) {
 		if(that instanceof Weapon){
