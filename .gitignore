@@ -7,3 +7,4 @@ bin/**/*
 error_*
 /logs
 Thumbs.db
+/doc

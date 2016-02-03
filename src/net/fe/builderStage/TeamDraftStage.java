@@ -33,29 +33,67 @@ import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Transform;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TeamDraftStage.
+ */
 public class TeamDraftStage extends Stage {
+	
+	/** The vassal list. */
 	private UnitList vassalList;
+	
+	/** The lord list. */
 	private UnitList lordList;
+	
+	/** The cursor. */
 	private Cursor cursor;
+	
+	/** The buttons. */
 	private Button[] buttons;
+	
+	/** The class sort. */
 	private Button classSort;
+	
+	/** The name sort. */
 	private Button nameSort;
+	
+	/** The submit. */
 	private Button submit;
+	
+	/** The controls. */
 	private ControlsDisplay controls;
+	
+	/** The session. */
 	private Session session;
+	
+	/** The timers. */
 	private List<DraftTimer> timers;
 	
+	/** The has control. */
 	private boolean hasControl;
 	
+	/** The max vassals. */
 	private int maxVassals;
+	
+	/** The max lords. */
 	private int maxLords;
+	
+	/** The repeat timers. */
 	private float[] repeatTimers = new float[4];
 	
+	/** The draft order. */
 	private String[] draftOrder;
+	
+	/** The draft orders. */
 	private static String[][] draftOrders = new String[8][0];
+	
+	/** The draft turn. */
 	private int draftTurn;
+	
+	/** The last action. */
 	private String lastAction;
 	
+	/** The red gray. */
 	private static Color
 		BLUE_TURN = Party.TEAM_BLUE,
 		RED_TURN = Party.TEAM_RED,
@@ -88,15 +126,24 @@ public class TeamDraftStage extends Stage {
 	}
 	
 	
+	/** The Constant NS_BUTTON_X. */
 	//CONFIG
 	public static final int 
 	UNIT_LIST_X = 78, UNIT_LIST_Y = 100, LORD_LIST_X = 78, LORD_LIST_Y = 40,
 	BUTTON_Y = 260, SB_BUTTON_X = 300, CS_BUTTON_X = 78, NS_BUTTON_X = 188;
 	
+	/** The Constant TIME_PER_TURN. */
 	public static final float TIME_PER_TURN = 6f;
+	
+	/** The Constant BASE_TIME. */
 	public static final float BASE_TIME = 15f;
 	
 	
+	/**
+	 * Instantiates a new team draft stage.
+	 *
+	 * @param s the s
+	 */
 	public TeamDraftStage(Session s){
 		super("preparations");
 		cursor = new Cursor();
@@ -188,12 +235,20 @@ public class TeamDraftStage extends Stage {
 		refresh();
 	}
 	
+	/**
+	 * Gets the round id.
+	 *
+	 * @return the round id
+	 */
 	private String getRoundID() {
 		if(draftTurn >= draftOrder.length)
 			return "???";
 		return draftOrder[draftTurn];
 	}
 	
+	/**
+	 * Reset draft.
+	 */
 	private void resetDraft() {
 		draftTurn++;
 		submit.setHover(false);
@@ -250,6 +305,11 @@ public class TeamDraftStage extends Stage {
 		}
 	}
 	
+	/**
+	 * Checks if is my turn.
+	 *
+	 * @return true, if is my turn
+	 */
 	private boolean isMyTurn() {
 		if(draftTurn >= draftOrder.length) return false;
 		String round = getRoundID();
@@ -257,12 +317,23 @@ public class TeamDraftStage extends Stage {
 		return c.equals(Party.TEAM_BLUE) == (round.charAt(0) == 'B');
 	}
 
+	/**
+	 * Gets the unit.
+	 *
+	 * @param name the name
+	 * @return the unit
+	 */
 	public Unit getUnit(String name){
 		Unit u = lordList.getUnit(name);
 		if(u == null) u = vassalList.getUnit(name);
 		return u;
 	}
 	
+	/**
+	 * Select unit.
+	 *
+	 * @param u the u
+	 */
 	public void selectUnit(Unit u){
 		if(u.getTheClass().name.equals("Lord")){
 			lordList.selectUnit(u);
@@ -271,6 +342,9 @@ public class TeamDraftStage extends Stage {
 		}
 	}
 	
+	/**
+	 * Deselect all.
+	 */
 	public void deselectAll(){
 		for(Unit u: lordList.getSelectedUnits()){
 			lordList.deSelectUnit(u);
@@ -280,6 +354,11 @@ public class TeamDraftStage extends Stage {
 		}
 	}
 	
+	/**
+	 * Gets the selected units.
+	 *
+	 * @return the selected units
+	 */
 	public List<Unit> getSelectedUnits(){
 		ArrayList<Unit> units = new ArrayList<Unit>();
 		units.addAll(lordList.getSelectedUnits());
@@ -288,6 +367,9 @@ public class TeamDraftStage extends Stage {
 		return units;
 	}
 	
+	/**
+	 * Refresh.
+	 */
 	public void refresh(){
 		lordList.refresh();
 		vassalList.refresh();
@@ -295,6 +377,10 @@ public class TeamDraftStage extends Stage {
 		cursor.on = true;
 		checkFlow();
 	}
+	
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#beginStep()
+	 */
 	@Override
 	public void beginStep() {
 		for(Entity e: entities){
@@ -402,6 +488,9 @@ public class TeamDraftStage extends Stage {
 		}
 	}
 	
+	/**
+	 * Up.
+	 */
 	private void up(){
 		if(cursor.index < 0)
 			buttons[-cursor.index-1].setHover(false);
@@ -422,6 +511,9 @@ public class TeamDraftStage extends Stage {
 		checkFlow();
 	}
 	
+	/**
+	 * Down.
+	 */
 	private void down(){
 		if(cursor.index < 0)
 			buttons[-cursor.index-1].setHover(false);
@@ -441,6 +533,9 @@ public class TeamDraftStage extends Stage {
 		checkFlow();
 	}
 	
+	/**
+	 * Left.
+	 */
 	private void left(){
 		AudioPlayer.playAudio("cursor");
 		if(cursor.index < 0)
@@ -449,6 +544,9 @@ public class TeamDraftStage extends Stage {
 		checkFlow();
 	}
 	
+	/**
+	 * Right.
+	 */
 	private void right(){
 		AudioPlayer.playAudio("cursor");
 		if(cursor.index < 0)
@@ -460,6 +558,9 @@ public class TeamDraftStage extends Stage {
 		}
 	}
 	
+	/**
+	 * Check flow.
+	 */
 	private void checkFlow(){
 		if(cursor.index >= lordList.size() + vassalList.size()) {
 			cursor.index = -buttons.length;
@@ -481,6 +582,9 @@ public class TeamDraftStage extends Stage {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#render()
+	 */
 	public void render(){
 		super.render();
 		// Draft turns
@@ -545,6 +649,9 @@ public class TeamDraftStage extends Stage {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#onStep()
+	 */
 	@Override
 	public void onStep() {
 		
@@ -553,6 +660,9 @@ public class TeamDraftStage extends Stage {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#endStep()
+	 */
 	@Override
 	public void endStep() {
 		for(Entity e: entities){
@@ -560,10 +670,20 @@ public class TeamDraftStage extends Stage {
 		}
 	}
 	
+	/**
+	 * Gets the max units.
+	 *
+	 * @return the max units
+	 */
 	public int getMaxUnits(){
 		return maxVassals;
 	}
 	
+	/**
+	 * Gets the all units.
+	 *
+	 * @return the all units
+	 */
 	public List<Unit> getAllUnits() {
 		List<Unit> ans = new ArrayList<Unit>();
 		ans.addAll(vassalList.getUnits());
@@ -571,15 +691,31 @@ public class TeamDraftStage extends Stage {
 		return ans;
 	}
 	
+	/**
+	 * The Class Cursor.
+	 */
 	private class Cursor extends Entity{
+		
+		/** The index. */
 		int index;
+		
+		/** The on. */
 		boolean on = true;
+		
+		/** The instant. */
 		boolean instant = false;
+		
+		/**
+		 * Instantiates a new cursor.
+		 */
 		public Cursor() {
 			super(0,0);
 			renderDepth = 0.5f;
 		}
 		
+		/* (non-Javadoc)
+		 * @see chu.engine.Entity#onStep()
+		 */
 		public void onStep(){
 			if(!on){
 				return;
@@ -612,6 +748,9 @@ public class TeamDraftStage extends Stage {
 			}
 		}
 		
+		/**
+		 * Select.
+		 */
 		public void select(){
 			
 			if(on){
@@ -640,6 +779,9 @@ public class TeamDraftStage extends Stage {
 			}
 		}
 		
+		/* (non-Javadoc)
+		 * @see chu.engine.Entity#render()
+		 */
 		public void render(){
 			if(on)
 			Renderer.drawRectangle(x+1, y+1, x+UnitList.WIDTH-1, 
@@ -648,28 +790,63 @@ public class TeamDraftStage extends Stage {
 		
 	}
 	
+	/**
+	 * The Class SortByClass.
+	 */
 	private class SortByClass implements Comparator<UnitSet> {
+		
+		/* (non-Javadoc)
+		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+		 */
 		@Override
 		public int compare(UnitSet arg0, UnitSet arg1) {
 			return arg0.unit.getTheClass().name.compareTo(arg1.unit.getTheClass().name);
 		}
 	}
 	
+	/**
+	 * The Class SortByName.
+	 */
 	private class SortByName implements Comparator<UnitSet> {
+		
+		/* (non-Javadoc)
+		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+		 */
 		@Override
 		public int compare(UnitSet arg0, UnitSet arg1) {
 			return arg0.unit.name.compareTo(arg1.unit.name);
 		}
 	}
 	
+	/**
+	 * The Class DraftTimer.
+	 */
 	private class DraftTimer extends Entity {
 		
+		/** The active. */
 		private boolean active;
+		
+		/** The timer. */
 		private float timer;
+		
+		/** The last stop time. */
 		private float lastStopTime;
+		
+		/** The bonus. */
 		private float bonus;
+		
+		/** The player. */
 		public Player player;
 
+		/**
+		 * Instantiates a new draft timer.
+		 *
+		 * @param x the x
+		 * @param y the y
+		 * @param initTime the init time
+		 * @param bonus the bonus
+		 * @param p the p
+		 */
 		public DraftTimer(float x, float y, float initTime, float bonus, Player p) {
 			super(x, y);
 			timer = initTime;
@@ -680,6 +857,9 @@ public class TeamDraftStage extends Stage {
 			this.player = p;
 		}
 		
+		/* (non-Javadoc)
+		 * @see chu.engine.Entity#beginStep()
+		 */
 		public void beginStep() {
 			if(active)
 				timer -= Game.getDeltaSeconds();
@@ -692,17 +872,26 @@ public class TeamDraftStage extends Stage {
 			}
 		}
 		
+		/**
+		 * Start.
+		 */
 		public void start() {
 			active = true;
 			lastStopTime = timer;
 		}
 		
+		/**
+		 * Stop.
+		 */
 		public void stop() {
 			active = false;
 			timer = Math.min(timer + bonus, lastStopTime);
 			lastStopTime = timer;
 		}
 		
+		/* (non-Javadoc)
+		 * @see chu.engine.Entity#render()
+		 */
 		public void render() {
 			Transform t = new Transform();
 			if(active) t.color = new Color(0f, 0.8f, 0f, 1f);

@@ -8,11 +8,27 @@ import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.event.*;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BalancerRow.
+ */
 public class BalancerRow extends JPanel{
+	
+	/** The data. */
 	private BalanceData data;
+	
+	/** The tab. */
 	private BalancerTab tab;
+	
+	/** The values. */
 	private HashMap<String, JLabel> values;
 	
+	/**
+	 * Instantiates a new balancer row.
+	 *
+	 * @param d the d
+	 * @param tab the tab
+	 */
 	public BalancerRow(BalanceData d, BalancerTab tab){
 		this.data = d;
 		this.tab = tab;
@@ -61,10 +77,20 @@ public class BalancerRow extends JPanel{
 		refresh();
 		setMaximumSize(getPreferredSize());
 	}
+	
+	/**
+	 * Sets the vertical alignment.
+	 *
+	 * @param top the new vertical alignment
+	 */
 	private void setVerticalAlignment(int top) {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	/**
+	 * Refresh.
+	 */
 	public void refresh(){
 		int lv = tab.getLevel();
 		for(String stat: BalanceData.ORDER){
@@ -73,6 +99,11 @@ public class BalancerRow extends JPanel{
 		}
 	}
 	
+	/**
+	 * Export string.
+	 *
+	 * @return the string
+	 */
 	public String exportString(){
 		return data.exportString();
 	}

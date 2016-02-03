@@ -61,6 +61,7 @@ import net.fe.unit.UnitIdentifier;
 import chu.engine.Game;
 import chu.engine.Stage;
 
+// TODO: Auto-generated Javadoc
 /**
  * A game that does not render anything. Manages logic only
  * @author Shawn
@@ -68,11 +69,23 @@ import chu.engine.Stage;
  */
 public class FEServer extends Game {
 	
+	/** The server. */
 	private static Server server;
+	
+	/** The current stage. */
 	private static Stage currentStage;
+	
+	/** The lobby. */
 	public static LobbyStage lobby;
+	
+	/** The maps. */
 	private static Map<String, Objective[]> maps;
 	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		final JFrame frame = new JFrame("FEServer");
 		
@@ -82,6 +95,7 @@ public class FEServer extends Game {
 		maps = new HashMap<String, Objective[]>();
 		maps.put("delphino", new Objective[]{rout});
 		maps.put("town", new Objective[]{rout});
+		maps.put("alpea", new Objective[]{seize});
 		maps.put("plains", new Objective[]{rout, seize});
 		maps.put("fort", new Objective[]{rout, seize});
 		maps.put("decay", new Objective[]{rout, seize});
@@ -269,15 +283,26 @@ public class FEServer extends Game {
 		frame.setVisible(true);
 	}
 	
+	/**
+	 * Gets the session.
+	 *
+	 * @return the session
+	 */
 	protected Session getSession() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * Instantiates a new FE server.
+	 */
 	public FEServer() {
 		server = new Server();
 	}
 	
+	/**
+	 * Inits the.
+	 */
 	public void init() {
 		messages = new CopyOnWriteArrayList<Message>();
 		Thread serverThread = new Thread() {
@@ -290,6 +315,12 @@ public class FEServer extends Game {
 		serverThread.start();
 	}
 	
+	/**
+	 * Gets the unit.
+	 *
+	 * @param id the id
+	 * @return the unit
+	 */
 	public static Unit getUnit(UnitIdentifier id){
 		for(Player p: getPlayers().values()){
 			if(!p.isSpectator() && p.getParty().getColor().equals(id.partyColor)){
@@ -299,6 +330,9 @@ public class FEServer extends Game {
 		return null;
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Game#loop()
+	 */
 	@Override
 	public void loop() {
 		boolean yes = true;
@@ -315,22 +349,45 @@ public class FEServer extends Game {
 		}
 	}
 	
+	/**
+	 * Gets the current stage.
+	 *
+	 * @return the current stage
+	 */
 	public static Stage getCurrentStage() {
 		return currentStage;
 	}
 	
+	/**
+	 * Sets the current stage.
+	 *
+	 * @param stage the new current stage
+	 */
 	public static void setCurrentStage(Stage stage) {
 		currentStage = stage;
 	}
 
+	/**
+	 * Gets the server.
+	 *
+	 * @return the server
+	 */
 	public static Server getServer() {
 		return server;
 	}
 	
+	/**
+	 * Gets the players.
+	 *
+	 * @return the players
+	 */
 	public static HashMap<Byte, Player> getPlayers() {
 		return server.getSession().getPlayerMap();
 	}
 
+	/**
+	 * Reset to lobby.
+	 */
 	public static void resetToLobby() {
 		for(Player p : getPlayers().values()) {
 			p.ready = false;
@@ -338,6 +395,10 @@ public class FEServer extends Game {
 		FEServer.getServer().allowConnections = false;
 		currentStage = lobby;
 	}
+	
+	/**
+	 * Reset to lobby and kick players.
+	 */
 	public static void resetToLobbyAndKickPlayers(){
 		resetToLobby();
 		ArrayList<Integer> ids = new ArrayList<Integer>();
@@ -349,6 +410,12 @@ public class FEServer extends Game {
 		}
 		
 	}
+	
+	/**
+	 * Log.
+	 *
+	 * @param s the s
+	 */
 	public static void log(String s){
 		server.log.log(s);
 	}

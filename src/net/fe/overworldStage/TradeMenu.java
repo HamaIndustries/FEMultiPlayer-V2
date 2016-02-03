@@ -8,14 +8,35 @@ import net.fe.FEResources;
 import net.fe.fightStage.FightStage;
 import net.fe.unit.Unit;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TradeMenu.
+ */
 public class TradeMenu extends InventoryMenu {
+	
+	/** The mug. */
 	private Texture mug;
+	
+	/** The flip. */
 	private boolean flip;
+	
+	/**
+	 * Instantiates a new trade menu.
+	 *
+	 * @param u the u
+	 * @param x the x
+	 * @param y the y
+	 * @param flip the flip
+	 */
 	public TradeMenu(Unit u, float x, float y, boolean flip) {
 		super(u,x,y);
 		mug = FEResources.getTexture(u.name.toLowerCase()+"_mugshot");
 		this.flip = flip;
 	}
+	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.Menu#render()
+	 */
 	public void render(){
 		int imageW = mug.getImageWidth();
 		int imageH = mug.getImageHeight();

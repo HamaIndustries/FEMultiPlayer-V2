@@ -10,10 +10,29 @@ import chu.engine.anim.Renderer;
 import chu.engine.anim.ShaderArgs;
 import chu.engine.anim.Transform;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UnitIcon.
+ */
 public class UnitIcon extends Entity {
+	
+	/** The c. */
 	private Color c;
+	
+	/** The u. */
 	private Unit u;
+	
+	/** The greyscale. */
 	private boolean greyscale;
+	
+	/**
+	 * Instantiates a new unit icon.
+	 *
+	 * @param u the u
+	 * @param x the x
+	 * @param y the y
+	 * @param depth the depth
+	 */
 	public UnitIcon(Unit u, float x, float y, float depth){
 		super(x, y);
 		this.u = u;
@@ -25,9 +44,17 @@ public class UnitIcon extends Entity {
 				"_map_idle", false));
 		renderDepth = depth;
 	}
+	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#onStep()
+	 */
 	public void onStep(){
 		super.onStep();
 	}
+	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render(){
 		if(FEResources.hasTexture(u.functionalClassName().toLowerCase() + "_map_idle")){
 			Transform t = new Transform();
@@ -49,9 +76,21 @@ public class UnitIcon extends Entity {
 			
 		}
 	}
+	
+	/**
+	 * Checks if is greyscale.
+	 *
+	 * @return true, if is greyscale
+	 */
 	public boolean isGreyscale() {
 		return greyscale;
 	}
+	
+	/**
+	 * Sets the greyscale.
+	 *
+	 * @param greyscale the new greyscale
+	 */
 	public void setGreyscale(boolean greyscale) {
 		this.greyscale = greyscale;
 	}

@@ -5,16 +5,36 @@ import net.fe.Command;
 import net.fe.overworldStage.*;
 import net.fe.unit.Unit;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UnitSelected.
+ */
 public class UnitSelected extends CursorContext {
+	
+	/** The heal. */
 	private Zone move, attack, heal;
+	
+	/** The selected. */
 	private Unit selected;
+	
+	/** The path. */
 	private Path path;
 
+	/**
+	 * Instantiates a new unit selected.
+	 *
+	 * @param s the s
+	 * @param prev the prev
+	 * @param u the u
+	 */
 	public UnitSelected(ClientOverworldStage s, OverworldContext prev, Unit u) {
 		super(s, prev);
 		selected = u;
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#startContext()
+	 */
 	public void startContext(){
 		super.startContext();
 		selected.sprite.setAnimation("DOWN");
@@ -33,6 +53,9 @@ public class UnitSelected extends CursorContext {
 		updatePath();
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#cleanUp()
+	 */
 	public void cleanUp(){
 		stage.removeEntity(attack);
 		stage.removeEntity(move);
@@ -40,6 +63,9 @@ public class UnitSelected extends CursorContext {
 		stage.removeEntity(path);
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#onSelect()
+	 */
 	@Override
 	public void onSelect() {
 		if (path == null) return;
@@ -58,6 +84,9 @@ public class UnitSelected extends CursorContext {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#onCancel()
+	 */
 	@Override
 	public void onCancel() {
 		cursor.setXCoord(selected.getOrigX());
@@ -65,15 +94,24 @@ public class UnitSelected extends CursorContext {
 		super.onCancel();
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.CursorContext#cursorWillChange()
+	 */
 	public void cursorWillChange(){
 		//Nothing
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.CursorContext#cursorChanged()
+	 */
 	public void cursorChanged() {
 		updatePath();
 		AudioPlayer.playAudio("cursor");
 	}
 
+	/**
+	 * Update path.
+	 */
 	private void updatePath() {
 		stage.removeEntity(path);
 		path = stage.grid.getShortestPath(selected, cursor.getXCoord(),

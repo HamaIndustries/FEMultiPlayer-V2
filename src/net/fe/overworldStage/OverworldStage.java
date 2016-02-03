@@ -40,14 +40,35 @@ import org.newdawn.slick.util.ResourceLoader;
 import chu.engine.Game;
 import chu.engine.Stage;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class OverworldStage.
+ */
 public class OverworldStage extends Stage {
+	
+	/** The grid. */
 	public Grid grid;
+	
+	/** The chat. */
 	protected Chat chat;
+	
+	/** The session. */
 	protected Session session;
+	
+	/** The turn order. */
 	private ArrayList<Player> turnOrder;
+	
+	/** The current player. */
 	private int currentPlayer;
+	
+	/** The turn count. */
 	private int turnCount;
 
+	/**
+	 * Instantiates a new overworld stage.
+	 *
+	 * @param s the s
+	 */
 	public OverworldStage(Session s) {
 		super(null);
 		this.session = s;
@@ -72,6 +93,12 @@ public class OverworldStage extends Stage {
 		processAddStack();
 	}
 	
+	/**
+	 * Gets the player by id.
+	 *
+	 * @param id the id
+	 * @return the player by id
+	 */
 	public Player getPlayerByID(int id) {
 		for(Player p : session.getPlayers()) {
 			if(p.getID() == id) {
@@ -81,24 +108,56 @@ public class OverworldStage extends Stage {
 		return null;
 	}
 	
+	/**
+	 * Gets the current player.
+	 *
+	 * @return the current player
+	 */
 	public Player getCurrentPlayer() {
 		return turnOrder.get(currentPlayer);
 	}
 	
+	/**
+	 * Gets the next player.
+	 *
+	 * @return the next player
+	 */
 	public Player getNextPlayer() {
 		int i = currentPlayer + 1;
 		if(i >= turnOrder.size()) i = 0;
 		return turnOrder.get(i);
 	}
 
+	/**
+	 * Gets the terrain.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @return the terrain
+	 */
 	public Terrain getTerrain(int x, int y) {
 		return grid.getTerrain(x, y);
 	}
 
+	/**
+	 * Gets the unit.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @return the unit
+	 */
 	public Unit getUnit(int x, int y) {
 		return grid.getUnit(x, y);
 	}
 
+	/**
+	 * Adds the unit.
+	 *
+	 * @param u the u
+	 * @param x the x
+	 * @param y the y
+	 * @return true, if successful
+	 */
 	public boolean addUnit(Unit u, int x, int y) {
 		if (grid.addUnit(u, x, y)) {
 			this.addEntity(u);
@@ -108,6 +167,13 @@ public class OverworldStage extends Stage {
 		}
 	}
 
+	/**
+	 * Removes the unit.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @return the unit
+	 */
 	public Unit removeUnit(int x, int y) {
 		Unit u = grid.removeUnit(x, y);
 		if (u != null) {
@@ -116,11 +182,21 @@ public class OverworldStage extends Stage {
 		return u;
 	}
 	
+	/**
+	 * Removes the unit.
+	 *
+	 * @param u the u
+	 */
 	public void removeUnit(Unit u) {
 		grid.removeUnit(u.getXCoord(), u.getYCoord());
 		this.removeEntity(u);
 	}
 	
+	/**
+	 * Load level.
+	 *
+	 * @param levelName the level name
+	 */
 	public void loadLevel(String levelName) {
         try {
         	InputStream in = ResourceLoader.getResourceAsStream("levels/"+levelName+".lvl");
@@ -177,6 +253,9 @@ public class OverworldStage extends Stage {
         }
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#beginStep()
+	 */
 	@Override
 	public void beginStep() {
 		for(Message message : Game.getMessages()) {
@@ -217,6 +296,11 @@ public class OverworldStage extends Stage {
 		}
 	}
 	
+	/**
+	 * Do end turn.
+	 *
+	 * @param playerID the player id
+	 */
 	protected void doEndTurn(int playerID) {
 		for(int x = 0; x < grid.width; x++){
 			for(int y = 0; y < grid.height; y++){
@@ -241,6 +325,11 @@ public class OverworldStage extends Stage {
 		checkEndGame();
 	}
 	
+	/**
+	 * Do start turn.
+	 *
+	 * @param playerID the player id
+	 */
 	protected void doStartTurn(int playerID) {
 		for(int x = 0; x < grid.width; x++){
 			for(int y = 0; y < grid.height; y++){
@@ -254,10 +343,22 @@ public class OverworldStage extends Stage {
 		}
 	}
 	
+	/**
+	 * Before trigger hook.
+	 *
+	 * @param t the t
+	 * @param x the x
+	 * @param y the y
+	 */
 	protected void beforeTriggerHook(TerrainTrigger t, int x, int y){
 		
 	}
 
+	/**
+	 * Process commands.
+	 *
+	 * @param message the message
+	 */
 	public void processCommands(CommandMessage message) {
 		CommandMessage cmds = (CommandMessage) message;
 		//TODO: command validation
@@ -333,6 +434,9 @@ public class OverworldStage extends Stage {
 		checkEndGame();
 	}
 
+	/**
+	 * Check end game.
+	 */
 	public void checkEndGame() {
 		// Objective evaluation
 		int winner = session.getObjective().evaluate(this);
@@ -347,6 +451,12 @@ public class OverworldStage extends Stage {
 		}
 	}
 
+	/**
+	 * Gets the unit.
+	 *
+	 * @param id the id
+	 * @return the unit
+	 */
 	protected Unit getUnit(UnitIdentifier id) {
 		for(Player p: session.getPlayers()){
 			if(!p.isSpectator() && p.getParty().getColor().equals(id.partyColor)){
@@ -356,21 +466,37 @@ public class OverworldStage extends Stage {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#onStep()
+	 */
 	@Override
 	public void onStep() {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#endStep()
+	 */
 	@Override
 	public void endStep() {
 		
 	}
 
+	/**
+	 * Gets the players.
+	 *
+	 * @return the players
+	 */
 	public Player[] getPlayers() {
 		return session.getPlayers();
 	}
 	
+	/**
+	 * Gets the non spectators.
+	 *
+	 * @return the non spectators
+	 */
 	public ArrayList<Player> getNonSpectators() {
 		ArrayList<Player> ans = new ArrayList<Player>();
 		for(Player p : session.getPlayers()) {
@@ -379,14 +505,29 @@ public class OverworldStage extends Stage {
 		return ans;
 	}
 	
+	/**
+	 * Gets the objective.
+	 *
+	 * @return the objective
+	 */
 	public Objective getObjective(){
 		return session.getObjective();
 	}
 	
+	/**
+	 * Gets the turn count.
+	 *
+	 * @return the turn count
+	 */
 	public int getTurnCount(){
 		return turnCount;
 	}
 
+	/**
+	 * Gets the all units.
+	 *
+	 * @return the all units
+	 */
 	public List<Unit> getAllUnits() {
 		List<Unit> units = new ArrayList<Unit>();
 		for(Player p : session.getPlayers()) {
@@ -399,8 +540,9 @@ public class OverworldStage extends Stage {
 
 	/**
 	 *  Returns a list of players in the turn order, 
-	 *  with the first player being the current player
-	 * @return
+	 *  with the first player being the current player.
+	 *
+	 * @return the turn order
 	 */
 	public Player[] getTurnOrder() {
 		Player[] t = new Player[turnOrder.size()];

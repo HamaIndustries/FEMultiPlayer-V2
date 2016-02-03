@@ -9,15 +9,36 @@ import chu.engine.Entity;
 import chu.engine.Game;
 import chu.engine.anim.Renderer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Healthbar.
+ */
 public class Healthbar extends Entity {
+	
+	/** The total health. */
 	private int totalHealth;
+	
+	/** The current health. */
 	private int currentHealth;
+	
+	/** The displayed health. */
 	private float displayedHealth;
+	
+	/** The done animating. */
 	public boolean doneAnimating;
+	
+	/** The do not set. */
 	private boolean doNotSet;
 	
+	/** The empty. */
 	private static Texture filled, empty;
 
+	/**
+	 * Instantiates a new healthbar.
+	 *
+	 * @param u the u
+	 * @param left the left
+	 */
 	public Healthbar(Unit u, boolean left) {
 		super(0, 0);
 		doneAnimating = true;
@@ -41,6 +62,9 @@ public class Healthbar extends Entity {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render() {
 		int offY = 0;
 		int offX = 0;
@@ -64,6 +88,9 @@ public class Healthbar extends Entity {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#onStep()
+	 */
 	public void onStep() {
 		if(Math.abs(displayedHealth-currentHealth) >= 1){
 			doneAnimating = false;
@@ -76,15 +103,31 @@ public class Healthbar extends Entity {
 		}
 	}
 	
+	/**
+	 * Gets the hp.
+	 *
+	 * @return the hp
+	 */
 	public int getHp(){
 		return currentHealth;
 	}
 	
+	/**
+	 * Sets the hp.
+	 *
+	 * @param hp the new hp
+	 */
 	public void setHp(int hp){
 		currentHealth = hp;
 		doNotSet = false;
 	}
 	
+	/**
+	 * Sets the hp.
+	 *
+	 * @param hp the hp
+	 * @param stateShift the state shift
+	 */
 	public void setHp(int hp, boolean stateShift){
 		doNotSet = !stateShift;
 		setHp(hp);

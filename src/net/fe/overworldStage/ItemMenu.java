@@ -7,15 +7,34 @@ import chu.engine.anim.Renderer;
 import net.fe.FEResources;
 import net.fe.unit.ItemDisplay;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ItemMenu.
+ */
 public class ItemMenu extends Menu<ItemDisplay> {
+	
+	/** The draw uses. */
 	protected boolean drawUses;
+	
+	/** The draw cost. */
 	protected boolean drawCost;
+	
+	/**
+	 * Instantiates a new item menu.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 */
 	public ItemMenu(float x, float y){
 		super(x,y);
 		setWidth(98);
 		height = 17;
 		drawUses = true;
 	}
+	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.Menu#renderItem(java.lang.Object, int)
+	 */
 	public void renderItem(ItemDisplay w, int offsetY){
 		if(w == null) return;
 		w.x = this.x;
@@ -41,6 +60,9 @@ public class ItemMenu extends Menu<ItemDisplay> {
 		}
 	}
 	
+	/**
+	 * Sort items.
+	 */
 	public void sortItems(){
 		Collections.sort(items, new Comparator<ItemDisplay>(){
 			@Override

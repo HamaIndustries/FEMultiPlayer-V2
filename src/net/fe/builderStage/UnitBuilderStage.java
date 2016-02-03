@@ -28,22 +28,50 @@ import chu.engine.Stage;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Renderer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UnitBuilderStage.
+ */
 public class UnitBuilderStage extends Stage {
+	
+	/** The unit. */
 	private Unit unit;
+	
+	/** The shop. */
 	private ShopMenu shop;
+	
+	/** The inv. */
 	private InventoryMenu inv;
+	
+	/** The repeat timers. */
 	private float[] repeatTimers = new float[4];
+	
+	/** The back. */
 	private TeamBuilderStage back;
+	
+	/** The state. */
 	private State state;
+	
+	/** The level down. */
 	private Button levelUp, levelDown;
+	
+	/** The controls. */
 	private ControlsDisplay controls;
 	
+	/** The Constant INFO_H. */
 	//CONFIG
 	public static final int
 	INVENTORY_X = 30, INVENTORY_Y = 115, SHOP_X = 335, SHOP_Y = 20, 
 	LEVEL_X = 175, LEVEL_Y = 115,
 	INFO_X = 7, INFO_Y = 236, INFO_W = 316, INFO_H = 56;
 	
+	/**
+	 * Instantiates a new unit builder stage.
+	 *
+	 * @param u the u
+	 * @param s the s
+	 * @param session the session
+	 */
 	public UnitBuilderStage(Unit u, TeamBuilderStage s, Session session){
 		super("preparations");
 		addEntity(new RunesBg(new Color(0xd2b48c)));
@@ -108,6 +136,9 @@ public class UnitBuilderStage extends Stage {
 		state = new Normal();
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#render()
+	 */
 	public void render(){
 		super.render();
 		Renderer.drawString("default_med", "Items", INVENTORY_X, INVENTORY_Y - 14, 0);
@@ -120,6 +151,9 @@ public class UnitBuilderStage extends Stage {
 		state.render();
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#beginStep()
+	 */
 	@Override
 	public void beginStep() {
 		for (Entity e : entities) {
@@ -171,6 +205,9 @@ public class UnitBuilderStage extends Stage {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#onStep()
+	 */
 	@Override
 	public void onStep() {
 		for (Entity e : entities) {
@@ -181,6 +218,9 @@ public class UnitBuilderStage extends Stage {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#endStep()
+	 */
 	@Override
 	public void endStep() {
 		for (Entity e : entities) {
@@ -190,12 +230,17 @@ public class UnitBuilderStage extends Stage {
 		processRemoveStack();
 	}
 	
+	/**
+	 * Render item.
+	 *
+	 * @param i the i
+	 */
 	public void renderItem(Item i){
 		Renderer.drawString("default_med", i.name, INFO_X + 2, INFO_Y + 4, 1);
 		if(i instanceof HealingItem){
 			HealingItem potion = (HealingItem) i;
 			Renderer.drawString("default_med", "Heals " + potion.amount + " HP", INFO_X+8, INFO_Y+28, 1);
-		} else if (shop.getItem() instanceof Weapon){
+		} else if (i instanceof Weapon){
 			Weapon wep = (Weapon) i;
 			Renderer.drawString("default_med", "Mt " + wep.mt, INFO_X+8, INFO_Y+20, 1);
 			Renderer.drawString("default_med", "Hit " + wep.hit, INFO_X+68, INFO_Y+20, 1);
@@ -264,18 +309,60 @@ public class UnitBuilderStage extends Stage {
 		}
 	}
 	
+	/**
+	 * The Class State.
+	 */
 	private abstract class State{
+		
+		/**
+		 * Up.
+		 */
 		public abstract void up();
+		
+		/**
+		 * Down.
+		 */
 		public abstract void down();
+		
+		/**
+		 * Left.
+		 */
 		public abstract void left();
+		
+		/**
+		 * Right.
+		 */
 		public abstract void right();
+		
+		/**
+		 * Select.
+		 */
 		public abstract void select();
+		
+		/**
+		 * Cancel.
+		 */
 		public abstract void cancel();
+		
+		/**
+		 * Render.
+		 */
 		public abstract void render();
+		
+		/**
+		 * Update controls.
+		 */
 		public abstract void updateControls();
 	}
 	
+	/**
+	 * The Class Normal.
+	 */
 	private class Normal extends State {
+		
+		/* (non-Javadoc)
+		 * @see net.fe.builderStage.UnitBuilderStage.State#up()
+		 */
 		@Override
 		public void up() {
 			AudioPlayer.playAudio("cursor2");
@@ -296,6 +383,9 @@ public class UnitBuilderStage extends Stage {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see net.fe.builderStage.UnitBuilderStage.State#down()
+		 */
 		@Override
 		public void down() {
 			AudioPlayer.playAudio("cursor2");
@@ -316,6 +406,9 @@ public class UnitBuilderStage extends Stage {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see net.fe.builderStage.UnitBuilderStage.State#left()
+		 */
 		@Override
 		public void left() {
 			AudioPlayer.playAudio("cursor2");
@@ -337,11 +430,17 @@ public class UnitBuilderStage extends Stage {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see net.fe.builderStage.UnitBuilderStage.State#right()
+		 */
 		@Override
 		public void right() {
 			left();
 		}
 
+		/* (non-Javadoc)
+		 * @see net.fe.builderStage.UnitBuilderStage.State#select()
+		 */
 		@Override
 		public void select() {
 			
@@ -368,12 +467,18 @@ public class UnitBuilderStage extends Stage {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see net.fe.builderStage.UnitBuilderStage.State#cancel()
+		 */
 		@Override
 		public void cancel() {
 			AudioPlayer.playAudio("cancel");
 			FEMultiplayer.setCurrentStage(back);
 		}
 		
+		/* (non-Javadoc)
+		 * @see net.fe.builderStage.UnitBuilderStage.State#render()
+		 */
 		public void render(){
 			Renderer.drawBorderedRectangle(INFO_X, INFO_Y, INFO_X+INFO_W, INFO_Y+INFO_H, 1,
 					FightStage.NEUTRAL, FightStage.BORDER_LIGHT, FightStage.BORDER_DARK);
@@ -403,6 +508,9 @@ public class UnitBuilderStage extends Stage {
 			}
 		}
 		
+		/* (non-Javadoc)
+		 * @see net.fe.builderStage.UnitBuilderStage.State#updateControls()
+		 */
 		public void updateControls(){
 			controls.set("X", "Back");
 			if(levelUp.hovered() || levelDown.hovered()){
@@ -416,31 +524,50 @@ public class UnitBuilderStage extends Stage {
 		
 	}
 	
+	/**
+	 * The Class Shop.
+	 */
 	private class Shop extends State{
+		
+		/* (non-Javadoc)
+		 * @see net.fe.builderStage.UnitBuilderStage.State#up()
+		 */
 		@Override
 		public void up() {
 			AudioPlayer.playAudio("cursor2");
 			shop.up();
 		}
 
+		/* (non-Javadoc)
+		 * @see net.fe.builderStage.UnitBuilderStage.State#down()
+		 */
 		@Override
 		public void down() {
 			AudioPlayer.playAudio("cursor2");
 			shop.down();
 		}
 
+		/* (non-Javadoc)
+		 * @see net.fe.builderStage.UnitBuilderStage.State#left()
+		 */
 		@Override
 		public void left() {
 			AudioPlayer.playAudio("sword_swipe2");
 			shop.left();
 		}
 
+		/* (non-Javadoc)
+		 * @see net.fe.builderStage.UnitBuilderStage.State#right()
+		 */
 		@Override
 		public void right() {
 			AudioPlayer.playAudio("sword_swipe2");
 			shop.right();
 		}
 
+		/* (non-Javadoc)
+		 * @see net.fe.builderStage.UnitBuilderStage.State#select()
+		 */
 		@Override
 		public void select() {
 			Item i = shop.getItem();
@@ -451,6 +578,9 @@ public class UnitBuilderStage extends Stage {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see net.fe.builderStage.UnitBuilderStage.State#cancel()
+		 */
 		@Override
 		public void cancel() {
 			AudioPlayer.playAudio("cancel");
@@ -459,12 +589,18 @@ public class UnitBuilderStage extends Stage {
 			state = new Normal();
 		}
 		
+		/* (non-Javadoc)
+		 * @see net.fe.builderStage.UnitBuilderStage.State#render()
+		 */
 		public void render(){
 			Renderer.drawBorderedRectangle(INFO_X, INFO_Y, INFO_X+INFO_W, INFO_Y+INFO_H, 1,
 					FightStage.NEUTRAL, FightStage.BORDER_LIGHT, FightStage.BORDER_DARK);
 			renderItem(shop.getItem());
 		}
 		
+		/* (non-Javadoc)
+		 * @see net.fe.builderStage.UnitBuilderStage.State#updateControls()
+		 */
 		public void updateControls(){
 			controls.set("Z", "Buy");
 			controls.set("X", "Cancel");
@@ -472,6 +608,11 @@ public class UnitBuilderStage extends Stage {
 		
 	}
 
+	/**
+	 * Gets the session.
+	 *
+	 * @return the session
+	 */
 	public Session getSession() {
 		return back.getSession();
 	}

@@ -7,17 +7,35 @@ import net.fe.overworldStage.Zone;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GiveTarget.
+ */
 public class GiveTarget extends SelectTargetContext {
 
+	/**
+	 * Instantiates a new give target.
+	 *
+	 * @param stage the stage
+	 * @param context the context
+	 * @param z the z
+	 * @param u the u
+	 */
 	public GiveTarget(ClientOverworldStage stage, OverworldContext context, Zone z,
 			Unit u) {
 		super(stage, context, z, u, true);
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.SelectTargetContext#validTarget(net.fe.unit.Unit)
+	 */
 	public boolean validTarget(Unit u){
 		return super.validTarget(u) && u.rescuedUnit() == null;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.SelectTargetContext#unitSelected(net.fe.unit.Unit)
+	 */
 	@Override
 	public void unitSelected(Unit u) {
 		stage.addCmd("GIVE");

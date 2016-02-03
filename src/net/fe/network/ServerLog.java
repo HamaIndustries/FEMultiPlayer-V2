@@ -5,9 +5,18 @@ import java.util.ArrayList;
 
 import net.fe.RNG;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ServerLog.
+ */
 public class ServerLog {
+	
+	/** The message log. */
 	private ArrayList<String> messageLog;
 
+	/**
+	 * Instantiates a new server log.
+	 */
 	public ServerLog() {
 		File logDir = new File("logs");
 		if(!logDir.isDirectory()) logDir.mkdir();
@@ -20,15 +29,29 @@ public class ServerLog {
 		});
 	}
 
+	/**
+	 * Log message.
+	 *
+	 * @param m the m
+	 * @param sent the sent
+	 */
 	public void logMessage(Message m, boolean sent) {
 		log((sent?"[SEND]":"[RCVE]") + m.toString());
 	}
 	
+	/**
+	 * Log.
+	 *
+	 * @param s the s
+	 */
 	public void log(String s){
 		messageLog.add(s);
 		System.out.println(s);
 	}
 
+	/**
+	 * Spit log.
+	 */
 	public void spitLog() {
 		if(messageLog.size() == 0) return;
 		System.out.println("Spitting logs...");

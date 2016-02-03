@@ -6,9 +6,18 @@ import java.util.Scanner;
 
 import org.newdawn.slick.util.ResourceLoader;
 
+// TODO: Auto-generated Javadoc
+/**
+ * A factory for creating Unit objects.
+ */
 public class UnitFactory {
+	
+	/** The units. */
 	private static HashMap<String, Unit> units = new HashMap<String, Unit>();
 	
+	/**
+	 * Load units.
+	 */
 	public static void loadUnits() {
 		Scanner in = new Scanner(ResourceLoader.getResourceAsStream("res/stats.txt"));
 		while(in.hasNextLine()){
@@ -99,10 +108,21 @@ public class UnitFactory {
 		in.close();
 	}
 	
+	/**
+	 * Gets the unit.
+	 *
+	 * @param name the name
+	 * @return the unit
+	 */
 	public static Unit getUnit(String name){
 		return units.get(name).getCopy();
 	}
 	
+	/**
+	 * Gets the all units.
+	 *
+	 * @return the all units
+	 */
 	public static ArrayList<Unit> getAllUnits() {
 		ArrayList<Unit> ans = new ArrayList<Unit>();
 		for(Unit u : units.values()) {
@@ -111,6 +131,11 @@ public class UnitFactory {
 		return ans;
 	}
 	
+	/**
+	 * Gets the lords.
+	 *
+	 * @return the lords
+	 */
 	public static ArrayList<Unit> getLords(){
 		ArrayList<Unit> ans = new ArrayList<Unit>();
 		for(Unit u : units.values()) {
@@ -120,6 +145,11 @@ public class UnitFactory {
 		return ans;
 	}
 	
+	/**
+	 * Gets the vassals.
+	 *
+	 * @return the vassals
+	 */
 	public static ArrayList<Unit> getVassals(){
 		ArrayList<Unit> ans = new ArrayList<Unit>();
 		for(Unit u : units.values()) {

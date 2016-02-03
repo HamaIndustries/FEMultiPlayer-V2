@@ -19,15 +19,32 @@ import chu.engine.KeyboardEvent;
 import chu.engine.Stage;
 import chu.engine.anim.Renderer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class EndGameStage.
+ */
 public class EndGameStage extends Stage {
 	
+	/** The session. */
 	private Session session;
 	
+	/** The Constant X0. */
 	private static final int X0 = 5;
+	
+	/** The Constant Y0. */
 	private static final int Y0 = 100;
+	
+	/** The Constant X_SPACING. */
 	private static final int X_SPACING = 235;
+	
+	/** The Constant Y_SPACING. */
 	private static final int Y_SPACING = 24;
 	
+	/**
+	 * Instantiates a new end game stage.
+	 *
+	 * @param session the session
+	 */
 	public EndGameStage(Session session) {
 		super("end");
 		this.session = session;
@@ -41,6 +58,9 @@ public class EndGameStage extends Stage {
 		processAddStack();
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#beginStep()
+	 */
 	@Override
 	public void beginStep() {
 		for(Entity e : entities) {
@@ -56,6 +76,9 @@ public class EndGameStage extends Stage {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#onStep()
+	 */
 	@Override
 	public void onStep() {
 		MapAnimation.updateAll();
@@ -64,6 +87,9 @@ public class EndGameStage extends Stage {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#endStep()
+	 */
 	@Override
 	public void endStep() {
 		for(Entity e : entities) {
@@ -71,6 +97,9 @@ public class EndGameStage extends Stage {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#render()
+	 */
 	public void render() {
 		super.render();
 		Renderer.drawString("default_med", "Press Enter to return to lobby...", 200, 5, 0.5f);

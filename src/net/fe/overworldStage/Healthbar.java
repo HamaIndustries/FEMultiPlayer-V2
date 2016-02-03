@@ -12,14 +12,38 @@ import chu.engine.Game;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Renderer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Healthbar.
+ */
 public abstract class Healthbar extends Entity {
+	
+	/** The hp1. */
 	private int hp1;
+	
+	/** The total health. */
 	private float displayedHealth, totalHealth;
+	
+	/** The time. */
 	private float time;
+	
+	/** The color. */
 	private Color color;
+	
+	/** The tick filled. */
 	private Texture tickFilled = FEResources.getTexture("gui_tickFilled");
+	
+	/** The tick empty. */
 	private Texture tickEmpty = FEResources.getTexture("gui_tickEmpty");
 	
+	/**
+	 * Instantiates a new healthbar.
+	 *
+	 * @param u the u
+	 * @param hp0 the hp0
+	 * @param hp1 the hp1
+	 * @param stage the stage
+	 */
 	public Healthbar(Unit u, int hp0, int hp1, ClientOverworldStage stage){
 		super(0,0);
 		this.displayedHealth = hp0;
@@ -30,6 +54,9 @@ public abstract class Healthbar extends Entity {
 		color = u.getPartyColor();
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#onStep()
+	 */
 	public void onStep(){
 		int oldH = (int) displayedHealth;
 		if(Math.abs(displayedHealth-hp1) >= 1){
@@ -48,8 +75,14 @@ public abstract class Healthbar extends Entity {
 		}
 	}
 	
+	/**
+	 * Done.
+	 */
 	public abstract void done();
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render(){
 		Renderer.drawRectangle(x-24, y-6, x+85, y+20, renderDepth, FightStage.BORDER_DARK);
 		Renderer.drawRectangle(x-23, y-5, x+84, y+19, renderDepth, FightStage.BORDER_LIGHT);

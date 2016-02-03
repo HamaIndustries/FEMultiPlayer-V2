@@ -1,5 +1,6 @@
 package chu.engine;
 
+// TODO: Auto-generated Javadoc
 /**
  * Abstract class that determines how an object deals with collisions.
  * Entities without defined hitboxes cannot collide with other objects.
@@ -12,24 +13,55 @@ package chu.engine;
 
 public class Hitbox {
 	
+	/** The parent. */
 	protected Entity parent;
+	
+	/** The offset x. */
 	protected float offsetX;
+	
+	/** The offset y. */
 	protected float offsetY;
 	
+	/**
+	 * Instantiates a new hitbox.
+	 *
+	 * @param p the p
+	 * @param x the x
+	 * @param y the y
+	 */
 	public Hitbox(Entity p, int x, int y) {
 		parent = p;
 		offsetX = x;
 		offsetY = y;
 	}
 	
+	/**
+	 * Gets the x.
+	 *
+	 * @return the x
+	 */
 	public float getX() {
 		return parent.x + offsetX;
 	}
 	
+	/**
+	 * Gets the y.
+	 *
+	 * @return the y
+	 */
 	public float getY() {
 		return parent.y + offsetY;
 	}
 	
+	/**
+	 * Collision exists.
+	 *
+	 * @param e the e
+	 * @param f the f
+	 * @param x the x
+	 * @param y the y
+	 * @return the int
+	 */
 	public static int collisionExists(Entity e, Entity f, int x, int y) {
 		Hitbox a = e.hitbox;
 		Hitbox b = f.hitbox;
@@ -56,12 +88,28 @@ public class Hitbox {
 		return -1;
 	}
 	
+	/**
+	 * Collision exists.
+	 *
+	 * @param e the e
+	 * @param f the f
+	 * @return the int
+	 */
 	public static int collisionExists(Entity e, Entity f) {
 		return collisionExists(e, f, 0, 0);
 	}
 	
 	
 
+	/**
+	 * Check collision.
+	 *
+	 * @param rect the rect
+	 * @param line the line
+	 * @param offsetX the offset x
+	 * @param offsetY the offset y
+	 * @return the int
+	 */
 	//@Override
 	public static int checkCollision(RectangleHitbox rect, LineHitbox line, int offsetX, int offsetY) {
 		//Liang-Barsky algorithm incoming.
@@ -118,6 +166,15 @@ public class Hitbox {
 		return 1;
 	}
 	
+	/**
+	 * Gets the intersection.
+	 *
+	 * @param rect the rect
+	 * @param line the line
+	 * @param offsetX the offset x
+	 * @param offsetY the offset y
+	 * @return the intersection
+	 */
 	public static double getIntersection(RectangleHitbox rect, LineHitbox line, int offsetX, int offsetY) {
 		//Liang-Barsky algorithm incoming.
 		float x0 = line.getX();
@@ -173,6 +230,15 @@ public class Hitbox {
 		return u0;
 	}
 	
+	/**
+	 * Check collision.
+	 *
+	 * @param a the a
+	 * @param b the b
+	 * @param offsetX the offset x
+	 * @param offsetY the offset y
+	 * @return the int
+	 */
 	private static int checkCollision(RectangleHitbox a, RectangleHitbox b, int offsetX, int offsetY) {
 		if((int)(a.getX()+offsetX) >= (int)(b.getX() + b.getWidth())) return -1;
 		if((int)(a.getX()+offsetX + a.getWidth()) <= (int)(b.getX())) return -1;
@@ -182,6 +248,15 @@ public class Hitbox {
 		return 1;
 	}
 	
+	/**
+	 * Check collision.
+	 *
+	 * @param a the a
+	 * @param b the b
+	 * @param offsetX the offset x
+	 * @param offsetY the offset y
+	 * @return the int
+	 */
 	private static int checkCollision(LineHitbox a, LineHitbox b, int offsetX, int offsetY) {
 		float first, second;
 		float aX = a.getX() + offsetX;

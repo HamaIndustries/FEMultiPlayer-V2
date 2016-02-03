@@ -13,19 +13,46 @@ import org.newdawn.slick.Color;
 import chu.engine.Game;
 import chu.engine.anim.Renderer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class OverworldFightTransition.
+ */
 public class OverworldFightTransition extends Transition {
+	
+	/** The to. */
 	FightStage to;
+	
+	/** The timer. */
 	private float timer;
+	
+	/** The tri alpha. */
 	private float triAlpha;
+	
+	/** The fight alpha. */
 	private float fightAlpha;
+	
+	/** The Constant LENGTH. */
 	private static final float LENGTH = .6666f;
 	
+	/** The x. */
 	private float[] x;
+	
+	/** The y. */
 	private float[] y;
+	
+	/** The dx. */
 	private float[] dx;
+	
+	/** The dy. */
 	private float[] dy;
+	
 	/**
 	 * x0 ... y1 are the coords for the two tiles to fight over
+	 *
+	 * @param from the from
+	 * @param to the to
+	 * @param u1 the u1
+	 * @param u2 the u2
 	 */
 	public OverworldFightTransition(ClientOverworldStage from, FightStage to, UnitIdentifier u1, UnitIdentifier u2) {
 		super(to);
@@ -72,6 +99,9 @@ public class OverworldFightTransition extends Transition {
 		timer = 0;
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render() {
 		float delta = Game.getDeltaSeconds();
 		// Render fight stage (with transparency)

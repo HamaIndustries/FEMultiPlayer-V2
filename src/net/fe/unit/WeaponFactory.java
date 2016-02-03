@@ -8,16 +8,31 @@ import java.util.Scanner;
 
 import org.newdawn.slick.util.ResourceLoader;
 
+// TODO: Auto-generated Javadoc
+/**
+ * A factory for creating Weapon objects.
+ */
 public class WeaponFactory {
+	
+	/** The Constant mounted. */
 	private static final List<String> mounted = 
 			Arrays.asList("Paladin", "Valkyrie", "Falconknight", 
 					"Ephraim", "Eirika", "Eliwood");
+	
+	/** The Constant armored. */
 	private static final List<String> armored =
 			Arrays.asList("Paladin", "General");
+	
+	/** The Constant fliers. */
 	public static final List<String> fliers =
 			Arrays.asList("Falconknight");
+	
+	/** The weapons. */
 	private static HashMap<String, Weapon> weapons = new HashMap<String, Weapon>();
 	
+	/**
+	 * Load weapons.
+	 */
 	public static void loadWeapons() {
 		Scanner in = new Scanner(ResourceLoader.getResourceAsStream("res/weapons.txt"));
 		int id = 0;
@@ -77,10 +92,21 @@ public class WeaponFactory {
 		in.close();
 	}
 	
+	/**
+	 * Gets the weapon.
+	 *
+	 * @param name the name
+	 * @return the weapon
+	 */
 	public static Weapon getWeapon(String name){
 		return weapons.get(name).getCopy();
 	}
 	
+	/**
+	 * Gets the all weapons.
+	 *
+	 * @return the all weapons
+	 */
 	public static Iterable<Weapon> getAllWeapons(){
 		return weapons.values();
 	}

@@ -10,12 +10,31 @@ import net.fe.unit.Unit;
 import chu.engine.Entity;
 import chu.engine.anim.Renderer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class HUD.
+ */
 public class HUD extends Entity {
+	
+	/** The unit. */
 	private Unit unit;
+	
+	/** The sign. */
 	private int sign;
+	
+	/** The dmg. */
 	private String hit,crit,dmg;
+	
+	/** The battle stats. */
 	private static Texture battleStats;
 	
+	/**
+	 * Instantiates a new hud.
+	 *
+	 * @param u1 the u1
+	 * @param u2 the u2
+	 * @param stage the stage
+	 */
 	public HUD(Unit u1, Unit u2, FightStage stage) {
 		super(0, 0);
 		this.unit = u1;
@@ -43,6 +62,9 @@ public class HUD extends Entity {
 				- 37, FightStage.FLOOR + 13, u1.getWeapon(), false));
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render() {
 		// Main status
 		Renderer.drawRectangle(FightStage.CENTRAL_AXIS + sign * 120,

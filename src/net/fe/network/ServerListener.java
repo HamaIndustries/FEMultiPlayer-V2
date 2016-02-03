@@ -15,15 +15,44 @@ import net.fe.network.message.PartyMessage;
 import net.fe.network.message.QuitMessage;
 import net.fe.network.message.ReadyMessage;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The listener interface for receiving server events.
+ * The class that is interested in processing a server
+ * event implements this interface, and the object created
+ * with that class is registered with a component using the
+ * component's <code>addServerListener<code> method. When
+ * the server event occurs, that object's appropriate
+ * method is invoked.
+ *
+ * @see ServerEvent
+ */
 public class ServerListener extends Thread {
 	
+	/** The socket. */
 	private Socket socket = null;
+	
+	/** The out. */
 	private ObjectOutputStream out;
+	
+	/** The in. */
 	private ObjectInputStream in;
+	
+	/** The main. */
 	private Server main;
+	
+	/** The client quit. */
 	private boolean clientQuit;
+	
+	/** The begin. */
 	final byte[] begin = new byte[]{0x42,0x45,0x47,0x49,0x4e};
 	
+	/**
+	 * Instantiates a new server listener.
+	 *
+	 * @param main the main
+	 * @param socket the socket
+	 */
 	public ServerListener(Server main, Socket socket) {
 		super("Listener "+main.getCount());
 		try {
@@ -39,6 +68,9 @@ public class ServerListener extends Thread {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Thread#run()
+	 */
 	public void run() {
 		try {
 			System.out.println("LISTENER: Start");
@@ -70,6 +102,11 @@ public class ServerListener extends Thread {
 		}
 	}
 	
+	/**
+	 * Process input.
+	 *
+	 * @param message the message
+	 */
 	public void processInput(Message message) {
 		if(message instanceof QuitMessage) {
 			clientQuit = true;
@@ -92,6 +129,11 @@ public class ServerListener extends Thread {
 		main.messages.add(message);
 	}
 	
+	/**
+	 * Send message.
+	 *
+	 * @param message the message
+	 */
 	public void sendMessage(Message message) {
 		try {
 			out.writeObject(message);

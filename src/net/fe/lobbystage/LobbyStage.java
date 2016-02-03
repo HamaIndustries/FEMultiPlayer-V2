@@ -17,20 +17,34 @@ import net.fe.network.message.StartPicking;
 import chu.engine.Game;
 import chu.engine.Stage;
 
+// TODO: Auto-generated Javadoc
 /**
- * Version of LobbyStage used by Server without extraneous entities
- * @author Shawn
+ * Version of LobbyStage used by Server without extraneous entities.
  *
+ * @author Shawn
  */
 public class LobbyStage extends Stage {
+	
+	/** The chat. */
 	protected Chat chat;
+	
+	/** The session. */
 	protected Session session;
 	
+	/**
+	 * Instantiates a new lobby stage.
+	 *
+	 * @param s the s
+	 */
 	public LobbyStage(Session s) {
 		super("main_theme");
 		session = s;
 		chat = new Chat();
 	}
+	
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#beginStep()
+	 */
 	@Override
 	public void beginStep() {
 		for(Message message : Game.getMessages()) {
@@ -71,11 +85,17 @@ public class LobbyStage extends Stage {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#onStep()
+	 */
 	@Override
 	public void onStep() {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#endStep()
+	 */
 	@Override
 	public void endStep() {
 		if(session.numPlayers() <=1 ) return;

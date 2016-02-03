@@ -20,26 +20,58 @@ import chu.engine.Game;
 import chu.engine.anim.BitmapFont;
 import chu.engine.anim.Renderer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UnitInfo.
+ */
 public class UnitInfo extends Entity implements DoNotDestroy{
+	
+	/** The unit. */
 	private Unit unit;
+	
+	/** The mugshot. */
 	private Texture mugshot;
+	
+	/** The dragons. */
 	private Texture dragons;
+	
+	/** The items. */
 	private ItemDisplay[] items;
+	
+	/**
+	 * Instantiates a new unit info.
+	 */
 	public UnitInfo() {
 		super(50, Game.getWindowHeight()/net.fe.FEResources.getWindowScale()-80);
 		renderDepth = 0.8f;
 		dragons = FEResources.getTexture("dragon_separator");
 	}
 	
+	/**
+	 * Instantiates a new unit info.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 */
 	public UnitInfo(float x, float y){
 		super(x, y);
 		renderDepth = 0.8f;
 	}
 	
+	/**
+	 * Gets the unit.
+	 *
+	 * @return the unit
+	 */
 	public Unit getUnit(){
 		return unit;
 	}
 	
+	/**
+	 * Sets the unit.
+	 *
+	 * @param u the new unit
+	 */
 	public void setUnit(Unit u){
 		if(u != null && unit != u) {
 			mugshot = FEResources.getTexture(u.name.toLowerCase()+"_mugshot");
@@ -57,6 +89,9 @@ public class UnitInfo extends Entity implements DoNotDestroy{
 		unit = u;
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render(){
 		Unit u = unit;
 		if(u == null) return;
