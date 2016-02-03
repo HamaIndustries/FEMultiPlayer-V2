@@ -28,9 +28,9 @@ public class Draft implements PickMode {
 			TeamDraftStage stage = new TeamDraftStage(session); //thar ye be yeh little scumbucket TODO
 			FEMultiplayer.setCurrentStage(stage);
 		} else {
-			//ClientWaitStage stage = new ClientWaitStage(session);
-			System.out.println(FEMultiplayer.getLocalPlayer().getParty().getColor()+"++++++++++++++++++++++++++");
-			TeamDraftStage stage = new TeamDraftStage(session);
+			ClientWaitStage stage = new ClientWaitStage(session);
+			//System.out.println(FEMultiplayer.getLocalPlayer().getParty().getColor()+"++++++++++++++++++++++++++");
+			//TeamDraftStage stage = new TeamDraftStage(session);
 			FEMultiplayer.setCurrentStage(stage);
 		}
 	}
