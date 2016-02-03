@@ -138,7 +138,22 @@ public class CombatCalculator {
 
 	/**
 	 * Attack. Does most of the heavy lifting in this class, calculates the damage dealt and damage healed, if any.
-	 * TODO: put the damage calculation equations here.
+	 * 
+	 * <pre>
+	 *Combat Calculations:
+	 * 
+	 *a is attacker, d is defender.
+	 *
+	 *crit: true if [RNG.get(This returns a number 1-100) < a.crit() - d.dodge()] and not miss.
+	 *
+	 *hit = weapon.hit + [2 * Skl + Lck / 2] + tempMods.get("Hit") {<- normally hit, unless a skill augments that.}
+	 *
+	 *avoid = 2 * Spd + Lck / 2 + tempMods.get("Avo"){0 unless a skill etc} + TerrainAvoidBonus
+	 *
+	 *hit rate = a.hit() - d.avoid() + a.getWeapon().triMod(d.getWeapon()) * 15}
+	 *
+	 *miss occurs when (RNG + RNG)/2 > hitrate
+	 *</pre>
 	 *
 	 * @param leftAttacking If the left fighter is attacking
 	 * @param currentEffect the current effect
