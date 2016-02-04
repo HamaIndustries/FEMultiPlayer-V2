@@ -11,8 +11,7 @@ public class RiseTome extends Item{
 	}
 	
 	public RiseTome getCopy(){
-		RiseTome w = new RiseTome();
-		return w;
+		return new RiseTome();
 	}
 	
 	public int compareTo(Item that) {
