@@ -49,10 +49,14 @@ public class EndGameStage extends Stage {
 		super("end");
 		this.session = session;
 		addEntity(new RunesBg(new Color(0xd2b48c)));
+		int renderedPlayers = -1;
 		for(int x=0; x<session.numPlayers(); x++) {
 			Player p = session.getPlayers()[x];
-			for(int i=0; i<p.getParty().size(); i++) {
-				addEntity(new UnitIcon(p.getParty().getUnit(i), X0+x*X_SPACING, Y0+i*Y_SPACING, 0.5f));
+			if (p.getTeam() != Player.TEAM_SPECTATOR) {
+				renderedPlayers++;
+				for(int i=0; i<p.getParty().size(); i++) {
+					addEntity(new UnitIcon(p.getParty().getUnit(i), X0+renderedPlayers*X_SPACING, Y0+i*Y_SPACING, 0.5f));
+				}
 			}
 		}
 		processAddStack();
@@ -104,23 +108,27 @@ public class EndGameStage extends Stage {
 		super.render();
 		Renderer.drawString("default_med", "Press Enter to return to lobby...", 200, 5, 0.5f);
 		String[] stats = {"Kills", "Assists", "Damage", "Healing"};
+		int renderedPlayers = -1;
 		for(int i=0; i<session.numPlayers(); i++) {
 			Player p = session.getPlayers()[i];
-			Renderer.drawBorderedRectangle(X0+X_SPACING*i, Y0-3, X0+X_SPACING*(i+1), Y0+Y_SPACING*p.getParty().size(), 0.9f, 
-					 FightStage.NEUTRAL, FightStage.BORDER_LIGHT, FightStage.BORDER_DARK);
-			Renderer.drawBorderedRectangle(X0+X_SPACING*i, Y0-28, X0+X_SPACING*(i+1), Y0-8, 0.9f, 
-					 FightStage.NEUTRAL, FightStage.BORDER_LIGHT, FightStage.BORDER_DARK);
-			for(int k=0; k<stats.length; k++) {
-				Renderer.drawString("default_med", stats[k], X0+70+40*k+X_SPACING*i, Y0-25, 0.5f);
-			}
-			Renderer.drawString("default_med", "Name", X0+20+X_SPACING*i, Y0-25, 0.5f);
-			for(int j=0; j<p.getParty().size(); j++) {
-				Unit u = p.getParty().getUnit(j);
-				Renderer.drawString("default_med", u.name, X0+20+X_SPACING*i, Y0+j*Y_SPACING, 0.5f);
+			if (p.getTeam() != Player.TEAM_SPECTATOR) {
+				renderedPlayers++;
+				Renderer.drawBorderedRectangle(X0+X_SPACING*renderedPlayers, Y0-3, X0+X_SPACING*(renderedPlayers+1), Y0+Y_SPACING*p.getParty().size(), 0.9f, 
+						FightStage.NEUTRAL, FightStage.BORDER_LIGHT, FightStage.BORDER_DARK);
+				Renderer.drawBorderedRectangle(X0+X_SPACING*renderedPlayers, Y0-28, X0+X_SPACING*(renderedPlayers+1), Y0-8, 0.9f, 
+						FightStage.NEUTRAL, FightStage.BORDER_LIGHT, FightStage.BORDER_DARK);
 				for(int k=0; k<stats.length; k++) {
-					Renderer.drawString("default_med", u.getBattleStat(stats[k]), X0+75+40*k+X_SPACING*i, Y0+j*Y_SPACING, 0.5f);
+					Renderer.drawString("default_med", stats[k], X0+70+40*k+X_SPACING*renderedPlayers, Y0-25, 0.5f);
 				}
-			}	
+				Renderer.drawString("default_med", "Name", X0+20+X_SPACING*renderedPlayers, Y0-25, 0.5f);
+				for(int j=0; j<p.getParty().size(); j++) {
+					Unit u = p.getParty().getUnit(j);
+					Renderer.drawString("default_med", u.name, X0+20+X_SPACING*renderedPlayers, Y0+j*Y_SPACING, 0.5f);
+					for(int k=0; k<stats.length; k++) {
+						Renderer.drawString("default_med", u.getBattleStat(stats[k]), X0+75+40*k+X_SPACING*renderedPlayers, Y0+j*Y_SPACING, 0.5f);
+					}
+				}
+			}
 		}
 	}
 
