@@ -1,5 +1,6 @@
 package net.fe.overworldStage;
 
+import net.fe.FEMultiplayer;
 import net.fe.FEResources;
 import net.fe.Party;
 
@@ -48,10 +49,17 @@ public class TurnDisplay extends Entity {
 		Texture t, f;
 		text = new Sprite();
 		flash = new Sprite();
+		boolean spec = false;
 		if(yourTurn) {
 			t = FEResources.getTexture("player_phase");
 		} else {
-			t = FEResources.getTexture("enemy_phase");
+			if(FEMultiplayer.getLocalPlayer().isSpectator()){
+				if(teamColor == Party.TEAM_BLUE) {
+					t = FEResources.getTexture("blue_phase");
+				} else {
+					t = FEResources.getTexture("red_phase");
+				}
+			}else{ t = FEResources.getTexture("enemy_phase");}
 		}
 		
 		if(teamColor == Party.TEAM_BLUE) {

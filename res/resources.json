@@ -4965,6 +4965,14 @@
 			"path":		"res/gui/player_phase.png"
 		},
 		{
+			"name":		"blue_phase",
+			"path":		"res/gui/blue_phase.png"
+		},
+		{
+			"name":		"red_phase",
+			"path":		"res/gui/red_phase.png"
+		},
+		{
 			"name":		"play_button",
 			"path":		"res/gui/play_button.png"
 		},
