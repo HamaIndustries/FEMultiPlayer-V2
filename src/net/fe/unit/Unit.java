@@ -34,35 +34,88 @@ import chu.engine.anim.Renderer;
 import chu.engine.anim.ShaderArgs;
 import chu.engine.anim.Transform;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Unit.
+ */
 public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
+	
+	/** The bases. */
 	public HashMap<String, Integer> bases;
+	
+	/** The growths. */
 	public HashMap<String, Integer> growths;
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -5101031417704315547L;
+	
+	/** The stats. */
 	private HashMap<String, Float> stats;
+	
+	/** The skills. */
 	private ArrayList<CombatTrigger> skills;
+	
+	/** The hp. */
 	private int hp;
+	
+	/** The clazz. */
 	private Class clazz;
+	
+	/** The gender. */
 	public final char gender;
+	
+	/** The weapon. */
 	private Weapon weapon;
+	
+	/** The inventory. */
 	private ArrayList<Item> inventory;
+	
+	/** The name. */
 	public final String name;
+	
+	/** The team. */
 	private Party team;
+	
+	/** The temp mods. */
 	private transient HashMap<String, Integer> tempMods;
+	
+	/** The battle stats. */
 	private transient HashMap<String, Integer> battleStats;
+	
+	/** The assist. */
 	private transient Set<Unit> assist;
+	
+	/** The rescued unit. */
 	private transient Unit rescuedUnit;
+	
+	/** The moved. */
 	private transient boolean moved;
+	
+	/** The path. */
 	private transient Path path;
+	
+	/** The r y. */
 	private transient float rX, rY;
+	
+	/** The callback. */
 	private transient Command callback;
+	
+	/** The rescued. */
 	private boolean rescued;
+	
+	/** The counter. */
 	private float counter;
 
+	/** The orig y. */
 	private int origX, origY;
 	
+	/** The Constant MAP_ANIM_SPEED. */
 	public static final float MAP_ANIM_SPEED = 0.2f;
+	
+	/** The Constant MOVE_SPEED. */
 	public static final int MOVE_SPEED = 250;
 	
+	/** The rescue. */
 	public static Texture rescue;
 	
 	static {
@@ -70,6 +123,15 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 			rescue = FEResources.getTexture("rescue");
 	}
 
+	/**
+	 * Instantiates a new unit.
+	 *
+	 * @param name the name
+	 * @param c the c
+	 * @param gender the gender
+	 * @param bases the bases
+	 * @param growths the growths
+	 */
 	public Unit(String name, Class c, char gender, HashMap<String, Integer> bases,
 			HashMap<String, Integer> growths) {
 		super(0, 0);
@@ -97,6 +159,9 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		renderDepth = ClientOverworldStage.UNIT_DEPTH;
 	}
 	
+	/**
+	 * Load map sprites.
+	 */
 	public void loadMapSprites(){
 		sprite.addAnimation("IDLE", new MapAnimation(functionalClassName() + 
 				"_map_idle", false));
@@ -113,6 +178,13 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		sprite.setAnimation("IDLE");
 	}
 	
+	/**
+	 * Read object.
+	 *
+	 * @param in the in
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ClassNotFoundException the class not found exception
+	 */
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         tempMods = new HashMap<String, Integer>();
@@ -125,6 +197,11 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
         battleStats.put("Healing", 0);
     }
 	
+	/**
+	 * Functional class name.
+	 *
+	 * @return the string
+	 */
 	public String functionalClassName(){
 		String prefix = clazz.name;
 		if(prefix.equals("Lord")){
@@ -136,6 +213,11 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		return prefix.toLowerCase();
 	}
 	
+	/**
+	 * No gender name.
+	 *
+	 * @return the string
+	 */
 	public String noGenderName() {
 		String prefix = clazz.name;
 		if(prefix.equals("Lord")){
@@ -144,11 +226,22 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		return prefix;
 	}
 
+	/**
+	 * Move.
+	 *
+	 * @param p the p
+	 * @param callback the callback
+	 */
 	public void move(Path p, Command callback) {
 		this.path = p.getCopy();
 		this.callback = callback;
 	}
 	
+	/**
+	 * Rescue.
+	 *
+	 * @param u the u
+	 */
 	public void rescue(Unit u){
 		final int oldX = u.xcoord;
 		final int oldY = u.ycoord;
@@ -168,6 +261,12 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	}
 
 	
+	/**
+	 * Drop.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 */
 	public void drop(int x, int y){
 		if(rescuedUnit == null) return;
 		rescuedUnit.rescued = false;
@@ -180,6 +279,11 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	}
 	
 	
+	/**
+	 * Give.
+	 *
+	 * @param u the u
+	 */
 	public void give(Unit u){
 		if(rescuedUnit == null) return;
 		if(u.rescuedUnit() != null) return;
@@ -189,6 +293,9 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	
 	
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.GriddedEntity#beginStep()
+	 */
 	public void beginStep(){
 		super.beginStep();
 		if(Game.glContextExists() && !sprite.hasAnimation("IDLE")) {
@@ -205,6 +312,11 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		renderDepth = calcRenderDepth();
 	}
 	
+	/**
+	 * Calc render depth.
+	 *
+	 * @return the float
+	 */
 	private float calcRenderDepth(){
 		float depth = ClientOverworldStage.UNIT_DEPTH;
 		if(rescued){
@@ -222,6 +334,9 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		return depth;
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#onStep()
+	 */
 	public void onStep() {
 		super.onStep();
 		float rXOld = rX;
@@ -249,6 +364,11 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		}		
 	}
 
+	/**
+	 * Gets the copy.
+	 *
+	 * @return the copy
+	 */
 	Unit getCopy() {
 		Unit copy = new Unit(name, clazz, gender, bases, growths);
 		copy.setLevel(stats.get("Lvl").intValue());
@@ -258,6 +378,9 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		return copy;
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render() {
 		ClientOverworldStage cs = (ClientOverworldStage)stage;
 		Renderer.translate(-cs.camX, -cs.camY);
@@ -303,10 +426,20 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	
 	//Skills
 	
+	/**
+	 * Adds the skill.
+	 *
+	 * @param t the t
+	 */
 	public void addSkill(CombatTrigger t) {
 		skills.add(t);
 	}
 	
+	/**
+	 * Gets the attack anims.
+	 *
+	 * @return the attack anims
+	 */
 	public List<String> getAttackAnims(){
 		ArrayList<String> ans = new ArrayList<String>();
 		ans.add("attack");
@@ -321,24 +454,51 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 
 	
 
+	/**
+	 * Gets the inventory.
+	 *
+	 * @return the inventory
+	 */
 	//Inventory
 	public List<Item> getInventory() {
 		return inventory;
 	}
 	
+	/**
+	 * Find item.
+	 *
+	 * @param i the i
+	 * @return the int
+	 */
 	public int findItem(Item i){
 		return inventory.indexOf(i);
 	}
 	
+	/**
+	 * Removes the from inventory.
+	 *
+	 * @param item the item
+	 */
 	public void removeFromInventory(Item item){
 		inventory.remove(item);
 	}
 	
+	/**
+	 * Adds the to inventory.
+	 *
+	 * @param item the item
+	 */
 	public void addToInventory(Item item) {
 		if(inventory.size() < 4)
 			inventory.add(item);
 	}
 	
+	/**
+	 * Gets the total wep range.
+	 *
+	 * @param staff the staff
+	 * @return the total wep range
+	 */
 	public Set<Integer> getTotalWepRange(boolean staff) {
 		Set<Integer> range = new HashSet<Integer>();
 		for (Item i : getInventory()) {
@@ -351,6 +511,11 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		return range;
 	}
 	
+	/**
+	 * Equip.
+	 *
+	 * @param w the w
+	 */
 	public void equip(Weapon w) {
 		if (equippable(w)) {
 			weapon = w;
@@ -364,6 +529,11 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		}
 	}
 	
+	/**
+	 * Equip.
+	 *
+	 * @param i the i
+	 */
 	// For use in command message processing only
 	public void equip(int i) {
 		Weapon w = (Weapon)inventory.get(i);
@@ -374,10 +544,19 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		}
 	}
 	
+	/**
+	 * Unequip.
+	 */
 	public void unequip(){
 		weapon = null;
 	}
 
+	/**
+	 * Equippable.
+	 *
+	 * @param w the w
+	 * @return true, if successful
+	 */
 	public boolean equippable(Weapon w) {
 		if(w.pref!= null){
 			return name.equals(w.pref);
@@ -386,6 +565,12 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 
 	}
 
+	/**
+	 * Equippable weapons.
+	 *
+	 * @param range the range
+	 * @return the array list
+	 */
 	public ArrayList<Weapon> equippableWeapons(int range) {
 		ArrayList<Weapon> weps = new ArrayList<Weapon>();
 		for (Item i : inventory) {
@@ -400,6 +585,12 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		return weps;
 	}
 	
+	/**
+	 * Equippable staves.
+	 *
+	 * @param range the range
+	 * @return the array list
+	 */
 	public ArrayList<Weapon> equippableStaves(int range) {
 		ArrayList<Weapon> weps = new ArrayList<Weapon>();
 		for (Item i : inventory) {
@@ -414,6 +605,9 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		return weps;
 	}
 	
+	/**
+	 * Initialize equipment.
+	 */
 	public void initializeEquipment(){
 		for(Item it: inventory){
 			if(it instanceof Weapon){
@@ -425,6 +619,12 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		}
 	}
 
+	/**
+	 * Equip first weapon.
+	 *
+	 * @param range the range
+	 * @return the int
+	 */
 	public int equipFirstWeapon(int range) {
 		for (int i = 0; i < inventory.size(); i++) {
 			Item it = inventory.get(i);
@@ -440,6 +640,9 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		return -1;
 	}
 	
+	/**
+	 * Re equip.
+	 */
 	public void reEquip(){
 		for (int i = 0; i < inventory.size(); i++) {
 			Item it = inventory.get(i);
@@ -455,18 +658,44 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		}
 	}
 
+	/**
+	 * Use.
+	 *
+	 * @param index the index
+	 * @return the int
+	 */
 	public int use(int index) {
 		return use(inventory.get(index), true);
 	}
 	
+	/**
+	 * Use.
+	 *
+	 * @param index the index
+	 * @param destroy the destroy
+	 * @return the int
+	 */
 	public int use(int index, boolean destroy){
 		return use(inventory.get(index), destroy);
 	}
 	
+	/**
+	 * Use.
+	 *
+	 * @param i the i
+	 * @return the int
+	 */
 	public int use(Item i){
 		return use(i, true);
 	}
 
+	/**
+	 * Use.
+	 *
+	 * @param i the i
+	 * @param destroy the destroy
+	 * @return the int
+	 */
 	public int use(Item i, boolean destroy) {
 		int ans = i.use(this);
 		if(i.getUses() <= 0 && destroy){
@@ -480,6 +709,11 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		return ans;
 	}
 
+	/**
+	 * Gets the triggers.
+	 *
+	 * @return the triggers
+	 */
 	public ArrayList<CombatTrigger> getTriggers() {
 		ArrayList<CombatTrigger> triggers = new ArrayList<CombatTrigger>();
 		triggers.addAll(skills);
@@ -490,6 +724,11 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		return triggers;
 	}
 	
+	/**
+	 * Sets the level.
+	 *
+	 * @param lv the new level
+	 */
 	//Development
 	public void setLevel(int lv) {
 		if (lv > 20 || lv < 1) {
@@ -506,14 +745,28 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		fillHp();
 	}
 	
+	/**
+	 * Fill hp.
+	 */
 	public void fillHp() {
 		setHp(get("HP"));
 	}
 	
+	/**
+	 * Gets the exp cost.
+	 *
+	 * @param level the level
+	 * @return the exp cost
+	 */
 	public static int getExpCost(int level){
 		return level * 50 + 500;
 	}
 	
+	/**
+	 * Squeeze exp.
+	 *
+	 * @return the int
+	 */
 	public int squeezeExp(){
 		int exp = 0;
 		while(get("Lvl") != 1){
@@ -523,6 +776,11 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		return exp;
 	}
 	
+	/**
+	 * Squeeze gold.
+	 *
+	 * @return the int
+	 */
 	public int squeezeGold(){
 		int gold = 0;
 		ListIterator<Item> items = inventory.listIterator();
@@ -543,14 +801,29 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		return gold;
 	}
 	
+	/**
+	 * Adds the battle stat.
+	 *
+	 * @param stat the stat
+	 * @param add the add
+	 */
 	public void addBattleStat(String stat, int add) {
 		battleStats.put(stat, battleStats.get(stat) + add);
 	}
 	
+	/**
+	 * Gets the battle stat.
+	 *
+	 * @param stat the stat
+	 * @return the battle stat
+	 */
 	public int getBattleStat(String stat) {
 		return battleStats.get(stat);
 	}
 	
+	/**
+	 * Report battle stats.
+	 */
 	public void reportBattleStats() {
 		for(String s : battleStats.keySet()) {
 			System.out.print(s+": ");
@@ -559,10 +832,20 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		System.out.println();
 	}
 	
+	/**
+	 * Gets the assisters.
+	 *
+	 * @return the assisters
+	 */
 	public Set<Unit> getAssisters() {
 		return assist;
 	}
 
+	/**
+	 * Hit.
+	 *
+	 * @return the int
+	 */
 	// Combat statistics
 	public int hit() {
 		if(weapon == null) return 0;
@@ -570,32 +853,62 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 				+ (tempMods.get("Hit") != null ? tempMods.get("Hit") : 0);
 	}
 
+	/**
+	 * Avoid.
+	 *
+	 * @return the int
+	 */
 	public int avoid() {
 		return 2 * get("Spd") + get("Lck") / 2
 				+ (tempMods.get("Avo") != null ? tempMods.get("Avo") : 0)
 				+ getTerrain().getAvoidBonus(this);
 	}
 
+	/**
+	 * Crit.
+	 *
+	 * @return the int
+	 */
 	public int crit() {
 		if(weapon == null) return 0;
 		return weapon.crit + get("Skl") / 2 + clazz.crit
 				+ (tempMods.get("Crit") != null ? tempMods.get("Crit") : 0);
 	}
 
+	/**
+	 * Dodge.
+	 *
+	 * @return the int
+	 */
 	public int dodge() { // Critical avoid
 		return get("Lck")
 				+ (tempMods.get("Dodge") != null ? tempMods.get("Dodge") : 0);
 	}
 
+	/**
+	 * Gets the the class.
+	 *
+	 * @return the the class
+	 */
 	// Getter/Setter
 	public Class getTheClass() {
 		return clazz;
 	}
 
+	/**
+	 * Gets the hp.
+	 *
+	 * @return the hp
+	 */
 	public int getHp() {
 		return hp;
 	}
 
+	/**
+	 * Sets the hp.
+	 *
+	 * @param hp the new hp
+	 */
 	public void setHp(int hp) {
 		this.hp = Math.max(hp, 0);
 		if(hp == 0) {
@@ -610,6 +923,12 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		}
 	}
 
+	/**
+	 * Gets the.
+	 *
+	 * @param stat the stat
+	 * @return the int
+	 */
 	public int get(String stat) {
 		int ans = stats.get(stat).intValue()
 				+ (weapon != null ? weapon.modifiers.get(stat) : 0)
@@ -623,44 +942,131 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		return ans;
 	}
 
+	/**
+	 * Gets the base.
+	 *
+	 * @param stat the stat
+	 * @return the base
+	 */
 	public int getBase(String stat) {
 		return stats.get(stat).intValue();
 	}
 
+	/**
+	 * Sets the temp mod.
+	 *
+	 * @param stat the stat
+	 * @param val the val
+	 */
 	public void setTempMod(String stat, int val) {
 		tempMods.put(stat, val);
 	}
+	
+	/**
+	 * Debug stat.
+	 *
+	 * @param stat the stat
+	 */
+	public void debugStat(String stat){
+		stats.put(stat, 9999f);
+	}
+	
+	/**
+	 * Debug stat.
+	 *
+	 * @param stat the stat
+	 * @param value the value
+	 */
+	public void debugStat(String stat, int value){
+		stats.put(stat, value*1.0f);
+	}
+	
+	/**
+	 * Debug crit.
+	 *
+	 * @param might the might
+	 */
+	public void debugCrit(int might){
+		getWeapon().crit=100;
+		getWeapon().hit=100;
+		getWeapon().mt=might;
+	}
+	
+	/**
+	 * Debug crit.
+	 */
+	public void debugCrit(){
+		getWeapon().crit=100;
+		getWeapon().hit=100;
+		getWeapon().mt=100;
+	}
 
+	/**
+	 * Clear temp mods.
+	 */
 	public void clearTempMods() {
 		tempMods.clear();
 	}
 
+	/**
+	 * Gets the weapon.
+	 *
+	 * @return the weapon
+	 */
 	public Weapon getWeapon() {
 		return weapon;
 	}
 
+	/**
+	 * Gets the terrain.
+	 *
+	 * @return the terrain
+	 */
 	public Terrain getTerrain() {
 		if(stage == null) return Terrain.PLAIN;
 		return ((OverworldStage) stage).getTerrain(xcoord, ycoord);
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		return name + " HP" + hp + " #" + hashCode() + " \n" + stats;
 	}
 
+	/**
+	 * Gets the party color.
+	 *
+	 * @return the party color
+	 */
 	public Color getPartyColor() {
 		if(team == null) return Party.TEAM_BLUE;
 		return team.getColor();
 	}
 
+	/**
+	 * Sets the party.
+	 *
+	 * @param t the new party
+	 */
 	public void setParty(Party t) {
 		team = t;
 	}
 
+	/**
+	 * Gets the party.
+	 *
+	 * @return the party
+	 */
 	public Party getParty() {
 		return team;
 	}
 
+	/**
+	 * Sets the moved.
+	 *
+	 * @param status the new moved
+	 */
 	public void setMoved(boolean status) {
 		moved = status;
 		if(moved) {
@@ -670,31 +1076,66 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		}
 	}
 
+	/**
+	 * Checks for moved.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasMoved() {
 		return moved;
 	}
 
 
+	/**
+	 * Gets the orig x.
+	 *
+	 * @return the orig x
+	 */
 	public int getOrigX() {
 		return origX;
 	}
 
+	/**
+	 * Sets the orig x.
+	 *
+	 * @param origX the new orig x
+	 */
 	public void setOrigX(int origX) {
 		this.origX = origX;
 	}
 
+	/**
+	 * Sets the orig y.
+	 *
+	 * @param origY the new orig y
+	 */
 	public void setOrigY(int origY) {
 		this.origY = origY;
 	}
 
+	/**
+	 * Gets the orig y.
+	 *
+	 * @return the orig y
+	 */
 	public int getOrigY() {
 		return origY;
 	}
 	
+	/**
+	 * Rescued unit.
+	 *
+	 * @return the unit
+	 */
 	public Unit rescuedUnit(){
 		return rescuedUnit;
 	}
 
+	/**
+	 * Sets the rescued unit.
+	 *
+	 * @param unit the new rescued unit
+	 */
 	public void setRescuedUnit(Unit unit) {
 		rescuedUnit = unit;
 	}

@@ -10,9 +10,20 @@ import chu.engine.anim.Animation;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Transform;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MagicEffect.
+ */
 public class MagicEffect extends Entity {
+	
+	/** The args. */
 	private AnimationArgs args;
 
+	/**
+	 * Instantiates a new magic effect.
+	 *
+	 * @param args the args
+	 */
 	public MagicEffect(final AnimationArgs args) {
 		super(0, 0);
 		this.args = args;
@@ -43,6 +54,9 @@ public class MagicEffect extends Entity {
 		renderDepth = FightStage.EFFECT_DEPTH;
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render(){
 		Transform t = new Transform();
 		int offset = FightStage.rangeToHeadDistance(args.range);
@@ -55,14 +69,32 @@ public class MagicEffect extends Entity {
 		
 	}
 
+	/**
+	 * Gets the texture.
+	 *
+	 * @param name the name
+	 * @return the texture
+	 */
 	public static AnimationData getTexture(String name) {
 		return FEResources.getTextureData(name);
 	}
 	
+	/**
+	 * Gets the texture.
+	 *
+	 * @param args the args
+	 * @return the texture
+	 */
 	public static AnimationData getTexture(AnimationArgs args) {
 		return getTexture(getTextureName(args));
 	}
 	
+	/**
+	 * Gets the texture name.
+	 *
+	 * @param args the args
+	 * @return the texture name
+	 */
 	public static String getTextureName(AnimationArgs args){
 		return "magic_effect_" + args.unit.getWeapon().name.toLowerCase();
 	}

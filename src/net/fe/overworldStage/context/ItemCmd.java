@@ -12,12 +12,30 @@ import net.fe.unit.ItemDisplay;
 import net.fe.unit.Unit;
 import net.fe.unit.Weapon;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ItemCmd.
+ */
 public class ItemCmd extends MenuContext<ItemDisplay>{
+	
+	/** The unit. */
 	private Unit unit;
+	
+	/**
+	 * Instantiates a new item cmd.
+	 *
+	 * @param stage the stage
+	 * @param prev the prev
+	 * @param u the u
+	 */
 	public ItemCmd(ClientOverworldStage stage, OverworldContext prev, Unit u) {
 		super(stage, prev, new InventoryMenu(u));
 		unit = u;
 	}
+	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.MenuContext#onSelect(java.lang.Object)
+	 */
 	@Override
 	public void onSelect(ItemDisplay selectedItem) {
 		if(selectedItem == null) return;
@@ -50,10 +68,17 @@ public class ItemCmd extends MenuContext<ItemDisplay>{
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#onLeft()
+	 */
 	@Override
 	public void onLeft() {
 		
 	}
+	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#onRight()
+	 */
 	@Override
 	public void onRight() {
 		

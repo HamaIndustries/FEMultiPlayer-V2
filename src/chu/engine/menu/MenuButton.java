@@ -8,12 +8,27 @@ import chu.engine.Entity;
 import chu.engine.Game;
 import chu.engine.MouseEvent;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MenuButton.
+ */
 public abstract class MenuButton extends Entity {
 	
+	/** The width. */
 	private float width;
+	
+	/** The height. */
 	private float height;
+	
+	/** The hover. */
 	protected boolean hover;
 
+	/**
+	 * Instantiates a new menu button.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 */
 	public MenuButton(float x, float y) {
 		super(x, y);
 		width = 0;
@@ -21,16 +36,38 @@ public abstract class MenuButton extends Entity {
 		hover = false;
 	}
 	
+	/**
+	 * Instantiates a new menu button.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param w the w
+	 * @param h the h
+	 */
 	public MenuButton(float x, float y, float w, float h) {
 		this(x, y);
 		width = w;
 		height = h;
 	}
 	
+	/**
+	 * On enter.
+	 */
 	public void onEnter(){};
+	
+	/**
+	 * On click.
+	 */
 	public void onClick(){};
+	
+	/**
+	 * On exit.
+	 */
 	public void onExit(){};
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#beginStep()
+	 */
 	public void beginStep() {
 		int mX = Math.round(Mouse.getX() / Game.getScaleX());
 		int mY = Math.round((Game.getWindowHeight() - Mouse.getY()) / Game.getScaleY());
@@ -51,6 +88,9 @@ public abstract class MenuButton extends Entity {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#endStep()
+	 */
 	public void endStep() {
 		
 	}

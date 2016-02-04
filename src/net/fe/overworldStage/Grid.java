@@ -12,13 +12,34 @@ import net.fe.Party;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Grid.
+ */
 public class Grid{
+	
+	/** The grid. */
 	private Unit[][] grid;
+	
+	/** The terrain. */
 	private Terrain[][] terrain;
+	
+	/** The blue throne y. */
 	private int blueThroneX, blueThroneY;
+	
+	/** The red throne y. */
 	private int redThroneX, redThroneY;
+	
+	/** The height. */
 	public final int width, height;
 
+	/**
+	 * Instantiates a new grid.
+	 *
+	 * @param width the width
+	 * @param height the height
+	 * @param defaultTerrain the default terrain
+	 */
 	public Grid(int width, int height, Terrain defaultTerrain) {
 		grid = new Unit[height][width];
 		blueThroneX = -1;
@@ -37,11 +58,11 @@ public class Grid{
 
 	/**
 	 * Adds a unit to the grid at the given coordinates.
-	 * 
-	 * @param u
-	 * @param x
-	 * @param y
-	 * @return
+	 *
+	 * @param u the u
+	 * @param x the x
+	 * @param y the y
+	 * @return true, if successful
 	 */
 	public boolean addUnit(Unit u, int x, int y) {
 		if (grid[y][x] != null)
@@ -54,6 +75,12 @@ public class Grid{
 		return true;
 	}
 	
+	/**
+	 * Find unit.
+	 *
+	 * @param u the u
+	 * @return the unit
+	 */
 	public Unit findUnit(UnitIdentifier u){
 		for(int i = 0; i < width; i++){
 			for(int j = 0; j < height; j++){
@@ -65,6 +92,13 @@ public class Grid{
 		return null;
 	}
 
+	/**
+	 * Removes the unit.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @return the unit
+	 */
 	Unit removeUnit(int x, int y) {
 		if (grid[y][x] == null)
 			return null;
@@ -73,6 +107,14 @@ public class Grid{
 		return ans;
 	}
 	
+	/**
+	 * Move.
+	 *
+	 * @param u the u
+	 * @param x the x
+	 * @param y the y
+	 * @param animated the animated
+	 */
 	public void move(Unit u, int x, int y, boolean animated){
 		grid[u.getYCoord()][u.getXCoord()] = null;
 		grid[y][x] = u;
@@ -82,18 +124,46 @@ public class Grid{
 		}
 	}
 
+	/**
+	 * Gets the terrain.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @return the terrain
+	 */
 	public Terrain getTerrain(int x, int y) {
 		return terrain[y][x];
 	}
 	
+	/**
+	 * Sets the terrain.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param t the t
+	 */
 	public void setTerrain(int x, int y, Terrain t){
 		terrain[y][x] = t;
 	}
 
+	/**
+	 * Gets the unit.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @return the unit
+	 */
 	public Unit getUnit(int x, int y) {
 		return grid[y][x];
 	}
 	
+	/**
+	 * Sets the throne pos.
+	 *
+	 * @param c the c
+	 * @param x the x
+	 * @param y the y
+	 */
 	public void setThronePos(Color c, int x, int y) {
 		if(c.equals(Party.TEAM_BLUE)) {
 			blueThroneX = x;
@@ -106,6 +176,12 @@ public class Grid{
 		}
 	}
 	
+	/**
+	 * Can seize.
+	 *
+	 * @param u the u
+	 * @return true, if successful
+	 */
 	public boolean canSeize(Unit u) {
 		//check if lord
 		if(!u.getTheClass().name.equals("Lord"))
@@ -123,6 +199,14 @@ public class Grid{
 		return false;
 	}
 
+	/**
+	 * Gets the shortest path.
+	 *
+	 * @param unit the unit
+	 * @param x the x
+	 * @param y the y
+	 * @return the shortest path
+	 */
 	public Path getShortestPath(Unit unit, int x, int y) {
 		int move = unit.get("Mov");
 		if(grid[y][x] != null && grid[y][x] != unit) return null;
@@ -177,6 +261,12 @@ public class Grid{
 		return null;
 	}
 
+	/**
+	 * Gets the possible moves.
+	 *
+	 * @param u the u
+	 * @return the possible moves
+	 */
 	public Set<Node> getPossibleMoves(Unit u) {
 		int x = u.getXCoord();
 		int y = u.getYCoord();
@@ -206,6 +296,12 @@ public class Grid{
 		return set;
 	}
 	
+	/**
+	 * Gets the attack range.
+	 *
+	 * @param u the u
+	 * @return the attack range
+	 */
 	public Set<Node> getAttackRange(Unit u){
 		Set<Node> move = getPossibleMoves(u);
 		Set<Node> set = new HashSet<Node>();
@@ -218,6 +314,12 @@ public class Grid{
 		return set;
 	}
 	
+	/**
+	 * Gets the heal range.
+	 *
+	 * @param u the u
+	 * @return the heal range
+	 */
 	public Set<Node> getHealRange(Unit u){
 		Set<Node> move = getPossibleMoves(u);
 		Set<Node> set = new HashSet<Node>();
@@ -228,6 +330,13 @@ public class Grid{
 		return set;
 	}
 	
+	/**
+	 * Gets the range.
+	 *
+	 * @param start the start
+	 * @param range the range
+	 * @return the range
+	 */
 	public Set<Node> getRange(Node start, Collection<Integer> range){
 		int[] r = new int[range.size()];
 		Iterator<Integer> it = range.iterator();
@@ -237,6 +346,13 @@ public class Grid{
 		return getRange(start, r);
 	}
 	
+	/**
+	 * Gets the range.
+	 *
+	 * @param start the start
+	 * @param range the range
+	 * @return the range
+	 */
 	public Set<Node> getRange(Node start, int... range){
 		Set<Node> set = new HashSet<Node>();
 		for(int r: range){
@@ -255,6 +371,12 @@ public class Grid{
 		return set;
 	}
 
+	/**
+	 * Gets the path.
+	 *
+	 * @param goal the goal
+	 * @return the path
+	 */
 	private Path getPath(Node goal) {
 		Path path = new Path();
 		Node cur = goal;
@@ -265,15 +387,38 @@ public class Grid{
 		return path;
 	}
 
+	/**
+	 * Heuristic.
+	 *
+	 * @param a the a
+	 * @param b the b
+	 * @return the int
+	 */
 	private int heuristic(Node a, Node b) {
 		// Manhattan heuristic is pretty good because no diag mvmt
 		return Math.abs(b.x - a.x) + Math.abs(b.y - a.y);
 	}
 
+	/**
+	 * Gets the distance.
+	 *
+	 * @param x1 the x1
+	 * @param y1 the y1
+	 * @param x2 the x2
+	 * @param y2 the y2
+	 * @return the distance
+	 */
 	public static int getDistance(int x1, int y1, int x2, int y2) {
 		return Math.abs(x1 - x2) + Math.abs(y1 - y2);
 	}
 
+	/**
+	 * Gets the distance.
+	 *
+	 * @param a the a
+	 * @param b the b
+	 * @return the distance
+	 */
 	public static int getDistance(Unit a, Unit b) {
 		return getDistance(a.getXCoord(), a.getYCoord(), b.getXCoord(), b.getYCoord());
 	}

@@ -7,15 +7,32 @@ import net.fe.overworldStage.Zone;
 import net.fe.unit.Unit;
 import chu.engine.anim.AudioPlayer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Idle.
+ */
 public class Idle extends CursorContext {
+	
+	/** The player. */
 	private Player player;
+	
+	/** The heal. */
 	private Zone move,attack,heal;
 	
+	/**
+	 * Instantiates a new idle.
+	 *
+	 * @param s the s
+	 * @param p the p
+	 */
 	public Idle(ClientOverworldStage s, Player p) {
 		super(s, null);
 		player = p;
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#startContext()
+	 */
 	public void startContext(){
 //		boolean movable = false;
 //		for(Unit u: stage.getCurrentPlayer().getParty()){
@@ -34,10 +51,16 @@ public class Idle extends CursorContext {
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#cleanUp()
+	 */
 	public void cleanUp(){
 		removeZones();
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#onSelect()
+	 */
 	@Override
 	public void onSelect() {
 		Unit u = getHoveredUnit();
@@ -52,11 +75,17 @@ public class Idle extends CursorContext {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#onCancel()
+	 */
 	@Override
 	public void onCancel() {
 		//Nothing
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.CursorContext#cursorWillChange()
+	 */
 	public void cursorWillChange(){
 		removeZones();
 		Unit u = getHoveredUnit();
@@ -66,6 +95,9 @@ public class Idle extends CursorContext {
 		AudioPlayer.playAudio("cursor");
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.CursorContext#cursorChanged()
+	 */
 	public void cursorChanged(){
 		Unit u = getHoveredUnit();
 		
@@ -77,6 +109,11 @@ public class Idle extends CursorContext {
 		}
 	}
 	
+	/**
+	 * Adds the zones.
+	 *
+	 * @param u the u
+	 */
 	public void addZones(Unit u){
 		this.move = new Zone(stage.grid.getPossibleMoves(u), Zone.MOVE_LIGHT);
 		this.attack = Zone.minus(
@@ -88,6 +125,9 @@ public class Idle extends CursorContext {
 		stage.addEntity(heal);
 	}
 	
+	/**
+	 * Removes the zones.
+	 */
 	public void removeZones(){
 		stage.removeEntity(move);
 		stage.removeEntity(attack);

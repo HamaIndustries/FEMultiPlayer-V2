@@ -16,19 +16,48 @@ import net.fe.network.message.JoinLobby;
 import net.fe.network.message.QuitMessage;
 import net.fe.network.message.SessionUpdate;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Client.
+ */
 public class Client {
 	
+	/** The server socket. */
 	private Socket serverSocket;
+	
+	/** The out. */
 	private ObjectOutputStream out;
+	
+	/** The in. */
 	private ObjectInputStream in;
+	
+	/** The server in. */
 	private Thread serverIn;
+	
+	/** The session. */
 	private Session session;
+	
+	/** The open. */
 	private boolean open = false;
+	
+	/** The close requested. */
 	private boolean closeRequested = false;
+	
+	/** The winner. */
 	public byte winner = -1;
+	
+	/** The id. */
 	byte id;
+	
+	/** The messages. */
 	public volatile ArrayList<Message> messages;
 	
+	/**
+	 * Instantiates a new client.
+	 *
+	 * @param ip the ip
+	 * @param port the port
+	 */
 	public Client(String ip, int port) {
 		messages = new ArrayList<Message>();
 		session = new Session();
@@ -63,10 +92,18 @@ public class Client {
 		}
 	}
 	
+	/**
+	 * Start.
+	 */
 	public void start() {
 		serverIn.start();
 	}
 	
+	/**
+	 * Process input.
+	 *
+	 * @param message the message
+	 */
 	private void processInput(Message message) {
 		if(message instanceof ClientInit) {
 			id = ((ClientInit)message).clientID;
@@ -99,10 +136,18 @@ public class Client {
 		messages.add(message);
 	}
 	
+	/**
+	 * Gets the messages.
+	 *
+	 * @return the messages
+	 */
 	public ArrayList<Message> getMessages() {
 		return messages;
 	}
 	
+	/**
+	 * Close.
+	 */
 	private void close() {
 		try {
 			in.close();
@@ -114,12 +159,20 @@ public class Client {
 		}
 	}
 	
+	/**
+	 * Quit.
+	 */
 	public void quit() {
 		sendMessage(new QuitMessage(id));
 		// simple security to prevent clients closing other clients
 		closeRequested = true;
 	}
 	
+	/**
+	 * Send message.
+	 *
+	 * @param message the message
+	 */
 	public void sendMessage(Message message) {
 		try {
 			message.origin = id;
@@ -130,14 +183,29 @@ public class Client {
 		}
 	}
 	
+	/**
+	 * Checks if is open.
+	 *
+	 * @return true, if is open
+	 */
 	public boolean isOpen() {
 		return open;
 	}
 
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public byte getID() {
 		return id;
 	}
 
+	/**
+	 * Gets the session.
+	 *
+	 * @return the session
+	 */
 	public Session getSession() {
 		return session;
 	}

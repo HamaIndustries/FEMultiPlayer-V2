@@ -16,18 +16,35 @@ import chu.engine.anim.BitmapFont;
 import chu.engine.anim.Renderer;
 import chu.engine.menu.TextInputBox;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class OverworldChat.
+ */
 public class OverworldChat extends TextInputBox implements DoNotDestroy {
 	
+	/** The chat. */
 	private Chat chat;
+	
+	/** The Constant TEXTBOX. */
 	private static final Color TEXTBOX = new Color(0.2f, 0.2f, 0.2f, 0.7f);
+	
+	/** The Constant CURSOR. */
 	private static final Color CURSOR = new Color(1f, 1f, 1f, 1f);
 	
+	/**
+	 * Instantiates a new overworld chat.
+	 *
+	 * @param chat the chat
+	 */
 	public OverworldChat(Chat chat) {
 		super(280,200,200,20,"default_med");
 		this.chat = chat;
 		renderDepth = ClientOverworldStage.CHAT_DEPTH;
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render() {
 		BitmapFont font = FEResources.getBitmapFont("default_med");
 		if(hasFocus) {
@@ -43,6 +60,9 @@ public class OverworldChat extends TextInputBox implements DoNotDestroy {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.menu.TextInputBox#beginStep()
+	 */
 	public void beginStep() {
 		super.beginStep();
 		List<KeyboardEvent> keys = Game.getKeys();
@@ -62,6 +82,9 @@ public class OverworldChat extends TextInputBox implements DoNotDestroy {
 		}
 	}
 	
+	/**
+	 * Send.
+	 */
 	public void send() {
 		if(input.length() == 0) return;
 		byte id = FEMultiplayer.getClient().getID();

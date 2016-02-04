@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import static java.lang.System.out;
 
 import net.fe.FEMultiplayer;
 import net.fe.RNG;
@@ -14,13 +15,35 @@ import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
 import net.fe.unit.Weapon;
 
+
+/**
+ * A calculator used to find damage, drain, effect and healing within fightstage.
+ * 
+ */
 public class CombatCalculator {
+	
+	/** The left & right units */
 	protected Unit left, right;
+	
+	/** The attack queue. */
 	private ArrayList<AttackRecord> attackQueue;
+	
+	/** The range. */
 	private int range;
+	
+	/** The next attack. */
 	private Queue<String> nextAttack;
 	
+	/** The attack triggers, weapon and unit skills */
 	private ArrayList<CombatTrigger> leftTriggers, rightTriggers;
+	
+	/**
+	 * Instantiates a new combat calculator.
+	 *
+	 * @param u1 the unit id of fighter 1
+	 * @param u2 the unit id of fighter 2
+	 * @param local whether the attack was made by the client (true) or opponent (false)
+	 */
 	public CombatCalculator(UnitIdentifier u1, UnitIdentifier u2, boolean local){
 		
 		if(local){
@@ -48,6 +71,10 @@ public class CombatCalculator {
 			FEServer.log("[BATL]0 BATTLEEND::");
 		}
 	}
+	
+	/**
+	 * Main calculation method, determines attack order, which units should attack, sets triggers, and finally runs each attack
+	 */
 	protected void calculate() {
 		// Determine turn order
 		ArrayList<Boolean> attackOrder = new ArrayList<Boolean>();
@@ -82,6 +109,15 @@ public class CombatCalculator {
 		}
 	}
 	
+	/**
+	 * 
+	 * Determines who should attack, according to health, equipped weapon, and if the unit is healing
+	 *
+	 * @param a the attacker
+	 * @param d the defender
+	 * @param range the range
+	 * @return true, if a is able to attack d
+	 */
 	public static boolean shouldAttack(Unit a, Unit d, int range){
 		if(a.getHp() <= 0) return false;
 		if(a.getWeapon() == null) return false;
@@ -91,10 +127,37 @@ public class CombatCalculator {
 		return true;
 	}
 	
+	/**
+	 * Adds the attack.
+	 *
+	 * @param effect the effect
+	 */
 	public void addAttack(String effect){
 		nextAttack.add(effect);
 	}
 
+	/**
+	 * Attack. Does most of the heavy lifting in this class, calculates the damage dealt and damage healed, if any.
+	 * 
+	 * <pre>
+	 *Combat Calculations:
+	 * 
+	 *a is attacker, d is defender.
+	 *
+	 *crit: true if [RNG.get(This returns a number 1-100) < a.crit() - d.dodge()] and not miss.
+	 *
+	 *hit = weapon.hit + [2 * Skl + Lck / 2] + tempMods.get("Hit") {<- normally hit, unless a skill augments that.}
+	 *
+	 *avoid = 2 * Spd + Lck / 2 + tempMods.get("Avo"){0 unless a skill etc} + TerrainAvoidBonus
+	 *
+	 *hit rate = a.hit() - d.avoid() + a.getWeapon().triMod(d.getWeapon()) * 15}
+	 *
+	 *miss occurs when (RNG + RNG)/2 > hitrate
+	 *</pre>
+	 *
+	 * @param leftAttacking If the left fighter is attacking
+	 * @param currentEffect the current effect
+	 */
 	private void attack(boolean leftAttacking, String currentEffect) {
 		Unit a = leftAttacking?left: right;
 		Unit d = leftAttacking?right: left;
@@ -218,7 +281,16 @@ public class CombatCalculator {
 		}
 		
 	}
-
+	
+	/**
+	 * Adds the attack to attack queue.
+	 *
+	 * @param a the attacker
+	 * @param d the defender
+	 * @param animation the animation
+	 * @param damage the damage
+	 * @param drain the damage healed
+	 */
 	public void addToAttackQueue(Unit a, Unit d, String animation, int damage, int drain) {
 		AttackRecord rec = new AttackRecord();
 		rec.attacker = new UnitIdentifier(a);
@@ -231,10 +303,22 @@ public class CombatCalculator {
 		System.out.println(rec);
 	}
 	
+	/**
+	 * Gets the attack queue.
+	 *
+	 * @return the attack queue
+	 */
 	public ArrayList<AttackRecord> getAttackQueue(){
 		return attackQueue;
 	}
 	
+	/**
+	 * Calculates base damage.
+	 *
+	 * @param a the attacker
+	 * @param d the defender
+	 * @return the base damage
+	 */
 	public static int calculateBaseDamage(Unit a, Unit d){
 		boolean effective = a.getWeapon().effective.contains(d.noGenderName());
 		int base;
@@ -250,6 +334,13 @@ public class CombatCalculator {
 		return Math.max(base, 0);
 	}
 	
+	/**
+	 * Hit rate.
+	 *
+	 * @param a the attacker
+	 * @param d the defender
+	 * @return the hit rate
+	 */
 	public static int hitRate(Unit a, Unit d){
 		return a.hit() - d.avoid() + a.getWeapon().triMod(d.getWeapon()) * 15;
 	}

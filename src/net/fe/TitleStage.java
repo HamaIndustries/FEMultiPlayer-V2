@@ -13,16 +13,36 @@ import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Transform;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TitleStage.
+ */
 public class TitleStage extends Stage{
+	
+	/** The alpha. */
 	private float alpha;
+	
+	/** The d alpha. */
 	private float dAlpha;
+	
+	/** The counter. */
 	private float counter;
+	
+	/** The title. */
 	private Texture title;
+	
+	/**
+	 * Instantiates a new title stage.
+	 */
 	public TitleStage(){
 		super("main_theme");
 		dAlpha = 0.9f;
 		title = FEResources.getTexture("title");
 	}
+	
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#beginStep()
+	 */
 	@Override
 	public void beginStep() {
 		List<KeyboardEvent> keys = Game.getKeys();
@@ -36,6 +56,9 @@ public class TitleStage extends Stage{
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#onStep()
+	 */
 	@Override
 	public void onStep() {
 		alpha += dAlpha * Game.getDeltaSeconds();
@@ -55,11 +78,17 @@ public class TitleStage extends Stage{
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#endStep()
+	 */
 	@Override
 	public void endStep() {
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#render()
+	 */
 	public void render(){
 		Renderer.render(title, 0, 0, 1, 1, 0, 0, 480, 320, 1);
 		Transform t = new Transform();

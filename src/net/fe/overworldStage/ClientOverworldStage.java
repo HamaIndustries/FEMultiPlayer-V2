@@ -40,33 +40,83 @@ import chu.engine.Game;
 import chu.engine.KeyboardEvent;
 import chu.engine.anim.AudioPlayer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ClientOverworldStage.
+ */
 public class ClientOverworldStage extends OverworldStage {
+	
+	/** The context. */
 	private OverworldContext context;
+	
+	/** The cursor. */
 	public final Cursor cursor;
+	
+	/** The unit info. */
 	UnitInfo unitInfo;
+	
+	/** The menu. */
 	private Menu<?> menu;
+	
+	/** The on control. */
 	private boolean onControl;
+	
+	/** The repeat timers. */
 	private float[] repeatTimers;
+	
+	/** The mov y. */
 	private int movX, movY;
+	
+	/** The selected unit. */
 	private Unit selectedUnit;
+	
+	/** The current cmd string. */
 	protected ArrayList<Object> currentCmdString;
 	
+	/** The cam x. */
 	public int camX;
+	
+	/** The cam y. */
 	public int camY;
+	
+	/** The cam max x. */
 	public int camMaxX;
+	
+	/** The cam max y. */
 	public int camMaxY;
 	
+	/** The Constant TILE_DEPTH. */
 	public static final float TILE_DEPTH = 0.95f;
+	
+	/** The Constant ZONE_DEPTH. */
 	public static final float ZONE_DEPTH = 0.9f;
+	
+	/** The Constant PATH_DEPTH. */
 	public static final float PATH_DEPTH = 0.8f;
+	
+	/** The Constant UNIT_DEPTH. */
 	public static final float UNIT_DEPTH = 0.6f;
+	
+	/** The Constant UNIT_MAX_DEPTH. */
 	public static final float UNIT_MAX_DEPTH = 0.5f;
+	
+	/** The Constant CHAT_DEPTH. */
 	public static final float CHAT_DEPTH = 0.3f;
+	
+	/** The Constant MENU_DEPTH. */
 	public static final float MENU_DEPTH = 0.2f;
+	
+	/** The Constant CURSOR_DEPTH. */
 	public static final float CURSOR_DEPTH = 0.15f;
 	
+	/** The Constant RIGHT_AXIS. */
 	public static final int RIGHT_AXIS = 480 - ObjectiveInfo.WIDTH/2 -2;
 
+	/**
+	 * Instantiates a new client overworld stage.
+	 *
+	 * @param s the s
+	 */
 	public ClientOverworldStage(Session s) {
 		super(s);
 		camX = camY = 0;
@@ -91,13 +141,21 @@ public class ClientOverworldStage extends OverworldStage {
 			SoundTrack.loop("overworld");
 		} else {
 			context = new WaitForMessages(this);
-			addEntity(new TurnDisplay(false, Party.TEAM_RED));
+			if(FEMultiplayer.getLocalPlayer().isSpectator())
+				addEntity(new TurnDisplay(false, getCurrentPlayer().getParty().getColor()));
+			else
+				addEntity(new TurnDisplay(false, Party.TEAM_RED));
 			SoundTrack.loop("enemy");
 		}
 		repeatTimers = new float[4];
 		currentCmdString = new ArrayList<Object>();
 	}
 	
+	/**
+	 * Sets the menu.
+	 *
+	 * @param m the new menu
+	 */
 	public void setMenu(Menu<?> m){
 		removeEntity(menu);
 		menu = m;
@@ -106,16 +164,29 @@ public class ClientOverworldStage extends OverworldStage {
 		}
 	}
 	
+	/**
+	 * Gets the menu.
+	 *
+	 * @return the menu
+	 */
 	public Menu<?> getMenu(){
 		return menu;
 	}
 	
+	/**
+	 * Reset.
+	 */
 	public void reset(){
 		context.cleanUp();
 		removeExtraneousEntities();
 		new Idle(this, getCurrentPlayer()).startContext();
 	}
 	
+	/**
+	 * Removes the extraneous entities.
+	 *
+	 * @param keep the keep
+	 */
 	public void removeExtraneousEntities(Entity... keep){
 		List<Entity> keeps = Arrays.asList(keep);
 		for(Entity e: entities){
@@ -126,6 +197,11 @@ public class ClientOverworldStage extends OverworldStage {
 		}
 	}
 	
+	/**
+	 * Include in view.
+	 *
+	 * @param coords the coords
+	 */
 	public void includeInView(Node... coords) {
 		// If all coords are visible in the current view, don't do anything
 		boolean allVisible = true;
@@ -157,11 +233,17 @@ public class ClientOverworldStage extends OverworldStage {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#render()
+	 */
 	public void render(){
 //		Renderer.scale(2, 2);
 		super.render();
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldStage#beginStep()
+	 */
 	@Override
 	public void beginStep() {
 		super.beginStep();
@@ -206,6 +288,9 @@ public class ClientOverworldStage extends OverworldStage {
 		processRemoveStack();
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldStage#onStep()
+	 */
 	@Override
 	public void onStep() {
 		for (Entity e : entities) {
@@ -215,6 +300,9 @@ public class ClientOverworldStage extends OverworldStage {
 		processRemoveStack();
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldStage#endStep()
+	 */
 	@Override
 	public void endStep() {
 		for (Entity e : entities) {
@@ -224,25 +312,46 @@ public class ClientOverworldStage extends OverworldStage {
 		processRemoveStack();
 	}
 
+	/**
+	 * Sets the context.
+	 *
+	 * @param c the new context
+	 */
 	void setContext(OverworldContext c) {
 		context.cleanUp();
 		context = c;
 	}
 	
+	/**
+	 * Sets the control.
+	 *
+	 * @param c the new control
+	 */
 	public void setControl(boolean c){
 		onControl = c;
 	}
 	
+	/**
+	 * Checks for control.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasControl(){
 		return onControl;
 	}
 	
+	/**
+	 * End.
+	 */
 	public void end(){
 		FEMultiplayer.getClient().sendMessage(new EndTurn());
 		selectedUnit = null;
 		removeExtraneousEntities();
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldStage#doEndTurn(int)
+	 */
 	@Override
 	protected void doEndTurn(int playerID) {
 		super.doEndTurn(playerID);
@@ -261,6 +370,9 @@ public class ClientOverworldStage extends OverworldStage {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldStage#doStartTurn(int)
+	 */
 	protected void doStartTurn(int playerID){
 		super.doStartTurn(playerID);
 		if(FEMultiplayer.getLocalPlayer().getID() == getCurrentPlayer().getID()){
@@ -268,14 +380,23 @@ public class ClientOverworldStage extends OverworldStage {
 			addEntity(new TurnDisplay(true, Party.TEAM_BLUE));
 		} else {
 			context = new WaitForMessages(this);
-			addEntity(new TurnDisplay(false, Party.TEAM_RED));
+			if(FEMultiplayer.getLocalPlayer().isSpectator())
+				addEntity(new TurnDisplay(false, getCurrentPlayer().getParty().getColor()));
+			else
+				addEntity(new TurnDisplay(false, Party.TEAM_RED));
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldStage#beforeTriggerHook(net.fe.overworldStage.TerrainTrigger, int, int)
+	 */
 	protected void beforeTriggerHook(TerrainTrigger t, int x, int y){
 		addEntity(t.getAnimation(this, x, y));
 	}
 	
+	/**
+	 * Clear cmd string.
+	 */
 	private void clearCmdString(){
 		selectedUnit = null;
 		movX = 0;
@@ -283,15 +404,28 @@ public class ClientOverworldStage extends OverworldStage {
 		currentCmdString.clear();
 	}
 	
+	/**
+	 * Adds the cmd.
+	 *
+	 * @param cmd the cmd
+	 */
 	public void addCmd(Object cmd){
 		currentCmdString.add(cmd);
 	}
 	
+	/**
+	 * Adds the cmd.
+	 *
+	 * @param cmd the cmd
+	 */
 	public void addCmd(Object... cmd){
 		for(Object o: cmd)
 			currentCmdString.add(o);
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldStage#processCommands(net.fe.network.message.CommandMessage)
+	 */
 	@Override
 	public void processCommands(CommandMessage message) {
 		final CommandMessage cmds = (CommandMessage) message;
@@ -420,14 +554,27 @@ public class ClientOverworldStage extends OverworldStage {
 		}
 	}
 	
+	/**
+	 * Sets the mov x.
+	 *
+	 * @param x the new mov x
+	 */
 	public void setMovX(int x){
 		movX = x;
 	}
 	
+	/**
+	 * Sets the mov y.
+	 *
+	 * @param y the new mov y
+	 */
 	public void setMovY(int y){
 		movY = y;
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldStage#checkEndGame()
+	 */
 	public void checkEndGame() {
 		if(FEMultiplayer.getClient().winner != -1) {
 			String winnerName = getPlayerByID(FEMultiplayer.getClient().winner).getName();
@@ -436,10 +583,18 @@ public class ClientOverworldStage extends OverworldStage {
 		}
 	}
 	
+	/**
+	 * Sets the selected unit.
+	 *
+	 * @param u the new selected unit
+	 */
 	public void setSelectedUnit(Unit u){
 		selectedUnit = u;
 	}
 	
+	/**
+	 * Send.
+	 */
 	public void send(){
 		UnitIdentifier uid = null;
 		if(selectedUnit != null)
@@ -448,6 +603,9 @@ public class ClientOverworldStage extends OverworldStage {
 		clearCmdString();
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldStage#loadLevel(java.lang.String)
+	 */
 	public void loadLevel(String levelName) {
         try {
             InputStream in = ResourceLoader.getResourceAsStream("levels/"+levelName+".lvl");
@@ -507,18 +665,36 @@ public class ClientOverworldStage extends OverworldStage {
         }
 	}
 	
+	/**
+	 * Gets the hovered unit.
+	 *
+	 * @return the hovered unit
+	 */
 	public Unit getHoveredUnit() {
 		return getUnit(cursor.getXCoord(), cursor.getYCoord());
 	}
 	
+	/**
+	 * Gets the hovered terrain.
+	 *
+	 * @return the hovered terrain
+	 */
 	public Terrain getHoveredTerrain() {
 		return grid.getTerrain(cursor.getXCoord(), cursor.getYCoord());
 	}
 
+	/**
+	 * Gets the selected unit.
+	 *
+	 * @return the selected unit
+	 */
 	public Unit getSelectedUnit() {
 		return selectedUnit;
 	}
 
+	/**
+	 * Play sound track.
+	 */
 	public void playSoundTrack() {
 		if(getCurrentPlayer().equals(FEMultiplayer.getLocalPlayer())) {
 			SoundTrack.loop("overworld");

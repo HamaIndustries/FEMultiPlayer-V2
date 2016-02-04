@@ -11,15 +11,39 @@ import chu.engine.Game;
 import chu.engine.KeyboardEvent;
 import chu.engine.anim.BitmapFont;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TextInputBox.
+ */
 public abstract class TextInputBox extends Entity {
 
+	/** The width. */
 	protected float width;
+	
+	/** The height. */
 	protected float height;
+	
+	/** The has focus. */
 	protected boolean hasFocus;
+	
+	/** The cursor pos. */
 	protected int cursorPos;
+	
+	/** The input. */
 	protected StringBuilder input;
+	
+	/** The font. */
 	protected BitmapFont font;
 	
+	/**
+	 * Instantiates a new text input box.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param w the w
+	 * @param h the h
+	 * @param fontname the fontname
+	 */
 	public TextInputBox(float x, float y, float w, float h, String fontname) {
 		super(x, y);
 		width = w;
@@ -30,6 +54,9 @@ public abstract class TextInputBox extends Entity {
 		font = FEResources.getBitmapFont(fontname);
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#beginStep()
+	 */
 	public void beginStep() {
 		if(hasFocus) {
 			List<KeyboardEvent> keys = Game.getKeys();
@@ -60,6 +87,13 @@ public abstract class TextInputBox extends Entity {
 		}
 	}
 	
+	/**
+	 * In bounds.
+	 *
+	 * @param otherX the other x
+	 * @param otherY the other y
+	 * @return true, if successful
+	 */
 	protected boolean inBounds(float otherX, float otherY) {
 		if(otherX < x || otherX >= x+width 
 				|| otherY < y || otherY >= y+height) {
@@ -68,10 +102,21 @@ public abstract class TextInputBox extends Entity {
 		return true;
 	}
 	
+	/**
+	 * Checks if is valid character.
+	 *
+	 * @param c the c
+	 * @return true, if is valid character
+	 */
 	private boolean isValidCharacter(char c) {
 		return font.containsCharacter(c);
 	}
 
+	/**
+	 * Gets the input.
+	 *
+	 * @return the input
+	 */
 	public String getInput() {
 		return input.toString();
 	}

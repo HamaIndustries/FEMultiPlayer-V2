@@ -6,9 +6,23 @@ import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SoundTrack.
+ */
 public class SoundTrack {
+	
+	/** The current. */
 	private static String current;
+	
+	/** The enabled. */
 	public static boolean enabled = true;
+	
+	/**
+	 * Loop.
+	 *
+	 * @param name the name
+	 */
 	public static void loop(String name){
 		if(!enabled) return;
 		if(name.equals(current)) return;
@@ -20,6 +34,10 @@ public class SoundTrack {
 		} catch (Exception e){
 		}
 	}
+	
+	/**
+	 * Restart.
+	 */
 	public static void restart(){
 		if(!enabled) return;
 		try {

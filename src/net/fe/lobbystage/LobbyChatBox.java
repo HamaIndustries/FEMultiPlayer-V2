@@ -17,16 +17,31 @@ import chu.engine.anim.BitmapFont;
 import chu.engine.anim.Renderer;
 import chu.engine.menu.TextInputBox;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LobbyChatBox.
+ */
 public class LobbyChatBox extends TextInputBox {
 	
+	/** The Constant UNFOCUSED. */
 	private static final Color UNFOCUSED = new Color(0x58543c);
+	
+	/** The Constant FOCUSED. */
 	private static final Color FOCUSED = new Color(0x817b58);
+	
+	/** The Constant CURSOR. */
 	private static final Color CURSOR = new Color(0xeeeeee);
 
+	/**
+	 * Instantiates a new lobby chat box.
+	 */
 	public LobbyChatBox() {
 		super(6, 294, 250, 20, "default_med");
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.menu.TextInputBox#beginStep()
+	 */
 	public void beginStep() {
 		List<MouseEvent> mouseEvents = Game.getMouseEvents();
 		for(MouseEvent event : mouseEvents) {
@@ -50,6 +65,9 @@ public class LobbyChatBox extends TextInputBox {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render() {
 		BitmapFont font = FEResources.getBitmapFont("default_med");
 		if(hasFocus) {
@@ -62,6 +80,9 @@ public class LobbyChatBox extends TextInputBox {
 		Renderer.drawString("default_med", input.toString(), x+2, y+5, renderDepth-0.01f);
 	}
 
+	/**
+	 * Send.
+	 */
 	public void send() {
 		if(input.length() == 0) return;
 		AudioPlayer.playAudio("cancel");

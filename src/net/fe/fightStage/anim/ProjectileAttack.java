@@ -1,15 +1,35 @@
 package net.fe.fightStage.anim;
 
 import net.fe.fightStage.FightStage;
+
+import static java.lang.System.out;
+
 import chu.engine.AnimationData;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ProjectileAttack.
+ */
 public class ProjectileAttack extends AttackAnimation{
+	
+	/** The ididit. */
 	private boolean ididit;
+	
+	/**
+	 * Instantiates a new projectile attack.
+	 *
+	 * @param data the data
+	 * @param stage the stage
+	 * @param animArgs the anim args
+	 */
 	public ProjectileAttack(AnimationData data, FightStage stage,
 			AnimationArgs animArgs) {
 		super(data, stage, animArgs);
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.fightStage.anim.AttackAnimation#update()
+	 */
 	public void update(){
 		super.update();
 		if(getFrame() >= hitframes[0] && !ididit){
@@ -18,6 +38,9 @@ public class ProjectileAttack extends AttackAnimation{
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.fightStage.anim.AttackAnimation#done()
+	 */
 	public void done(){
 		try{
 			super.done();
@@ -28,11 +51,17 @@ public class ProjectileAttack extends AttackAnimation{
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.fightStage.anim.AttackAnimation#onLastHit()
+	 */
 	@Override
 	public void onLastHit() {
 		stage.setCurrentEvent(FightStage.HIT_EFFECT);
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.fightStage.anim.AttackAnimation#onHit()
+	 */
 	@Override
 	public void onHit() {
 		

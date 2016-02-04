@@ -4,10 +4,27 @@ import net.fe.FEResources;
 import chu.engine.Game;
 import chu.engine.anim.Animation;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MapAnimation.
+ */
 public class MapAnimation extends Animation {
+	
+	/** The synchro. */
 	private boolean synchro;
+	
+	/** The synchro frame. */
 	private static int synchroFrame;
+	
+	/** The counter. */
 	private static float counter;
+	
+	/**
+	 * Instantiates a new map animation.
+	 *
+	 * @param name the name
+	 * @param walking the walking
+	 */
 	public MapAnimation(String name, boolean walking){
 		super(FEResources.getTexture(name.toLowerCase()), 48, 
 				name.matches("swordmaster.*selected")?60:48,
@@ -19,6 +36,10 @@ public class MapAnimation extends Animation {
 		synchro = !walking;
 		speed = 0.15f;
 	}
+	
+	/* (non-Javadoc)
+	 * @see chu.engine.anim.Animation#update()
+	 */
 	public void update(){
 		if(!synchro){
 			super.update();
@@ -27,6 +48,9 @@ public class MapAnimation extends Animation {
 		}
 	}
 	
+	/**
+	 * Update all.
+	 */
 	public static void updateAll(){
 		counter += Game.getDeltaSeconds();
 		if(counter > 0.08 && synchroFrame % 2 != 0 ||

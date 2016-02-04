@@ -9,8 +9,16 @@ import chu.engine.Game;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Tileset;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Path.
+ */
 public class Path extends Entity{
+	
+	/** The path. */
 	private LinkedList<Node> path;
+	
+	/** The arrows. */
 	private static Tileset arrows;
 	
 	static {
@@ -18,6 +26,9 @@ public class Path extends Entity{
 			arrows = new Tileset(FEResources.getTexture("move_arrows"), 16, 16);
 	}
 	
+	/**
+	 * Instantiates a new path.
+	 */
 	public Path() {
 		super(0,0);
 		path = new LinkedList<Node>();
@@ -25,26 +36,55 @@ public class Path extends Entity{
 
 	}
 	
+	/**
+	 * Adds the.
+	 *
+	 * @param n the n
+	 */
 	public void add(Node n) {
 		path.add(n);
 	}
 	
+	/**
+	 * Adds the.
+	 *
+	 * @param pos the pos
+	 * @param n the n
+	 */
 	public void add(int pos, Node n) {
 		path.add(pos, n);
 	}
 	
+	/**
+	 * Removes the first.
+	 *
+	 * @return the node
+	 */
 	public Node removeFirst(){
 		return path.removeFirst();
 	}
 	
+	/**
+	 * Gets the first.
+	 *
+	 * @return the first
+	 */
 	public Node getFirst(){
 		return path.getFirst();
 	}
 	
+	/**
+	 * Size.
+	 *
+	 * @return the int
+	 */
 	public int size(){
 		return path.size();
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render() {
 		ClientOverworldStage cs = (ClientOverworldStage)stage;
 		Renderer.translate(-cs.camX, -cs.camY);
@@ -109,6 +149,11 @@ public class Path extends Entity{
 		Renderer.translate(cs.camX, cs.camY);
 	}
 	
+	/**
+	 * Gets the copy.
+	 *
+	 * @return the copy
+	 */
 	public Path getCopy(){
 		Path copy = new Path();
 		for(Node n : path){
@@ -117,10 +162,18 @@ public class Path extends Entity{
 		return copy;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString(){
 		return path.toString();
 	}
 
+	/**
+	 * Gets the all nodes.
+	 *
+	 * @return the all nodes
+	 */
 	public Node[] getAllNodes() {
 		Node[] nodes = new Node[path.size()];
 		path.toArray(nodes);

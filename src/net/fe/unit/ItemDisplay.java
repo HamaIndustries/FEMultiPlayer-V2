@@ -10,11 +10,32 @@ import chu.engine.anim.Renderer;
 import chu.engine.anim.ShaderArgs;
 import chu.engine.anim.Transform;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ItemDisplay.
+ */
 public class ItemDisplay extends Entity{
+	
+	/** The item. */
 	private Item item;
+	
+	/** The equip. */
 	private boolean equip;
+	
+	/** The weapon icon. */
 	private static Texture weaponIcon = FEResources.getTexture("gui_weaponIcon");
+	
+	/** The e. */
 	private static Texture e = FEResources.getTexture("e");
+	
+	/**
+	 * Instantiates a new item display.
+	 *
+	 * @param f the f
+	 * @param g the g
+	 * @param i the i
+	 * @param equip the equip
+	 */
 	public ItemDisplay(float f, float g, Item i, boolean equip){
 		super(f,g);
 		renderDepth = 0.05f;
@@ -22,10 +43,20 @@ public class ItemDisplay extends Entity{
 		this.equip = equip;
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render(){
 		render(null, false, 0);
 	}
 	
+	/**
+	 * Render.
+	 *
+	 * @param t the t
+	 * @param effective the effective
+	 * @param timer the timer
+	 */
 	public void render(Transform t, boolean effective, float timer) {
 		if(item == null) return;
 		int row = item.id/8;
@@ -48,6 +79,11 @@ public class ItemDisplay extends Entity{
 		}
 	}
 	
+	/**
+	 * Gets the item.
+	 *
+	 * @return the item
+	 */
 	public Item getItem(){
 		return item;
 	}

@@ -7,8 +7,21 @@ import chu.engine.Entity;
 import chu.engine.anim.Animation;
 import chu.engine.anim.Transform;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BackgroundEffect.
+ */
 public class BackgroundEffect extends Entity {
+	
+	/** The left. */
 	private boolean left;
+	
+	/**
+	 * Instantiates a new background effect.
+	 *
+	 * @param name the name
+	 * @param left the left
+	 */
 	public BackgroundEffect(String name, boolean left){
 		super(0,0);
 		renderDepth = FightStage.BG_DEPTH;
@@ -25,6 +38,9 @@ public class BackgroundEffect extends Entity {
 		});
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render(){
 		Transform t = new Transform();
 		if(left){

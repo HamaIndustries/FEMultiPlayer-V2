@@ -6,9 +6,20 @@ import chu.engine.Entity;
 import chu.engine.anim.Animation;
 import chu.engine.anim.AudioPlayer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MissEffect.
+ */
 public class MissEffect extends Entity {
 
+	/** The left. */
 	private boolean left;
+	
+	/**
+	 * Instantiates a new miss effect.
+	 *
+	 * @param left the left
+	 */
 	public MissEffect(boolean left) {
 		super(0, 0);
 		AudioPlayer.playAudio("miss");
@@ -30,6 +41,9 @@ public class MissEffect extends Entity {
 		renderDepth = FightStage.EFFECT_DEPTH;
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	@Override
 	public void render() {
 		if(left)

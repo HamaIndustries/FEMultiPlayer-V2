@@ -6,9 +6,19 @@ import chu.engine.GriddedEntity;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Tileset;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Tile.
+ */
 public class Tile extends GriddedEntity implements DoNotDestroy{
+	
+	/** The terrain. */
 	private Terrain terrain;
+	
+	/** The id. */
 	private int id;
+	
+	/** The tileset. */
 	private static Tileset tileset;
 	
 	static {
@@ -17,26 +27,7 @@ public class Tile extends GriddedEntity implements DoNotDestroy{
 		}
 	}
 	
-	/**
-	 * P - Plain
-	 * A - pAth
-	 * M - Mountain
-	 * ^ - Forest
-	 * = - Wall
-	 * S - Sea
-	 * L - fLoor
-	 * T - forT
-	 * K - peaK
-	 * I - pIllar
-	 * D - Desert
-	 * - - fence
-	 * N - None
-	 * V - Village
-	 * O - thrOne (or castle entrance)
-	 * C - Cliff
-	 * ~ - Hill
-	 * H - House
-	 */
+	/** P - Plain A - pAth M - Mountain ^ - Forest = - Wall S - Sea L - fLoor T - forT K - peaK I - pIllar D - Desert - - fence N - None V - Village O - thrOne (or castle entrance) C - Cliff ~ - Hill H - House. */
 	private static String terrainMap =
 			"PPPPAAAAAAA----SSSS      " +
 			"PPPPAAAAAAA----SSSS      " +
@@ -69,6 +60,13 @@ public class Tile extends GriddedEntity implements DoNotDestroy{
 			"                         " +
 			"                         ";
 
+	/**
+	 * Instantiates a new tile.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param id the id
+	 */
 	public Tile(int x, int y, int id) {
 		super(x,y);
 		renderDepth = ClientOverworldStage.TILE_DEPTH;
@@ -76,16 +74,30 @@ public class Tile extends GriddedEntity implements DoNotDestroy{
 		setTerrain(getTerrainFromID(id));
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render(){
 		Renderer.addClip(0, 0, 368, 240, false);
 		ClientOverworldStage c = (ClientOverworldStage)stage;
 		tileset.render(x - c.camX, y - c.camY, id%25, id/25, renderDepth);
 	}
 
+	/**
+	 * Gets the terrain.
+	 *
+	 * @return the terrain
+	 */
 	public Terrain getTerrain() {
 		return terrain;
 	}
 	
+	/**
+	 * Gets the terrain from id.
+	 *
+	 * @param id the id
+	 * @return the terrain from id
+	 */
 	public static Terrain getTerrainFromID(int id) {
 		char ch = terrainMap.charAt(id);
 		Terrain t;
@@ -111,6 +123,11 @@ public class Tile extends GriddedEntity implements DoNotDestroy{
 		return t;
 	}
 
+	/**
+	 * Sets the terrain.
+	 *
+	 * @param terrain the new terrain
+	 */
 	public void setTerrain(Terrain terrain) {
 		this.terrain = terrain;
 	}
