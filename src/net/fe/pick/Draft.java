@@ -3,8 +3,8 @@ package net.fe.pick;
 import net.fe.FEMultiplayer;
 import net.fe.Player;
 import net.fe.Session;
-import net.fe.builderStage.ClientWaitStage;
 import net.fe.builderStage.TeamDraftStage;
+import net.fe.builderStage.DraftViewStage;
 import net.fe.builderStage.WaitStage;
 import net.fe.network.FEServer;
 
@@ -28,7 +28,7 @@ public class Draft implements PickMode {
 			TeamDraftStage stage = new TeamDraftStage(session); //thar ye be yeh little scumbucket TODO
 			FEMultiplayer.setCurrentStage(stage);
 		} else {
-			ClientWaitStage stage = new ClientWaitStage(session);
+			DraftViewStage stage = new DraftViewStage(session);
 			//System.out.println(FEMultiplayer.getLocalPlayer().getParty().getColor()+"++++++++++++++++++++++++++");
 			//TeamDraftStage stage = new TeamDraftStage(session);
 			FEMultiplayer.setCurrentStage(stage);
