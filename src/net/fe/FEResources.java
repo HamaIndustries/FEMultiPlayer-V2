@@ -64,6 +64,8 @@ public class FEResources {
 	 * @return the texture
 	 */
 	public static Texture getTexture(String string) {
+		if(string.contains("phantom") && string.contains("mugshot"))
+			return getTextureData("phantom_mugshot").getTexture();
 		return getTextureData(string).getTexture();
 	}
 	

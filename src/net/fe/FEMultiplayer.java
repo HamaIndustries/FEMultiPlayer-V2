@@ -33,6 +33,7 @@ import net.fe.overworldStage.Grid;
 import net.fe.overworldStage.Terrain;
 import net.fe.overworldStage.objective.Seize;
 import net.fe.transition.OverworldFightTransition;
+import net.fe.unit.RiseTome;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitFactory;
 import net.fe.unit.UnitIdentifier;
@@ -245,10 +246,12 @@ public class FEMultiplayer extends Game{
 		Player p2 = new Player("P2", (byte)1);
 		p2.getParty().setColor(Party.TEAM_RED);
 		testSession.addPlayer(p2);
+		localPlayer.getParty().setColor(Party.TEAM_BLUE);
+		p2.setTeam(2);
+		localPlayer.setTeam(1);
 		
-		Unit u1 = UnitFactory.getUnit("Gilliam");
-		u1.addToInventory(WeaponFactory.getWeapon("Gradivus"));
-		u1.equip(0);
+		Unit u1 = UnitFactory.getUnit("Canas");
+		u1.addToInventory(new RiseTome());
 		u1.setHp(1);
 		localPlayer.getParty().addUnit(u1);
 		

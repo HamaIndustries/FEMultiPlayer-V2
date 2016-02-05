@@ -23,8 +23,7 @@ public class RiseTome extends Item{
 	 * @see net.fe.unit.Item#getCopy()
 	 */
 	public RiseTome getCopy(){
-		RiseTome w = new RiseTome();
-		return w;
+		return new RiseTome();
 	}
 	
 	/* (non-Javadoc)

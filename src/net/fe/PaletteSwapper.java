@@ -29,7 +29,7 @@ public class PaletteSwapper {
 		String[] p = new String[] {"overworld", "general", "assassin", 
 				"berserker", "hero", "paladin", "sagem", "sagef", "sniperm", 
 				"sniperf", "sorcerer", "swordmasterm", 
-				"swordmasterf", "valkyrie", "falconknight"};
+				"swordmasterf", "valkyrie", "falconknight","phantom"};
 		palettes = new HashMap<String, Texture>();
 		lookup = new HashMap<String, List<String>>();
 		lookup.put("general", Arrays.asList(new String[] {"Wallace", "Oswin", "Amelia", "Gilliam"}));
