@@ -5309,6 +5309,26 @@
 			"path":		"res/map_anim/ephraim_map_up.png"
 		},
 		{
+			"name":		"falconknight_map_down",
+			"path":		"res/map_anim/falconknight_map_down.png"
+		},
+		{
+			"name":		"falconknight_map_idle",
+			"path":		"res/map_anim/falconknight_map_idle.png"
+		},
+		{
+			"name":		"falconknight_map_selected",
+			"path":		"res/map_anim/falconknight_map_selected.png"
+		},
+		{
+			"name":		"falconknight_map_side",
+			"path":		"res/map_anim/falconknight_map_side.png"
+		},
+		{
+			"name":		"falconknight_map_up",
+			"path":		"res/map_anim/falconknight_map_up.png"
+		},
+		{
 			"name":		"general_map_down",
 			"path":		"res/map_anim/general_map_down.png"
 		},
@@ -5914,6 +5934,10 @@
 		{
 			"name":		"palette_warrior",
 			"path":		"res/palette/palette_warrior.png"
+		},
+		{
+			"name":		"palette_phantom",
+			"path":		"res/palette/palette_phantom.png"
 		},
 		{
 			"name":		"terrain_tiles",
