@@ -141,7 +141,10 @@ public class ClientOverworldStage extends OverworldStage {
 			SoundTrack.loop("overworld");
 		} else {
 			context = new WaitForMessages(this);
-			addEntity(new TurnDisplay(false, Party.TEAM_RED));
+			if(FEMultiplayer.getLocalPlayer().isSpectator())
+				addEntity(new TurnDisplay(false, getCurrentPlayer().getParty().getColor()));
+			else
+				addEntity(new TurnDisplay(false, Party.TEAM_RED));
 			SoundTrack.loop("enemy");
 		}
 		repeatTimers = new float[4];
@@ -377,7 +380,10 @@ public class ClientOverworldStage extends OverworldStage {
 			addEntity(new TurnDisplay(true, Party.TEAM_BLUE));
 		} else {
 			context = new WaitForMessages(this);
-			addEntity(new TurnDisplay(false, Party.TEAM_RED));
+			if(FEMultiplayer.getLocalPlayer().isSpectator())
+				addEntity(new TurnDisplay(false, getCurrentPlayer().getParty().getColor()));
+			else
+				addEntity(new TurnDisplay(false, Party.TEAM_RED));
 		}
 	}
 	
