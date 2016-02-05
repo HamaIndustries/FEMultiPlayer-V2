@@ -2668,7 +2668,6 @@
 			"freeze":	0
 		},
 		{
-<<<<<<< HEAD
 			"name":		"paladin_axe_attack",
 			"path":		"res/battle_anim/paladin_axe_attack.png",
 			"width":	121,
@@ -2708,32 +2707,10 @@
 				{
 					"frame":	26,
 					"sound":	"horse_step"
-=======
-			"name":		"phantom_axe_attack",
-			"path":		"res/battle_anim/berserker_axe_attack.png",
-			"width":	85,
-			"height":	73,
-			"frames":	9,
-			"columns":	3,
-			"offsetX":	68,
-			"offsetY":	69,
-			"freeze":	0,
-			"speed":	0.06,
-			"hitframes":[4],
-			"soundMap": [
-				{
-					"frame":	2,
-					"sound":	"axe_swipe3"
-				},
-				{
-					"frame":	7,
-					"sound":	"catch"
->>>>>>> summons
 				},
 			]
 		},
 		{
-<<<<<<< HEAD
 			"name":		"paladin_axe_critical",
 			"path":		"res/battle_anim/paladin_axe_critical.png",
 			"width":	143,
@@ -2813,39 +2790,10 @@
 				{
 					"frame":	70,
 					"sound":	"horse_step"
-=======
-			"name":		"phantom_axe_critical",
-			"path":		"res/battle_anim/berserker_axe_critical.png",
-			"width":	87,
-			"height":	93,
-			"frames":	40,
-			"columns":	7,
-			"offsetX":	68,
-			"offsetY":	90,
-			"freeze":	0,
-			"hitframes":[35],
-			"soundMap": [
-				{
-					"frame":	4,
-					"sound":	"spin"
-				},
-				{
-					"frame":	32,
-					"sound":	"catch"
-				},
-				{
-					"frame":	33,
-					"sound":	"axe_swipe3"
-				},
-				{
-					"frame":	38,
-					"sound":	"catch"
->>>>>>> summons
 				},
 			]
 		},
 		{
-<<<<<<< HEAD
 			"name":		"paladin_axe_dodge",
 			"path":		"res/battle_anim/paladin_axe_dodge.png",
 			"width":	59,
@@ -2886,7 +2834,93 @@
 				{
 					"frame":	8,
 					"sound":	"axe_throw"
-=======
+				},
+			]
+		},
+		{
+			"name":		"paladin_handaxe_critical",
+			"path":		"res/battle_anim/paladin_handaxe_critical.png",
+			"width":	238,
+			"height":	89,
+			"frames":	22,
+			"columns":	5,
+			"offsetX":	177,
+			"offsetY":	75,
+			"freeze":	0,
+			"hitframes":[16],
+			"soundMap": [
+				{
+					"frame":	1,
+					"sound":	"horse_step"
+				},
+				{
+					"frame":	5,
+					"sound":	"axe_swipe4"
+				},
+				{
+					"frame":	8,
+					"sound":	"axe_swipe4"
+				},
+				{
+					"frame":	15,
+					"sound":	"axe_throw"
+				},
+			]
+		},
+		{
+			"name":		"phantom_axe_attack",
+			"path":		"res/battle_anim/berserker_axe_attack.png",
+			"width":	85,
+			"height":	73,
+			"frames":	9,
+			"columns":	3,
+			"offsetX":	68,
+			"offsetY":	69,
+			"freeze":	0,
+			"speed":	0.06,
+			"hitframes":[4],
+			"soundMap": [
+				{
+					"frame":	2,
+					"sound":	"axe_swipe3"
+				},
+				{
+					"frame":	7,
+					"sound":	"catch"
+				},
+			]
+		},
+		{
+			"name":		"phantom_axe_critical",
+			"path":		"res/battle_anim/berserker_axe_critical.png",
+			"width":	87,
+			"height":	93,
+			"frames":	40,
+			"columns":	7,
+			"offsetX":	68,
+			"offsetY":	90,
+			"freeze":	0,
+			"hitframes":[35],
+			"soundMap": [
+				{
+					"frame":	4,
+					"sound":	"spin"
+				},
+				{
+					"frame":	32,
+					"sound":	"catch"
+				},
+				{
+					"frame":	33,
+					"sound":	"axe_swipe3"
+				},
+				{
+					"frame":	38,
+					"sound":	"catch"
+				},
+			]
+		},
+		{
 			"name":		"phantom_axe_dodge",
 			"path":		"res/battle_anim/berserker_axe_dodge.png",
 			"width":	37,
@@ -2917,39 +2951,10 @@
 				{
 					"frame":	22,
 					"sound":	"catch"
->>>>>>> summons
 				},
 			]
 		},
 		{
-<<<<<<< HEAD
-			"name":		"paladin_handaxe_critical",
-			"path":		"res/battle_anim/paladin_handaxe_critical.png",
-			"width":	238,
-			"height":	89,
-			"frames":	22,
-			"columns":	5,
-			"offsetX":	177,
-			"offsetY":	75,
-			"freeze":	0,
-			"hitframes":[16],
-			"soundMap": [
-				{
-					"frame":	1,
-					"sound":	"horse_step"
-				},
-				{
-					"frame":	5,
-					"sound":	"axe_swipe4"
-				},
-				{
-					"frame":	8,
-					"sound":	"axe_swipe4"
-				},
-				{
-					"frame":	15,
-					"sound":	"axe_throw"
-=======
 			"name":		"phantom_handaxe_critical",
 			"path":		"res/battle_anim/berserker_handaxe_critical.png",
 			"width":	192,
@@ -2972,13 +2977,10 @@
 				{
 					"frame":	27,
 					"sound":	"catch"
->>>>>>> summons
 				},
 			]
 		},
 		{
-<<<<<<< HEAD
-=======
 			"name":		"phantom_handaxe_dodge",
 			"path":		"res/battle_anim/berserker_handaxe_dodge.png",
 			"width":	39,
@@ -2990,7 +2992,6 @@
 			"freeze":	0
 		},
 		{
->>>>>>> summons
 			"name":		"roy_sword_critical",
 			"path":		"res/battle_anim/roy_sword_critical.png",
 			"width":	142,
@@ -5022,58 +5023,58 @@
 			]
 		},
 		{
-			"name":		"magic_effect_eclipse",
-			"path":		"res/battle_anim/magic_effect_null.png",
-			"width":	8,
-			"height":	8,
-			"frames":	1,
-			"columns":	1,
-			"offsetX":	0,
-			"offsetY":	0,
-			"freeze":	-1
-		},
-		{
-			"name":		"bg_effect_eclipse",
-			"path":		"res/battle_anim/magic_effect_null.png",
-			"width":	8,
-			"height":	8,
-			"frames":	1,
-			"columns":	1,
-			"offsetX":	0,
-			"offsetY":	0,
-			"freeze":	-1
-		},
-		{
-			"name":		"hit_effect_eclipse",
-			"path":		"res/battle_anim/hit_effect_eclipse.png",
-			"width":	167,
-			"height":	100,
-			"frames":	126,
-			"columns":	7,
-			"offsetX":	85,
-			"offsetY":	85,
-			"freeze":	-1,
-			"hitframes": [125],
-			"shakeIntensity": 7,
-			"soundMap": [
-				{
-					"frame":12,
-					"sound":"eclipse1"
-				},
-				{
-					"frame":36,
-					"sound":"eclipse1"
-				},
-				{
-					"frame":77,
-					"sound":"eclipse2"
-				}
-				{
-					"frame":110,
-					"sound":"eclipse3"
-				},
-			]
-		},
+ 			"name":		"magic_effect_eclipse",
+ 			"path":		"res/battle_anim/magic_effect_null.png",
+ 			"width":	8,
+ 			"height":	8,
+ 			"frames":	1,
+ 			"columns":	1,
+ 			"offsetX":	0,
+ 			"offsetY":	0,
+ 			"freeze":	-1
+ 		},
+ 		{
+ 			"name":		"bg_effect_eclipse",
+ 			"path":		"res/battle_anim/magic_effect_null.png",
+ 			"width":	8,
+ 			"height":	8,
+ 			"frames":	1,
+ 			"columns":	1,
+ 			"offsetX":	0,
+ 			"offsetY":	0,
+ 			"freeze":	-1
+ 		},
+ 		{
+ 			"name":		"hit_effect_eclipse",
+ 			"path":		"res/battle_anim/hit_effect_eclipse.png",
+ 			"width":	167,
+ 			"height":	100,
+ 			"frames":	126,
+ 			"columns":	7,
+ 			"offsetX":	85,
+ 			"offsetY":	85,
+ 			"freeze":	-1,
+ 			"hitframes": [125],
+ 			"shakeIntensity": 7,
+ 			"soundMap": [
+ 				{
+ 					"frame":12,
+ 					"sound":"eclipse1"
+ 				},
+ 				{
+ 					"frame":36,
+ 					"sound":"eclipse1"
+ 				},
+ 				{
+ 					"frame":77,
+ 					"sound":"eclipse2"
+ 				}
+ 				{
+ 					"frame":110,
+ 					"sound":"eclipse3"
+ 				},
+ 			]
+ 		},
 		{
 			"name":		"magic_effect_excalibur",
 			"path":		"res/battle_anim/magic_effect_excalibur.png",
