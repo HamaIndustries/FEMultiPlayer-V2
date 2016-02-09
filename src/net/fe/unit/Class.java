@@ -87,6 +87,10 @@ public class Class implements Serializable {
 			return new Class("Lord", 
 					"A radiant hero who commands armies.",
 					 0, new Aether(), Weapon.Type.SWORD, Weapon.Type.AXE);
+		if(name.equals("FalseProof"))
+			return new Class("Lord", 
+					"A something something who crapposts on /r/femp",
+					 0, new Aether(), Weapon.Type.SWORD);
 		
 		//Other
 		if(name.equals("Sniper"))

@@ -1022,6 +1022,144 @@
 			"freeze":	0
 		},
 		{
+			"name":		"falseproof_sword_attack",
+			"path":		"res/battle_anim/falseproof_sword_attack.png",
+			"width":	126,
+			"height":	98,
+			"frames":	26,
+			"columns":	6,
+			"offsetX":	25,
+			"offsetY":	80,
+			"freeze":	0,
+			"speed":	0.035,
+			"hitframes":[11,12,13,14,15,16,17,18],
+			"soundMap": [
+				{
+					"frame":	11,
+					"sound":	"clink"
+				},
+				{
+					"frame":	12,
+					"sound":	"clink"
+				},
+				{
+					"frame":	13,
+					"sound":	"clink"
+				},
+				{
+					"frame":	14,
+					"sound":	"clink"
+				},
+				{
+					"frame":	15,
+					"sound":	"clink"
+				},
+				{
+					"frame":	16,
+					"sound":	"clink"
+				},
+				{
+					"frame":	17,
+					"sound":	"clink"
+				},
+				{
+					"frame":	18,
+					"sound":	"clink"
+				}
+			]
+		},
+		{
+			"name":		"falseproof_sword_critical",
+			"path":		"res/battle_anim/falseproof_sword_critical.png",
+			"width":	126,
+			"height":	98,
+			"frames":	56,
+			"columns":	6,
+			"offsetX":	25,
+			"offsetY":	80,
+			"freeze":	0,
+			"speed":	0.035,
+			"hitframes":[11,12,13,14,15,16,17,18,21,22,23,24,25,26,27,28],
+			"soundMap": [
+				{
+					"frame":	11,
+					"sound":	"clink"
+				},
+				{
+					"frame":	12,
+					"sound":	"clink"
+				},
+				{
+					"frame":	13,
+					"sound":	"clink"
+				},
+				{
+					"frame":	14,
+					"sound":	"clink"
+				},
+				{
+					"frame":	15,
+					"sound":	"clink"
+				},
+				{
+					"frame":	16,
+					"sound":	"clink"
+				},
+				{
+					"frame":	17,
+					"sound":	"clink"
+				},
+				{
+					"frame":	18,
+					"sound":	"clink"
+				},
+				{
+					"frame":	21,
+					"sound":	"clink"
+				},
+				{
+					"frame":	22,
+					"sound":	"clink"
+				},
+				{
+					"frame":	23,
+					"sound":	"clink"
+				},
+				{
+					"frame":	24,
+					"sound":	"clink"
+				},
+				{
+					"frame":	25,
+					"sound":	"clink"
+				},
+				{
+					"frame":	26,
+					"sound":	"clink"
+				},
+				{
+					"frame":	27,
+					"sound":	"clink"
+				},
+				{
+					"frame":	28,
+					"sound":	"clink"
+				}
+			]
+		},
+		{
+			"name":		"falseproof_sword_dodge",
+			"path":		"res/battle_anim/falseproof_sword_dodge.png",
+			"width":	126,
+			"height":	98,
+			"frames":	5,
+			"columns":	6,
+			"offsetX":	25,
+			"offsetY":	80,
+			"freeze":	0,
+			"speed":	0.035,
+		},
+		{
 			"name":		"general_axe_attack",
 			"path":		"res/battle_anim/general_axe_attack.png",
 			"width":	115,
