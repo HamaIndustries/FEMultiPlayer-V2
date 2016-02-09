@@ -5,6 +5,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.newdawn.slick.Color;
+
+import chu.engine.Entity;
+import chu.engine.Game;
+import chu.engine.Stage;
+import chu.engine.anim.Renderer;
+import chu.engine.anim.Transform;
+import net.fe.builderStage.ClientWaitStage;
 import net.fe.Button;
 import net.fe.ControlsDisplay;
 import net.fe.FEMultiplayer;
@@ -13,7 +21,6 @@ import net.fe.Party;
 import net.fe.Player;
 import net.fe.RunesBg;
 import net.fe.Session;
-import net.fe.network.FEServer;
 import net.fe.network.Message;
 import net.fe.network.message.DraftMessage;
 import net.fe.network.message.QuitMessage;
@@ -22,31 +29,12 @@ import net.fe.unit.Unit;
 import net.fe.unit.UnitFactory;
 import net.fe.unit.UnitIcon;
 
-import org.lwjgl.input.Keyboard;
-import org.newdawn.slick.Color;
-
-import chu.engine.Entity;
-import chu.engine.Game;
-import chu.engine.KeyboardEvent;
-import chu.engine.Stage;
-import chu.engine.anim.AudioPlayer;
-import chu.engine.anim.Renderer;
-import chu.engine.anim.Transform;
-
-// TODO: Auto-generated Javadoc
-/**
- * The Class TeamDraftStage.
- */
-public class TeamDraftStage extends Stage {
-	
+public class DraftViewStage extends Stage {
 	/** The vassal list. */
 	private UnitList vassalList;
 	
 	/** The lord list. */
 	private UnitList lordList;
-	
-	/** The cursor. */
-	private Cursor cursor;
 	
 	/** The buttons. */
 	private Button[] buttons;
@@ -144,9 +132,8 @@ public class TeamDraftStage extends Stage {
 	 *
 	 * @param s the s
 	 */
-	public TeamDraftStage(Session s){
+	public DraftViewStage(Session s){
 		super("preparations");
-		cursor = new Cursor();
 		this.session = s;
 		lastAction = "";
 		controls = new ControlsDisplay();
@@ -207,7 +194,6 @@ public class TeamDraftStage extends Stage {
 		buttons[1] = nameSort;
 		buttons[2] = classSort;
 		buttons[0] = submit;
-		addEntity(cursor);
 		addEntity(classSort);
 		addEntity(nameSort);
 		addEntity(submit);
@@ -254,7 +240,6 @@ public class TeamDraftStage extends Stage {
 		submit.setHover(false);
 		if(isMyTurn()) {
 			hasControl = true;
-			cursor.on = true;
 			for(DraftTimer t : timers) {
 				if(t.player == FEMultiplayer.getLocalPlayer())
 					t.start();
@@ -263,7 +248,6 @@ public class TeamDraftStage extends Stage {
 			}
 		} else {
 			hasControl = false;
-			cursor.on = false;
 			for(DraftTimer t : timers) {
 				if(t.player == FEMultiplayer.getLocalPlayer())
 					t.stop();
@@ -271,28 +255,17 @@ public class TeamDraftStage extends Stage {
 					t.start();
 			}
 		}
-		if(cursor.index < 0) cursor.index = 0;
 		deselectAll();
 		if(draftTurn >= draftOrder.length) {
-			hasControl = true;
 			maxLords = 0;
 			maxVassals = 0;
 			removeEntity(submit);
-			Button go = new Button(SB_BUTTON_X, BUTTON_Y, "Go!", Color.green, 95) {
-				@Override
-				public void execute() {
-					TeamBuilderStage stage = new TeamBuilderStage(false, FEMultiplayer.getLocalPlayer().getParty().getUnits(), session);
-					FEMultiplayer.setCurrentStage(stage);
-				}
-			};
+			ClientWaitStage stage = new ClientWaitStage(session);
+			FEMultiplayer.setCurrentStage(stage);
 			for(DraftTimer t : timers) {
 				t.stop();
 				removeEntity(t);
 			}
-			cursor.index = -1;
-			buttons[0] = go;
-			addEntity(go);
-			checkFlow();
 			return;
 		}
 		String round = getRoundID();
@@ -311,10 +284,7 @@ public class TeamDraftStage extends Stage {
 	 * @return true, if is my turn
 	 */
 	private boolean isMyTurn() {
-		if(draftTurn >= draftOrder.length) return false;
-		String round = getRoundID();
-		Color c = FEMultiplayer.getLocalPlayer().getParty().getColor();
-		return c.equals(Party.TEAM_BLUE) == (round.charAt(0) == 'B');
+		return false;
 	}
 
 	/**
@@ -373,9 +343,6 @@ public class TeamDraftStage extends Stage {
 	public void refresh(){
 		lordList.refresh();
 		vassalList.refresh();
-		cursor.index = 0;
-		cursor.on = true;
-		checkFlow();
 	}
 	
 	/* (non-Javadoc)
@@ -449,139 +416,7 @@ public class TeamDraftStage extends Stage {
 		}
 		
 		MapAnimation.updateAll();
-		if(hasControl) {
-			List<KeyboardEvent> keys = Game.getKeys();
-			if (Keyboard.isKeyDown(FEResources.getKeyMapped(Keyboard.KEY_UP)) && repeatTimers[0] == 0) {
-				repeatTimers[0] = 0.15f;
-				up();
-			}
-			if (Keyboard.isKeyDown(FEResources.getKeyMapped(Keyboard.KEY_DOWN)) && repeatTimers[1] == 0) {
-				repeatTimers[1] = 0.15f;
-				down();
-			}
-			if (Keyboard.isKeyDown(FEResources.getKeyMapped(Keyboard.KEY_LEFT)) && repeatTimers[2] == 0) {
-				repeatTimers[2] = 0.15f;
-				left();
-			}
-			if (Keyboard.isKeyDown(FEResources.getKeyMapped(Keyboard.KEY_RIGHT)) && repeatTimers[3] == 0) {
-				repeatTimers[3] = 0.15f;
-				right();
-			}
-			for(KeyboardEvent ke : keys) {
-				if(ke.state) {
-					if(ke.key == FEResources.getKeyMapped(Keyboard.KEY_Z)) {
-						cursor.select();
-					} 
-					if(ke.key == FEResources.getKeyMapped(Keyboard.KEY_RETURN)){
-						AudioPlayer.playAudio("select");
-						buttons[0].execute();
-					}
-				}
-			}
-		
-			for(int i=0; i<repeatTimers.length; i++) {
-				if(repeatTimers[i] > 0) {
-					repeatTimers[i] -= Game.getDeltaSeconds();
-					if(repeatTimers[i] < 0) repeatTimers[i] = 0;
-				}
-			}
-		}
 	}
-	
-	/**
-	 * Up.
-	 */
-	private void up(){
-		if(cursor.index < 0)
-			buttons[-cursor.index-1].setHover(false);
-		AudioPlayer.playAudio("cursor");
-		if(cursor.on){
-			boolean below = cursor.index >= lordList.size();
-			cursor.index -= lordList.unitsPerRow;
-			if(cursor.index < -1) cursor.index = -1;
-			if(cursor.index < lordList.size() && below){
-				cursor.index = lordList.size() - 1;
-			}
-			
-		} else {
-			cursor.index = lordList.size() + vassalList.size() - 1;
-			cursor.on = true;
-			cursor.instant = true;
-		}
-		checkFlow();
-	}
-	
-	/**
-	 * Down.
-	 */
-	private void down(){
-		if(cursor.index < 0)
-			buttons[-cursor.index-1].setHover(false);
-		AudioPlayer.playAudio("cursor");
-		if(cursor.on){
-			boolean above = cursor.index < lordList.size();
-			cursor.index += lordList.unitsPerRow;
-			if(cursor.index >= lordList.size() && above){
-				cursor.index = lordList.size();
-			}
-			
-		} else {
-			cursor.index = 0;
-			cursor.instant = true;
-			cursor.on = true;
-		}
-		checkFlow();
-	}
-	
-	/**
-	 * Left.
-	 */
-	private void left(){
-		AudioPlayer.playAudio("cursor");
-		if(cursor.index < 0)
-			buttons[-cursor.index-1].setHover(false);
-		cursor.index --;
-		checkFlow();
-	}
-	
-	/**
-	 * Right.
-	 */
-	private void right(){
-		AudioPlayer.playAudio("cursor");
-		if(cursor.index < 0)
-			buttons[-cursor.index-1].setHover(false);
-		cursor.index ++;
-		checkFlow();
-		if(cursor.index == 0){
-			cursor.instant = true;
-		}
-	}
-	
-	/**
-	 * Check flow.
-	 */
-	private void checkFlow(){
-		if(cursor.index >= lordList.size() + vassalList.size()) {
-			cursor.index = -buttons.length;
-		}
-		if(-cursor.index > buttons.length) {
-			cursor.on = true;
-			cursor.instant = true;
-			cursor.index = lordList.size() + vassalList.size() - 1;
-			vassalList.scrollTo(vassalList.size() - 1);
-		}
-		if(cursor.index < 0){
-			cursor.on = false;
-			buttons[-cursor.index-1].setHover(true);
-		} else {
-			cursor.on = true;
-			if(cursor.index >= lordList.size()){
-				vassalList.scrollTo(cursor.index - lordList.size());
-			}
-		}
-	}
-	
 	/* (non-Javadoc)
 	 * @see chu.engine.Stage#render()
 	 */
@@ -745,37 +580,6 @@ public class TeamDraftStage extends Stage {
 				if((supposedX - x) * dX < 0){
 					x = supposedX;
 				}
-			}
-		}
-		
-		/**
-		 * Select.
-		 */
-		public void select(){
-			
-			if(on){
-				if(index < lordList.size()){
-					if(lordList.isSelected(index)){
-						AudioPlayer.playAudio("select");
-						lordList.deSelectUnit(lordList.unitAt(index));
-					}
-					else if(lordList.numberSelected() < maxLords){
-						AudioPlayer.playAudio("select");
-						lordList.selectUnit(lordList.unitAt(index));
-					}
-				}
-				if(index >= lordList.size()){
-					if(vassalList.isSelected(index - lordList.size())){
-						AudioPlayer.playAudio("select");
-						vassalList.deSelectUnit(vassalList.unitAt(index - lordList.size()));
-					} else if (vassalList.numberSelected() < maxVassals){
-						AudioPlayer.playAudio("select");
-						vassalList.selectUnit(vassalList.unitAt(index - lordList.size()));
-					}
-				}
-			} else {
-				AudioPlayer.playAudio("select");
-				buttons[-cursor.index-1].execute();
 			}
 		}
 		

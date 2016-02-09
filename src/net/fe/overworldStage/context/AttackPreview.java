@@ -6,12 +6,35 @@ import chu.engine.anim.AudioPlayer;
 import net.fe.overworldStage.*;
 import net.fe.unit.*;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AttackPreview.
+ */
 public class AttackPreview extends OverworldContext{
+	
+	/** The attacker. */
 	private Unit attacker;
+	
+	/** The defender. */
 	private Unit defender;
+	
+	/** The preview. */
 	private BattlePreview preview;
+	
+	/** The weapons. */
 	private ArrayList<Weapon> weapons;
+	
+	/** The index. */
 	private int index;
+	
+	/**
+	 * Instantiates a new attack preview.
+	 *
+	 * @param s the s
+	 * @param prevContext the prev context
+	 * @param a the a
+	 * @param d the d
+	 */
 	public AttackPreview(ClientOverworldStage s, OverworldContext prevContext, Unit a, Unit d) {
 		super(s, prevContext);
 		attacker = a;
@@ -21,12 +44,18 @@ public class AttackPreview extends OverworldContext{
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#startContext()
+	 */
 	public void startContext(){
 		super.startContext();
 		stage.addEntity(preview);
 		weapons = attacker.equippableWeapons(Grid.getDistance(attacker, defender));
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#onSelect()
+	 */
 	@Override
 	public void onSelect() {
 		AudioPlayer.playAudio("select");
@@ -39,20 +68,32 @@ public class AttackPreview extends OverworldContext{
 		stage.reset();
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#cleanUp()
+	 */
 	public void cleanUp(){
 		stage.removeEntity(preview);
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#onUp()
+	 */
 	@Override
 	public void onUp() {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#onDown()
+	 */
 	@Override
 	public void onDown() {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#onLeft()
+	 */
 	@Override
 	public void onLeft() {
 		index--;
@@ -62,12 +103,18 @@ public class AttackPreview extends OverworldContext{
 		equip();
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#onRight()
+	 */
 	@Override
 	public void onRight() {
 		index = (index+1)%weapons.size();
 		equip();
 	}
 	
+	/**
+	 * Equip.
+	 */
 	public void equip(){
 		attacker.equip(weapons.get(index));
 	}

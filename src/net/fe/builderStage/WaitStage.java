@@ -16,24 +16,40 @@ import net.fe.unit.Unit;
 import chu.engine.Game;
 import chu.engine.Stage;
 
+// TODO: Auto-generated Javadoc
 /**
- * Wait for all players to select
- * @author Shawn
+ * Wait for all players to select.
  *
+ * @author Shawn
  */
 public class WaitStage extends Stage {
 	
+	/** The ready status. */
 	private HashMap<Byte, Boolean> readyStatus;
+	
+	/** The messages. */
 	private ArrayList<PartyMessage> messages;
+	
+	/** The sent start message. */
 	private boolean sentStartMessage;
+	
+	/** The session. */
 	protected Session session;
 	
+	/**
+	 * Instantiates a new wait stage.
+	 *
+	 * @param s the s
+	 */
 	public WaitStage(Session s) {
 		super("preparations");
 		session = s;
 		init();
 	}
 	
+	/**
+	 * Inits the.
+	 */
 	protected void init() {
 		readyStatus = new HashMap<Byte, Boolean>();
 		sentStartMessage = false;
@@ -43,6 +59,9 @@ public class WaitStage extends Stage {
 		messages = new ArrayList<PartyMessage>();
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#beginStep()
+	 */
 	@Override
 	public void beginStep() {
 		for(Message message : Game.getMessages()) {
@@ -66,11 +85,17 @@ public class WaitStage extends Stage {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#onStep()
+	 */
 	@Override
 	public void onStep() {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#endStep()
+	 */
 	@Override
 	public void endStep() {
 		if(!sentStartMessage) {

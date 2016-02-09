@@ -11,17 +11,39 @@ import org.newdawn.slick.Color;
 
 import chu.engine.anim.Renderer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LoadStage.
+ */
 public class LoadStage{
+	
+	/** The percent. */
 	private static float percent;
+	
+	/** The max. */
 	private static int max;
 
+	/**
+	 * Sets the maximum.
+	 *
+	 * @param max the new maximum
+	 */
 	public static void setMaximum(int max){
 		LoadStage.max = max;
 	}
+	
+	/**
+	 * Update.
+	 *
+	 * @param number the number
+	 */
 	public static void update(int number){
 		percent = (number + 0f)/max;
 	}
 
+	/**
+	 * Render.
+	 */
 	public static void render(){
 		int width = (int) (percent * 436);
 		glClear(GL_COLOR_BUFFER_BIT |

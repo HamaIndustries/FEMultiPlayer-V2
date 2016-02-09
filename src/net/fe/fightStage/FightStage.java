@@ -35,59 +35,143 @@ import chu.engine.Stage;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Renderer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FightStage.
+ */
 public class FightStage extends Stage {
+	
+	/** The right. */
 	private Unit left, right;
+	
+	/** The right fighter. */
 	private FightUnit leftFighter, rightFighter;
+	
+	/** The right hp. */
 	private Healthbar leftHP, rightHP;
+	
+	/** The range. */
 	private int range;
+	
+	/** The done. */
 	private boolean done;
 
+	/** The attack q. */
 	private ArrayList<AttackRecord> attackQ;
 
+	/** The bg. */
 	private Texture bg;
+	
+	/** The current event. */
 	private int currentEvent;
+	
+	/** The prev shake timer. */
 	private float prevShakeTimer;
+	
+	/** The shake timer. */
 	private float shakeTimer;
+	
+	/** The timer. */
 	private float timer;
+	
+	/** The shake x. */
 	private float shakeX;
+	
+	/** The shake y. */
 	private float shakeY;
+	
+	/** The camera offset f. */
 	private float cameraOffsetF;
+	
+	/** The camera offset t. */
 	private float cameraOffsetT;
+	
+	/** The camera offset. */
 	private float cameraOffset;
 	
+	/** The darkness. */
 	private float darknessT, darkness;
 	
+	/** The Constant PRELOADED_EFFECTS. */
 	public static final HashMap<String, Texture> PRELOADED_EFFECTS = new HashMap<String, Texture>();
 
+	/** The Constant SHAKE_INTERVAL. */
 	// Config
 	public static final float SHAKE_INTERVAL = 0.05f;
+	
+	/** The Constant MIN_TIME. */
 	public static final float MIN_TIME = 1.5f;
 
+	/** The Constant CENTRAL_AXIS. */
 	public static final int CENTRAL_AXIS = 120;
+	
+	/** The Constant FLOOR. */
 	public static final int FLOOR = 105;
 
+	/** The Constant BORDER_DARK. */
 	public static final Color BORDER_DARK = new Color(0x483828);
+	
+	/** The Constant BORDER_LIGHT. */
 	public static final Color BORDER_LIGHT = new Color(0xf8f0c8);
+	
+	/** The Constant NEUTRAL. */
 	public static final Color NEUTRAL = new Color(0xb0a878);
 
+	/** The Constant HP_DEPTH. */
 	public static final float HP_DEPTH = 0.14f;
+	
+	/** The Constant HUD_DEPTH. */
 	public static final float HUD_DEPTH = 0.15f;
+	
+	/** The Constant EFFECT_DEPTH. */
 	public static final float EFFECT_DEPTH = 0.2f;
+	
+	/** The Constant UNIT_DEPTH. */
 	public static final float UNIT_DEPTH = 0.5f;
+	
+	/** The Constant PLATFORM_DEPTH. */
 	public static final float PLATFORM_DEPTH = 0.7f;
+	
+	/** The Constant BG_DEPTH. */
 	public static final float BG_DEPTH = 1;
 
+	/** The Constant START. */
 	public static final int START = 0;
+	
+	/** The Constant ATTACKING. */
 	public static final int ATTACKING = 1;
+	
+	/** The Constant HIT_EFFECT. */
 	public static final int HIT_EFFECT = 2;
+	
+	/** The Constant HIT_EFFECTED. */
 	public static final int HIT_EFFECTED = 3;
+	
+	/** The Constant ATTACKED. */
 	public static final int ATTACKED = 4;
+	
+	/** The Constant HURTING. */
 	public static final int HURTING = 5;
+	
+	/** The Constant HURTED. */
 	public static final int HURTED = 6;
+	
+	/** The Constant DYING. */
 	public static final int DYING = 7;
+	
+	/** The Constant RETURNING. */
 	public static final int RETURNING = 8;
+	
+	/** The Constant DONE. */
 	public static final int DONE = 9;
 
+	/**
+	 * Instantiates a new fight stage.
+	 *
+	 * @param u1 the u1
+	 * @param u2 the u2
+	 * @param attackQ the attack q
+	 */
 	public FightStage(UnitIdentifier u1, UnitIdentifier u2,
 			ArrayList<AttackRecord> attackQ) {
 		super(u1.partyColor.equals(u2.partyColor) ? "curing" :
@@ -127,11 +211,19 @@ public class FightStage extends Stage {
 		preload();
 	}
 	
+	/**
+	 * Preload.
+	 */
 	public void preload(){
 		preload(leftFighter);
 		preload(rightFighter);
 	}
 	
+	/**
+	 * Preload.
+	 *
+	 * @param f the f
+	 */
 	public void preload(FightUnit f){
 		AnimationArgs args = f.getAnimArgs();
 		if(args.classification.equals("magic") && args.unit.getWeapon() != null){
@@ -157,10 +249,19 @@ public class FightStage extends Stage {
 		}
 	}
 	
+	/**
+	 * Gets the preload.
+	 *
+	 * @param name the name
+	 * @return the preload
+	 */
 	public static Texture getPreload(String name){
 		return PRELOADED_EFFECTS.get(name);
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#beginStep()
+	 */
 	@Override
 	public void beginStep() {
 		for (Entity e : entities) {
@@ -182,6 +283,9 @@ public class FightStage extends Stage {
 		processRemoveStack();
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#onStep()
+	 */
 	@Override
 	public void onStep() {
 		for (Entity e : entities) {
@@ -201,6 +305,9 @@ public class FightStage extends Stage {
 		}
 	}
 
+	/**
+	 * Process attack queue.
+	 */
 	private void processAttackQueue() {
 		//TODO Weapon usage
 		final AttackRecord rec = attackQ.get(0);
@@ -346,6 +453,14 @@ public class FightStage extends Stage {
 		}
 	}
 
+	/**
+	 * Analyze animation.
+	 *
+	 * @param animName the anim name
+	 * @param suffix the suffix
+	 * @param stripNums the strip nums
+	 * @return the array list
+	 */
 	public static ArrayList<String> analyzeAnimation(String animName,
 			String suffix, boolean stripNums) {
 		ArrayList<String> ans = new ArrayList<String>();
@@ -368,6 +483,9 @@ public class FightStage extends Stage {
 		return ans;
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#render()
+	 */
 	public void render() {
 		Renderer.pushMatrix();
 		Renderer.scale(2, 2);
@@ -410,6 +528,9 @@ public class FightStage extends Stage {
 		Renderer.removeClip();
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#endStep()
+	 */
 	@Override
 	public void endStep() {
 		for (Entity e : entities) {
@@ -419,6 +540,12 @@ public class FightStage extends Stage {
 		processRemoveStack();
 	}
 
+	/**
+	 * Start shaking.
+	 *
+	 * @param time the time
+	 * @param intensity the intensity
+	 */
 	private void startShaking(float time, int intensity) {
 		shakeTimer = time;
 		prevShakeTimer = time;
@@ -429,6 +556,11 @@ public class FightStage extends Stage {
 
 	// Getters Setters
 
+	/**
+	 * Sets the current event.
+	 *
+	 * @param event the new current event
+	 */
 	public void setCurrentEvent(int event) {
 		if(event == ATTACKED){
 
@@ -451,34 +583,79 @@ public class FightStage extends Stage {
 
 	}
 	
+	/**
+	 * Type test.
+	 *
+	 * @param a the a
+	 * @return true, if successful
+	 */
 	private static boolean typeTest(AttackAnimation a){
 		return true;
 	}
 	
+	/**
+	 * Type test.
+	 *
+	 * @param a the a
+	 * @return true, if successful
+	 */
 	private static boolean typeTest(DodgeAnimation a){
 		return true;
 	}
 	
+	/**
+	 * Sets the darkness.
+	 *
+	 * @param dark the new darkness
+	 */
 	public void setDarkness(float dark){
 		darknessT = dark;
 	}
 
+	/**
+	 * Distance to head.
+	 *
+	 * @return the int
+	 */
 	public int distanceToHead() {
 		return rangeToHeadDistance(range);
 	}
 
+	/**
+	 * Gets the range.
+	 *
+	 * @return the range
+	 */
 	public int getRange() {
 		return range;
 	}
 
+	/**
+	 * Gets the unit.
+	 *
+	 * @param i the i
+	 * @return the unit
+	 */
 	public Unit getUnit(int i) {
 		return i == 0 ? left : right;
 	}
 
+	/**
+	 * Checks if is left.
+	 *
+	 * @param u the u
+	 * @return true, if is left
+	 */
 	public boolean isLeft(Unit u) {
 		return u == left;
 	}
 
+	/**
+	 * Range to head distance.
+	 *
+	 * @param range the range
+	 * @return the int
+	 */
 	public static int rangeToHeadDistance(int range) {
 		if (range == 1) {
 			return 32;
@@ -487,14 +664,29 @@ public class FightStage extends Stage {
 		}
 	}
 
+	/**
+	 * Gets the current event.
+	 *
+	 * @return the current event
+	 */
 	public int getCurrentEvent() {
 		return currentEvent;
 	}
 	
+	/**
+	 * Move camera.
+	 *
+	 * @param left the left
+	 */
 	public void moveCamera(boolean left){
 		cameraOffsetT = left? cameraOffsetF: -cameraOffsetF;
 	}
 	
+	/**
+	 * Checks for hit effects.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasHitEffects() {
 		for(Entity e : entities) {
 			if (e instanceof HitEffect || e instanceof MissEffect || e instanceof NoDamageEffect) {

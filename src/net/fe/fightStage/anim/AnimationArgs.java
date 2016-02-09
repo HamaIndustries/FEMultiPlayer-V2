@@ -5,14 +5,37 @@ import net.fe.unit.Weapon;
 import net.fe.unit.Weapon.Type;
 import static java.lang.System.out;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AnimationArgs.
+ */
 public class AnimationArgs {
+	
+	/** The userclass. */
 	public String userclass;
+	
+	/** The wep anim name. */
 	public String wepAnimName;
+	
+	/** The classification. */
 	public String classification;
+	
+	/** The left. */
 	public boolean left;
+	
+	/** The unit. */
 	public Unit unit;
+	
+	/** The range. */
 	public int range;
 	
+	/**
+	 * Instantiates a new animation args.
+	 *
+	 * @param u the u
+	 * @param left the left
+	 * @param range the range
+	 */
 	public AnimationArgs(Unit u, boolean left, int range){
 		userclass = u.functionalClassName();
 		this.left = left;

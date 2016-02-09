@@ -26,13 +26,28 @@ import chu.engine.Stage;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Tileset;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LevelEditorStage.
+ */
 public class LevelEditorStage extends Stage {
 
+	/** The palette. */
 	private static Texture palette;
+	
+	/** The tileset. */
 	private static Tileset tileset;
+	
+	/** The selected id. */
 	private int selectedID;
+	
+	/** The tiles. */
 	private int[][] tiles;
+	
+	/** The level name. */
 	private String levelName;
+	
+	/** The spawns. */
 	private Set<SpawnPoint> spawns;
 
 	static {
@@ -46,6 +61,11 @@ public class LevelEditorStage extends Stage {
 		}
 	}
 
+	/**
+	 * Instantiates a new level editor stage.
+	 *
+	 * @param levelName the level name
+	 */
 	public LevelEditorStage(String levelName) {
 		super(null);
 		selectedID = 0;
@@ -68,6 +88,9 @@ public class LevelEditorStage extends Stage {
         }
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#beginStep()
+	 */
 	@Override
 	public void beginStep() {
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
@@ -161,18 +184,27 @@ public class LevelEditorStage extends Stage {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#onStep()
+	 */
 	@Override
 	public void onStep() {
 		// TODO Auto-generated method stub
 
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#endStep()
+	 */
 	@Override
 	public void endStep() {
 		// TODO Auto-generated method stub
 
 	}
 
+	/* (non-Javadoc)
+	 * @see chu.engine.Stage#render()
+	 */
 	@Override
 	public void render() {
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
@@ -210,6 +242,12 @@ public class LevelEditorStage extends Stage {
 		}
 	}
 
+	/**
+	 * Modify size.
+	 *
+	 * @param dx the dx
+	 * @param dy the dy
+	 */
 	private void modifySize(int dx, int dy) {
 		int width = Math.max(0, tiles[0].length + dx);
 		int height = Math.max(0, tiles.length + dy);

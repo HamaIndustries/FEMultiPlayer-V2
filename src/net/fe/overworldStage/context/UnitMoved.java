@@ -17,12 +17,33 @@ import net.fe.unit.RiseTome;
 import net.fe.unit.Unit;
 import net.fe.unit.Weapon;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UnitMoved.
+ */
 public class UnitMoved extends MenuContext<String> {
+	
+	/** The unit. */
 	private Unit unit;
+	
+	/** The zone. */
 	private Zone zone;
+	
+	/** The from trade. */
 	private boolean fromTrade;
+	
+	/** The from take. */
 	private boolean fromTake;
 
+	/**
+	 * Instantiates a new unit moved.
+	 *
+	 * @param stage the stage
+	 * @param prev the prev
+	 * @param u the u
+	 * @param fromTrade the from trade
+	 * @param fromTake the from take
+	 */
 	public UnitMoved(ClientOverworldStage stage, OverworldContext prev, Unit u,
 			boolean fromTrade, boolean fromTake) {
 		super(stage, prev, new Menu<String>(0, 0));
@@ -35,6 +56,9 @@ public class UnitMoved extends MenuContext<String> {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.MenuContext#startContext()
+	 */
 	public void startContext() {
 		super.startContext();
 
@@ -46,11 +70,17 @@ public class UnitMoved extends MenuContext<String> {
 		stage.setMovY(unit.getYCoord() - unit.getOrigY());
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.MenuContext#cleanUp()
+	 */
 	public void cleanUp(){
 		super.cleanUp();
 		stage.removeEntity(zone);
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.MenuContext#onSelect(java.lang.Object)
+	 */
 	@Override
 	public void onSelect(String selectedItem) {
 		// TODO Finish this
@@ -82,11 +112,17 @@ public class UnitMoved extends MenuContext<String> {
 			
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.MenuContext#onChange()
+	 */
 	public void onChange() {
 		updateZones();
 	}
 	
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#onCancel()
+	 */
 	@Override
 	public void onCancel() {
 		if (fromTrade){
@@ -95,6 +131,9 @@ public class UnitMoved extends MenuContext<String> {
 		super.onCancel();
 	}
 
+	/**
+	 * Update zones.
+	 */
 	public void updateZones() {
 		stage.removeEntity(zone);
 		if (menu.getSelection().equals("Attack")) {
@@ -116,6 +155,12 @@ public class UnitMoved extends MenuContext<String> {
 		}
 	}
 
+	/**
+	 * Gets the commands.
+	 *
+	 * @param u the u
+	 * @return the commands
+	 */
 	public List<String> getCommands(Unit u) {
 		// TODO Rescue
 		List<String> list = new ArrayList<String>();
@@ -200,11 +245,17 @@ public class UnitMoved extends MenuContext<String> {
 		return list;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#onLeft()
+	 */
 	@Override
 	public void onLeft() {
 		// Nothing
 	}
 
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.OverworldContext#onRight()
+	 */
 	@Override
 	public void onRight() {
 		// Nothing

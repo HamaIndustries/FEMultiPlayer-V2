@@ -18,15 +18,40 @@ import chu.engine.Entity;
 import chu.engine.Game;
 import chu.engine.anim.Renderer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ShopMenu.
+ */
 public class ShopMenu extends Entity {
+	
+	/** The shops. */
 	private ItemMenu[] shops;
+	
+	/** The shop icons. */
 	private Texture[] shopIcons;
+	
+	/** The selected. */
 	private int selected;
+	
+	/** The camera x. */
 	private int cameraX;
+	
+	/** The instant. */
 	private boolean instant;
 	
+	/** The Constant HEIGHT. */
 	public static final int HEIGHT = 200;
+	
+	/** The Constant WIDTH. */
 	public static final int WIDTH = 135;
+	
+	/**
+	 * Instantiates a new shop menu.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param s the s
+	 */
 	public ShopMenu(float x, float y, Session s) {
 		super(x, y);
 		shops = new ItemMenu[9];
@@ -68,6 +93,9 @@ public class ShopMenu extends Entity {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#onStep()
+	 */
 	public void onStep(){
 		int shouldX = selected*140;
 		float dx = Math.signum(shouldX - cameraX) * Game.getDeltaSeconds() * 600;
@@ -78,6 +106,9 @@ public class ShopMenu extends Entity {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render(){
 		Renderer.addClip(x, y-16, getSelectedShop().getWidth(), HEIGHT+16, true);
 		for(int i = 0; i < shops.length; i++){
@@ -96,14 +127,27 @@ public class ShopMenu extends Entity {
 		
 	}
 	
+	/**
+	 * Gets the selected shop.
+	 *
+	 * @return the selected shop
+	 */
 	private ItemMenu getSelectedShop(){
 		return shops[selected];
 	}
 	
+	/**
+	 * Gets the item.
+	 *
+	 * @return the item
+	 */
 	public Item getItem(){
 		return getSelectedShop().getSelection().getItem().getCopy();
 	}
 	
+	/**
+	 * Left.
+	 */
 	public void left(){
 		selected--;
 		if(selected< 0){
@@ -113,6 +157,9 @@ public class ShopMenu extends Entity {
 		getSelectedShop().setSelection(0);
 	}
 	
+	/**
+	 * Right.
+	 */
 	public void right(){
 		selected++;
 		if(selected >= shops.length){
@@ -122,26 +169,43 @@ public class ShopMenu extends Entity {
 		getSelectedShop().setSelection(0);
 	}
 	
+	/**
+	 * Up.
+	 */
 	public void up(){
 		getSelectedShop().up();
 	}
 	
+	/**
+	 * Down.
+	 */
 	public void down(){
 		getSelectedShop().down();
 	}
 	
+	/**
+	 * Clear selection.
+	 */
 	public void clearSelection(){
 		for(ItemMenu shop: shops){
 			shop.clearSelection();
 		}
 	}
 	
+	/**
+	 * Restore selection.
+	 */
 	public void restoreSelection(){
 		for(ItemMenu shop: shops){
 			shop.restoreSelection();
 		}
 	}
 	
+	/**
+	 * Gets the shops.
+	 *
+	 * @return the shops
+	 */
 	public ItemMenu[] getShops() {
 		return shops;
 	}

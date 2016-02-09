@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.newdawn.slick.opengl.Texture;
 
+// TODO: Auto-generated Javadoc
 /**
  * Manages a set of animations, and allows
  * the user to switch between animations.
@@ -12,21 +13,31 @@ import org.newdawn.slick.opengl.Texture;
  */
 public class Sprite {
 	
+	/** The animations. */
 	private HashMap<String, Animation> animations;
+	
+	/** The current animation. */
 	protected Animation currentAnimation;
+	
+	/** The cur anim name. */
 	private String curAnimName;
 	
+	/**
+	 * Instantiates a new sprite.
+	 */
 	public Sprite() {
 		animations = new HashMap<String, Animation>();
 	}
 	
 	/**
 	 * Add a new animation to the sprite by creating an animation with the given parameters.
+	 *
 	 * @param name Name of the animation
 	 * @param tex Texture to use as the spritesheet
 	 * @param width Width of a single frame in pixels
 	 * @param height Height of a single frame in pixels
-	 * @param frames Number of frames in the animation
+	 * @param length the length
+	 * @param columns the columns
 	 * @param f Speed of the animation in frames per second
 	 */
 	public void addAnimation(String name, Texture tex, int width, int height, int length, int columns, float f) {
@@ -51,7 +62,8 @@ public class Sprite {
 	}
 	
 	/**
-	 * Add an existing animation to the sprite
+	 * Add an existing animation to the sprite.
+	 *
 	 * @param name Name of the animation
 	 * @param anim Existing animation to add
 	 */
@@ -71,10 +83,21 @@ public class Sprite {
 		return animations.get(name.toUpperCase());
 	}
 	
+	/**
+	 * Gets the current animation.
+	 *
+	 * @return the current animation
+	 */
 	public Animation getCurrentAnimation(){
 		return currentAnimation;
 	}
 	
+	/**
+	 * Checks for animation.
+	 *
+	 * @param name the name
+	 * @return true, if successful
+	 */
 	public boolean hasAnimation(String name){
 		return animations.containsKey(name.toUpperCase());
 	}
@@ -90,6 +113,8 @@ public class Sprite {
 	}
 	
 	/**
+	 * Gets the frame.
+	 *
 	 * @return Frame the current animation is on
 	 */
 	public int getFrame() {
@@ -97,7 +122,8 @@ public class Sprite {
 	}
 	
 	/**
-	 * Sets the current animation to the given frame
+	 * Sets the current animation to the given frame.
+	 *
 	 * @param frame Frame to set the current animation to
 	 */
 	public void setFrame(int frame) {
@@ -105,6 +131,8 @@ public class Sprite {
 	}
 	
 	/**
+	 * Size.
+	 *
 	 * @return Number of animations in the sprite
 	 */
 	public int size() {
@@ -113,20 +141,29 @@ public class Sprite {
 	
 	/**
 	 * Draws the sprite at the specified coordinates.
-	 * @param x 
-	 * @param y
-	 * @param depth
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param depth the depth
 	 */
 	public void render(float x, float y, float depth) {
 		this.render(x, y, depth, null, new ShaderArgs());
 	}
 	
+	/**
+	 * Render.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param depth the depth
+	 * @param t the t
+	 */
 	public void render(float x, float y, float depth, Transform t) {
 		this.render(x, y, depth, t, new ShaderArgs());
 	}
 
 	/**
-	 * Updates the current animation
+	 * Updates the current animation.
 	 */
 	public void update() {
 		if(currentAnimation == null) return;
@@ -134,12 +171,13 @@ public class Sprite {
 	}
 
 	/**
-	 * Draws the sprite 
-	 * @param x
-	 * @param y
-	 * @param depth
-	 * @param transform
-	 * @param shader 
+	 * Draws the sprite .
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param depth the depth
+	 * @param transform the transform
+	 * @param shader the shader
 	 */
 	public void render(float x, float y, float depth, Transform transform, ShaderArgs shader) {
 		if(currentAnimation == null) return;
@@ -167,10 +205,20 @@ public class Sprite {
 				x + width - offX, y + height - offY, depth, transform, shader);
 	}
 
+	/**
+	 * Sets the speed.
+	 *
+	 * @param newSpeed the new speed
+	 */
 	public void setSpeed(float newSpeed) {
 		currentAnimation.setSpeed(newSpeed);
 	}
 	
+	/**
+	 * Gets the animation name.
+	 *
+	 * @return the animation name
+	 */
 	public String getAnimationName() {
 		return curAnimName;
 	}

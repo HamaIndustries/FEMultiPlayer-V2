@@ -8,16 +8,29 @@ import chu.engine.Game;
 import chu.engine.anim.ShaderArgs;
 import chu.engine.anim.Transform;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Corpse.
+ */
 public class Corpse extends Entity {
 
+	/** The alpha. */
 	private transient float alpha;
 
+	/**
+	 * Instantiates a new corpse.
+	 *
+	 * @param u the u
+	 */
 	public Corpse(Unit u) {
 		super(u.x, u.y);
 		sprite.addAnimation("DYING", u.sprite.getAnimation("IDLE"));
 		alpha = 1.0f;
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#beginStep()
+	 */
 	public void beginStep() {
 		alpha -= Game.getDeltaSeconds();
 		if (alpha < 0) {
@@ -26,6 +39,9 @@ public class Corpse extends Entity {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see chu.engine.Entity#render()
+	 */
 	public void render() {
 		Transform t = new Transform();
 		t.color = new Color(1f, 1f, 1f, alpha);
