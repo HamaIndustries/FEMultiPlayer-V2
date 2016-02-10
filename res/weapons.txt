@@ -12,10 +12,10 @@ Brave Sword	Sword	1	9	75	0	15	8000	-	-	-
 Audhulma	Sword	1	18	85	0	15	10000	-	-	Res 5
 Wo Dao		Sword	1	8	75	35	10	1200	-	-	-
 Durandal	Sword	1	17	90	0	10	-	-	Eliwood	Str 5	
-Sol Katti	Sword	1	12	95	25	15	-	-	Lyn	Res 5
+Sol Katti	Sword	1	12	95	25	15	-	Mount	Lyn	Res 5
 Sieglinde	Sword	1	16	90	0	15	-	-	Eirika	Str 5
-Falchion	Sword	1	14	90	20	15	-	-	Marth	Skl 5
-Ragnell		Sword	1-2	20	85	0	10	-	-	Ike	Def 5
+Falchion	Sword	1	15	90	20	15	-	-	Marth	Skl 5
+Ragnell		Sword	1-2	14	85	0	10	-	-	Ike	Def 5
 Sealed Sword	Sword	1-2	16	95	10	10	-	-	Roy	Res 5
 Log		Lance	1	1	100	0	20	1	-	-	-
 Iron Lance	Lance	1	7	80	0	22	360	-	-	-
