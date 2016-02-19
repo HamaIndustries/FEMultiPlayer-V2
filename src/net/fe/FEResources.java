@@ -334,14 +334,14 @@ public class FEResources {
 					prop.setProperty("DOWN", "DOWN");
 					prop.setProperty("VOLUME","1.0");
 					prop.setProperty("SCALE","1.0");
-					prop.setProperty(".CURING","curing");
-					prop.setProperty(".DEFENSE","defense");
-					prop.setProperty(".END","end");
-					prop.setProperty(".ENEMY","enemy");
-					prop.setProperty(".FIGHT","fight");
-					prop.setProperty(".MAIN_THEME","main_theme");
-					prop.setProperty(".OVERWORLD","overworld");
-					prop.setProperty(".PREPARATIONS","preparations");
+					prop.setProperty("CURING","random");
+					prop.setProperty("DEFENSE","random");
+					prop.setProperty("END","random");
+					prop.setProperty("ENEMY","random");
+					prop.setProperty("FIGHT","random");
+					prop.setProperty("MAIN","random");
+					prop.setProperty("OVERWORLD","random");
+					prop.setProperty("PREPARATIONS","random");
 					
 					FileOutputStream out = new FileOutputStream(path);
 					prop.store(out, "---Initial Configuration---");
@@ -372,7 +372,7 @@ public class FEResources {
 	public static String getAudioSetting(String setting) throws Exception{
 		String audioName = "";
 		try{
-			audioName = getProperties().getProperty("."+setting);
+			audioName = getProperties().getProperty(setting);
 		}catch(Exception e){
 			throw e;
 		}

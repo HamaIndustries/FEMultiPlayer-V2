@@ -144,7 +144,7 @@ public class FEMultiplayer extends Game{
 		connect = new ConnectStage();
 		setCurrentStage(new TitleStage());
 		messages = new CopyOnWriteArrayList<Message>();
-		SoundTrack.loop("main_theme");
+		SoundTrack.loop("main");
 		
 	}
 	

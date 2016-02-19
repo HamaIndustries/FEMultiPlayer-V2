@@ -37,7 +37,7 @@ public class LobbyStage extends Stage {
 	 * @param s the s
 	 */
 	public LobbyStage(Session s) {
-		super("main_theme");
+		super("main");
 		session = s;
 		chat = new Chat();
 	}

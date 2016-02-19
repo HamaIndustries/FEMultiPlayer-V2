@@ -10,6 +10,8 @@ import chu.engine.Game;
  */
 public class Animation {
 	
+	private boolean hasRun = false;
+	
 	/** The texture. */
 	private Texture texture;
 	
@@ -189,6 +191,16 @@ public class Animation {
 		}
 	}
 	
+	public boolean updateRunOnce() {
+		if(speed != 0) counter += Game.getDeltaSeconds();
+		if(speed != 0 && counter > Math.abs(speed) && !hasRun) {
+			increment();
+			counter = 0;
+		}
+		return hasRun;
+	}
+	
+	
 	/**
 	 * Increment.
 	 */
@@ -210,6 +222,7 @@ public class Animation {
 			currentFrame = 0;
 		else
 			currentFrame = columns-1;
+		hasRun = true;
 	}
 
 	/**
