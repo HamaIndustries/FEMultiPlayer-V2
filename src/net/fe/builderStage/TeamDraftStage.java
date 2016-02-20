@@ -222,8 +222,7 @@ public class TeamDraftStage extends Stage {
 		
 		// Timers
 		timers = new ArrayList<DraftTimer>();
-		for(Player p : session.getPlayers()) {
-			if(p.isSpectator()) continue;
+		for(Player p : session.getNonSpectators()) {
 			int x = p.getParty().getColor().equals(Party.TEAM_BLUE) ? 5 : 410;
 			float totalTime = Math.round(TIME_PER_TURN * draftOrder.length / 5.0f) * 5 + BASE_TIME;
 			DraftTimer dt = new DraftTimer(x, 277, totalTime, Math.round(totalTime/12), p);
@@ -636,8 +635,7 @@ public class TeamDraftStage extends Stage {
 		Renderer.drawTriangle(cX-4, 8, cX, 12, cX+4, 8, 0.0f, round.charAt(0) == 'B' ? BLUE_TURN : RED_TURN);
 		
 		// Player lists
-		for(Player p : session.getPlayers()) {
-			if(p.isSpectator()) continue;
+		for(Player p : session.getNonSpectators()) {
 			int y = 30;
 			for(Unit u : p.getParty()) {
 				int nameWidth = FEResources.getBitmapFont("default_med").getStringWidth(u.name);
