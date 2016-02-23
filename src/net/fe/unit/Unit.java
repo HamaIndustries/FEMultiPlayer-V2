@@ -511,6 +511,12 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		return range;
 	}
 	
+	public Set<Integer> getTotalSongRange(boolean staff) {
+		Set<Integer> range = new HashSet<Integer>();
+		range.add(1);
+		return range;
+	}
+	
 	/**
 	 * Equip.
 	 *

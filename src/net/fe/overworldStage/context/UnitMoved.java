@@ -94,6 +94,8 @@ public class UnitMoved extends MenuContext<String> {
 			new AttackTarget(stage, this, zone, unit).startContext();
 		} else if (selectedItem.equals("Heal")){
 			new HealTarget(stage, this, zone, unit).startContext();
+		} else if (selectedItem.equals("Sing")){
+			new SingTarget(stage, this, zone, unit).startContext();
 		} else if (selectedItem.equals("Item")){	
 			new ItemCmd(stage, this, unit).startContext();
 		} else if (selectedItem.equals("Trade")){
@@ -146,6 +148,11 @@ public class UnitMoved extends MenuContext<String> {
 					new Node(unit.getXCoord(), unit.getYCoord()),
 					unit.getTotalWepRange(true)), Zone.HEAL_DARK);
 			stage.addEntity(zone);
+		} else if (menu.getSelection().equals("Sing")) {
+			zone = new Zone(grid.getRange(
+					new Node(unit.getXCoord(), unit.getYCoord()),
+					unit.getTotalSongRange(true)), Zone.SING_DARK);
+			stage.addEntity(zone);
 		} else if (Arrays.asList("Trade", "Give", "Take", "Drop", "Rescue", "Summon")
 				.contains(menu.getSelection())) {
 			zone = new Zone(grid.getRange(
@@ -191,6 +198,20 @@ public class UnitMoved extends MenuContext<String> {
 		}
 		if (heal && !fromTake)
 			list.add("Heal");
+		
+		boolean sing = false;
+		range = grid.getRange(new Node(u.getXCoord(), u.getYCoord()),
+				unit.getTotalSongRange(true));
+		for (Node n : range) {
+			Unit p = grid.getUnit(n.x, n.y);
+			if (p != null && stage.getCurrentPlayer().getParty().isAlly(p.getParty())
+					&& p.hasMoved() && u.name.equals("Azura")) {
+				sing = true;
+				break;
+			}
+		}
+		if (sing && !fromTake)
+			list.add("Sing");
 
 		//TODO Give command untested
 		boolean trade = false;

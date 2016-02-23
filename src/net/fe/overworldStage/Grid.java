@@ -330,6 +330,16 @@ public class Grid{
 		return set;
 	}
 	
+	public Set<Node> getSingRange(Unit u) {
+		Set<Node> move = getPossibleMoves(u);
+		Set<Node> set = new HashSet<Node>();
+		Set<Integer> range = u.getTotalSongRange(true);
+		for(Node n: move){
+			set.addAll(getRange(n, range));
+		}
+		return set;
+	}
+	
 	/**
 	 * Gets the range.
 	 *
@@ -422,4 +432,6 @@ public class Grid{
 	public static int getDistance(Unit a, Unit b) {
 		return getDistance(a.getXCoord(), a.getYCoord(), b.getXCoord(), b.getYCoord());
 	}
+
+	
 }

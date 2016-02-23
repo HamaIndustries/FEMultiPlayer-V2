@@ -519,6 +519,16 @@ public class ClientOverworldStage extends OverworldStage {
 					}
 				};
 			}
+			else if(obj.equals("SING")) {
+				final UnitIdentifier other = (UnitIdentifier) cmds.commands[++i];
+				callback = new Command() {
+					public void execute() {
+						unit.setMoved(true);
+						FEMultiplayer.goToFightStage(cmds.unit, 
+								other, cmds.attackRecords);
+					}
+				};
+			}
 			else if(obj.equals("SUMMON")) {
 				final int dropX = (Integer) cmds.commands[++i];
 				final int dropY = (Integer) cmds.commands[++i];

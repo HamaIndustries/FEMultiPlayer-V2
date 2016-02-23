@@ -34,6 +34,8 @@ public class Zone extends Entity {
 	/** The heal dark. */
 	public static Color HEAL_DARK = new Color(0xC044FF44);
 	
+	public static Color SING_DARK = new Color(0x722CC9);
+	
 	/** The move light. */
 	public static Color MOVE_LIGHT = new Color(0xC08888FF);
 	
@@ -42,6 +44,8 @@ public class Zone extends Entity {
 	
 	/** The heal light. */
 	public static Color HEAL_LIGHT = new Color(0xC088FF88);
+	
+	public static Color SING_LIGHT = new Color(0xC0A06EDE);
 	
 	/** The frame. */
 	private static int frame;
@@ -78,7 +82,7 @@ public class Zone extends Entity {
 			int x = n.x*16;
 			int y = n.y*16;
 			Color mult;
-			if(color == MOVE_DARK || color == ATTACK_DARK || color == HEAL_DARK)
+			if(color == MOVE_DARK || color == ATTACK_DARK || color == HEAL_DARK || color == SING_DARK)
 				mult = new Color(1f, 1f, 1f, 0.5f);
 			else
 				mult = new Color(1f, 1f, 1f, .75f);
@@ -90,6 +94,8 @@ public class Zone extends Entity {
 				tiles.renderTransformed(x, y, frame, 1, renderDepth, t);
 			} else if(color == HEAL_DARK || color == HEAL_LIGHT) {
 				tiles.renderTransformed(x, y, frame, 2, renderDepth, t);
+			} else if(color == SING_DARK || color == SING_LIGHT) {
+				tiles.renderTransformed(x, y, frame, 3, renderDepth, t);
 			}
 		}
 		

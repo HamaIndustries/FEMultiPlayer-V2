@@ -98,5 +98,4 @@ public class MagicEffect extends Entity {
 	public static String getTextureName(AnimationArgs args){
 		return "magic_effect_" + args.unit.getWeapon().name.toLowerCase();
 	}
-
 }

@@ -18,6 +18,7 @@ import net.fe.editor.Level;
 import net.fe.editor.SpawnPoint;
 import net.fe.fightStage.CombatCalculator;
 import net.fe.fightStage.HealCalculator;
+import net.fe.fightStage.SingCmd;
 import net.fe.modifier.Modifier;
 import net.fe.network.Chat;
 import net.fe.network.FEServer;
@@ -411,6 +412,10 @@ public class OverworldStage extends Stage {
 				//This updates HP so we're ok
 				HealCalculator calc = new HealCalculator(cmds.unit, (UnitIdentifier) cmds.commands[++i], false);
 				cmds.attackRecords = calc.getAttackQueue();
+			}
+			else if(obj.equals("SING")) {
+				SingCmd song = new SingCmd(cmds.unit, (UnitIdentifier) cmds.commands[++i], false);
+				cmds.attackRecords = song.getAttackQueue();
 			}
 			else if(obj.equals("SUMMON")) {
 				final int dropX = (Integer) cmds.commands[++i];
