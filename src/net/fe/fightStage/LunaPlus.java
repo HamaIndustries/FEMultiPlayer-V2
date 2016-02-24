@@ -22,7 +22,7 @@ public final class LunaPlus extends CombatTrigger {
 	}
 	
 	public String getName() {
-		return "Luna";
+		return "LunaPlus";
 	}
 	
 	public CombatTrigger getCopy(){

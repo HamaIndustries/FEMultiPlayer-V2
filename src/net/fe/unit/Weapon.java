@@ -170,7 +170,7 @@ public class Weapon extends Item {
 			triggers.add(new Brave());
 		} else if (name.equals("Nosferatu")){
 			triggers.add(new Nosferatu());
-		} else if (name.equals("Luna")){
+		} else if (name.equals("Lunase")){
 			triggers.add(new LunaPlus());
 		} else if (name.equals("Eclipse")){
 			triggers.add(new EclipseSix());

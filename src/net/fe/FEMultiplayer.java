@@ -95,7 +95,7 @@ public class FEMultiplayer extends Game{
 //			SoundTrack.enabled = false;
 			game.init(480, 320, "Fire Emblem Multiplayer");
 			/* Testing code */
-//			game.testFightStage();
+			game.testFightStage();
 //			game.testOverworldStage();
 //			game.testDraftStage();
 			game.loop();
@@ -197,7 +197,7 @@ public class FEMultiplayer extends Game{
 		
 		map = new ClientOverworldStage(testSession);
 		Unit u1 = UnitFactory.getUnit("Ewan");
-		u1.getInventory().add(WeaponFactory.getWeapon("Eclipse"));
+		u1.getInventory().add(WeaponFactory.getWeapon("Lunase"));
 		u1.equip(0);
 		map.addUnit(u1, 0, 0);
 		u1.setLevel(20);
