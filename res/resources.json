@@ -4726,6 +4726,42 @@
 			]
 		},
 		{
+ 			"name":		"hit_effect_lunase",
+ 			"path":		"res/battle_anim/hit_effect_lunase.png",
+ 			"width":	240,
+ 			"height":	160,
+ 			"frames":	56,
+ 			"columns":	4,
+ 			"offsetX":	85,
+ 			"offsetY":	100,
+ 			"freeze":	-1,
+			"speed": 0.055
+ 			"hitframes": [42],
+ 			"shakeIntensity": 7,
+ 		},
+		{
+ 			"name":		"magic_effect_lunase",
+ 			"path":		"res/battle_anim/magic_effect_null.png",
+ 			"width":	8,
+ 			"height":	8,
+ 			"frames":	1,
+ 			"columns":	1,
+ 			"offsetX":	0,
+ 			"offsetY":	0,
+ 			"freeze":	-1
+ 		},
+ 		{
+ 			"name":		"bg_effect_lunase",
+ 			"path":		"res/battle_anim/magic_effect_null.png",
+ 			"width":	8,
+ 			"height":	8,
+ 			"frames":	1,
+ 			"columns":	1,
+ 			"offsetX":	0,
+ 			"offsetY":	0,
+ 			"freeze":	-1
+ 		},
+		{
 			"name":		"magic_effect_divine",
 			"path":		"res/battle_anim/magic_effect_divine.png",
 			"width":	241,

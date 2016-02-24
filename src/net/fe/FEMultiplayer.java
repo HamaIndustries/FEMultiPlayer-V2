@@ -206,7 +206,7 @@ public class FEMultiplayer extends Game{
 		
 		Unit u2 = UnitFactory.getUnit("Dart");
 		u2.getInventory().add(WeaponFactory.getWeapon("Tomahawk"));
-		map.addUnit(u2, 5, 0);
+		map.addUnit(u2, 2, 0);
 		u2.equip(0);
 		u2.setLevel(20);
 		u2.loadMapSprites();
