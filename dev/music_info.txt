@@ -1,0 +1,30 @@
+Theme names:
+
+curing
+curing_blessings_of_water
+
+defense
+
+end
+end_anguish
+end_winning_road
+
+enemy
+enemy_black_fang
+
+fight
+
+main
+main_her_name
+main_id_purpose
+main_lost_in_thoughts
+
+overworld
+overworld_decisive_talk
+
+preparations
+preparations_going_my_way
+preparations_idk
+
+Any may be replaced by "random" (without quotes) for the 
+game to play a random theme from that category.
