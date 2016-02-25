@@ -148,12 +148,7 @@ public class UnitMoved extends MenuContext<String> {
 					new Node(unit.getXCoord(), unit.getYCoord()),
 					unit.getTotalWepRange(true)), Zone.HEAL_DARK);
 			stage.addEntity(zone);
-		} else if (menu.getSelection().equals("Sing")) {
-			zone = new Zone(grid.getRange(
-					new Node(unit.getXCoord(), unit.getYCoord()),
-					unit.getTotalSongRange(true)), Zone.SING_DARK);
-			stage.addEntity(zone);
-		} else if (Arrays.asList("Trade", "Give", "Take", "Drop", "Rescue", "Summon")
+		} else if (Arrays.asList("Trade", "Give", "Take", "Drop", "Rescue", "Summon", "Sing")
 				.contains(menu.getSelection())) {
 			zone = new Zone(grid.getRange(
 					new Node(unit.getXCoord(), unit.getYCoord()), 1),

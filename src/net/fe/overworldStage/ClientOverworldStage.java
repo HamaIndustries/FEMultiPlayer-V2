@@ -30,6 +30,8 @@ import net.fe.unit.MapAnimation;
 import net.fe.unit.RiseTome;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
+import net.fe.unit.Voice;
+import net.fe.unit.Weapon;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
@@ -524,8 +526,12 @@ public class ClientOverworldStage extends OverworldStage {
 				callback = new Command() {
 					public void execute() {
 						unit.setMoved(true);
+						Weapon wep = new Voice();
+						unit.getInventory().add(0, wep);
+						unit.equip(0);
 						FEMultiplayer.goToFightStage(cmds.unit, 
 								other, cmds.attackRecords);
+						getUnit(other).setMoved(false);
 					}
 				};
 			}

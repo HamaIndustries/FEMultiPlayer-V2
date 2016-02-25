@@ -34,6 +34,8 @@ import net.fe.unit.Item;
 import net.fe.unit.RiseTome;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
+import net.fe.unit.Voice;
+import net.fe.unit.Weapon;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.util.ResourceLoader;
@@ -414,7 +416,12 @@ public class OverworldStage extends Stage {
 				cmds.attackRecords = calc.getAttackQueue();
 			}
 			else if(obj.equals("SING")) {
-				SingCmd song = new SingCmd(cmds.unit, (UnitIdentifier) cmds.commands[++i], false);
+				final UnitIdentifier other = (UnitIdentifier) cmds.commands[++i];
+				Weapon wep = new Voice();
+				unit.getInventory().add(0, wep);
+				unit.equip(0);
+				SingCmd song = new SingCmd(cmds.unit, other, false);
+				getUnit(other).setMoved(false);
 				cmds.attackRecords = song.getAttackQueue();
 			}
 			else if(obj.equals("SUMMON")) {

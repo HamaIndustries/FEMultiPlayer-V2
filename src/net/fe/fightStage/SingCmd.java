@@ -7,7 +7,6 @@ public class SingCmd extends CombatCalculator {
 		super(u1, u2, local);
 	}
 	protected void calculate(){
-		right.setMoved(false);
 		addToAttackQueue(left, right, "Sing", 0, 0);
 	}
 }
