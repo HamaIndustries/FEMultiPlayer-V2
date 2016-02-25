@@ -1,6 +1,7 @@
 package net.fe;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -125,6 +126,17 @@ public class Session implements Serializable {
 	 */
 	public Player[] getPlayers() {
 		return players.values().toArray(new Player[players.size()]);
+	}
+	
+	/**
+	 * Returns a list of players, filtered to not include players that are spectators
+	 */
+	public Player[] getNonSpectators() {
+		ArrayList<Player> ans = new ArrayList<Player>();
+		for(Player p : this.getPlayers()) {
+			if(!p.isSpectator()) ans.add(p);
+		}
+		return ans.toArray(new Player[ans.size()]);
 	}
 	
 	/**
