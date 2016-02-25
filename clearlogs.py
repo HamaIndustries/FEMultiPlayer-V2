@@ -2,7 +2,9 @@ import os
 
 x=0
 for i in os.listdir('.'):
-	if i.endswith('.log'):
+	if '.log' in i:
 		os.remove(i)
 		x+=1
-print('removed '+str(x)+' logs')
+		print('removed '+i)
+print('\nremoved '+str(x)+' logs')
+raw_input('press any key to finish.')

@@ -4738,6 +4738,20 @@
 			"speed": 0.055
  			"hitframes": [42],
  			"shakeIntensity": 7,
+			"soundMap": [
+				{
+					"frame":4,
+					"sound":"luna1"
+				},
+				{
+					"frame":23,
+					"sound":"luna2"
+				}
+				{
+					"frame":44,
+					"sound":"eclipse3"
+				}
+			]
  		},
 		{
  			"name":		"magic_effect_lunase",
