@@ -33,6 +33,7 @@ import net.fe.overworldStage.Grid;
 import net.fe.overworldStage.Terrain;
 import net.fe.overworldStage.objective.Seize;
 import net.fe.transition.OverworldFightTransition;
+import net.fe.unit.RiseTome;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitFactory;
 import net.fe.unit.UnitIdentifier;
@@ -195,11 +196,10 @@ public class FEMultiplayer extends Game{
 		testSession.addPlayer(p2);
 		
 		map = new ClientOverworldStage(testSession);
-		Unit u1 = UnitFactory.getUnit("Ike");
-		u1.getInventory().add(WeaponFactory.getWeapon("Ragnell"));
+		Unit u1 = UnitFactory.getUnit("Canas");
+		u1.getInventory().add(WeaponFactory.getWeapon("Lunase"));
 		u1.equip(0);
 		map.addUnit(u1, 0, 0);
-		u1.equip(1);
 		u1.setLevel(20);
 		u1.loadMapSprites();
 		p1.getParty().addUnit(u1);
@@ -208,7 +208,7 @@ public class FEMultiplayer extends Game{
 		u2.getInventory().add(WeaponFactory.getWeapon("Tomahawk"));
 		map.addUnit(u2, 2, 0);
 		u2.equip(0);
-		u2.setLevel(15);
+		u2.setLevel(20);
 		u2.loadMapSprites();
 		p2.getParty().addUnit(u2);
 		
@@ -216,8 +216,8 @@ public class FEMultiplayer extends Game{
 		int u2Uses = u2.getWeapon().getMaxUses();
 
 		
-		u1.debugStat("Skl");
-		u1.debugStat("Str", -9999);
+		//u1.debugStat("Spd");
+		//u1.debugStat("Str",-999);
 		
 		// ^------- put all pre-calc stuff here
 		
@@ -245,10 +245,12 @@ public class FEMultiplayer extends Game{
 		Player p2 = new Player("P2", (byte)1);
 		p2.getParty().setColor(Party.TEAM_RED);
 		testSession.addPlayer(p2);
+		localPlayer.getParty().setColor(Party.TEAM_BLUE);
+		p2.setTeam(2);
+		localPlayer.setTeam(1);
 		
-		Unit u1 = UnitFactory.getUnit("Gilliam");
-		u1.addToInventory(WeaponFactory.getWeapon("Gradivus"));
-		u1.equip(0);
+		Unit u1 = UnitFactory.getUnit("Canas");
+		u1.addToInventory(new RiseTome());
 		u1.setHp(1);
 		localPlayer.getParty().addUnit(u1);
 		

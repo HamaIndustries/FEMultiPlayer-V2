@@ -12,10 +12,10 @@ Brave Sword	Sword	1	9	75	0	15	8000	-	-	-
 Audhulma	Sword	1	18	85	0	15	10000	-	-	Res 5
 Wo Dao		Sword	1	8	75	35	10	1200	-	-	-
 Durandal	Sword	1	17	90	0	10	-	-	Eliwood	Str 5	
-Sol Katti	Sword	1	12	95	25	15	-	-	Lyn	Res 5
+Sol Katti	Sword	1	12	95	25	15	-	Mount	Lyn	Res 5
 Sieglinde	Sword	1	16	90	0	15	-	-	Eirika	Str 5
-Falchion	Sword	1	14	90	20	15	-	-	Marth	Skl 5
-Ragnell		Sword	1-2	20	85	0	10	-	-	Ike	Def 5
+Falchion	Sword	1	15	90	20	15	-	-	Marth	Skl 5
+Ragnell		Sword	1-2	14	85	0	10	-	-	Ike	Def 5
 Sealed Sword	Sword	1-2	16	95	10	10	-	-	Roy	Res 5
 Log		Lance	1	1	100	0	20	1	-	-	-
 Iron Lance	Lance	1	7	80	0	22	360	-	-	-
@@ -59,9 +59,12 @@ Fimbulvetr	Anima	1-2	13	80	0	10	6000	-	-	-
 Excalibur	Anima	1-2	18	90	10	15	15000	Flier	-	Spd 5
 Lightning	Light	1-2	4	95	5	17	630	-	-	-
 Divine		Light	1-2	8	85	10	12	2500	-	-	-
+Debug Purge	Light	3-10	10	70	5	2	3000	-	-	-
 Aura		Light	1-2	12	85	15	10	8000	-	-	-
 Aureola		Light	1-2	15	90	5	10	15000	-	-	Res 5
 Flux		Dark	1-2	7	80	0	22	900	-	-	-
+Eclipse		Dark	3-10	0	10	-900	2	4000	-	-	-
+Lunase		Dark	1-2	0	50	0	17	4200	-	-	-
 Nosferatu	Dark	1-2	10	70	0	10	3200	-	-	Spd 5
 Debug Fenrir	Dark	1-2	15	70	0	10	9000	-	-	-
 Ereshkigal	Dark	1-2	20	95	0	12	15000	-	-	Skl 5

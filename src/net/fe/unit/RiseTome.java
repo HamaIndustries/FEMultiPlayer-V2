@@ -15,7 +15,7 @@ public class RiseTome extends Item{
 	public RiseTome(){
 		super("Rise");
 		this.setMaxUses(4);
-		this.id = 70;
+		this.id = 73;
 		this.setCost(8000);
 	}
 	
@@ -23,8 +23,7 @@ public class RiseTome extends Item{
 	 * @see net.fe.unit.Item#getCopy()
 	 */
 	public RiseTome getCopy(){
-		RiseTome w = new RiseTome();
-		return w;
+		return new RiseTome();
 	}
 	
 	/* (non-Javadoc)

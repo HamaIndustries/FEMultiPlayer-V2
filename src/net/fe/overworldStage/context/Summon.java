@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import chu.engine.anim.AudioPlayer;
+import net.fe.FEResources;
 import net.fe.overworldStage.*;
 import net.fe.unit.Unit;
+import net.fe.unit.WeaponFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -177,7 +179,7 @@ public class Summon extends OverworldContext {
 	 * @return the unit
 	 */
 	public static Unit generateSummon(Unit summoner) {
-		net.fe.unit.WeaponFactory.loadWeapons();
+		WeaponFactory.loadWeapons();
 		
 		HashMap<String, Integer> bases = new HashMap();
 		HashMap<String, Integer> growths = new HashMap();
@@ -200,7 +202,7 @@ public class Summon extends OverworldContext {
 		growths.put("Spd", 45);
 		growths.put("Mov", 0);
 		summonCount = summonCount + 1;
-		final Unit summon = new Unit("Phantom " + summonCount, net.fe.unit.Class.createClass("Berserker"), '-', bases, growths);
+		final Unit summon = new Unit("Phantom " + summonCount, net.fe.unit.Class.createClass("Phantom"), '-', bases, growths);
 		summon.addToInventory(net.fe.unit.Item.getItem("Iron Axe"));
 		summon.initializeEquipment();
 		summon.setLevel(summoner.get("Lvl"));
