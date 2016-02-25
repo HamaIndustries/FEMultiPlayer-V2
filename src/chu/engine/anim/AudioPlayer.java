@@ -33,18 +33,8 @@ public class AudioPlayer {
 	 * @param name the name
 	 */
 	public static void playAudio(String name){
-			try{
 			Audio audio = FEResources.getAudio(name);
 			audio.playAsSoundEffect(1.0f, FEResources.getAudioVolume(), false);
-			}catch(Exception e){
-				try{
-					File errLog = new File("nameLog.log");
-					PrintWriter pw = new PrintWriter(errLog);
-					e.printStackTrace(pw);
-					pw.println(name);
-					pw.close();
-				}catch(Exception f){}
-			}
 		
 	}
 }
