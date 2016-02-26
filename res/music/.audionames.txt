@@ -1,3 +1,5 @@
+[all music names MUST be lower case]
+
 curing
 curing_blessings_of_water
 defense
