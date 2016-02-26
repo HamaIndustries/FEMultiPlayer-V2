@@ -6,7 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.AudioLoader;
@@ -65,18 +68,39 @@ public class SoundTrack {
 	}
 	
 	private static void loadAudioNames(){
-		File folder = new File("res/music");
-		File[] listOfFiles = folder.listFiles();
-		songs = new HashMap<String, List<String>>();
-		for(File s: listOfFiles){
-			//category & filename (if any), saves memory
-			String[] sPreName = s.getName().replace(".ogg", "").split("_",2);
-			String cat = sPreName[0], sFileName = sPreName.length<2?"":sPreName[1];
-			if(!songs.containsKey(cat))
-				songs.put(cat, new ArrayList<String>());
-			songs.get(cat).add(sFileName);
-		}
-		categories = new ArrayList<String>(songs.keySet());
+		try{
+			songs = new HashMap<String, List<String>>();
+			final String musPath = "res/music";
+			final File jarFile = new File(SoundTrack.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			if(jarFile.isFile()) {  // Run with JAR file
+			    final JarFile jar = new JarFile(jarFile);
+			    final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+			    while(entries.hasMoreElements()) {
+			        final String name = entries.nextElement().getName();
+			        if (name.startsWith(musPath + "/")) { //filter according to the path
+			        	String[] sPreName = name.replace(".ogg", "").replace("res/music/preparations", "").split("_",2);
+			        	String cat = sPreName[0], sFileName = sPreName.length<2?"":sPreName[1];
+			        	if(!songs.containsKey(cat))
+							songs.put(cat, new ArrayList<String>());
+						songs.get(cat).add(sFileName);
+			        }
+			    }
+			    jar.close();
+			    
+			} else { // Run with IDE
+				File folder = new File(musPath);
+				File[] listOfFiles = folder.listFiles();
+				for(File s: listOfFiles){
+					//category & filename (if any), saves memory
+					String[] sPreName = s.getName().replace(".ogg", "").split("_",2);
+					String cat = sPreName[0], sFileName = sPreName.length<2?"":sPreName[1];
+					if(!songs.containsKey(cat))
+						songs.put(cat, new ArrayList<String>());
+					songs.get(cat).add(sFileName);
+				}
+			}
+			categories = new ArrayList<String>(songs.keySet());
+		}catch(Exception e){e.printStackTrace();}
 	}
 	
 	/**
