@@ -29,7 +29,7 @@ public class Draft implements PickMode {
 			FEMultiplayer.setCurrentStage(stage);
 		} else {
 			DraftViewStage stage = new DraftViewStage(session);
-			//System.out.println(FEMultiplayer.getLocalPlayer().getParty().getColor()+"++++++++++++++++++++++++++");
+			//System.out.println(FEMultiplayer.getLocalPlayer().getParty().getColor());
 			//TeamDraftStage stage = new TeamDraftStage(session);
 			FEMultiplayer.setCurrentStage(stage);
 		}

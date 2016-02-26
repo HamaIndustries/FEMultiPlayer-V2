@@ -1823,13 +1823,13 @@
 		{
 			"name":		"ike_sword_attack",
 			"path":		"res/battle_anim/ike_sword_attack.png",
-			"width":	96,
+			"width":	98,
 			"height":	70,
 			"frames":	23,
 			"columns":	5,
 			"offsetX":	71,
 			"offsetY":	66,
-			"freeze":	0,
+			"freeze":	10,
 			"hitframes":[16],
 			"soundMap": [
 				{
@@ -1855,7 +1855,7 @@
 			"path":		"res/battle_anim/ike_sword_critical.png",
 			"width":	150,
 			"height":	125,
-			"frames":	44,
+			"frames":	42,
 			"columns":	7,
 			"offsetX":	120,
 			"offsetY":	121,
@@ -1892,7 +1892,7 @@
 			"frames":	2,
 			"columns":	2,
 			"offsetX":	13,
-			"offsetY":	42,
+			"offsetY":	40,
 			"freeze":	0
 		},
 		{
@@ -1933,7 +1933,7 @@
 			"frames":	39,
 			"columns":	5,
 			"offsetX":	150,
-			"offsetY":	103,
+			"offsetY":	100,
 			"freeze":	1,
 			"hitframes":[16,32],
 			"soundMap": [
@@ -4581,7 +4581,7 @@
 			"columns":	4,
 			"offsetX":	88,
 			"offsetY": 	104,
-			"freeze":	-1,
+			"freeze":	0,
 			"soundMap": [
 				{
 					"frame": 0,
@@ -4602,7 +4602,7 @@
 			"offsetY":	68,
 			"frames":	10,
 			"columns":	5,
-			"freeze":	-1,
+			"freeze":	-2,
 			"soundMap":	[
 				{
 					"frame": 0,
@@ -5321,6 +5321,28 @@
 			"path":		"res/gui/title.png"
 		}
 		{
+			"name":		"title_two",
+			"path":		"res/gui/title_two.png"
+		}
+		{
+			"name":		"title_slide",
+			"path":		"res/gui/title_slide.png"
+			"width":	480,
+			"height":	320,
+			"frames":	21,
+			"columns":	3,
+			"offsetX":	0,
+			"offsetY":	0,
+			"freeze":	0,
+			"speed": 0.070,
+			"soundMap":[
+				{
+					"frame":16,
+					"sound":"cancel"
+				},
+			]
+		}
+		{
 			"name":		"gui_selectArrow",
 			"path":		"res/gui/selectArrow.png",
 			"width":	8,
@@ -5474,10 +5496,6 @@
 		{
 			"name":		"team_builder_button",
 			"path":		"res/gui/team_builder_button.png"
-		},
-		{
-			"name":		"title",
-			"path":		"res/gui/title.png"
 		},
 		{
 			"name":		"trianglemod_down",

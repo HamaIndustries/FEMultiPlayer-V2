@@ -47,6 +47,9 @@ public abstract class Entity implements Comparable<Entity> {
 	/** The solid. */
 	public boolean solid;
 	
+
+	public boolean hasRun = false;
+	
 	/**
 	 * Instantiates a new entity.
 	 *

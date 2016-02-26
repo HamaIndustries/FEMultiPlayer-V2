@@ -57,7 +57,7 @@ public class ConnectStage extends Stage {
 	 * Instantiates a new connect stage.
 	 */
 	public ConnectStage() {
-		super("main_theme");
+		super("main");
 		name = new ConnectInputBox(180,136,153,20);
 		ip = new ConnectInputBox(180,166,100,20);
 		addEntity(name);

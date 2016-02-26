@@ -6,11 +6,13 @@ import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
+import chu.engine.Entity;
 import chu.engine.Game;
 import chu.engine.KeyboardEvent;
 import chu.engine.Stage;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Renderer;
+import chu.engine.anim.Sprite;
 import chu.engine.anim.Transform;
 
 // TODO: Auto-generated Javadoc
@@ -31,13 +33,21 @@ public class TitleStage extends Stage{
 	/** The title. */
 	private Texture title;
 	
+	private Texture titleTwo;
+	
+	private TitleAnimation titleAnim;
+	
+	
 	/**
 	 * Instantiates a new title stage.
 	 */
 	public TitleStage(){
-		super("main_theme");
+		super("main");
 		dAlpha = 0.9f;
 		title = FEResources.getTexture("title");
+		titleTwo = FEResources.getTexture("title_two");
+		titleAnim = new TitleAnimation();
+		entities.add(titleAnim);
 	}
 	
 	/* (non-Javadoc)
@@ -53,6 +63,9 @@ public class TitleStage extends Stage{
 					AudioPlayer.playAudio("start");
 				}
 			}
+		}
+		for(Entity e : entities) {
+			e.beginStep();
 		}
 	}
 
@@ -76,6 +89,9 @@ public class TitleStage extends Stage{
 				FEMultiplayer.setCurrentStage(FEMultiplayer.connect);
 			}
 		}
+		for(Entity e : entities) {
+			e.onStep();
+		}
 	}
 
 	/* (non-Javadoc)
@@ -83,15 +99,29 @@ public class TitleStage extends Stage{
 	 */
 	@Override
 	public void endStep() {
-		
+		for(Entity e : entities) {
+			e.endStep();
+		}
 	}
 	
 	/* (non-Javadoc)
 	 * @see chu.engine.Stage#render()
 	 */
 	public void render(){
-		Renderer.render(title, 0, 0, 1, 1, 0, 0, 480, 320, 1);
+		boolean hasRun = false;
 		Transform t = new Transform();
+		for(Entity e : entities) {
+			e.render();
+			if(e.hasRun)
+				hasRun = true;
+		}
+		
+		if(!hasRun)
+			Renderer.render(title, 0, 0, 1, 1, 0, 0, 480, 320, 1);
+		else
+			Renderer.render(titleTwo, 0, 0, 1, 1, 0, 0, 480, 320, 1);
+		
+		
 		t.setScale(2, 2);
 		t.setColor(new Color(1-alpha,1,1-alpha,1));
 		if(counter * 20 % 2 < 1)
