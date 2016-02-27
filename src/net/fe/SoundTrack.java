@@ -58,6 +58,7 @@ public class SoundTrack {
 					ResourceLoader.getResourceAsStream("res/music/"+setting+".ogg"));
 			b.playAsMusic(1.0f, FEResources.getAudioVolume(), true);
 		} catch (Exception e){
+			e.printStackTrace();
 			System.err.println("Warn: Bad sound configuration: "+name);
 			try{
 				Audio b = AudioLoader.getAudio("OGG",
@@ -77,8 +78,8 @@ public class SoundTrack {
 			    final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
 			    while(entries.hasMoreElements()) {
 			        final String name = entries.nextElement().getName();
-			        if (name.startsWith(musPath + "/")) { //filter according to the path
-			        	String[] sPreName = name.replace(".ogg", "").replace("res/music/preparations", "").split("_",2);
+			        if (name.startsWith(musPath + "/") && name.indexOf(".ogg")>0) { //filter according to the path
+			        	String[] sPreName = name.replace(".ogg", "").replace("res/music/", "").split("_",2);
 			        	String cat = sPreName[0], sFileName = sPreName.length<2?"":sPreName[1];
 			        	if(!songs.containsKey(cat))
 							songs.put(cat, new ArrayList<String>());
@@ -100,7 +101,7 @@ public class SoundTrack {
 				}
 			}
 			categories = new ArrayList<String>(songs.keySet());
-		}catch(Exception e){e.printStackTrace();}
+		}catch(Exception e){throw new RuntimeException(e);}
 	}
 	
 	/**
