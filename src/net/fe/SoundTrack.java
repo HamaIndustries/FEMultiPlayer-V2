@@ -40,7 +40,7 @@ public class SoundTrack {
 	 */
 	
 	public static void loop(String name){
-		if(!enabled) return;
+		if(!enabled || !(FEResources.getAudioVolume()>0)) return;
 		if(name.equals(current)) return;
 		current = name;
 		loadAudioNames();
