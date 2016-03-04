@@ -27,9 +27,9 @@ public class SoundTrack {
 	/** Whether or not Audio is enabled */
 	public static boolean enabled = true;
 	
-	private static Map<String, List<String>> songs;
+	private static Map<String, ArrayList<String>> songs;
 	
-	private static List<String> categories;
+	private static ArrayList<String> categories;
 	
 	/**
 	 * Loop.
@@ -70,7 +70,7 @@ public class SoundTrack {
 	
 	private static void loadAudioNames(){
 		try{
-			songs = new HashMap<String, List<String>>();
+			songs = new HashMap<String, ArrayList<String>>();
 			final String musPath = "res/music";
 			final File jarFile = new File(SoundTrack.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 			if(jarFile.isFile()) {  // Run with JAR file
@@ -84,6 +84,7 @@ public class SoundTrack {
 			        	if(!songs.containsKey(cat))
 							songs.put(cat, new ArrayList<String>());
 						songs.get(cat).add(sFileName);
+						songs.get(cat).trimToSize();
 			        }
 			    }
 			    jar.close();
@@ -101,6 +102,7 @@ public class SoundTrack {
 				}
 			}
 			categories = new ArrayList<String>(songs.keySet());
+			categories.trimToSize();
 		}catch(Exception e){throw new RuntimeException(e);}
 	}
 	
