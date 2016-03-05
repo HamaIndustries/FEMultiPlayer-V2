@@ -54,15 +54,15 @@ public class SoundTrack {
 				if(setting.split("_").length<2)
 					setting = name;
 			}
-			b = AudioLoader.getAudio("OGG",
-					ResourceLoader.getResourceAsStream("res/music/"+setting+".ogg"));
+			b = AudioLoader.getAudio("MP3",
+					ResourceLoader.getResourceAsStream("res/music/"+setting+".mp3"));
 			b.playAsMusic(1.0f, FEResources.getAudioVolume(), true);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.err.println("Warn: Bad sound configuration: "+name);
 			try{
 				Audio b = AudioLoader.getAudio("OGG",
-						ResourceLoader.getResourceAsStream("res/music/"+name+".ogg"));
+						ResourceLoader.getResourceAsStream("res/music/"+name+".mp3"));
 				b.playAsMusic(1.0f, FEResources.getAudioVolume(), true);
 			}catch(Exception f){}
 		}
@@ -78,8 +78,8 @@ public class SoundTrack {
 			    final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
 			    while(entries.hasMoreElements()) {
 			        final String name = entries.nextElement().getName();
-			        if (name.startsWith(musPath + "/") && name.indexOf(".ogg")>0) { //filter according to the path
-			        	String[] sPreName = name.replace(".ogg", "").replace("res/music/", "").split("_",2);
+			        if (name.startsWith(musPath + "/") && name.indexOf(".mp3")>0) { //filter according to the path
+			        	String[] sPreName = name.replace(".mp3", "").replace("res/music/", "").split("_",2);
 			        	String cat = sPreName[0], sFileName = sPreName.length<2?"":sPreName[1];
 			        	if(!songs.containsKey(cat))
 							songs.put(cat, new ArrayList<String>());
@@ -94,7 +94,7 @@ public class SoundTrack {
 				File[] listOfFiles = folder.listFiles();
 				for(File s: listOfFiles){
 					//category & filename (if any), saves memory
-					String[] sPreName = s.getName().replace(".ogg", "").split("_",2);
+					String[] sPreName = s.getName().replace(".mp3", "").split("_",2);
 					String cat = sPreName[0], sFileName = sPreName.length<2?"":sPreName[1];
 					if(!songs.containsKey(cat))
 						songs.put(cat, new ArrayList<String>());
@@ -112,8 +112,8 @@ public class SoundTrack {
 	public static void restart(){
 		if(!enabled) return;
 		try {
-			Audio a = AudioLoader.getStreamingAudio("OGG", 
-					ResourceLoader.getResource("res/music/"+current+".ogg"));
+			Audio a = AudioLoader.getStreamingAudio("MP3", 
+					ResourceLoader.getResource("res/music/"+current+".mp3"));
 			a.playAsMusic(1.0f, FEResources.getAudioVolume(), true);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
