@@ -61,7 +61,7 @@ public class SoundTrack {
 			e.printStackTrace();
 			System.err.println("Warn: Bad sound configuration: "+name);
 			try{
-				Audio b = AudioLoader.getAudio("OGG",
+				Audio b = AudioLoader.getAudio("WAV",
 						ResourceLoader.getResourceAsStream("res/music/"+name+".wav"));
 				b.playAsMusic(1.0f, FEResources.getAudioVolume(), true);
 			}catch(Exception f){}
