@@ -1823,13 +1823,13 @@
 		{
 			"name":		"ike_sword_attack",
 			"path":		"res/battle_anim/ike_sword_attack.png",
-			"width":	96,
+			"width":	98,
 			"height":	70,
 			"frames":	23,
 			"columns":	5,
 			"offsetX":	71,
 			"offsetY":	66,
-			"freeze":	0,
+			"freeze":	10,
 			"hitframes":[16],
 			"soundMap": [
 				{
@@ -1855,7 +1855,7 @@
 			"path":		"res/battle_anim/ike_sword_critical.png",
 			"width":	150,
 			"height":	125,
-			"frames":	44,
+			"frames":	42,
 			"columns":	7,
 			"offsetX":	120,
 			"offsetY":	121,
@@ -1892,7 +1892,7 @@
 			"frames":	2,
 			"columns":	2,
 			"offsetX":	13,
-			"offsetY":	42,
+			"offsetY":	40,
 			"freeze":	0
 		},
 		{
@@ -1933,7 +1933,7 @@
 			"frames":	39,
 			"columns":	5,
 			"offsetX":	150,
-			"offsetY":	103,
+			"offsetY":	100,
 			"freeze":	1,
 			"hitframes":[16,32],
 			"soundMap": [
@@ -2869,127 +2869,95 @@
 		},
 		{
 			"name":		"phantom_axe_attack",
-			"path":		"res/battle_anim/berserker_axe_attack.png",
-			"width":	85,
-			"height":	73,
-			"frames":	9,
-			"columns":	3,
-			"offsetX":	68,
-			"offsetY":	69,
+			"path":		"res/battle_anim/phantom_axe_attack.png",
+			"width":	98,
+			"height":	72,
+			"frames":	32,
+			"columns":	6,
+			"offsetX":	70,
+			"offsetY":	65,
 			"freeze":	0,
-			"speed":	0.06,
-			"hitframes":[4],
+			"hitframes":[18],
 			"soundMap": [
-				{
-					"frame":	2,
-					"sound":	"axe_swipe3"
-				},
-				{
-					"frame":	7,
-					"sound":	"catch"
-				},
+				{	"frame": 5,	"sound": "axe_swipe3"	},
+				{	"frame": 7,	"sound": "jump"	},
+				{	"frame":  19,	"sound": "magic_charge4"	},
 			]
 		},
 		{
 			"name":		"phantom_axe_critical",
-			"path":		"res/battle_anim/berserker_axe_critical.png",
-			"width":	87,
-			"height":	93,
-			"frames":	40,
-			"columns":	7,
-			"offsetX":	68,
-			"offsetY":	90,
-			"freeze":	0,
-			"hitframes":[35],
+			"path":		"res/battle_anim/phantom_axe_critical.png",
+			"width":110,
+			"height":105,
+			"frames":57,
+			"columns":8,
+			"offsetX":70,
+			"offsetY":97,
+			"freeze":0,
+			"hitframes":[43],
 			"soundMap": [
-				{
-					"frame":	4,
-					"sound":	"spin"
-				},
-				{
-					"frame":	32,
-					"sound":	"catch"
-				},
-				{
-					"frame":	33,
-					"sound":	"axe_swipe3"
-				},
-				{
-					"frame":	38,
-					"sound":	"catch"
-				},
+				{	"frame": 5,	"sound": "axe_swipe3"	},
+				{	"frame": 7,	"sound": "magic_charge4"	},
+				{	"frame": 19,	"sound": "jump"	},
+				{	"frame": 33,	"sound": "axe_swipe3"	},
+				{	"frame": 44,	"sound": "magic_charge4"	},
 			]
 		},
 		{
 			"name":		"phantom_axe_dodge",
-			"path":		"res/battle_anim/berserker_axe_dodge.png",
-			"width":	37,
-			"height":	59,
+			"path":		"res/battle_anim/phantom_axe_dodge.png",
+			"width":	58,
+			"height":	39,
 			"frames":	2,
 			"columns":	2,
-			"offsetX":	19,
-			"offsetY":	56,
+			"offsetX":	24,
+			"offsetY":	36,
 			"freeze":	0
 		},
 		{
 			"name":		"phantom_handaxe_attack",
-			"path":		"res/battle_anim/berserker_handaxe_attack.png",
-			"width":	192,
-			"height":	44,
-			"frames":	24,
-			"columns":	5,
-			"offsetX":	162,
-			"offsetY":	40,
-			"freeze":	0,
-			"speed":	0.06,
-			"hitframes":[4],
+			"path":		"res/battle_anim/phantom_handaxe_attack.png",
+			"width":213,
+			"height":40,
+			"frames":25,
+			"columns":5,
+			"offsetX":150,
+			"offsetY":36,
+			"freeze":0,
+			"hitframes":[7],
 			"soundMap": [
-				{
-					"frame":	1,
-					"sound":	"axe_throw"
-				},
-				{
-					"frame":	22,
-					"sound":	"catch"
-				},
+				{	"frame": 1,	"sound": "axe_swipe2"	},
+				{	"frame": 5,	"sound": "axe_throw"	},
 			]
 		},
 		{
 			"name":		"phantom_handaxe_critical",
-			"path":		"res/battle_anim/berserker_handaxe_critical.png",
-			"width":	192,
-			"height":	44,
-			"frames":	29,
-			"columns":	3,
-			"offsetX":	162,
-			"offsetY":	40,
-			"freeze":	0,
-			"hitframes":[10],
+			"path":		"res/battle_anim/phantom_handaxe_critical.png",
+			"width":215,
+			"height":42,
+			"frames":34,
+			"columns":6,
+			"offsetX":150,
+			"offsetY":38,
+			"freeze":0,
+			"hitframes":[16],
 			"soundMap": [
-				{
-					"frame":	1,
-					"sound":	"spin_short"
-				},
-				{
-					"frame":	6,
-					"sound":	"axe_throw"
-				},
-				{
-					"frame":	27,
-					"sound":	"catch"
-				},
+				{	"frame": 1,	"sound": "axe_swipe2"	},
+				{	"frame": 3,	"sound": "spin"	},
+				{	"frame": 7,	"sound": "spin"	},
+				{	"frame": 14,	"sound": "axe_throw"	},
 			]
 		},
 		{
 			"name":		"phantom_handaxe_dodge",
-			"path":		"res/battle_anim/berserker_handaxe_dodge.png",
-			"width":	39,
-			"height":	41,
-			"frames":	2,
-			"columns":	2,
-			"offsetX":	18,
-			"offsetY":	38,
-			"freeze":	0
+			"path":		"res/battle_anim/phantom_handaxe_dodge.png",
+			"width": 50,
+			"height": 39,
+			"frames": 2,
+			"columns": 2,
+			"offsetX": 16,
+			"offsetY": 36,
+			"freeze": 0
 		},
 		{
 			"name":		"roy_sword_critical",
@@ -4598,7 +4566,7 @@
 			"columns":	4,
 			"offsetX":	88,
 			"offsetY": 	104,
-			"freeze":	-1,
+			"freeze":	0,
 			"soundMap": [
 				{
 					"frame": 0,
@@ -4619,7 +4587,7 @@
 			"offsetY":	68,
 			"frames":	10,
 			"columns":	5,
-			"freeze":	-1,
+			"freeze":	-2,
 			"soundMap":	[
 				{
 					"frame": 0,
@@ -4742,6 +4710,56 @@
 				}
 			]
 		},
+		{
+ 			"name":		"hit_effect_lunase",
+ 			"path":		"res/battle_anim/hit_effect_lunase.png",
+ 			"width":	240,
+ 			"height":	160,
+ 			"frames":	56,
+ 			"columns":	4,
+ 			"offsetX":	85,
+ 			"offsetY":	100,
+ 			"freeze":	-1,
+			"speed": 0.055
+ 			"hitframes": [42],
+ 			"shakeIntensity": 7,
+			"soundMap": [
+				{
+					"frame":4,
+					"sound":"luna1"
+				},
+				{
+					"frame":23,
+					"sound":"luna2"
+				}
+				{
+					"frame":44,
+					"sound":"eclipse3"
+				}
+			]
+ 		},
+		{
+ 			"name":		"magic_effect_lunase",
+ 			"path":		"res/battle_anim/magic_effect_null.png",
+ 			"width":	8,
+ 			"height":	8,
+ 			"frames":	1,
+ 			"columns":	1,
+ 			"offsetX":	0,
+ 			"offsetY":	0,
+ 			"freeze":	-1
+ 		},
+ 		{
+ 			"name":		"bg_effect_lunase",
+ 			"path":		"res/battle_anim/magic_effect_null.png",
+ 			"width":	8,
+ 			"height":	8,
+ 			"frames":	1,
+ 			"columns":	1,
+ 			"offsetX":	0,
+ 			"offsetY":	0,
+ 			"freeze":	-1
+ 		},
 		{
 			"name":		"magic_effect_divine",
 			"path":		"res/battle_anim/magic_effect_divine.png",
@@ -5288,6 +5306,28 @@
 			"path":		"res/gui/title.png"
 		}
 		{
+			"name":		"title_two",
+			"path":		"res/gui/title_two.png"
+		}
+		{
+			"name":		"title_slide",
+			"path":		"res/gui/title_slide.png"
+			"width":	480,
+			"height":	320,
+			"frames":	21,
+			"columns":	3,
+			"offsetX":	0,
+			"offsetY":	0,
+			"freeze":	0,
+			"speed": 0.070,
+			"soundMap":[
+				{
+					"frame":16,
+					"sound":"cancel"
+				},
+			]
+		}
+		{
 			"name":		"gui_selectArrow",
 			"path":		"res/gui/selectArrow.png",
 			"width":	8,
@@ -5441,10 +5481,6 @@
 		{
 			"name":		"team_builder_button",
 			"path":		"res/gui/team_builder_button.png"
-		},
-		{
-			"name":		"title",
-			"path":		"res/gui/title.png"
 		},
 		{
 			"name":		"trianglemod_down",

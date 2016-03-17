@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="FEMultiplayer.makejar" default="makejar" basedir="../">
 	<target name="makejar" description="Creates a .jar for FEMultiplayer">
-        <jar destfile="dist/Fire Emblem Multiplayer.jar" filesetmanifest="mergewithoutmain">
+        <jar destfile="dist/Fire_Emblem_Multiplayer.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Launcher-Main-Class" value="net.fe.FEMultiplayer"/>
             	<attribute name="Launcher-VM-Args" value=""/>

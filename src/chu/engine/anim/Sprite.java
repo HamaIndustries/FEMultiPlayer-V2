@@ -169,6 +169,11 @@ public class Sprite {
 		if(currentAnimation == null) return;
 		currentAnimation.update();
 	}
+	
+	public boolean updateRunOnce() {
+		if(currentAnimation == null) return true;
+		return currentAnimation.updateRunOnce();
+	}
 
 	/**
 	 * Draws the sprite .

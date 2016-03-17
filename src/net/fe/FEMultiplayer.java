@@ -145,7 +145,7 @@ public class FEMultiplayer extends Game{
 		connect = new ConnectStage();
 		setCurrentStage(new TitleStage());
 		messages = new CopyOnWriteArrayList<Message>();
-		SoundTrack.loop("main_theme");
+		SoundTrack.loop("main");
 		
 	}
 	
@@ -196,8 +196,8 @@ public class FEMultiplayer extends Game{
 		testSession.addPlayer(p2);
 		
 		map = new ClientOverworldStage(testSession);
-		Unit u1 = UnitFactory.getUnit("Ewan");
-		u1.getInventory().add(WeaponFactory.getWeapon("Eclipse"));
+		Unit u1 = UnitFactory.getUnit("Canas");
+		u1.getInventory().add(WeaponFactory.getWeapon("Lunase"));
 		u1.equip(0);
 		map.addUnit(u1, 0, 0);
 		u1.setLevel(20);
@@ -206,7 +206,7 @@ public class FEMultiplayer extends Game{
 		
 		Unit u2 = UnitFactory.getUnit("Dart");
 		u2.getInventory().add(WeaponFactory.getWeapon("Tomahawk"));
-		map.addUnit(u2, 5, 0);
+		map.addUnit(u2, 2, 0);
 		u2.equip(0);
 		u2.setLevel(20);
 		u2.loadMapSprites();
@@ -216,7 +216,6 @@ public class FEMultiplayer extends Game{
 		int u2Uses = u2.getWeapon().getMaxUses();
 
 		
-		u1.debugStat("Skl");
 		//u1.debugStat("Spd");
 		//u1.debugStat("Str",-999);
 		

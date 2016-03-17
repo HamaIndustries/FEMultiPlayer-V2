@@ -53,8 +53,8 @@ public class WaitStage extends Stage {
 	protected void init() {
 		readyStatus = new HashMap<Byte, Boolean>();
 		sentStartMessage = false;
-		for(Player p : session.getPlayers()) {
-			if(!p.isSpectator()) readyStatus.put(p.getID(), false);
+		for(Player p : session.getNonSpectators()) {
+			readyStatus.put(p.getID(), false);
 		}
 		messages = new ArrayList<PartyMessage>();
 	}

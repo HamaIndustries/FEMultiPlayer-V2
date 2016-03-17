@@ -49,8 +49,9 @@ public class EndGameStage extends Stage {
 		super("end");
 		this.session = session;
 		addEntity(new RunesBg(new Color(0xd2b48c)));
-		for(int x=0; x<session.numPlayers(); x++) {
-			Player p = session.getPlayers()[x];
+		Player[] toRender = session.getNonSpectators();
+		for(int x=0; x< toRender.length; x++) {
+			Player p = toRender[x];
 			for(int i=0; i<p.getParty().size(); i++) {
 				addEntity(new UnitIcon(p.getParty().getUnit(i), X0+x*X_SPACING, Y0+i*Y_SPACING, 0.5f));
 			}
@@ -104,12 +105,13 @@ public class EndGameStage extends Stage {
 		super.render();
 		Renderer.drawString("default_med", "Press Enter to return to lobby...", 200, 5, 0.5f);
 		String[] stats = {"Kills", "Assists", "Damage", "Healing"};
-		for(int i=0; i<session.numPlayers(); i++) {
-			Player p = session.getPlayers()[i];
+		Player[] toRender = session.getNonSpectators();
+		for(int i=0; i < toRender.length; i++) {
+			Player p = toRender[i];
 			Renderer.drawBorderedRectangle(X0+X_SPACING*i, Y0-3, X0+X_SPACING*(i+1), Y0+Y_SPACING*p.getParty().size(), 0.9f, 
-					 FightStage.NEUTRAL, FightStage.BORDER_LIGHT, FightStage.BORDER_DARK);
+					FightStage.NEUTRAL, FightStage.BORDER_LIGHT, FightStage.BORDER_DARK);
 			Renderer.drawBorderedRectangle(X0+X_SPACING*i, Y0-28, X0+X_SPACING*(i+1), Y0-8, 0.9f, 
-					 FightStage.NEUTRAL, FightStage.BORDER_LIGHT, FightStage.BORDER_DARK);
+					FightStage.NEUTRAL, FightStage.BORDER_LIGHT, FightStage.BORDER_DARK);
 			for(int k=0; k<stats.length; k++) {
 				Renderer.drawString("default_med", stats[k], X0+70+40*k+X_SPACING*i, Y0-25, 0.5f);
 			}
@@ -120,7 +122,7 @@ public class EndGameStage extends Stage {
 				for(int k=0; k<stats.length; k++) {
 					Renderer.drawString("default_med", u.getBattleStat(stats[k]), X0+75+40*k+X_SPACING*i, Y0+j*Y_SPACING, 0.5f);
 				}
-			}	
+			}
 		}
 	}
 

@@ -78,8 +78,8 @@ public class OverworldStage extends Stage {
 		System.out.println(session.getObjective().getDescription());
 		chat = new Chat();
 		turnOrder = new ArrayList<Player>();
-		for(Player p : session.getPlayers()) {
-			if(!p.isSpectator()) turnOrder.add(p);
+		for(Player p : session.getNonSpectators()) {
+			turnOrder.add(p);
 		}
 		Collections.sort(turnOrder, new Comparator<Player>() {
 			@Override
@@ -505,16 +505,10 @@ public class OverworldStage extends Stage {
 	}
 	
 	/**
-	 * Gets the non spectators.
-	 *
-	 * @return the non spectators
+	 * Returns a list of players, filtered to not include players that are spectators
 	 */
-	public ArrayList<Player> getNonSpectators() {
-		ArrayList<Player> ans = new ArrayList<Player>();
-		for(Player p : session.getPlayers()) {
-			if(!p.isSpectator()) ans.add(p);
-		}
-		return ans;
+	public Player[] getNonSpectators() {
+		return session.getNonSpectators();
 	}
 	
 	/**
