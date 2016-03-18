@@ -341,7 +341,7 @@ public class FEResources {
 					prop.setProperty("END","end");
 					prop.setProperty("ENEMY","enemy");
 					prop.setProperty("FIGHT","fight");
-					prop.setProperty("MAIN","main_her_name");
+					prop.setProperty("MAIN","main");
 					prop.setProperty("OVERWORLD","overworld");
 					prop.setProperty("PREPARATIONS","preparations");
 					
