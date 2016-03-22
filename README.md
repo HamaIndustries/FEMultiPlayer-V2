@@ -1,4 +1,4 @@
-FEMultiplayer
+FEMultiplayer {V2}
 =============
 
 Fire Emblem Multiplayer Application
@@ -10,6 +10,9 @@ Developers:
     Game logic, programming
 - Chase Terry
     Artifical intelligence
+
+
+Note: This is the current, updated version. Please submit issues via the issue tracker, or ask on reddit.com/r/femp.
 
 What is Fire Emblem: Multiplayer?
 ---------------------------------
