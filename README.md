@@ -54,4 +54,6 @@ SerenesForest
 
 Intelligent Systems
 
-Uploaded by /u/eliatlarge, with some possible future updates TBA
+-------------------
+
+Uploaded by /u/eliatlarge, with updates by FEMP community.
