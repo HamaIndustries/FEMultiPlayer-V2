@@ -1738,148 +1738,273 @@
 		},
 		
 		{
+			"name":		"ike_sword_aether1",
+			"path":		"res/battle_anim/ike_sword_aether1.png",
+			"width":	240,
+			"height":	160,
+			"frames":	32,
+			"columns":	4,
+			"offsetX":	150,
+			"offsetY":	103,
+			"freeze":	0,
+			"hitframes":[29],
+			"soundMap": [
+				{
+					"frame":	2,
+					"sound":	"sword_swipe4"
+				},
+				{
+					"frame":	4,
+					"sound":	"clink"
+				},
+				{
+					"frame":	8,
+					"sound":	"sword_swipe5"
+				},
+				{
+					"frame":	10,
+					"sound":	"spin"
+				},
+				{
+					"frame":	16,
+					"sound":	"cape"
+				},
+				{
+					"frame":	19,
+					"sound":	"jump"
+				},
+				{
+					"frame":	21,
+					"sound":	"catch"
+				},
+				{
+					"frame":	23,
+					"sound":	"spin"
+				},
+				{
+					"frame":	29,
+					"sound":	"sword_swipe4"
+				},
+			]
+		},
+		{
+			"name":		"ike_sword_aether2",
+			"path":		"res/battle_anim/ike_sword_aether2.png",
+			"width":	240,
+			"height":	160,
+			"frames":	14,
+			"columns":	7,
+			"offsetX":	150,
+			"offsetY":	103,
+			"freeze":	0,
+			"hitframes":[2],
+			"soundMap": [
+				{
+					"frame":	2,
+					"sound":	"sword_swipe5"
+				},
+				{
+					"frame":	6,
+					"sound":	"land"
+				},
+				{
+					"frame":	7,
+					"sound":	"jump"
+				},
+				{
+					"frame":	9,
+					"sound":	"sword_swipe5"
+				},
+				{
+					"frame":	11,
+					"sound":	"land"
+				},
+				{
+					"frame":	14,
+					"sound":	"sheath"
+				},
+			]
+		},
+		{
 			"name":		"ike_rangedsword_attack",
 			"path":		"res/battle_anim/ike_rangedsword_attack.png",
-			"width":	96,
-			"height":	70,
-			"frames":	23,
-			"columns":	5,
-			"offsetX":	71,
-			"offsetY":	66,
+			"width":	240,
+			"height":	160,
+			"frames":	16,
+			"columns":	4,
+			"offsetX":	180,
+			"offsetY":	110,
 			"freeze":	0,
 			"hitframes":[12],
 			"soundMap": [
 				{
 					"frame":	2,
-					"sound":	"sheath"
+					"sound":	"clink"
 				},
-				{
-					"frame":	5,
-					"sound":	"cape"
-				}
 				{
 					"frame":	7,
-					"sound":	"cape"
-				}
-				{
-					"frame":	9,
-					"sound":	"cape"
-				}
-				{
-					"frame":	11,
-					"sound":	"axe_swipe4"
+					"sound":	"sword_swipe3"
 				},
 				{
-					"frame":	19,
-					"sound":	"sword_swipe3"
+					"frame":	7,
+					"sound":	"wind"
+				},
+				{
+					"frame":	13,
+					"sound":	"sword_swipe4"
+				},
+				{
+					"frame":	16,
+					"sound":	"clink"
 				},
 			]
 		},
 		{
 			"name":		"ike_rangedsword_critical",
 			"path":		"res/battle_anim/ike_rangedsword_critical.png",
-			"width":	150,
-			"height":	125,
-			"frames":	44,
-			"columns":	7,
-			"offsetX":	124,
-			"offsetY":	123,
-			"freeze":	125,
-			"hitframes":[34],
+			"width":	240,
+			"height":	160,
+			"frames":	18,
+			"columns":	6,
+			"offsetX":	175,
+			"offsetY":	110,
+			"freeze":	0,
+			"hitframes":[17],
 			"soundMap": [
 				{
-					"frame":	12,
-					"sound":	"sheath"
+					"frame":	2,
+					"sound":	"sword_swipe4"
 				},
 				{
-					"frame":	20,
-					"sound":	"aureola3"
-				}
+					"frame":	6,
+					"sound":	"sword_swipe3"
+				},
 				{
-					"frame":	36,
-					"sound":	"sword_swipe1"
-				}
+					"frame":	10,
+					"sound":	"wind"
+				},
 				{
-					"frame":	39,
-					"sound":	"axe_swipe1"
-				}
+					"frame":	10,
+					"sound":	"sword_swipe3"
+				},
 				{
-					"frame":	43,
-					"sound":	"axe_swipe2"
+					"frame":	18,
+					"sound":	"clink"
 				},
 			]
 		},
 		{
 			"name":		"ike_rangedsword_dodge",
 			"path":		"res/battle_anim/ike_sword_dodge.png",
-			"width":	43,
-			"height":	47,
-			"frames":	2,
-			"columns":	2,
-			"offsetX":	13,
-			"offsetY":	42,
+			"width":	240,
+			"height":	160,
+			"frames":	9,
+			"columns":	3,
+			"offsetX":	150,
+			"offsetY":	103,
 			"freeze":	0
 		},
 		{
 			"name":		"ike_sword_attack",
 			"path":		"res/battle_anim/ike_sword_attack.png",
-			"width":	98,
-			"height":	70,
-			"frames":	23,
-			"columns":	5,
-			"offsetX":	71,
-			"offsetY":	66,
-			"freeze":	10,
+			"width":	240,
+			"height":	160,
+			"frames":	26,
+			"columns":	4,
+			"offsetX":	150,
+			"offsetY":	103,
+			"freeze":	0,
 			"hitframes":[16],
 			"soundMap": [
 				{
 					"frame":	2,
-					"sound":	"sheath"
+					"sound":	"sword_swipe4"
 				},
 				{
-					"frame":	5,
-					"sound":	"jump"
-				},
-				{
-					"frame":	15,
+					"frame":	6,
 					"sound":	"sword_swipe3"
 				},
 				{
-					"frame":	18,
+					"frame":	13,
 					"sound":	"cape"
+				},
+				{
+					"frame":	15,
+					"sound":	"sword_swipe5"
+				},
+				{
+					"frame":	18,
+					"sound":	"sheath"
+				},
+				{
+					"frame":	19,
+					"sound":	"jump"
+				},
+				{
+					"frame":	22,
+					"sound":	"land"
 				}
+
 			]
 		},
 		{
 			"name":		"ike_sword_critical",
 			"path":		"res/battle_anim/ike_sword_critical.png",
-			"width":	150,
-			"height":	125,
+			"width":	240,
+			"height":	160,
 			"frames":	42,
-			"columns":	7,
-			"offsetX":	120,
-			"offsetY":	121,
+			"columns":	6,
+			"offsetX":	150,
+			"offsetY":	103,
 			"freeze":	0,
-			"hitframes":[20],
+			"hitframes":[29],
 			"soundMap": [
 				{
 					"frame":	2,
-					"sound":	"sheath"
-				},
-				{
-					"frame":	11,
 					"sound":	"sword_swipe4"
 				},
 				{
-					"frame":	19,
+					"frame":	7,
 					"sound":	"sword_swipe3"
 				},
 				{
-					"frame":	26,
+					"frame":	14,
 					"sound":	"cape"
 				},
 				{
-					"frame":	41,
+					"frame":	16,
+					"sound":	"sword_swipe2"
+				},
+				{
+					"frame":	17,
+					"sound":	"hit_normal"
+				},
+				{
+					"frame":	22,
+					"sound":	"sword_swipe4"
+				},
+				{
+					"frame":	23,
+					"sound":	"hit_normal"
+				},
+				{
+					"frame":	28,
+					"sound":	"sword_swipe3"
+				},
+				{
+					"frame":	32,
+					"sound":	"land"
+				},
+				{
+					"frame":	33,
+					"sound":	"jump"
+				},
+				{
+					"frame":	35,
+					"sound":	"sword_swipe5"
+				},
+				{
+					"frame":	37,
 					"sound":	"land"
 				},
 			]
@@ -1887,12 +2012,12 @@
 		{
 			"name":		"ike_sword_dodge",
 			"path":		"res/battle_anim/ike_sword_dodge.png",
-			"width":	43,
-			"height":	47,
+			"width":	240,
+			"height":	160,
 			"frames":	2,
-			"columns":	2,
-			"offsetX":	13,
-			"offsetY":	40,
+			"columns":	3,
+			"offsetX":	150,
+			"offsetY":	103,
 			"freeze":	0
 		},
 		{
