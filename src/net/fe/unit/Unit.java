@@ -103,8 +103,6 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	/** The rescued. */
 	private boolean rescued;
 	
-	private boolean stole = false;
-	
 	/** The counter. */
 	private float counter;
 
@@ -707,18 +705,14 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	public int use(Item i, boolean destroy) {
 		int ans = i.use(this);
 		if(i.getUses() <= 0 && destroy){
-			destroyItem(i);
+			inventory.remove(i);
+			if(i == weapon){
+				weapon = null;
+				reEquip();
+			}
 			
 		}
 		return ans;
-	}
-	
-	public void destroyItem(Item i){
-		inventory.remove(i);
-		if(i == weapon){
-			weapon = null;
-			reEquip();
-		}
 	}
 
 	/**
@@ -902,18 +896,11 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 *
 	 * @return the the class
 	 */
+	// Getter/Setter
 	public Class getTheClass() {
 		return clazz;
 	}
-	
-	public boolean getStole(){
-		return stole;
-	}
-	
-	public void setStole(boolean val){
-		stole=val;
-	}
-	
+
 	/**
 	 * Gets the hp.
 	 *

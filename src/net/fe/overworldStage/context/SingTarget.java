@@ -21,6 +21,7 @@ public class SingTarget extends SelectTargetContext {
 
 	public SingTarget(ClientOverworldStage stage, OverworldContext context, Zone z, Unit u) {
 		super(stage, context, z, u, true);
+		zone = z;
 	}
 
 	/* (non-Javadoc)
@@ -45,4 +46,27 @@ public class SingTarget extends SelectTargetContext {
 		cursor.setYCoord(unit.getYCoord());
 		stage.reset();
 	}
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.SelectTargetContext#updateCursor()
+	 */
+	public void updateCursor() {
+		super.updateCursor();
+	}
+
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.SelectTargetContext#startContext()
+	 */
+	public void startContext() {
+		super.startContext();
+	}
+
+	/* (non-Javadoc)
+	 * @see net.fe.overworldStage.SelectTargetContext#cleanUp()
+	 */
+	public void cleanUp() {
+		super.cleanUp();
+	}
+	
+	
+
 }

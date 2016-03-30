@@ -415,11 +415,6 @@ public class OverworldStage extends Stage {
 				HealCalculator calc = new HealCalculator(cmds.unit, (UnitIdentifier) cmds.commands[++i], false);
 				cmds.attackRecords = calc.getAttackQueue();
 			}
-			else if(obj.equals("STEAL")) {
-				final UnitIdentifier other = (UnitIdentifier) cmds.commands[++i];
-				CombatCalculator calc = new CombatCalculator(cmds.unit, (UnitIdentifier) cmds.commands[++i], false, true);
-				cmds.attackRecords = calc.getAttackQueue();
-			}
 			else if(obj.equals("SING")) {
 				final UnitIdentifier other = (UnitIdentifier) cmds.commands[++i];
 				Weapon wep = new Voice();

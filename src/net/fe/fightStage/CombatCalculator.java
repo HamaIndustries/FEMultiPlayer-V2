@@ -72,10 +72,6 @@ public class CombatCalculator {
 		}
 	}
 	
-	public CombatCalculator(UnitIdentifier u1, UnitIdentifier u2, boolean local, boolean steal){
-		this(u1, u2, local);
-	}
-	
 	/**
 	 * Main calculation method, determines attack order, which units should attack, sets triggers, and finally runs each attack
 	 */
@@ -162,7 +158,7 @@ public class CombatCalculator {
 	 * @param leftAttacking If the left fighter is attacking
 	 * @param currentEffect the current effect
 	 */
-	protected void attack(boolean leftAttacking, String currentEffect) {
+	private void attack(boolean leftAttacking, String currentEffect) {
 		Unit a = leftAttacking?left: right;
 		Unit d = leftAttacking?right: left;
 		List<CombatTrigger> aTriggers = leftAttacking?leftTriggers: rightTriggers;
