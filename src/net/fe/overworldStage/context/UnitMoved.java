@@ -94,6 +94,8 @@ public class UnitMoved extends MenuContext<String> {
 			new AttackTarget(stage, this, zone, unit).startContext();
 		} else if (selectedItem.equals("Heal")){
 			new HealTarget(stage, this, zone, unit).startContext();
+		} else if (selectedItem.equals("Steal")){
+			new StealTarget(stage, this, zone, unit).startContext();
 		} else if (selectedItem.equals("Sing")){
 			new SingTarget(stage, this, zone, unit).startContext();
 		} else if (selectedItem.equals("Item")){	
@@ -148,7 +150,7 @@ public class UnitMoved extends MenuContext<String> {
 					new Node(unit.getXCoord(), unit.getYCoord()),
 					unit.getTotalWepRange(true)), Zone.HEAL_DARK);
 			stage.addEntity(zone);
-		} else if (Arrays.asList("Trade", "Give", "Take", "Drop", "Rescue", "Summon", "Sing")
+		} else if (Arrays.asList("Trade", "Give", "Take", "Drop", "Rescue", "Summon", "Sing", "Steal")
 				.contains(menu.getSelection())) {
 			zone = new Zone(grid.getRange(
 					new Node(unit.getXCoord(), unit.getYCoord()), 1),
@@ -179,6 +181,20 @@ public class UnitMoved extends MenuContext<String> {
 		}
 		if (attack && !fromTake)
 			list.add("Attack");
+		
+		boolean steal = false;
+		range = grid.getRange(new Node(u.getXCoord(), u.getYCoord()),
+				unit.getTotalSongRange(true));
+		for (Node n : range) {
+			Unit p = grid.getUnit(n.x, n.y);
+			if (p != null && !stage.getCurrentPlayer().getParty().isAlly(p.getParty())
+					&& u.getTheClass().name.equals("Assassin") && !u.getStole() && u.getInventory().size()<4) {
+				steal = true;
+				break;
+			}
+		}
+		if (steal && !fromTake)
+			list.add("Steal");
 
 		boolean heal = false;
 		range = grid.getRange(new Node(u.getXCoord(), u.getYCoord()),
