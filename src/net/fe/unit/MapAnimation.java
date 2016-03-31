@@ -28,7 +28,7 @@ public class MapAnimation extends Animation {
 	public MapAnimation(String name, boolean walking){
 		super(FEResources.getTexture(name.toLowerCase()), 48, 
 				name.matches("swordmaster.*selected")?60:48,
-						4, 4, 17, name.matches("swordmaster.*selected")?29:17, 0);
+						4, 4, 17, name.matches("swordmaster.*selected")?29:17, 0, chu.engine.anim.BlendModeArgs.ALPHA_BLEND);
 //		System.out.println(name);
 //		if(name.equals("swordmaster_map_selected")){
 //			System.out.println(getOffsetY());

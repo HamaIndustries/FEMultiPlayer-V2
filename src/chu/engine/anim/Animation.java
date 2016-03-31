@@ -45,15 +45,18 @@ public class Animation {
 	/** The sprite. */
 	protected Sprite sprite;
 	
-	/** The speed. */
-	protected float speed;			//Time for each frame in seconds
+	/** Time for each frame in seconds */
+	protected float speed;
+	
+	private BlendModeArgs blend;
 	
 	/**
-	 * Instantiates a new animation.
+	 * Instantiates a new single-frame animation.
 	 *
-	 * @param t the t
+	 * @param t the texture
+	 * @param blend the blend mode to use when drawing this animation
 	 */
-	public Animation(Texture t) {
+	public Animation(Texture t, BlendModeArgs blend) {
 		texture = t;
 		width = t.getImageWidth();
 		height = t.getImageHeight();
@@ -63,6 +66,7 @@ public class Animation {
 		speed = 0;
 		currentFrame = 0;
 		counter = 0;
+		this.blend = blend;
 	}
 	
 	/**
@@ -74,9 +78,10 @@ public class Animation {
 	 * @param length the length
 	 * @param columns the columns
 	 * @param speed the speed
+	 * @param blend the blend mode to use when drawing this animation
 	 */
-	public Animation(Texture t, int width, int height, int length, int columns, float speed) {
-		this(t);
+	public Animation(Texture t, int width, int height, int length, int columns, float speed, BlendModeArgs blend) {
+		this(t, blend);
 		this.width = width;
 		this.height = height;
 		this.columns = columns;
@@ -100,10 +105,11 @@ public class Animation {
 	 * @param offsetX the offset x
 	 * @param offsetY the offset y
 	 * @param speed the speed
+	 * @param blend the blend mode to use when drawing this animation
 	 */
 	public Animation(Texture t, int width, int height, int length, int columns,
-			int offsetX, int offsetY, float speed) {
-		this(t);
+			int offsetX, int offsetY, float speed, BlendModeArgs blend) {
+		this(t, blend);
 		this.width = width;
 		this.height = height;
 		this.columns = columns;
@@ -286,6 +292,10 @@ public class Animation {
 	 */
 	public float getSpeed() {
 		return speed;
+	}
+	
+	public BlendModeArgs getBlendMode() {
+		return blend;
 	}
 
 }

@@ -66,7 +66,7 @@ public class HitEffect extends Entity {
 		if(loadTxt){
 			Animation anim = new Animation(FightStage.getPreload(getHitTextureName(name, crit)), data.frameWidth,
 					data.frameHeight, data.frames, data.columns, data.offsetX,
-					data.offsetY, data.speed==0.0f?0.05f:data.speed) {
+					data.offsetY, data.speed==0.0f?0.05f:data.speed, data.getBlendMode()) {
 				HashMap<Integer, String> soundMap = new HashMap<Integer, String>(data.soundMap);
 				int hitframe = realHit;
 				public void update() {

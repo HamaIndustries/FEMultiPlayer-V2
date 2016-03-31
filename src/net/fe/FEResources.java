@@ -166,6 +166,7 @@ public class FEResources {
 			JSONArray hitArray = (JSONArray) texture.get("hitframes");
 			JSONArray audioArray = (JSONArray) texture.get("soundMap");
 			HashMap<Integer, String> audioMap = new HashMap<Integer, String>();
+			String blendModeName = (String)texture.get("blend");
 			
 			int[] hitframes;
 			if(hitArray != null) {
@@ -207,6 +208,7 @@ public class FEResources {
 				data.shakeIntensity = shakeIntensity.intValue();
 			if(stop != null)
 				data.stop = stop.booleanValue();
+			data.blendModeName = blendModeName;
 			textures.put(name, data);
 			if((System.nanoTime() - startTime)/1000000.0f > 100){
 				LoadStage.update(textures.size());

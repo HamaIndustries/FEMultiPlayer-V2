@@ -24,7 +24,7 @@ public class Cursor extends GriddedEntity  implements DoNotDestroy{
 	public Cursor(int xx, int yy) {
 		super(xx, yy);
 		sprite.addAnimation("default", new Animation(FEResources.getTexture("cursor"),
-				24, 24, 16, 16, 4, 4, 0.05f));
+				24, 24, 16, 16, 4, 4, 0.05f, chu.engine.anim.BlendModeArgs.ALPHA_BLEND));
 		renderDepth = ClientOverworldStage.CURSOR_DEPTH;
 		on = true;
 	}

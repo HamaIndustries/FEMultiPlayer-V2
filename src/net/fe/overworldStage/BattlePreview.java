@@ -62,10 +62,10 @@ public class BattlePreview extends Entity {
 		x4.addAnimation("default", FEResources.getTexture("x4"));
 		
 		modUp = new Sprite();
-		Animation up = new Animation(FEResources.getTexture("trianglemod_up"), 7, 10, 3, 3, 0, 10, 0.15f);
+		Animation up = new Animation(FEResources.getTexture("trianglemod_up"), 7, 10, 3, 3, 0, 10, 0.15f, chu.engine.anim.BlendModeArgs.ALPHA_BLEND);
 		modUp.addAnimation("default", up);
 		modDown = new Sprite();
-		Animation down = new Animation(FEResources.getTexture("trianglemod_down"), 7, 10, 3, 3, 0, 10, 0.15f);
+		Animation down = new Animation(FEResources.getTexture("trianglemod_down"), 7, 10, 3, 3, 0, 10, 0.15f, chu.engine.anim.BlendModeArgs.ALPHA_BLEND);
 		modDown.addAnimation("default", down);
 		sprites.add(rightArrow);
 		sprites.add(leftArrow);
