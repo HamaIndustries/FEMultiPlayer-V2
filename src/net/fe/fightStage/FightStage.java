@@ -337,7 +337,7 @@ public class FightStage extends Stage {
 				addEntity(new SkillIndicator(messages.get(i), attacker == left, i));
 			}
 			a.setAnimation(rec.animation);
-			try{
+			try{ //lol i did this! -eli
 				a.sprite.setSpeed(((AttackAnimation)a.sprite.getCurrentAnimation()).getDefaultSpeed());
 			}catch(ClassCastException e){
 				a.sprite.setSpeed(((DodgeAnimation)a.sprite.getCurrentAnimation()).getDefaultSpeed());

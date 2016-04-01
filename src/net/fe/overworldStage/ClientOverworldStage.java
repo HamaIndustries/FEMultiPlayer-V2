@@ -520,21 +520,16 @@ public class ClientOverworldStage extends OverworldStage {
 								other, cmds.attackRecords);
 					}
 				};
-			}
-			//TODO               
-			else if(obj.equals("STEAL")) {
+			}           
+			else if(obj.equals("DISARM")) {
 				final UnitIdentifier other = (UnitIdentifier) cmds.commands[++i];
 				callback = new Command() {
 					public void execute() {
 						unit.setMoved(true);
 						FEMultiplayer.goToFightStage(cmds.unit, 
 								other, cmds.attackRecords);
-						if(unit.getStole()){
-							if(getUnit(other).getWeapon() != null){
-								unit.getInventory().add(getUnit(other).getWeapon().getCopy());
-								getUnit(other).destroyItem(getUnit(other).getWeapon());
-							}
-						}
+						getUnit(other).unequip();
+						checkEndGame();
 					}
 				};
 			}

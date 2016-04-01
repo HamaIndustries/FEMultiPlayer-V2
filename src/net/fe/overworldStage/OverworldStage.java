@@ -16,9 +16,9 @@ import net.fe.Player;
 import net.fe.Session;
 import net.fe.editor.Level;
 import net.fe.editor.SpawnPoint;
+import net.fe.fightStage.ActionCmd;
 import net.fe.fightStage.CombatCalculator;
 import net.fe.fightStage.HealCalculator;
-import net.fe.fightStage.SingCmd;
 import net.fe.modifier.Modifier;
 import net.fe.network.Chat;
 import net.fe.network.FEServer;
@@ -415,17 +415,19 @@ public class OverworldStage extends Stage {
 				HealCalculator calc = new HealCalculator(cmds.unit, (UnitIdentifier) cmds.commands[++i], false);
 				cmds.attackRecords = calc.getAttackQueue();
 			}
-			else if(obj.equals("STEAL")) {
+			else if(obj.equals("DISARM")) {
 				final UnitIdentifier other = (UnitIdentifier) cmds.commands[++i];
-				CombatCalculator calc = new CombatCalculator(cmds.unit, (UnitIdentifier) cmds.commands[++i], false, true);
+				ActionCmd calc = new ActionCmd(cmds.unit,  other, false, "Disarm");
 				cmds.attackRecords = calc.getAttackQueue();
+				getUnit(other).unequip();
+				checkEndGame();
 			}
 			else if(obj.equals("SING")) {
 				final UnitIdentifier other = (UnitIdentifier) cmds.commands[++i];
 				Weapon wep = new Voice();
 				unit.getInventory().add(0, wep);
 				unit.equip(0);
-				SingCmd song = new SingCmd(cmds.unit, other, false);
+				ActionCmd song = new ActionCmd(cmds.unit, other, false);
 				getUnit(other).setMoved(false);
 				cmds.attackRecords = song.getAttackQueue();
 			}

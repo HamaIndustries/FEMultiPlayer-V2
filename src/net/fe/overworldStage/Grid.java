@@ -330,10 +330,10 @@ public class Grid{
 		return set;
 	}
 	
-	public Set<Node> getSingRange(Unit u) {
+	public Set<Node> getAbilSingRange(Unit u) {
 		Set<Node> move = getPossibleMoves(u);
 		Set<Node> set = new HashSet<Node>();
-		Set<Integer> range = u.getTotalSongRange(true);
+		Set<Integer> range = u.getTotalAbilRange(true);
 		for(Node n: move){
 			set.addAll(getRange(n, range));
 		}

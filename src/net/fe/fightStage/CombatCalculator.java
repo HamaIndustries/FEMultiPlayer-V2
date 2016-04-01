@@ -72,10 +72,6 @@ public class CombatCalculator {
 		}
 	}
 	
-	public CombatCalculator(UnitIdentifier u1, UnitIdentifier u2, boolean local, boolean steal){
-		this(u1, u2, local);
-	}
-	
 	/**
 	 * Main calculation method, determines attack order, which units should attack, sets triggers, and finally runs each attack
 	 */
@@ -125,6 +121,7 @@ public class CombatCalculator {
 	public static boolean shouldAttack(Unit a, Unit d, int range){
 		if(a.getHp() <= 0) return false;
 		if(a.getWeapon() == null) return false;
+		if(a.getWeapon().name == null) return false;
 		if(a.getWeapon().getUses() == 0) return false;
 		if(!a.getWeapon().range.contains(range)) return false;
 		if(a.getWeapon().type == Weapon.Type.STAFF) return false;

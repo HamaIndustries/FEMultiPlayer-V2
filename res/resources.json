@@ -4487,6 +4487,23 @@
 			]
 		},
 		{
+			"name":		"hit_effect_disarm",
+			"path":		"res/battle_anim/hit_effect_heal.png",
+			"width":	72,
+			"height":	72,
+			"frames":	30,
+			"columns":	6,
+			"offsetX":	46,
+			"offsetY":	46,
+			"freeze":	-1,
+			"soundMap": [
+				{
+					"frame": 3,
+					"sound":"heal"
+				}
+			]
+		},
+		{
 			"name":		"hit_effect_aether1",
 			"path":		"res/battle_anim/hit_effect_sol.png",
 			"width":	200,

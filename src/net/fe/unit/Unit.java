@@ -513,7 +513,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		return range;
 	}
 	
-	public Set<Integer> getTotalSongRange(boolean staff) {
+	public Set<Integer> getTotalAbilRange(boolean staff) {
 		Set<Integer> range = new HashSet<Integer>();
 		range.add(1);
 		return range;
@@ -525,6 +525,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 * @param w the w
 	 */
 	public void equip(Weapon w) {
+		
 		if (equippable(w)) {
 			weapon = w;
 			if(stage != null){

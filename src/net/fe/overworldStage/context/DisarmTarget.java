@@ -7,9 +7,9 @@ import net.fe.overworldStage.Zone;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
 
-public class StealTarget extends SelectTargetContext {
+public class DisarmTarget extends SelectTargetContext {
 
-	public StealTarget(ClientOverworldStage stage, OverworldContext context, Zone z, Unit u) {
+	public DisarmTarget(ClientOverworldStage stage, OverworldContext context, Zone z, Unit u) {
 		super(stage, context, z, u, true);
 	}
 	
@@ -20,7 +20,7 @@ public class StealTarget extends SelectTargetContext {
 	@Override
 	public void unitSelected(Unit u) {
 
-		stage.addCmd("STEAL");
+		stage.addCmd("DISARM");
 		stage.addCmd(new UnitIdentifier(u));
 		stage.send();
 		

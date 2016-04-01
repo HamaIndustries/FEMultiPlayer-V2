@@ -205,15 +205,15 @@ public class FEMultiplayer extends Game{
 		p1.getParty().addUnit(u1);
 		
 		Unit u2 = UnitFactory.getUnit("Dart");
-		u2.getInventory().add(WeaponFactory.getWeapon("Tomahawk"));
+		//u2.getInventory().add(WeaponFactory.getWeapon("Tomahawk"));
 		map.addUnit(u2, 2, 0);
-		u2.equip(0);
+		u2.reEquip();
 		u2.setLevel(20);
 		u2.loadMapSprites();
 		p2.getParty().addUnit(u2);
 		
 		map.processAddStack();
-		int u2Uses = u2.getWeapon().getMaxUses();
+		//int u2Uses = u2.getWeapon().getMaxUses();
 
 		
 		//u1.debugStat("Spd");
@@ -225,7 +225,7 @@ public class FEMultiplayer extends Game{
 		System.out.println(calc.getAttackQueue());
 		
 		
-		u2.getWeapon().setUsesDEBUGGING(u2Uses);
+		//u2.getWeapon().setUsesDEBUGGING(u2Uses);
 		u1.fillHp();
 		u2.fillHp();
 		
@@ -249,9 +249,10 @@ public class FEMultiplayer extends Game{
 		p2.setTeam(2);
 		localPlayer.setTeam(1);
 		
-		Unit u1 = UnitFactory.getUnit("Canas");
-		u1.addToInventory(new RiseTome());
+		Unit u1 = UnitFactory.getUnit("Matthew");
+		u1.addToInventory(WeaponFactory.getWeapon("Steel Sword"));
 		u1.setHp(1);
+		u1.setTempMod("Mov", 99);
 		localPlayer.getParty().addUnit(u1);
 		
 		Unit u3 = UnitFactory.getUnit("Joshua");

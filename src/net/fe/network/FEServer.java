@@ -93,6 +93,7 @@ public class FEServer extends Game {
 		Seize seize = new Seize();
 		
 		maps = new HashMap<String, Objective[]>();
+		//maps.put("test", new Objective[]{rout});
 		maps.put("delphino", new Objective[]{rout});
 		maps.put("town", new Objective[]{rout});
 		maps.put("alpea", new Objective[]{seize});
