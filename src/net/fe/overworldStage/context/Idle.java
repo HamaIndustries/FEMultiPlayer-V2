@@ -67,8 +67,7 @@ public class Idle extends CursorContext {
 		AudioPlayer.playAudio("select");
 		if(u!=null && u.getParty() == player.getParty() && !u.hasMoved()){
 			new UnitSelected(stage, this, u).startContext();
-		}
-		if(u == null){
+		} else {
 			new EndMenu(stage, this).startContext();
 		}
 
