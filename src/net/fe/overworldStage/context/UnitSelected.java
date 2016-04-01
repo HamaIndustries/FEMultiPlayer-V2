@@ -114,8 +114,7 @@ public class UnitSelected extends CursorContext {
 	 */
 	private void updatePath() {
 		stage.removeEntity(path);
-		path = stage.grid.getShortestPath(selected, cursor.getXCoord(),
-				cursor.getYCoord());
+		path = stage.grid.improvePath(selected, cursor.getXCoord(), cursor.getYCoord(), path);
 		if (path != null) {
 			stage.addEntity(path);
 		}
