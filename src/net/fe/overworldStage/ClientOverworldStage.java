@@ -274,7 +274,9 @@ public class ClientOverworldStage extends OverworldStage {
 					if(ke.key == FEResources.getKeyMapped(Keyboard.KEY_Z)) 
 						context.onSelect();
 					else if (ke.key == FEResources.getKeyMapped(Keyboard.KEY_X))
-						context.onCancel(); 
+						context.onCancel();
+					else if (ke.key == FEResources.getKeyMapped(Keyboard.KEY_C))
+						context.onNextUnit();
 				}
 			}
 		}
