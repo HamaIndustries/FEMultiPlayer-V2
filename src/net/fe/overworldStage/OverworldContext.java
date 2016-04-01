@@ -46,6 +46,9 @@ public abstract class OverworldContext {
 		AudioPlayer.playAudio("cancel");
 		prev.startContext();
 	}
+	
+	public void onNextUnit() {
+	}
 
 	/**
 	 * On up.

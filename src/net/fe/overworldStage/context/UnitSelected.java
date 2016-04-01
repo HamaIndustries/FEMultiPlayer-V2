@@ -83,6 +83,14 @@ public class UnitSelected extends CursorContext {
 			});
 		}
 	}
+	
+	@Override
+	public void onNextUnit() {
+		cursor.setXCoord(selected.getXCoord());
+		cursor.setYCoord(selected.getYCoord());
+		updatePath();
+		AudioPlayer.playAudio("cancel");
+	}
 
 	/* (non-Javadoc)
 	 * @see net.fe.overworldStage.OverworldContext#onCancel()
