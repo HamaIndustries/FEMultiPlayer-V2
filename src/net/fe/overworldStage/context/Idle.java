@@ -57,6 +57,13 @@ public class Idle extends CursorContext {
 	public void cleanUp(){
 		removeZones();
 	}
+	
+	@Override
+	public float getCursorSpeed(boolean fast) {
+		if (fast)
+			return 0.03f;
+		return super.getCursorSpeed(fast);
+	}
 
 	/* (non-Javadoc)
 	 * @see net.fe.overworldStage.OverworldContext#onSelect()
