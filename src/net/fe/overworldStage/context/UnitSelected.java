@@ -81,6 +81,8 @@ public class UnitSelected extends CursorContext {
 							selected, false, false).startContext();
 				}
 			});
+			// We don't want to display the path/range while moving.
+			cleanUp();
 		}
 	}
 
