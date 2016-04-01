@@ -33,6 +33,13 @@ public abstract class OverworldContext {
 		cursor = stage.cursor;
 		grid = stage.grid;
 	}
+	
+	/**
+	 * Cursor speed
+	 */
+	public float getCursorSpeed(boolean fast) {
+		return 0.12f;
+	}
 
 	/**
 	 * On select.
