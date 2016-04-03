@@ -21,6 +21,8 @@ public class Class implements Serializable {
 	/** The master skill. */
 	public final CombatTrigger masterSkill;
 	
+	public final CombatTrigger[] otherSkills;
+	
 	/** The usable weapon. */
 	public final List<Weapon.Type> usableWeapon;
 	
@@ -45,6 +47,20 @@ public class Class implements Serializable {
 		usableWeapon = Arrays.asList(types);
 		this.name = name;
 		description = desc;
+		otherSkills = null;
+	}
+	
+	private Class(String name, String desc, int c, CombatTrigger[] m, Weapon.Type... types){
+		crit = c;
+		masterSkill = m[0];
+		usableWeapon = Arrays.asList(types);
+		this.name = name;
+		description = desc;
+		if(m.length>1){
+			otherSkills = Arrays.copyOfRange(m, 1, m.length-1);
+		}else{
+			otherSkills = null;
+		}
 	}
 	
 	/**
@@ -108,7 +124,7 @@ public class Class implements Serializable {
 		if(name.equals("Assassin"))
 			return new Class("Assassin", 
 					"A deadly killer who lives in the shadows.",
-					10, new Lethality(), Weapon.Type.SWORD);
+					10, new CombatTrigger[] {new Lethality(), new Disarm()}, Weapon.Type.SWORD);
 		if(name.equals("Paladin"))
 			return new Class("Paladin", 
 					"An experienced and dignified knight, possessing high mobility.",

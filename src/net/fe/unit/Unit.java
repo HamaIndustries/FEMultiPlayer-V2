@@ -151,7 +151,10 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
         battleStats.put("Healing", 0);
 		this.name = name;
 		clazz = c;
-
+		if(c.otherSkills!=null){
+			skills.addAll(Arrays.asList(c.otherSkills));
+		}
+		
 		stats = new HashMap<String, Float>();
 		for (String s : bases.keySet()) {
 			stats.put(s, bases.get(s).floatValue());

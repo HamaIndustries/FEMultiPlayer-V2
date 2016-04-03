@@ -157,6 +157,8 @@ public class FightUnit extends Entity {
 		}
 		if(animation.contains("Critical")){
 			sprite.setAnimation("CRITICAL");
+		} else if(animation.contains("Steal")){
+			sprite.setAnimation("STEAL");
 		} else {
 			sprite.setAnimation("ATTACK");
 		}

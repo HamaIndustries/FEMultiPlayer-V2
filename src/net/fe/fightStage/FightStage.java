@@ -191,6 +191,7 @@ public class FightStage extends Stage {
 
 		range = Grid.getDistance(left, right);
 		cameraOffsetF = rangeToHeadDistance(range) - rangeToHeadDistance(1);
+		
 		leftFighter = new FightUnit(new AnimationArgs(left, true, range), this);
 		rightFighter = new FightUnit(new AnimationArgs(right, false, range),
 				this);

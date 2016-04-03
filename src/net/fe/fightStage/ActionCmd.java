@@ -11,6 +11,8 @@ public class ActionCmd extends CombatCalculator {
 		super(u1, u2, local);
 		this.cmd = comm;
 	}
+	
+	@Override
 	protected void calculate(){
 		addToAttackQueue(left, right, cmd, 0, 0);
 		/*
