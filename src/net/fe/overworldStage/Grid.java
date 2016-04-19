@@ -198,6 +198,41 @@ public class Grid{
 		}
 		return false;
 	}
+	
+	public Path improvePath(Unit unit, int x, int y, Path p) {
+		if (grid[y][x] != null && grid[y][x] != unit)
+			return null;
+		
+		if (p == null)
+			return getShortestPath(unit, x, y);
+
+		Path improved = new Path();
+		
+		int move = unit.get("Mov");
+		Node last = null;
+		// Rebuild the current path, counting the movement used
+		for (Node node : p.getAllNodes()) {
+			improved.add(node);
+			if (last != null) // The first node is the unit's current position
+				move -= terrain[node.y][node.x].getMoveCost(unit.getTheClass());
+			last = node;
+			
+			// If we go somewhere that is already on the path, just cut the path.
+			if (node.x == x && node.y == y)
+				return improved;
+		}
+		
+		// Sanity check: we should be moving exactly one additional tile.
+		if (last.distance(new Node(x, y)) != 1)
+			return getShortestPath(unit, x, y);
+
+		// Check that we can actually extend the path
+		if (move < terrain[y][x].getMoveCost(unit.getTheClass()))
+			return getShortestPath(unit, x, y);
+		
+		improved.add(new Node(x, y));
+		return improved;
+	}
 
 	/**
 	 * Gets the shortest path.
@@ -208,8 +243,8 @@ public class Grid{
 	 * @return the shortest path
 	 */
 	public Path getShortestPath(Unit unit, int x, int y) {
-		int move = unit.get("Mov");
 		if(grid[y][x] != null && grid[y][x] != unit) return null;
+		int move = unit.get("Mov");
 		Set<Node> closed = new HashSet<Node>();
 		Set<Node> open = new HashSet<Node>();
 

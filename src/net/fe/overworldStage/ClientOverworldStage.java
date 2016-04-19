@@ -253,28 +253,32 @@ public class ClientOverworldStage extends OverworldStage {
 		MapAnimation.updateAll();
 		if (onControl) {
 			List<KeyboardEvent> keys = Game.getKeys();
+			boolean moveFast = Keyboard.isKeyDown(FEResources.getKeyMapped(Keyboard.KEY_X));
+			float timer = context.getCursorSpeed(moveFast);
 			if (Keyboard.isKeyDown(FEResources.getKeyMapped(Keyboard.KEY_UP)) && repeatTimers[0] == 0) {
 				context.onUp();
-				repeatTimers[0] = 0.12f;
+				repeatTimers[0] = timer;
 			}
 			if (Keyboard.isKeyDown(FEResources.getKeyMapped(Keyboard.KEY_DOWN)) && repeatTimers[1] == 0) {
 				context.onDown();
-				repeatTimers[1] = 0.12f;
+				repeatTimers[1] = timer;
 			}
 			if (Keyboard.isKeyDown(FEResources.getKeyMapped(Keyboard.KEY_LEFT)) && repeatTimers[2] == 0) {
 				context.onLeft();
-				repeatTimers[2] = 0.12f;
+				repeatTimers[2] = timer;
 			}
 			if (Keyboard.isKeyDown(FEResources.getKeyMapped(Keyboard.KEY_RIGHT)) && repeatTimers[3] == 0) {
 				context.onRight();
-				repeatTimers[3] = 0.12f;
+				repeatTimers[3] = timer;
 			}
 			for(KeyboardEvent ke : keys) {
 				if(ke.state) {
 					if(ke.key == FEResources.getKeyMapped(Keyboard.KEY_Z)) 
 						context.onSelect();
 					else if (ke.key == FEResources.getKeyMapped(Keyboard.KEY_X))
-						context.onCancel(); 
+						context.onCancel();
+					else if (ke.key == FEResources.getKeyMapped(Keyboard.KEY_C))
+						context.onNextUnit();
 				}
 			}
 		}

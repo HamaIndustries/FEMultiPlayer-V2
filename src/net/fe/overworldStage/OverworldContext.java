@@ -33,6 +33,13 @@ public abstract class OverworldContext {
 		cursor = stage.cursor;
 		grid = stage.grid;
 	}
+	
+	/**
+	 * Cursor speed
+	 */
+	public float getCursorSpeed(boolean fast) {
+		return 0.12f;
+	}
 
 	/**
 	 * On select.
@@ -45,6 +52,9 @@ public abstract class OverworldContext {
 	public void onCancel(){
 		AudioPlayer.playAudio("cancel");
 		prev.startContext();
+	}
+	
+	public void onNextUnit() {
 	}
 
 	/**

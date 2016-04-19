@@ -81,7 +81,17 @@ public class UnitSelected extends CursorContext {
 							selected, false, false).startContext();
 				}
 			});
+			// We don't want to display the path/range while moving.
+			cleanUp();
 		}
+	}
+	
+	@Override
+	public void onNextUnit() {
+		cursor.setXCoord(selected.getXCoord());
+		cursor.setYCoord(selected.getYCoord());
+		updatePath();
+		AudioPlayer.playAudio("cancel");
 	}
 
 	/* (non-Javadoc)
@@ -114,8 +124,7 @@ public class UnitSelected extends CursorContext {
 	 */
 	private void updatePath() {
 		stage.removeEntity(path);
-		path = stage.grid.getShortestPath(selected, cursor.getXCoord(),
-				cursor.getYCoord());
+		path = stage.grid.improvePath(selected, cursor.getXCoord(), cursor.getYCoord(), path);
 		if (path != null) {
 			stage.addEntity(path);
 		}

@@ -57,6 +57,13 @@ public class Idle extends CursorContext {
 	public void cleanUp(){
 		removeZones();
 	}
+	
+	@Override
+	public float getCursorSpeed(boolean fast) {
+		if (fast)
+			return 0.03f;
+		return super.getCursorSpeed(fast);
+	}
 
 	/* (non-Javadoc)
 	 * @see net.fe.overworldStage.OverworldContext#onSelect()
@@ -67,11 +74,45 @@ public class Idle extends CursorContext {
 		AudioPlayer.playAudio("select");
 		if(u!=null && u.getParty() == player.getParty() && !u.hasMoved()){
 			new UnitSelected(stage, this, u).startContext();
-		}
-		if(u == null){
+		} else {
 			new EndMenu(stage, this).startContext();
 		}
 
+	}
+	
+	@Override
+	public void onNextUnit() {
+		Unit hovered = getHoveredUnit();
+		Unit target = null;
+		boolean found = false;
+		for (Unit unit : player.getParty()) {
+			if (unit.hasMoved())
+				continue;
+			
+			// If the current unit was found, the target is the next one.
+			if (found) {
+				target = unit;
+				break;
+			}
+			
+			// By default, the target is the first valid unit...
+			if (target == null)
+				target = unit;
+			
+			// ... which is the one we use if there is no hovered target (but also if the hovered unit is the last valid unit).
+			if (hovered == null)
+				break;
+			
+			if (unit == hovered)
+				found = true;
+		}
+		
+		if (target != null) {
+			cursorWillChange();
+			cursor.setXCoord(target.getXCoord());
+			cursor.setYCoord(target.getYCoord());
+			cursorChanged();
+		}
 	}
 
 
