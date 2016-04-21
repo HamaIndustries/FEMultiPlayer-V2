@@ -22,7 +22,7 @@ public class Crisis extends CombatTrigger{
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
-	public boolean attempt(Unit user, int range) {
+	public boolean attempt(Unit user, int range, Unit opponent) {
 		return user.getHp() < user.get("HP")/3;
 	}
 
