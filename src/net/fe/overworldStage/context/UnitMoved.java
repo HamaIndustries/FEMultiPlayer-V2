@@ -204,7 +204,7 @@ public class UnitMoved extends MenuContext<String> {
 			Unit p = grid.getUnit(n.x, n.y);
 			if (p != null && stage.getCurrentPlayer().getParty().isAlly(p.getParty())) {
 				trade = true;
-				if(p.rescuedUnit() == null && unit.rescuedUnit() == null){
+				if(p.rescuedUnit() == null && unit.rescuedUnit() == null && unit.canRescue()){
 					rescue = true;
 				} else if (p.rescuedUnit() == null && unit.rescuedUnit() != null){
 					give = true;

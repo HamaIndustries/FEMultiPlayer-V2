@@ -259,6 +259,14 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 			}
 		});
 	}
+	
+
+	
+	public boolean canRescue(){
+		List<String> mounts = Arrays.asList("Paladin", "Valkyrie", "Falconknight", 
+				"Ephraim", "Eirika", "Eliwood");
+		return mounts.contains(this.name) || mounts.contains(this.clazz.name);
+	}
 
 	
 	/**

@@ -96,7 +96,7 @@ public class FEMultiplayer extends Game{
 			game.init(480, 320, "Fire Emblem Multiplayer");
 			/* Testing code */
 //			game.testFightStage();
-//			game.testOverworldStage();
+			game.testOverworldStage();
 //			game.testDraftStage();
 			game.loop();
 		} catch (Exception e){
@@ -248,13 +248,13 @@ public class FEMultiplayer extends Game{
 		p2.setTeam(2);
 		localPlayer.setTeam(1);
 		
-		Unit u1 = UnitFactory.getUnit("Canas");
-		u1.addToInventory(new RiseTome());
+		Unit u1 = UnitFactory.getUnit("Eirika");
+		u1.addToInventory(WeaponFactory.getWeapon("Silver Sword"));
 		u1.setHp(1);
 		localPlayer.getParty().addUnit(u1);
 		
-		Unit u3 = UnitFactory.getUnit("Joshua");
-		u3.addToInventory(WeaponFactory.getWeapon("Wo Dao"));
+		Unit u3 = UnitFactory.getUnit("Oswin");
+		u3.addToInventory(WeaponFactory.getWeapon("Silver Axe"));
 		u3.equip(0);
 		u3.setHp(1);
 		p2.getParty().addUnit(u3);
