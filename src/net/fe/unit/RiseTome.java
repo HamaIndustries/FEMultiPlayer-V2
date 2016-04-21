@@ -15,7 +15,7 @@ public class RiseTome extends Item{
 	public RiseTome(){
 		super("Rise");
 		this.setMaxUses(4);
-		this.id = 73;
+		this.id = 3;
 		this.setCost(8000);
 	}
 	

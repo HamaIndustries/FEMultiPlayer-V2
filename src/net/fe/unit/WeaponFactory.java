@@ -35,7 +35,7 @@ public class WeaponFactory {
 	 */
 	public static void loadWeapons() {
 		Scanner in = new Scanner(ResourceLoader.getResourceAsStream("res/weapons.txt"));
-		int id = 0;
+		int id = 4;
 		while(in.hasNextLine()){
 			String line = in.nextLine();
 			if(line.startsWith("#") || line.equals("")){
