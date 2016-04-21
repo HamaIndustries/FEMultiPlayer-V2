@@ -329,9 +329,11 @@ public class FEMultiplayer extends Game{
 				currentStage.processAddStack();
 				currentStage.processRemoveStack();
 				currentStage.render();
-//				FEResources.getBitmapFont("stat_numbers").render(
-//						(int)(1.0f/getDeltaSeconds())+"", 440f, 0f, 0f);
 				currentStage.endStep();
+				{
+					int fps = (int)(1e9 / this.timeDelta);
+					Renderer.drawString("default_med", fps + " FPS", 452 - (fps > 10 ? 7 : 0) - (fps > 100 ? 7 : 0) - (fps > 1000 ? 7 : 0), 0, 0);
+				}
 			}
 			glPopMatrix();
 			Display.update();
