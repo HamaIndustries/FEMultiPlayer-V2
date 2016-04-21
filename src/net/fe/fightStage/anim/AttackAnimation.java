@@ -92,22 +92,19 @@ public abstract class AttackAnimation extends Animation {
 	 * @see chu.engine.anim.Animation#update()
 	 */
 	@Override
-	public void update() {
-		prevFrame = getFrame();
-		super.update();
-		if(prevFrame != getFrame()) {
-			for(int j=0; j<hitframes.length; j++) {
-				int i = hitframes[j];
-				if(getFrame() == i) {
-					if(j == hitframes.length - 1)
-						onLastHit();
-					else
-						onHit();
-				}
+	public void increment() {
+		super.increment();
+		for(int j=0; j<hitframes.length; j++) {
+			int i = hitframes[j];
+			if(getFrame() == i) {
+				if(j == hitframes.length - 1)
+					onLastHit();
+				else
+					onHit();
 			}
-			if(soundMap.get(getFrame()) != null) {
-				AudioPlayer.playAudio(soundMap.get(getFrame()));
-			}
+		}
+		if(soundMap.get(getFrame()) != null) {
+			AudioPlayer.playAudio(soundMap.get(getFrame()));
 		}
 		if(getFrame() == loopUntil) {
 			setFrame(getFrame()-freeze);

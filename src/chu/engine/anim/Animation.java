@@ -184,18 +184,26 @@ public class Animation {
 	 * Update.
 	 */
 	public void update() {
-		if(speed != 0) counter += Game.getDeltaSeconds();
-		if(speed != 0 && counter > Math.abs(speed)) {
-			increment();
-			counter = 0;
+		if (speed != 0) {
+			counter += Game.getDeltaSeconds();
+			while (speed != 0 && counter > Math.abs(speed)) {
+				// some animations, net.fe.fightStage.anim.MagicEffect for example,
+				// indicate doneness by setting speed to 0. Instead of setting hasRun to true.
+				increment();
+				counter -= speed;
+			}
 		}
 	}
 	
 	public boolean updateRunOnce() {
-		if(speed != 0) counter += Game.getDeltaSeconds();
-		if(speed != 0 && counter > Math.abs(speed) && !hasRun) {
-			increment();
-			counter = 0;
+		if (speed != 0) {
+			counter += Game.getDeltaSeconds();
+			while (speed != 0 && counter > Math.abs(speed) && !hasRun) {
+				// some animations, net.fe.fightStage.anim.MagicEffect for example,
+				// indicate doneness by setting speed to 0. Instead of setting hasRun to true.
+				increment();
+				counter -= speed;
+			}
 		}
 		return hasRun;
 	}

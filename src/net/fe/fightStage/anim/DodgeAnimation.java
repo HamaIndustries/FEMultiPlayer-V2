@@ -45,13 +45,14 @@ public class DodgeAnimation extends Animation {
 	 */
 	@Override
 	public void update() {
-		super.update();
 		if(dodging) {
 			dodgeTimer += Game.getDeltaSeconds();
 			if(dodgeTimer > DODGE_DURATION) {
 				dodging = false;
 				setSpeed(-DodgeAnimation.NORMAL_SPEED);
 			}
+		} else {
+			super.update();
 		}
 	}
 	
@@ -69,6 +70,7 @@ public class DodgeAnimation extends Animation {
 			getSprite().setSpeed(0);
 			dodging = false;
 			dodgeTimer = 0;
+			setSpeed(0);
 		}
 	}
 	
