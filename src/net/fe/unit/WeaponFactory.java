@@ -16,7 +16,7 @@ public class WeaponFactory {
 	
 	/** The Constant mounted. */
 	private static final List<String> mounted = 
-			Arrays.asList("Paladin", "Valkyrie", "Falconknight", 
+			Arrays.asList("Paladin", "Valkyrie", /*"Falconknight",*/ 
 					"Ephraim", "Eirika", "Eliwood");
 	
 	/** The Constant armored. */
