@@ -5190,30 +5190,31 @@
  		{
  			"name":		"hit_effect_eclipse",
  			"path":		"res/battle_anim/hit_effect_eclipse.png",
- 			"width":	167,
- 			"height":	100,
- 			"frames":	126,
- 			"columns":	7,
- 			"offsetX":	85,
- 			"offsetY":	85,
+ 			"width":	240,
+ 			"height":	160,
+ 			"frames":	262,
+ 			"columns":	5,
+ 			"offsetX":	67,
+ 			"offsetY":	105,
  			"freeze":	-1,
- 			"hitframes": [125],
- 			"shakeIntensity": 7,
+			"speed":	0.017,
+ 			"hitframes": [229],
+ 			"shakeIntensity": 2,
  			"soundMap": [
  				{
  					"frame":12,
  					"sound":"eclipse1"
  				},
  				{
- 					"frame":36,
+ 					"frame":64,
  					"sound":"eclipse1"
  				},
  				{
- 					"frame":77,
+ 					"frame":145,
  					"sound":"eclipse2"
  				}
  				{
- 					"frame":110,
+ 					"frame":234,
  					"sound":"eclipse3"
  				},
  			]

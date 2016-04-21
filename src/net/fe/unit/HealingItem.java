@@ -11,13 +11,13 @@ public class HealingItem extends Item {
 	private static final long serialVersionUID = -6169687038185884864L;
 	
 	/** The vulnerary. */
-	public static HealingItem VULNERARY = new HealingItem("Vulnerary", 10, 67, 300);
+	public static HealingItem VULNERARY = new HealingItem("Vulnerary", 10, 70, 300);
 	
 	/** The concoction. */
-	public static HealingItem CONCOCTION = new HealingItem("Concoction", 20, 68, 1300);
+	public static HealingItem CONCOCTION = new HealingItem("Concoction", 20, 71, 1300);
 	
 	/** The elixir. */
-	public static HealingItem ELIXIR = new HealingItem("Elixir", 99, 69, 3000);
+	public static HealingItem ELIXIR = new HealingItem("Elixir", 99, 72, 3000);
 	
 	/** The amount. */
 	public int amount;
