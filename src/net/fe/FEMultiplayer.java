@@ -59,6 +59,9 @@ import chu.engine.menu.Notification;
  */
 public class FEMultiplayer extends Game{
 	
+	/** Desired frame rate in nanoseconds per frame */
+	private static final long CLAMPED_FRAME_RATE = (long)(1e9 / 60);
+	
 	/** The current stage. */
 	private static Stage currentStage;
 	
@@ -337,6 +340,12 @@ public class FEMultiplayer extends Game{
 			}
 			glPopMatrix();
 			Display.update();
+			try {
+				long sleepTime = CLAMPED_FRAME_RATE - (System.nanoTime() - time);
+				if (sleepTime > 0) { Thread.sleep(sleepTime / 1000000, (int)(sleepTime % 1000000)); }
+			} catch (InterruptedException e) {
+				// I never know what to say to an interrupted sleep…
+			}
 			timeDelta = System.nanoTime()-time;
 		}
 		AL.destroy();
