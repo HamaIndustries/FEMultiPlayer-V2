@@ -32,6 +32,11 @@ public abstract class FieldSkill implements Serializable {
 	public abstract OverworldContext onSelect(ClientOverworldStage stage, OverworldContext context, Zone z, Unit unit);
 	
 	/**
+	 * Returns a set of spaces which contain possible - not neccessarily valid - targets of this action.
+	 */
+	public abstract Zone getZone(Unit actor, Grid grid);
+	
+	/**
 	 * Returns the displayed name of this skill
 	 */
 	public String getName(){

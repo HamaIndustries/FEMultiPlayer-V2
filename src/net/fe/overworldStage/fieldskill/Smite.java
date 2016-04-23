@@ -54,6 +54,13 @@ public final class Smite extends FieldSkill {
 		return new net.fe.overworldStage.context.SmiteTarget(stage, context, z, unit);
 	}
 	
+	@Override
+	public Zone getZone(Unit unit, Grid grid) {
+		return new Zone(grid.getRange(
+					new Node(unit.getXCoord(), unit.getYCoord()), 1),
+					Zone.MOVE_DARK);
+	}
+	
 	/**
 	 * Returns true if the shover is allowed to smite the shovee
 	 */

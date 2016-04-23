@@ -159,6 +159,13 @@ public class UnitMoved extends MenuContext<String> {
 					new Node(unit.getXCoord(), unit.getYCoord()), 1),
 					Zone.MOVE_DARK);
 			stage.addEntity(zone);
+		} else {
+			for (FieldSkill f : unit.getTheClass().fieldSkills) {
+				if (menu.getSelection().equals(f.getName())) {
+					zone = f.getZone(unit, grid);
+					stage.addEntity(zone);
+				}
+			}
 		}
 	}
 
