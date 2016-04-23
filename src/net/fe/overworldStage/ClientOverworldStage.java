@@ -563,6 +563,7 @@ public class ClientOverworldStage extends OverworldStage {
 						grid.move(shovee, newX, newY, true);
 						shovee.move(p, new Command() {
 							public void execute() {
+								shovee.sprite.setAnimation("IDLE");
 								checkEndGame();
 							}
 						});
@@ -586,6 +587,7 @@ public class ClientOverworldStage extends OverworldStage {
 						grid.move(shovee, newX, newY, true);
 						shovee.move(p, new Command() {
 							public void execute() {
+								shovee.sprite.setAnimation("IDLE");
 								checkEndGame();
 							}
 						});
