@@ -353,4 +353,8 @@ public class CombatCalculator {
 		return a.hit() - d.avoid() + a.getWeapon().triMod(d.getWeapon()) * 15;
 	}
 	
+	public static int hitRate(Unit a, Unit d, Double mod){
+		return ((Double)(a.hit() *  mod)).intValue() - d.avoid() + a.getWeapon().triMod(d.getWeapon()) * 15;
+	}
+	
 }
