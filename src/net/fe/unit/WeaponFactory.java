@@ -21,7 +21,7 @@ public class WeaponFactory {
 	
 	/** The Constant armored. */
 	private static final List<String> armored =
-			Arrays.asList("Paladin", "General");
+			Arrays.asList("General");
 	
 	/** The Constant fliers. */
 	public static final List<String> fliers =
