@@ -23,7 +23,7 @@ public class MissEffect extends Entity {
 	public MissEffect(boolean left) {
 		super(0, 0);
 		AudioPlayer.playAudio("miss");
-		Animation anim = new Animation(FEResources.getTexture("miss"), 38, 26, 20, 5, 0, 0, .015f) {
+		Animation anim = new Animation(FEResources.getTexture("miss"), 38, 26, 20, 5, 0, 0, .015f, chu.engine.anim.BlendModeArgs.ALPHA_BLEND) {
 			@Override
 			public void update() {
 				super.update();

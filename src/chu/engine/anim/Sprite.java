@@ -41,7 +41,7 @@ public class Sprite {
 	 * @param f Speed of the animation in frames per second
 	 */
 	public void addAnimation(String name, Texture tex, int width, int height, int length, int columns, float f) {
-		Animation anim = new Animation(tex, width, height, length, columns, f);
+		Animation anim = new Animation(tex, width, height, length, columns, f, BlendModeArgs.ALPHA_BLEND);
 		animations.put(name.toUpperCase(), anim);
 		currentAnimation = anim;
 		curAnimName = name;
@@ -54,7 +54,7 @@ public class Sprite {
 	 * @param tex Texture to use as the static image
 	 */
 	public void addAnimation(String name, Texture tex) {
-		Animation anim = new Animation(tex);
+		Animation anim = new Animation(tex, BlendModeArgs.ALPHA_BLEND);
 		animations.put(name.toUpperCase(), anim);
 		currentAnimation = anim;
 		curAnimName = name;
@@ -207,7 +207,7 @@ public class Sprite {
 		float y1 = ((float)(frameY+1) * height)/currentAnimation.getImageHeight();
 		Texture texture = currentAnimation.getTexture();
 		Renderer.render(texture, x0, y0, x1, y1, x - offX, y - offY,
-				x + width - offX, y + height - offY, depth, transform, shader);
+				x + width - offX, y + height - offY, depth, transform, shader, currentAnimation.getBlendMode());
 	}
 
 	/**

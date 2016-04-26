@@ -101,7 +101,7 @@ public class Renderer {
 	 */
 	public static void render(Texture t, float tx0, float ty0, float tx1,
 			float ty1, float x0, float y0, float x1, float y1, float depth) {
-		render(t, tx0, ty0, tx1, ty1, x0, y0, x1, y1, depth, null, new ShaderArgs());
+		render(t, tx0, ty0, tx1, ty1, x0, y0, x1, y1, depth, null, new ShaderArgs(), BlendModeArgs.ALPHA_BLEND);
 	}
 	
 	/**
@@ -121,7 +121,7 @@ public class Renderer {
 	 */
 	public static void render(Texture t, float tx0, float ty0, float tx1,
 			float ty1, float x0, float y0, float x1, float y1, float depth, Transform transform) {
-		render(t, tx0, ty0, tx1, ty1, x0, y0, x1, y1, depth, transform, new ShaderArgs());
+		render(t, tx0, ty0, tx1, ty1, x0, y0, x1, y1, depth, transform, new ShaderArgs(), BlendModeArgs.ALPHA_BLEND);
 	}
 
 	/**
@@ -142,7 +142,10 @@ public class Renderer {
 	 */
 	public static void render(Texture t, float tx0, float ty0,
 			float tx1, float ty1, float x0, float y0, float x1, float y1,
-			float depth, Transform transform, ShaderArgs shader) {
+			float depth, Transform transform, ShaderArgs shader, BlendModeArgs blend) {
+		
+		blend.apply();
+		
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, SCALE_FILTER);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, SCALE_FILTER);
 		int program = programs.get(shader.programName);
@@ -196,6 +199,8 @@ public class Renderer {
 		glPopMatrix();
 		if(clip != null && !clip.persistent) clip.destroy();
 		ARBShaderObjects.glUseProgramObjectARB(0);
+		
+		BlendModeArgs.ALPHA_BLEND.apply();
 	}
 
 	/**
