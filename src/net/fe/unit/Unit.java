@@ -259,13 +259,15 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 			}
 		});
 	}
-	
 
+	public static boolean isRider(Unit u){
+		List<String> mounts = WeaponFactory.riding;
+		return mounts.contains(u.name) || mounts.contains(u.clazz.name);
+	}
 	
-	public boolean canRescue(){
-		List<String> mounts = Arrays.asList("Paladin", "Valkyrie", "Falconknight", 
-				"Ephraim", "Eirika", "Eliwood");
-		return mounts.contains(this.name) || mounts.contains(this.clazz.name);
+	public boolean canRescue(Unit ee){
+		return !isRider(ee)
+				&& this.get("Con")>ee.get("Con");
 	}
 
 	

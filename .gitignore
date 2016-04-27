@@ -8,3 +8,5 @@ error_*
 /logs
 Thumbs.db
 /doc
+.settings
+.metadata

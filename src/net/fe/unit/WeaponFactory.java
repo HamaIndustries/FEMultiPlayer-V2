@@ -27,6 +27,14 @@ public class WeaponFactory {
 	public static final List<String> fliers =
 			Arrays.asList("Falconknight");
 	
+	public static final List<String> riding;
+	
+	static {
+		List<String> all = new ArrayList(mounted);
+		all.addAll(fliers);
+		riding = new ArrayList<String>(all);
+	}
+	
 	/** The weapons. */
 	private static HashMap<String, Weapon> weapons = new HashMap<String, Weapon>();
 	

@@ -158,7 +158,7 @@ public class FEServer extends Game {
 		objectivePanel.add(lblPickMode);
 		
 		// Pick modes
-		ComboBoxModel pModel = new DefaultComboBoxModel(new PickMode[] {new Draft(), new AllPick()});
+		ComboBoxModel pModel = new DefaultComboBoxModel(new PickMode[] { new AllPick(), new Draft()});
 		final JComboBox pickModeBox = new JComboBox();
 		pickModeBox.setModel(pModel);
 		objectivePanel.add(pickModeBox);
