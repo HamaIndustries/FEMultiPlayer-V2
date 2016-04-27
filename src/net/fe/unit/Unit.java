@@ -266,6 +266,8 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	}
 	
 	public boolean canRescue(Unit ee){
+		if(ee == null)
+			return false;
 		return !isRider(ee)
 				&& this.get("Con")>ee.get("Con");
 	}

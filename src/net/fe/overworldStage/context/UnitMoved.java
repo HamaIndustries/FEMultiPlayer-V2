@@ -218,7 +218,13 @@ public class UnitMoved extends MenuContext<String> {
 					.rescuedUnit().get("Mov")){
 				drop = true;
 			}
-			if(p == null && unit.getTheClass().usableWeapon.contains(Weapon.Type.DARK)) {
+			
+			//summon
+			if (p == null
+					&& grid.getTerrain(n.x, n.y).getMoveCost(
+							net.fe.unit.Class.createClass("Phantom")) <
+							unit.get("Mov") && 
+							unit.getTheClass().usableWeapon.contains(Weapon.Type.DARK)) {
 				for (Item i : unit.getInventory()) {
 					if (i instanceof RiseTome)
 						summon = true;
