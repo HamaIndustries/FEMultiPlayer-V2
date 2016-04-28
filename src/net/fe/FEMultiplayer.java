@@ -60,7 +60,7 @@ import chu.engine.menu.Notification;
 public class FEMultiplayer extends Game{
 	
 	/** Desired frame rate in nanoseconds per frame */
-	private static final long CLAMPED_FRAME_RATE = (long)(1e9 / 60);
+	private static final long CLAMPED_FRAME_RATE = (long)(1e9 / FEResources.getFpsMax());
 	
 	/** The current stage. */
 	private static Stage currentStage;
