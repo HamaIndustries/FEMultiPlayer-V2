@@ -71,6 +71,16 @@ public class UnitFactory {
 			bases.put("Con", con);
 			bases.put("Mov", mov);
 			
+			if(name.equals("Eirika") || 
+					clazz.name.equals("Valkyrie") ||
+					clazz.name.equals("Falconknight")){
+				bases.put("Aid", 20-con);
+			} else if (Unit.isRider(clazz) || Unit.isRider(name)){
+				bases.put("Aid", 25-con);
+			} else {
+				bases.put("Aid", con-1);
+			}
+			
 			HashMap<String, Integer> growths = new HashMap<String, Integer>();
 			growths.put("HP", hpGrowth);
 			growths.put("Str", strGrowth);

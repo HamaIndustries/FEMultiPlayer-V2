@@ -265,11 +265,21 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		return mounts.contains(u.name) || mounts.contains(u.clazz.name);
 	}
 	
-	public boolean canRescue(Unit ee){
-		if(ee == null)
+	public static boolean isRider(Class c){
+		List<String> mounts = WeaponFactory.riding;
+		return mounts.contains(c.name);
+	}
+	
+	public static boolean isRider(String n){
+		List<String> mounts = WeaponFactory.riding;
+		return mounts.contains(n);
+	}
+	
+	public boolean canRescue(Unit u){
+		if(u == null)
 			return false;
-		return !isRider(ee)
-				&& this.get("Con")>ee.get("Con");
+		//System.out.println(this.get("Aid") + " >= "+ u.get("Con"));
+		return this.get("Aid")>=u.get("Con");
 	}
 
 	

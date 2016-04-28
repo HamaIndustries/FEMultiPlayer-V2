@@ -497,8 +497,10 @@ public class ClientOverworldStage extends OverworldStage {
 			}
 			else if(obj.equals("TAKE")) {
 				if(execute) {
+					unit.setMoved(true);
 					Unit other = getUnit((UnitIdentifier) cmds.commands[++i]);
 					other.give(unit);
+					checkEndGame();
 				}
 			}
 			else if(obj.equals("DROP")) {

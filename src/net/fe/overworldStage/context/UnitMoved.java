@@ -206,9 +206,11 @@ public class UnitMoved extends MenuContext<String> {
 				trade = true;
 				if(p.rescuedUnit() == null && unit.rescuedUnit() == null && unit.canRescue(p)){
 					rescue = true;
-				} else if (p.rescuedUnit() == null && unit.rescuedUnit() != null){
+				} else if (p.rescuedUnit() == null && unit.rescuedUnit() != null && 
+						p.canRescue(unit.rescuedUnit())){
 					give = true;
-				} else if (p.rescuedUnit() != null && unit.rescuedUnit() == null){
+				} else if (p.rescuedUnit() != null && unit.rescuedUnit() == null &&
+						unit.canRescue(p.rescuedUnit())){
 					take = true;
 				}
 			}

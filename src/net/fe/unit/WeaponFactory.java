@@ -30,7 +30,7 @@ public class WeaponFactory {
 	public static final List<String> riding;
 	
 	static {
-		List<String> all = new ArrayList(mounted);
+		List<String> all = new ArrayList<String>(mounted);
 		all.addAll(fliers);
 		riding = new ArrayList<String>(all);
 	}

@@ -56,6 +56,7 @@ public class Weapon extends Item {
 		modifiers.put("Lvl", 0);
 		modifiers.put("Mov", 0);
 		modifiers.put("Con", 0);
+		modifiers.put("Aid", 0);
 		mt = 0;
 		hit = 0;
 		crit = 0;
