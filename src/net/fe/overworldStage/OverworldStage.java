@@ -429,6 +429,24 @@ public class OverworldStage extends Stage {
 				unit.use(tomeToUse);
 				checkEndGame();
 			}
+			else if(obj.equals("SHOVE")) {
+				final Unit shovee = getUnit((UnitIdentifier) cmds.commands[++i]);
+				int deltaX = shovee.getXCoord() - unit.getXCoord();
+				int deltaY = shovee.getYCoord() - unit.getYCoord();
+				grid.move(shovee, shovee.getXCoord() + deltaX, shovee.getYCoord() + deltaY, false);
+			}
+			else if(obj.equals("SMITE")) {
+				final Unit shovee = getUnit((UnitIdentifier) cmds.commands[++i]);
+				int deltaX = 2 * (shovee.getXCoord() - unit.getXCoord());
+				int deltaY = 2 * (shovee.getYCoord() - unit.getYCoord());
+				grid.move(shovee, shovee.getXCoord() + deltaX, shovee.getYCoord() + deltaY, false);
+			}
+			else if(obj.equals("WAIT")) {
+				// do nothing
+			}
+			else {
+				throw new IllegalArgumentException("Unkown command: " + obj);
+			}
 		}
 		FEServer.getServer().broadcastMessage(message);
 		checkEndGame();

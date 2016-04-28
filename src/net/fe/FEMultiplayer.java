@@ -265,6 +265,14 @@ public class FEMultiplayer extends Game{
 		
 		currentStage = new ClientOverworldStage(testSession);
 
+		this.client = new Client("nope", 12345) {
+			@Override
+			public void sendMessage(Message message) {
+				if (message instanceof CommandMessage) {
+					((ClientOverworldStage) currentStage).processCommands((CommandMessage) message);
+				}
+			}
+		};
 	}
 	
 	/**

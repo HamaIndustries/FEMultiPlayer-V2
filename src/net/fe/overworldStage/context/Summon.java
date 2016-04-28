@@ -191,6 +191,7 @@ public class Summon extends OverworldContext {
 		bases.put("Lck", 0);
 		bases.put("Skl", 2);
 		bases.put("Spd", 4);
+		bases.put("Con", 11);
 		bases.put("Mov", 5);
 		growths.put("HP", 0);
 		growths.put("Str", 55);
