@@ -155,7 +155,17 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 			stats.put(s, bases.get(s).floatValue());
 		}
 		fillHp();
-
+		
+		if(name.equals("Eirika") || 
+				clazz.name.equals("Valkyrie") ||
+				clazz.name.equals("Falconknight")){
+			bases.put("Aid", 20-bases.get("Con"));
+		} else if (Unit.isRider(clazz) || Unit.isRider(name)){
+			bases.put("Aid", 27-bases.get("Con"));
+		} else {
+			bases.put("Aid", bases.get("Con")-1);
+		}
+		
 		renderDepth = ClientOverworldStage.UNIT_DEPTH;
 	}
 	
