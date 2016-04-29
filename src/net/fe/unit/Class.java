@@ -174,7 +174,7 @@ public class Class implements Serializable {
 					"A phantom that fights for its summoner.",
 					0, new Miracle(), Arrays.asList(new Shove()),
 					Weapon.Type.AXE);
-		return null;
 		
+		throw new IllegalArgumentException("Unknown Class Name: " + name);
 	}
 }

@@ -19,6 +19,7 @@ import net.fe.overworldStage.Terrain;
 import net.fe.overworldStage.Zone;
 import net.fe.unit.Class;
 import net.fe.unit.Unit;
+import net.fe.unit.Statistics;
 
 public final class OverworldStageTest {
 	
@@ -41,10 +42,7 @@ public final class OverworldStageTest {
 		OverworldStage stage = new OverworldStage(session);
 		stage.grid = new Grid(6,6, Terrain.PLAIN);
 		
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("shover", Class.createClass("Sorcerer"), '-', vals, vals);
 		Unit shovee = new Unit("shovee", Class.createClass("Sorcerer"), '-', vals, vals);
 		FEMultiplayer.getLocalPlayer().getParty().addUnit(shover); // processCommands cannot find the unit without this
@@ -75,10 +73,7 @@ public final class OverworldStageTest {
 		OverworldStage stage = new OverworldStage(session);
 		stage.grid = new Grid(6,6, Terrain.PLAIN);
 		
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("shover", Class.createClass("Sorcerer"), '-', vals, vals);
 		Unit shovee = new Unit("shovee", Class.createClass("Sorcerer"), '-', vals, vals);
 		FEMultiplayer.getLocalPlayer().getParty().addUnit(shover); // processCommands cannot find the unit without this

@@ -75,9 +75,6 @@ public final class Statistics {
 			("Con".equals(statName) ? value : this.con),
 			("Aid".equals(statName) ? value : this.aid)
 		);
-		if (retVal.equals(this)) {
-			throw new IllegalArgumentException("Unknown statName: " + statName);
-		}
 		return retVal;
 	}
 	

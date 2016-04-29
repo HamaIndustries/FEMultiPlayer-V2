@@ -62,7 +62,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	private int hp;
 	
 	/** The clazz. */
-	private Class clazz;
+	private final Class clazz;
 	
 	/** The gender. */
 	public final char gender;
@@ -138,6 +138,8 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	public Unit(String name, Class c, char gender, Statistics bases,
 			Statistics growths) {
 		super(0, 0);
+		this.name = name;
+		this.clazz = c;
 		this.bases = bases;
 		this.growths = growths;
 		this.gender = gender;
@@ -150,8 +152,6 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
         battleStats.put("Assists", 0);
         battleStats.put("Damage", 0);
         battleStats.put("Healing", 0);
-		this.name = name;
-		clazz = c;
 		
 		this.setLevel(1);
 		fillHp();
