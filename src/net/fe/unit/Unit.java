@@ -155,7 +155,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		
 		this.setLevel(1);
 		fillHp();
-
+		
 		renderDepth = ClientOverworldStage.UNIT_DEPTH;
 	}
 	

@@ -132,7 +132,7 @@ public class UnitMoved extends MenuContext<String> {
 	 */
 	@Override
 	public void onCancel() {
-		if (fromTrade){
+		if (fromTrade || fromTake){
 			return; // You can't cancel this.
 		}
 		super.onCancel();
