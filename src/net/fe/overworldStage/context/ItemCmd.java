@@ -47,7 +47,7 @@ public class ItemCmd extends MenuContext<ItemDisplay>{
 				menu.setSelection(0);
 			}
 		} else if (i instanceof HealingItem){
-			if(unit.getHp() == unit.get("HP")) return;
+			if(unit.getHp() == unit.getStats().maxHp) return;
 			stage.addCmd("USE");
 			stage.addCmd(unit.findItem(i));
 			stage.send();

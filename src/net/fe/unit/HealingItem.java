@@ -43,7 +43,7 @@ public class HealingItem extends Item {
 	 */
 	public int use(Unit user){
 		super.use(user);
-		int maxHeal = user.get("HP") - user.getHp();
+		int maxHeal = user.getStats().maxHp - user.getHp();
 		user.setHp(user.getHp() + Math.min(amount, maxHeal));
 		return amount;
 	}

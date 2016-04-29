@@ -33,7 +33,7 @@ public class PartyMessage extends Message {
 	public String toString(){
 		String ans = super.toString() + "\n";
 		for(Unit u: teamData){
-			ans += "\t" + u.name + " Lv" + u.get("Lvl") + "\n";
+			ans += "\t" + u.name + " Lv" + u.getLevel() + "\n";
 		}
 		return ans;
 	}

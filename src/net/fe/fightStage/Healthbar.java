@@ -47,12 +47,12 @@ public class Healthbar extends Entity {
 		} else {
 			x = FightStage.CENTRAL_AXIS + 30;
 		}
-		if(u.get("HP") > 40){
+		if(u.getStats().maxHp > 40){
 			y = FightStage.FLOOR + 38;
 		} else {
 			y = FightStage.FLOOR + 42;
 		}
-		totalHealth = u.get("HP");
+		totalHealth = u.getStats().maxHp;
 		currentHealth = u.getHp();
 		displayedHealth = u.getHp();
 		renderDepth = FightStage.HP_DEPTH;

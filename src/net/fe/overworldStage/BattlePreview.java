@@ -127,7 +127,7 @@ public class BattlePreview extends Entity {
 						"%d",
 						Math.max(0,
 								Math.min(100, attacker.crit()*2 - defender.dodge())));
-				if(attacker.get("Spd") >= defender.get("Spd") + 4) aMult*=2;
+				if(attacker.getStats().spd >= defender.getStats().spd + 4) aMult*=2;
 				if(attacker.getWeapon().name.contains("Brave")) aMult*=2;
 				aEffective = attacker.getWeapon().effective.contains(defender.noGenderName());
 			}else if(mods.contains("Pro Tactics")){
@@ -141,7 +141,7 @@ public class BattlePreview extends Entity {
 						"%d",
 						Math.max(0,
 								Math.min(100, attacker.crit() - defender.dodge())));
-				if(attacker.get("Spd") >= defender.get("Spd") + 4) aMult*=2;
+				if(attacker.getStats().spd >= defender.getStats().spd + 4) aMult*=2;
 				if(attacker.getWeapon().name.contains("Brave")) aMult*=2;
 				aEffective = attacker.getWeapon().effective.contains(defender.noGenderName());
 			}else{
@@ -155,7 +155,7 @@ public class BattlePreview extends Entity {
 						"%d",
 						Math.max(0,
 								Math.min(100, attacker.crit() - defender.dodge())));
-				if(attacker.get("Spd") >= defender.get("Spd") + 4) aMult*=2;
+				if(attacker.getStats().spd >= defender.getStats().spd + 4) aMult*=2;
 				if(attacker.getWeapon().name.contains("Brave")) aMult*=2;
 				aEffective = attacker.getWeapon().effective.contains(defender.noGenderName());
 			}
@@ -178,7 +178,7 @@ public class BattlePreview extends Entity {
 						"%d",
 						Math.max(0,
 								Math.min(100, defender.crit()*2 - attacker.dodge())));
-				if(defender.get("Spd") >= attacker.get("Spd") + 4) dMult*=2;
+				if(defender.getStats().spd >= attacker.getStats().spd + 4) dMult*=2;
 				if(defender.getWeapon().name.contains("Brave")) dMult*=2;
 				dEffective = defender.getWeapon().effective.contains(attacker.noGenderName());
 			}else if(mods.contains("Pro Tactics")){
@@ -192,7 +192,7 @@ public class BattlePreview extends Entity {
 						"%d",
 						Math.max(0,
 								Math.min(100, defender.crit() - attacker.dodge())));
-				if(defender.get("Spd") >= attacker.get("Spd") + 4) dMult*=2;
+				if(defender.getStats().spd >= attacker.getStats().spd + 4) dMult*=2;
 				if(defender.getWeapon().name.contains("Brave")) dMult*=2;
 				dEffective = defender.getWeapon().effective.contains(attacker.noGenderName());
 			}else{
@@ -206,7 +206,7 @@ public class BattlePreview extends Entity {
 						"%d",
 						Math.max(0,
 								Math.min(100, defender.crit() - attacker.dodge())));
-				if(defender.get("Spd") >= attacker.get("Spd") + 4) dMult*=2;
+				if(defender.getStats().spd >= attacker.getStats().spd + 4) dMult*=2;
 				if(defender.getWeapon().name.contains("Brave")) dMult*=2;
 				dEffective = defender.getWeapon().effective.contains(attacker.noGenderName());
 			}

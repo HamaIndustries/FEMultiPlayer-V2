@@ -92,7 +92,7 @@ public class WeaponFactory {
 			
 			if(!args[10].equals("-")){
 				String[] modArgs = args[10].split(" ");
-				w.modifiers.put(modArgs[0], Integer.parseInt(modArgs[1]));
+				w.modifiers = w.modifiers.copy(modArgs[0], Integer.parseInt(modArgs[1]));
 			}
 			
 			weapons.put(name, w);

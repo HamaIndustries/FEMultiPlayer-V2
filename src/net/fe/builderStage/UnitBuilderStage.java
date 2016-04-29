@@ -100,16 +100,16 @@ public class UnitBuilderStage extends Stage {
 		
 		levelUp = new Button(LEVEL_X, LEVEL_Y, "Level Up", Color.green, 135){
 			public void onStep(){
-				String exp =  Unit.getExpCost(unit.get("Lvl") + 1)+"";
-				if(unit.get("Lvl") == 20)
+				String exp =  Unit.getExpCost(unit.getLevel() + 1)+"";
+				if(unit.getLevel() == 20)
 					exp = "--";
 				text = "Level Up: " +exp + " EXP";
 			}
 			public void execute() {
-				if(unit.get("Lvl") != 20){
-					int cost = Unit.getExpCost(unit.get("Lvl") + 1);
+				if(unit.getLevel() != 20){
+					int cost = Unit.getExpCost(unit.getLevel() + 1);
 					if(cost <= back.getExp()){
-						unit.setLevel(unit.get("Lvl") + 1);
+						unit.setLevel(unit.getLevel() + 1);
 						back.setExp(back.getExp() - cost);
 					}
 				}
@@ -117,15 +117,15 @@ public class UnitBuilderStage extends Stage {
 		};
 		levelDown = new Button(LEVEL_X, LEVEL_Y + 24, "Level Down", Color.red, 135){
 			public void onStep(){
-				String exp =  Unit.getExpCost(unit.get("Lvl"))+"";
-				if(unit.get("Lvl") == 1)
+				String exp =  Unit.getExpCost(unit.getLevel())+"";
+				if(unit.getLevel() == 1)
 					exp = "--";
 				text = "Level Down: " + exp + " EXP";
 			}
 			public void execute() {
-				if(unit.get("Lvl") != 1){
-					int cost = Unit.getExpCost(unit.get("Lvl"));
-					unit.setLevel(unit.get("Lvl")-1);
+				if(unit.getLevel() != 1){
+					int cost = Unit.getExpCost(unit.getLevel());
+					unit.setLevel(unit.getLevel()-1);
 					back.setExp(back.getExp() + cost);
 				}
 			}
@@ -278,9 +278,9 @@ public class UnitBuilderStage extends Stage {
 				flavor.add("Ultimate magic");
 			}
 			if(wep.pref != null) flavor.add(wep.pref + " only");
-			for(String stat: wep.modifiers.keySet()){
-				if(wep.modifiers.get(stat) != 0){
-					flavor.add(stat + "+" + wep.modifiers.get(stat));
+			for(String stat: wep.modifiers.toMap().keySet()){
+				if(wep.modifiers.toMap().get(stat) != 0){
+					flavor.add(stat + "+" + wep.modifiers.toMap().get(stat));
 				}
 			}
 			if(wep.effective.size() != 0){

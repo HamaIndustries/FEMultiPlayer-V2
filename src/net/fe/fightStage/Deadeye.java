@@ -34,7 +34,7 @@ public class Deadeye extends CombatTrigger {
 	 */
 	@Override
 	public boolean attempt(Unit user, int range) {
-		return RNG.get() < user.get("Skl");
+		return RNG.get() < user.getStats().skl;
 	}
 
 	/* (non-Javadoc)

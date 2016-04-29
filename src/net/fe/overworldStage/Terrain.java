@@ -236,7 +236,7 @@ public enum Terrain {
 			Unit u = g.getUnit(x, y);
 			return u != null && 
 					u.getPartyColor().equals(turnPlayer.getParty().getColor()) &&
-					u.get("HP") > u.getHp();
+					u.getStats().maxHp > u.getHp();
 		}
 		
 		/* (non-Javadoc)
@@ -244,7 +244,7 @@ public enum Terrain {
 		 */
 		public void startOfTurn(OverworldStage g, int x, int y){
 			Unit u = g.getUnit(x, y);
-			amount = Math.min(u.get("HP")*percent/100, u.get("HP") - u.getHp());
+			amount = Math.min(u.getStats().maxHp*percent/100, u.getStats().maxHp - u.getHp());
 			if(u != null)
 				u.setHp(u.getHp() + amount);
 		}

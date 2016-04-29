@@ -18,7 +18,7 @@ public class Weapon extends Item {
 	private static final long serialVersionUID = 6496663141806177211L;
 	
 	/** The modifiers. */
-	public HashMap<String, Integer> modifiers;
+	public Statistics modifiers;
 	
 	/** The crit. */
 	public int mt, hit, crit;
@@ -44,20 +44,7 @@ public class Weapon extends Item {
 	public Weapon(String name) {
 		super(name);
 		// Initialize modifiers to 0
-		modifiers = new HashMap<String, Integer>();
-		modifiers.put("Skl", 0);
-		modifiers.put("Lck", 0);
-		modifiers.put("HP",  0);
-		modifiers.put("Str", 0);
-		modifiers.put("Mag", 0);
-		modifiers.put("Def", 0);
-		modifiers.put("Res", 0);
-		modifiers.put("Spd", 0);
-		modifiers.put("Lvl", 0);
-		modifiers.put("Con", 0);
-		modifiers.put("Mov", 0);
-		modifiers.put("Con", 0);
-		modifiers.put("Aid", 0);
+		modifiers = new Statistics();
 		mt = 0;
 		hit = 0;
 		crit = 0;
@@ -196,7 +183,7 @@ public class Weapon extends Item {
 		w.setCost(getCost());
 		w.effective = new ArrayList<String>(effective);
 		w.pref = pref;
-		w.modifiers = new HashMap<String, Integer>(modifiers);
+		w.modifiers = this.modifiers;
 		w.id = id;
 		return w;
 		

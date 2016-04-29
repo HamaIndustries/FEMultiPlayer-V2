@@ -16,8 +16,8 @@ public final class LunaPlus extends CombatTrigger {
 
 	@Override
 	public boolean runPreAttack(CombatCalculator stage, Unit a, Unit d) {
-		d.setTempMod("Def", -d.get("Def"));
-		d.setTempMod("Res", -d.get("Res"));
+		d.setTempMod("Def", -d.getStats().def);
+		d.setTempMod("Res", -d.getStats().res);
 		return true;
 	}
 	

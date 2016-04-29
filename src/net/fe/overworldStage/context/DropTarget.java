@@ -73,7 +73,7 @@ public class DropTarget extends OverworldContext {
 			if (u == null
 					&& grid.getTerrain(n.x, n.y).getMoveCost(
 							unit.rescuedUnit().getTheClass()) < unit
-							.rescuedUnit().get("Mov")) {
+							.rescuedUnit().getStats().mov) {
 				targets.add(n);
 			}
 		}

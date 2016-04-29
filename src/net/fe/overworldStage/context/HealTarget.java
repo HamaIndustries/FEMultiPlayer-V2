@@ -48,7 +48,7 @@ public class HealTarget extends SelectTargetContext {
 	 * @see net.fe.overworldStage.SelectTargetContext#validTarget(net.fe.unit.Unit)
 	 */
 	public boolean validTarget(Unit u){
-		return super.validTarget(u) && u.get("HP") != u.getHp();
+		return super.validTarget(u) && u.getStats().maxHp != u.getHp();
 	}
 	
 	/* (non-Javadoc)

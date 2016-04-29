@@ -24,7 +24,7 @@ public class Colossus extends CombatTrigger{
 	 */
 	@Override
 	public boolean attempt(Unit user, int range) {
-		return range == 1 && RNG.get() < user.get("Skl")/2;
+		return range == 1 && RNG.get() < user.getStats().skl/2;
 	}
 
 	/* (non-Javadoc)
@@ -32,7 +32,7 @@ public class Colossus extends CombatTrigger{
 	 */
 	@Override
 	public boolean runPreAttack(CombatCalculator stage, Unit a, Unit d) {
-		a.setTempMod("Str", a.get("Str"));
+		a.setTempMod("Str", a.getStats().str);
 		return true;
 	}
 	

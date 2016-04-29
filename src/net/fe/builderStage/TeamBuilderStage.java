@@ -464,7 +464,7 @@ public class TeamBuilderStage extends Stage {
 		for(int i = 0; i < units.size(); i++){
 			Unit u = units.get(i);
 			teamData[i][0] = u.name;
-			teamData[i][1] = u.get("Lvl") + "";
+			teamData[i][1] = u.getLevel() + "";
 			for(int j = 0; j < u.getInventory().size(); j++){
 				teamData[i][2+j] = u.getInventory().get(j).name;
 			}
@@ -515,11 +515,11 @@ public class TeamBuilderStage extends Stage {
 		for(int i = 0; i < select.getMaxUnits() && i < teamData.length; i++){
 			Unit u = select.getUnit(teamData[i][0]);
 			int lv = Integer.parseInt(teamData[i][1]);
-			while(u.get("Lvl") != lv){
-				int expCost = Unit.getExpCost(u.get("Lvl") + 1);
+			while(u.getLevel() != lv){
+				int expCost = Unit.getExpCost(u.getLevel() + 1);
 				if(expCost <= exp){
 					exp -= expCost;
-					u.setLevel(u.get("Lvl")+1);
+					u.setLevel(u.getLevel()+1);
 				} else {
 					expout = true;
 					break;

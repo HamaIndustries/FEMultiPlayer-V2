@@ -41,16 +41,19 @@ import chu.engine.anim.Transform;
 public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	
 	/** The bases. */
-	public HashMap<String, Integer> bases;
+	public final Statistics bases;
 	
 	/** The growths. */
-	public HashMap<String, Integer> growths;
+	public final Statistics growths;
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -5101031417704315547L;
 	
-	/** The stats. */
-	private HashMap<String, Float> stats;
+	/** The unit's current level */
+	private int level;
+	
+	/** The unit's current stats. */
+	private Statistics stats;
 	
 	/** The skills. */
 	private ArrayList<CombatTrigger> skills;
@@ -132,8 +135,8 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 * @param bases the bases
 	 * @param growths the growths
 	 */
-	public Unit(String name, Class c, char gender, HashMap<String, Integer> bases,
-			HashMap<String, Integer> growths) {
+	public Unit(String name, Class c, char gender, Statistics bases,
+			Statistics growths) {
 		super(0, 0);
 		this.bases = bases;
 		this.growths = growths;
@@ -149,11 +152,8 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
         battleStats.put("Healing", 0);
 		this.name = name;
 		clazz = c;
-
-		stats = new HashMap<String, Float>();
-		for (String s : bases.keySet()) {
-			stats.put(s, bases.get(s).floatValue());
-		}
+		
+		this.setLevel(1);
 		fillHp();
 
 		renderDepth = ClientOverworldStage.UNIT_DEPTH;
@@ -278,8 +278,8 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	public boolean canRescue(Unit u){
 		if(u == null)
 			return false;
-		//System.out.println(this.get("Aid") + " >= "+ u.get("Con"));
-		return this.get("Aid")>=u.get("Con");
+		//System.out.println(this.get("Aid") + " >= "+ u.getStats().con);
+		return this.getStats().aid >= u.getStats().con;
 	}
 
 	
@@ -393,7 +393,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 */
 	Unit getCopy() {
 		Unit copy = new Unit(name, clazz, gender, bases, growths);
-		copy.setLevel(stats.get("Lvl").intValue());
+		copy.setLevel(this.level);
 		for (Item i : inventory) {
 			copy.addToInventory(i);
 		}
@@ -756,14 +756,10 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		if (lv > 20 || lv < 1) {
 			return;
 		}
-		stats.put("Lvl", (float) lv);
+		this.level = lv;
 		lv--;
-		for (String stat : growths.keySet()) {
-			float newStat = bases.get(stat)
-					+ (float) (lv * growths.get(stat) / 100.0);
-			float max = stat.equals("HP") ? 60 : 35;
-			stats.put(stat, Math.min(newStat, max));
-		}
+		stats = growths.times(lv / 100f).plus(bases)
+				.min(new Statistics(60, 35,35,35, 35,35,35, 35,35,35,35));
 		fillHp();
 	}
 	
@@ -771,7 +767,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 * Fill hp.
 	 */
 	public void fillHp() {
-		setHp(get("HP"));
+		setHp(getStats().maxHp);
 	}
 	
 	/**
@@ -791,9 +787,9 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 */
 	public int squeezeExp(){
 		int exp = 0;
-		while(get("Lvl") != 1){
-			exp += getExpCost(get("Lvl"));
-			setLevel(get("Lvl") - 1);
+		while(getLevel() != 1){
+			exp += getExpCost(getLevel());
+			setLevel(getLevel() - 1);
 		}
 		return exp;
 	}
@@ -871,7 +867,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	// Combat statistics
 	public int hit() {
 		if(weapon == null) return 0;
-		return weapon.hit + 2 * get("Skl") + get("Lck") / 2
+		return weapon.hit + 2 * getStats().skl + getStats().lck / 2
 				+ (tempMods.get("Hit") != null ? tempMods.get("Hit") : 0);
 	}
 
@@ -881,7 +877,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 * @return the int
 	 */
 	public int avoid() {
-		return 2 * get("Spd") + get("Lck") / 2
+		return 2 * getStats().spd + getStats().lck / 2
 				+ (tempMods.get("Avo") != null ? tempMods.get("Avo") : 0)
 				+ getTerrain().getAvoidBonus(this);
 	}
@@ -893,7 +889,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 */
 	public int crit() {
 		if(weapon == null) return 0;
-		return weapon.crit + get("Skl") / 2 + clazz.crit
+		return weapon.crit + getStats().skl / 2 + clazz.crit
 				+ (tempMods.get("Crit") != null ? tempMods.get("Crit") : 0);
 	}
 
@@ -903,7 +899,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 * @return the int
 	 */
 	public int dodge() { // Critical avoid
-		return get("Lck")
+		return getStats().lck
 				+ (tempMods.get("Dodge") != null ? tempMods.get("Dodge") : 0);
 	}
 
@@ -945,33 +941,50 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		}
 	}
 
-	/**
-	 * Gets the.
-	 *
-	 * @param stat the stat
-	 * @return the int
-	 */
-	public int get(String stat) {
-		int ans = stats.get(stat).intValue()
-				+ (weapon != null ? weapon.modifiers.get(stat) : 0)
-				+ (tempMods.get(stat) != null ? tempMods.get(stat) : 0);
-		if (Arrays.asList("Def", "Res").contains(stat)) {
-			ans += getTerrain().getDefenseBonus(this);
+	/** Returns the unit's current level */
+	public int getLevel() {
+		return this.level;
+	}
+
+	public Statistics getStats() {
+		Statistics retVal = this.stats;
+		if (weapon != null) {retVal = retVal.plus(weapon.modifiers);}
+		retVal = retVal.plus(new Statistics(tempMods));
+		retVal = retVal.copy("Def", retVal.def + this.getTerrain().getDefenseBonus(this));
+		retVal = retVal.copy("Res", retVal.res + this.getTerrain().getDefenseBonus(this));
+		if (rescuedUnit != null) {
+			retVal = retVal.copy("Spd", retVal.spd / 2);
+			retVal = retVal.copy("Skl", retVal.skl / 2);
 		}
-		if((stat.equals("Spd") || stat.equals("Skl")) && rescuedUnit!=null){
-			ans/=2;
-		}
-		return ans;
+		return retVal;
 	}
 
 	/**
-	 * Gets the base.
-	 *
-	 * @param stat the stat
-	 * @return the base
+	 * Return current statistics (NOT BASES) before tempMods and weapon
+	 * and other non-unit things are taken into account.
 	 */
+	public Statistics getBase() {
+		return stats;
+	}
+
+	/**
+	 * Return current statistics (NOT BASES) before tempMods and weapon
+	 * and other non-unit things are taken into account.
+	 */
+	// this is used in too many loops to be easily refactored
 	public int getBase(String stat) {
-		return stats.get(stat).intValue();
+		switch (stat) {
+			case "Str" : return this.getBase().str;
+			case "Mag" : return this.getBase().mag;
+			case "Skl" : return this.getBase().skl;
+			case "Spd" : return this.getBase().spd;
+			case "Lck" : return this.getBase().lck;
+			case "Def" : return this.getBase().def;
+			case "Res" : return this.getBase().res;
+			case "Mov" : return this.getBase().mov;
+			case "Con" : return this.getBase().con;
+			default : throw new IllegalArgumentException("Unknown Stat: " + stat);
+		}
 	}
 
 	/**
@@ -990,7 +1003,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 * @param stat the stat
 	 */
 	public void debugStat(String stat){
-		stats.put(stat, 9999f);
+		stats = stats.copy(stat, 9999);
 	}
 	
 	/**
@@ -1000,7 +1013,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 * @param value the value
 	 */
 	public void debugStat(String stat, int value){
-		stats.put(stat, value*1.0f);
+		stats = stats.copy(stat, value);
 	}
 	
 	/**
