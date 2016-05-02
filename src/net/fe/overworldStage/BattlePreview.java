@@ -120,13 +120,13 @@ public class BattlePreview extends Entity {
 				aHit = String.format(
 						"%d",
 						Math.max(0,
-								Math.min(100, CombatCalculator.hitRate(attacker, defender, .5))));
+								Math.min(100, CombatCalculator.hitRate(attacker, defender)))/2);
 				aAtk = String.format("%d",
 						CombatCalculator.calculateBaseDamage(attacker, defender));
 				aCrit = String.format(
 						"%d",
 						Math.max(0,
-								Math.min(100, attacker.crit()*2 - defender.dodge())));
+								Math.min(100, attacker.crit() - defender.dodge()))*2);
 				if(attacker.get("Spd") >= defender.get("Spd") + 4) aMult*=2;
 				if(attacker.getWeapon().name.contains("Brave")) aMult*=2;
 				aEffective = attacker.getWeapon().effective.contains(defender.noGenderName());
@@ -144,7 +144,7 @@ public class BattlePreview extends Entity {
 				if(attacker.get("Spd") >= defender.get("Spd") + 4) aMult*=2;
 				if(attacker.getWeapon().name.contains("Brave")) aMult*=2;
 				aEffective = attacker.getWeapon().effective.contains(defender.noGenderName());
-			}else{
+			}else{// normal
 				aHit = String.format(
 						"%d",
 						Math.max(0,
@@ -171,13 +171,13 @@ public class BattlePreview extends Entity {
 				dHit = String.format(
 						"%d",
 						Math.max(0,
-								Math.min(100, CombatCalculator.hitRate(defender, attacker, .5))));
+								Math.min(100, CombatCalculator.hitRate(defender, attacker)))/2);
 				dAtk = String.format("%d",
 						CombatCalculator.calculateBaseDamage(defender, attacker));
 				dCrit = String.format(
 						"%d",
 						Math.max(0,
-								Math.min(100, defender.crit()*2 - attacker.dodge())));
+								Math.min(100, defender.crit() - attacker.dodge()))*2);
 				if(defender.get("Spd") >= attacker.get("Spd") + 4) dMult*=2;
 				if(defender.getWeapon().name.contains("Brave")) dMult*=2;
 				dEffective = defender.getWeapon().effective.contains(attacker.noGenderName());
@@ -195,7 +195,7 @@ public class BattlePreview extends Entity {
 				if(defender.get("Spd") >= attacker.get("Spd") + 4) dMult*=2;
 				if(defender.getWeapon().name.contains("Brave")) dMult*=2;
 				dEffective = defender.getWeapon().effective.contains(attacker.noGenderName());
-			}else{
+			}else{// normal
 				dHit = String.format(
 						"%d",
 						Math.max(0,
