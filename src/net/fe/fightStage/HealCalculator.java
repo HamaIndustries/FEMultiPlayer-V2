@@ -23,7 +23,7 @@ public class HealCalculator extends CombatCalculator {
 	 * @see net.fe.fightStage.CombatCalculator#calculate()
 	 */
 	protected void calculate(){
-		final int heal = Math.min(left.get("Mag") / 2 + left.getWeapon().mt/2, 
+		final int heal = Math.min(left.get("Mag") + left.getWeapon().mt, 
 				right.get("HP") - right.getHp());
 		System.out.println("Heal: "+heal+" (Max:"+right.get("HP")+" Curr:"+right.getHp()+")");
 		

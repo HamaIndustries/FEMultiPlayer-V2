@@ -33,10 +33,8 @@ public class Lethality extends CombatTrigger {
 	 */
 	@Override
 	public boolean runPreAttack(CombatCalculator stage, Unit a, Unit d) {
-		if(!d.getTheClass().name.equals("Lord")){
-			a.setTempMod("Str", 9000);
-			a.setTempMod("Hit", 9000);
-		}
+		a.setTempMod("Str", 9000);
+		a.setTempMod("Hit", 9000);
 		return true;
 	}
 	
