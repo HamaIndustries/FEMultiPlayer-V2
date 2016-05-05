@@ -313,7 +313,7 @@ public class CombatCalculator {
 	}
 	
 	/**
-	 * Calculates base damage.
+	 * Calculates base damage. This is damage excluding any combat triggers
 	 *
 	 * @param a the attacker
 	 * @param d the defender
@@ -321,24 +321,64 @@ public class CombatCalculator {
 	 */
 	public static int calculateBaseDamage(Unit a, Unit d){
 		boolean effective = a.getWeapon().effective.contains(d.noGenderName());
-		// Triggers with a guaranteed activation
-		boolean hasLunaPlus = a.getTriggers().contains(new LunaPlus());
-		boolean hasHpToOne = a.getTriggers().contains(new EclipseSix());
 		
 		int base;
 		if (a.getWeapon().isMagic()) {
 			base = a.get("Mag")
 					+ (a.getWeapon().mt + a.getWeapon().triMod(d.getWeapon()))
-					* (effective ? 3: 1) - (hasLunaPlus ? 0 : d.get("Res"));
+					* (effective ? 3: 1) - d.get("Res");
 		} else {
 			base = a.get("Str")
 					+ (a.getWeapon().mt + a.getWeapon().triMod(d.getWeapon()))
-					* (effective? 3:1) - (hasLunaPlus ? 0 : d.get("Def"));
+					* (effective? 3:1) - d.get("Def");
 		}
 		
-		if (hasHpToOne) {
-			base = new EclipseSix().runDamageMod(a,d,base);
+		return Math.max(base, 0);
+	}
+	
+	/**
+	 * Calculates a damage amount that can be shown in a damage preview.
+	 * Includes triggers marked as SHOW_IN_PREVIEW
+	 * 
+	 * @param a the attacker
+	 * @param d the defender
+	 * @return the base damage
+	 */
+	public static int calculatePreviewDamage(Unit a, Unit d) {
+		// run preAttack triggers that are allowed to be shown in the preview
+		for (CombatTrigger t : a.getTriggers()) {
+			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) &&
+					((t.turnToRun & CombatTrigger.YOUR_TURN_PRE) != 0)) {
+				t.runPreAttack(null, a, d);
+			}
 		}
+		for (CombatTrigger t : d.getTriggers()) {
+			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) &&
+					((t.turnToRun & CombatTrigger.ENEMY_TURN_PRE) != 0)) {
+				t.runPreAttack(null, a, d);
+			}
+		}
+		
+		int base = CombatCalculator.calculateBaseDamage(a, d);
+
+		// Run combat mods that are allowed to occur in the preview
+		for (CombatTrigger t : a.getTriggers()) {
+			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) &&
+					((t.turnToRun & CombatTrigger.YOUR_TURN_MOD) != 0)) {
+				base = t.runDamageMod(a, d, base);
+			}
+		}
+		for (CombatTrigger t : d.getTriggers()) {
+			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) &&
+					((t.turnToRun & CombatTrigger.ENEMY_TURN_MOD) != 0)) {
+				base = t.runDamageMod(a, d, base);
+			}
+		}
+		
+		// cleanup
+		a.clearTempMods();
+		d.clearTempMods();
+		
 		return Math.max(base, 0);
 	}
 	

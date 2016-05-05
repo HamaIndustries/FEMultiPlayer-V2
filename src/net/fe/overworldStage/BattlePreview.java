@@ -122,25 +122,11 @@ public class BattlePreview extends Entity {
 						Math.max(0,
 								Math.min(100, CombatCalculator.hitRate(attacker, defender)))/2);
 				aAtk = String.format("%d",
-						CombatCalculator.calculateBaseDamage(attacker, defender));
+						CombatCalculator.calculatePreviewDamage(attacker, defender));
 				aCrit = String.format(
 						"%d",
 						Math.max(0,
 								Math.min(100, attacker.crit() - defender.dodge()))*2);
-				if(attacker.get("Spd") >= defender.get("Spd") + 4) aMult*=2;
-				if(attacker.getWeapon().name.contains("Brave")) aMult*=2;
-				aEffective = attacker.getWeapon().effective.contains(defender.noGenderName());
-			}else if(mods.contains("Pro Tactics")){
-				aHit = String.format(
-						"%d",
-						Math.max(0,
-								Math.min(100, CombatCalculator.hitRate(attacker, defender))));
-				aAtk = String.format("%d",
-						CombatCalculator.calculateBaseDamage(attacker, defender)/2);
-				aCrit = String.format(
-						"%d",
-						Math.max(0,
-								Math.min(100, attacker.crit() - defender.dodge())));
 				if(attacker.get("Spd") >= defender.get("Spd") + 4) aMult*=2;
 				if(attacker.getWeapon().name.contains("Brave")) aMult*=2;
 				aEffective = attacker.getWeapon().effective.contains(defender.noGenderName());
@@ -150,7 +136,7 @@ public class BattlePreview extends Entity {
 						Math.max(0,
 								Math.min(100, CombatCalculator.hitRate(attacker, defender))));
 				aAtk = String.format("%d",
-						CombatCalculator.calculateBaseDamage(attacker, defender));
+						CombatCalculator.calculatePreviewDamage(attacker, defender));
 				aCrit = String.format(
 						"%d",
 						Math.max(0,
@@ -173,7 +159,7 @@ public class BattlePreview extends Entity {
 						Math.max(0,
 								Math.min(100, CombatCalculator.hitRate(defender, attacker)))/2);
 				dAtk = String.format("%d",
-						CombatCalculator.calculateBaseDamage(defender, attacker));
+						CombatCalculator.calculatePreviewDamage(defender, attacker));
 				dCrit = String.format(
 						"%d",
 						Math.max(0,
@@ -187,7 +173,7 @@ public class BattlePreview extends Entity {
 						Math.max(0,
 								Math.min(100, CombatCalculator.hitRate(defender, attacker))));
 				dAtk = String.format("%d",
-						CombatCalculator.calculateBaseDamage(defender, attacker)/2);
+						CombatCalculator.calculatePreviewDamage(defender, attacker)/2);
 				dCrit = String.format(
 						"%d",
 						Math.max(0,
@@ -201,7 +187,7 @@ public class BattlePreview extends Entity {
 						Math.max(0,
 								Math.min(100, CombatCalculator.hitRate(defender, attacker))));
 				dAtk = String.format("%d",
-						CombatCalculator.calculateBaseDamage(defender, attacker));
+						CombatCalculator.calculatePreviewDamage(defender, attacker));
 				dCrit = String.format(
 						"%d",
 						Math.max(0,
