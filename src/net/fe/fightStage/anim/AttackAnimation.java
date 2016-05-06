@@ -93,7 +93,10 @@ public abstract class AttackAnimation extends Animation {
 	 */
 	@Override
 	public void increment() {
-		super.increment();
+		// first half of super.increment()
+		this.setFrame(this.getFrame() + (speed > 0 ? 1 : -1));
+		
+		// the new stuff
 		for(int j=0; j<hitframes.length; j++) {
 			int i = hitframes[j];
 			if(getFrame() == i) {
@@ -108,6 +111,13 @@ public abstract class AttackAnimation extends Animation {
 		}
 		if(getFrame() == loopUntil) {
 			setFrame(getFrame()-freeze);
+		}
+		
+		// second half of super.increment()
+		if(speed > 0) {
+			if(this.getFrame() >= this.getLength()) done();
+		} else {
+			if(this.getFrame() < 0) done();
 		}
 	}
 	
