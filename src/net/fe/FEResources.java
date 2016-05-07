@@ -345,6 +345,7 @@ public class FEResources {
 					prop.setProperty("OVERWORLD","overworld");
 					prop.setProperty("PREPARATIONS","preparations");
 					prop.setProperty("FPSMAX","30");
+					prop.setProperty("FPSSHOW","FALSE");
 					
 					FileOutputStream out = new FileOutputStream(path);
 					prop.store(out, "---Initial Configuration---");
@@ -385,6 +386,14 @@ public class FEResources {
 		} catch (NumberFormatException e) {
 			return 30f;
 		}
+	}
+	
+	/**
+	 * Returns the fps ceiling setting
+	 */
+	public static boolean showFps() {
+		String volumeStr = getProperties().getProperty("FPSSHOW");
+		return ("true".equalsIgnoreCase(volumeStr));
 	}
 	
 	public static String getAudioSetting(String setting) throws Exception{

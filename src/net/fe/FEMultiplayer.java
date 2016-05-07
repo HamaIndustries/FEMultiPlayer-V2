@@ -333,7 +333,7 @@ public class FEMultiplayer extends Game{
 				currentStage.processRemoveStack();
 				currentStage.render();
 				currentStage.endStep();
-				{
+				if (FEResources.showFps()) {
 					int fps = (int)(1e9 / this.timeDelta);
 					Renderer.drawString("default_med", fps + " FPS", 452 - (fps > 10 ? 7 : 0) - (fps > 100 ? 7 : 0) - (fps > 1000 ? 7 : 0), 0, 0);
 				}
