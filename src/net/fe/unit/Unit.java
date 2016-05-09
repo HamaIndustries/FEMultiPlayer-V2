@@ -522,6 +522,16 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 * @param item the item
 	 */
 	public void addToInventory(Item item) {
+		//add unit-dependent stats as necessary
+		if(item.name == "Physic"){
+			List<Integer> range = new ArrayList<Integer>();
+			int min = 1;
+			int max = Math.max(this.get("Mag")/2, 1);
+			for(int i = min; i <= max; i++){
+				range.add(i);
+			}
+			((Weapon)item).range = range;
+		}
 		if(inventory.size() < 4)
 			inventory.add(item);
 	}

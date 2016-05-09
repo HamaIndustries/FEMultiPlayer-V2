@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="levels"/>
-	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="src" path="shaders"/>
 	<classpathentry kind="src" path="lwjgl-2.9.0">
 		<attributes>
