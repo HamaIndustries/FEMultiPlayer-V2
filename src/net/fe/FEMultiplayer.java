@@ -248,8 +248,8 @@ public class FEMultiplayer extends Game{
 		p2.setTeam(2);
 		localPlayer.setTeam(1);
 		
-		Unit u1 = UnitFactory.getUnit("Eirika");
-		u1.addToInventory(WeaponFactory.getWeapon("Silver Sword"));
+		Unit u1 = UnitFactory.getUnit("Natasha");
+		u1.addToInventory(WeaponFactory.getWeapon("Physic"));
 		u1.setHp(1);
 		localPlayer.getParty().addUnit(u1);
 		
@@ -259,8 +259,15 @@ public class FEMultiplayer extends Game{
 		u3.setHp(1);
 		p2.getParty().addUnit(u3);
 		
+		Unit u4 = UnitFactory.getUnit("Eirika");
+		u4.addToInventory(WeaponFactory.getWeapon("Silver Sword"));
+		u4.equip(0);
+		u4.setHp(1);
+		p2.getParty().addUnit(u4);
+		
 		Unit u2 = UnitFactory.getUnit("Lute");
 		u2.addToInventory(WeaponFactory.getWeapon("Physic"));
+		u2.setHp(1);
 		localPlayer.getParty().addUnit(u2);
 		
 		currentStage = new ClientOverworldStage(testSession);
