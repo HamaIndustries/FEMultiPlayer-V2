@@ -122,7 +122,19 @@ public class ClientOverworldStage extends OverworldStage {
 		camX = camY = 0;
 		camMaxX = Math.max(0,grid.width*16-368);
 		camMaxY = Math.max(0,grid.height*16-240);
-		cursor = new Cursor(2, 2);
+		{
+			List<Unit> units = FEMultiplayer.getLocalPlayer().getParty().getUnits();
+			Node[] n = units.stream()
+					.filter((Unit u) -> u.getHp() > 0)
+					.map((Unit u) -> new Node(u.getXCoord(), u.getYCoord()))
+					.toArray(Node[]::new);
+			if (n.length > 0) {
+				cursor = new Cursor(n[0].x, n[0].y);
+				this.includeInView(n);
+			} else {
+				cursor = new Cursor(2, 2);
+			}
+		}
 		addEntity(cursor);
 		unitInfo = new UnitInfo();
 		Color c= new Color(FEMultiplayer.getLocalPlayer().getParty().getColor());
