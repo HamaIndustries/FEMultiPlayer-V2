@@ -71,6 +71,7 @@ public class ShopMenu extends Entity {
 			case LANCE: shops[1].addItem(i); break;
 			case AXE: shops[2].addItem(i); break;
 			case BOW: shops[3].addItem(i); break;
+			case CROSSBOW: shops[3].addItem(i); break;
 			case LIGHT: shops[4].addItem(i); break;
 			case ANIMA: shops[5].addItem(i); break;
 			case DARK: shops[6].addItem(i); break;

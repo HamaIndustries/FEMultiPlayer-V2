@@ -81,7 +81,7 @@ public class Class implements Serializable {
 			return new Class("Lord", 
 					"A serene youth who commands armies.",
 					 0, new Astra(), Arrays.asList(new Shove()),
-					 Weapon.Type.SWORD, Weapon.Type.BOW);
+					 Weapon.Type.SWORD, Weapon.Type.BOW, Weapon.Type.CROSSBOW);
 		if(name.equals("Hector"))
 			return new Class("Lord", 
 					"A mighty noble who commands armies.",
@@ -113,7 +113,7 @@ public class Class implements Serializable {
 			return new Class("Sniper", 
 					"An expert archer who has mastered the bow.",
 					10, new Deadeye(), Arrays.asList(new Shove()),
-					Weapon.Type.BOW);
+					Weapon.Type.BOW, Weapon.Type.CROSSBOW);
 		if(name.equals("Hero"))
 			return new Class("Hero", 
 					"Battle-hardened warriors who possess exceptional skill.",
@@ -128,7 +128,7 @@ public class Class implements Serializable {
 			return new Class("Warrior", 
 					"An experienced fighter whose might is second to none.",
 					0, new Colossus(),  Arrays.asList(new Shove(), new Smite()),
-					Weapon.Type.AXE, Weapon.Type.BOW);
+					Weapon.Type.AXE, Weapon.Type.CROSSBOW);
 		if(name.equals("Assassin"))
 			return new Class("Assassin", 
 					"A deadly killer who lives in the shadows.",

@@ -7,6 +7,7 @@ import net.fe.fightStage.CombatTrigger;
 import net.fe.fightStage.EclipseSix;
 import net.fe.fightStage.LunaPlus;
 import net.fe.fightStage.Nosferatu;
+import net.fe.fightStage.CrossBow;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -66,32 +67,34 @@ public class Weapon extends Item {
 	}
 	
 	/**
-	 * The Enum Type.
+	 * Weapon categories
 	 */
 	public enum Type{
 		
-		/** The sword. */
-		SWORD, 
- /** The lance. */
- LANCE, 
- /** The axe. */
- AXE, 
- /** The bow. */
- BOW, 
- /** The light. */
- LIGHT, 
- /** The anima. */
- ANIMA, 
- /** The dark. */
- DARK, 
- /** The staff. */
- STAFF;
+		/** Swords */
+		SWORD,
+		/** Lances */
+		LANCE,
+		/** Axes */
+		AXE,
+		/** Bows */
+		BOW,
+		/** Crossbows */
+		CROSSBOW,
+		/** Light tomes */
+		LIGHT,
+		/** Anima tomes */
+		ANIMA,
+		/** Dark Tomes */
+		DARK,
+		/** Staves */
+		STAFF;
 		
 		/**
-		 * Triangle modifier.
+		 * Weapon triangle modifier
 		 *
 		 * @param other the other
-		 * @return the int
+		 * @return 1 if advantage, -1 if disadvantage
 		 */
 		public int triangleModifier(Type other){
 			switch(this){
@@ -136,12 +139,11 @@ public class Weapon extends Item {
 	}
 	
 	/**
-	 * Tri mod.
+	 * Weapon triangle modifier
 	 *
-	 * @param other the other
-	 * @return the int
+	 * @param other the other weapon
+	 * @return 1 if advantage, -1 if disadvantage
 	 */
-	//Returns 1 if advantage, -1 if disadvantage
 	public int triMod(Weapon other){ 
 		if(other == null) return 0;
 		if(this.name.contains("reaver") || other.name.contains("reaver")){
@@ -177,6 +179,8 @@ public class Weapon extends Item {
 			triggers.add(new LunaPlus());
 		} else if (name.equals("Eclipse")){
 			triggers.add(new EclipseSix());
+		} else if (type == Type.CROSSBOW) {
+			triggers.add(new CrossBow());
 		}
 		return triggers;
 	}

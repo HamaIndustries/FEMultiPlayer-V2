@@ -9,6 +9,7 @@ import net.fe.FEMultiplayer;
 import net.fe.FEResources;
 import net.fe.RunesBg;
 import net.fe.Session;
+import net.fe.fightStage.CrossBow;
 import net.fe.fightStage.FightStage;
 import net.fe.overworldStage.InventoryMenu;
 import net.fe.overworldStage.UnitInfo;
@@ -262,6 +263,9 @@ public class UnitBuilderStage extends Stage {
 			}
 			
 			ArrayList<String> flavor = new ArrayList<String>();
+			if(wep.type == Weapon.Type.CROSSBOW) {
+				flavor.add("A Crossbow");
+			}
 			if(wep.name.contains("Brave")){
 				flavor.add("Allows double attacks");
 			}
@@ -270,6 +274,9 @@ public class UnitBuilderStage extends Stage {
 			}
 			if(wep.name.contains("Kill") || wep.name.equals("Wo Dao")){
 				flavor.add("Has a high critical rate");
+			}
+			if(wep.getTriggers().contains(new CrossBow())) {
+				flavor.add("Ignores user's Str");
 			}
 			if(wep.getCost() == 10000){
 				flavor.add("A legendary weapon");
