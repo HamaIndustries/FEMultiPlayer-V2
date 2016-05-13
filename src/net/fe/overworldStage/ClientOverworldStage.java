@@ -394,6 +394,17 @@ public class ClientOverworldStage extends OverworldStage {
 		if(FEMultiplayer.getLocalPlayer().getID() == getCurrentPlayer().getID()){
 			context = new Idle(this, FEMultiplayer.getLocalPlayer());
 			addEntity(new TurnDisplay(true, Party.TEAM_BLUE));
+			if (FEResources.getTurnStartOnLord()) {
+				List<Unit> units = FEMultiplayer.getLocalPlayer().getParty().getUnits();
+				Node[] n = units.stream()
+						.filter((Unit u) -> u.getHp() > 0 && !u.isRescued())
+						.map((Unit u) -> new Node(u.getXCoord(), u.getYCoord()))
+						.toArray(Node[]::new);
+				if (n.length > 0) {
+					cursor.setXCoord(n[0].x);
+					cursor.setYCoord(n[0].y);
+				}
+			}
 		} else {
 			context = new WaitForMessages(this);
 			if(FEMultiplayer.getLocalPlayer().isSpectator())

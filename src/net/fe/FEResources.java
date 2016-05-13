@@ -338,6 +338,7 @@ public class FEResources {
 					prop.setProperty("DOWN", "DOWN");
 					prop.setProperty("VOLUME","1.0");
 					prop.setProperty("SCALE","1.0");
+					prop.setProperty("TURNSTARTONLORD", "TRUE");
 					prop.setProperty("CURING","curing");
 					prop.setProperty("DEFENSE","defense");
 					prop.setProperty("END","end");
@@ -381,6 +382,14 @@ public class FEResources {
 			throw e;
 		}
 		return audioName;
+	}
+	
+	/**
+	 * Returns the move-cursor-to-lord-on-start-of-turn setting
+	 */
+	public static boolean getTurnStartOnLord() {
+		String volumeStr = getProperties().getProperty("TURNSTARTONLORD");
+		return ("true".equalsIgnoreCase(volumeStr));
 	}
 	
 	/**

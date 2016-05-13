@@ -320,7 +320,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	public void give(Unit u){
 		if(rescuedUnit == null) return;
 		if(u.rescuedUnit() != null) return;
-		u.setRescuedUnit(rescuedUnit);
+		u.rescuedUnit = rescuedUnit;
 		rescuedUnit = null;
 	}
 	
@@ -1190,11 +1190,9 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	}
 
 	/**
-	 * Sets the rescued unit.
-	 *
-	 * @param unit the new rescued unit
+	 * Returns true if this unit has been rescued by another unit
 	 */
-	public void setRescuedUnit(Unit unit) {
-		rescuedUnit = unit;
+	public boolean isRescued() {
+		return this.rescued;
 	}
 }
