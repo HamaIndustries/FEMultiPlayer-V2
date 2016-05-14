@@ -23,7 +23,7 @@ public class NoDamageEffect extends Entity {
 	public NoDamageEffect(boolean left) {
 		super(0, 0);
 		AudioPlayer.playAudio("no_damage");
-		Animation anim = new Animation(FEResources.getTexture("no_damage"), 78, 26, 20, 4, 0, 0, .015f) {
+		Animation anim = new Animation(FEResources.getTexture("no_damage"), 78, 26, 20, 4, 0, 0, .015f, chu.engine.anim.BlendModeArgs.ALPHA_BLEND) {
 			@Override
 			public void update() {
 				super.update();

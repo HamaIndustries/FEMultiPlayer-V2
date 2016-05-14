@@ -73,9 +73,10 @@ public abstract class CombatTrigger implements Serializable {
 	 *
 	 * @param user the user
 	 * @param range the range
+	 * @param opponent TODO
 	 * @return true, if successful
 	 */
-	public abstract boolean attempt(Unit user, int range);
+	public abstract boolean attempt(Unit user, int range, Unit opponent);
 	
 	/**
 	 * Run pre attack.

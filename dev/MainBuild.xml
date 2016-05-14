@@ -12,7 +12,7 @@
         	<fileset dir="lwjgl-2.9.0/native/windows"/>
         	<fileset dir="lwjgl-2.9.0/native/macosx"/>
         	<fileset dir="lwjgl-2.9.0/native/linux"/>
-        	<fileset dir="." excludes="**/lwjgl-2.9.0/**" includes="**/levels/**, **/res/**, **/shaders/**"/>
+        	<fileset dir="." excludes="**/lwjgl-2.9.0/**, **/test/**" includes="**/levels/**, **/res/**, **/shaders/**"/>
             <zipfileset excludes="META-INF/*.SF" src="lwjgl-2.9.0/jar/lwjgl.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="lwjgl-2.9.0/jar/slick-util.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="json-simple/json-simple-1.1.1.jar"/>

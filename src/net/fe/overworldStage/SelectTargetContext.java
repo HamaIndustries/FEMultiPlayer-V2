@@ -79,6 +79,9 @@ public abstract class SelectTargetContext extends OverworldContext {
 				targets.add(u);
 			}
 		}
+		if (0 == targets.size()) {
+			throw new IllegalStateException("No valid targets found");
+		}
 	}
 	
 	/**

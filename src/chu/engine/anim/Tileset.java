@@ -10,21 +10,21 @@ import org.newdawn.slick.util.ResourceLoader;
 /**
  * The Class Tileset.
  */
-public class Tileset {
+public final class Tileset {
 
-	/** The tileset. */
+	/** The image to use */
 	private Texture tileset;
 	
-	/** The tile width. */
-	private int tileWidth;
+	/** The width of each tile */
+	private final int tileWidth;
 	
-	/** The tile height. */
-	private int tileHeight;
+	/** The height of each tile */
+	private final int tileHeight;
 	
-	/** The width. */
+	/** The width of `tileset` */
 	private int width;
 	
-	/** The height. */
+	/** The height of `tileset` */
 	private int height;
 
 	/**
@@ -67,10 +67,10 @@ public class Tileset {
 	/**
 	 * Render.
 	 *
-	 * @param x the x
-	 * @param y the y
-	 * @param tx the tx
-	 * @param ty the ty
+	 * @param x where to render the tile on the screen
+	 * @param y where to render the tile on the screen
+	 * @param tx the coordinates of the tile to render in the tilesheet
+	 * @param ty the coordinates of the tile to render in the tilesheet
 	 * @param depth the depth
 	 */
 	public void render(float x, float y, int tx, int ty, float depth) {
@@ -85,10 +85,10 @@ public class Tileset {
 	/**
 	 * Render transformed.
 	 *
-	 * @param x the x
-	 * @param y the y
-	 * @param tx the tx
-	 * @param ty the ty
+	 * @param x where to render the tile on the screen
+	 * @param y where to render the tile on the screen
+	 * @param tx the coordinates of the tile to render in the tilesheet
+	 * @param ty the coordinates of the tile to render in the tilesheet
 	 * @param depth the depth
 	 * @param t the t
 	 */

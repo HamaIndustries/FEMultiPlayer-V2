@@ -1,9 +1,11 @@
 FEMultiplayer {V2}
 =============
 
+note: the latest version can be found under the release tab in the bar ^
+
 Fire Emblem Multiplayer Application
 
-Developers:
+Original Developers:
 - Shawn 'chudooder' Wu
     Networking, sound design, graphics
 - Young 'jedyobidan' Wang
@@ -24,7 +26,7 @@ Features we are adding to the game:
 
 * Online multiplayer! Face off against your friends in tactical Fire Emblem action. The lobby system even supports spectators!
 * Team building! Create the team of your choosing, starring characters from Blazing Sword and The Sacred Stones (plus a few from other games)!
-* Custom maps and game modes! Rout the enemy, rescue the flag, or capture the throne!
+* Custom maps and game modes! Rout the enemy, ~~rescue the flag~~ (to be implemented), or capture the throne!
 
 Removed or modified gameplay elements
 -------------------------
@@ -40,7 +42,7 @@ We deliberately took out some gameplay elements because of the single-match, mul
 
 System requirements
 -------------------
-Java 6 or newer
+Java 8 or newer (JDK)
 
 An internet connection
 
@@ -56,6 +58,8 @@ FEPlanet
 SerenesForest
 
 Intelligent Systems
+
+/r/FEMP
 
 -------------------
 

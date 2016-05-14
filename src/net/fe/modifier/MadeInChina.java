@@ -25,7 +25,7 @@ public class MadeInChina implements Modifier {
 	 */
 	@Override
 	public void modifyTeam(TeamBuilderStage stage) {
-		
+		stage.setFunds(48000*2);
 	}
 	
 	/* (non-Javadoc)

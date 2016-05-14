@@ -181,10 +181,10 @@ public class CombatCalculator {
 				new LinkedHashMap<CombatTrigger, Boolean>();
 		
 		for (CombatTrigger t : aTriggers) {
-			aSuccess.put(t,t.attempt(a, range));
+			aSuccess.put(t,t.attempt(a, range, d));
 		}
 		for (CombatTrigger t : dTriggers) {
-			dSuccess.put(t,t.attempt(d, range));
+			dSuccess.put(t,t.attempt(d, range, a));
 		}
 		
 		
@@ -351,6 +351,10 @@ public class CombatCalculator {
 	 */
 	public static int hitRate(Unit a, Unit d){
 		return a.hit() - d.avoid() + a.getWeapon().triMod(d.getWeapon()) * 15;
+	}
+	
+	public static int hitRate(Unit a, Unit d, Double mod){
+		return ((Double)(a.hit() *  mod)).intValue() - d.avoid() + a.getWeapon().triMod(d.getWeapon()) * 15;
 	}
 	
 }

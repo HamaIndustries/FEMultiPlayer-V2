@@ -121,7 +121,6 @@ public class TitleStage extends Stage{
 		else
 			Renderer.render(titleTwo, 0, 0, 1, 1, 0, 0, 480, 320, 1);
 		
-		
 		t.setScale(2, 2);
 		t.setColor(new Color(1-alpha,1,1-alpha,1));
 		if(counter * 20 % 2 < 1)

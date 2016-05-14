@@ -158,6 +158,13 @@ public class Grid{
 	}
 	
 	/**
+	 * Returns true if the grid contains a space at (x,y).
+	 */
+	public boolean contains(int x, int y) {
+		return x >= 0 && y >= 0 && x < this.width && y < this.height;
+	}
+	
+	/**
 	 * Sets the throne pos.
 	 *
 	 * @param c the c

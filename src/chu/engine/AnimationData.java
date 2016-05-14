@@ -58,6 +58,9 @@ class AnimationData {
 	/** The stop. */
 	public boolean stop;
 	
+	/** The blend mode to use when  */
+	public String blendModeName;
+	
 	/**
 	 * Instantiates a new animation data.
 	 *
@@ -115,5 +118,9 @@ class AnimationData {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public chu.engine.anim.BlendModeArgs getBlendMode() {
+		return chu.engine.anim.BlendModeArgs.fromName(blendModeName);
 	}
 }

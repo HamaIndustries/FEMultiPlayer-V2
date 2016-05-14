@@ -13,6 +13,8 @@ import net.fe.unit.UnitIdentifier;
  */
 public class TakeTarget extends SelectTargetContext {
 
+	private Unit unit;
+	
 	/**
 	 * Instantiates a new take target.
 	 *
@@ -24,13 +26,14 @@ public class TakeTarget extends SelectTargetContext {
 	public TakeTarget(ClientOverworldStage stage, OverworldContext context, Zone z,
 			Unit u) {
 		super(stage, context, z, u, true);
+		unit = u;
 	}
 	
 	/* (non-Javadoc)
 	 * @see net.fe.overworldStage.SelectTargetContext#validTarget(net.fe.unit.Unit)
 	 */
 	public boolean validTarget(Unit u){
-		return super.validTarget(u) && u.rescuedUnit() != null;
+		return super.validTarget(u) && u.rescuedUnit() != null && unit.canRescue(u.rescuedUnit());
 	}
 
 	/* (non-Javadoc)

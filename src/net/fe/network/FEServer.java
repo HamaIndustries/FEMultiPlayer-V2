@@ -46,6 +46,7 @@ import net.fe.lobbystage.LobbyStage;
 import net.fe.modifier.DivineIntervention;
 import net.fe.modifier.MadeInChina;
 import net.fe.modifier.Modifier;
+import net.fe.modifier.ProTactics;
 import net.fe.modifier.SuddenDeath;
 import net.fe.modifier.Treasury;
 import net.fe.modifier.Vegas;
@@ -110,6 +111,7 @@ public class FEServer extends Game {
 		model.addElement(new DivineIntervention());
 		model.addElement(new SuddenDeath());
 		model.addElement(new Vegas());
+		model.addElement(new ProTactics());
 		
 		final JPanel mainPanel = new JPanel();
 		frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
@@ -156,7 +158,7 @@ public class FEServer extends Game {
 		objectivePanel.add(lblPickMode);
 		
 		// Pick modes
-		ComboBoxModel pModel = new DefaultComboBoxModel(new PickMode[] {new Draft(), new AllPick()});
+		ComboBoxModel pModel = new DefaultComboBoxModel(new PickMode[] { new AllPick(), new Draft()});
 		final JComboBox pickModeBox = new JComboBox();
 		pickModeBox.setModel(pModel);
 		objectivePanel.add(pickModeBox);

@@ -196,8 +196,8 @@ public class FEMultiplayer extends Game{
 		testSession.addPlayer(p2);
 		
 		map = new ClientOverworldStage(testSession);
-		Unit u1 = UnitFactory.getUnit("Ike");
-		u1.getInventory().add(WeaponFactory.getWeapon("Ragnell"));
+		Unit u1 = UnitFactory.getUnit("Eirika");
+		u1.getInventory().add(WeaponFactory.getWeapon("Silver Sword"));
 		u1.equip(0);
 		map.addUnit(u1, 0, 0);
 		u1.setLevel(20);
@@ -248,23 +248,38 @@ public class FEMultiplayer extends Game{
 		p2.setTeam(2);
 		localPlayer.setTeam(1);
 		
-		Unit u1 = UnitFactory.getUnit("Canas");
-		u1.addToInventory(new RiseTome());
+		Unit u1 = UnitFactory.getUnit("Natasha");
+		u1.addToInventory(WeaponFactory.getWeapon("Physic"));
 		u1.setHp(1);
 		localPlayer.getParty().addUnit(u1);
 		
-		Unit u3 = UnitFactory.getUnit("Joshua");
-		u3.addToInventory(WeaponFactory.getWeapon("Wo Dao"));
+		Unit u3 = UnitFactory.getUnit("Oswin");
+		u3.addToInventory(WeaponFactory.getWeapon("Silver Axe"));
 		u3.equip(0);
 		u3.setHp(1);
 		p2.getParty().addUnit(u3);
 		
+		Unit u4 = UnitFactory.getUnit("Eirika");
+		u4.addToInventory(WeaponFactory.getWeapon("Silver Sword"));
+		u4.equip(0);
+		u4.setHp(1);
+		p2.getParty().addUnit(u4);
+		
 		Unit u2 = UnitFactory.getUnit("Lute");
 		u2.addToInventory(WeaponFactory.getWeapon("Physic"));
+		u2.setHp(1);
 		localPlayer.getParty().addUnit(u2);
 		
 		currentStage = new ClientOverworldStage(testSession);
 
+		this.client = new Client("nope", 12345) {
+			@Override
+			public void sendMessage(Message message) {
+				if (message instanceof CommandMessage) {
+					((ClientOverworldStage) currentStage).processCommands((CommandMessage) message);
+				}
+			}
+		};
 	}
 	
 	/**

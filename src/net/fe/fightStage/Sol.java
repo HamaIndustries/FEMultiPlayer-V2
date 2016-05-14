@@ -29,7 +29,7 @@ public class Sol extends CombatTrigger {
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
-	public boolean attempt(Unit user, int range) {
+	public boolean attempt(Unit user, int range, Unit opponent) {
 		return (ranged || range == 1) && RNG.get() < user.get("Skl");
 	}
 	

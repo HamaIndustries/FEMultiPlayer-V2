@@ -16,16 +16,24 @@ public class WeaponFactory {
 	
 	/** The Constant mounted. */
 	private static final List<String> mounted = 
-			Arrays.asList("Paladin", "Valkyrie", "Falconknight", 
+			Arrays.asList("Paladin", "Valkyrie", /*"Falconknight",*/ 
 					"Ephraim", "Eirika", "Eliwood");
 	
 	/** The Constant armored. */
 	private static final List<String> armored =
-			Arrays.asList("Paladin", "General");
+			Arrays.asList("General");
 	
 	/** The Constant fliers. */
 	public static final List<String> fliers =
 			Arrays.asList("Falconknight");
+	
+	public static final List<String> riding;
+	
+	static {
+		List<String> all = new ArrayList<String>(mounted);
+		all.addAll(fliers);
+		riding = new ArrayList<String>(all);
+	}
 	
 	/** The weapons. */
 	private static HashMap<String, Weapon> weapons = new HashMap<String, Weapon>();
@@ -35,7 +43,7 @@ public class WeaponFactory {
 	 */
 	public static void loadWeapons() {
 		Scanner in = new Scanner(ResourceLoader.getResourceAsStream("res/weapons.txt"));
-		int id = 0;
+		int id = 4;
 		while(in.hasNextLine()){
 			String line = in.nextLine();
 			if(line.startsWith("#") || line.equals("")){

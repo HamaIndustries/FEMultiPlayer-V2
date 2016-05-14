@@ -291,8 +291,7 @@ public class UnitBuilderStage extends Stage {
 				if(wep.effective.contains("Valkyrie")){
 					eff.add("mounted");
 				}
-				if(wep.effective.contains("Falconknight") && 
-						!wep.effective.contains("Valkyrie")){
+				if(wep.effective.contains("Falconknight")){
 					eff.add("flying");
 				}
 				String effText = "";

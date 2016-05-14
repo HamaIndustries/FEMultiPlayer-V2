@@ -497,8 +497,10 @@ public class ClientOverworldStage extends OverworldStage {
 			}
 			else if(obj.equals("TAKE")) {
 				if(execute) {
+					unit.setMoved(true);
 					Unit other = getUnit((UnitIdentifier) cmds.commands[++i]);
 					other.give(unit);
+					checkEndGame();
 				}
 			}
 			else if(obj.equals("DROP")) {
@@ -543,6 +545,54 @@ public class ClientOverworldStage extends OverworldStage {
 						unit.setMoved(true);
 						unit.use(tomeToUse);
 						checkEndGame();
+					}
+				};
+			}
+			else if(obj.equals("SHOVE")) {
+				final Unit shovee = getUnit((UnitIdentifier) cmds.commands[++i]);
+				callback = new Command() {
+					public void execute() {
+						unit.setMoved(true);
+						int deltaX = shovee.getXCoord() - unit.getXCoord();
+						int deltaY = shovee.getYCoord() - unit.getYCoord();
+						int newX = shovee.getXCoord() + deltaX;
+						int newY = shovee.getYCoord() + deltaY;
+						
+						shovee.setOrigX(newX); // Otherwise, shovee will jump back to it's inital space on select 
+						shovee.setOrigY(newY); // Otherwise, shovee will jump back to it's inital space on select
+						Path p = new Path();
+						p.add(new Node(newX, newY));
+						grid.move(shovee, newX, newY, true);
+						shovee.move(p, new Command() {
+							public void execute() {
+								shovee.sprite.setAnimation("IDLE");
+								checkEndGame();
+							}
+						});
+					}
+				};
+			}
+			else if(obj.equals("SMITE")) {
+				final Unit shovee = getUnit((UnitIdentifier) cmds.commands[++i]);
+				callback = new Command() {
+					public void execute() {
+						unit.setMoved(true);
+						int deltaX = shovee.getXCoord() - unit.getXCoord();
+						int deltaY = shovee.getYCoord() - unit.getYCoord();
+						int newX = shovee.getXCoord() + 2 * deltaX;
+						int newY = shovee.getYCoord() + 2 * deltaY;
+						
+						shovee.setOrigX(newX); // Otherwise, shovee will jump back to it's inital space on select
+						shovee.setOrigY(newY); // Otherwise, shovee will jump back to it's inital space on select
+						Path p = new Path();
+						p.add(new Node(newX, newY));
+						grid.move(shovee, newX, newY, true);
+						shovee.move(p, new Command() {
+							public void execute() {
+								shovee.sprite.setAnimation("IDLE");
+								checkEndGame();
+							}
+						});
 					}
 				};
 			}

@@ -64,8 +64,8 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	/** The gender. */
 	public final char gender;
 	
-	/** The weapon. */
-	private Weapon weapon;
+	/** True if the unit does not have an equipped weapon, even if it is possible for it to do so. */
+	private boolean isUnequipped;
 	
 	/** The inventory. */
 	private ArrayList<Item> inventory;
@@ -138,6 +138,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		this.bases = bases;
 		this.growths = growths;
 		this.gender = gender;
+		this.isUnequipped = true;
 		inventory = new ArrayList<Item>();
 		tempMods = new HashMap<String, Integer>();
 		assist = new HashSet<Unit>();
@@ -155,7 +156,17 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 			stats.put(s, bases.get(s).floatValue());
 		}
 		fillHp();
-
+		
+		if(name.equals("Eirika") || 
+				clazz.name.equals("Valkyrie") ||
+				clazz.name.equals("Falconknight")){
+			bases.put("Aid", 20-bases.get("Con"));
+		} else if (Unit.isRider(clazz) || Unit.isRider(name)){
+			bases.put("Aid", 27-bases.get("Con"));
+		} else {
+			bases.put("Aid", bases.get("Con")-1);
+		}
+		
 		renderDepth = ClientOverworldStage.UNIT_DEPTH;
 	}
 	
@@ -258,6 +269,28 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 				grid.removeUnit(rescuedUnit);
 			}
 		});
+	}
+
+	public static boolean isRider(Unit u){
+		List<String> mounts = WeaponFactory.riding;
+		return mounts.contains(u.name) || mounts.contains(u.clazz.name);
+	}
+	
+	public static boolean isRider(Class c){
+		List<String> mounts = WeaponFactory.riding;
+		return mounts.contains(c.name);
+	}
+	
+	public static boolean isRider(String n){
+		List<String> mounts = WeaponFactory.riding;
+		return mounts.contains(n);
+	}
+	
+	public boolean canRescue(Unit u){
+		if(u == null)
+			return false;
+		//System.out.println(this.get("Aid") + " >= "+ u.get("Con"));
+		return this.get("Aid")>=u.get("Con");
 	}
 
 	
@@ -489,6 +522,20 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 * @param item the item
 	 */
 	public void addToInventory(Item item) {
+		//add unit-dependent stats as necessary
+		if(item.name.equals("Physic")){
+			List<Integer> range = new ArrayList<Integer>();
+			int min = 1;
+			int max = Math.max(this.get("Mag")/2, 1);
+			for(int i = min; i <= max; i++){
+				range.add(i);
+			}
+			Weapon w = (Weapon) item;
+			w.range = range;
+			if(inventory.size() < 4)
+				inventory.add(w);
+			return;
+		}
 		if(inventory.size() < 4)
 			inventory.add(item);
 	}
@@ -518,7 +565,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 */
 	public void equip(Weapon w) {
 		if (equippable(w)) {
-			weapon = w;
+			this.isUnequipped = false;
 			if(stage != null){
 				((ClientOverworldStage) stage).addCmd("EQUIP");
 				((ClientOverworldStage) stage).addCmd(new UnitIdentifier(this));
@@ -538,7 +585,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	public void equip(int i) {
 		Weapon w = (Weapon)inventory.get(i);
 		if (equippable(w)) {
-			weapon = w;
+			this.isUnequipped = false;
 			inventory.remove(w);
 			inventory.add(0, w);
 		}
@@ -548,7 +595,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 * Unequip.
 	 */
 	public void unequip(){
-		weapon = null;
+		this.isUnequipped = true;
 	}
 
 	/**
@@ -620,10 +667,10 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	}
 
 	/**
-	 * Equip first weapon.
+	 * Equip first weapon that can attack at the specified range
 	 *
 	 * @param range the range
-	 * @return the int
+	 * @return the index of the equipped weapon
 	 */
 	public int equipFirstWeapon(int range) {
 		for (int i = 0; i < inventory.size(); i++) {
@@ -641,17 +688,16 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	}
 	
 	/**
-	 * Re equip.
+	 * Remove any currently equipped weapon, then equip the top-most weapon eligible for equipping.
 	 */
 	public void reEquip(){
+		this.unequip();
 		for (int i = 0; i < inventory.size(); i++) {
 			Item it = inventory.get(i);
 			if (it instanceof Weapon) {
 				Weapon w = (Weapon) it;
 				if (equippable(w)) {
-					weapon = w;
-					inventory.remove(w);
-					inventory.add(0, w);
+					this.equip(w);
 					return;
 				}
 			}
@@ -700,11 +746,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		int ans = i.use(this);
 		if(i.getUses() <= 0 && destroy){
 			inventory.remove(i);
-			if(i == weapon){
-				weapon = null;
-				reEquip();
-			}
-			
+			reEquip();
 		}
 		return ans;
 	}
@@ -719,8 +761,8 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		triggers.addAll(skills);
 		if (clazz.masterSkill != null)
 			triggers.add(clazz.masterSkill);
-		if(weapon!=null)
-			triggers.addAll(weapon.getTriggers());
+		if(getWeapon() != null)
+			triggers.addAll(getWeapon().getTriggers());
 		return triggers;
 	}
 	
@@ -848,8 +890,8 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 */
 	// Combat statistics
 	public int hit() {
-		if(weapon == null) return 0;
-		return weapon.hit + 2 * get("Skl") + get("Lck") / 2
+		if(this.getWeapon() == null) return 0;
+		return getWeapon().hit + 2 * get("Skl") + get("Lck") / 2
 				+ (tempMods.get("Hit") != null ? tempMods.get("Hit") : 0);
 	}
 
@@ -870,8 +912,8 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 * @return the int
 	 */
 	public int crit() {
-		if(weapon == null) return 0;
-		return weapon.crit + get("Skl") / 2 + clazz.crit
+		if(getWeapon() == null) return 0;
+		return getWeapon().crit + get("Skl") / 2 + clazz.crit
 				+ (tempMods.get("Crit") != null ? tempMods.get("Crit") : 0);
 	}
 
@@ -931,7 +973,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 */
 	public int get(String stat) {
 		int ans = stats.get(stat).intValue()
-				+ (weapon != null ? weapon.modifiers.get(stat) : 0)
+				+ (getWeapon() != null ? getWeapon().modifiers.get(stat) : 0)
 				+ (tempMods.get(stat) != null ? tempMods.get(stat) : 0);
 		if (Arrays.asList("Def", "Res").contains(stat)) {
 			ans += getTerrain().getDefenseBonus(this);
@@ -1014,7 +1056,23 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 * @return the weapon
 	 */
 	public Weapon getWeapon() {
-		return weapon;
+		if (isUnequipped) {
+			return null;
+		} else if (inventory.size() < 1) {
+			return null;
+		} else {
+			Item candidate = inventory.get(0);
+			if (candidate instanceof Weapon) {
+				Weapon candidateW = (Weapon) candidate;
+				if (equippable(candidateW)) {
+					return candidateW;
+				} else {
+					return null;
+				}
+			} else {
+				return null;
+			}
+		}
 	}
 
 	/**

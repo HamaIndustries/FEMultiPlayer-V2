@@ -72,7 +72,7 @@ public class SoundTrack {
 		try{
 			songs = new HashMap<String, ArrayList<String>>();
 			final String musPath = "res/music";
-			final File jarFile = new File(SoundTrack.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			final File jarFile = new File(SoundTrack.class.getProtectionDomain().getCodeSource().getLocation().toURI());
 			if(jarFile.isFile()) {  // Run with JAR file
 			    final JarFile jar = new JarFile(jarFile);
 			    final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
@@ -89,7 +89,7 @@ public class SoundTrack {
 			    }
 			    jar.close();
 			    
-			} else { // Run with IDE
+			} else if (new File(musPath).isDirectory()) { // Run with IDE
 				File folder = new File(musPath);
 				File[] listOfFiles = folder.listFiles();
 				for(File s: listOfFiles){

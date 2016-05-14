@@ -33,7 +33,7 @@ public class DodgeAnimation extends Animation {
 	public DodgeAnimation(AnimationData data) {
 		super(data.getTexture(), data.frameWidth, data.frameHeight, data.frames,
 				data.columns, data.offsetX, data.offsetY,
-				DodgeAnimation.NORMAL_SPEED);
+				DodgeAnimation.NORMAL_SPEED, data.getBlendMode());
 		dodgeTimer = 0;
 		if(data.speed != 0) {
 			defaultSpeed = data.speed;
