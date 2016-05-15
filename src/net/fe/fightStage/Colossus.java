@@ -6,6 +6,10 @@ import net.fe.unit.Unit;
 // TODO: Auto-generated Javadoc
 /**
  * The Class Colossus.
+ * 
+ * Info: Doubles the user's Str.
+ * 
+ * Chance: Skl%
  */
 public class Colossus extends CombatTrigger{
 	

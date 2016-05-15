@@ -23,7 +23,11 @@ public class Aether extends CombatTrigger {
 	
 	
 	/**
-	 * Instantiates a new aether.
+	 * Instantiates Ather.
+	 * 
+	 * Info: Allows for 2 Consecutive attacks. The first counts as Sol, the other acts as Luna.
+	 * 
+	 * Chance: Skl/2
 	 */
 	public Aether(){
 		super(REPLACE_NAME_AFTER_PRE, YOUR_TURN_PRE + YOUR_TURN_POST + YOUR_TURN_DRAIN,

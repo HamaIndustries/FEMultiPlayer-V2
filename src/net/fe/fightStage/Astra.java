@@ -17,6 +17,11 @@ public class Astra extends CombatTrigger {
 	
 	/**
 	 * Instantiates a new astra.
+	 * 
+	 * Info: Makes the user attack 5 times at half damage.
+	 * 
+	 * Chance: Skl/2
+	 * 
 	 */
 	public Astra(){
 		super(REPLACE_NAME_AFTER_PRE, YOUR_TURN_PRE + YOUR_TURN_MOD + YOUR_TURN_POST, 

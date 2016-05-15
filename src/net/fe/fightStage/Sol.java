@@ -18,6 +18,10 @@ public class Sol extends CombatTrigger {
 	/**
 	 * Instantiates a new sol.
 	 *
+	 *Info: Increases HP by half the damage the user has dealt.
+	 *
+	 *Chance: Skl
+	 *
 	 * @param rangeok the rangeok
 	 */
 	public Sol(boolean rangeok) {

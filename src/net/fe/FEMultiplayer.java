@@ -18,6 +18,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.time.*;
 
 import net.fe.builderStage.TeamDraftStage;
 import net.fe.fightStage.AttackRecord;
@@ -103,7 +104,7 @@ public class FEMultiplayer extends Game{
 			System.err.println("Exception occurred, writing to logs...");
 			e.printStackTrace();
 			try{
-				File errLog = new File("error_log_client" + System.currentTimeMillis()%100000000 + ".log");
+				File errLog = new File("error_log_client" + LocalDateTime.now().toString().replace("T", "@").replace(":", "-") + ".log");
 				PrintWriter pw = new PrintWriter(errLog);
 				e.printStackTrace(pw);
 				pw.close();
@@ -208,7 +209,7 @@ public class FEMultiplayer extends Game{
 		u2.getInventory().add(WeaponFactory.getWeapon("Tomahawk"));
 		map.addUnit(u2, 1, 0);
 		u2.equip(0);
-		u2.setLevel(20);
+		u2.setLevel(1);
 		u2.loadMapSprites();
 		p2.getParty().addUnit(u2);
 		
@@ -216,7 +217,7 @@ public class FEMultiplayer extends Game{
 		int u2Uses = u2.getWeapon().getMaxUses();
 
 		//u1.debugStat("Skl");
-		//u1.debugStat("Str", -999);
+		u1.debugStat("Str");
 		
 		// ^------- put all pre-calc stuff here
 		

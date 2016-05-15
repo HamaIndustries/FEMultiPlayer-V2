@@ -14,6 +14,10 @@ public class Deadeye extends CombatTrigger {
 	
 	/**
 	 * Instantiates a new deadeye.
+	 * 
+	 * Info: User's Hit/Crit become 9000.
+	 * 
+	 * Chance: Skl
 	 */
 	public Deadeye(){
 		super(REPLACE_NAME_AFTER_PRE, YOUR_TURN_PRE, "deadeye");

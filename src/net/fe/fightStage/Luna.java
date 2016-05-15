@@ -18,6 +18,10 @@ public class Luna extends CombatTrigger {
 	/**
 	 * Instantiates a new luna.
 	 *
+	 *Info: Halves enemy Res/Def.
+	 *
+	 *Chance: Skl/2
+	 *
 	 * @param rangeok the rangeok
 	 */
 	public Luna(boolean rangeok){

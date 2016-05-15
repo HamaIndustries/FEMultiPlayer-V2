@@ -14,6 +14,10 @@ public class Pavise extends CombatTrigger {
 
 	/**
 	 * Instantiates a new pavise.
+	 * 
+	 * Info: Halves damage taken.
+	 * 
+	 * Chance: Skl
 	 */
 	public Pavise() {
 		super(APPEND_NAME_AFTER_MOD, ENEMY_TURN_MOD);

@@ -14,6 +14,11 @@ public class Miracle extends CombatTrigger {
 
 	/**
 	 * Instantiates a new miracle.
+	 * 
+	 * Info: If damage dealt would be lethal, user's Hp becomes 1 instead.
+	 * Will not proc if Hp = 1.
+	 * 
+	 * Chance: Lck
 	 */
 	public Miracle() {
 		super(APPEND_NAME_AFTER_MOD, ENEMY_TURN_MOD);
