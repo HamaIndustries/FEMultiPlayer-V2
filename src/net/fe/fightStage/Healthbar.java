@@ -92,10 +92,12 @@ public class Healthbar extends Entity {
 	 * @see chu.engine.Entity#onStep()
 	 */
 	public void onStep() {
-		if(Math.abs(displayedHealth-currentHealth) >= 1){
+		float maxDelta = currentHealth - displayedHealth;
+		float actualDelta = Math.signum(currentHealth - displayedHealth)*15*Game.getDeltaSeconds();
+		if (Math.abs(maxDelta) > Math.abs(actualDelta)) {
 			doneAnimating = false;
-			displayedHealth += Math.signum(currentHealth - displayedHealth)*15*Game.getDeltaSeconds();
-		} else if(displayedHealth != currentHealth){
+			displayedHealth += actualDelta;
+		} else {
 			displayedHealth = currentHealth;
 			if(!doNotSet){
 				doneAnimating = true;

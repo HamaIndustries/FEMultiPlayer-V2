@@ -25,8 +25,8 @@ public class MissEffect extends Entity {
 		AudioPlayer.playAudio("miss");
 		Animation anim = new Animation(FEResources.getTexture("miss"), 38, 26, 20, 5, 0, 0, .015f, chu.engine.anim.BlendModeArgs.ALPHA_BLEND) {
 			@Override
-			public void update() {
-				super.update();
+			public void increment() {
+				super.increment();
 				if(getFrame() == 17)
 					setSpeed(.08f);
 			}

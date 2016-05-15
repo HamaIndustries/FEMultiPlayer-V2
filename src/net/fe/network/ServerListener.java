@@ -27,10 +27,10 @@ import net.fe.network.message.ReadyMessage;
  *
  * @see ServerEvent
  */
-public class ServerListener extends Thread {
+public final class ServerListener extends Thread {
 	
 	/** The socket. */
-	private Socket socket = null;
+	private Socket socket;
 	
 	/** The out. */
 	private ObjectOutputStream out;
@@ -45,7 +45,7 @@ public class ServerListener extends Thread {
 	private boolean clientQuit;
 	
 	/** The begin. */
-	final byte[] begin = new byte[]{0x42,0x45,0x47,0x49,0x4e};
+	private final byte[] begin = new byte[]{0x42,0x45,0x47,0x49,0x4e};
 	
 	/**
 	 * Instantiates a new server listener.
@@ -108,25 +108,30 @@ public class ServerListener extends Thread {
 	 * @param message the message
 	 */
 	public void processInput(Message message) {
-		if(message instanceof QuitMessage) {
-			clientQuit = true;
-		}
-		else if(message instanceof JoinTeam || message instanceof ReadyMessage) {
-			// Prevent late-joining players from switching teams or readying up
-			if(!(FEServer.getCurrentStage() instanceof LobbyStage))
+		synchronized(main.messagesLock) {
+			if(message instanceof QuitMessage) {
+				clientQuit = true;
+			}
+			else if(message instanceof JoinTeam || message instanceof ReadyMessage) {
+				// Prevent late-joining players from switching teams or readying up
+				if(!(FEServer.getCurrentStage() instanceof LobbyStage))
+					return;
+			}
+			else if(message instanceof CommandMessage) {
+				// If the unit attacked, we need to generate battle results
+				main.messages.add(message);
+				main.messagesLock.notifyAll();
+				return;	// Wait for the server's overworld stage to get results
+			}
+			else if(message instanceof PartyMessage) {
+				main.messages.add(message);
+				main.messagesLock.notifyAll();
 				return;
-		}
-		else if(message instanceof CommandMessage) {
-			// If the unit attacked, we need to generate battle results
+			}
+			main.broadcastMessage(message);
 			main.messages.add(message);
-			return;	// Wait for the server's overworld stage to get results
+			main.messagesLock.notifyAll();
 		}
-		else if(message instanceof PartyMessage) {
-			main.messages.add(message);
-			return;
-		}
-		main.broadcastMessage(message);
-		main.messages.add(message);
 	}
 	
 	/**

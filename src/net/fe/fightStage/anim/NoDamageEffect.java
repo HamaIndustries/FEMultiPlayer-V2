@@ -25,8 +25,8 @@ public class NoDamageEffect extends Entity {
 		AudioPlayer.playAudio("no_damage");
 		Animation anim = new Animation(FEResources.getTexture("no_damage"), 78, 26, 20, 4, 0, 0, .015f, chu.engine.anim.BlendModeArgs.ALPHA_BLEND) {
 			@Override
-			public void update() {
-				super.update();
+			public void increment() {
+				super.increment();
 				if(getFrame() == 17)
 					setSpeed(.08f);
 			}

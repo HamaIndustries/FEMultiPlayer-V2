@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import net.fe.Session;
 import net.fe.overworldStage.objective.Seize;
@@ -12,38 +13,42 @@ import net.fe.overworldStage.objective.Seize;
 /**
  * The Class Server.
  */
-public class Server {
+public final class Server {
 	
 	/** The server socket. */
-	ServerSocket serverSocket;
+	private ServerSocket serverSocket;
 	
 	/** The close requested. */
-	boolean closeRequested = false;
+	private boolean closeRequested = false;
 	
 	/** The clients. */
-	volatile ArrayList<ServerListener> clients;
+	final CopyOnWriteArrayList<ServerListener> clients;
 	
-	/** The messages. */
-	public volatile ArrayList<Message> messages;
+	/** The messages. Should only operate on if the monitor to messagesLock is held */
+	public final ArrayList<Message> messages;
+	
+	/** A lock which should be wated upon or notified for changes to messages */
+	public final Object messagesLock;
 	
 	/** The log. */
-	public ServerLog log;
+	public final ServerLog log;
 	
 	/** The session. */
-	private Session session;
+	private final Session session;
 	
 	/** The allow connections. */
 	public boolean allowConnections;
 	
 	/** The counter. */
-	byte counter = 1;
+	private byte counter = 1;
 	
 	/**
 	 * Instantiates a new server.
 	 */
 	public Server() {
 		messages = new ArrayList<Message>();
-		clients = new ArrayList<ServerListener>();
+		messagesLock = new Object();
+		clients = new CopyOnWriteArrayList<ServerListener>();
 		session = new Session();
 		session.setObjective(new Seize());
 		log = new ServerLog();
@@ -83,17 +88,6 @@ public class Server {
 		for(ServerListener out : clients) {
 			out.sendMessage(message);
 		}
-	}
-	
-	/**
-	 * Sends a message only to the given client.
-	 *
-	 * @param client the client
-	 * @param message the message
-	 */
-	public void sendMessage(ServerListener client, Message message) {
-		log.logMessage(message, true);
-		client.sendMessage(message);
 	}
 	
 	/**

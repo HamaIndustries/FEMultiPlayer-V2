@@ -346,6 +346,8 @@ public class FEResources {
 					prop.setProperty("MAIN","main");
 					prop.setProperty("OVERWORLD","overworld");
 					prop.setProperty("PREPARATIONS","preparations");
+					prop.setProperty("FPSMAX","30");
+					prop.setProperty("FPSSHOW","FALSE");
 					
 					FileOutputStream out = new FileOutputStream(path);
 					prop.store(out, "---Initial Configuration---");
@@ -371,6 +373,29 @@ public class FEResources {
 		String volumeStr = getProperties().getProperty("VOLUME"); 
 		float volume = Float.parseFloat(volumeStr);
 		return volume;
+	}
+	
+	/**
+	 * Returns the fps ceiling setting
+	 */
+	public static float getFpsMax() {
+		String volumeStr = getProperties().getProperty("FPSMAX");
+		if (volumeStr == null) {
+			return 30f;
+		} else try {
+			float volume = Float.parseFloat(volumeStr);
+			return volume;
+		} catch (NumberFormatException e) {
+			return 30f;
+		}
+	}
+	
+	/**
+	 * Returns the fps ceiling setting
+	 */
+	public static boolean showFps() {
+		String volumeStr = getProperties().getProperty("FPSSHOW");
+		return ("true".equalsIgnoreCase(volumeStr));
 	}
 	
 	public static String getAudioSetting(String setting) throws Exception{

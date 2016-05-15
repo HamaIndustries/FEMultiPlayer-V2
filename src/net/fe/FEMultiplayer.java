@@ -60,6 +60,9 @@ import chu.engine.menu.Notification;
  */
 public class FEMultiplayer extends Game{
 	
+	/** Desired frame rate in nanoseconds per frame */
+	private static final long CLAMPED_FRAME_RATE = (long)(1e9 / FEResources.getFpsMax());
+	
 	/** The current stage. */
 	private static Stage currentStage;
 	
@@ -345,12 +348,20 @@ public class FEMultiplayer extends Game{
 				currentStage.processAddStack();
 				currentStage.processRemoveStack();
 				currentStage.render();
-//				FEResources.getBitmapFont("stat_numbers").render(
-//						(int)(1.0f/getDeltaSeconds())+"", 440f, 0f, 0f);
 				currentStage.endStep();
+				if (FEResources.showFps()) {
+					int fps = (int)(1e9 / this.timeDelta);
+					Renderer.drawString("default_med", fps + " FPS", 452 - (fps > 10 ? 7 : 0) - (fps > 100 ? 7 : 0) - (fps > 1000 ? 7 : 0), 0, 0);
+				}
 			}
 			glPopMatrix();
 			Display.update();
+			try {
+				long sleepTime = CLAMPED_FRAME_RATE - (System.nanoTime() - time);
+				if (sleepTime > 0) { Thread.sleep(sleepTime / 1000000, (int)(sleepTime % 1000000)); }
+			} catch (InterruptedException e) {
+				// I never know what to say to an interrupted sleep…
+			}
 			timeDelta = System.nanoTime()-time;
 		}
 		AL.destroy();
