@@ -331,9 +331,11 @@ public class FEMultiplayer extends Game{
 			getInput();
 			messages.clear();
 			if(client != null){
-				messages.addAll(client.getMessages());
-				for(Message m : messages)
-					client.messages.remove(m);
+				synchronized (client.messagesLock) {
+					messages.addAll(client.messages);
+					for(Message m : messages)
+						client.messages.remove(m);
+				}
 			}
 			SoundStore.get().poll(0);
 			glPushMatrix();

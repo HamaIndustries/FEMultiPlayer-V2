@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import net.fe.FEMultiplayer;
 import net.fe.Party;
@@ -49,8 +50,11 @@ public class Client {
 	/** The id. */
 	byte id;
 	
-	/** The messages. */
-	public volatile ArrayList<Message> messages;
+	/** The messages. Should only operate on if the monitor to messagesLock is held */
+	public final CopyOnWriteArrayList<Message> messages;
+	
+	/** A lock which should be waited upon or notified for changes to messages */
+	public final Object messagesLock;
 	
 	/**
 	 * Instantiates a new client.
@@ -59,8 +63,9 @@ public class Client {
 	 * @param port the port
 	 */
 	public Client(String ip, int port) {
-		messages = new ArrayList<Message>();
+		messages = new CopyOnWriteArrayList<Message>();
 		session = new Session();
+		messagesLock = new Object();
 		try {
 			System.out.println("CLIENT: Connecting to server: "+ip+":"+port);
 			serverSocket = new Socket(ip, port);
@@ -70,11 +75,12 @@ public class Client {
 			in = new ObjectInputStream(serverSocket.getInputStream());
 			System.out.println("CLIENT: I/O streams initialized");
 			open = true;
-			serverIn = new Thread() {
+			serverIn = new Thread(new Runnable() {
 				public void run() {
 					try {
 						Message message;
 						while((message = (Message)in.readObject()) != null) {
+							System.out.println("CLIENT: Read " + message);
 							processInput(message);
 						}
 						in.close();
@@ -86,7 +92,7 @@ public class Client {
 						e.printStackTrace();
 					}
 				}
-			};
+			}, "ClientNetworkingReader");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -133,16 +139,10 @@ public class Client {
 			session.setObjective(update.getObjective());
 			session.setPickMode(update.getPickMode());
 		}
-		messages.add(message);
-	}
-	
-	/**
-	 * Gets the messages.
-	 *
-	 * @return the messages
-	 */
-	public ArrayList<Message> getMessages() {
-		return messages;
+		
+		synchronized (messagesLock) {
+			messages.add(message);
+		}
 	}
 	
 	/**
