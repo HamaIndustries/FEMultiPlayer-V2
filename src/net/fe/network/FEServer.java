@@ -419,15 +419,6 @@ public class FEServer extends Game {
 		}
 		
 	}
-	
-	/**
-	 * Log.
-	 *
-	 * @param s the s
-	 */
-	public static void log(String s){
-		server.log.log(s);
-	}
 
 }
 

@@ -5,6 +5,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Logger;
+import java.time.LocalDateTime;
 
 import net.fe.Session;
 import net.fe.overworldStage.objective.Seize;
@@ -14,6 +16,21 @@ import net.fe.overworldStage.objective.Seize;
  * The Class Server.
  */
 public final class Server {
+	
+	/** a logger */
+	private static final Logger logger = Logger.getLogger("net.fe.network.Server");
+	static {
+		logger.setLevel(java.util.logging.Level.FINER);
+		logger.addHandler(new java.util.logging.ConsoleHandler());
+		try {
+			String file = "logs/server_log_" + LocalDateTime.now().toString().replace("T", "@").replace(":", "-") + ".log";
+			java.util.logging.Handler h = new java.util.logging.FileHandler(file);
+			h.setFormatter(new java.util.logging.SimpleFormatter());
+			logger.addHandler(h);
+		} catch (IOException e) {
+			logger.throwing("net.fe.network.Client", "logging initializing", e);
+		}
+	}
 	
 	/** The server socket. */
 	private ServerSocket serverSocket;
@@ -29,9 +46,6 @@ public final class Server {
 	
 	/** A lock which should be wated upon or notified for changes to messages */
 	public final Object messagesLock;
-	
-	/** The log. */
-	public final ServerLog log;
 	
 	/** The session. */
 	private final Session session;
@@ -51,7 +65,6 @@ public final class Server {
 		clients = new CopyOnWriteArrayList<ServerListener>();
 		session = new Session();
 		session.setObjective(new Seize());
-		log = new ServerLog();
 		allowConnections = true;
 	}
 	
@@ -63,10 +76,10 @@ public final class Server {
 	public void start(int port) {
 		try {
 			serverSocket = new ServerSocket(port);
-			System.out.println("SERVER: Waiting for connections...");
+			logger.info("SERVER: Waiting for connections...");
 			while(!closeRequested) {
 				Socket connectSocket = serverSocket.accept();
-				System.out.println("SERVER: Connection #"+counter+" accepted!");
+				logger.info("SERVER: Connection #"+counter+" accepted!");
 				ServerListener listener = new ServerListener(this, connectSocket);
 				clients.add(listener);
 				listener.start();
@@ -84,7 +97,7 @@ public final class Server {
 	 * @param message the message
 	 */
 	public void broadcastMessage(Message message) {
-		log.logMessage(message, true);
+		logger.finer("[SEND]" + message);
 		for(ServerListener out : clients) {
 			out.sendMessage(message);
 		}

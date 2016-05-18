@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Logger;
+import java.time.LocalDateTime;
 
 import net.fe.FEMultiplayer;
 import net.fe.Party;
@@ -22,6 +24,20 @@ import net.fe.network.message.SessionUpdate;
  * The Class Client.
  */
 public class Client {
+	
+	/** a logger */
+	private static final Logger logger = Logger.getLogger("net.fe.network.Client");
+	static {
+		logger.setLevel(java.util.logging.Level.FINER);
+		try {
+			String file = "logs/client_log_" + LocalDateTime.now().toString().replace("T", "@").replace(":", "-") + ".log";
+			java.util.logging.Handler h = new java.util.logging.FileHandler(file);
+			h.setFormatter(new java.util.logging.SimpleFormatter());
+			logger.addHandler(h);
+		} catch (IOException e) {
+			logger.throwing("net.fe.network.Client", "logging initializing", e);
+		}
+	}
 	
 	/** The server socket. */
 	private Socket serverSocket;
@@ -67,27 +83,27 @@ public class Client {
 		session = new Session();
 		messagesLock = new Object();
 		try {
-			System.out.println("CLIENT: Connecting to server: "+ip+":"+port);
+			logger.info("CLIENT: Connecting to server: "+ip+":"+port);
 			serverSocket = new Socket(ip, port);
-			System.out.println("CLIENT: Successfully connected!");
+			logger.info("CLIENT: Successfully connected!");
 			out = new ObjectOutputStream(serverSocket.getOutputStream());
 			out.flush();
 			in = new ObjectInputStream(serverSocket.getInputStream());
-			System.out.println("CLIENT: I/O streams initialized");
+			logger.info("CLIENT: I/O streams initialized");
 			open = true;
 			serverIn = new Thread(new Runnable() {
 				public void run() {
 					try {
 						Message message;
 						while((message = (Message)in.readObject()) != null) {
-							System.out.println("CLIENT: Read " + message);
+							logger.info("CLIENT: Read " + message);
 							processInput(message);
 						}
 						in.close();
 						out.close();
 						serverSocket.close();
 					} catch (IOException e) {
-						System.out.println("CLIENT: EXIT");
+						logger.info("CLIENT: EXIT");
 					} catch (ClassNotFoundException e) {
 						e.printStackTrace();
 					}
@@ -118,7 +134,7 @@ public class Client {
 			if(id >= 2) {
 				FEMultiplayer.getLocalPlayer().getParty().setColor(Party.TEAM_RED);
 			}
-			System.out.println("CLIENT: Recieved ID "+id+" from server");
+			logger.info("CLIENT: Recieved ID "+id+" from server");
 			// Send a join lobby request
 			sendMessage(new JoinLobby(id, FEMultiplayer.getLocalPlayer()));
 		} else if (message instanceof QuitMessage) {
@@ -177,9 +193,9 @@ public class Client {
 		try {
 			message.origin = id;
 			out.writeObject(message);
-//			System.out.println("CLIENT: Sent message ["+message.toString()+"]");
+			logger.info("CLIENT: Sent message ["+message.toString()+"]");
 		} catch (IOException e) {
-			System.err.println("CLIENT Unable to send message!");
+			logger.severe("CLIENT Unable to send message!");
 		}
 	}
 	
