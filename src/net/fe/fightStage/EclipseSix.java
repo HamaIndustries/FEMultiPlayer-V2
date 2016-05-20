@@ -11,7 +11,7 @@ public final class EclipseSix extends CombatTrigger {
 		super(NO_NAME_MOD, YOUR_TURN_MOD);
 	}
 	@Override
-	public boolean attempt(Unit user, int range) {
+	public boolean attempt(Unit user, int range, Unit opponent) {
 		return true;
 	}
 

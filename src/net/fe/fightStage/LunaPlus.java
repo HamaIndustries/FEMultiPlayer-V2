@@ -10,7 +10,7 @@ public final class LunaPlus extends CombatTrigger {
 		super(NO_NAME_MOD, YOUR_TURN_PRE);
 	}
 	@Override
-	public boolean attempt(Unit user, int range) {
+	public boolean attempt(Unit user, int range, Unit opponent) {
 		return true;
 	}
 

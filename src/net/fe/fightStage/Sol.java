@@ -18,6 +18,10 @@ public class Sol extends CombatTrigger {
 	/**
 	 * Instantiates a new sol.
 	 *
+	 *Info: Increases HP by half the damage the user has dealt.
+	 *
+	 *Chance: Skl
+	 *
 	 * @param rangeok the rangeok
 	 */
 	public Sol(boolean rangeok) {
@@ -29,7 +33,7 @@ public class Sol extends CombatTrigger {
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
-	public boolean attempt(Unit user, int range) {
+	public boolean attempt(Unit user, int range, Unit opponent) {
 		return (ranged || range == 1) && RNG.get() < user.getStats().skl;
 	}
 	

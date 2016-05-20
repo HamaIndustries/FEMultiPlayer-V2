@@ -6,6 +6,10 @@ import net.fe.unit.Unit;
 // TODO: Auto-generated Javadoc
 /**
  * The Class Colossus.
+ * 
+ * Info: Doubles the user's Str.
+ * 
+ * Chance: Skl%
  */
 public class Colossus extends CombatTrigger{
 	
@@ -23,7 +27,7 @@ public class Colossus extends CombatTrigger{
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
-	public boolean attempt(Unit user, int range) {
+	public boolean attempt(Unit user, int range, Unit opponent) {
 		return range == 1 && RNG.get() < user.getStats().skl/2;
 	}
 

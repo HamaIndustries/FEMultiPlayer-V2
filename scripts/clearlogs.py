@@ -9,6 +9,6 @@ for i in range(len(deer)):
 print('\nremoved '+str(count)+' logs')
 
 if platform.python_build()[0].find('v3')>=0:
-        input('press any key to finish.')
+        input('press enter to finish.')
 else:
-        raw_input('press any key to finish.')
+        raw_input('press enter to finish.')

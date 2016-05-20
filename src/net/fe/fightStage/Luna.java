@@ -18,6 +18,10 @@ public class Luna extends CombatTrigger {
 	/**
 	 * Instantiates a new luna.
 	 *
+	 *Info: Halves enemy Res/Def.
+	 *
+	 *Chance: Skl/2
+	 *
 	 * @param rangeok the rangeok
 	 */
 	public Luna(boolean rangeok){
@@ -29,7 +33,7 @@ public class Luna extends CombatTrigger {
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
-	public boolean attempt(Unit user, int range) {
+	public boolean attempt(Unit user, int range, Unit opponent) {
 
 		return (ranged || range == 1) && RNG.get() < user.getStats().skl/2;
 	}

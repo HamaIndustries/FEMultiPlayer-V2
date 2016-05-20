@@ -13,6 +13,10 @@ public class Crisis extends CombatTrigger{
 
 	/**
 	 * Instantiates a new crisis.
+	 * 
+	 * Info: User's Avo becomes 30.
+	 * 
+	 * Chance: HP < 1/3 of total.
 	 */
 	public Crisis() {
 		super(NO_NAME_MOD, YOUR_TURN_PRE + ENEMY_TURN_PRE);
@@ -22,7 +26,7 @@ public class Crisis extends CombatTrigger{
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
-	public boolean attempt(Unit user, int range) {
+	public boolean attempt(Unit user, int range, Unit opponent) {
 		return user.getHp() < user.getStats().maxHp/3;
 	}
 
