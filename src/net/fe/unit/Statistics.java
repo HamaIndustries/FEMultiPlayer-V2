@@ -2,6 +2,9 @@ package net.fe.unit;
 
 import java.util.Map;
 
+/**
+ * A unit's combat capabilities
+ */
 public final class Statistics {
 	public final int maxHp;
 	public final int str;

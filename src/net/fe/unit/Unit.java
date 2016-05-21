@@ -82,8 +82,8 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	/** The temp mods. */
 	private transient HashMap<String, Integer> tempMods;
 	
-	/** The battle stats. */
-	private transient HashMap<String, Integer> battleStats;
+	/** The battle contributions record */
+	private BattleStats battleStats;
 	
 	/** The assist. */
 	private transient Set<Unit> assist;
@@ -148,12 +148,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		tempMods = new HashMap<String, Integer>();
 		assist = new HashSet<Unit>();
 		skills = new ArrayList<CombatTrigger>();
-		battleStats = new HashMap<String, Integer>();
-        battleStats.put("Kills", 0);
-        battleStats.put("Assists", 0);
-        battleStats.put("Damage", 0);
-        battleStats.put("Healing", 0);
-		
+		battleStats = new BattleStats();
 		this.setLevel(1);
 		fillHp();
 		
@@ -191,11 +186,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
         tempMods = new HashMap<String, Integer>();
         assist = new HashSet<Unit>();
         skills = new ArrayList<CombatTrigger>();
-        battleStats = new HashMap<String, Integer>();
-        battleStats.put("Kills", 0);
-        battleStats.put("Assists", 0);
-        battleStats.put("Damage", 0);
-        battleStats.put("Healing", 0);
+        battleStats = new BattleStats();
     }
 	
 	/**
@@ -830,13 +821,11 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	}
 	
 	/**
-	 * Adds the battle stat.
-	 *
-	 * @param stat the stat
-	 * @param add the add
+	 * Increments this unit's contributions-to-battle record
+	 * @param add the values to increment by
 	 */
-	public void addBattleStat(String stat, int add) {
-		battleStats.put(stat, battleStats.get(stat) + add);
+	public void addBattleStats(BattleStats add) {
+		this.battleStats = this.battleStats.plus(add);
 	}
 	
 	/**
@@ -846,18 +835,14 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 * @return the battle stat
 	 */
 	public int getBattleStat(String stat) {
-		return battleStats.get(stat);
-	}
-	
-	/**
-	 * Report battle stats.
-	 */
-	public void reportBattleStats() {
-		for(String s : battleStats.keySet()) {
-			System.out.print(s+": ");
-			System.out.print(battleStats.get(s)+" ");
+		/* LOOOOOPS! */
+		switch (stat) {
+			case "Kills": return battleStats.kills; 
+			case "Assists": return battleStats.assists; 
+			case "Damage": return battleStats.damage; 
+			case "Healing": return battleStats.healing; 
+			default: return -1; 
 		}
-		System.out.println();
 	}
 	
 	/**
