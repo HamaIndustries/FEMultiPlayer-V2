@@ -103,14 +103,15 @@ public class Client {
 						out.close();
 						serverSocket.close();
 					} catch (IOException e) {
-						logger.info("CLIENT: EXIT");
+						logger.warning("CLIENT: EXIT");
+						logger.throwing("ClientNetworkingReader", "run", e);
 					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
+						logger.throwing("ClientNetworkingReader", "run", e);
 					}
 				}
 			}, "ClientNetworkingReader");
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.throwing("Client", "<init>", e);
 		}
 	}
 	
@@ -171,7 +172,7 @@ public class Client {
 			serverSocket.close();
 			open = false;
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.throwing("Client", "close", e);
 		}
 	}
 	
@@ -195,7 +196,8 @@ public class Client {
 			out.writeObject(message);
 			logger.info("CLIENT: Sent message ["+message.toString()+"]");
 		} catch (IOException e) {
-			logger.severe("CLIENT Unable to send message!");
+			logger.severe("CLIENT Unable to send message: ["+message.toString()+"]");
+			logger.throwing("Client", "sendMessage", e);
 		}
 	}
 	

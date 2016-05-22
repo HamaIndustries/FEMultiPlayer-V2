@@ -69,7 +69,7 @@ public final class ServerListener extends Thread {
 			logger.fine("LISTENER: I/O streams initialized");
 			sendMessage(new ClientInit((byte) 0, main.getCount(), main.getSession()));
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.throwing("ServerListener", "<init>", e);
 		}
 	}
 	
@@ -151,6 +151,7 @@ public final class ServerListener extends Thread {
 			logger.fine("SERVER sent message: [" + message.toString() + "]");
 		} catch (IOException e) {
 			logger.severe("SERVER Unable to send message!");
+			logger.throwing("ServerListener", "sendMessage", e);
 		}
 	}
 

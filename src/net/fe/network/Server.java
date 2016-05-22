@@ -87,7 +87,7 @@ public final class Server {
 			}
 			serverSocket.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.throwing("Server", "start", e);
 		}
 	}
 	
