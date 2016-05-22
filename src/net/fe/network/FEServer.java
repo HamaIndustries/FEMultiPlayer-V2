@@ -102,9 +102,9 @@ public class FEServer extends Game {
 		maps.put("decay", new Objective[]{rout, seize});
 		
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
-		DefaultListModel sModel = new DefaultListModel();
+		DefaultListModel<Modifier> sModel = new DefaultListModel<Modifier>();
 		// Modifiers
-		DefaultListModel model = new DefaultListModel();
+		DefaultListModel<Modifier> model = new DefaultListModel<Modifier>();
 		model.addElement(new MadeInChina());
 		model.addElement(new Treasury());
 		model.addElement(new Veterans());
@@ -341,9 +341,16 @@ public class FEServer extends Game {
 		while(yes) {
 			time = System.nanoTime();
 			messages.clear();
-			messages.addAll(server.messages);
-			for(Message m : messages)
-				server.messages.remove(m);
+			synchronized (server.messagesLock) {
+				try {
+					server.messagesLock.wait(1000);
+				} catch (InterruptedException e) {
+					// No, really. Has there ever been a meaningful response to an InterruptedException?
+				}
+				messages.addAll(server.messages);
+				for(Message m : messages)
+					server.messages.remove(m);
+			}
 			currentStage.beginStep();
 			currentStage.onStep();
 			currentStage.endStep();
@@ -412,19 +419,10 @@ public class FEServer extends Game {
 		}
 		
 	}
-	
-	/**
-	 * Log.
-	 *
-	 * @param s the s
-	 */
-	public static void log(String s){
-		server.log.log(s);
-	}
 
 }
 
-class ModifierList extends JList {
+class ModifierList extends JList<Modifier> {
 	
 	private static final long serialVersionUID = 561574462354745569L;
 

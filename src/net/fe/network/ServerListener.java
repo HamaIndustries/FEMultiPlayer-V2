@@ -6,6 +6,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.logging.Logger;
+import java.time.LocalDateTime;
 
 import net.fe.lobbystage.LobbyStage;
 import net.fe.network.message.ClientInit;
@@ -27,10 +29,13 @@ import net.fe.network.message.ReadyMessage;
  *
  * @see ServerEvent
  */
-public class ServerListener extends Thread {
+public final class ServerListener extends Thread {
+	
+	/** a logger (theoretically initialized in Server) */
+	private static final Logger logger = Logger.getLogger("net.fe.network.Server");
 	
 	/** The socket. */
-	private Socket socket = null;
+	private Socket socket;
 	
 	/** The out. */
 	private ObjectOutputStream out;
@@ -45,7 +50,7 @@ public class ServerListener extends Thread {
 	private boolean clientQuit;
 	
 	/** The begin. */
-	final byte[] begin = new byte[]{0x42,0x45,0x47,0x49,0x4e};
+	private final byte[] begin = new byte[]{0x42,0x45,0x47,0x49,0x4e};
 	
 	/**
 	 * Instantiates a new server listener.
@@ -61,10 +66,10 @@ public class ServerListener extends Thread {
 			out = new ObjectOutputStream(socket.getOutputStream());
 			out.flush();
 			in = new ObjectInputStream(socket.getInputStream());
-			System.out.println("LISTENER: I/O streams initialized");
+			logger.fine("LISTENER: I/O streams initialized");
 			sendMessage(new ClientInit((byte) 0, main.getCount(), main.getSession()));
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.throwing("ServerListener", "<init>", e);
 		}
 	}
 	
@@ -73,15 +78,15 @@ public class ServerListener extends Thread {
 	 */
 	public void run() {
 		try {
-			System.out.println("LISTENER: Start");
+			logger.fine("LISTENER: Start");
 			Message message;
 			clientQuit = false;
 			while(!clientQuit) {
 				message = (Message) in.readObject();
-				main.log.logMessage(message, false);
+				logger.fine("[RECV]" + message);
 				processInput(message);
 			}
-			System.out.println("LISTENER: Exit");
+			logger.fine("LISTENER: Exit");
 			main.clients.remove(this);
 			in.close();
 			out.close();
@@ -108,25 +113,30 @@ public class ServerListener extends Thread {
 	 * @param message the message
 	 */
 	public void processInput(Message message) {
-		if(message instanceof QuitMessage) {
-			clientQuit = true;
-		}
-		else if(message instanceof JoinTeam || message instanceof ReadyMessage) {
-			// Prevent late-joining players from switching teams or readying up
-			if(!(FEServer.getCurrentStage() instanceof LobbyStage))
+		synchronized(main.messagesLock) {
+			if(message instanceof QuitMessage) {
+				clientQuit = true;
+			}
+			else if(message instanceof JoinTeam || message instanceof ReadyMessage) {
+				// Prevent late-joining players from switching teams or readying up
+				if(!(FEServer.getCurrentStage() instanceof LobbyStage))
+					return;
+			}
+			else if(message instanceof CommandMessage) {
+				// If the unit attacked, we need to generate battle results
+				main.messages.add(message);
+				main.messagesLock.notifyAll();
+				return;	// Wait for the server's overworld stage to get results
+			}
+			else if(message instanceof PartyMessage) {
+				main.messages.add(message);
+				main.messagesLock.notifyAll();
 				return;
-		}
-		else if(message instanceof CommandMessage) {
-			// If the unit attacked, we need to generate battle results
+			}
+			main.broadcastMessage(message);
 			main.messages.add(message);
-			return;	// Wait for the server's overworld stage to get results
+			main.messagesLock.notifyAll();
 		}
-		else if(message instanceof PartyMessage) {
-			main.messages.add(message);
-			return;
-		}
-		main.broadcastMessage(message);
-		main.messages.add(message);
 	}
 	
 	/**
@@ -138,9 +148,10 @@ public class ServerListener extends Thread {
 		try {
 			out.writeObject(message);
 			out.flush();
-//			System.out.println("SERVER sent message: [" + message.toString() + "]");
+			logger.fine("SERVER sent message: [" + message.toString() + "]");
 		} catch (IOException e) {
-			System.err.println("SERVER Unable to send message!");
+			logger.severe("SERVER Unable to send message!");
+			logger.throwing("ServerListener", "sendMessage", e);
 		}
 	}
 

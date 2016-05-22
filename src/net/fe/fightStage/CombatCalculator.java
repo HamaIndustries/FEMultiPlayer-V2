@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.logging.Logger;
+import java.time.LocalDateTime;
 import static java.lang.System.out;
 
 import net.fe.FEMultiplayer;
@@ -21,6 +23,20 @@ import net.fe.unit.Weapon;
  * 
  */
 public class CombatCalculator {
+	
+	/** a logger */
+	private static final Logger logger = Logger.getLogger("net.fe.fightStage.CombatCalculator");
+	static {
+		logger.setLevel(java.util.logging.Level.FINER);
+		try {
+			String file = "logs/combatcalculator_log_" + LocalDateTime.now().toString().replace("T", "@").replace(":", "-") + ".log";
+			java.util.logging.Handler h = new java.util.logging.FileHandler(file);
+			h.setFormatter(new java.util.logging.SimpleFormatter());
+			logger.addHandler(h);
+		} catch (java.io.IOException e) {
+			logger.throwing("net.fe.network.Client", "logging initializing", e);
+		}
+	}
 	
 	/** The left & right units */
 	protected Unit left, right;
@@ -52,8 +68,8 @@ public class CombatCalculator {
 		} else {
 			left = FEServer.getUnit(u1);
 			right = FEServer.getUnit(u2);
-			FEServer.log("[BATL]0 BATTLESTART::");
-			FEServer.log("[BATL]0 HP::" + left.name + " HP" + left.getHp() +
+			logger.fine("[BATL]0 BATTLESTART::");
+			logger.fine("[BATL]0 HP::" + left.name + " HP" + left.getHp() +
 					" " + right.name + " HP" + right.getHp());
 		}
 //		System.out.println(left);
@@ -64,11 +80,11 @@ public class CombatCalculator {
 		calculate();
 		if(!local){
 			for(AttackRecord atk: attackQueue){
-				FEServer.log("[BATL]0 ATTACKRECORD::" + atk.toString());
+				logger.fine("[BATL]0 ATTACKRECORD::" + atk.toString());
 			}
-			FEServer.log("[BATL]0 HP::" + left.name + " HP" + left.getHp() +
+			logger.fine("[BATL]0 HP::" + left.name + " HP" + left.getHp() +
 					" " + right.name + " HP" + right.getHp());
-			FEServer.log("[BATL]0 BATTLEEND::");
+			logger.fine("[BATL]0 BATTLEEND::");
 		}
 	}
 	
