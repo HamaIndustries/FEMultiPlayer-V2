@@ -30,6 +30,7 @@ public class Client {
 	static {
 		logger.setLevel(java.util.logging.Level.FINER);
 		try {
+			java.nio.file.Files.createDirectories(new java.io.File("logs").toPath());
 			String file = "logs/client_log_" + LocalDateTime.now().toString().replace("T", "@").replace(":", "-") + ".log";
 			java.util.logging.Handler h = new java.util.logging.FileHandler(file);
 			h.setFormatter(new java.util.logging.SimpleFormatter());

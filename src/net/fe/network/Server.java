@@ -23,6 +23,7 @@ public final class Server {
 		logger.setLevel(java.util.logging.Level.FINER);
 		logger.addHandler(new java.util.logging.ConsoleHandler());
 		try {
+			java.nio.file.Files.createDirectories(new java.io.File("logs").toPath());
 			String file = "logs/server_log_" + LocalDateTime.now().toString().replace("T", "@").replace(":", "-") + ".log";
 			java.util.logging.Handler h = new java.util.logging.FileHandler(file);
 			h.setFormatter(new java.util.logging.SimpleFormatter());
