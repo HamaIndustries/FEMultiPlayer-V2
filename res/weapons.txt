@@ -53,6 +53,10 @@ Brave Bow	Bow	2	10	70	0	15	7500	Flier	-	-
 Debug Short Bow	Bow	1-2	5	85	10	11	1760	Flier	-	-
 Longbow		Bow	2-3	5	65	0	10	2000	Flier	-	-
 Double Bow	Bow	2-3	18	85	5	12	10000	Flier	-	Str 5
+Bowgun		Crossbow	1-2	24	100	0	12	2000	Flier	-	-
+Crossbow	Crossbow	1-2	28	100	0	10	3000	Flier	-	-
+Aqqar		Crossbow	1-2	32	100	0	8	5000	Flier	-	-
+Arbalest	Crossbow	1-2	38	100	15	10	10000	Flier	-	-
 Fire		Anima	1-2	5	90	0	20	560	-	-	-
 Elfire		Anima	1-2	10	85	0	15	1200	-	-	-
 Fimbulvetr	Anima	1-2	13	80	0	10	6000	-	-	-

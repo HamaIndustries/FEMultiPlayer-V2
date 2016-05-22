@@ -4,34 +4,34 @@ import net.fe.RNG;
 import net.fe.unit.Unit;
 
 /** A skill that always negates enemy defenses */
-public final class LunaPlus extends CombatTrigger {
+public final class CrossBow extends CombatTrigger {
 	private static final long serialVersionUID = -6539654970701395612L;
-	public LunaPlus(){
+	public CrossBow(){
 		super(NO_NAME_MOD, YOUR_TURN_PRE | SHOW_IN_PREVIEW);
 	}
 	@Override
-	public boolean attempt(Unit user, int range, Unit opponent) {
+	public boolean attempt(Unit user, int range, Unit other) {
 		return true;
 	}
 
 	@Override
 	public boolean runPreAttack(CombatCalculator stage, Unit a, Unit d) {
-		d.setTempMod("Def", -d.get("Def"));
-		d.setTempMod("Res", -d.get("Res"));
+		a.setTempMod("Str", -a.get("Str"));
+		a.setTempMod("Mag", -a.get("Mag"));
 		return true;
 	}
 	
 	public String getName() {
-		return "LunaPlus";
+		return "Crossbow";
 	}
 	
 	public CombatTrigger getCopy(){
-		return new LunaPlus();
+		return new CrossBow();
 	}
 	
 	@Override
 	public boolean equals(Object o){
-		return o instanceof LunaPlus;
+		return o instanceof CrossBow;
 	}
 	public int hashCode() { return (int)serialVersionUID; }
 }

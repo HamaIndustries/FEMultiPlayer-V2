@@ -74,6 +74,10 @@ public class AnimationArgs {
 			if (w.type == Weapon.Type.BOW){
 				this.classification = "ranged";
 			}
+			if (w.type == Weapon.Type.CROSSBOW){
+				wepAnimName = "bow";
+				this.classification = "ranged";
+			}
 		}
 	}
 }

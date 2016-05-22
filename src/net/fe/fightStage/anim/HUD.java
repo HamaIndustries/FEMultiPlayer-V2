@@ -53,7 +53,7 @@ public class HUD extends Entity {
 			crit = String.format("%3d",
 					Math.min(100, Math.max(u1.crit() - u2.dodge(), 0)));
 			dmg = String.format("%3d", Math.min(100,
-					Math.max(CombatCalculator.calculateBaseDamage(u1, u2), 0)));
+					Math.max(CombatCalculator.calculatePreviewDamage(u1, u2), 0)));
 		}
 
 		renderDepth = FightStage.HUD_DEPTH;
