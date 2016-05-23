@@ -75,8 +75,7 @@ public class ClientWaitStage extends WaitStage {
 					u.initializeEquipment();
 				}
 			}
-			FEMultiplayer.map = new ClientOverworldStage(session);
-			FEMultiplayer.setCurrentStage(FEMultiplayer.map);
+			FEMultiplayer.setCurrentStage(new ClientOverworldStage(session));
 		}
 	}
 

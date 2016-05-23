@@ -21,6 +21,7 @@ import net.fe.fightStage.anim.NoDamageEffect;
 import net.fe.fightStage.anim.Platform;
 import net.fe.fightStage.anim.SkillIndicator;
 import net.fe.overworldStage.Grid;
+import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.transition.FightOverworldTransition;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
@@ -164,6 +165,9 @@ public class FightStage extends Stage {
 	
 	/** The Constant DONE. */
 	public static final int DONE = 9;
+	
+	/** The stage to return to after the Fight Stage plays out */
+	private final ClientOverworldStage returnTo;
 
 	/**
 	 * Instantiates a new fight stage.
@@ -171,9 +175,10 @@ public class FightStage extends Stage {
 	 * @param u1 the u1
 	 * @param u2 the u2
 	 * @param attackQ the attack q
+	 * @param returnTo the stage to return to after this stage has played its animation
 	 */
 	public FightStage(UnitIdentifier u1, UnitIdentifier u2,
-			ArrayList<AttackRecord> attackQ) {
+			ArrayList<AttackRecord> attackQ, ClientOverworldStage returnTo) {
 		super(u1.partyColor.equals(u2.partyColor) ? "curing" :
 				u1.partyColor.equals(FEMultiplayer.getLocalPlayer().getParty().getColor()) ?
 						"fight" : "defense");
@@ -185,9 +190,6 @@ public class FightStage extends Stage {
 		shakeY = 0;
 		left = FEMultiplayer.getUnit(u1);
 		right = FEMultiplayer.getUnit(u2);
-		
-//		System.out.println(left);
-//		System.out.println(right);
 
 		range = Grid.getDistance(left, right);
 		cameraOffsetF = rangeToHeadDistance(range) - rangeToHeadDistance(1);
@@ -208,6 +210,7 @@ public class FightStage extends Stage {
 				+ "_bg");
 
 		this.attackQ = attackQ;
+		this.returnTo = returnTo;
 		preload();
 	}
 	
@@ -275,7 +278,7 @@ public class FightStage extends Stage {
 					+ right.name + " HP:" + right.getHp());
 			PRELOADED_EFFECTS.clear();
 			FEMultiplayer.reportFightResults(this);
-			addEntity(new FightOverworldTransition(FEMultiplayer.map, left,
+			addEntity(new FightOverworldTransition(returnTo, left,
 					right));
 			done = true;
 		}

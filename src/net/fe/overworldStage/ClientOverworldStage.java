@@ -19,11 +19,13 @@ import net.fe.Session;
 import net.fe.SoundTrack;
 import net.fe.editor.Level;
 import net.fe.editor.SpawnPoint;
+import net.fe.fightStage.FightStage;
 import net.fe.network.message.CommandMessage;
 import net.fe.network.message.EndTurn;
 import net.fe.overworldStage.context.Idle;
 import net.fe.overworldStage.context.TradeContext;
 import net.fe.overworldStage.context.WaitForMessages;
+import net.fe.transition.OverworldFightTransition;
 import net.fe.transition.OverworldEndTransition;
 import net.fe.unit.Item;
 import net.fe.unit.MapAnimation;
@@ -520,8 +522,13 @@ public class ClientOverworldStage extends OverworldStage {
 				callback = new Command() {
 					public void execute() {
 						unit.setMoved(true);
-						FEMultiplayer.goToFightStage(cmds.unit, 
-								other, cmds.attackRecords);
+						// play the battle animation
+						ClientOverworldStage.this.addEntity(new OverworldFightTransition(
+							ClientOverworldStage.this,
+							new FightStage(cmds.unit, other, cmds.attackRecords, ClientOverworldStage.this),
+							cmds.unit,
+							other
+						));
 					}
 				};
 			}

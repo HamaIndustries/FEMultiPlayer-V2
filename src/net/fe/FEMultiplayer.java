@@ -72,9 +72,6 @@ public class FEMultiplayer extends Game{
 	/** The turn. */
 	public static Player turn;
 	
-	/** The map. */
-	public static ClientOverworldStage map;
-	
 	/** The lobby. */
 	public static ClientLobbyStage lobby;
 	
@@ -196,7 +193,7 @@ public class FEMultiplayer extends Game{
 		testSession.addPlayer(p1);
 		testSession.addPlayer(p2);
 		
-		map = new ClientOverworldStage(testSession);
+		final ClientOverworldStage map = new ClientOverworldStage(testSession);
 		Unit u1 = UnitFactory.getUnit("Eirika");
 		u1.getInventory().add(WeaponFactory.getWeapon("Silver Sword"));
 		u1.equip(0);
@@ -230,7 +227,7 @@ public class FEMultiplayer extends Game{
 		u2.fillHp();
 		
 		
-		setCurrentStage(new FightStage(new UnitIdentifier(u1), new UnitIdentifier(u2), calc.getAttackQueue()));
+		setCurrentStage(new FightStage(new UnitIdentifier(u1), new UnitIdentifier(u2), calc.getAttackQueue(), map));
 	}
 	
 	/**
@@ -386,20 +383,6 @@ public class FEMultiplayer extends Game{
 	}
 	
 	/**
-	 * Go to fight stage. Calls the fightstage to animate the battle calculations
-	 * which have already occurred.
-	 *
-	 * @param u the Unit Identifier
-	 * @param other the other Unit's Identifier
-	 * @param queue the attack record
-	 */
-	public static void goToFightStage(UnitIdentifier u, UnitIdentifier other, 
-			ArrayList<AttackRecord> queue) {
-			FightStage to = new FightStage(u, other, queue);
-			currentStage.addEntity(new OverworldFightTransition((ClientOverworldStage)currentStage, to, u, other));
-	}
-	
-	/**
 	 * Sets the current stage.
 	 *
 	 * @param stage the new current stage
@@ -409,15 +392,6 @@ public class FEMultiplayer extends Game{
 		if(stage.soundTrack != null){
 			SoundTrack.loop(stage.soundTrack);
 		}
-	}
-
-	/**
-	 * Gets the overworld stage.
-	 *
-	 * @return the overworld stage
-	 */
-	public static Stage getOverworldStage() {
-		return map;
 	}
 	
 	/**
