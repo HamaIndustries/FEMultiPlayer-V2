@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 
-import net.fe.Command;
 import net.fe.FEResources;
 import net.fe.PaletteSwapper;
 import net.fe.Party;
@@ -98,7 +97,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	private transient float rX, rY;
 	
 	/** The callback. */
-	private transient Command callback;
+	private transient Runnable callback;
 	
 	/** The rescued. */
 	private boolean rescued;
@@ -243,7 +242,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 * @param p the p
 	 * @param callback the callback
 	 */
-	public void move(Path p, Command callback) {
+	public void move(Path p, Runnable callback) {
 		this.path = p.getCopy();
 		this.callback = callback;
 	}
@@ -261,9 +260,9 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 		final OverworldStage grid = (OverworldStage) stage;
 		Path p = new Path();
 		p.add(new Node(this.xcoord, this.ycoord));
-		rescuedUnit.move(p, new Command(){
+		rescuedUnit.move(p, new Runnable(){
 			@Override
-			public void execute() {
+			public void run() {
 				rescuedUnit.xcoord = oldX;
 				rescuedUnit.ycoord = oldY;
 				grid.removeUnit(rescuedUnit);
@@ -289,7 +288,6 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	public boolean canRescue(Unit u){
 		if(u == null)
 			return false;
-		//System.out.println(this.get("Aid") + " >= "+ u.get("Con"));
 		return this.get("Aid")>=u.get("Con");
 	}
 
@@ -301,7 +299,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 * @param y the y
 	 */
 	public void drop(int x, int y){
-		if(rescuedUnit == null) return;
+		if(rescuedUnit == null) throw new IllegalStateException("rescuedUnit == null");
 		rescuedUnit.rescued = false;
 		rescuedUnit.setMoved(true);
 		final OverworldStage grid = (OverworldStage) stage;
@@ -318,8 +316,8 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 * @param u the u
 	 */
 	public void give(Unit u){
-		if(rescuedUnit == null) return;
-		if(u.rescuedUnit() != null) return;
+		if(rescuedUnit == null) throw new IllegalStateException("rescuedUnit == null");
+		if(u.rescuedUnit() != null) throw new IllegalStateException(u.name + ".rescuedUnit() != null");
 		u.setRescuedUnit(rescuedUnit);
 		rescuedUnit = null;
 	}
@@ -383,7 +381,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 				if (path.size() == 0) {
 					// We made it to destination					
 					path = null;
-					callback.execute();
+					callback.run();
 				} else {
 					Node next = path.removeFirst();
 					rX = -(next.x - xcoord) * 16;
@@ -559,27 +557,26 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	}
 	
 	/**
-	 * Equip.
+	 * Equips the specified item.
 	 *
-	 * @param w the w
+	 * The assumption is that w is currently in this unit's inventory.
+	 * The weapon will pop into existence otherwise.
+	 * 
+	 * @param w the weapon
 	 */
 	public void equip(Weapon w) {
 		if (equippable(w)) {
 			this.isUnequipped = false;
-			if(stage != null){
-				((ClientOverworldStage) stage).addCmd("EQUIP");
-				((ClientOverworldStage) stage).addCmd(new UnitIdentifier(this));
-				((ClientOverworldStage) stage).addCmd(findItem(w));
-			}
 			inventory.remove(w);
 			inventory.add(0, w);
 		}
 	}
 	
 	/**
-	 * Equip.
+	 * Equip the item in the nth slot.
 	 *
-	 * @param i the i
+	 * @param i the index of the item to equip 
+	 * @throws ClassCastException if the item is not a Weapon 
 	 */
 	// For use in command message processing only
 	public void equip(int i) {

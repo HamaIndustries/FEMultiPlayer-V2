@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import net.fe.unit.UnitIdentifier;
+import net.fe.network.command.*;
 import net.fe.network.message.CommandMessage;
 import net.fe.FEMultiplayer;
 import net.fe.Player;
@@ -56,7 +57,7 @@ public final class OverworldStageTest {
 		CommandMessage command = new CommandMessage(
 				new UnitIdentifier(shover), 0,0,
 				new java.util.ArrayList<net.fe.fightStage.AttackRecord>(),
-				"SHOVE", new UnitIdentifier(shovee));
+				new ShoveCommand(new UnitIdentifier(shovee)));
 		stage.processCommands(command);
 		
 		// then the shovee has a new position
@@ -90,7 +91,7 @@ public final class OverworldStageTest {
 		CommandMessage command = new CommandMessage(
 				new UnitIdentifier(shover), 0,0,
 				new java.util.ArrayList<net.fe.fightStage.AttackRecord>(),
-				"SMITE", new UnitIdentifier(shovee));
+				new SmiteCommand(new UnitIdentifier(shovee)));
 		stage.processCommands(command);
 		
 		// then the shovee has a new position

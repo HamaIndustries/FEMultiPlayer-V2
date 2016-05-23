@@ -6,6 +6,7 @@ import net.fe.overworldStage.SelectTargetContext;
 import net.fe.overworldStage.Zone;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
+import net.fe.network.command.SmiteCommand;
 
 /**
  * An overworld context in which a target for the Shove action is selected
@@ -33,8 +34,9 @@ public final class SmiteTarget extends SelectTargetContext {
 	
 	@Override
 	public void unitSelected(Unit u) {
-		stage.addCmd("SMITE");
-		stage.addCmd(new UnitIdentifier(u));
+		SmiteCommand c = new SmiteCommand(new UnitIdentifier(u));
+		stage.addCmd(c);
+		c.applyClient(stage, unit, null).run();
 		stage.send();
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());

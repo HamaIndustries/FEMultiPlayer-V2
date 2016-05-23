@@ -5,28 +5,29 @@ import java.util.Arrays;
 
 import net.fe.fightStage.AttackRecord;
 import net.fe.network.Message;
+import net.fe.network.command.Command;
 import net.fe.unit.UnitIdentifier;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class CommandMessage.
  */
-public class CommandMessage extends Message {
+public final class CommandMessage extends Message {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 8131511231319584473L;
 	
 	/** The unit. */
-	public UnitIdentifier unit;
+	public final UnitIdentifier unit;
 	
 	/** The move x. */
-	public int moveX;
+	public final int moveX;
 	
 	/** The move y. */
-	public int moveY;
+	public final int moveY;
 	
 	/** The commands. */
-	public Object[] commands;
+	public final Command[] commands;
 	
 	/** The attack records. */
 	public ArrayList<AttackRecord> attackRecords;
@@ -41,7 +42,7 @@ public class CommandMessage extends Message {
 	 * @param commands the commands
 	 */
 	public CommandMessage(UnitIdentifier unit, 
-			int moveX, int moveY, ArrayList<AttackRecord> atk, Object... commands) {
+			int moveX, int moveY, ArrayList<AttackRecord> atk, Command... commands) {
 		this.commands = commands;
 		this.unit = unit;
 		this.moveX = moveX;

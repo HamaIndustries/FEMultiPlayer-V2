@@ -29,6 +29,7 @@ public final class SmiteTest {
 		HashMap<String, Integer> vals = new HashMap<String, Integer>();
 		vals.put("HP", 20);
 		vals.put("Mov", 5);
+		vals.put("Con", 8);
 		Unit unit = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		grid.addUnit(unit, 3,3);
 		
@@ -165,11 +166,11 @@ public final class SmiteTest {
 		vals.put("Mov", 5);
 		vals.put("Con", 8);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
-		Unit shovee = new Unit("test", Class.createClass("Falcoknight"), '-', vals, vals);
+		Unit shovee = new Unit("test", Class.createClass("Falconknight"), '-', vals, vals);
 		grid.addUnit(shover, 3,4);
 		grid.addUnit(shovee, 3,3);
 		
-		assertFalse(new Smite().allowed(shover, grid));
+		assertTrue(new Smite().allowed(shover, grid));
 	}
 		
 }

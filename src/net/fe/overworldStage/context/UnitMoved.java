@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import chu.engine.anim.AudioPlayer;
+import net.fe.network.command.WaitCommand;
 import net.fe.overworldStage.FieldSkill;
 import net.fe.overworldStage.Menu;
 import net.fe.overworldStage.MenuContext;
@@ -87,7 +88,7 @@ public class UnitMoved extends MenuContext<String> {
 		// TODO Finish this
 		AudioPlayer.playAudio("select");
 		if (selectedItem.equals("Wait")) {
-			stage.addCmd("WAIT");
+			stage.addCmd(new WaitCommand());
 			stage.send();
 			unit.setMoved(true);
 			stage.reset();	

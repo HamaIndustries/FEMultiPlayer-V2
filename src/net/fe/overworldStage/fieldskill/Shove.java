@@ -3,7 +3,6 @@ package net.fe.overworldStage.fieldskill;
 import java.io.Serializable;
 import java.util.Set;
 
-import net.fe.Command;
 import net.fe.unit.Unit;
 import net.fe.overworldStage.FieldSkill;
 import net.fe.overworldStage.Node;

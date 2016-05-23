@@ -6,6 +6,7 @@ import java.util.List;
 import chu.engine.anim.AudioPlayer;
 import net.fe.overworldStage.*;
 import net.fe.unit.Unit;
+import net.fe.network.command.DropCommand;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -85,7 +86,9 @@ public class DropTarget extends OverworldContext {
 	@Override
 	public void onSelect() {
 		AudioPlayer.playAudio("select");
-		stage.addCmd("DROP", getCurrentTarget().x, getCurrentTarget().y);
+		DropCommand c = new DropCommand(getCurrentTarget().x, getCurrentTarget().y);
+		c.applyClient(stage, unit, null).run();
+		stage.addCmd(c);
 		stage.send();
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());

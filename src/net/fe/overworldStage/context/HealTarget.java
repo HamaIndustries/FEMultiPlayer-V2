@@ -8,6 +8,8 @@ import chu.engine.anim.Renderer;
 import chu.engine.anim.Sprite;
 import chu.engine.anim.Transform;
 import net.fe.FEResources;
+import net.fe.network.command.EquipCommand;
+import net.fe.network.command.HealCommand;
 import net.fe.fightStage.FightStage;
 import net.fe.overworldStage.Grid;
 import net.fe.overworldStage.OverworldContext;
@@ -56,9 +58,9 @@ public class HealTarget extends SelectTargetContext {
 	 */
 	@Override
 	public void unitSelected(Unit u) {
+		stage.addCmd(new EquipCommand(new UnitIdentifier(unit), unit.findItem(selector.getSelected())));
 		unit.equip(selector.getSelected());
-		stage.addCmd("HEAL");
-		stage.addCmd(new UnitIdentifier(u));
+		stage.addCmd(new HealCommand(new UnitIdentifier(u)));
 		stage.send();
 
 		unit.setMoved(true);

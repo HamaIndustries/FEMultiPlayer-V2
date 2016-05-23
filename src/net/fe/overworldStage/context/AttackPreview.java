@@ -3,6 +3,8 @@ package net.fe.overworldStage.context;
 import java.util.ArrayList;
 
 import chu.engine.anim.AudioPlayer;
+import net.fe.network.command.EquipCommand;
+import net.fe.network.command.AttackCommand;
 import net.fe.overworldStage.*;
 import net.fe.unit.*;
 
@@ -59,8 +61,7 @@ public class AttackPreview extends OverworldContext{
 	@Override
 	public void onSelect() {
 		AudioPlayer.playAudio("select");
-		stage.addCmd("ATTACK");
-		stage.addCmd(new UnitIdentifier(defender));
+		stage.addCmd(new AttackCommand(new UnitIdentifier(defender)));
 		stage.send();
 		attacker.setMoved(true);
 		cursor.setXCoord(attacker.getXCoord());
@@ -116,6 +117,7 @@ public class AttackPreview extends OverworldContext{
 	 * Equip.
 	 */
 	public void equip(){
+		stage.addCmd(new EquipCommand(new UnitIdentifier(attacker), attacker.findItem(weapons.get(index))));
 		attacker.equip(weapons.get(index));
 	}
 

@@ -28,6 +28,7 @@ import net.fe.lobbystage.ClientLobbyStage;
 import net.fe.network.Client;
 import net.fe.network.FEServer;
 import net.fe.network.Message;
+import net.fe.network.command.Command;
 import net.fe.network.message.CommandMessage;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.Grid;
@@ -374,7 +375,7 @@ public class FEMultiplayer extends Game{
 	 * @param moveY the y-wards movement
 	 * @param cmds the commands for the unit
 	 */
-	public static void send(UnitIdentifier u, int moveX, int moveY, Object... cmds){
+	public static void send(UnitIdentifier u, int moveX, int moveY, Command... cmds){
 		for(Object o: cmds){
 			System.out.print(o + " ");
 		}

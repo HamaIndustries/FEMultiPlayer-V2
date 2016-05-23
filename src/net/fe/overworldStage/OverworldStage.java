@@ -16,12 +16,14 @@ import net.fe.Player;
 import net.fe.Session;
 import net.fe.editor.Level;
 import net.fe.editor.SpawnPoint;
+import net.fe.fightStage.AttackRecord;
 import net.fe.fightStage.CombatCalculator;
 import net.fe.fightStage.HealCalculator;
 import net.fe.modifier.Modifier;
 import net.fe.network.Chat;
 import net.fe.network.FEServer;
 import net.fe.network.Message;
+import net.fe.network.command.Command;
 import net.fe.network.message.ChatMessage;
 import net.fe.network.message.CommandMessage;
 import net.fe.network.message.EndGame;
@@ -50,7 +52,7 @@ public class OverworldStage extends Stage {
 	public Grid grid;
 	
 	/** The chat. */
-	protected Chat chat;
+	protected final Chat chat;
 	
 	/** The session. */
 	protected Session session;
@@ -360,92 +362,29 @@ public class OverworldStage extends Stage {
 	 * @param message the message
 	 */
 	public void processCommands(CommandMessage message) {
-		CommandMessage cmds = (CommandMessage) message;
 		//TODO: command validation
 		// After validation, update the unit position
 		// Move it instantly since this is the server stage
-		final Unit unit = (cmds.unit == null ? null : getUnit(cmds.unit));
+		final Unit unit = (message.unit == null ? null : getUnit(message.unit));
 		if(unit != null) {
-			grid.move(unit, unit.getXCoord()+cmds.moveX, unit.getYCoord()+cmds.moveY, false);
+			grid.move(unit, unit.getXCoord()+message.moveX, unit.getYCoord()+message.moveY, false);
 			unit.setMoved(true);
 		}
 		// Parse commands
 		
-		for(int i=0; i<cmds.commands.length; i++) {
-			Object obj = cmds.commands[i];
-			if(obj.equals("EQUIP")) {
-				Unit other = getUnit((UnitIdentifier) cmds.commands[++i]);
-				other.equip((Integer) cmds.commands[++i]);
-			}
-			else if(obj.equals("TRADE")) {
-				Unit u1 = getUnit((UnitIdentifier) cmds.commands[++i]);
-				int i1 = (Integer)cmds.commands[++i];
-				Unit u2 = getUnit((UnitIdentifier) cmds.commands[++i]);
-				int i2 = (Integer)cmds.commands[++i];
-				//Swap the two items
-				TradeContext.doTrade(u1.getInventory(), u2.getInventory(), i1, i2);
-			}
-			else if(obj.equals("USE")) {
-				int index = (Integer)cmds.commands[++i];
-				unit.use(index);
-			}
-			else if(obj.equals("RESCUE")) {
-				Unit rescuee = getUnit((UnitIdentifier) cmds.commands[++i]);
-				unit.rescue(rescuee);
-			}
-			else if(obj.equals("TAKE")) {
-				Unit other = getUnit((UnitIdentifier) cmds.commands[++i]);
-				other.give(unit);
-			}
-			else if(obj.equals("DROP")) {
-				int dropX = (Integer) cmds.commands[++i];
-				int dropY = (Integer) cmds.commands[++i];
-				unit.drop(dropX, dropY);
-			}
-			else if(obj.equals("ATTACK")) {
-				//This updates HP so we're ok
-				CombatCalculator calc = new CombatCalculator(cmds.unit, (UnitIdentifier) cmds.commands[++i], false);
-				cmds.attackRecords = calc.getAttackQueue();
-			}
-			else if(obj.equals("HEAL")) {
-				//This updates HP so we're ok
-				HealCalculator calc = new HealCalculator(cmds.unit, (UnitIdentifier) cmds.commands[++i], false);
-				cmds.attackRecords = calc.getAttackQueue();
-			}
-			else if(obj.equals("SUMMON")) {
-				final int dropX = (Integer) cmds.commands[++i];
-				final int dropY = (Integer) cmds.commands[++i];
-				
-				final Unit summon = net.fe.overworldStage.context.Summon.generateSummon(unit);
-				int tomeToUse = 0;
-				List<Item> items = unit.getInventory();
-				for(int z = 0; z < items.size(); z++){
-					if (items.get(z) instanceof RiseTome){
-						tomeToUse = z;
+		for(int i=0; i<message.commands.length; i++) {
+			try {
+				ArrayList<AttackRecord> record = message.commands[i].applyServer(this, unit);
+				if (record != null) {
+					if (message.attackRecords != null) {
+						throw new IllegalStateException("Two attacks in the same move");
+					} else {
+						message.attackRecords = record;
 					}
 				}
+			} catch (IllegalStateException e) {
 				
-				OverworldStage.this.addUnit(summon, dropX, dropY);
-				unit.use(tomeToUse);
-				checkEndGame();
-			}
-			else if(obj.equals("SHOVE")) {
-				final Unit shovee = getUnit((UnitIdentifier) cmds.commands[++i]);
-				int deltaX = shovee.getXCoord() - unit.getXCoord();
-				int deltaY = shovee.getYCoord() - unit.getYCoord();
-				grid.move(shovee, shovee.getXCoord() + deltaX, shovee.getYCoord() + deltaY, false);
-			}
-			else if(obj.equals("SMITE")) {
-				final Unit shovee = getUnit((UnitIdentifier) cmds.commands[++i]);
-				int deltaX = 2 * (shovee.getXCoord() - unit.getXCoord());
-				int deltaY = 2 * (shovee.getYCoord() - unit.getYCoord());
-				grid.move(shovee, shovee.getXCoord() + deltaX, shovee.getYCoord() + deltaY, false);
-			}
-			else if(obj.equals("WAIT")) {
-				// do nothing
-			}
-			else {
-				throw new IllegalArgumentException("Unkown command: " + obj);
+				throw e;
 			}
 		}
 		FEServer.getServer().broadcastMessage(message);
@@ -475,7 +414,7 @@ public class OverworldStage extends Stage {
 	 * @param id the id
 	 * @return the unit
 	 */
-	protected Unit getUnit(UnitIdentifier id) {
+	public Unit getUnit(UnitIdentifier id) {
 		for(Player p: session.getPlayers()){
 			if(!p.isSpectator() && p.getParty().getColor().equals(id.partyColor)){
 				return p.getParty().search(id.name);

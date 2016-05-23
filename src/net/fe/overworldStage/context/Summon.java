@@ -9,6 +9,7 @@ import net.fe.FEResources;
 import net.fe.overworldStage.*;
 import net.fe.unit.Unit;
 import net.fe.unit.WeaponFactory;
+import net.fe.network.command.SummonCommand;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -85,7 +86,9 @@ public class Summon extends OverworldContext {
 	@Override
 	public void onSelect() {
 		AudioPlayer.playAudio("select");
-		stage.addCmd("SUMMON", getCurrentTarget().x, getCurrentTarget().y);
+		SummonCommand c = new SummonCommand(getCurrentTarget().x, getCurrentTarget().y);
+		stage.addCmd(c);
+		c.applyClient(stage, unit, null).run();
 		stage.send();
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());

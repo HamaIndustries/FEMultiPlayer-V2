@@ -6,6 +6,7 @@ import net.fe.overworldStage.SelectTargetContext;
 import net.fe.overworldStage.Zone;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
+import net.fe.network.command.TakeCommand;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -41,9 +42,9 @@ public class TakeTarget extends SelectTargetContext {
 	 */
 	@Override
 	public void unitSelected(Unit u) {
-		stage.addCmd("TAKE");
-		stage.addCmd(new UnitIdentifier(u));
-		u.give(unit);
+		TakeCommand c = new TakeCommand(new UnitIdentifier(u));
+		stage.addCmd(c);
+		c.applyClient(stage, unit, null).run();
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
 		new UnitMoved(stage, this, unit, false, true).startContext();
