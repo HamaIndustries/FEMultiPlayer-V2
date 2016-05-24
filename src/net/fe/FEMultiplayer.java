@@ -70,14 +70,8 @@ public class FEMultiplayer extends Game{
 	/** The local player. */
 	private static Player localPlayer;
 	
-	/** The turn. */
-	public static Player turn;
-	
 	/** The lobby. */
 	public static ClientLobbyStage lobby;
-	
-	/** The connecting stage. */
-	public static ConnectStage connect;
 	
 	/** The test session, for testing fightstage. */
 	private static Session testSession;
@@ -141,7 +135,6 @@ public class FEMultiplayer extends Game{
 		glEnable(GL_LINE_SMOOTH);
 		
 		UnitFactory.getUnit("Lyn");
-		connect = new ConnectStage();
 		setCurrentStage(new TitleStage());
 		messages = new CopyOnWriteArrayList<Message>();
 		SoundTrack.loop("main");

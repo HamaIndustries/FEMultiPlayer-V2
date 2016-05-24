@@ -528,10 +528,8 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 			for(int i = min; i <= max; i++){
 				range.add(i);
 			}
-			Weapon w = (Weapon) item;
-			w.range = range;
 			if(inventory.size() < 4)
-				inventory.add(w);
+				inventory.add(((Weapon) item).getCopyWithNewRange(range));
 			return;
 		}
 		if(inventory.size() < 4)
@@ -1026,18 +1024,18 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	 * @param might the might
 	 */
 	public void debugCrit(int might){
-		getWeapon().crit=100;
-		getWeapon().hit=100;
-		getWeapon().mt=might;
+		Weapon w = getWeapon();
+		this.removeFromInventory(w);
+		this.equip(w.getCopyWithNewMtHitCrit(might, 100, 100));
 	}
 	
 	/**
 	 * Debug crit.
 	 */
 	public void debugCrit(){
-		getWeapon().crit=100;
-		getWeapon().hit=100;
-		getWeapon().mt=100;
+		Weapon w = getWeapon();
+		this.removeFromInventory(w);
+		this.equip(w.getCopyWithNewMtHitCrit(100, 100, 100));
 	}
 
 	/**

@@ -6,34 +6,22 @@ import java.util.Random;
 /**
  * The Class RNG.
  */
-public class RNG {
+public final class RNG {
 	
-	/** The seed. */
-	public static long seed;
+	private RNG() {}
 	
 	/** The rng. */
-	private static Random RNG = new Random();
+	private final static Random RNG = new Random();
 	
 	/**
-	 * Seed.
-	 *
-	 * @param rng the rng
-	 */
-	public static void seed(long rng){
-		RNG.setSeed(rng);
-	}
-	
-	/**
-	 * Gets the.
-	 *
-	 * @return the int
+	 * Returns a random number between 0 and 100
+	 * @return a random number between 0 and 100
 	 */
 	public static int get(){
 		return RNG.nextInt(100);
 	}
 	
 	static{
-		RNG = new Random();
 		long seed = RNG.nextLong();
 		RNG.setSeed(seed);
 		// Temporarily rig the RNG

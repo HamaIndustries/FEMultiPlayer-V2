@@ -140,7 +140,7 @@ public class TeamBuilderStage extends Stage {
 					addEntity(new ConfirmationMessage(){
 						@Override
 						public void confirm() {
-							FEMultiplayer.setCurrentStage(FEMultiplayer.connect);
+							FEMultiplayer.setCurrentStage(new ConnectStage());
 						}
 						public void cancel(){
 							control = true;

@@ -19,22 +19,22 @@ public class Weapon extends Item {
 	private static final long serialVersionUID = 6496663141806177211L;
 	
 	/** The modifiers. */
-	public HashMap<String, Integer> modifiers;
+	public final Map<String, Integer> modifiers;
 	
 	/** The crit. */
-	public int mt, hit, crit;
+	public final int mt, hit, crit;
 	
 	/** The range. */
-	public List<Integer> range;
+	public final List<Integer> range;
 	
 	/** The type. */
-	public Type type;
+	public final Type type;
 	
 	/** The effective. */
-	public ArrayList<String> effective;
+	public final List<String> effective;
 	
 	/** The pref. */
-	public String pref;
+	public final String pref;
 
 	
 	/**
@@ -42,28 +42,20 @@ public class Weapon extends Item {
 	 *
 	 * @param name the name
 	 */
-	public Weapon(String name) {
-		super(name);
-		// Initialize modifiers to 0
-		modifiers = new HashMap<String, Integer>();
-		modifiers.put("Skl", 0);
-		modifiers.put("Lck", 0);
-		modifiers.put("HP",  0);
-		modifiers.put("Str", 0);
-		modifiers.put("Mag", 0);
-		modifiers.put("Def", 0);
-		modifiers.put("Res", 0);
-		modifiers.put("Spd", 0);
-		modifiers.put("Lvl", 0);
-		modifiers.put("Con", 0);
-		modifiers.put("Mov", 0);
-		modifiers.put("Con", 0);
-		modifiers.put("Aid", 0);
-		mt = 0;
-		hit = 0;
-		crit = 0;
-		type = null;
-		effective = new ArrayList<String>();
+	public Weapon(String name, int maxUses, int id, int cost,
+			Type type, int mt, int hit, int crit, List<Integer> range,
+			Map<String, Integer> modifiers,
+			List<String> effective,
+			String pref) {
+		super(name, maxUses, id, cost);
+		this.type = type;
+		this.modifiers = java.util.Collections.unmodifiableMap(new HashMap<String, Integer>(modifiers));
+		this.mt = mt;
+		this.hit = hit;
+		this.crit = crit;
+		this.effective = java.util.Collections.unmodifiableList(new ArrayList<String>(effective));
+		this.range = java.util.Collections.unmodifiableList(new ArrayList<Integer>(range));
+		this.pref = pref;
 	}
 	
 	/**
@@ -190,20 +182,23 @@ public class Weapon extends Item {
 	 * @see net.fe.unit.Item#getCopy()
 	 */
 	public Weapon getCopy(){
-		Weapon w = new Weapon(name);
-		w.type = type;
-		w.range = new ArrayList<Integer>(range);
-		w.mt = mt;
-		w.hit = hit;
-		w.crit = crit;
-		w.setMaxUses(getMaxUses());
-		w.setCost(getCost());
-		w.effective = new ArrayList<String>(effective);
-		w.pref = pref;
-		w.modifiers = new HashMap<String, Integer>(modifiers);
-		w.id = id;
-		return w;
-		
+		return new Weapon(name, getMaxUses(), id, getCost(),
+				type, mt, hit, crit, range,
+				modifiers, effective, pref);
+	}
+	
+	/** Returns an item identical to this one, with the exception of an updated range */
+	public Weapon getCopyWithNewRange(List<Integer> newRange){
+		return new Weapon(name, getMaxUses(), id, getCost(),
+				type, mt, hit, crit, newRange,
+				modifiers, effective, pref);
+	}
+	
+	/** Returns an item identical to this one, with the exception of an updated mt, hit and crit */
+	public Weapon getCopyWithNewMtHitCrit(int newmt, int newhit, int newcrit){
+		return new Weapon(name, getMaxUses(), id, getCost(),
+				type, newmt, newhit, newcrit, range,
+				modifiers, effective, pref);
 	}
 
 	/* (non-Javadoc)
@@ -218,6 +213,41 @@ public class Weapon extends Item {
 			return second;
 		} else {
 			return -1;
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return super.hashCode() * 31 + (mt << 14 + hit << 7 + crit);
+	}
+	
+	@Override
+	protected boolean canEquals(Object other) {
+		return other instanceof Weapon;
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (other != null && other instanceof Weapon) {
+			Weapon o2 = (Weapon) other;
+			if (o2.canEquals(this)) {
+				return super.equals(o2) &&
+					this.mt == o2.mt &&
+					this.hit == o2.hit &&
+					this.crit == o2.crit &&
+					this.type == o2.type &&
+					this.range.equals(o2.range) &&
+					this.effective.equals(o2.effective) &&
+					(this.pref == null ?
+							o2.pref == null :
+							this.pref.equals(o2.pref)
+					) &&
+					this.modifiers.equals(o2.modifiers);
+			} else {
+				return false;
+			}
+		} else {
+			return false;
 		}
 	}
 }

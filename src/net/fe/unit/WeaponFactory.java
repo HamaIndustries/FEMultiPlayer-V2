@@ -51,31 +51,32 @@ public class WeaponFactory {
 			}
 			String[] args = line.split("\\t+");
 			String name = args[0];
-			Weapon w = new Weapon(name);
+			WeaponBuilder w = new WeaponBuilder();
+			w.name = name;
 			w.id = id++;
 			w.type = Weapon.Type.valueOf(args[1].toUpperCase());
 			
 			
-			List<Integer> range = new ArrayList<Integer>();
 			String[] rangeArgs = args[2].split("-");
 			if(rangeArgs.length == 1){
-				range.add(Integer.parseInt(rangeArgs[0]));
+				w.range.add(Integer.parseInt(rangeArgs[0]));
 			} else {
 				int min = Integer.parseInt(rangeArgs[0]);
 				int max = Integer.parseInt(rangeArgs[1]);
 				for(int i = min; i <= max; i++){
-					range.add(i);
+					w.range.add(i);
 				}
 			}
-			w.range = range;
 			
 			w.mt = Integer.parseInt(args[3]);
 			w.hit = Integer.parseInt(args[4]);
 			w.crit = Integer.parseInt(args[5]);
-			w.setMaxUses(Integer.parseInt(args[6]));
+			w.maxUses = Integer.parseInt(args[6]);
 			
 			if(!args[7].equals("-")){
-				w.setCost(Integer.parseInt(args[7]));
+				w.cost = Integer.parseInt(args[7]);
+			} else {
+				w.cost = 0;
 			}
 			
 			if(args[8].equals("Mount")){
@@ -95,7 +96,7 @@ public class WeaponFactory {
 				w.modifiers.put(modArgs[0], Integer.parseInt(modArgs[1]));
 			}
 			
-			weapons.put(name, w);
+			weapons.put(name, w.build());
 		}
 		in.close();
 	}
@@ -117,5 +118,47 @@ public class WeaponFactory {
 	 */
 	public static Iterable<Weapon> getAllWeapons(){
 		return weapons.values();
+	}
+	
+	
+	
+	private static final class WeaponBuilder {
+		public String name;
+		public int id;
+		public Weapon.Type type;
+		public final HashMap<String, Integer> modifiers;
+		public final ArrayList<Integer> range;
+		public int mt, hit, crit;
+		public int maxUses, cost;
+		public final ArrayList<String> effective;
+		public String pref;
+		
+		public WeaponBuilder() {
+			modifiers = new HashMap<>();
+			modifiers.put("Skl", 0);
+			modifiers.put("Lck", 0);
+			modifiers.put("HP",  0);
+			modifiers.put("Str", 0);
+			modifiers.put("Mag", 0);
+			modifiers.put("Def", 0);
+			modifiers.put("Res", 0);
+			modifiers.put("Spd", 0);
+			modifiers.put("Lvl", 0);
+			modifiers.put("Con", 0);
+			modifiers.put("Mov", 0);
+			modifiers.put("Con", 0);
+			modifiers.put("Aid", 0);
+			range = new ArrayList<>(3);
+			effective = new ArrayList<>();
+			pref = null;
+		}
+		
+		public Weapon build() {
+			return new Weapon(
+				name, maxUses, id, cost,
+				type, mt, hit, crit, range,
+				modifiers, effective, pref
+			);
+		}
 	}
 }

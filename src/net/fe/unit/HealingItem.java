@@ -5,7 +5,7 @@ package net.fe.unit;
 /**
  * The Class HealingItem.
  */
-public class HealingItem extends Item {
+public final class HealingItem extends Item {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -6169687038185884864L;
@@ -31,11 +31,8 @@ public class HealingItem extends Item {
 	 * @param cost the item's shop price
 	 */
 	public HealingItem(String name, int amount, int id, int cost){
-		super(name);
-		setMaxUses(3);
+		super(name, 3, id, cost);
 		this.amount = amount;
-		this.id = id;
-		setCost(cost);
 	}
 	
 	/* (non-Javadoc)
@@ -66,6 +63,31 @@ public class HealingItem extends Item {
 			return -1;
 		} else {
 			return 1;
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return super.hashCode() * 31 + amount;
+	}
+	
+	@Override
+	protected boolean canEquals(Object other) {
+		return other instanceof HealingItem;
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (other != null && other instanceof HealingItem) {
+			HealingItem o2 = (HealingItem) other;
+			if (o2.canEquals(this)) {
+				return super.equals(o2) &&
+					this.amount == o2.amount;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
 		}
 	}
 }

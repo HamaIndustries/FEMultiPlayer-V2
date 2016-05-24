@@ -86,7 +86,7 @@ public class TitleStage extends Stage{
 		if(counter > 0){
 			counter += Game.getDeltaSeconds();
 			if(counter >= 1.3f){
-				FEMultiplayer.setCurrentStage(FEMultiplayer.connect);
+				FEMultiplayer.setCurrentStage(new ConnectStage());
 			}
 		}
 		for(Entity e : entities) {

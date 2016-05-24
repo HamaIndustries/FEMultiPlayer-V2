@@ -7,6 +7,7 @@ import net.fe.FEResources;
 import net.fe.Party;
 import net.fe.Player;
 import net.fe.Session;
+import net.fe.ConnectStage;
 import net.fe.modifier.Modifier;
 import net.fe.network.FEServer;
 import net.fe.network.Message;
@@ -114,7 +115,7 @@ public class ClientLobbyStage extends LobbyStage {
 			public void onClick() {
 				AudioPlayer.playAudio("select");
 				FEMultiplayer.getClient().quit();
-				FEMultiplayer.setCurrentStage(FEMultiplayer.connect);
+				FEMultiplayer.setCurrentStage(new ConnectStage());
 			}
 			@Override
 			public void render() {

@@ -119,11 +119,27 @@ public final class UseCommandTest {
 	
 	
 	private Weapon createAxe(int i) {
-		Weapon retVal = new Weapon("baton" + i);
-		retVal.type = Weapon.Type.AXE;
-		retVal.range = java.util.Arrays.asList(1);
-		retVal.setMaxUses(1);
-		retVal.setUsesDEBUGGING(1);
+		
+		HashMap<String, Integer> modifiers = new HashMap<>();
+			modifiers.put("Skl", 0);
+			modifiers.put("Lck", 0);
+			modifiers.put("HP",  0);
+			modifiers.put("Str", 0);
+			modifiers.put("Mag", 0);
+			modifiers.put("Def", 0);
+			modifiers.put("Res", 0);
+			modifiers.put("Spd", 0);
+			modifiers.put("Lvl", 0);
+			modifiers.put("Con", 0);
+			modifiers.put("Mov", 0);
+			modifiers.put("Con", 0);
+			modifiers.put("Aid", 0);
+		
+		Weapon retVal = new Weapon(
+			"baton" + i, 1, 0, 0,
+			Weapon.Type.AXE, 0, 0, 0, java.util.Arrays.asList(1),
+			modifiers, new java.util.ArrayList<>(), null
+		);
 		return retVal;
 	}
 }

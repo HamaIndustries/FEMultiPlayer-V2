@@ -220,8 +220,7 @@ public final class ShoveTest {
 		shoveeVals.put("Con", 8);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', shoverVals, shoverVals);
 		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', shoveeVals, shoveeVals);
-		Weapon weapon = new Weapon("asdf");
-		weapon.type = Weapon.Type.SWORD;
+		Weapon weapon = createSword(1);
 		shover.getInventory().add(weapon);
 		shover.equip(0);
 		grid.addUnit(shover, 2,4);
@@ -254,4 +253,29 @@ public final class ShoveTest {
 		assertEquals(5, shovee.getXCoord());
 		assertEquals(3, shovee.getYCoord());
 	}*/
+	
+	private Weapon createSword(int i) {
+		
+		HashMap<String, Integer> modifiers = new HashMap<>();
+			modifiers.put("Skl", 0);
+			modifiers.put("Lck", 0);
+			modifiers.put("HP",  0);
+			modifiers.put("Str", 0);
+			modifiers.put("Mag", 0);
+			modifiers.put("Def", 0);
+			modifiers.put("Res", 0);
+			modifiers.put("Spd", 0);
+			modifiers.put("Lvl", 0);
+			modifiers.put("Con", 0);
+			modifiers.put("Mov", 0);
+			modifiers.put("Con", 0);
+			modifiers.put("Aid", 0);
+		
+		Weapon retVal = new Weapon(
+			"baton" + i, 1, 0, 0,
+			Weapon.Type.SWORD, 0, 0, 0, java.util.Arrays.asList(1),
+			modifiers, new java.util.ArrayList<>(), null
+		);
+		return retVal;
+	}
 }
