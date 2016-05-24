@@ -219,7 +219,7 @@ public class FEMultiplayer extends Game{
 		
 		// ^------- put all pre-calc stuff here
 		
-		CombatCalculator calc = new CombatCalculator(new UnitIdentifier(u1), new UnitIdentifier(u2), true);
+		CombatCalculator calc = new CombatCalculator(new UnitIdentifier(u1), new UnitIdentifier(u2), FEMultiplayer::getUnit);
 		System.out.println(calc.getAttackQueue());
 		
 		
@@ -356,15 +356,6 @@ public class FEMultiplayer extends Game{
 		AL.destroy();
 		Display.destroy();
 		if(client != null && client.isOpen()) client.quit();
-	}
-	
-	/**
-	 * Report fight results.
-	 *
-	 * @param stage the Fightstage the results come from
-	 */
-	public static void reportFightResults(FightStage stage){ 
-		
 	}
 	
 	/**

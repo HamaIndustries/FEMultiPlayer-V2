@@ -79,9 +79,6 @@ public class FEServer extends Game {
 	/** The lobby. */
 	public static LobbyStage lobby;
 	
-	/** The maps. */
-	private static Map<String, Objective[]> maps;
-	
 	/**
 	 * The main method.
 	 *
@@ -90,16 +87,18 @@ public class FEServer extends Game {
 	public static void main(String[] args) {
 		final JFrame frame = new JFrame("FEServer");
 		
-		Rout rout = new Rout();
-		Seize seize = new Seize();
-		
-		maps = new HashMap<String, Objective[]>();
-		maps.put("delphino", new Objective[]{rout});
-		maps.put("town", new Objective[]{rout});
-		maps.put("alpea", new Objective[]{seize});
-		maps.put("plains", new Objective[]{rout, seize});
-		maps.put("fort", new Objective[]{rout, seize});
-		maps.put("decay", new Objective[]{rout, seize});
+		final Map<String, Objective[]> maps = new HashMap<String, Objective[]>();
+		{
+			Rout rout = new Rout();
+			Seize seize = new Seize();
+			
+			maps.put("delphino", new Objective[]{rout});
+			maps.put("town", new Objective[]{rout});
+			maps.put("alpea", new Objective[]{seize});
+			maps.put("plains", new Objective[]{rout, seize});
+			maps.put("fort", new Objective[]{rout, seize});
+			maps.put("decay", new Objective[]{rout, seize});
+		}
 		
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		DefaultListModel<Modifier> sModel = new DefaultListModel<Modifier>();
@@ -284,16 +283,6 @@ public class FEServer extends Game {
 		frame.pack();
 		frame.setVisible(true);
 	}
-	
-	/**
-	 * Gets the session.
-	 *
-	 * @return the session
-	 */
-	protected Session getSession() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	/**
 	 * Instantiates a new FE server.
@@ -315,21 +304,6 @@ public class FEServer extends Game {
 		lobby = new LobbyStage(server.getSession());
 		currentStage = lobby;
 		serverThread.start();
-	}
-	
-	/**
-	 * Gets the unit.
-	 *
-	 * @param id the id
-	 * @return the unit
-	 */
-	public static Unit getUnit(UnitIdentifier id){
-		for(Player p: getPlayers().values()){
-			if(!p.isSpectator() && p.getParty().getColor().equals(id.partyColor)){
-				return p.getParty().search(id.name);
-			}
-		}
-		return null;
 	}
 	
 	/* (non-Javadoc)

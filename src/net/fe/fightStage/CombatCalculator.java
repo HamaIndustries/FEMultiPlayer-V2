@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.logging.Logger;
+import java.util.function.Function;
 import java.time.LocalDateTime;
-import static java.lang.System.out;
 
 import net.fe.FEMultiplayer;
 import net.fe.RNG;
@@ -39,16 +39,16 @@ public class CombatCalculator {
 	}
 	
 	/** The left & right units */
-	protected Unit left, right;
+	protected final Unit left, right;
 	
 	/** The attack queue. */
-	private ArrayList<AttackRecord> attackQueue;
+	private final ArrayList<AttackRecord> attackQueue;
 	
 	/** The range. */
-	private int range;
+	private final int range;
 	
 	/** The next attack. */
-	private Queue<String> nextAttack;
+	private final Queue<String> nextAttack;
 	
 	/** The attack triggers, weapon and unit skills */
 	private ArrayList<CombatTrigger> leftTriggers, rightTriggers;
@@ -58,34 +58,28 @@ public class CombatCalculator {
 	 *
 	 * @param u1 the unit id of fighter 1
 	 * @param u2 the unit id of fighter 2
-	 * @param local whether the attack was made by the client (true) or opponent (false)
+	 * @param dereference A function that converts a UnitIdentifier into a Unit
 	 */
-	public CombatCalculator(UnitIdentifier u1, UnitIdentifier u2, boolean local){
+	public CombatCalculator(UnitIdentifier u1, UnitIdentifier u2, Function<UnitIdentifier, Unit> dereference){
 		
-		if(local){
-			left = FEMultiplayer.getUnit(u1);
-			right = FEMultiplayer.getUnit(u2);
-		} else {
-			left = FEServer.getUnit(u1);
-			right = FEServer.getUnit(u2);
-			logger.fine("[BATL]0 BATTLESTART::");
-			logger.fine("[BATL]0 HP::" + left.name + " HP" + left.getHp() +
-					" " + right.name + " HP" + right.getHp());
-		}
-//		System.out.println(left);
-//		System.out.println(right);
+		left = dereference.apply(u1);
+		right = dereference.apply(u2);
+		
+		logger.fine("[BATL]0 BATTLESTART::");
+		logger.fine("[BATL]0 HP::" + left.name + " HP" + left.getHp() +
+				" " + right.name + " HP" + right.getHp());
+		
 		range = Grid.getDistance(left, right);
 		attackQueue = new ArrayList<AttackRecord>();
 		nextAttack = new LinkedList<String>();
 		calculate();
-		if(!local){
-			for(AttackRecord atk: attackQueue){
-				logger.fine("[BATL]0 ATTACKRECORD::" + atk.toString());
-			}
-			logger.fine("[BATL]0 HP::" + left.name + " HP" + left.getHp() +
-					" " + right.name + " HP" + right.getHp());
-			logger.fine("[BATL]0 BATTLEEND::");
+		
+		for(AttackRecord atk: attackQueue){
+			logger.fine("[BATL]0 ATTACKRECORD::" + atk.toString());
 		}
+		logger.fine("[BATL]0 HP::" + left.name + " HP" + left.getHp() +
+				" " + right.name + " HP" + right.getHp());
+		logger.fine("[BATL]0 BATTLEEND::");
 	}
 	
 	/**
@@ -106,7 +100,6 @@ public class CombatCalculator {
 				&& shouldAttack(right,left,range)) {
 			attackOrder.add(false);
 		}
-		//System.out.println(attackOrder);
 		leftTriggers = new ArrayList<CombatTrigger>();
 		for(CombatTrigger t: left.getTriggers()){
 			leftTriggers.add(t.getCopy());
@@ -316,7 +309,7 @@ public class CombatCalculator {
 		rec.drain = drain;
 		attackQueue.add(rec);
 
-		System.out.println(rec);
+		logger.fine(rec.toString());
 	}
 	
 	/**

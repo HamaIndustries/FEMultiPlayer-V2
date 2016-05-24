@@ -10,7 +10,7 @@ import net.fe.unit.UnitIdentifier;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class CommandMessage.
+ * A message indicating actions that a Unit should take
  */
 public final class CommandMessage extends Message {
 	

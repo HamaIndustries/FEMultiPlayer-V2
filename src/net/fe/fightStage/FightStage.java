@@ -277,7 +277,6 @@ public class FightStage extends Stage {
 			System.out.println(left.name + " HP:" + left.getHp() + " | "
 					+ right.name + " HP:" + right.getHp());
 			PRELOADED_EFFECTS.clear();
-			FEMultiplayer.reportFightResults(this);
 			addEntity(new FightOverworldTransition(returnTo, left,
 					right));
 			done = true;

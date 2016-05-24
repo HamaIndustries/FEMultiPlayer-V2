@@ -32,7 +32,7 @@ public final class HealCommand extends Command {
 		
 		//This updates HP so we're ok
 		final UnitIdentifier unitId = new UnitIdentifier(unit);
-		HealCalculator calc = new HealCalculator(unitId, otherId, false);
+		HealCalculator calc = new HealCalculator(unitId, otherId, (ui) -> stage.getUnit(ui));
 		return calc.getAttackQueue();
 	}
 	

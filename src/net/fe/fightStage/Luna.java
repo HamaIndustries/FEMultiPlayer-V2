@@ -7,13 +7,13 @@ import net.fe.unit.Unit;
 /**
  * The Class Luna.
  */
-public class Luna extends CombatTrigger {
+public final class Luna extends CombatTrigger {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -6539654970701395612L;
 	
 	/** The ranged. */
-	private transient boolean ranged;
+	private final boolean ranged;
 	
 	/**
 	 * Instantiates a new luna.

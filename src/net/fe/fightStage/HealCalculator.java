@@ -1,5 +1,7 @@
 package net.fe.fightStage;
 
+import java.util.function.Function;
+import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
 
 // TODO: Auto-generated Javadoc
@@ -11,12 +13,12 @@ public class HealCalculator extends CombatCalculator {
 	/**
 	 * Instantiates a new heal calculator.
 	 *
-	 * @param u1 the u1
-	 * @param u2 the u2
-	 * @param local the local
+	 * @param u1 the unit id of fighter 1
+	 * @param u2 the unit id of fighter 2
+	 * @param dereference A function that converts a UnitIdentifier into a Unit
 	 */
-	public HealCalculator(UnitIdentifier u1, UnitIdentifier u2, boolean local) {
-		super(u1, u2, local);
+	public HealCalculator(UnitIdentifier u1, UnitIdentifier u2, Function<UnitIdentifier, Unit> dereference) {
+		super(u1, u2, dereference);
 	}
 	
 	/* (non-Javadoc)

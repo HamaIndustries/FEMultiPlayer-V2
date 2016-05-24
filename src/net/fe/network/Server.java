@@ -54,8 +54,8 @@ public final class Server {
 	/** The allow connections. */
 	public boolean allowConnections;
 	
-	/** The counter. */
-	private byte counter = 1;
+	/** Contains the next playerId to be used when a player joins the server */
+	private byte nextPlayerId = 1;
 	
 	/**
 	 * Instantiates a new server.
@@ -80,11 +80,11 @@ public final class Server {
 			logger.info("SERVER: Waiting for connections...");
 			while(!closeRequested) {
 				Socket connectSocket = serverSocket.accept();
-				logger.info("SERVER: Connection #"+counter+" accepted!");
+				logger.info("SERVER: Connection #"+nextPlayerId+" accepted!");
 				ServerListener listener = new ServerListener(this, connectSocket);
 				clients.add(listener);
 				listener.start();
-				counter++;
+				nextPlayerId++;
 			}
 			serverSocket.close();
 		} catch (IOException e) {
@@ -110,7 +110,7 @@ public final class Server {
 	 * @return the count
 	 */
 	public byte getCount() {
-		return counter;
+		return nextPlayerId;
 	}
 
 	/**

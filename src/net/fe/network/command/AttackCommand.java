@@ -32,7 +32,7 @@ public final class AttackCommand extends Command {
 		
 		//This updates HP so we're ok
 		final UnitIdentifier unitId = new UnitIdentifier(unit);
-		CombatCalculator calc = new CombatCalculator(unitId, otherId, false);
+		CombatCalculator calc = new CombatCalculator(unitId, otherId, (ui) -> stage.getUnit(ui));
 		return calc.getAttackQueue();
 	}
 	
