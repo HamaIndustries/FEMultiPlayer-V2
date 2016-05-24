@@ -11,24 +11,24 @@ public class HealingItem extends Item {
 	private static final long serialVersionUID = -6169687038185884864L;
 	
 	/** The vulnerary. */
-	public static HealingItem VULNERARY = new HealingItem("Vulnerary", 10, 0, 300);
+	public static final HealingItem VULNERARY = new HealingItem("Vulnerary", 10, 0, 300);
 	
 	/** The concoction. */
-	public static HealingItem CONCOCTION = new HealingItem("Concoction", 20, 1, 1300);
+	public static final HealingItem CONCOCTION = new HealingItem("Concoction", 20, 1, 1300);
 	
 	/** The elixir. */
-	public static HealingItem ELIXIR = new HealingItem("Elixir", 99, 2, 3000);
+	public static final HealingItem ELIXIR = new HealingItem("Elixir", 99, 2, 3000);
 	
 	/** The amount. */
-	public int amount;
+	public final int amount;
 	
 	/**
 	 * Instantiates a new healing item.
 	 *
-	 * @param name the name
-	 * @param amount the amount
-	 * @param id the id
-	 * @param cost the cost
+	 * @param name the name of the item
+	 * @param amount the amount to heal by
+	 * @param id the icon index
+	 * @param cost the item's shop price
 	 */
 	public HealingItem(String name, int amount, int id, int cost){
 		super(name);

@@ -11,6 +11,7 @@ import net.fe.overworldStage.Node;
 import net.fe.overworldStage.Healthbar;
 import net.fe.unit.UnitIdentifier;
 import net.fe.unit.Unit;
+import net.fe.unit.HealingItem;
 import net.fe.unit.Item;
 import net.fe.unit.RiseTome;
 import java.util.Optional;
@@ -27,9 +28,12 @@ public final class UseCommand extends Command {
 	
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit unit) {
 		
-		//TODO: validate
-		unit.use(itemIndex);
-		return null;
+		if (unit.getInventory().get(itemIndex) instanceof HealingItem) {
+			unit.use(itemIndex);
+			return null;
+		} else {
+			throw new IllegalStateException("USE: not a healing item: " + unit.getInventory().get(itemIndex));
+		}
 	}
 	
 	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords) {
