@@ -321,7 +321,7 @@ public class FEMultiplayer extends Game{
 	@Override
 	public void loop() {
 		while(!Display.isCloseRequested()) {
-			time = System.nanoTime();
+			final long time = System.nanoTime();
 			glClear(GL_COLOR_BUFFER_BIT |
 			        GL_DEPTH_BUFFER_BIT |
 			        GL_STENCIL_BUFFER_BIT);
@@ -339,7 +339,6 @@ public class FEMultiplayer extends Game{
 			glPushMatrix();
 			//Global resolution scale
 //			Renderer.scale(scaleX, scaleY);
-			if(!paused) {
 				currentStage.beginStep();
 				currentStage.onStep();
 				currentStage.processAddStack();
@@ -348,7 +347,6 @@ public class FEMultiplayer extends Game{
 //				FEResources.getBitmapFont("stat_numbers").render(
 //						(int)(1.0f/getDeltaSeconds())+"", 440f, 0f, 0f);
 				currentStage.endStep();
-			}
 			glPopMatrix();
 			Display.update();
 			timeDelta = System.nanoTime()-time;

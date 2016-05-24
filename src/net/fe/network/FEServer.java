@@ -313,7 +313,7 @@ public class FEServer extends Game {
 	public void loop() {
 		boolean yes = true;
 		while(yes) {
-			time = System.nanoTime();
+			final long time = System.nanoTime();
 			messages.clear();
 			synchronized (server.messagesLock) {
 				try {
@@ -364,7 +364,7 @@ public class FEServer extends Game {
 	 *
 	 * @return the players
 	 */
-	public static HashMap<Byte, Player> getPlayers() {
+	private static HashMap<Byte, Player> getPlayers() {
 		return server.getSession().getPlayerMap();
 	}
 

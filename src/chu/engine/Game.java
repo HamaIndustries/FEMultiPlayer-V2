@@ -47,20 +47,14 @@ public abstract class Game {
 	/** The window height. */
 	protected static int windowHeight = 480;
 	
-	/** The paused. */
-	protected boolean paused = false;
-	
 	/** The keys. */
-	protected static List<KeyboardEvent> keys;
+	private static List<KeyboardEvent> keys;
 	
 	/** The mouse events. */
-	protected static List<MouseEvent> mouseEvents;
+	private static List<MouseEvent> mouseEvents;
 	
 	/** The messages. */
 	protected static CopyOnWriteArrayList<Message> messages;
-	
-	/** The time. */
-	protected long time;
 	
 	/** The time delta. */
 	protected static long timeDelta;
@@ -76,8 +70,6 @@ public abstract class Game {
 	 * @param name the name
 	 */
 	public void init(int width, int height, String name) {
-		time = System.nanoTime();
-		
 		windowWidth = Math.round(width*net.fe.FEResources.getWindowScale());
 		windowHeight = Math.round(height*net.fe.FEResources.getWindowScale());
 
@@ -177,24 +169,6 @@ public abstract class Game {
 		return messages;
 	}
 
-	/**
-	 * Gets the delta.
-	 *
-	 * @return the delta
-	 */
-	public static long getDelta() {
-		return timeDelta;
-	}
-	
-	/**
-	 * Gets the delta millis.
-	 *
-	 * @return the delta millis
-	 */
-	public static float getDeltaMillis() {
-		return timeDelta/1000000.0f;
-	}
-	
 	/**
 	 * Gets the delta seconds.
 	 *

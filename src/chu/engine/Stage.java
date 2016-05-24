@@ -12,13 +12,13 @@ import java.util.TreeSet;
 public abstract class Stage {
 	
 	/** The entities. */
-	protected TreeSet<Entity> entities;
+	protected final TreeSet<Entity> entities;
 	
 	/** The add stack. */
-	protected Stack<Entity> addStack;
+	protected final Stack<Entity> addStack;
 	
 	/** The remove stack. */
-	protected Stack<Entity> removeStack;
+	protected final Stack<Entity> removeStack;
 	
 	/** The sound track. */
 	public final String soundTrack;
