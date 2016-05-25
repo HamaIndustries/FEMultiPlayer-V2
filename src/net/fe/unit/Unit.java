@@ -37,28 +37,28 @@ import chu.engine.anim.Transform;
 /**
  * The Class Unit.
  */
-public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
+public final class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	
 	/** The bases. */
-	public HashMap<String, Integer> bases;
+	public final HashMap<String, Integer> bases;
 	
 	/** The growths. */
-	public HashMap<String, Integer> growths;
+	public final HashMap<String, Integer> growths;
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -5101031417704315547L;
 	
 	/** The stats. */
-	private HashMap<String, Float> stats;
+	private final HashMap<String, Float> stats;
 	
 	/** The skills. */
-	private ArrayList<CombatTrigger> skills;
+	private final ArrayList<CombatTrigger> skills;
 	
 	/** The hp. */
 	private int hp;
 	
 	/** The clazz. */
-	private Class clazz;
+	private final Class clazz;
 	
 	/** The gender. */
 	public final char gender;
@@ -67,7 +67,7 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
 	private boolean isUnequipped;
 	
 	/** The inventory. */
-	private ArrayList<Item> inventory;
+	private final ArrayList<Item> inventory;
 	
 	/** The name. */
 	public final String name;
@@ -199,7 +199,6 @@ public class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
         in.defaultReadObject();
         tempMods = new HashMap<String, Integer>();
         assist = new HashSet<Unit>();
-        skills = new ArrayList<CombatTrigger>();
         battleStats = new HashMap<String, Integer>();
         battleStats.put("Kills", 0);
         battleStats.put("Assists", 0);

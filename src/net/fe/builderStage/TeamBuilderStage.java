@@ -42,7 +42,7 @@ public class TeamBuilderStage extends Stage {
 	private Cursor cursor;
 	
 	/** The repeat timers. */
-	private float[] repeatTimers;
+	private final float[] repeatTimers;
 	
 	/** The funds. */
 	private int funds;
@@ -66,23 +66,23 @@ public class TeamBuilderStage extends Stage {
 	private boolean control = true;
 	
 	/** The controls. */
-	private ControlsDisplay controls;
+	private final ControlsDisplay controls;
 	
 	/** The can edit units. */
-	private boolean canEditUnits;
+	private final boolean canEditUnits;
 	
 	/** The hgap. */
 	//CONFIG
-	private static int name = 30, clazz = 100, lv = 170, hgap = 30; //xvals
+	private final static int name = 30, clazz = 100, lv = 170, hgap = 30; //xvals
 	
 	/** The table_ystart. */
-	private static int yStart = 40, vgap = 20, table_ystart = 10;
+	private final static int yStart = 40, vgap = 20, table_ystart = 10;
 	
-	/** The funds. */
-	public static int FUNDS = 48000;
+	/** The default maximum funds */
+	public final static int FUNDS = 48000;
 	
-	/** The exp. */
-	public static int EXP = 84000;
+	/** The default maximum EXP */
+	public final static int EXP = 84000;
 	
 	
 	
