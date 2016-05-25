@@ -152,4 +152,17 @@ public abstract class CombatTrigger implements Serializable {
 	 * @return the copy
 	 */
 	public abstract CombatTrigger getCopy();
+	
+	
+	protected boolean canEquals(Object other) {
+		return other instanceof CombatTrigger;
+	}
+	@Override
+	public boolean equals(Object other) {
+		return other instanceof CombatTrigger &&
+			((CombatTrigger) other).canEquals(this) &&
+			this.getClass().equals(other.getClass());
+	}
+	@Override public int hashCode() { return this.getClass().getName().hashCode(); }
+	@Override public String toString() { return this.getClass().getName(); }
 }

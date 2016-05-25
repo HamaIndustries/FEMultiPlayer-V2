@@ -18,7 +18,7 @@ import net.fe.overworldStage.Path;
 public final class Shove extends FieldSkill {
 	
 	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 6468268282716381357L;
+	private static final long serialVersionUID = 6468268282716381356L;
 	
 	/**
 	 * A skill that can be used in the overworld
@@ -78,4 +78,9 @@ public final class Shove extends FieldSkill {
 			shovee.get("Con") - 2 <= shover.get("Con")
 		);
 	}
+	
+	@Override
+	public int hashCode() { return (int) serialVersionUID; }
+	@Override
+	public boolean equals(Object other) { return other instanceof Smite; }
 }

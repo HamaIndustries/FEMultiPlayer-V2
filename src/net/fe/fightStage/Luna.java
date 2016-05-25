@@ -55,4 +55,17 @@ public final class Luna extends CombatTrigger {
 		return new Luna(ranged);
 	}
 
+	
+	protected boolean canEquals(Object other) {
+		return other instanceof Luna;
+	}
+	@Override
+	public boolean equals(Object other) {
+		return super.equals(other) &&
+			other instanceof Luna &&
+			((Luna) other).canEquals(this) &&
+			((Luna) other).ranged == this.ranged;
+	}
+	@Override public int hashCode() { return "Luna".hashCode() + (ranged ? 1 : 0); }
+	@Override public String toString() { return "Luna[" + (ranged ? "melee" : "ranged") + "]"; }
 }

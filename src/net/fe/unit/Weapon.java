@@ -40,13 +40,16 @@ public class Weapon extends Item {
 	/**
 	 * Instantiates a new weapon.
 	 *
-	 * @param name the name
+	 * @param name the weapon's name
+	 * @param maxUses the durability of the weapon
+	 * @param id icon number
+	 * @param cost price in shop
+	 * @param type the type of the weapon
 	 */
 	public Weapon(String name, int maxUses, int id, int cost,
 			Type type, int mt, int hit, int crit, List<Integer> range,
 			Map<String, Integer> modifiers,
-			List<String> effective,
-			String pref) {
+			List<String> effective, String pref) {
 		super(name, maxUses, id, cost);
 		this.type = type;
 		this.modifiers = java.util.Collections.unmodifiableMap(new HashMap<String, Integer>(modifiers));

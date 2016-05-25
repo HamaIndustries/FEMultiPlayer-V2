@@ -83,4 +83,9 @@ public final class Smite extends FieldSkill {
 			shovee.get("Con") - 2 <= shover.get("Con")
 		);
 	}
+	
+	@Override
+	public int hashCode() { return (int) serialVersionUID; }
+	@Override
+	public boolean equals(Object other) { return other instanceof Smite; }
 }
