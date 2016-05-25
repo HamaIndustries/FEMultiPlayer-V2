@@ -94,7 +94,7 @@ public class UnitBuilderStage extends Stage {
 		ui.setUnit(u);
 		addEntity(ui);
 		
-		shop = new ShopMenu(SHOP_X, SHOP_Y, session);
+		shop = new ShopMenu(SHOP_X, SHOP_Y, (session != null ? session.getModifiers() : java.util.Collections.emptySet()));
 		shop.clearSelection();
 		
 		addEntity(shop);

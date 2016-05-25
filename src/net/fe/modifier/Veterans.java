@@ -1,9 +1,9 @@
 package net.fe.modifier;
 
 import net.fe.builderStage.ShopMenu;
-import net.fe.builderStage.TeamBuilderStage;
-import net.fe.builderStage.TeamSelectionStage;
-import net.fe.overworldStage.OverworldStage;
+import net.fe.builderStage.TeamBuilderResources;
+import net.fe.unit.Weapon;
+import net.fe.unit.Unit;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -18,40 +18,23 @@ public class Veterans implements Modifier {
 	 * @see net.fe.modifier.Modifier#modifyTeam(net.fe.builderStage.TeamBuilderStage)
 	 */
 	@Override
-	public void modifyTeam(TeamBuilderStage stage) {
-		stage.setExp(999999999);
+	public TeamBuilderResources modifyTeamResources(TeamBuilderResources limits) {
+		return limits.copyWithNewExp(999999999);
 	}
 
 	/* (non-Javadoc)
 	 * @see net.fe.modifier.Modifier#modifyShop(net.fe.builderStage.ShopMenu)
 	 */
 	@Override
-	public void modifyShop(ShopMenu shop) {
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see net.fe.modifier.Modifier#modifyUnits(net.fe.builderStage.TeamSelectionStage)
-	 */
-	@Override
-	public void modifyUnits(TeamSelectionStage stage) {
-		
+	public Iterable<Weapon> modifyShop(Iterable<Weapon> shop) {
+		return shop;
 	}
 
 	/* (non-Javadoc)
 	 * @see net.fe.modifier.Modifier#initOverworld(net.fe.overworldStage.OverworldStage)
 	 */
 	@Override
-	public void initOverworld(OverworldStage stage) {
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see net.fe.modifier.Modifier#endOfTurn(net.fe.overworldStage.OverworldStage)
-	 */
-	@Override
-	public void endOfTurn(OverworldStage stage) {
-		
+	public void initOverworldUnits(Iterable<Unit> units) {
 	}
 
 	/* (non-Javadoc)

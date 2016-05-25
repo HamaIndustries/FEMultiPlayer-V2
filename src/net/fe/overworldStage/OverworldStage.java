@@ -90,7 +90,7 @@ public class OverworldStage extends Stage {
 		turnCount = 1;
 		loadLevel(session.getMap());
 		for(Modifier m : session.getModifiers()) {
-			m.initOverworld(this);
+			m.initOverworldUnits(this.getAllUnits());
 		}
 		processAddStack();
 	}
@@ -315,9 +315,6 @@ public class OverworldStage extends Stage {
 			for(Unit u : p.getParty()) {
 				u.setMoved(false);
 			}
-		}
-		for(Modifier m : session.getModifiers()) {
-			m.endOfTurn(this);
 		}
 		turnCount++;
 		checkEndGame();

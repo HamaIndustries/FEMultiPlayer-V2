@@ -1,5 +1,6 @@
 package net.fe.builderStage;
 
+import java.util.Set;
 import net.fe.FEResources;
 import net.fe.Session;
 import net.fe.modifier.Modifier;
@@ -52,7 +53,7 @@ public class ShopMenu extends Entity {
 	 * @param y the y
 	 * @param s the s
 	 */
-	public ShopMenu(float x, float y, Session s) {
+	public ShopMenu(float x, float y, Set<Modifier> ms) {
 		super(x, y);
 		shops = new ItemMenu[9];
 		shopIcons = new Texture[9];
@@ -63,7 +64,11 @@ public class ShopMenu extends Entity {
 			}};
 			shopIcons[i] = FEResources.getTexture("shop" + i);
 		}
-		for(Weapon w: WeaponFactory.getAllWeapons()){
+		Iterable<Weapon> weapons = WeaponFactory.getAllWeapons();
+		for (Modifier m : ms) {
+			weapons = m.modifyShop(weapons);
+		}
+		for(Weapon w: weapons){
 			ItemDisplay i = new ItemDisplay(0, 0, w.getCopy(), false);
 			if(w.pref != null || w.name.startsWith("Debug") || w.getCost() == 1) continue;
 			switch(w.type){
@@ -85,12 +90,6 @@ public class ShopMenu extends Entity {
 		
 		for(ItemMenu shop: shops){
 			shop.sortItems();
-		}
-		
-		if(s != null) {
-			for(Modifier m : s.getModifiers()) {
-				m.modifyShop(this);
-			}
 		}
 	}
 	

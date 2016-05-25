@@ -79,10 +79,10 @@ public class TeamBuilderStage extends Stage {
 	private final static int yStart = 40, vgap = 20, table_ystart = 10;
 	
 	/** The default maximum funds */
-	public final static int FUNDS = 48000;
+	private final static int FUNDS = 48000;
 	
 	/** The default maximum EXP */
-	public final static int EXP = 84000;
+	private final static int EXP = 84000;
 	
 	
 	
@@ -189,14 +189,14 @@ public class TeamBuilderStage extends Stage {
 			buttons = Arrays.asList( end );
 		}
 		
-		setFunds(FUNDS);
-		setExp(EXP);
-		
+		TeamBuilderResources res = new TeamBuilderResources(FUNDS, EXP);
 		if(getSession() != null) {
 			for(Modifier m : getSession().getModifiers()) {
-				m.modifyTeam(this);
+				res = m.modifyTeamResources(res);
 			}
 		}
+		this.setFunds(res.funds);
+		this.setExp(res.exp);
 		
 		cursor = new Cursor(9, yStart-4, 462, vgap, units.size());
 		cursor.on = true;

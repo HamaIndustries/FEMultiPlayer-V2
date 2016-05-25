@@ -3,9 +3,9 @@ package net.fe.modifier;
 import java.io.Serializable;
 
 import net.fe.builderStage.ShopMenu;
-import net.fe.builderStage.TeamBuilderStage;
-import net.fe.builderStage.TeamSelectionStage;
-import net.fe.overworldStage.OverworldStage;
+import net.fe.builderStage.TeamBuilderResources;
+import net.fe.unit.Weapon;
+import net.fe.unit.Unit;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -14,39 +14,33 @@ import net.fe.overworldStage.OverworldStage;
 public interface Modifier extends Serializable{
 	
 	/**
-	 * Modify team.
-	 *
-	 * @param stage the stage
+	 * Edit the resources availiable while building a team.
+	 * 
+	 * A default implementation is to return the parameter.
+	 * 
+	 * @param stage the initial starting resources
+	 * @return the new starting resources
 	 */
-	public void modifyTeam(TeamBuilderStage stage);
+	public TeamBuilderResources modifyTeamResources(TeamBuilderResources limits);
 	
 	/**
-	 * Modify shop.
+	 * Transforms a list of items.
+	 * 
+	 * A default implementation is to return the parameter.
 	 *
-	 * @param shop the shop
+	 * @param shop the items
+	 * @return the modified list
 	 */
-	public void modifyShop(ShopMenu shop);
+	public Iterable<Weapon> modifyShop(Iterable<Weapon> shop);
 	
 	/**
-	 * Modify units.
+	 * Modifies a list of players; for use immediately before the game starts
 	 *
-	 * @param stage the stage
+	 * Modifies the list in-line
+	 * 
+	 * @param units the units
 	 */
-	public void modifyUnits(TeamSelectionStage stage);
-	
-	/**
-	 * Inits the overworld.
-	 *
-	 * @param stage the stage
-	 */
-	public void initOverworld(OverworldStage stage);
-	
-	/**
-	 * End of turn.
-	 *
-	 * @param stage the stage
-	 */
-	public void endOfTurn(OverworldStage stage);
+	public void initOverworldUnits(Iterable<Unit> units);
 	
 	/**
 	 * Gets the description.

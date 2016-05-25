@@ -154,12 +154,6 @@ public class DraftViewStage extends Stage {
 		vassalList.addUnits(vassals);
 		vassalList.sort(new SortByName());
 		addEntity(vassalList);
-		//TODO: Modifiers
-//		if(s != null) {
-//			for(Modifier m : s.getModifiers()) {
-//				m.modifyUnits(this);
-//			}
-//		}
 		classSort = new Button(CS_BUTTON_X, BUTTON_Y, "Sort By Class", Color.blue, 95) {
 			public void execute() {
 				vassalList.sort(new SortByClass());
