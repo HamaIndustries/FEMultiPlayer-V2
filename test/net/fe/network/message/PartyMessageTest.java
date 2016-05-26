@@ -21,12 +21,12 @@ public final class PartyMessageTest {
 	}
 	
 	@Test
-	public void test_acceptsEmptyParty() {
+	public void test_validateTeam_acceptsEmptyParty() {
 		new PartyMessage(new ArrayList<>()).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>());
 	}
 	
 	@Test
-	public void test_acceptsSingleLord() {
+	public void test_validateTeam_acceptsSingleLord() {
 		ArrayList<Unit> units = new ArrayList<>(2);
 		units.add(UnitFactory.getUnit("Ike"));
 		
@@ -34,7 +34,7 @@ public final class PartyMessageTest {
 	}
 	
 	@Test
-	public void test_acceptsSingleVassal() {
+	public void test_validateTeam_acceptsSingleVassal() {
 		ArrayList<Unit> units = new ArrayList<>(2);
 		units.add(UnitFactory.getUnit("Lute"));
 		
@@ -42,7 +42,7 @@ public final class PartyMessageTest {
 	}
 	
 	@Test
-	public void test_acceptsNormalInventory_Weapon() {
+	public void test_validateTeam_acceptsNormalInventory_Weapon() {
 		ArrayList<Unit> units = new ArrayList<>(2);
 		{
 			Unit u = UnitFactory.getUnit("Lute");
@@ -54,7 +54,7 @@ public final class PartyMessageTest {
 	}
 	
 	@Test
-	public void test_acceptsNormalInventory_Rise() {
+	public void test_validateTeam_acceptsNormalInventory_Rise() {
 		ArrayList<Unit> units = new ArrayList<>(2);
 		{
 			Unit u = UnitFactory.getUnit("Lute");
@@ -65,7 +65,7 @@ public final class PartyMessageTest {
 	}
 	
 	@Test
-	public void test_acceptsNormalInventory_Elixir() {
+	public void test_validateTeam_acceptsNormalInventory_Elixir() {
 		ArrayList<Unit> units = new ArrayList<>(2);
 		{
 			Unit u = UnitFactory.getUnit("Lute");
@@ -76,7 +76,7 @@ public final class PartyMessageTest {
 	}
 	
 	@Test(expected=IllegalStateException.class)
-	public void test_RejectsUnknownItem() {
+	public void test_validateTeam_RejectsUnknownItem() {
 		ArrayList<Unit> units = new ArrayList<>(2);
 		{
 			Unit u = UnitFactory.getUnit("Lute");
@@ -87,7 +87,7 @@ public final class PartyMessageTest {
 	}
 	
 	@Test(expected=IllegalStateException.class)
-	public void test_RejectsUnusualItem() {
+	public void test_validateTeam_RejectsUnusualItem() {
 		ArrayList<Unit> units = new ArrayList<>(2);
 		{
 			Unit u = UnitFactory.getUnit("Lute");
@@ -97,8 +97,8 @@ public final class PartyMessageTest {
 		new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>());
 	}
 	
-	//@Test(expected=IllegalStateException.class)
-	public void test_RejectsUnusualUnit_Stats() {
+	@Test(expected=IllegalStateException.class)
+	public void test_validateTeam_RejectsUnusualUnit_Stats() {
 		ArrayList<Unit> units = new ArrayList<>(2);
 		{
 			Unit u = UnitFactory.getUnit("Lute");
@@ -109,7 +109,7 @@ public final class PartyMessageTest {
 	}
 	
 	@Test(expected=IllegalStateException.class)
-	public void test_RejectsUnusualUnit_Triggers() {
+	public void test_validateTeam_RejectsUnusualUnit_Triggers() {
 		ArrayList<Unit> units = new ArrayList<>(2);
 		{
 			Unit u = UnitFactory.getUnit("Lute");
@@ -120,7 +120,7 @@ public final class PartyMessageTest {
 	}
 	
 	@Test(expected=IllegalStateException.class)
-	public void test_RejectsTooHighLevelUnits() {
+	public void test_validateTeam_RejectsTooHighLevelUnits() {
 		ArrayList<Unit> units = new ArrayList<>(2);
 		for (int i = 0; i < 8; i++) {
 			Unit u = UnitFactory.getUnit("Lute");
@@ -131,7 +131,7 @@ public final class PartyMessageTest {
 	}
 	
 	@Test
-	public void test_AcceptsVeterans() {
+	public void test_validateTeam_AcceptsVeterans() {
 		ArrayList<Modifier> mods = new ArrayList<>(1);
 		mods.add(new Veterans());
 		ArrayList<Unit> units = new ArrayList<>(8);
@@ -144,7 +144,7 @@ public final class PartyMessageTest {
 	}
 	
 	@Test(expected=IllegalStateException.class)
-	public void test_RejectsTooMuchSpent() {
+	public void test_validateTeam_RejectsTooMuchSpent() {
 		Item liquidGold = new HealingItem("Liquid Gold", 1, 0, net.fe.builderStage.TeamBuilderStage.FUNDS + 1);
 		ArrayList<Unit> units = new ArrayList<>(2);
 		{
@@ -156,7 +156,7 @@ public final class PartyMessageTest {
 	}
 	
 	@Test
-	public void test_AcceptsTreasury() {
+	public void test_validateTeam_AcceptsTreasury() {
 		ArrayList<Modifier> mods = new ArrayList<>(1);
 		mods.add(new Treasury());
 		Item liquidGold = new HealingItem("Liquid Gold", 1, 0, net.fe.builderStage.TeamBuilderStage.FUNDS + 1);

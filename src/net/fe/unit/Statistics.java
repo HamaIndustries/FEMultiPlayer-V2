@@ -158,6 +158,11 @@ public final class Statistics {
 		}
 	}
 	
+	@Override
+	public String toString() {
+		return "Stats[" + this.toMap().toString() + "]";
+	}
+	
 	// TODO: Get rid of this
 	public Map<String, Integer> toMap() {
 		Map<String, Integer> retVal = new java.util.HashMap<>();

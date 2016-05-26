@@ -77,10 +77,25 @@ public final class PartyMessage extends Message {
 			}
 			{
 				Unit u3 = realUnits.apply(u.name);
-				u3.setLevel(u3.getLevel());
-				// TODO: no direct access to the unit's stats...
-				if (! u.getTheClass().equals(u3.getTheClass())) { throw new IllegalStateException("unit's class don't match expected"); }
-				if (! u.getTriggers().equals(u3.getTriggers())) { throw new IllegalStateException("unit's skills don't match expected"); }
+				u3.setLevel(u.getLevel());
+				if (! u.getBase().equals(u3.getBase())) {
+					throw new IllegalStateException("unit's stats don't match expected: " +
+						"\n\tClient: " + u.getBase() +
+						"\n\tServer: " + u3.getBase()
+					);
+				}
+				if (! u.getTheClass().equals(u3.getTheClass())) {
+					throw new IllegalStateException("unit's class don't match expected" +
+						"\n\tClient: " + u.getTheClass() +
+						"\n\tServer: " + u3.getTheClass()
+					);
+				}
+				if (! u.getTriggers().equals(u3.getTriggers())) {
+					throw new IllegalStateException("unit's skills don't match expected" +
+						"\n\tClient: " + u.getTriggers() +
+						"\n\tServer: " + u3.getTriggers()
+					);
+				}
 			}
 			
 			for (Item i : u.getInventory()) {
@@ -88,8 +103,6 @@ public final class PartyMessage extends Message {
 					throw new IllegalStateException("Item does not exist in list of real items: " + i);
 				}
 			}
-			
-			
 		}
 		
 		if (usedRes.exp > usableRes.exp) {

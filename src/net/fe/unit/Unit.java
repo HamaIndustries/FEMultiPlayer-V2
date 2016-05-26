@@ -935,6 +935,10 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		return this.level;
 	}
 
+	/**
+	 * Return current statistics including tempMods and weapon
+	 * and other non-unit things.
+	 */
 	public Statistics getStats() {
 		Statistics retVal = this.stats;
 		if (this.getWeapon() != null) {retVal = retVal.plus(this.getWeapon().modifiers);}
