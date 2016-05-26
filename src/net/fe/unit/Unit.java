@@ -967,6 +967,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	// this is used in too many loops to be easily refactored
 	public int getBase(String stat) {
 		switch (stat) {
+			case "Lvl": return this.getLevel();
 			case "Str" : return this.getBase().str;
 			case "Mag" : return this.getBase().mag;
 			case "Skl" : return this.getBase().skl;
@@ -976,6 +977,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 			case "Res" : return this.getBase().res;
 			case "Mov" : return this.getBase().mov;
 			case "Con" : return this.getBase().con;
+			case "HP": return this.getBase().maxHp;
 			default : throw new IllegalArgumentException("Unknown Stat: " + stat);
 		}
 	}

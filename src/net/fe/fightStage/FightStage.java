@@ -20,6 +20,7 @@ import net.fe.fightStage.anim.MissEffect;
 import net.fe.fightStage.anim.NoDamageEffect;
 import net.fe.fightStage.anim.Platform;
 import net.fe.fightStage.anim.SkillIndicator;
+import net.fe.network.Message;
 import net.fe.overworldStage.Grid;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.transition.FightOverworldTransition;
@@ -267,7 +268,8 @@ public class FightStage extends Stage {
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
+	public void beginStep(List<Message> messages) {
+		// TODO: returnTo.enqueueMessages(messages)
 		for (Entity e : entities) {
 			e.beginStep();
 		}

@@ -3,7 +3,7 @@ package net.fe.unit;
 /**
  * A record of a unit's contributions to a battle
  */
-public final class BattleStats {
+public final class BattleStats implements java.io.Serializable {
 	public final int kills;
 	public final int assists;
 	public final int damage;

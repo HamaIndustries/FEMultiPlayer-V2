@@ -19,6 +19,7 @@ import net.fe.SoundTrack;
 import net.fe.editor.Level;
 import net.fe.editor.SpawnPoint;
 import net.fe.fightStage.FightStage;
+import net.fe.network.Message;
 import net.fe.network.command.Command;
 import net.fe.network.command.AttackCommand;
 import net.fe.network.command.HealCommand;
@@ -249,8 +250,8 @@ public class ClientOverworldStage extends OverworldStage {
 	 * @see net.fe.overworldStage.OverworldStage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
-		super.beginStep();
+	public void beginStep(List<Message> messages) {
+		super.beginStep(messages);
 		for (Entity e : entities) {
 			e.beginStep();
 		}

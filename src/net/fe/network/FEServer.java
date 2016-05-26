@@ -302,7 +302,6 @@ public class FEServer extends Game {
 		net.fe.unit.WeaponFactory.loadWeapons();
 		net.fe.unit.UnitFactory.loadUnits();
 		
-		messages = new CopyOnWriteArrayList<Message>();
 		Thread serverThread = new Thread() {
 			public void run() {
 				server.start(21255);
@@ -321,7 +320,7 @@ public class FEServer extends Game {
 		boolean yes = true;
 		while(yes) {
 			final long time = System.nanoTime();
-			messages.clear();
+			final ArrayList<Message> messages = new ArrayList<>();
 			synchronized (server.messagesLock) {
 				try {
 					server.messagesLock.wait(1000);
@@ -332,7 +331,7 @@ public class FEServer extends Game {
 				for(Message m : messages)
 					server.messages.remove(m);
 			}
-			currentStage.beginStep();
+			currentStage.beginStep(messages);
 			currentStage.onStep();
 			currentStage.endStep();
 			timeDelta = System.nanoTime()-time;

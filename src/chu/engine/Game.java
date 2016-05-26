@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import net.fe.network.Message;
-
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -52,9 +50,6 @@ public abstract class Game {
 	
 	/** The mouse events. */
 	private static List<MouseEvent> mouseEvents;
-	
-	/** The messages. */
-	protected static CopyOnWriteArrayList<Message> messages;
 	
 	/** The time delta. */
 	protected static long timeDelta;
@@ -160,15 +155,6 @@ public abstract class Game {
 		return mouseEvents;
 	}
 	
-	/**
-	 * Gets the messages.
-	 *
-	 * @return the messages
-	 */
-	public static List<Message> getMessages() {
-		return messages;
-	}
-
 	/**
 	 * Gets the delta seconds.
 	 *

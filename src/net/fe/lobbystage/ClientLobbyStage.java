@@ -1,6 +1,7 @@
 package net.fe.lobbystage;
 
 import java.util.List;
+import java.util.Set;
 
 import net.fe.FEMultiplayer;
 import net.fe.FEResources;
@@ -174,12 +175,12 @@ public class ClientLobbyStage extends LobbyStage {
 	 * @see net.fe.lobbystage.LobbyStage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
-		super.beginStep();
+	public void beginStep(List<Message> messages) {
+		super.beginStep(messages);
 		for(Entity e : entities) {
 			e.beginStep();
 		}
-		for(Message message : Game.getMessages()) {
+		for(Message message : messages) {
 			if(message instanceof StartPicking) {
 				// Set up global list of players
 				for(Player p : FEMultiplayer.getPlayers().values()) {

@@ -15,6 +15,8 @@ import chu.engine.anim.Renderer;
 import chu.engine.anim.Sprite;
 import chu.engine.anim.Transform;
 
+import net.fe.network.Message;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class TitleStage.
@@ -54,7 +56,7 @@ public class TitleStage extends Stage{
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
+	public void beginStep(List<Message> messages) {
 		List<KeyboardEvent> keys = Game.getKeys();
 		for(KeyboardEvent ke : keys) {
 			if(ke.state) {

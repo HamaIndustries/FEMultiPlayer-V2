@@ -3,6 +3,7 @@ package net.fe;
 import java.util.List;
 
 import net.fe.builderStage.TeamBuilderStage;
+import net.fe.network.Message;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
@@ -76,7 +77,7 @@ public final class ConnectStage extends Stage {
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
+	public void beginStep(List<Message> messages) {
 		for(Entity e : entities) {
 			e.beginStep();
 		}

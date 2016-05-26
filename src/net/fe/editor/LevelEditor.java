@@ -11,6 +11,8 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 
+import static java.util.Collections.emptyList;
+
 import chu.engine.Game;
 import chu.engine.Stage;
 import chu.engine.anim.Renderer;
@@ -57,7 +59,7 @@ public class LevelEditor extends Game {
 			glClearDepth(1.0f);
 			getInput();
 			glPushMatrix();
-				currentStage.beginStep();
+				currentStage.beginStep(emptyList());
 				currentStage.onStep();
 				currentStage.processAddStack();
 				currentStage.processRemoveStack();

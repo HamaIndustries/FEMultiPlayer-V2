@@ -212,7 +212,7 @@ public class TeamSelectionStage extends Stage {
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
+	public void beginStep(List<Message> messages) {
 		for(Entity e: entities){
 			e.beginStep();
 		}

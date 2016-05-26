@@ -1,9 +1,12 @@
 package chu.engine;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Stack;
 import java.util.TreeSet;
+
+import net.fe.network.Message;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -193,7 +196,7 @@ public abstract class Stage {
 	/**
 	 * Begin step.
 	 */
-	public abstract void beginStep();
+	public abstract void beginStep(List<Message> messages);
 
 	/**
 	 * On step.

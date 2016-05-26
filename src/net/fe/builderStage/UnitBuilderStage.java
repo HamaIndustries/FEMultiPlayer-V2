@@ -13,6 +13,7 @@ import net.fe.fightStage.CrossBow;
 import net.fe.fightStage.FightStage;
 import net.fe.overworldStage.InventoryMenu;
 import net.fe.overworldStage.UnitInfo;
+import net.fe.network.Message;
 import net.fe.unit.HealingItem;
 import net.fe.unit.Item;
 import net.fe.unit.MapAnimation;
@@ -157,7 +158,7 @@ public class UnitBuilderStage extends Stage {
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
+	public void beginStep(List<Message> messages) {
 		for (Entity e : entities) {
 			e.beginStep();
 		}

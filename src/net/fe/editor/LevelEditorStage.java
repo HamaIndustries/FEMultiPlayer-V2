@@ -26,6 +26,8 @@ import chu.engine.Stage;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Tileset;
 
+import net.fe.network.Message;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class LevelEditorStage.
@@ -92,7 +94,7 @@ public class LevelEditorStage extends Stage {
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
+	public void beginStep(List<Message> messages) {
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
 			if (Mouse.isButtonDown(0)) {
 				selectedID = Math.min((Game.getWindowHeight() - Mouse.getY())

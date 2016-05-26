@@ -1,5 +1,7 @@
 package net.fe.transition;
 
+import static java.util.Collections.emptyList;
+
 import net.fe.FEMultiplayer;
 import net.fe.Transition;
 import net.fe.fightStage.FightStage;
@@ -67,7 +69,7 @@ public class FightOverworldTransition extends Transition {
 	public FightOverworldTransition(ClientOverworldStage to, Unit a, Unit b) {
 		super(to);
 		this.to = to;
-		to.beginStep();
+		to.beginStep(emptyList());
 		renderDepth = 0.0f;
 		triAlpha = 0f;
 		fightAlpha = 0.0f;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import net.fe.Button;
 import net.fe.ControlsDisplay;
@@ -375,12 +376,12 @@ public class TeamDraftStage extends Stage {
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
+	public void beginStep(List<Message> messages) {
 		for(Entity e: entities){
 			e.beginStep();
 		}
 		
-		for(Message message : Game.getMessages()) {
+		for(Message message : messages) {
 			if(message instanceof DraftMessage) {
 				DraftMessage dm = (DraftMessage)message;
 				Player p = session.getPlayer(dm.origin);

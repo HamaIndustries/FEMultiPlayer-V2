@@ -136,7 +136,6 @@ public class FEMultiplayer extends Game{
 		
 		UnitFactory.getUnit("Lyn");
 		setCurrentStage(new TitleStage());
-		messages = new CopyOnWriteArrayList<Message>();
 		SoundTrack.loop("main");
 		
 	}
@@ -315,7 +314,7 @@ public class FEMultiplayer extends Game{
 			        GL_STENCIL_BUFFER_BIT);
 			glClearDepth(1.0f);
 			getInput();
-			messages.clear();
+			final ArrayList<Message> messages = new ArrayList<>();
 			if(client != null){
 				synchronized (client.messagesLock) {
 					messages.addAll(client.messages);
@@ -327,7 +326,7 @@ public class FEMultiplayer extends Game{
 			glPushMatrix();
 			//Global resolution scale
 //			Renderer.scale(scaleX, scaleY);
-				currentStage.beginStep();
+				currentStage.beginStep(messages);
 				currentStage.onStep();
 				currentStage.processAddStack();
 				currentStage.processRemoveStack();

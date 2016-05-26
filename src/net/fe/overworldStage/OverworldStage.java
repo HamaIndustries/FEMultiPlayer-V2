@@ -259,8 +259,8 @@ public class OverworldStage extends Stage {
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
-		for(Message message : Game.getMessages()) {
+	public void beginStep(List<Message> messages) {
+		for(Message message : messages) {
 			if(message instanceof CommandMessage) {
 				processCommands((CommandMessage)message);
 			}

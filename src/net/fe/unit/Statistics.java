@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * A unit's combat capabilities
  */
-public final class Statistics {
+public final class Statistics implements java.io.Serializable {
 	public final int maxHp;
 	public final int str;
 	public final int mag;

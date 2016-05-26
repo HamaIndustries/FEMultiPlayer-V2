@@ -1,5 +1,7 @@
 package net.fe.lobbystage;
 
+import java.util.List;
+
 import net.fe.Party;
 import net.fe.Player;
 import net.fe.Session;
@@ -46,8 +48,8 @@ public class LobbyStage extends Stage {
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
-		for(Message message : Game.getMessages()) {
+	public void beginStep(List<Message> messages) {
+		for(Message message : messages) {
 			if(message instanceof JoinLobby) {
 				JoinLobby join = (JoinLobby)message;
 				session.addPlayer((byte) join.origin, join.player);

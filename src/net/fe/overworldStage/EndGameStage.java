@@ -1,5 +1,7 @@
 package net.fe.overworldStage;
 
+import java.util.List;
+
 import net.fe.FEMultiplayer;
 import net.fe.FEResources;
 import net.fe.Player;
@@ -18,6 +20,8 @@ import chu.engine.Game;
 import chu.engine.KeyboardEvent;
 import chu.engine.Stage;
 import chu.engine.anim.Renderer;
+
+import net.fe.network.Message;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -63,7 +67,7 @@ public class EndGameStage extends Stage {
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
+	public void beginStep(List<Message> messages) {
 		for(Entity e : entities) {
 			e.beginStep();
 		}

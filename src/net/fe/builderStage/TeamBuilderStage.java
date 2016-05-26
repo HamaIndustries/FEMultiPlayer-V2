@@ -13,6 +13,7 @@ import net.fe.*;
 import net.fe.fightStage.FightStage;
 import net.fe.modifier.Modifier;
 import net.fe.network.message.PartyMessage;
+import net.fe.network.Message;
 import net.fe.unit.Item;
 import net.fe.unit.MapAnimation;
 import net.fe.unit.Unit;
@@ -280,7 +281,7 @@ public class TeamBuilderStage extends Stage {
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
+	public void beginStep(List<Message> messages) {
 		boolean capture = control;
 		for (Entity e : entities) {
 			e.beginStep();
