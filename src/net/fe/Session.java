@@ -18,37 +18,46 @@ import net.fe.pick.PickMode;
  * @author Shawn
  *
  */
-public class Session implements Serializable {
+public final class Session implements Serializable {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 696432583909698581L;
 	
 	/** The players. */
-	private HashMap<Byte, Player> players;
+	private final HashMap<Byte, Player> players;
 	
 	/** The objective. */
-	private Objective objective;
+	private final Objective objective;
 	
 	/** The map. */
-	private String map;
+	private final String map;
 	
 	/** The max units. */
-	private int maxUnits;
+	private final int maxUnits;
 	
 	/** The modifiers. */
-	private Set<Modifier> modifiers;
+	private final Set<Modifier> modifiers;
 	
 	/** The pick mode. */
-	private PickMode pickMode;
+	private final PickMode pickMode;
 	
 	/**
-	 * Instantiates a new session.
+	 * Instantiates a new session with default values.
 	 */
 	public Session() {
+		this(new Rout(), "test", 8, new HashSet<>(), new Draft());
+	}
+	
+	/**
+	 * Instantiates a new session with the specified values
+	 */
+	public Session(Objective objective, String map, int maxUnits, Set<Modifier> modifiers, PickMode pickMode) {
 		players = new HashMap<Byte, Player>();
-		objective = new Rout();
-		modifiers = new HashSet<Modifier>();
-		pickMode = new Draft();
+		this.objective = objective;
+		this.modifiers = java.util.Collections.unmodifiableSet(new HashSet<Modifier>(modifiers));
+		this.maxUnits = maxUnits;
+		this.map = map;
+		this.pickMode = pickMode;
 	}
 	
 	/**
@@ -149,30 +158,12 @@ public class Session implements Serializable {
 	}
 	
 	/**
-	 * Sets the objective.
-	 *
-	 * @param objective the new objective
-	 */
-	public void setObjective(Objective objective) {
-		this.objective = objective;
-	}
-	
-	/**
 	 * Gets the map.
 	 *
 	 * @return the map
 	 */
 	public String getMap() {
 		return map;
-	}
-	
-	/**
-	 * Sets the map.
-	 *
-	 * @param map the new map
-	 */
-	public void setMap(String map) {
-		this.map = map;
 	}
 	
 	/**
@@ -185,15 +176,6 @@ public class Session implements Serializable {
 	}
 	
 	/**
-	 * Sets the max units.
-	 *
-	 * @param i the new max units
-	 */
-	public void setMaxUnits(int i) {
-		maxUnits = i;
-	}
-
-	/**
 	 * Gets the modifiers.
 	 *
 	 * @return the modifiers
@@ -203,15 +185,6 @@ public class Session implements Serializable {
 	}
 	
 	/**
-	 * Adds the modifier.
-	 *
-	 * @param m the m
-	 */
-	public void addModifier(Modifier m) {
-		modifiers.add(m);
-	}
-
-	/**
 	 * Gets the pick mode.
 	 *
 	 * @return the pick mode
@@ -220,14 +193,4 @@ public class Session implements Serializable {
 		return pickMode;
 	}
 
-	/**
-	 * Sets the pick mode.
-	 *
-	 * @param selectedItem the new pick mode
-	 */
-	public void setPickMode(PickMode selectedItem) {
-		pickMode = selectedItem;
-	}
-	
-	
 }

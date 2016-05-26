@@ -54,6 +54,7 @@ public final class PartyMessage extends Message {
 	}
 	
 	/**
+	 * Compares the units contained in this message with the parameters to detect anomalies
 	 * 
 	 * @throws IllegalStateException if something is off
 	 */

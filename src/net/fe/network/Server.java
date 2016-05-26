@@ -60,12 +60,11 @@ public final class Server {
 	/**
 	 * Instantiates a new server.
 	 */
-	public Server() {
+	public Server(Session s) {
 		messages = new ArrayList<Message>();
 		messagesLock = new Object();
 		clients = new CopyOnWriteArrayList<ServerListener>();
-		session = new Session();
-		session.setObjective(new Seize());
+		session = s;
 		allowConnections = true;
 	}
 	

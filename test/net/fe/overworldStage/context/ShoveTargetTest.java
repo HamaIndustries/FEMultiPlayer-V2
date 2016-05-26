@@ -51,7 +51,6 @@ public class ShoveTargetTest {
 	public void testTargetsWhenAllShoveesThenFourTargets() {
 		// things that have nothing to do with the test but need to be set up anyway
 		Session session = new Session();
-		session.setMap("test"); // Must be a valid name, despite the bypass `stage.grid = ` later
 		session.addPlayer(FEMultiplayer.getLocalPlayer());
 		ClientOverworldStage stage = new ClientOverworldStage(session);
 		stage.cursor.stage = stage; // this just looks wrong

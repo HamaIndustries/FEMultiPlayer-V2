@@ -41,9 +41,8 @@ public final class SmiteCommandTest {
 	public void testServer() {
 		
 		// given a stage and a unit
-		new net.fe.network.FEServer(); // ...
 		Session session = new Session();
-		session.setMap("test"); // Must be a valid name, despite the bypass `stage.grid = ` later
+		new net.fe.network.FEServer(session); // ...
 		session.addPlayer(FEMultiplayer.getLocalPlayer());
 		OverworldStage stage = new OverworldStage(session);
 		stage.grid = new Grid(6,6, Terrain.PLAIN);

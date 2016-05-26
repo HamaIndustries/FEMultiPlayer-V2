@@ -18,6 +18,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -247,17 +248,20 @@ public class FEServer extends Game {
 				frame.pack();
 				Thread serverThread = new Thread() {
 					public void run() {
-						FEServer feserver = new FEServer();
+						HashSet<Modifier> mods = new HashSet<Modifier>();
+						for(int i=0; i< selectedModifiersList.getModel().getSize(); i++) {
+							mods.add(selectedModifiersList.getModel().getElementAt(i));
+						}
+						Session s = new Session(
+							(Objective)objComboBox.getSelectedItem(),
+							(String)mapSelectionBox.getSelectedItem(),
+							(Integer)maxUnitsSpinner.getValue(),
+							mods,
+							(PickMode)pickModeBox.getSelectedItem()
+						);
+						
+						FEServer feserver = new FEServer(s);
 						try{
-							Session s = FEServer.getServer().getSession();
-							s.setMaxUnits((Integer)maxUnitsSpinner.getValue());
-							for(int i=0; i< selectedModifiersList.getModel().getSize(); i++) {
-								Modifier m = (Modifier) selectedModifiersList.getModel().getElementAt(i);
-								s.addModifier(m);
-							}
-							s.setMap((String)mapSelectionBox.getSelectedItem());
-							s.setObjective((Objective)objComboBox.getSelectedItem());
-							s.setPickMode((PickMode)pickModeBox.getSelectedItem());
 							feserver.init();
 							feserver.loop();
 						} catch (Exception e){
@@ -287,8 +291,8 @@ public class FEServer extends Game {
 	/**
 	 * Instantiates a new FE server.
 	 */
-	public FEServer() {
-		server = new Server();
+	public FEServer(Session s) {
+		server = new Server(s);
 	}
 	
 	/**
