@@ -353,9 +353,12 @@ public class ClientOverworldStage extends OverworldStage {
 	 * End.
 	 */
 	public void end(){
-		FEMultiplayer.getClient().sendMessage(new EndTurn());
+		EndTurn message = new EndTurn();
+		FEMultiplayer.getClient().sendMessage(message);
 		selectedUnit = null;
 		removeExtraneousEntities();
+		// do the turn transition stuff now to prevent fast-fingering a second end turn
+		super.beginStep(java.util.Collections.singletonList(message));
 	}
 	
 	/* (non-Javadoc)

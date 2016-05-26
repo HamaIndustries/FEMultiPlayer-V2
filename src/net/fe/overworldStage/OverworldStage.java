@@ -271,13 +271,15 @@ public class OverworldStage extends Stage {
 						chat.add(p, chatMsg.text);
 			}
 			else if(message instanceof EndTurn) {
-				((EndTurn) message).checkHp((ui) -> this.getUnit(ui));
-				doEndTurn(message.origin);
-				currentPlayer++;
-				if(currentPlayer >= turnOrder.size()) {
-					currentPlayer = 0;
+				if (message.origin == turnOrder.get(currentPlayer).getID()) {
+					((EndTurn) message).checkHp((ui) -> this.getUnit(ui));
+					doEndTurn(message.origin);
+					currentPlayer++;
+					if(currentPlayer >= turnOrder.size()) {
+						currentPlayer = 0;
+					}
+					doStartTurn(message.origin);
 				}
-				doStartTurn(message.origin);
 			}
 			else if(message instanceof QuitMessage) {
 				Player leaver = null;
