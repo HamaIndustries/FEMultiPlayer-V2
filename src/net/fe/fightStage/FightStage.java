@@ -269,7 +269,9 @@ public class FightStage extends Stage {
 	 */
 	@Override
 	public void beginStep(List<Message> messages) {
-		// TODO: returnTo.enqueueMessages(messages)
+		// Ensure messages are enqueued to be run in the Overworld stage
+		returnTo.beginStep(messages);
+		
 		for (Entity e : entities) {
 			e.beginStep();
 		}

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.Queue;
 import java.util.HashMap;
 
 import net.fe.FEMultiplayer;
@@ -85,10 +86,18 @@ public class ClientOverworldStage extends OverworldStage {
 	public int camY;
 	
 	/** The cam max x. */
-	public int camMaxX;
+	public final int camMaxX;
 	
 	/** The cam max y. */
-	public int camMaxY;
+	public final int camMaxY;
+	
+	/** The number of currently running messages.
+	 * Should be used as a semaphore to prevent messages from running in parallel
+	 */
+	private volatile int runningMessagesCount;
+	
+	/** Messages that this has recieved but not yet executed */
+	private final Queue<Message> pendingMessages;
 	
 	/** The Constant TILE_DEPTH. */
 	public static final float TILE_DEPTH = 0.95f;
@@ -154,6 +163,8 @@ public class ClientOverworldStage extends OverworldStage {
 		}
 		repeatTimers = new float[4];
 		currentCmdString = new ArrayList<Command>();
+		pendingMessages = new java.util.LinkedList<Message>();
+		runningMessagesCount = 0;
 	}
 	
 	/**
@@ -242,7 +253,6 @@ public class ClientOverworldStage extends OverworldStage {
 	 * @see chu.engine.Stage#render()
 	 */
 	public void render(){
-//		Renderer.scale(2, 2);
 		super.render();
 	}
 
@@ -251,7 +261,11 @@ public class ClientOverworldStage extends OverworldStage {
 	 */
 	@Override
 	public void beginStep(List<Message> messages) {
-		super.beginStep(messages);
+		messages.forEach(pendingMessages::add);
+		while (runningMessagesCount == 0 && pendingMessages.peek() != null) {
+			super.executeMessage(pendingMessages.poll());
+		}
+		
 		for (Entity e : entities) {
 			e.beginStep();
 		}
@@ -430,19 +444,15 @@ public class ClientOverworldStage extends OverworldStage {
 	 */
 	@Override
 	public void processCommands(final CommandMessage message) {
-		boolean execute = true;
-		if(message.origin == FEMultiplayer.getClient().getID()) {
-			execute = false;
-		}
-		//TODO: command validation
+		runningMessagesCount++;
+		final boolean execute = (message.origin != FEMultiplayer.getClient().getID());
+		
 		// Get unit and path
 		final Unit unit = (message.unit == null ? null : getUnit(message.unit));
 		// Parse commands
 		Runnable callback = new Runnable() {
 			@Override
 			public void run() {
-				if(unit != null) unit.setMoved(true);
-				checkEndGame();
 			}
 		};
 		for(int i=0; i<message.commands.length; i++) {
@@ -458,6 +468,17 @@ public class ClientOverworldStage extends OverworldStage {
 					}
 				};
 			}
+		}
+		{
+			final Runnable callback2 = callback; // local variables referenced from an inner class must be final or effectively final
+			callback = new Runnable() {
+				public void run() {
+					callback2.run();
+					if(unit != null) unit.setMoved(true);
+					checkEndGame();
+					runningMessagesCount--;
+				}
+			};
 		}
 		if(execute && unit != null) {
 			AudioPlayer.playAudio("select");

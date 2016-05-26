@@ -255,12 +255,15 @@ public class OverworldStage extends Stage {
         }
 	}
 
-	/* (non-Javadoc)
-	 * @see chu.engine.Stage#beginStep()
-	 */
 	@Override
 	public void beginStep(List<Message> messages) {
 		for(Message message : messages) {
+			this.executeMessage(message);
+		}
+	}
+	
+	/** Peroform an action in response to receiving the message */
+	protected final void executeMessage(Message message) {
 			if(message instanceof CommandMessage) {
 				processCommands((CommandMessage)message);
 			}
@@ -293,7 +296,6 @@ public class OverworldStage extends Stage {
 				System.out.println(leaver.getName()+" LEFT THE GAME");
 				checkEndGame();
 			}
-		}
 	}
 	
 	/**
