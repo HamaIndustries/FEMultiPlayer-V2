@@ -92,11 +92,11 @@ public class CombatCalculator {
 			attackOrder.add(true);
 		if (shouldAttack(right,left,range))
 			attackOrder.add(false);
-		if (left.get("Spd") >= right.get("Spd") + 4 
+		if (left.getStats().spd >= right.getStats().spd + 4 
 				&& shouldAttack(left,right,range)) {
 			attackOrder.add(true);
 		}
-		if (right.get("Spd") >= left.get("Spd") + 4
+		if (right.getStats().spd >= left.getStats().spd + 4
 				&& shouldAttack(right,left,range)) {
 			attackOrder.add(false);
 		}
@@ -333,13 +333,12 @@ public class CombatCalculator {
 		
 		int base;
 		if (a.getWeapon().isMagic()) {
-			base = a.get("Mag")
+			base = a.getStats().mag
 					+ (a.getWeapon().mt + a.getWeapon().triMod(d.getWeapon()))
-					* (effective ? 3: 1) - d.get("Res");
-		} else {
-			base = a.get("Str")
+					* (effective ? 3: 1) - d.getStats().res;		} else {
+			base = a.getStats().str
 					+ (a.getWeapon().mt + a.getWeapon().triMod(d.getWeapon()))
-					* (effective? 3:1) - d.get("Def");
+					* (effective? 3:1) - d.getStats().def;
 		}
 		
 		return Math.max(base, 0);

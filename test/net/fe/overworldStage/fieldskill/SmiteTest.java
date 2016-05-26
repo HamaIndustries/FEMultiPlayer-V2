@@ -20,16 +20,14 @@ import net.fe.overworldStage.Terrain;
 import net.fe.overworldStage.Zone;
 import net.fe.unit.Class;
 import net.fe.unit.Unit;
+import net.fe.unit.Statistics;
 
 public final class SmiteTest {
 	
 	@Test
 	public void testAllowed_whenEmptyField_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit unit = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		grid.addUnit(unit, 3,3);
 		
@@ -39,10 +37,7 @@ public final class SmiteTest {
 	@Test
 	public void testAllowed_whenAdjacentSameConUnits_thenTrue() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		grid.addUnit(shover, 3,3);
@@ -54,10 +49,7 @@ public final class SmiteTest {
 	@Test
 	public void testAllowed_whenTargetOffTopEdge_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		grid.addUnit(shover, 3,1);
@@ -69,10 +61,7 @@ public final class SmiteTest {
 	@Test
 	public void testAllowed_whenTargetOffTopEdge2_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		grid.addUnit(shover, 3,2);
@@ -84,10 +73,7 @@ public final class SmiteTest {
 	@Test
 	public void testAllowed_whenTargetOffLeftEdge_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		grid.addUnit(shover, 1,3);
@@ -99,10 +85,7 @@ public final class SmiteTest {
 	@Test
 	public void testAllowed_whenTargetOffRightEdge_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		grid.addUnit(shover, 4,3);
@@ -114,10 +97,7 @@ public final class SmiteTest {
 	@Test
 	public void testAllowed_whenTargetOffBottomEdge_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		grid.addUnit(shover, 3,4);
@@ -129,10 +109,7 @@ public final class SmiteTest {
 	@Test
 	public void testAllowed_whenTargetIsThirdUnit_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit third = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
@@ -146,10 +123,7 @@ public final class SmiteTest {
 	@Test
 	public void testAllowed_whenTargetIsSea_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.SEA);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		grid.addUnit(shover, 3,4);
@@ -161,10 +135,7 @@ public final class SmiteTest {
 	@Test
 	public void testAllowed_whenTargetIsSeaAndSmiteeIsFlier_thenTrue() {
 		Grid grid = new Grid(6,6, Terrain.SEA);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit shovee = new Unit("test", Class.createClass("Falconknight"), '-', vals, vals);
 		grid.addUnit(shover, 3,4);

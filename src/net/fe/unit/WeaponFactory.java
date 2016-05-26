@@ -93,7 +93,7 @@ public class WeaponFactory {
 			
 			if(!args[10].equals("-")){
 				String[] modArgs = args[10].split(" ");
-				w.modifiers.put(modArgs[0], Integer.parseInt(modArgs[1]));
+				w.modifiers = w.modifiers.copy(modArgs[0], Integer.parseInt(modArgs[1]));
 			}
 			
 			weapons.put(name, w.build());
@@ -126,7 +126,7 @@ public class WeaponFactory {
 		public String name;
 		public int id;
 		public Weapon.Type type;
-		public final HashMap<String, Integer> modifiers;
+		public Statistics modifiers;
 		public final ArrayList<Integer> range;
 		public int mt, hit, crit;
 		public int maxUses, cost;
@@ -134,20 +134,7 @@ public class WeaponFactory {
 		public String pref;
 		
 		public WeaponBuilder() {
-			modifiers = new HashMap<>();
-			modifiers.put("Skl", 0);
-			modifiers.put("Lck", 0);
-			modifiers.put("HP",  0);
-			modifiers.put("Str", 0);
-			modifiers.put("Mag", 0);
-			modifiers.put("Def", 0);
-			modifiers.put("Res", 0);
-			modifiers.put("Spd", 0);
-			modifiers.put("Lvl", 0);
-			modifiers.put("Con", 0);
-			modifiers.put("Mov", 0);
-			modifiers.put("Con", 0);
-			modifiers.put("Aid", 0);
+			modifiers = new Statistics();
 			range = new ArrayList<>(3);
 			effective = new ArrayList<>();
 			pref = null;

@@ -199,7 +199,7 @@ public class UnitMoved extends MenuContext<String> {
 		for (Node n : range) {
 			Unit p = grid.getUnit(n.x, n.y);
 			if (p != null && stage.getCurrentPlayer().getParty().isAlly(p.getParty())
-					&& p.getHp() != p.get("HP")) {
+					&& p.getHp() != p.getStats().maxHp) {
 				heal = true;
 				break;
 			}
@@ -232,7 +232,7 @@ public class UnitMoved extends MenuContext<String> {
 			if(p == null && unit.rescuedUnit() != null && 
 					grid.getTerrain(n.x, n.y).getMoveCost(
 					unit.rescuedUnit().getTheClass()) < unit
-					.rescuedUnit().get("Mov")){
+					.rescuedUnit().getStats().mov){
 				drop = true;
 			}
 			
@@ -240,7 +240,7 @@ public class UnitMoved extends MenuContext<String> {
 			if (p == null
 					&& grid.getTerrain(n.x, n.y).getMoveCost(
 							net.fe.unit.Class.createClass("Phantom")) <
-							unit.get("Mov") && 
+							unit.getStats().mov && 
 							unit.getTheClass().usableWeapon.contains(Weapon.Type.DARK)) {
 				for (Item i : unit.getInventory()) {
 					if (i instanceof RiseTome)

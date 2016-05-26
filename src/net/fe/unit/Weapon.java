@@ -19,7 +19,7 @@ public class Weapon extends Item {
 	private static final long serialVersionUID = 6496663141806177211L;
 	
 	/** The modifiers. */
-	public final Map<String, Integer> modifiers;
+	public Statistics modifiers;
 	
 	/** The crit. */
 	public final int mt, hit, crit;
@@ -48,11 +48,11 @@ public class Weapon extends Item {
 	 */
 	public Weapon(String name, int maxUses, int id, int cost,
 			Type type, int mt, int hit, int crit, List<Integer> range,
-			Map<String, Integer> modifiers,
+			Statistics modifiers,
 			List<String> effective, String pref) {
 		super(name, maxUses, id, cost);
 		this.type = type;
-		this.modifiers = java.util.Collections.unmodifiableMap(new HashMap<String, Integer>(modifiers));
+		this.modifiers = modifiers;
 		this.mt = mt;
 		this.hit = hit;
 		this.crit = crit;

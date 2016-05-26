@@ -25,15 +25,16 @@ import net.fe.unit.Unit;
 import net.fe.unit.HealingItem;
 import net.fe.unit.RiseTome;
 import net.fe.unit.Weapon;
+import net.fe.unit.Statistics;
 
 public final class UseCommandTest {
 	
 	@Test
 	public void testHealingItem_Server() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics();
+		vals = vals.copy("HP", 20);
+		vals = vals.copy("Mov", 5);
+		vals = vals.copy("Con", 8);
 		Unit unit = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		unit.addToInventory(new HealingItem("Blarg", 5, 0, 1));
 		unit.setHp(3);
@@ -47,10 +48,10 @@ public final class UseCommandTest {
 	
 	@Test
 	public void testHealingItem_HighHealth_Server() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics();
+		vals = vals.copy("HP", 20);
+		vals = vals.copy("Mov", 5);
+		vals = vals.copy("Con", 8);
 		Unit unit = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		unit.addToInventory(new HealingItem("Blarg", 15, 0, 1));
 		unit.setHp(15);
@@ -64,10 +65,10 @@ public final class UseCommandTest {
 	
 	@Test
 	public void testHealingItem_OneUse_Server() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics();
+		vals = vals.copy("HP", 20);
+		vals = vals.copy("Mov", 5);
+		vals = vals.copy("Con", 8);
 		Unit unit = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		unit.addToInventory(new HealingItem("Blarg", 15, 0, 1));
 		unit.setHp(15);
@@ -82,10 +83,10 @@ public final class UseCommandTest {
 	
 	@Test
 	public void testHealingItem_OneUseWithWeapons_Server() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics();
+		vals = vals.copy("HP", 20);
+		vals = vals.copy("Mov", 5);
+		vals = vals.copy("Con", 8);
 		Unit unit = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		unit.addToInventory(new HealingItem("Blarg", 15, 0, 1));
 		unit.setHp(15);
@@ -101,10 +102,10 @@ public final class UseCommandTest {
 	
 	@Test
 	public void testRise_Server() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics();
+		vals = vals.copy("HP", 20);
+		vals = vals.copy("Mov", 5);
+		vals = vals.copy("Con", 8);
 		Unit unit = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		unit.addToInventory(new RiseTome());
 		unit.setHp(3);
@@ -120,25 +121,10 @@ public final class UseCommandTest {
 	
 	private Weapon createAxe(int i) {
 		
-		HashMap<String, Integer> modifiers = new HashMap<>();
-			modifiers.put("Skl", 0);
-			modifiers.put("Lck", 0);
-			modifiers.put("HP",  0);
-			modifiers.put("Str", 0);
-			modifiers.put("Mag", 0);
-			modifiers.put("Def", 0);
-			modifiers.put("Res", 0);
-			modifiers.put("Spd", 0);
-			modifiers.put("Lvl", 0);
-			modifiers.put("Con", 0);
-			modifiers.put("Mov", 0);
-			modifiers.put("Con", 0);
-			modifiers.put("Aid", 0);
-		
 		Weapon retVal = new Weapon(
 			"baton" + i, 1, 0, 0,
 			Weapon.Type.AXE, 0, 0, 0, java.util.Arrays.asList(1),
-			modifiers, new java.util.ArrayList<>(), null
+			new Statistics(), new java.util.ArrayList<>(), null
 		);
 		return retVal;
 	}

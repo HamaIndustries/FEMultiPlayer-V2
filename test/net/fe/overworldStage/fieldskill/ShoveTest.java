@@ -22,6 +22,7 @@ import net.fe.overworldStage.Zone;
 import net.fe.unit.Class;
 import net.fe.unit.Unit;
 import net.fe.unit.Weapon;
+import net.fe.unit.Statistics;
 
 public final class ShoveTest {
 	
@@ -41,10 +42,7 @@ public final class ShoveTest {
 	@Test
 	public void testAllowed_whenEmptyField_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0);
 		Unit unit = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		grid.addUnit(unit, 3,3);
 		
@@ -54,10 +52,7 @@ public final class ShoveTest {
 	@Test
 	public void testAllowed_whenAdjacentSameConUnits_thenTrue() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		grid.addUnit(shover, 3,3);
@@ -69,10 +64,7 @@ public final class ShoveTest {
 	@Test
 	public void testAllowed_whenNonadjacentSameConUnits_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		grid.addUnit(shover, 2,4);
@@ -84,10 +76,7 @@ public final class ShoveTest {
 	@Test
 	public void testAllowed_whenTargetOffTopEdge_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		grid.addUnit(shover, 3,1);
@@ -99,10 +88,7 @@ public final class ShoveTest {
 	@Test
 	public void testAllowed_whenTargetOffLeftEdge_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		grid.addUnit(shover, 1,3);
@@ -114,10 +100,7 @@ public final class ShoveTest {
 	@Test
 	public void testAllowed_whenTargetOffRightEdge_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		grid.addUnit(shover, 4,3);
@@ -129,10 +112,7 @@ public final class ShoveTest {
 	@Test
 	public void testAllowed_whenTargetOffBottomEdge_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		grid.addUnit(shover, 3,4);
@@ -144,10 +124,7 @@ public final class ShoveTest {
 	@Test
 	public void testAllowed_whenTargetIsThirdUnit_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit third = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
@@ -161,10 +138,7 @@ public final class ShoveTest {
 	@Test
 	public void testAllowed_whenTargetIsSea_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.SEA);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		grid.addUnit(shover, 3,4);
@@ -176,10 +150,7 @@ public final class ShoveTest {
 	@Test
 	public void testAllowed_whenTargetIsSeaAndShoveeIsFlier_thenTrue() {
 		Grid grid = new Grid(6,6, Terrain.SEA);
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
 		Unit shovee = new Unit("test", Class.createClass("Falconknight"), '-', vals, vals);
 		grid.addUnit(shover, 3,4);
@@ -191,14 +162,8 @@ public final class ShoveTest {
 	@Test
 	public void testAllowed_whenShoverIsTiny_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
-		HashMap<String, Integer> shoverVals = new HashMap<String, Integer>();
-		shoverVals.put("HP", 20);
-		shoverVals.put("Mov", 5);
-		shoverVals.put("Con", 2);
-		HashMap<String, Integer> shoveeVals = new HashMap<String, Integer>();
-		shoveeVals.put("HP", 20);
-		shoveeVals.put("Mov", 5);
-		shoveeVals.put("Con", 8);
+		Statistics shoverVals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 2, 0);
+		Statistics shoveeVals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', shoverVals, shoverVals);
 		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', shoveeVals, shoveeVals);
 		grid.addUnit(shover, 2,4);
@@ -210,14 +175,8 @@ public final class ShoveTest {
 	@Test
 	public void testAllowed_whenShoverIsHoldingWeapon_thenNotError() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
-		HashMap<String, Integer> shoverVals = new HashMap<String, Integer>();
-		shoverVals.put("HP", 20);
-		shoverVals.put("Mov", 5);
-		shoverVals.put("Con", 2);
-		HashMap<String, Integer> shoveeVals = new HashMap<String, Integer>();
-		shoveeVals.put("HP", 20);
-		shoveeVals.put("Mov", 5);
-		shoveeVals.put("Con", 8);
+		Statistics shoverVals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 2, 0);
+		Statistics shoveeVals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("test", Class.createClass("Ike"), '-', shoverVals, shoverVals);
 		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', shoveeVals, shoveeVals);
 		Weapon weapon = createSword(1);
@@ -256,25 +215,10 @@ public final class ShoveTest {
 	
 	private Weapon createSword(int i) {
 		
-		HashMap<String, Integer> modifiers = new HashMap<>();
-			modifiers.put("Skl", 0);
-			modifiers.put("Lck", 0);
-			modifiers.put("HP",  0);
-			modifiers.put("Str", 0);
-			modifiers.put("Mag", 0);
-			modifiers.put("Def", 0);
-			modifiers.put("Res", 0);
-			modifiers.put("Spd", 0);
-			modifiers.put("Lvl", 0);
-			modifiers.put("Con", 0);
-			modifiers.put("Mov", 0);
-			modifiers.put("Con", 0);
-			modifiers.put("Aid", 0);
-		
 		Weapon retVal = new Weapon(
 			"baton" + i, 1, 0, 0,
 			Weapon.Type.SWORD, 0, 0, 0, java.util.Arrays.asList(1),
-			modifiers, new java.util.ArrayList<>(), null
+			new Statistics(), new java.util.ArrayList<>(), null
 		);
 		return retVal;
 	}

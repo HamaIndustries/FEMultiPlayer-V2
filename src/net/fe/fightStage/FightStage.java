@@ -23,6 +23,7 @@ import net.fe.fightStage.anim.SkillIndicator;
 import net.fe.overworldStage.Grid;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.transition.FightOverworldTransition;
+import net.fe.unit.BattleStats;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
 
@@ -402,11 +403,20 @@ public class FightStage extends Stage {
 				if(!defender.getPartyColor().equals(attacker.getPartyColor())) {
 					if(rec.damage > 0) {
 						defender.getAssisters().add(attacker);
-						attacker.addBattleStat("Damage", rec.damage);
-						attacker.addBattleStat("Healing", rec.drain);
+						attacker.addBattleStats(new BattleStats(
+							/* kills = */ 0,
+							/* assists = */ 0,
+							/* damage = */ rec.damage,
+							/* healing = */ rec.drain
+						));
 					}
 				} else {
-					attacker.addBattleStat("Healing", -rec.damage);
+					attacker.addBattleStats(new BattleStats(
+						/* kills = */ 0,
+						/* assists = */ 0,
+						/* damage = */ 0,
+						/* healing = */ -rec.damage
+					));
 				}
 				if(rec.damage > 0) {
 					startShaking(hitEffects.get(0).getShakeLength() * 0.05f, hitEffects.get(0).getShakeIntensity());
@@ -427,10 +437,10 @@ public class FightStage extends Stage {
 			if (dhp.getHp() == 0) {
 				d.state = FightUnit.FLASHING;
 				// battle stats
-				attacker.addBattleStat("Kills", 1);
+				attacker.addBattleStats(new BattleStats(/* kills = */ 1, 0, 0, 0));
 				defender.getAssisters().remove(attacker);
 				for(Unit u : defender.getAssisters()) {
-					u.addBattleStat("Assists", 1);
+					u.addBattleStats(new BattleStats(0, /* assists = */ 1, 0, 0));
 				}
 				AudioPlayer.playAudio("die");
 				currentEvent = DYING;//////////TODO: check here for bug, DYING->DONE illegal transition

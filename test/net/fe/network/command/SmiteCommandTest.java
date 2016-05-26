@@ -25,6 +25,7 @@ import net.fe.unit.Unit;
 import net.fe.unit.HealingItem;
 import net.fe.unit.RiseTome;
 import net.fe.unit.Weapon;
+import net.fe.unit.Statistics;
 
 public final class SmiteCommandTest {
 	
@@ -47,10 +48,10 @@ public final class SmiteCommandTest {
 		OverworldStage stage = new OverworldStage(session);
 		stage.grid = new Grid(6,6, Terrain.PLAIN);
 		
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics();
+		vals = vals.copy("HP", 20);
+		vals = vals.copy("Mov", 5);
+		vals = vals.copy("Con", 8);
 		Unit shover = new Unit("shover", Class.createClass("Sorcerer"), '-', vals, vals);
 		Unit shovee = new Unit("shovee", Class.createClass("Sorcerer"), '-', vals, vals);
 		FEMultiplayer.getLocalPlayer().getParty().addUnit(shover); // processCommands cannot find the unit without this

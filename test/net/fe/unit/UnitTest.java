@@ -12,10 +12,7 @@ public final class UnitTest {
 	
 	@Test
 	public void testGetWeapon_FreshUnitNonHasNoEquippedWeapon() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit dut = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
 		
 		assertEquals(null, dut.getWeapon());
@@ -24,10 +21,7 @@ public final class UnitTest {
 	
 	@Test
 	public void testGetWeapon_AddingItemDoesNotEquipWeapon() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit dut = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
 		
 		dut.addToInventory(new RiseTome());
@@ -38,10 +32,7 @@ public final class UnitTest {
 	
 	@Test
 	public void testGetWeapon_AddingWeaponDoesNotEquipWeapon() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit dut = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
 		
 		dut.addToInventory(createAxe(1));
@@ -52,10 +43,7 @@ public final class UnitTest {
 	
 	@Test
 	public void testGetWeapon_EquippingWeaponMakesWeaponEquipped() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit dut = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
 		Weapon weap = createAxe(1);
 		
@@ -67,10 +55,7 @@ public final class UnitTest {
 	
 	@Test
 	public void testGetWeapon_UnequippingWeaponMakesWeaponUnequipped() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit dut = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
 		Weapon weap = createAxe(1);
 		
@@ -83,10 +68,7 @@ public final class UnitTest {
 	
 	@Test
 	public void testGetWeapon_BreakingWeaponEquipsNextWeapon() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit dut = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
 		Weapon weap1 = createAxe(1);
 		Weapon weap2 = createAxe(2);
@@ -106,10 +88,7 @@ public final class UnitTest {
 	
 	@Test
 	public void testGetWeapon_BreakingAllWeaponsEquipsNull() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit dut = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
 		Weapon weap1 = createAxe(1);
 		Weapon weap2 = createAxe(2);
@@ -128,10 +107,7 @@ public final class UnitTest {
 	
 	@Test
 	public void testGetWeapon_TradingAwayWeaponsResultsInUnequippedWeapon() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit dut = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
 		Weapon weap1 = createAxe(1);
 		Weapon weap2 = createAxe(2);
@@ -152,25 +128,10 @@ public final class UnitTest {
 	
 	private Weapon createAxe(int i) {
 		
-		HashMap<String, Integer> modifiers = new HashMap<>();
-			modifiers.put("Skl", 0);
-			modifiers.put("Lck", 0);
-			modifiers.put("HP",  0);
-			modifiers.put("Str", 0);
-			modifiers.put("Mag", 0);
-			modifiers.put("Def", 0);
-			modifiers.put("Res", 0);
-			modifiers.put("Spd", 0);
-			modifiers.put("Lvl", 0);
-			modifiers.put("Con", 0);
-			modifiers.put("Mov", 0);
-			modifiers.put("Con", 0);
-			modifiers.put("Aid", 0);
-		
 		Weapon retVal = new Weapon(
 			"baton" + i, 1, 0, 0,
 			Weapon.Type.AXE, 0, 0, 0, java.util.Arrays.asList(1),
-			modifiers, new java.util.ArrayList<>(), null
+			new Statistics(), new java.util.ArrayList<>(), null
 		);
 		return retVal;
 	}

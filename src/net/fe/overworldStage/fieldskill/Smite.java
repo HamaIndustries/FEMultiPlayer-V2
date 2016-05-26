@@ -76,11 +76,11 @@ public final class Smite extends FieldSkill {
 		return (
 			(Math.abs(deltaX) + Math.abs(deltaY)) == 1 && 
 			grid.contains(shoveToX, shoveToY) &&
-			grid.getTerrain(betweenX, betweenY).getMoveCost(shovee.getTheClass()) < shovee.get("Mov") &&
-			grid.getTerrain(shoveToX, shoveToY).getMoveCost(shovee.getTheClass()) < shovee.get("Mov") &&
+			grid.getTerrain(betweenX, betweenY).getMoveCost(shovee.getTheClass()) < shovee.getStats().mov &&
+			grid.getTerrain(shoveToX, shoveToY).getMoveCost(shovee.getTheClass()) < shovee.getStats().mov &&
 			null == grid.getUnit(betweenX, betweenY) &&
 			null == grid.getUnit(shoveToX, shoveToY) &&
-			shovee.get("Con") - 2 <= shover.get("Con")
+			shovee.getStats().con - 2 <= shover.getStats().con
 		);
 	}
 	

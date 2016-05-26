@@ -35,7 +35,7 @@ public final class Luna extends CombatTrigger {
 	@Override
 	public boolean attempt(Unit user, int range, Unit opponent) {
 
-		return (ranged || range == 1) && RNG.get() < user.get("Skl")/2;
+		return (ranged || range == 1) && RNG.get() < user.getStats().skl/2;
 	}
 
 	/* (non-Javadoc)
@@ -43,8 +43,8 @@ public final class Luna extends CombatTrigger {
 	 */
 	@Override
 	public boolean runPreAttack(CombatCalculator stage, Unit a, Unit d) {
-		d.setTempMod("Def", -d.get("Def")/2);
-		d.setTempMod("Res", -d.get("Res")/2);
+		d.setTempMod("Def", -d.getStats().def/2);
+		d.setTempMod("Res", -d.getStats().res/2);
 		return true;
 	}
 	

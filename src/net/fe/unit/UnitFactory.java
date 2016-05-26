@@ -28,14 +28,14 @@ public class UnitFactory {
 			String name = args[0];
 			Class clazz = Class.createClass(args[1]);
 			int lv = Integer.parseInt(args[2]);
-			float hpBase = Integer.parseInt(args[3]);
-			float strBase = Integer.parseInt(args[4]);
-			float magBase = Integer.parseInt(args[5]);
-			float sklBase = Integer.parseInt(args[6]);
-			float spdBase = Integer.parseInt(args[7]);
-			float lckBase = Integer.parseInt(args[8]);
-			float defBase = Integer.parseInt(args[9]);
-			float resBase = Integer.parseInt(args[10]);
+			int hpBase = Integer.parseInt(args[3]);
+			int strBase = Integer.parseInt(args[4]);
+			int magBase = Integer.parseInt(args[5]);
+			int sklBase = Integer.parseInt(args[6]);
+			int spdBase = Integer.parseInt(args[7]);
+			int lckBase = Integer.parseInt(args[8]);
+			int defBase = Integer.parseInt(args[9]);
+			int resBase = Integer.parseInt(args[10]);
 			int con = Integer.parseInt(args[11]);
 			int mov = Integer.parseInt(args[12]);
 			int hpGrowth = Integer.parseInt(args[13]);
@@ -59,28 +59,45 @@ public class UnitFactory {
 				resBase += resGrowth/100.0f;
 			}
 			
-			HashMap<String, Integer> bases = new HashMap<String, Integer>();
-			bases.put("Lvl", 1);
-			bases.put("HP", (int)hpBase);
-			bases.put("Str", (int)strBase);
-			bases.put("Mag", (int)magBase);
-			bases.put("Skl", (int)sklBase);
-			bases.put("Spd", (int)spdBase);
-			bases.put("Lck", (int)lckBase);
-			bases.put("Def", (int)defBase);
-			bases.put("Res", (int)resBase);
-			bases.put("Con", con);
-			bases.put("Mov", mov);
+			int aid;
+			if(name.equals("Eirika") || 
+					clazz.name.equals("Valkyrie") ||
+					clazz.name.equals("Falconknight")){
+				aid = 20 - con;
+			} else if (Unit.isRider(clazz) || Unit.isRider(name)){
+				aid = 27 - con;
+			} else {
+				aid = con - 1;
+			}
 			
-			HashMap<String, Integer> growths = new HashMap<String, Integer>();
-			growths.put("HP", hpGrowth);
-			growths.put("Str", strGrowth);
-			growths.put("Mag", magGrowth);
-			growths.put("Skl", sklGrowth);
-			growths.put("Spd", spdGrowth);
-			growths.put("Def", defGrowth);
-			growths.put("Res", resGrowth);
-			growths.put("Lck", lckGrowth);
+			
+			Statistics bases = new Statistics(
+				hpBase,
+				strBase,
+				magBase,
+				sklBase,
+				spdBase,
+				defBase,
+				resBase,
+				lckBase,
+				mov,
+				con,
+				aid
+			);
+			
+			Statistics growths = new Statistics(
+				hpGrowth,
+				strGrowth,
+				magGrowth,
+				sklGrowth,
+				spdGrowth,
+				defGrowth,
+				resGrowth,
+				lckGrowth,
+				0,
+				0,
+				0
+			);
 			
 			if(clazz == null){
 				System.err.println(line);

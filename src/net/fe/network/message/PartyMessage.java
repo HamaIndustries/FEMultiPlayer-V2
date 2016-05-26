@@ -43,7 +43,7 @@ public final class PartyMessage extends Message {
 		for(Unit u: teamData){
 			sb.append("\n\t");
 			sb.append(u.name);
-			sb.append(" Lv" + u.get("Lvl"));
+			sb.append(" Lv" + u.getLevel());
 			for (Item i: u.getInventory()) {
 				sb.append("\n\t\t");
 				sb.append(i.name);
@@ -77,7 +77,7 @@ public final class PartyMessage extends Message {
 			}
 			{
 				Unit u3 = realUnits.apply(u.name);
-				u3.setLevel(u3.get("Lvl"));
+				u3.setLevel(u3.getLevel());
 				// TODO: no direct access to the unit's stats...
 				if (! u.getTheClass().equals(u3.getTheClass())) { throw new IllegalStateException("unit's class don't match expected"); }
 				if (! u.getTriggers().equals(u3.getTriggers())) { throw new IllegalStateException("unit's skills don't match expected"); }

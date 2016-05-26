@@ -16,8 +16,8 @@ public final class CrossBow extends CombatTrigger {
 
 	@Override
 	public boolean runPreAttack(CombatCalculator stage, Unit a, Unit d) {
-		a.setTempMod("Str", -a.get("Str"));
-		a.setTempMod("Mag", -a.get("Mag"));
+		a.setTempMod("Str", -a.getStats().str);
+		a.setTempMod("Mag", -a.getStats().mag);
 		return true;
 	}
 	
