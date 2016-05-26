@@ -101,16 +101,16 @@ public class FEServer extends Game {
 		}
 		
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
-		DefaultListModel<Modifier> sModel = new DefaultListModel<Modifier>();
+		DefaultListModel<Modifier> selectedModifiersModel = new DefaultListModel<Modifier>();
 		// Modifiers
-		DefaultListModel<Modifier> model = new DefaultListModel<Modifier>();
-		model.addElement(new MadeInChina());
-		model.addElement(new Treasury());
-		model.addElement(new Veterans());
-		model.addElement(new DivineIntervention());
-		model.addElement(new SuddenDeath());
-		model.addElement(new Vegas());
-		model.addElement(new ProTactics());
+		DefaultListModel<Modifier> unselectedModifiersModel = new DefaultListModel<Modifier>();
+		unselectedModifiersModel.addElement(new MadeInChina());
+		unselectedModifiersModel.addElement(new Treasury());
+		unselectedModifiersModel.addElement(new Veterans());
+		unselectedModifiersModel.addElement(new DivineIntervention());
+		unselectedModifiersModel.addElement(new SuddenDeath());
+		unselectedModifiersModel.addElement(new Vegas());
+		unselectedModifiersModel.addElement(new ProTactics());
 		
 		final JPanel mainPanel = new JPanel();
 		frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
@@ -129,18 +129,18 @@ public class FEServer extends Game {
 		JLabel objLabel = new JLabel("Objective: ");
 		objectivePanel.add(objLabel);
 		
-		final JComboBox objComboBox = new JComboBox();
+		final JComboBox<Objective> objComboBox = new JComboBox<>();
 		objectivePanel.add(objComboBox);
 		
 		// populate list of maps
-		final JComboBox mapSelectionBox = new JComboBox();
+		final JComboBox<String> mapSelectionBox = new JComboBox<>();
 		mapSelectionBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				objComboBox.setModel(new DefaultComboBoxModel(maps.get(mapSelectionBox.getSelectedItem())));
+				objComboBox.setModel(new DefaultComboBoxModel<Objective>(maps.get(mapSelectionBox.getSelectedItem())));
 			}
 		});
 		mapPanel.add(mapSelectionBox);
-		mapSelectionBox.setModel(new DefaultComboBoxModel(maps.keySet().toArray()));
+		mapSelectionBox.setModel(new DefaultComboBoxModel<String>(maps.keySet().toArray(new String[0])));
 		
 		JLabel label = new JLabel("Max units: ");
 		mapPanel.add(label);
@@ -150,16 +150,16 @@ public class FEServer extends Game {
 		maxUnitsSpinner.setModel(new SpinnerNumberModel(8, 1, 8, 1));
 		
 		// Objectives
-		ComboBoxModel oModel = new DefaultComboBoxModel(maps.get(mapSelectionBox.getSelectedItem()));
+		ComboBoxModel<Objective> oModel = new DefaultComboBoxModel<>(maps.get(mapSelectionBox.getSelectedItem()));
 		objComboBox.setModel(oModel);
 		
 		JLabel lblPickMode = new JLabel("Pick mode: ");
 		objectivePanel.add(lblPickMode);
 		
 		// Pick modes
-		ComboBoxModel pModel = new DefaultComboBoxModel(new PickMode[] { new AllPick(), new Draft()});
-		final JComboBox pickModeBox = new JComboBox();
-		pickModeBox.setModel(pModel);
+		ComboBoxModel<PickMode> pickModeModel = new DefaultComboBoxModel<>(new PickMode[] { new AllPick(), new Draft()});
+		final JComboBox<PickMode> pickModeBox = new JComboBox<>();
+		pickModeBox.setModel(pickModeModel);
 		objectivePanel.add(pickModeBox);
 		
 		JSeparator separator = new JSeparator();
@@ -184,13 +184,13 @@ public class FEServer extends Game {
 		final ModifierList modifiersList = new ModifierList();
 		modifiersList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		modifiersScrollPane.add(modifiersList);
-		modifiersList.setModel(model);
+		modifiersList.setModel(unselectedModifiersModel);
 		modifiersScrollPane.setViewportView(modifiersList);
 		
 		final ModifierList selectedModifiersList = new ModifierList();
 		selectedModifiersList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		selectedModifiersScrollPane.add(selectedModifiersList);
-		selectedModifiersList.setModel(sModel);
+		selectedModifiersList.setModel(selectedModifiersModel);
 		selectedModifiersScrollPane.setViewportView(selectedModifiersList);
 		
 		JPanel buttonsPanel = new JPanel();
@@ -201,9 +201,9 @@ public class FEServer extends Game {
 			public void actionPerformed(ActionEvent arg0) {
 				int index = modifiersList.getSelectedIndex();
 				if(index != -1) {
-					Object o = modifiersList.getModel().getElementAt(index);
-					((DefaultListModel)modifiersList.getModel()).remove(modifiersList.getSelectedIndex());
-					((DefaultListModel)selectedModifiersList.getModel()).add(0,o);
+					Modifier o = unselectedModifiersModel.getElementAt(index);
+					unselectedModifiersModel.remove(modifiersList.getSelectedIndex());
+					selectedModifiersModel.add(0,o);
 				}
 			}
 		});
@@ -215,9 +215,9 @@ public class FEServer extends Game {
 			public void actionPerformed(ActionEvent e) {
 				int index = selectedModifiersList.getSelectedIndex();
 				if(index != -1) {
-					Object o = selectedModifiersList.getModel().getElementAt(index);
-					((DefaultListModel)selectedModifiersList.getModel()).remove(selectedModifiersList.getSelectedIndex());
-					((DefaultListModel)modifiersList.getModel()).add(0,o);
+					Modifier o = selectedModifiersModel.getElementAt(index);
+					selectedModifiersModel.remove(selectedModifiersList.getSelectedIndex());
+					unselectedModifiersModel.add(0,o);
 				}
 			}
 		});
