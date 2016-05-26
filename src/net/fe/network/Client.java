@@ -17,7 +17,6 @@ import net.fe.network.message.ClientInit;
 import net.fe.network.message.EndGame;
 import net.fe.network.message.JoinLobby;
 import net.fe.network.message.QuitMessage;
-import net.fe.network.message.SessionUpdate;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -145,17 +144,6 @@ public class Client {
 			}
 		} else if(message instanceof EndGame) {
 			winner = (byte) ((EndGame)message).winner;
-		} else if(message instanceof SessionUpdate) {
-			Session update = ((SessionUpdate)message).session;
-			for(Player p : update.getPlayers()) {
-				if(!session.getPlayerMap().containsKey(p.getID())) {
-					session.addPlayer(p);
-				}
-			}
-			session.setMap(update.getMap());
-			session.setMaxUnits(update.getMaxUnits());
-			session.setObjective(update.getObjective());
-			session.setPickMode(update.getPickMode());
 		}
 		
 		synchronized (messagesLock) {
