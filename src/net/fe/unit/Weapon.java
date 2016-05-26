@@ -253,4 +253,21 @@ public class Weapon extends Item {
 			return false;
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return "Weapon [" +
+			"name: " + name + "; " +
+			"maxUses: " + getMaxUses() + "; " +
+			"uses: " + getUses() + "; " +
+			"id: " + id + "; " +
+			"cost: " + getCost() + "; " +
+			"type: " + type + "; " +
+			"mt: " + mt + "; " +
+			"hit: " + hit + "; " +
+			"range: " + range + "; " +
+			"modifiers: " + modifiers + "; " +
+			"effective: " + effective + "; " +
+			"pref: " + pref + "]";
+	}
 }

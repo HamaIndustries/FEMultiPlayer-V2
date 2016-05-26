@@ -108,6 +108,16 @@ public abstract class Item implements Serializable, Comparable<Item>{
 		return WeaponFactory.getWeapon(name);
 	}
 	
+	public static Iterable<Item> getAllItems() {
+		final java.util.ArrayList<Item> retVal = new java.util.ArrayList<>();
+		WeaponFactory.getAllWeapons().forEach(retVal::add);
+		retVal.add(HealingItem.VULNERARY.getCopy());
+		retVal.add(HealingItem.CONCOCTION.getCopy());
+		retVal.add(HealingItem.ELIXIR.getCopy());
+		retVal.add(new RiseTome());
+		return retVal;
+	}
+	
 	@Override
 	public int hashCode() {
 		return ((name.hashCode() * 31 +

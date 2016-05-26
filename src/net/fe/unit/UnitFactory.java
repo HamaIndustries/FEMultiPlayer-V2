@@ -17,6 +17,7 @@ public class UnitFactory {
 	
 	/**
 	 * Load units.
+	 * Fails if [[WeaponFactory#loadWeapons]] has not been called yet.
 	 */
 	public static void loadUnits() {
 		Scanner in = new Scanner(ResourceLoader.getResourceAsStream("res/stats.txt"));

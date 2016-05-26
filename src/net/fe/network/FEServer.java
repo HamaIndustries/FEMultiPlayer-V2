@@ -295,6 +295,9 @@ public class FEServer extends Game {
 	 * Inits the.
 	 */
 	public void init() {
+		net.fe.unit.WeaponFactory.loadWeapons();
+		net.fe.unit.UnitFactory.loadUnits();
+		
 		messages = new CopyOnWriteArrayList<Message>();
 		Thread serverThread = new Thread() {
 			public void run() {

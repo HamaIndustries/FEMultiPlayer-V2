@@ -79,10 +79,10 @@ public class TeamBuilderStage extends Stage {
 	private final static int yStart = 40, vgap = 20, table_ystart = 10;
 	
 	/** The default maximum funds */
-	private final static int FUNDS = 48000;
+	public final static int FUNDS = 48000;
 	
 	/** The default maximum EXP */
-	private final static int EXP = 84000;
+	public final static int EXP = 84000;
 	
 	
 	

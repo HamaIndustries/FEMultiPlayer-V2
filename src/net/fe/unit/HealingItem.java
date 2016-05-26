@@ -90,4 +90,15 @@ public final class HealingItem extends Item {
 			return false;
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return "HealingItem [" +
+			"name: " + name + "; " +
+			"maxUses: " + getMaxUses() + "; " +
+			"uses: " + getUses() + "; " +
+			"id: " + id + "; " +
+			"cost: " + getCost() + "; " +
+			"amount: " + amount + "]";
+	}
 }

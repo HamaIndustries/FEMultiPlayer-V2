@@ -5,7 +5,7 @@ import net.fe.builderStage.TeamBuilderResources;
 import net.fe.builderStage.TeamSelectionStage;
 import net.fe.overworldStage.OverworldStage;
 import net.fe.unit.Unit;
-import net.fe.unit.Weapon;
+import net.fe.unit.Item;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -30,7 +30,7 @@ public class DivineIntervention implements Modifier {
 	 * @see net.fe.modifier.Modifier#modifyShop(net.fe.builderStage.ShopMenu)
 	 */
 	@Override
-	public Iterable<Weapon> modifyShop(Iterable<Weapon> shop) {
+	public Iterable<Item> modifyShop(Iterable<Item> shop) {
 		return shop;
 	}
 

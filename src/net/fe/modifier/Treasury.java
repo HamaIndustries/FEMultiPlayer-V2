@@ -2,7 +2,7 @@ package net.fe.modifier;
 
 import net.fe.builderStage.ShopMenu;
 import net.fe.builderStage.TeamBuilderResources;
-import net.fe.unit.Weapon;
+import net.fe.unit.Item;
 import net.fe.unit.Unit;
 
 // TODO: Auto-generated Javadoc
@@ -26,7 +26,7 @@ public final class Treasury implements Modifier {
 	 * @see net.fe.modifier.Modifier#modifyShop(net.fe.builderStage.ShopMenu)
 	 */
 	@Override
-	public Iterable<Weapon> modifyShop(Iterable<Weapon> shop) {
+	public Iterable<Item> modifyShop(Iterable<Item> shop) {
 		return shop;
 	}
 

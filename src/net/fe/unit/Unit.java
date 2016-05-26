@@ -399,7 +399,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 *
 	 * @return the copy
 	 */
-	Unit getCopy() {
+	public Unit getCopy() {
 		Unit copy = new Unit(name, clazz, gender, bases, growths);
 		copy.setLevel(stats.get("Lvl").intValue());
 		for (Item i : inventory) {

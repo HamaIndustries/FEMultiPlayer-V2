@@ -67,6 +67,11 @@ public class WaitStage extends Stage {
 		for(Message message : Game.getMessages()) {
 			if(message instanceof PartyMessage) {
 				PartyMessage pm = (PartyMessage)message;
+				pm.validateTeam(
+					net.fe.unit.UnitFactory::getUnit,
+					net.fe.unit.Item.getAllItems(),
+					session.getModifiers()
+				);
 				for(Player p : session.getPlayers()){ 
 					if(p.getID() == message.origin) {
 						p.getParty().clear();

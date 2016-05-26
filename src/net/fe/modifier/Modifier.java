@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import net.fe.builderStage.ShopMenu;
 import net.fe.builderStage.TeamBuilderResources;
-import net.fe.unit.Weapon;
+import net.fe.unit.Item;
 import net.fe.unit.Unit;
 
 // TODO: Auto-generated Javadoc
@@ -31,7 +31,7 @@ public interface Modifier extends Serializable{
 	 * @param shop the items
 	 * @return the modified list
 	 */
-	public Iterable<Weapon> modifyShop(Iterable<Weapon> shop);
+	public Iterable<Item> modifyShop(Iterable<Item> shop);
 	
 	/**
 	 * Modifies a list of players; for use immediately before the game starts

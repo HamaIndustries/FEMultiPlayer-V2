@@ -1,5 +1,7 @@
 package net.fe.builderStage;
 
+import java.util.function.IntUnaryOperator;
+
 /**
  * Represents a maximum amount of funds and exp avaliable to a team
  */
@@ -25,4 +27,14 @@ public final class TeamBuilderResources {
 		return new TeamBuilderResources(this.funds, newExp);
 	}
 	
+	/**
+	 * Create and return a new TeamBuilderResources with the new amount of funds and the same exp
+	 */
+	public TeamBuilderResources copyWithNewFunds(IntUnaryOperator newFunds) {
+		return new TeamBuilderResources(newFunds.applyAsInt(this.funds), this.exp);
+	}
+	
+	public TeamBuilderResources copyWithNewExp(IntUnaryOperator newExp) {
+		return new TeamBuilderResources(this.funds, newExp.applyAsInt(this.exp));
+	}
 }

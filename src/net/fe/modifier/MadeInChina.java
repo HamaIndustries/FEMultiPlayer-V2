@@ -25,26 +25,31 @@ public class MadeInChina implements Modifier {
 	 */
 	@Override
 	public TeamBuilderResources modifyTeamResources(TeamBuilderResources limits) {
-		return limits.copyWithNewFunds(limits.funds * 2);
+		return limits.copyWithNewFunds((i) -> i * 2);
 	}
 	
 	/** Modifies each weapon in `shop` to have a maximum of two uses
 	 * @see net.fe.modifier.Modifier#modifyShop(net.fe.builderStage.ShopMenu)
 	 */
 	@Override
-	public Iterable<Weapon> modifyShop(Iterable<Weapon> shop) {
-		return new Iterable<Weapon>() {
-			public java.util.Iterator<Weapon> iterator() {
-				return new java.util.Iterator<Weapon>() {
-					private java.util.Iterator<Weapon> backing = shop.iterator();
+	public Iterable<Item> modifyShop(Iterable<Item> shop) {
+		return new Iterable<Item>() {
+			public java.util.Iterator<Item> iterator() {
+				return new java.util.Iterator<Item>() {
+					private java.util.Iterator<Item> backing = shop.iterator();
 					
 					public void remove() { backing.remove(); } 
 					public boolean hasNext() { return backing.hasNext(); }
-					public Weapon next() {
-						Weapon u = backing.next();
-						return new Weapon(u.name, 2, u.id, u.getCost(),
-							u.type, u.mt, u.hit, u.crit, u.range,
-							u.modifiers, u.effective, u.pref);
+					public Item next() {
+						Item u2 = backing.next();
+						if (u2 instanceof Weapon) {
+							Weapon u = (Weapon) u2;
+							return new Weapon(u.name, 2, u.id, u.getCost(),
+								u.type, u.mt, u.hit, u.crit, u.range,
+								u.modifiers, u.effective, u.pref);
+						} else {
+							return u2;
+						}
 					}
 				};
 			}
