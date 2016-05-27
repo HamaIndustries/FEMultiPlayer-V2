@@ -3,20 +3,23 @@ package net.fe.network.message;
 import net.fe.Session;
 import net.fe.network.Message;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class ClientInit.
+ * The first message sent to a client by the server. Contains information that
+ * the Client should know about the server, such as session settings and assigned id.
  */
-public class ClientInit extends Message {
+public final class ClientInit extends Message {
 	
 	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 2559169995718261494L;
+	private static final long serialVersionUID = -3189568095521401022L;
 	
-	/** The client id. */
-	public byte clientID;
+	/** The id assigned to the client */
+	public final byte clientID;
 	
-	/** The session. */
-	public Session session;	// Session data
+	/** Session data */
+	public final Session session;
+	
+	/** Hashes for early version checking */
+	public final Hashes hashes;
 	
 	/**
 	 * Instantiates a new client init.
@@ -29,6 +32,7 @@ public class ClientInit extends Message {
 		super(origin);
 		this.clientID = clientID;
 		this.session = s;
+		this.hashes = Hashes.pullFromStatics();
 	}
 	
 	/* (non-Javadoc)
@@ -36,5 +40,47 @@ public class ClientInit extends Message {
 	 */
 	public String toString(){
 		return super.toString() + "clientID = " + clientID;
+	}
+	
+	
+	public static final class Hashes implements java.io.Serializable {
+		private static final long serialVersionUID = 2213612471712032639L;
+		public final String version;
+		/** Intended to be a hash of all avaliable items */
+		public final int items;
+		/** Intended to be a hash of all avaliable units */
+		public final int units;
+		
+		public Hashes(String version, int items, int units) {
+			this.version = version;
+			this.items = items;
+			this.units = units;
+		}
+		
+		public static Hashes pullFromStatics() {
+			return new Hashes(
+				"??.??.??",
+				net.fe.unit.Item.getAllItems().hashCode(),
+				net.fe.unit.UnitFactory.getAllUnits().hashCode()
+			);
+		}
+		
+		@Override
+		public int hashCode() { return items * 31 + units; }
+		
+		@Override
+		public boolean equals(Object other) {
+			if (other != null && other instanceof Hashes) {
+				return this.units == ((Hashes) other).units &&
+					this.items ==  ((Hashes) other).items &&
+					this.version.equals(((Hashes) other).version);
+			} else {
+				return false;
+			}
+		}
+		
+		public String toString() {
+			return "Hashes[units:" + units + "; items:" + items + "; version:" + version + "]"; 
+		}
 	}
 }

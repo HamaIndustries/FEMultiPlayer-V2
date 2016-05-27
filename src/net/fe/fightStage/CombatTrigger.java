@@ -163,6 +163,6 @@ public abstract class CombatTrigger implements Serializable {
 			((CombatTrigger) other).canEquals(this) &&
 			this.getClass().equals(other.getClass());
 	}
-	@Override public int hashCode() { return this.getClass().getName().hashCode(); }
-	@Override public String toString() { return this.getClass().getName(); }
+	@Override public int hashCode() { return this.getName().hashCode(); }
+	@Override public String toString() { return this.getName(); }
 }

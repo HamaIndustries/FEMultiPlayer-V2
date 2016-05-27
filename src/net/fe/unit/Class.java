@@ -63,9 +63,9 @@ public final class Class implements Serializable {
 	public int hashCode() {
 		return (((this.crit * 31 +
 				this.masterSkill.hashCode()) * 31 +
-				this.usableWeapon.hashCode()) * 31 +
 				this.name.hashCode()) * 31 + 
-				this.description.hashCode();
+				this.description.hashCode()) * 31 +
+				this.usableWeapon.stream().mapToInt((x) -> 1 << x.ordinal()).sum();
 	}
 	
 	@Override

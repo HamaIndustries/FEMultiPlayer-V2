@@ -126,6 +126,15 @@ public final class UnitTest {
 		assertEquals(null, dut.getWeapon());
 	}
 	
+	@Test
+	public void testHashcode() {
+		Statistics vals = new Statistics(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
+		Unit dut1 = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
+		Unit dut2 = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
+		
+		assertEquals(dut1.hashCode(), dut2.hashCode());
+	}
+	
 	private Weapon createAxe(int i) {
 		
 		Weapon retVal = new Weapon(

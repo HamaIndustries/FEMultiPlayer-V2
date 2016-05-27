@@ -131,9 +131,18 @@ public final class Statistics implements java.io.Serializable {
 	
 	@Override
 	public int hashCode() {
-		// Terrible hashCode implementation, but satisfies requirement
-		// that if `a.equals(b)` then `a.hashCode() == b.hashCode()`
-		return str;
+		return (((((((((
+				this.maxHp * 31 +
+				this.str) * 31 +
+				this.mag) * 31 +
+				this.skl) * 31 +
+				this.spd) * 31 +
+				this.def) * 31 +
+				this.res) * 31 +
+				this.lck) * 31 +
+				this.mov) * 31 +
+				this.con) * 31 +
+				this.aid;
 	}
 	
 	@Override

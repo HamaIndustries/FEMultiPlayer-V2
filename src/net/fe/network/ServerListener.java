@@ -49,9 +49,6 @@ public final class ServerListener extends Thread {
 	/** The client quit. */
 	private boolean clientQuit;
 	
-	/** The begin. */
-	private final byte[] begin = new byte[]{0x42,0x45,0x47,0x49,0x4e};
-	
 	/**
 	 * Instantiates a new server listener.
 	 *
