@@ -83,7 +83,7 @@ public class DraftViewStage extends Stage {
 	private String lastAction;
 	
 	/** The red gray. */
-	private static Color
+	private final static Color
 		BLUE_TURN = Party.TEAM_BLUE,
 		RED_TURN = Party.TEAM_RED,
 		BAN_COLOR = new Color(0xf57272),
@@ -404,8 +404,10 @@ public class DraftViewStage extends Stage {
 				resetDraft();
 			}
 			else if(message instanceof QuitMessage) {
-				//player has left
-				FEMultiplayer.disconnectGame("Opponent has disconnected. Exiting game.");
+				java.util.Arrays.asList(session.getNonSpectators()).stream().filter((x) -> x.getID() == message.origin).findAny().ifPresent((x) ->
+					// player has left
+					FEMultiplayer.disconnectGame(x.getName() + " has disconnected. Exiting game.")
+				);
 			}
 		}
 		

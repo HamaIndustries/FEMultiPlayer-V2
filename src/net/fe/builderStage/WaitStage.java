@@ -77,8 +77,10 @@ public final class WaitStage extends Stage {
 				this.messages.add(pm);
 			}
 			else if(message instanceof QuitMessage) {
-				//player has left
-				FEMultiplayer.disconnectGame("Opponent has disconnected. Exiting game.");
+				java.util.Arrays.asList(session.getNonSpectators()).stream().filter((x) -> x.getID() == message.origin).findAny().ifPresent((x) ->
+					// player has left
+					FEMultiplayer.disconnectGame(x.getName() + " has disconnected. Exiting game.")
+				);
 			}
 		}
 		

@@ -190,9 +190,6 @@ public class ClientLobbyStage extends LobbyStage {
 						p.getParty().clear();
 				}
 				session.getPickMode().setUpClient(session);
-			} else if(message instanceof QuitMessage) {
-				//player has left
-				FEMultiplayer.disconnectGame("Opponent has disconnected. Exiting game.");
 			}
 		}
 		processAddStack();

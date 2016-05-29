@@ -275,15 +275,9 @@ public class OverworldStage extends Stage {
 				}
 			}
 			else if(message instanceof QuitMessage) {
-				Player leaver = null;
-				for(Player p : session.getPlayers()) {
-					if(p.getID() == message.origin) {
-						session.getChatlog().add(p, p.getName()+" left the game!");
-						leaver = p;
-					}
-				}
-				session.removePlayer(leaver);
-				System.out.println(leaver.getName()+" LEFT THE GAME");
+				java.util.Arrays.asList(session.getNonSpectators()).stream().filter((x) -> x.getID() == message.origin).findAny().ifPresent((x) ->
+					session.getChatlog().add(x, x.getName()+" left the game!")
+				);
 				checkEndGame();
 			}
 	}
