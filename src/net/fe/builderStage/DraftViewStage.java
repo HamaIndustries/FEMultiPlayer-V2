@@ -404,15 +404,16 @@ public class DraftViewStage extends Stage {
 				resetDraft();
 			}
 			else if(message instanceof QuitMessage) {
-				java.util.Arrays.asList(session.getNonSpectators()).stream().filter((x) -> x.getID() == message.origin).findAny().ifPresent((x) ->
+				if (this.session.getNonSpectators().length < 2) {
 					// player has left
-					FEMultiplayer.disconnectGame(x.getName() + " has disconnected. Exiting game.")
-				);
+					FEMultiplayer.disconnectGame("Opponent has disconnected. Exiting game.");
+				}
 			}
 		}
 		
 		MapAnimation.updateAll();
 	}
+	
 	/* (non-Javadoc)
 	 * @see chu.engine.Stage#render()
 	 */

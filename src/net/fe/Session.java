@@ -220,6 +220,7 @@ public final class Session implements Serializable {
 			this.addPlayer((byte) join.origin, join.player);
 		} else if(message instanceof QuitMessage) {
 			QuitMessage quit = (QuitMessage)message;
+			this.getChatlog().add(this.getPlayer(quit.origin), "has quit the game");
 			this.removePlayer(quit.origin);
 		} else if(message instanceof JoinTeam) {
 			JoinTeam join = (JoinTeam)message;

@@ -61,7 +61,7 @@ public class Client {
 	private boolean closeRequested = false;
 	
 	/** The winner. */
-	public byte winner = -1;
+	public volatile byte winner = -1;
 	
 	/** The id. */
 	byte id;

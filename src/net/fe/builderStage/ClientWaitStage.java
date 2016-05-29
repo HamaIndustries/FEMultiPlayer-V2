@@ -59,10 +59,10 @@ public class ClientWaitStage extends Stage {
 			}
 
 			if(message instanceof QuitMessage) {
-				java.util.Arrays.asList(session.getNonSpectators()).stream().filter((x) -> x.getID() == message.origin).findAny().ifPresent((x) ->
+				if (this.session.getNonSpectators().length < 2) {
 					// player has left
-					FEMultiplayer.disconnectGame(x.getName() + " has disconnected. Exiting game.")
-				);
+					FEMultiplayer.disconnectGame("Player has disconnected. Exiting game.");
+				}
 			}
 		}
 	}

@@ -275,10 +275,10 @@ public class OverworldStage extends Stage {
 				}
 			}
 			else if(message instanceof QuitMessage) {
-				java.util.Arrays.asList(session.getNonSpectators()).stream().filter((x) -> x.getID() == message.origin).findAny().ifPresent((x) ->
-					session.getChatlog().add(x, x.getName()+" left the game!")
-				);
-				checkEndGame();
+				this.checkEndGame();
+			}
+			else if(message instanceof EndGame) {
+				this.checkEndGame();
 			}
 	}
 	

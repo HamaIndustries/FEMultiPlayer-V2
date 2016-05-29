@@ -11,8 +11,10 @@ import java.util.List;
 
 import net.fe.*;
 import net.fe.fightStage.FightStage;
+import net.fe.lobbystage.ClientLobbyStage;
 import net.fe.modifier.Modifier;
 import net.fe.network.message.PartyMessage;
+import net.fe.network.message.QuitMessage;
 import net.fe.network.Message;
 import net.fe.unit.Item;
 import net.fe.unit.MapAnimation;
@@ -285,6 +287,14 @@ public class TeamBuilderStage extends Stage {
 		boolean capture = control;
 		for (Entity e : entities) {
 			e.beginStep();
+		}
+		for (Message m : messages) {
+			if (m instanceof QuitMessage) {
+				if (this.session.getNonSpectators().length < 2) {
+					// player has left
+					FEMultiplayer.setCurrentStage(new ClientLobbyStage(session));
+				}
+			}
 		}
 		processAddStack();
 		processRemoveStack();
