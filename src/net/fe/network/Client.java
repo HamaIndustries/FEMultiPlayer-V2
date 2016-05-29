@@ -131,6 +131,7 @@ public class Client {
 		if(message instanceof ClientInit) {
 			ClientInit message2 = (ClientInit) message;
 			if (message2.hashes.equals(ClientInit.Hashes.pullFromStatics())) {
+				this.id = message2.clientID;
 				this.session = message2.session;
 				FEMultiplayer.getLocalPlayer().setClientID(message2.clientID);
 				if(id >= 2) {
