@@ -51,9 +51,6 @@ public class OverworldStage extends Stage {
 	/** The grid. */
 	public Grid grid;
 	
-	/** The chat. */
-	protected final Chat chat;
-	
 	/** The session. */
 	protected Session session;
 	
@@ -75,7 +72,6 @@ public class OverworldStage extends Stage {
 		super(null);
 		this.session = s;
 		System.out.println(session.getObjective().getDescription());
-		chat = new Chat();
 		turnOrder = new ArrayList<Player>();
 		for(Player p : session.getNonSpectators()) {
 			turnOrder.add(p);
@@ -271,7 +267,7 @@ public class OverworldStage extends Stage {
 				ChatMessage chatMsg = (ChatMessage)message;
 				for(Player p : session.getPlayers())
 					if(p.getID() == chatMsg.origin)
-						chat.add(p, chatMsg.text);
+						session.getChatlog().add(p, chatMsg.text);
 			}
 			else if(message instanceof EndTurn) {
 				if (message.origin == turnOrder.get(currentPlayer).getID()) {
@@ -288,7 +284,7 @@ public class OverworldStage extends Stage {
 				Player leaver = null;
 				for(Player p : session.getPlayers()) {
 					if(p.getID() == message.origin) {
-						chat.add(p, p.getName()+" left the game!");
+						session.getChatlog().add(p, p.getName()+" left the game!");
 						leaver = p;
 					}
 				}

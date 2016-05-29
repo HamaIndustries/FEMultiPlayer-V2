@@ -27,9 +27,6 @@ import chu.engine.Stage;
  */
 public class LobbyStage extends Stage {
 	
-	/** The chat. */
-	protected Chat chat;
-	
 	/** The session. */
 	protected Session session;
 	
@@ -41,7 +38,6 @@ public class LobbyStage extends Stage {
 	public LobbyStage(Session s) {
 		super("main");
 		session = s;
-		chat = new Chat();
 	}
 	
 	/* (non-Javadoc)
@@ -74,15 +70,15 @@ public class LobbyStage extends Stage {
 			}
 			else if(message instanceof ChatMessage) {
 				ChatMessage chatMsg = (ChatMessage)message;
-				chat.add(session.getPlayer(chatMsg.origin), chatMsg.text);
+				session.getChatlog().add(session.getPlayer(chatMsg.origin), chatMsg.text);
 			}
 			else if(message instanceof ReadyMessage) {
 				boolean ready = !session.getPlayer(message.origin).ready;
 				session.getPlayer(message.origin).ready = ready;
 				if(ready)
-					chat.add(session.getPlayer(message.origin), "Ready!");
+					session.getChatlog().add(session.getPlayer(message.origin), "Ready!");
 				else
-					chat.add(session.getPlayer(message.origin), "Not ready!");
+					session.getChatlog().add(session.getPlayer(message.origin), "Not ready!");
 			}
 		}
 	}

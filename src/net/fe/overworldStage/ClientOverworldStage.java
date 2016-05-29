@@ -146,7 +146,7 @@ public class ClientOverworldStage extends OverworldStage {
 		addEntity(new RunesBg(c));
 		addEntity(unitInfo);
 		addEntity(new TerrainInfo(cursor));
-		addEntity(new OverworldChat(this.chat));
+		addEntity(new OverworldChat(this.session.getChatlog()));
 		addEntity(new ObjectiveInfo());
 		setControl(true);
 		if(getCurrentPlayer().equals(FEMultiplayer.getLocalPlayer())) {

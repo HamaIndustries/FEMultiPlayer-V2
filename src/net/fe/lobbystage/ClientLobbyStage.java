@@ -283,7 +283,7 @@ public class ClientLobbyStage extends LobbyStage {
 		//Draw chat
 		x = 6;
 		y = 202;
-		List<String> chats = chat.getLast(5);
+		List<String> chats = session.getChatlog().getLast(5);
 		for(int i=0; i<5; i++) {
 			Renderer.drawString("default_med", chats.get(i), x+2, y+2+i*16, 0.8f);
 		}

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.fe.network.Chat;
 import net.fe.modifier.Modifier;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.overworldStage.objective.Rout;
@@ -25,6 +26,9 @@ public final class Session implements Serializable {
 	
 	/** The players. */
 	private final HashMap<Byte, Player> players;
+	
+	/** The chatlog */
+	private final Chat chatlog;
 	
 	/** The objective. */
 	private final Objective objective;
@@ -53,6 +57,7 @@ public final class Session implements Serializable {
 	 */
 	public Session(Objective objective, String map, int maxUnits, Set<Modifier> modifiers, PickMode pickMode) {
 		players = new HashMap<Byte, Player>();
+		this.chatlog = new Chat();
 		this.objective = objective;
 		this.modifiers = java.util.Collections.unmodifiableSet(new HashSet<Modifier>(modifiers));
 		this.maxUnits = maxUnits;
@@ -155,6 +160,14 @@ public final class Session implements Serializable {
 	 */
 	public Objective getObjective() {
 		return objective;
+	}
+	
+	/**
+	 * Gets the chatlog.
+	 * @return the chatlog
+	 */
+	public Chat getChatlog() {
+		return chatlog;
 	}
 	
 	/**
