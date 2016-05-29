@@ -7,6 +7,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.fe.network.Chat;
+import net.fe.network.Message;
+import net.fe.network.message.ChatMessage;
+import net.fe.network.message.JoinTeam;
+import net.fe.network.message.JoinLobby;
+import net.fe.network.message.QuitMessage;
 import net.fe.modifier.Modifier;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.overworldStage.objective.Rout;
@@ -206,4 +211,29 @@ public final class Session implements Serializable {
 		return pickMode;
 	}
 
+	/**
+	 * Perform an action in response to the message
+	 */
+	public void handleMessage(Message message) {
+		if(message instanceof JoinLobby) {
+			JoinLobby join = (JoinLobby)message;
+			this.addPlayer((byte) join.origin, join.player);
+		} else if(message instanceof QuitMessage) {
+			QuitMessage quit = (QuitMessage)message;
+			this.removePlayer(quit.origin);
+		} else if(message instanceof JoinTeam) {
+			JoinTeam join = (JoinTeam)message;
+			this.getPlayer(join.origin).setTeam(join.team);
+			if(join.team == Player.TEAM_BLUE) {
+				this.getPlayer(join.origin).getParty().setColor(Party.TEAM_BLUE);
+			} else if(join.team == Player.TEAM_RED) {
+				this.getPlayer(join.origin).getParty().setColor(Party.TEAM_RED);
+			}
+			this.getPlayer(join.origin).ready = false;
+		} else if (message instanceof ChatMessage) {
+			ChatMessage chatMsg = (ChatMessage)message;
+			this.getChatlog().add(this.getPlayer(chatMsg.origin), chatMsg.text);
+		}
+	}
+	
 }

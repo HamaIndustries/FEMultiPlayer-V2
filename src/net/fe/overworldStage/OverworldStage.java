@@ -263,12 +263,6 @@ public class OverworldStage extends Stage {
 			if(message instanceof CommandMessage) {
 				processCommands((CommandMessage)message);
 			}
-			else if(message instanceof ChatMessage) {
-				ChatMessage chatMsg = (ChatMessage)message;
-				for(Player p : session.getPlayers())
-					if(p.getID() == chatMsg.origin)
-						session.getChatlog().add(p, chatMsg.text);
-			}
 			else if(message instanceof EndTurn) {
 				if (message.origin == turnOrder.get(currentPlayer).getID()) {
 					((EndTurn) message).checkHp((ui) -> this.getUnit(ui));

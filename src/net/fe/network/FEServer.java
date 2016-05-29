@@ -52,6 +52,7 @@ import net.fe.modifier.SuddenDeath;
 import net.fe.modifier.Treasury;
 import net.fe.modifier.Vegas;
 import net.fe.modifier.Veterans;
+import net.fe.network.message.*;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.overworldStage.objective.Rout;
 import net.fe.overworldStage.objective.Seize;
@@ -328,9 +329,27 @@ public class FEServer extends Game {
 					// No, really. Has there ever been a meaningful response to an InterruptedException?
 				}
 				messages.addAll(server.messages);
-				for(Message m : messages)
-					server.messages.remove(m);
+				for(Message message : messages) {
+					if (message instanceof JoinTeam || message instanceof ReadyMessage) {
+						if (!(FEServer.getCurrentStage() instanceof LobbyStage)) {
+							// ignore message to prevent late-joining players from switching teams or readying up
+							messages.remove(message);
+						} else {
+							// TODO: percelate broadcasting of these up to stages
+							server.broadcastMessage(message);
+						}
+					} else if (message instanceof CommandMessage || message instanceof PartyMessage) {
+						// If the unit attacked, we need to generate battle results
+						// If party; don't tell others until all have selected their party
+					} else {
+						// TODO: percelate broadcasting of these up to stages
+						server.broadcastMessage(message);
+					}
+					
+					server.messages.remove(message);	
+				}
 			}
+			for(Message m : messages) {server.getSession().handleMessage(m);}
 			currentStage.beginStep(messages);
 			currentStage.onStep();
 			currentStage.endStep();

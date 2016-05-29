@@ -80,7 +80,7 @@ public final class Server {
 			while(!closeRequested) {
 				Socket connectSocket = serverSocket.accept();
 				logger.info("SERVER: Connection #"+nextPlayerId+" accepted!");
-				ServerListener listener = new ServerListener(this, connectSocket);
+				ServerListener listener = new ServerListener(this, connectSocket, nextPlayerId);
 				clients.add(listener);
 				listener.start();
 				nextPlayerId++;
@@ -103,15 +103,6 @@ public final class Server {
 		}
 	}
 	
-	/**
-	 * Gets the count.
-	 *
-	 * @return the count
-	 */
-	public byte getCount() {
-		return nextPlayerId;
-	}
-
 	/**
 	 * Gets the session.
 	 *

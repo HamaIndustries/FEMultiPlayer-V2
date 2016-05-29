@@ -46,31 +46,9 @@ public class LobbyStage extends Stage {
 	@Override
 	public void beginStep(List<Message> messages) {
 		for(Message message : messages) {
-			if(message instanceof JoinLobby) {
-				JoinLobby join = (JoinLobby)message;
-				session.addPlayer((byte) join.origin, join.player);
-			}
-			else if(message instanceof JoinTeam) {
-				JoinTeam join = (JoinTeam)message;
-				session.getPlayer(join.origin).setTeam(join.team);
-				if(join.team == Player.TEAM_BLUE) {
-					session.getPlayer(join.origin).getParty().setColor(Party.TEAM_BLUE);
-				} else if(join.team == Player.TEAM_RED) {
-					session.getPlayer(join.origin).getParty().setColor(Party.TEAM_RED);
-				}
-				session.getPlayer(join.origin).ready = false;
-			}
-			else if(message instanceof ClientInit) {		// Only clients will get this
+			if(message instanceof ClientInit) {		// Only clients will get this
 				ClientInit init = (ClientInit)message;
 				session = init.session;
-			}
-			else if(message instanceof QuitMessage) {
-				QuitMessage quit = (QuitMessage)message;
-				session.removePlayer(quit.origin);
-			}
-			else if(message instanceof ChatMessage) {
-				ChatMessage chatMsg = (ChatMessage)message;
-				session.getChatlog().add(session.getPlayer(chatMsg.origin), chatMsg.text);
 			}
 			else if(message instanceof ReadyMessage) {
 				boolean ready = !session.getPlayer(message.origin).ready;

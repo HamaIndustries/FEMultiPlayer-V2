@@ -154,6 +154,8 @@ public class Client {
 			winner = (byte) ((EndGame)message).winner;
 		}
 		
+		session.handleMessage(message);
+		
 		synchronized (messagesLock) {
 			messages.add(message);
 		}

@@ -35,7 +35,7 @@ public final class ServerListener extends Thread {
 	private static final Logger logger = Logger.getLogger("net.fe.network.Server");
 	
 	/** The socket. */
-	private Socket socket;
+	private final Socket socket;
 	
 	/** The out. */
 	private ObjectOutputStream out;
@@ -44,10 +44,13 @@ public final class ServerListener extends Thread {
 	private ObjectInputStream in;
 	
 	/** The main. */
-	private Server main;
+	private final Server main;
 	
 	/** The client quit. */
-	private boolean clientQuit;
+	private volatile boolean clientQuit;
+	
+	/** The client that this is linked to. */
+	private final byte clientId;
 	
 	/**
 	 * Instantiates a new server listener.
@@ -55,16 +58,17 @@ public final class ServerListener extends Thread {
 	 * @param main the main
 	 * @param socket the socket
 	 */
-	public ServerListener(Server main, Socket socket) {
-		super("Listener "+main.getCount());
+	public ServerListener(Server main, Socket socket, byte clientId) {
+		super("Listener "+ clientId);
+		this.clientId = clientId;
+		this.socket = socket;
+		this.main = main;
 		try {
-			this.socket = socket;
-			this.main = main;
 			out = new ObjectOutputStream(socket.getOutputStream());
 			out.flush();
 			in = new ObjectInputStream(socket.getInputStream());
 			logger.fine("LISTENER: I/O streams initialized");
-			sendMessage(new ClientInit((byte) 0, main.getCount(), main.getSession()));
+			sendMessage(new ClientInit((byte) 0, clientId, main.getSession()));
 		} catch (IOException e) {
 			logger.throwing("ServerListener", "<init>", e);
 		}
@@ -111,28 +115,13 @@ public final class ServerListener extends Thread {
 	 */
 	public void processInput(Message message) {
 		synchronized(main.messagesLock) {
-			if(message instanceof QuitMessage) {
-				clientQuit = true;
-			}
-			else if(message instanceof JoinTeam || message instanceof ReadyMessage) {
-				// Prevent late-joining players from switching teams or readying up
-				if(!(FEServer.getCurrentStage() instanceof LobbyStage))
-					return;
-			}
-			else if(message instanceof CommandMessage) {
-				// If the unit attacked, we need to generate battle results
+			if (message.origin == clientId) {
+				if (message instanceof QuitMessage) {
+					clientQuit = true;
+				}
 				main.messages.add(message);
 				main.messagesLock.notifyAll();
-				return;	// Wait for the server's overworld stage to get results
 			}
-			else if(message instanceof PartyMessage) {
-				main.messages.add(message);
-				main.messagesLock.notifyAll();
-				return;
-			}
-			main.broadcastMessage(message);
-			main.messages.add(message);
-			main.messagesLock.notifyAll();
 		}
 	}
 	
