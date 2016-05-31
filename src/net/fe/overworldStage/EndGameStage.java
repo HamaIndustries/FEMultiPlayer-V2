@@ -30,18 +30,21 @@ import net.fe.network.Message;
 public class EndGameStage extends Stage {
 	
 	/** The session. */
-	private Session session;
+	private final Session session;
 	
-	/** The Constant X0. */
+	/** The players to render. Cached so that if a player does stuff in the lobby, then it isn't reflected here. */
+	private final Player[] toRender;
+	
+	/** x-coordinate of left-most display box */
 	private static final int X0 = 5;
 	
-	/** The Constant Y0. */
+	/** y-coordinate of left-most display box */
 	private static final int Y0 = 100;
 	
-	/** The Constant X_SPACING. */
+	/** x-coordinate delta between display boxes */
 	private static final int X_SPACING = 235;
 	
-	/** The Constant Y_SPACING. */
+	/** y-coordinate delta between units */
 	private static final int Y_SPACING = 24;
 	
 	/**
@@ -53,7 +56,7 @@ public class EndGameStage extends Stage {
 		super("end");
 		this.session = session;
 		addEntity(new RunesBg(new Color(0xd2b48c)));
-		Player[] toRender = session.getNonSpectators();
+		toRender = session.getNonSpectators();
 		for(int x=0; x< toRender.length; x++) {
 			Player p = toRender[x];
 			for(int i=0; i<p.getParty().size(); i++) {
@@ -109,7 +112,6 @@ public class EndGameStage extends Stage {
 		super.render();
 		Renderer.drawString("default_med", "Press Enter to return to lobby...", 200, 5, 0.5f);
 		String[] stats = {"Kills", "Assists", "Damage", "Healing"};
-		Player[] toRender = session.getNonSpectators();
 		for(int i=0; i < toRender.length; i++) {
 			Player p = toRender[i];
 			Renderer.drawBorderedRectangle(X0+X_SPACING*i, Y0-3, X0+X_SPACING*(i+1), Y0+Y_SPACING*p.getParty().size(), 0.9f, 
