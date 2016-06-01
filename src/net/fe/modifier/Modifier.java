@@ -34,7 +34,7 @@ public interface Modifier extends Serializable{
 	public Iterable<Item> modifyShop(Iterable<Item> shop);
 	
 	/**
-	 * Modifies a list of players; for use immediately before the game starts
+	 * Modifies a list of units; for use immediately before the game starts
 	 *
 	 * Modifies the list in-line
 	 * 

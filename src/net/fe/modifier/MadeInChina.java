@@ -33,27 +33,7 @@ public class MadeInChina implements Modifier {
 	 */
 	@Override
 	public Iterable<Item> modifyShop(Iterable<Item> shop) {
-		return new Iterable<Item>() {
-			public java.util.Iterator<Item> iterator() {
-				return new java.util.Iterator<Item>() {
-					private java.util.Iterator<Item> backing = shop.iterator();
-					
-					public void remove() { backing.remove(); } 
-					public boolean hasNext() { return backing.hasNext(); }
-					public Item next() {
-						Item u2 = backing.next();
-						if (u2 instanceof Weapon) {
-							Weapon u = (Weapon) u2;
-							return new Weapon(u.name, 2, u.id, u.getCost(),
-								u.type, u.mt, u.hit, u.crit, u.range,
-								u.modifiers, u.effective, u.pref);
-						} else {
-							return u2;
-						}
-					}
-				};
-			}
-		};
+		return shop;
 	}
 
 	/* (non-Javadoc)
@@ -61,7 +41,13 @@ public class MadeInChina implements Modifier {
 	 */
 	@Override
 	public void initOverworldUnits(Iterable<Unit> units) {
-		
+		for (Unit u : units) {
+			for(Item item : u.getInventory()) {
+				if(item instanceof Weapon) {
+					item.setUsesDEBUGGING(2);
+				}
+			}
+		}
 	}
 
 	/* (non-Javadoc)
