@@ -269,17 +269,23 @@ public class OverworldStage extends Stage {
 						chat.add(p, chatMsg.text);
 			}
 			else if(message instanceof EndTurn) {
-				if(this instanceof ClientOverworldStage){
-					((EndTurn) message).checkHp(false);
-				} else {
-					((EndTurn) message).checkHp(true);
+				//Only end the turn if it is this player's turn to end. (Or, if for some reason we want to let
+				//the server end turns in the future.
+				System.out.println("" + message.origin + " " + currentPlayer);
+				if(message.origin == getCurrentPlayer().getID() || message.origin == 0){
+
+					if(this instanceof ClientOverworldStage){
+						((EndTurn) message).checkHp(false);
+					} else {
+						((EndTurn) message).checkHp(true);
+					}
+					doEndTurn(message.origin);
+					currentPlayer++;
+					if(currentPlayer >= turnOrder.size()) {
+						currentPlayer = 0;
+					}
+					doStartTurn(message.origin);
 				}
-				doEndTurn(message.origin);
-				currentPlayer++;
-				if(currentPlayer >= turnOrder.size()) {
-					currentPlayer = 0;
-				}
-				doStartTurn(message.origin);
 			}
 			else if(message instanceof QuitMessage) {
 				Player leaver = null;
