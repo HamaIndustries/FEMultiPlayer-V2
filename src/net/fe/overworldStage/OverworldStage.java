@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
 import java.util.HashMap;
 
 import net.fe.FEMultiplayer;
@@ -200,7 +201,7 @@ public class OverworldStage extends Stage {
         	InputStream in = ResourceLoader.getResourceAsStream("levels/"+levelName+".lvl");
             ObjectInputStream ois = new ObjectInputStream(in);
             Level level = (Level) ois.readObject();
-            Set<SpawnPoint> spawns = level.spawns;
+            Set<SpawnPoint> spawns = new HashSet<>(level.spawns);
             grid = new Grid(level.width, level.height, Terrain.NONE);
             for(int i=0; i<level.tiles.length; i++) {
             	for(int j=0; j<level.tiles[0].length; j++) {

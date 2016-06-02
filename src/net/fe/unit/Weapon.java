@@ -13,13 +13,13 @@ import net.fe.fightStage.CrossBow;
 /**
  * The Class Weapon.
  */
-public class Weapon extends Item {
+public final class Weapon extends Item {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 6496663141806177211L;
 	
 	/** The modifiers. */
-	public Statistics modifiers;
+	public final Statistics modifiers;
 	
 	/** The crit. */
 	public final int mt, hit, crit;

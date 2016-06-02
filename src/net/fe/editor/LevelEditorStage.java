@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
 
 import net.fe.Party;
 
@@ -50,7 +51,7 @@ public class LevelEditorStage extends Stage {
 	private String levelName;
 	
 	/** The spawns. */
-	private Set<SpawnPoint> spawns;
+	private HashSet<SpawnPoint> spawns;
 
 	static {
 		try {
@@ -79,7 +80,7 @@ public class LevelEditorStage extends Stage {
             ObjectInputStream ois = new ObjectInputStream(in);
             Level level = (Level) ois.readObject();
             tiles = level.tiles;
-            spawns = level.spawns;
+            spawns = new HashSet<>(level.spawns);
             if(spawns == null) spawns = new HashSet<SpawnPoint>();
             ois.close();
             in.close();

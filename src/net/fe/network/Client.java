@@ -130,7 +130,7 @@ public class Client {
 	private void processInput(Message message) {
 		if(message instanceof ClientInit) {
 			ClientInit message2 = (ClientInit) message;
-			if (message2.hashes.equals(ClientInit.Hashes.pullFromStatics())) {
+			if (message2.hashes.equals(ClientInit.Hashes.pullFromStatics(message2.session.getMap()))) {
 				this.id = message2.clientID;
 				this.session = message2.session;
 				FEMultiplayer.getLocalPlayer().setClientID(message2.clientID);
@@ -143,7 +143,8 @@ public class Client {
 			} else {
 				logger.info("CLIENT: Mismatched hashes:" +
 						"\n\tServer: " + message2.hashes +
-						"\n\tClient: " + ClientInit.Hashes.pullFromStatics());
+						"\n\tClient: " + ClientInit.Hashes.pullFromStatics(message2.session.getMap()));
+				this.id = message2.clientID;
 				this.quit();
 			}
 		} else if (message instanceof QuitMessage) {

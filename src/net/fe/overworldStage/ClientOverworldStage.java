@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.Queue;
+import java.util.HashSet;
 import java.util.HashMap;
 
 import net.fe.FEMultiplayer;
@@ -543,13 +544,14 @@ public class ClientOverworldStage extends OverworldStage {
 	/* (non-Javadoc)
 	 * @see net.fe.overworldStage.OverworldStage#loadLevel(java.lang.String)
 	 */
+	@Override
 	public void loadLevel(String levelName) {
         try {
             InputStream in = ResourceLoader.getResourceAsStream("levels/"+levelName+".lvl");
             ObjectInputStream ois = new ObjectInputStream(in);
             Level level = (Level) ois.readObject();
             grid = new Grid(level.width, level.height, Terrain.NONE);
-            Set<SpawnPoint> spawns = level.spawns;
+            Set<SpawnPoint> spawns = new HashSet<>(level.spawns);
             for(int i=0; i<level.tiles.length; i++) {
             	for(int j=0; j<level.tiles[0].length; j++) {
             		Tile tile = new Tile(j, i, level.tiles[i][j]);
