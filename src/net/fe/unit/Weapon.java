@@ -221,7 +221,13 @@ public final class Weapon extends Item {
 	
 	@Override
 	public int hashCode() {
-		return super.hashCode() * 31 + (mt << 14 + hit << 7 + crit);
+		return (((((super.hashCode() * 31 +
+				this.type.ordinal()) * 31 +
+				this.range.hashCode()) * 31 +
+				this.modifiers.hashCode()) * 31 +
+				java.util.Objects.hashCode(this.pref)) * 31 +
+				this.effective.hashCode()) * 31 +
+				(crit << 14 + hit << 7 + mt);
 	}
 	
 	@Override

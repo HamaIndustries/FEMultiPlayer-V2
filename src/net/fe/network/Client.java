@@ -18,6 +18,9 @@ import net.fe.network.message.EndGame;
 import net.fe.network.message.JoinLobby;
 import net.fe.network.message.QuitMessage;
 
+import org.newdawn.slick.Color;
+import chu.engine.menu.Notification;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class Client.
@@ -139,13 +142,16 @@ public class Client {
 				}
 				logger.info("CLIENT: Recieved ID "+id+" from server");
 				// Send a join lobby request
-				sendMessage(new JoinLobby(id, FEMultiplayer.getLocalPlayer()));
+				sendMessage(new JoinLobby(id, FEMultiplayer.getLocalPlayer().getName()));
 			} else {
 				logger.info("CLIENT: Mismatched hashes:" +
 						"\n\tServer: " + message2.hashes +
 						"\n\tClient: " + ClientInit.Hashes.pullFromStatics(message2.session.getMap()));
 				this.id = message2.clientID;
 				this.quit();
+				FEMultiplayer.setCurrentStage(FEMultiplayer.connect);
+				FEMultiplayer.connect.addEntity(new Notification(
+					180, 120, "default_med", "ERROR: Server and Client versions don't match", 5f, new Color(255, 100, 100), 0f));
 			}
 		} else if (message instanceof QuitMessage) {
 			if(message.origin == id && closeRequested) {
