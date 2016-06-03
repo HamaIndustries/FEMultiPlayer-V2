@@ -350,7 +350,6 @@ public class ClientOverworldStage extends OverworldStage {
 	public void end(){
 		FEMultiplayer.getClient().sendMessage(new EndTurn());
 		selectedUnit = null;
-		removeExtraneousEntities();
 	}
 	
 	/* (non-Javadoc)
@@ -358,6 +357,7 @@ public class ClientOverworldStage extends OverworldStage {
 	 */
 	@Override
 	protected void doEndTurn(int playerID) {
+		removeExtraneousEntities();
 		super.doEndTurn(playerID);
 		context.cleanUp();
 		// reset assists
