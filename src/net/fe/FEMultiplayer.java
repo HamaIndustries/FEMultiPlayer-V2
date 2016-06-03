@@ -351,12 +351,12 @@ public class FEMultiplayer extends Game{
 	 * @param moveY the y-wards movement
 	 * @param cmds the commands for the unit
 	 */
-	public static void send(UnitIdentifier u, int moveX, int moveY, Command... cmds){
+	public static void send(UnitIdentifier u, Command... cmds){
 		for(Object o: cmds){
 			System.out.print(o + " ");
 		}
 		System.out.println();
-		client.sendMessage(new CommandMessage(u, moveX, moveY, null, cmds));
+		client.sendMessage(new CommandMessage(u, null, cmds));
 	}
 	
 	/**

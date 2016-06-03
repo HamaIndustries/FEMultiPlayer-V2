@@ -21,6 +21,7 @@ public final class ShoveCommand extends Command {
 		this.shoveeId = shoveeId;
 	}
 	
+	@Override
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit unit) {
 		final Unit shovee = stage.getUnit(shoveeId);
 		int deltaX = shovee.getXCoord() - unit.getXCoord();
@@ -34,7 +35,8 @@ public final class ShoveCommand extends Command {
 		}
 	}
 	
-	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords) {
+	@Override
+	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords, Runnable callback) {
 		
 		return new Runnable() {
 			public void run() {
@@ -54,6 +56,7 @@ public final class ShoveCommand extends Command {
 					public void run() {
 						shovee.sprite.setAnimation("IDLE");
 						stage.checkEndGame();
+						callback.run();
 					}
 				});
 			}

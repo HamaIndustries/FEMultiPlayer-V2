@@ -28,6 +28,7 @@ public abstract class Command implements Serializable {
 	 * Perform the command on a client
 	 * @param stage the model to act upon
 	 * @param mainUnit the primary unit performing actions
+	 * @param callback a runnable to call after this has done whatever it does
 	 */
-	public abstract Runnable applyClient(ClientOverworldStage stage, Unit mainUnit, ArrayList<AttackRecord> attackRecords);
+	public abstract Runnable applyClient(ClientOverworldStage stage, Unit mainUnit, ArrayList<AttackRecord> attackRecords, Runnable callback);
 }

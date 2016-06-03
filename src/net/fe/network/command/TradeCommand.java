@@ -37,6 +37,7 @@ public final class TradeCommand extends Command {
 		this.rightItemIndex = rightItemIndex;
 	}
 	
+	@Override
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit primaryUnit) {
 		
 		Unit leftUnit = stage.getUnit(leftUnitId);
@@ -45,13 +46,15 @@ public final class TradeCommand extends Command {
 		return null;
 	}
 	
-	public Runnable applyClient(ClientOverworldStage stage, Unit primaryUnit, ArrayList<AttackRecord> attackRecords) {
+	@Override
+	public Runnable applyClient(ClientOverworldStage stage, Unit primaryUnit, ArrayList<AttackRecord> attackRecords, Runnable callback) {
 		
 		return new Runnable() {
 			public void run() {
 				Unit leftUnit = stage.getUnit(leftUnitId);
 				Unit rightUnit = stage.getUnit(rightUnitId);
 				TradeContext.doTrade(leftUnit.getInventory(), rightUnit.getInventory(), leftItemIndex, rightItemIndex);
+				callback.run();
 			}
 		};
 	}

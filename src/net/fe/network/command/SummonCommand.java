@@ -26,6 +26,7 @@ public final class SummonCommand extends Command {
 		this.dropY = dropY;
 	}
 	
+	@Override
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit unit) {
 		
 		final Unit summon = net.fe.overworldStage.context.Summon.generateSummon(unit);
@@ -49,7 +50,8 @@ public final class SummonCommand extends Command {
 		}
 	}
 	
-	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords) {
+	@Override
+	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords, Runnable callback) {
 		
 		return new Runnable() {
 			public void run() {
@@ -68,6 +70,7 @@ public final class SummonCommand extends Command {
 				unit.setMoved(true);
 				unit.use(tomeToUse);
 				stage.checkEndGame();
+				callback.run();
 			}
 		};
 	}

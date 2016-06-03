@@ -24,16 +24,15 @@ public final class WaitCommand extends Command {
 	public WaitCommand() {
 	}
 	
+	@Override
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit primaryUnit) {
 		return null;
 	}
 	
-	public Runnable applyClient(ClientOverworldStage stage, Unit primaryUnit, ArrayList<AttackRecord> attackRecords) {
+	@Override
+	public Runnable applyClient(ClientOverworldStage stage, Unit primaryUnit, ArrayList<AttackRecord> attackRecords, Runnable callback) {
 		
-		return new Runnable() {
-			public void run() {
-			}
-		};
+		return callback;
 	}
 	
 	@Override

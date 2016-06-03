@@ -28,6 +28,7 @@ public final class HealCommand extends Command {
 		this.otherId = otherId;
 	}
 	
+	@Override
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit unit) {
 		
 		//This updates HP so we're ok
@@ -36,7 +37,8 @@ public final class HealCommand extends Command {
 		return calc.getAttackQueue();
 	}
 	
-	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords) {
+	@Override
+	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords, Runnable callback) {
 		
 		return new Runnable() {
 			public void run() {
@@ -50,6 +52,7 @@ public final class HealCommand extends Command {
 					unitId,
 					otherId
 				));
+				callback.run();
 			}
 		};
 	}

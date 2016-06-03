@@ -52,7 +52,7 @@ public final class OverworldStageTest {
 		
 		// when processing a shove command
 		CommandMessage command = new CommandMessage(
-				new UnitIdentifier(shover), 0,0,
+				new UnitIdentifier(shover),
 				new java.util.ArrayList<net.fe.fightStage.AttackRecord>(),
 				new ShoveCommand(new UnitIdentifier(shovee)));
 		stage.processCommands(command);
@@ -82,7 +82,7 @@ public final class OverworldStageTest {
 		
 		// when processing a shove command
 		CommandMessage command = new CommandMessage(
-				new UnitIdentifier(shover), 0,0,
+				new UnitIdentifier(shover),
 				new java.util.ArrayList<net.fe.fightStage.AttackRecord>(),
 				new SmiteCommand(new UnitIdentifier(shovee)));
 		stage.processCommands(command);

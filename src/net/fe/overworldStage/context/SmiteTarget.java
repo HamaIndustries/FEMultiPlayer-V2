@@ -36,10 +36,14 @@ public final class SmiteTarget extends SelectTargetContext {
 	public void unitSelected(Unit u) {
 		SmiteCommand c = new SmiteCommand(new UnitIdentifier(u));
 		stage.addCmd(c);
-		c.applyClient(stage, unit, null).run();
+		c.applyClient(stage, unit, null, new EmptyRunnable()).run();
 		stage.send();
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
 		stage.reset();
+	}
+
+	private static final class EmptyRunnable implements Runnable {
+		@Override public void run() {}
 	}
 }

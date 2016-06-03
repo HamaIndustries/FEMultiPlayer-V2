@@ -24,6 +24,7 @@ public final class TakeCommand extends Command {
 		this.otherId = otherId;
 	}
 	
+	@Override
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit unit) {
 		
 		Unit other = stage.getUnit(otherId);
@@ -31,13 +32,15 @@ public final class TakeCommand extends Command {
 		return null;
 	}
 	
-	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords) {
+	@Override
+	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords, Runnable callback) {
 		
 		return new Runnable() {
 			public void run() {
 				Unit other = stage.getUnit(otherId);
 				other.give(unit);
 				stage.checkEndGame();
+				callback.run();
 			}
 		};
 	}

@@ -14,22 +14,23 @@ import net.fe.unit.Item;
 import net.fe.unit.RiseTome;
 import java.util.Optional;
 
-public final class RescueCommand extends Command {
+public final class MoveCommand extends Command {
 	
 	private static final long serialVersionUID = 6468268282716381357L;
 	
-	private final UnitIdentifier rescueeId;
+	private final int moveX;
+	private final int moveY;
 	
-	public RescueCommand(UnitIdentifier rescueeId) {
-		this.rescueeId = rescueeId;
+	public MoveCommand(int moveX, int moveY) {
+		this.moveX = moveX;
+		this.moveY = moveY;
 	}
 	
 	@Override
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit unit) {
 		
 		//TODO: validate
-		Unit rescuee = stage.getUnit(rescueeId);
-		unit.rescue(rescuee);
+		stage.grid.move(unit, unit.getXCoord() + moveX, unit.getYCoord() + moveY, false);
 		return null;
 	}
 	
@@ -38,17 +39,16 @@ public final class RescueCommand extends Command {
 		
 		return new Runnable() {
 			public void run() {
-				Unit rescuee = stage.getUnit(rescueeId);
-				unit.setMoved(true);
-				unit.rescue(rescuee);
-				stage.checkEndGame();
-				callback.run();
+				Path p = stage.grid.getShortestPath(unit, unit.getXCoord()+moveX, unit.getYCoord()+moveY);
+				stage.grid.move(unit, unit.getXCoord()+moveX, unit.getYCoord()+moveY, true);
+				unit.move(p, callback);
+				stage.includeInView(p.getAllNodes());
 			}
 		};
 	}
 	
 	@Override
 	public String toString() {
-		return "Rescue[" + rescueeId + "]";
+		return "Move[" + moveX + "," + moveY + "]";
 	}
 }

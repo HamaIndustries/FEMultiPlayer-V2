@@ -26,6 +26,7 @@ public final class DropCommand extends Command {
 		this.dropY = dropY;
 	}
 	
+	@Override
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit unit) {
 		
 		//TODO: validate
@@ -33,7 +34,8 @@ public final class DropCommand extends Command {
 		return null;
 	}
 	
-	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords) {
+	@Override
+	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords, Runnable callback) {
 		
 		return new Runnable() {
 			public void run() {
@@ -41,6 +43,7 @@ public final class DropCommand extends Command {
 				unit.rescuedUnit().setMoved(true);
 				unit.drop(dropX, dropY);
 				stage.checkEndGame();
+				callback.run();
 			}
 		};
 	}

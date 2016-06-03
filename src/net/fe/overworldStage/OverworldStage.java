@@ -351,11 +351,6 @@ public class OverworldStage extends Stage {
 		// After validation, update the unit position
 		// Move it instantly since this is the server stage
 		final Unit unit = (message.unit == null ? null : getUnit(message.unit));
-		if(unit != null) {
-			grid.move(unit, unit.getXCoord()+message.moveX, unit.getYCoord()+message.moveY, false);
-			unit.setMoved(true);
-		}
-		// Parse commands
 		
 		for(int i=0; i<message.commands.length; i++) {
 			try {
@@ -371,6 +366,9 @@ public class OverworldStage extends Stage {
 				
 				throw e;
 			}
+		}
+		if(unit != null) {
+			unit.setMoved(true);
 		}
 		FEServer.getServer().broadcastMessage(message);
 		checkEndGame();

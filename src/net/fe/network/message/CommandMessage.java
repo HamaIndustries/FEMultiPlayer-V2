@@ -20,12 +20,6 @@ public final class CommandMessage extends Message {
 	/** The unit. */
 	public final UnitIdentifier unit;
 	
-	/** The move x. */
-	public final int moveX;
-	
-	/** The move y. */
-	public final int moveY;
-	
 	/** The commands. */
 	public final Command[] commands;
 	
@@ -36,18 +30,14 @@ public final class CommandMessage extends Message {
 	 * Instantiates a new command message.
 	 *
 	 * @param unit the unit
-	 * @param moveX the move x
-	 * @param moveY the move y
 	 * @param atk the atk
 	 * @param commands the commands
 	 */
 	public CommandMessage(UnitIdentifier unit, 
-			int moveX, int moveY, ArrayList<AttackRecord> atk, Command... commands) {
+			ArrayList<AttackRecord> atk, Command... commands) {
 		assert(unit != null);
 		this.commands = commands;
 		this.unit = unit;
-		this.moveX = moveX;
-		this.moveY = moveY;
 		this.attackRecords = atk;
 	}
 	
@@ -58,7 +48,7 @@ public final class CommandMessage extends Message {
 		if(unit == null){
 			return super.toString() + Arrays.toString(commands);
 		} else {
-			return super.toString() + unit.name + " move (" + moveX + ", " + moveY + "):" + Arrays.toString(commands);
+			return super.toString() + unit.name + Arrays.toString(commands);
 		}
 	}
 

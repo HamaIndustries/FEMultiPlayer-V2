@@ -26,6 +26,7 @@ public final class UseCommand extends Command {
 		this.itemIndex = itemIndex;
 	}
 	
+	@Override
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit unit) {
 		
 		if (unit.getInventory().get(itemIndex) instanceof HealingItem) {
@@ -36,7 +37,8 @@ public final class UseCommand extends Command {
 		}
 	}
 	
-	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords) {
+	@Override
+	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords, Runnable callback) {
 		
 		final int oHp = unit.getHp();
 		return new Runnable() {
@@ -49,6 +51,7 @@ public final class UseCommand extends Command {
 					@Override
 					public void done() {
 						destroy();
+						callback.run();
 					}
 				});
 			}

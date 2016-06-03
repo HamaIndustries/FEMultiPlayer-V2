@@ -35,11 +35,15 @@ public final class ShoveTarget extends SelectTargetContext {
 	@Override
 	public void unitSelected(Unit u) {
 		ShoveCommand c = new ShoveCommand(new UnitIdentifier(u));
-		c.applyClient(stage, unit, null).run();
+		c.applyClient(stage, unit, null, new EmptyRunnable()).run();
 		stage.addCmd(c);
 		stage.send();
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
 		stage.reset();
+	}
+
+	private static final class EmptyRunnable implements Runnable {
+		@Override public void run() {}
 	}
 }

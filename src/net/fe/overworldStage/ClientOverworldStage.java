@@ -25,6 +25,7 @@ import net.fe.network.Message;
 import net.fe.network.command.Command;
 import net.fe.network.command.AttackCommand;
 import net.fe.network.command.HealCommand;
+import net.fe.network.command.MoveCommand;
 import net.fe.network.message.CommandMessage;
 import net.fe.network.message.EndTurn;
 import net.fe.overworldStage.context.Idle;
@@ -455,39 +456,22 @@ public class ClientOverworldStage extends OverworldStage {
 		Runnable callback = new Runnable() {
 			@Override
 			public void run() {
+				if(unit != null) unit.setMoved(true);
+				checkEndGame();
+				runningMessagesCount--;
 			}
 		};
-		for(int i=0; i<message.commands.length; i++) {
+		for (int i = message.commands.length - 1; i >= 0; i--) {
 			Command c = message.commands[i];
 			
 			// only execute if originated from another server or if the command has info added from the server
 			if (execute || c instanceof AttackCommand || c instanceof HealCommand) {
-				final Runnable callback2 = callback; // local variables referenced from an inner class must be final or effectively final
-				callback = new Runnable() {
-					public void run() {
-						callback2.run();
-						c.applyClient(ClientOverworldStage.this, unit, message.attackRecords).run();
-					}
-				};
+				callback = c.applyClient(ClientOverworldStage.this, unit, message.attackRecords, callback);
 			}
-		}
-		{
-			final Runnable callback2 = callback; // local variables referenced from an inner class must be final or effectively final
-			callback = new Runnable() {
-				public void run() {
-					callback2.run();
-					if(unit != null) unit.setMoved(true);
-					checkEndGame();
-					runningMessagesCount--;
-				}
-			};
 		}
 		if(execute && unit != null) {
 			AudioPlayer.playAudio("select");
-			Path p = grid.getShortestPath(unit, unit.getXCoord()+message.moveX, unit.getYCoord()+message.moveY);
-			grid.move(unit, unit.getXCoord()+message.moveX, unit.getYCoord()+message.moveY, true);
-			unit.move(p, callback);
-			includeInView(p.getAllNodes());
+			callback.run();
 		} else {
 			callback.run();
 		}
@@ -538,7 +522,8 @@ public class ClientOverworldStage extends OverworldStage {
 		UnitIdentifier uid = null;
 		if(selectedUnit != null)
 			uid = new UnitIdentifier(selectedUnit);
-		FEMultiplayer.send(uid, movX, movY, currentCmdString.toArray(new Command[0]));
+		currentCmdString.add(0, new MoveCommand(movX, movY));
+		FEMultiplayer.send(uid, currentCmdString.toArray(new Command[0]));
 		clearCmdString();
 	}
 	

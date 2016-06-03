@@ -89,7 +89,7 @@ public class Summon extends OverworldContext {
 		AudioPlayer.playAudio("select");
 		SummonCommand c = new SummonCommand(getCurrentTarget().x, getCurrentTarget().y);
 		stage.addCmd(c);
-		c.applyClient(stage, unit, null).run();
+		c.applyClient(stage, unit, null, new EmptyRunnable()).run();
 		stage.send();
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
@@ -222,5 +222,9 @@ public class Summon extends OverworldContext {
 		summoner.getParty().addUnit(summon);
 		summon.stage = summoner.stage;
 		return summon;
+	}
+
+	private static final class EmptyRunnable implements Runnable {
+		@Override public void run() {}
 	}
 }

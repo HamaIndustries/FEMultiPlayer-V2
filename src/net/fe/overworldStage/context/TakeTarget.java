@@ -44,10 +44,13 @@ public class TakeTarget extends SelectTargetContext {
 	public void unitSelected(Unit u) {
 		TakeCommand c = new TakeCommand(new UnitIdentifier(u));
 		stage.addCmd(c);
-		c.applyClient(stage, unit, null).run();
+		c.applyClient(stage, unit, null, new EmptyRunnable()).run();
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
 		new UnitMoved(stage, this, unit, false, true).startContext();
 	}
 
+	private static final class EmptyRunnable implements Runnable {
+		@Override public void run() {}
+	}
 }

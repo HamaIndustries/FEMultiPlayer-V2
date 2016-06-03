@@ -87,7 +87,7 @@ public class DropTarget extends OverworldContext {
 	public void onSelect() {
 		AudioPlayer.playAudio("select");
 		DropCommand c = new DropCommand(getCurrentTarget().x, getCurrentTarget().y);
-		c.applyClient(stage, unit, null).run();
+		c.applyClient(stage, unit, null, new EmptyRunnable()).run();
 		stage.addCmd(c);
 		stage.send();
 		cursor.setXCoord(unit.getXCoord());
@@ -173,4 +173,7 @@ public class DropTarget extends OverworldContext {
 		cursor.setYCoord(unit.getYCoord());
 	}
 
+	private static final class EmptyRunnable implements Runnable {
+		@Override public void run() {}
+	}
 }

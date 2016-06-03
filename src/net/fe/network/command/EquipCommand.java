@@ -27,6 +27,7 @@ public final class EquipCommand extends Command {
 		this.itemIndex = itemIndex;
 	}
 	
+	@Override
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit primaryUnit) {
 		
 		//TODO: validate
@@ -35,12 +36,14 @@ public final class EquipCommand extends Command {
 		return null;
 	}
 	
-	public Runnable applyClient(ClientOverworldStage stage, Unit primaryUnit, ArrayList<AttackRecord> attackRecords) {
+	@Override
+	public Runnable applyClient(ClientOverworldStage stage, Unit primaryUnit, ArrayList<AttackRecord> attackRecords, Runnable callback) {
 		
 		return new Runnable() {
 			public void run() {
 				Unit other = stage.getUnit(unitId);
 				other.equip(itemIndex);
+				callback.run();
 			}
 		};
 	}

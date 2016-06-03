@@ -43,7 +43,7 @@ public class RescueTarget extends SelectTargetContext {
 	@Override
 	public void unitSelected(Unit u) {
 		RescueCommand c = new RescueCommand(new UnitIdentifier(u));
-		c.applyClient(stage, unit, null).run();
+		c.applyClient(stage, unit, null, new EmptyRunnable()).run();
 		stage.addCmd(c);
 		stage.send();
 		cursor.setXCoord(unit.getXCoord());
@@ -51,4 +51,7 @@ public class RescueTarget extends SelectTargetContext {
 		stage.reset();
 	}
 
+	private static final class EmptyRunnable implements Runnable {
+		@Override public void run() {}
+	}
 }
