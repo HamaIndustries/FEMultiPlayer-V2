@@ -43,6 +43,7 @@ public final class CommandMessage extends Message {
 	 */
 	public CommandMessage(UnitIdentifier unit, 
 			int moveX, int moveY, ArrayList<AttackRecord> atk, Command... commands) {
+		assert(unit != null);
 		this.commands = commands;
 		this.unit = unit;
 		this.moveX = moveX;

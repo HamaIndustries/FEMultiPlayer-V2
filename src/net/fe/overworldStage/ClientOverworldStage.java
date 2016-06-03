@@ -389,7 +389,8 @@ public class ClientOverworldStage extends OverworldStage {
 				u.getAssisters().clear();
 			}
 		}
-		send();
+		assert (selectedUnit == null); // If this is false, send() and clearCmdString() are not interchangable
+		clearCmdString();
 		if(FEMultiplayer.getLocalPlayer().getID() != getCurrentPlayer().getID()){
 			SoundTrack.loop("overworld");
 		} else {
