@@ -335,7 +335,8 @@ public class CombatCalculator {
 		if (a.getWeapon().isMagic()) {
 			base = a.getStats().mag
 					+ (a.getWeapon().mt + a.getWeapon().triMod(d.getWeapon()))
-					* (effective ? 3: 1) - d.getStats().res;		} else {
+					* (effective ? 3: 1) - d.getStats().res;
+		} else {
 			base = a.getStats().str
 					+ (a.getWeapon().mt + a.getWeapon().triMod(d.getWeapon()))
 					* (effective? 3:1) - d.getStats().def;
