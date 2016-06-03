@@ -265,7 +265,10 @@ public class OverworldStage extends Stage {
 				processCommands((CommandMessage)message);
 			}
 			else if(message instanceof EndTurn) {
-				if (message.origin == turnOrder.get(currentPlayer).getID()) {
+				//Only end the turn if it is this player's turn to end. (Or, if for some reason we want to let
+				//the server end turns in the future.
+				System.out.println("" + message.origin + " " + currentPlayer);
+				if(message.origin == getCurrentPlayer().getID() || message.origin == 0){
 					((EndTurn) message).checkHp((ui) -> this.getUnit(ui));
 					doEndTurn(message.origin);
 					currentPlayer++;
