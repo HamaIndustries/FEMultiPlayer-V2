@@ -54,7 +54,7 @@ public class TeamBuilderStage extends Stage {
 	private int exp;
 	
 	/** The select. */
-	private TeamSelectionStage select;
+	private final TeamSelectionStage select;
 	
 	/** The buttons. */
 	private final List<Button> buttons;
@@ -188,6 +188,7 @@ public class TeamBuilderStage extends Stage {
 			
 			buttons = Arrays.asList( end, back, save, load );
 		} else {
+			select = null;
 			units = presetUnits;
 			buttons = Arrays.asList( end );
 		}

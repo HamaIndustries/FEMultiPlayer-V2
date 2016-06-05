@@ -151,10 +151,12 @@ public class TeamSelectionStage extends Stage {
 	 *
 	 * @param name the name
 	 * @return the unit
+	 * @throws IllegalArgumentException if a unit with the specified name could not be found
 	 */
 	public Unit getUnit(String name){
 		Unit u = lordList.getUnit(name);
 		if(u == null) u = vassalList.getUnit(name);
+		if(u == null) throw new IllegalArgumentException("Unknown unit name: " + name);
 		return u;
 	}
 	

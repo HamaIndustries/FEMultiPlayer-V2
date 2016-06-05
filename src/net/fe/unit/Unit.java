@@ -1187,11 +1187,10 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	}
 	
 	@Override public int hashCode() {
-		return (((((
+		return ((((
 			this.name.hashCode()) * 31 +
 			this.bases.hashCode()) * 31 +
 			this.growths.hashCode()) * 31 +
-			this.clazz.hashCode()) * 31 +
-			this.level) * 31;
+			this.clazz.hashCode());
 	}
 }
