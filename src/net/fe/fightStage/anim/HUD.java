@@ -43,7 +43,7 @@ public class HUD extends Entity {
 		if(battleStats == null)
 			battleStats = FEResources.getTexture("gui_battleStats");
 		
-		if (!CombatCalculator.shouldAttack(u1, u2, stage.getRange())) {
+		if (!CombatCalculator.shouldAttack(u1, u2, u1.getWeapon(), stage.getRange())) {
 			hit = "  -";
 			crit = "  -";
 			dmg = "  -";

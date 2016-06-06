@@ -86,18 +86,24 @@ public class CombatCalculator {
 	 * Main calculation method, determines attack order, which units should attack, sets triggers, and finally runs each attack
 	 */
 	protected void calculate() {
+		// The units will automatically equip the next weapon if the current one breaks.
+		// This, however, should not affect the battle. The weapon should not change until
+		// the round is over. So, record used weapons now, and not ask the units for their weapons again.
+		final Weapon leftWeap = left.getWeapon();
+		final Weapon rightWeap = right.getWeapon();
+		
 		// Determine turn order
 		ArrayList<Boolean> attackOrder = new ArrayList<Boolean>();
-		if (shouldAttack(left,right,range))
+		if (shouldAttack(left,right,leftWeap,range))
 			attackOrder.add(true);
-		if (shouldAttack(right,left,range))
+		if (shouldAttack(right,left,rightWeap,range))
 			attackOrder.add(false);
 		if (left.getStats().spd >= right.getStats().spd + 4 
-				&& shouldAttack(left,right,range)) {
+				&& shouldAttack(left,right,leftWeap,range)) {
 			attackOrder.add(true);
 		}
 		if (right.getStats().spd >= left.getStats().spd + 4
-				&& shouldAttack(right,left,range)) {
+				&& shouldAttack(right,left,rightWeap,range)) {
 			attackOrder.add(false);
 		}
 		leftTriggers = new ArrayList<CombatTrigger>();
@@ -111,9 +117,9 @@ public class CombatCalculator {
 		}
 		
 		for (Boolean i : attackOrder) {
-			attack(i, "None");
+			attack(i, "None",leftWeap,rightWeap);
 			while(!nextAttack.isEmpty()){
-				attack(i, nextAttack.poll());
+				attack(i, nextAttack.poll(),leftWeap,rightWeap);
 			}
 		}
 	}
@@ -127,12 +133,12 @@ public class CombatCalculator {
 	 * @param range the range
 	 * @return true, if a is able to attack d
 	 */
-	public static boolean shouldAttack(Unit a, Unit d, int range){
+	public static boolean shouldAttack(Unit a, Unit d, Weapon aWeap, int range){
 		if(a.getHp() <= 0) return false;
-		if(a.getWeapon() == null) return false;
-		if(a.getWeapon().getUses() == 0) return false;
-		if(!a.getWeapon().range.contains(range)) return false;
-		if(a.getWeapon().type == Weapon.Type.STAFF) return false;
+		if(aWeap == null) return false;
+		if(aWeap.getUses() == 0) return false;
+		if(!aWeap.range.contains(range)) return false;
+		if(aWeap.type == Weapon.Type.STAFF) return false;
 		return true;
 	}
 	
@@ -167,12 +173,13 @@ public class CombatCalculator {
 	 * @param leftAttacking If the left fighter is attacking
 	 * @param currentEffect the current effect
 	 */
-	private void attack(boolean leftAttacking, String currentEffect) {
+	private void attack(boolean leftAttacking, String currentEffect, Weapon leftWeap, Weapon rightWeap) {
 		Unit a = leftAttacking?left: right;
 		Unit d = leftAttacking?right: left;
+		Weapon aWeap = leftAttacking ? leftWeap : rightWeap;
 		List<CombatTrigger> aTriggers = leftAttacking?leftTriggers: rightTriggers;
 		List<CombatTrigger> dTriggers = leftAttacking?rightTriggers: leftTriggers;
-		if(!shouldAttack(a, d, range)) return;
+		if(!shouldAttack(a, d, aWeap, range)) return;
 		int damage = 0;
 		int drain = 0;
 		String animation = "Attack";

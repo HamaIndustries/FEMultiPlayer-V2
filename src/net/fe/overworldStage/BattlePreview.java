@@ -111,7 +111,7 @@ public class BattlePreview extends Entity {
 		boolean dEffective = false;
 		
 		//attacker determination
-		if (CombatCalculator.shouldAttack(attacker, defender, range)) {
+		if (CombatCalculator.shouldAttack(attacker, defender, attacker.getWeapon(), range)) {
 			List<String> mods = new ArrayList<String>();
 			for(Modifier i : FEMultiplayer.getClient().getSession().getModifiers()){
 				mods.add(i.toString());
@@ -148,7 +148,7 @@ public class BattlePreview extends Entity {
 		}
 		
 		//defender determination
-		if (CombatCalculator.shouldAttack(defender, attacker, range)) {
+		if (CombatCalculator.shouldAttack(defender, attacker, defender.getWeapon(), range)) {
 			List<String> mods = new ArrayList<String>();
 			for(Modifier i : FEMultiplayer.getClient().getSession().getModifiers()){
 				mods.add(i.toString());
