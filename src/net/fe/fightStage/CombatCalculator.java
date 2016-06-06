@@ -137,7 +137,7 @@ public class CombatCalculator {
 		if(a.getHp() <= 0) return false;
 		if(aWeap == null) return false;
 		if(aWeap.getUses() == 0) return false;
-		if(!aWeap.range.contains(range)) return false;
+		if(!aWeap.range.apply(a.getStats()).contains(range)) return false;
 		if(aWeap.type == Weapon.Type.STAFF) return false;
 		return true;
 	}

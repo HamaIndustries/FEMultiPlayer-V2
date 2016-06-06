@@ -1,6 +1,7 @@
 package net.fe.unit;
 
 import java.util.*;
+import java.util.function.Function;
 
 import net.fe.fightStage.Brave;
 import net.fe.fightStage.CombatTrigger;
@@ -24,8 +25,8 @@ public final class Weapon extends Item {
 	/** The crit. */
 	public final int mt, hit, crit;
 	
-	/** The range. */
-	public final List<Integer> range;
+	/** The weapon's range. */
+	public final Function<Statistics, List<Integer>> range;
 	
 	/** The type. */
 	public final Type type;
@@ -45,9 +46,13 @@ public final class Weapon extends Item {
 	 * @param id icon number
 	 * @param cost price in shop
 	 * @param type the type of the weapon
+	 * @param range the weapon's range. If this weapon is expected to travel over a network, this
+	 * 		should be serializable and have a stable hashCode. Note that lambdas don't generally
+	 * 		satisfy this property
 	 */
 	public Weapon(String name, int maxUses, int id, int cost,
-			Type type, int mt, int hit, int crit, List<Integer> range,
+			Type type, int mt, int hit, int crit, 
+			Function<Statistics, List<Integer>> range,
 			Statistics modifiers,
 			List<String> effective, String pref) {
 		super(name, maxUses, id, cost);
@@ -57,7 +62,7 @@ public final class Weapon extends Item {
 		this.hit = hit;
 		this.crit = crit;
 		this.effective = java.util.Collections.unmodifiableList(new ArrayList<String>(effective));
-		this.range = java.util.Collections.unmodifiableList(new ArrayList<Integer>(range));
+		this.range = range;
 		this.pref = pref;
 	}
 	
@@ -187,13 +192,6 @@ public final class Weapon extends Item {
 	public Weapon getCopy(){
 		return new Weapon(name, getMaxUses(), id, getCost(),
 				type, mt, hit, crit, range,
-				modifiers, effective, pref);
-	}
-	
-	/** Returns an item identical to this one, with the exception of an updated range */
-	public Weapon getCopyWithNewRange(List<Integer> newRange){
-		return new Weapon(name, getMaxUses(), id, getCost(),
-				type, mt, hit, crit, newRange,
 				modifiers, effective, pref);
 	}
 	

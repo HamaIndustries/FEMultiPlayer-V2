@@ -251,17 +251,7 @@ public class UnitBuilderStage extends Stage {
 			Renderer.drawString("default_med", "Mt " + wep.mt, INFO_X+8, INFO_Y+20, 1);
 			Renderer.drawString("default_med", "Hit " + wep.hit, INFO_X+68, INFO_Y+20, 1);
 			Renderer.drawString("default_med", "Crit " + wep.crit, INFO_X+128, INFO_Y+20, 1);
-			int rngmin = 255;
-			int rngmax = 0;
-			for(int rng: wep.range){
-				if(rng < rngmin) rngmin = rng;
-				if(rng > rngmax) rngmax = rng;
-			}
-			if(rngmin == rngmax){
-				Renderer.drawString("default_med", "Rng " + rngmin, INFO_X+ 188, INFO_Y+20, 1);
-			} else {
-				Renderer.drawString("default_med", "Rng " + rngmin + "-" + rngmax, INFO_X+ 188, INFO_Y+20, 1);
-			}
+			Renderer.drawString("default_med", "Rng " + wep.range.toString(), INFO_X+ 188, INFO_Y+20, 1);
 			
 			ArrayList<String> flavor = new ArrayList<String>();
 			if(wep.type == Weapon.Type.CROSSBOW) {

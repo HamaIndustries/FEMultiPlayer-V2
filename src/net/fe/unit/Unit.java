@@ -500,18 +500,6 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 * @param item the item
 	 */
 	public void addToInventory(Item item) {
-		//add unit-dependent stats as necessary
-		if(item.name.equals("Physic")){
-			List<Integer> range = new ArrayList<Integer>();
-			int min = 1;
-			int max = Math.max(this.getStats().mag/2, 1);
-			for(int i = min; i <= max; i++){
-				range.add(i);
-			}
-			if(inventory.size() < 4)
-				inventory.add(((Weapon) item).getCopyWithNewRange(range));
-			return;
-		}
 		if(inventory.size() < 4)
 			inventory.add(item);
 	}
@@ -529,7 +517,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 				continue;
 			Weapon w = (Weapon) i;
 			if (staff == (w.type == Weapon.Type.STAFF) && equippable(w))
-				range.addAll(w.range);
+				range.addAll(w.range.apply(this.getStats()));
 		}
 		return range;
 	}
@@ -599,7 +587,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 			if (i instanceof Weapon) {
 				Weapon w = (Weapon) i;
 				if (equippable(w) && w.type != Weapon.Type.STAFF
-						&& w.range.contains(range)) {
+						&& w.range.apply(this.getStats()).contains(range)) {
 					weps.add(w);
 				}
 			}
@@ -619,7 +607,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 			if (i instanceof Weapon) {
 				Weapon w = (Weapon) i;
 				if (equippable(w) && w.type == Weapon.Type.STAFF
-						&& w.range.contains(range)) {
+						&& w.range.apply(this.getStats()).contains(range)) {
 					weps.add(w);
 				}
 			}
@@ -653,7 +641,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 			if (it instanceof Weapon) {
 				Weapon w = (Weapon) it;
 				if (equippable(w) && w.type != Weapon.Type.STAFF
-						&& w.range.contains(range)) {
+						&& w.range.apply(this.getStats()).contains(range)) {
 					equip(w);
 					return i;
 				}

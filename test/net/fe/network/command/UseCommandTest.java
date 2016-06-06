@@ -123,7 +123,7 @@ public final class UseCommandTest {
 		
 		Weapon retVal = new Weapon(
 			"baton" + i, 1, 0, 0,
-			Weapon.Type.AXE, 0, 0, 0, java.util.Arrays.asList(1),
+			Weapon.Type.AXE, 0, 0, 0, (s) -> java.util.Arrays.asList(1),
 			new Statistics(), new java.util.ArrayList<>(), null
 		);
 		return retVal;

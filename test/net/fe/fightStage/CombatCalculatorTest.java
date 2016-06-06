@@ -150,7 +150,7 @@ public final class CombatCalculatorTest {
 		
 		Weapon retVal = new Weapon(
 			"fork", 1, 0, 0,
-			type, might, 0, 0, java.util.Arrays.asList(1),
+			type, might, 0, 0, (s) -> java.util.Arrays.asList(1),
 			new Statistics(), new java.util.ArrayList<>(), null
 		);
 		return retVal;
