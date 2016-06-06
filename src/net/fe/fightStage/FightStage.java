@@ -45,7 +45,7 @@ import chu.engine.anim.Renderer;
 public class FightStage extends Stage {
 	
 	/** The right. */
-	private Unit left, right;
+	private final Unit left, right;
 	
 	/** The right fighter. */
 	private FightUnit leftFighter, rightFighter;
@@ -170,17 +170,24 @@ public class FightStage extends Stage {
 	
 	/** The stage to return to after the Fight Stage plays out */
 	private final ClientOverworldStage returnTo;
+	
+	/** A Runnable to be called after the Fight Stage plays out */
+	private final Runnable returnCallback;
 
 	/**
 	 * Instantiates a new fight stage.
 	 *
 	 * @param u1 the u1
 	 * @param u2 the u2
-	 * @param attackQ the attack q
+	 * @param attackQ the attack queue
 	 * @param returnTo the stage to return to after this stage has played its animation
+	 * @param returnCallback a callback to be run after this stage has played its animation
 	 */
 	public FightStage(UnitIdentifier u1, UnitIdentifier u2,
-			ArrayList<AttackRecord> attackQ, ClientOverworldStage returnTo) {
+			ArrayList<AttackRecord> attackQ,
+			ClientOverworldStage returnTo,
+			Runnable returnCallback
+	) {
 		super(u1.partyColor.equals(u2.partyColor) ? "curing" :
 				u1.partyColor.equals(FEMultiplayer.getLocalPlayer().getParty().getColor()) ?
 						"fight" : "defense");
@@ -213,6 +220,7 @@ public class FightStage extends Stage {
 
 		this.attackQ = attackQ;
 		this.returnTo = returnTo;
+		this.returnCallback = returnCallback;
 		preload();
 	}
 	
@@ -282,8 +290,7 @@ public class FightStage extends Stage {
 			System.out.println(left.name + " HP:" + left.getHp() + " | "
 					+ right.name + " HP:" + right.getHp());
 			PRELOADED_EFFECTS.clear();
-			addEntity(new FightOverworldTransition(returnTo, left,
-					right));
+			addEntity(new FightOverworldTransition(returnTo, left, right, returnCallback));
 			done = true;
 		}
 		processAddStack();

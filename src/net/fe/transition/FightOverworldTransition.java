@@ -22,7 +22,9 @@ import chu.engine.anim.Renderer;
 public class FightOverworldTransition extends Transition {
 	
 	/** The to. */
-	ClientOverworldStage to;
+	private final ClientOverworldStage to;
+	
+	private final Runnable callback;
 	
 	/** The timer. */
 	private float timer;
@@ -55,8 +57,8 @@ public class FightOverworldTransition extends Transition {
 	 * @param u1 the u1
 	 * @param u2 the u2
 	 */
-	public FightOverworldTransition(ClientOverworldStage to, UnitIdentifier u1, UnitIdentifier u2) {
-		this(to, FEMultiplayer.getUnit(u1), FEMultiplayer.getUnit(u2));
+	public FightOverworldTransition(ClientOverworldStage to, UnitIdentifier u1, UnitIdentifier u2, Runnable callback) {
+		this(to, FEMultiplayer.getUnit(u1), FEMultiplayer.getUnit(u2), callback);
 	}
 	
 	/**
@@ -66,9 +68,10 @@ public class FightOverworldTransition extends Transition {
 	 * @param a the a
 	 * @param b the b
 	 */
-	public FightOverworldTransition(ClientOverworldStage to, Unit a, Unit b) {
+	public FightOverworldTransition(ClientOverworldStage to, Unit a, Unit b, Runnable callback) {
 		super(to);
 		this.to = to;
+		this.callback = callback;
 		to.beginStep(emptyList());
 		renderDepth = 0.0f;
 		triAlpha = 0f;
@@ -148,6 +151,7 @@ public class FightOverworldTransition extends Transition {
 	@Override
 	public void done() {
 		super.done();
+		callback.run();
 		to.playSoundTrack();
 		to.checkEndGame();
 	}

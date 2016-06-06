@@ -221,7 +221,7 @@ public class FEMultiplayer extends Game{
 		u2.fillHp();
 		
 		
-		setCurrentStage(new FightStage(new UnitIdentifier(u1), new UnitIdentifier(u2), calc.getAttackQueue(), map));
+		setCurrentStage(new FightStage(new UnitIdentifier(u1), new UnitIdentifier(u2), calc.getAttackQueue(), map, new EmptyRunnable()));
 	}
 	
 	/**
@@ -463,4 +463,7 @@ public class FEMultiplayer extends Game{
 		}
 	}
 
+	private static final class EmptyRunnable implements Runnable {
+		@Override public void run() {}
+	}
 }

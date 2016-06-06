@@ -62,6 +62,7 @@ public class AttackPreview extends OverworldContext{
 	public void onSelect() {
 		AudioPlayer.playAudio("select");
 		stage.addCmd(new AttackCommand(new UnitIdentifier(defender)));
+		stage.setControl(false);
 		stage.send();
 		attacker.setMoved(true);
 		cursor.setXCoord(attacker.getXCoord());

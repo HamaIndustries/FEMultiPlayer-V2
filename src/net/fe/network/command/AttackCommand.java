@@ -42,17 +42,17 @@ public final class AttackCommand extends Command {
 		
 		return new Runnable() {
 			public void run() {
+				final Runnable callback2 = new Runnable(){@Override public void run() {callback.run(); stage.setControl(true);}};
 				final UnitIdentifier unitId = new UnitIdentifier(unit);
 				final Unit other = stage.getUnit(otherId);
 				unit.setMoved(true);
 				// play the battle animation
 				stage.addEntity(new OverworldFightTransition(
 					stage,
-					new FightStage(unitId, otherId, attackRecords, stage),
+					new FightStage(unitId, otherId, attackRecords, stage, callback2),
 					unitId,
 					otherId
 				));
-				callback.run();
 			}
 		};
 	}

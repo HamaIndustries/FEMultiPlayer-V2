@@ -61,6 +61,7 @@ public class HealTarget extends SelectTargetContext {
 		stage.addCmd(new EquipCommand(new UnitIdentifier(unit), unit.findItem(selector.getSelected())));
 		unit.equip(selector.getSelected());
 		stage.addCmd(new HealCommand(new UnitIdentifier(u)));
+		stage.setControl(false);
 		stage.send();
 
 		unit.setMoved(true);

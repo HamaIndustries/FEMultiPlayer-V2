@@ -66,7 +66,7 @@ public class ClientOverworldStage extends OverworldStage {
 	/** The menu. */
 	private Menu<?> menu;
 	
-	/** The on control. */
+	/** If false, then this stage will ignore all key/mouse events */
 	private boolean onControl;
 	
 	/** The repeat timers. */
@@ -348,18 +348,20 @@ public class ClientOverworldStage extends OverworldStage {
 	}
 	
 	/**
-	 * Sets the control.
+	 * Sets whether this will respond to keyboard events
 	 *
-	 * @param c the new control
+	 * @see #hasControl
+	 * @param c true if this should respond to keyboard and mouse events, else false
 	 */
 	public void setControl(boolean c){
 		onControl = c;
 	}
 	
 	/**
-	 * Checks for control.
+	 * Returns whether this responds to keyboard events
 	 *
-	 * @return true, if successful
+	 * @see #setControl
+	 * @return true, if this is responding to keyboard and mouse events, else false
 	 */
 	public boolean hasControl(){
 		return onControl;
