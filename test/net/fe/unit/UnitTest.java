@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import java.util.HashMap;
 
@@ -133,6 +134,26 @@ public final class UnitTest {
 		Unit dut2 = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
 		
 		assertEquals(dut1.hashCode(), dut2.hashCode());
+	}
+	
+	@Test
+	public void testGetCopy_isNotReferenceEqual() {
+		Statistics vals = new Statistics(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
+		Unit original = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
+		Unit copy = original.getCopy();
+		
+		assertFalse("top-level object", original == copy);
+	}
+	
+	@Test
+	public void testGetCopy_inventoryIsClonedTo() {
+		Statistics vals = new Statistics(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
+		Unit original = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
+		original.addToInventory(createAxe(1));
+		Unit copy = original.getCopy();
+		
+		assertFalse(original.getInventory().get(0) == copy.getInventory().get(0));
+		assertTrue(original.getInventory().get(0).equals(copy.getInventory().get(0)));
 	}
 	
 	private Weapon createAxe(int i) {

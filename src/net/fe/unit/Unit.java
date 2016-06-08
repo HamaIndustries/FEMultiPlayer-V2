@@ -376,16 +376,16 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	}
 
 	/**
-	 * Gets the copy.
-	 *
-	 * @return the copy
+	 * Creates a clone of this unit. Transient characteristics might not be
+	 * carried over to the new object. Other mutable characteristics are deep-cloned.
 	 */
 	public Unit getCopy() {
 		Unit copy = new Unit(name, clazz, gender, bases, growths);
 		copy.setLevel(this.level);
 		for (Item i : inventory) {
-			copy.addToInventory(i);
+			copy.addToInventory(i.getCopy());
 		}
+		this.skills.forEach((s) -> copy.addSkill(s.getCopy()));
 		return copy;
 	}
 
@@ -463,14 +463,13 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		return ans;
 	}
 
-	
+	// Inventory
 
 	/**
 	 * Gets the inventory.
 	 *
 	 * @return the inventory
 	 */
-	//Inventory
 	public List<Item> getInventory() {
 		return inventory;
 	}
