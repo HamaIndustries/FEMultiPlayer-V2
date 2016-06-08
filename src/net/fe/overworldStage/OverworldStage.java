@@ -134,7 +134,7 @@ public class OverworldStage extends Stage {
 	 * @param y the y
 	 * @return the terrain
 	 */
-	public Terrain getTerrain(int x, int y) {
+	public final Terrain getTerrain(int x, int y) {
 		return grid.getTerrain(x, y);
 	}
 
@@ -145,7 +145,7 @@ public class OverworldStage extends Stage {
 	 * @param y the y
 	 * @return the unit
 	 */
-	public Unit getUnit(int x, int y) {
+	public final Unit getUnit(int x, int y) {
 		return grid.getUnit(x, y);
 	}
 
@@ -157,7 +157,7 @@ public class OverworldStage extends Stage {
 	 * @param y the y
 	 * @return true, if successful
 	 */
-	public boolean addUnit(Unit u, int x, int y) {
+	public final boolean addUnit(Unit u, int x, int y) {
 		if (grid.addUnit(u, x, y)) {
 			this.addEntity(u);
 			return true;
@@ -173,7 +173,7 @@ public class OverworldStage extends Stage {
 	 * @param y the y
 	 * @return the unit
 	 */
-	public Unit removeUnit(int x, int y) {
+	public final Unit removeUnit(int x, int y) {
 		Unit u = grid.removeUnit(x, y);
 		if (u != null) {
 			this.removeEntity(u);
@@ -186,7 +186,7 @@ public class OverworldStage extends Stage {
 	 *
 	 * @param u the u
 	 */
-	public void removeUnit(Unit u) {
+	public final void removeUnit(Unit u) {
 		grid.removeUnit(u.getXCoord(), u.getYCoord());
 		this.removeEntity(u);
 	}

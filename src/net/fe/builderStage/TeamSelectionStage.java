@@ -33,40 +33,40 @@ import chu.engine.anim.Renderer;
 /**
  * The Class TeamSelectionStage.
  */
-public class TeamSelectionStage extends Stage {
+public final class TeamSelectionStage extends Stage {
 	
 	/** The vassal list. */
-	private UnitList vassalList;
+	private final UnitList vassalList;
 	
 	/** The lord list. */
-	private UnitList lordList;
+	private final UnitList lordList;
 	
 	/** The builder stage. */
-	private TeamBuilderStage builderStage;
+	private final TeamBuilderStage builderStage;
 	
 	/** The cursor. */
-	private Cursor cursor;
+	private final Cursor cursor;
 	
 	/** The buttons. */
-	private Button[] buttons;
+	private final Button[] buttons;
 	
 	/** The ok. */
-	private Button ok;
+	private final Button ok;
 	
 	/** The class sort. */
-	private Button classSort;
+	private final Button classSort;
 	
 	/** The name sort. */
-	private Button nameSort;
+	private final Button nameSort;
 	
 	/** The controls. */
-	private ControlsDisplay controls;
+	private final ControlsDisplay controls;
 	
 	/** The max units. */
-	private int maxUnits = 8;
+	private final int maxUnits;
 	
 	/** The repeat timers. */
-	private float[] repeatTimers = new float[4];
+	private final float[] repeatTimers = new float[4];
 	
 	/** The Constant NS_BUTTON_X. */
 	//CONFIG

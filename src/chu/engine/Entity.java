@@ -30,7 +30,7 @@ public abstract class Entity {
 	public float renderDepth;
 	
 	/** The sprite. */
-	public Sprite sprite;
+	public final Sprite sprite;
 	
 	/** The hitbox. */
 	public Hitbox hitbox;
@@ -97,10 +97,9 @@ public abstract class Entity {
 	}
 	
 	/**
-	 * Destroy.
+	 * Destroy. Called when the entity is removed from the stage.
 	 */
-	//Called when the entity is removed from the stage.
-	public void destroy() {
+	public final void destroy() {
 		if(stage == null) {
 			flagForRemoval();
 		} else {
@@ -113,14 +112,14 @@ public abstract class Entity {
 	 *
 	 * @return true, if successful
 	 */
-	public boolean willBeRemoved() {
+	public final boolean willBeRemoved() {
 		return willBeRemoved;
 	}
 	
 	/**
 	 * Flag for removal.
 	 */
-	public void flagForRemoval() {
+	public final void flagForRemoval() {
 		willBeRemoved = true;
 	}
 	
