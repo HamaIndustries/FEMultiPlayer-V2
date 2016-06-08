@@ -651,6 +651,22 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	}
 	
 	/**
+	 * Returns an Command that, if executed, would perform the same action as a call to #reEquip()
+	 */
+	public net.fe.network.command.Command reEquipCommand() {
+		for (int i = 0; i < inventory.size(); i++) {
+			Item it = inventory.get(i);
+			if (it instanceof Weapon) {
+				Weapon w = (Weapon) it;
+				if (equippable(w)) {
+					return new net.fe.network.command.EquipCommand(new UnitIdentifier(this), i);
+				}
+			}
+		}
+		return new net.fe.network.command.WaitCommand(); /* a not-null no-op */
+	}
+	
+	/**
 	 * Remove any currently equipped weapon, then equip the top-most weapon eligible for equipping.
 	 */
 	public void reEquip(){
@@ -906,7 +922,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 */
 	public void setHp(int hp) {
 		this.hp = Math.max(hp, 0);
-		if(hp == 0) {
+		if(this.hp == 0) {
 			((OverworldStage) stage).removeUnit(xcoord, ycoord);
 			if(rescuedUnit != null) {
 				drop(xcoord, ycoord);

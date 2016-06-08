@@ -63,6 +63,8 @@ public class TradeContext extends OverworldContext {
 		super.cleanUp();
 		stage.removeEntity(trader);
 		stage.removeEntity(tradee);
+		stage.addCmd(u1.reEquipCommand());
+		stage.addCmd(u2.reEquipCommand());
 		u1.reEquip();
 		u2.reEquip();
 		
