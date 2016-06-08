@@ -6,7 +6,7 @@ import chu.engine.anim.Sprite;
 /**
  * The Class Entity.
  */
-public abstract class Entity implements Comparable<Entity> {
+public abstract class Entity {
 	
 	/** The x. */
 	public float x;
@@ -25,9 +25,6 @@ public abstract class Entity implements Comparable<Entity> {
 	
 	/** The prev y. */
 	public float prevY;
-	
-	/** The update priority. */
-	public int updatePriority;
 	
 	/** The render depth. */
 	public float renderDepth;
@@ -109,14 +106,6 @@ public abstract class Entity implements Comparable<Entity> {
 		} else {
 			stage.removeEntity(this);
 		}
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
-	//Lower numbers = higher priority.
-	public int compareTo(Entity e) {
-		return updatePriority - e.updatePriority;
 	}
 	
 	/**

@@ -170,7 +170,6 @@ public abstract class Stage {
 			entities.add(e);
 			e.stage = this;
 		}
-		java.util.Collections.sort(entities, new SortByUpdate());
 	}
 	
 	/**
