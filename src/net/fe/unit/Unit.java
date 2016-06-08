@@ -627,27 +627,6 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 			}
 		}
 	}
-
-	/**
-	 * Equip first weapon that can attack at the specified range
-	 *
-	 * @param range the range
-	 * @return the index of the equipped weapon
-	 */
-	public int equipFirstWeapon(int range) {
-		for (int i = 0; i < inventory.size(); i++) {
-			Item it = inventory.get(i);
-			if (it instanceof Weapon) {
-				Weapon w = (Weapon) it;
-				if (equippable(w) && w.type != Weapon.Type.STAFF
-						&& w.range.apply(this.getStats()).contains(range)) {
-					equip(w);
-					return i;
-				}
-			}
-		}
-		return -1;
-	}
 	
 	/**
 	 * Returns an Command that, if executed, would perform the same action as a call to #reEquip()
@@ -744,12 +723,13 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		return triggers;
 	}
 	
+	//Development
+	
 	/**
 	 * Sets the level.
 	 *
 	 * @param lv the new level
 	 */
-	//Development
 	public void setLevel(int lv) {
 		if (lv > 20 || lv < 1) {
 			return;
@@ -851,12 +831,13 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		return assist;
 	}
 
+	// Combat statistics
+	
 	/**
 	 * Hit.
 	 *
 	 * @return the int
 	 */
-	// Combat statistics
 	public int hit() {
 		if(this.getWeapon() == null) return 0;
 		return getWeapon().hit + 2 * getStats().skl + getStats().lck / 2
@@ -886,11 +867,11 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	}
 
 	/**
-	 * Dodge.
+	 * Critical avoid
 	 *
 	 * @return the int
 	 */
-	public int dodge() { // Critical avoid
+	public int dodge() {
 		return getStats().lck
 				+ (tempMods.get("Dodge") != null ? tempMods.get("Dodge") : 0);
 	}

@@ -12,16 +12,16 @@ import net.fe.unit.*;
 /**
  * The Class AttackPreview.
  */
-public class AttackPreview extends OverworldContext{
+public final class AttackPreview extends OverworldContext{
 	
 	/** The attacker. */
-	private Unit attacker;
+	private final Unit attacker;
 	
 	/** The defender. */
-	private Unit defender;
+	private final Unit defender;
 	
 	/** The preview. */
-	private BattlePreview preview;
+	private final BattlePreview preview;
 	
 	/** The weapons. */
 	private ArrayList<Weapon> weapons;
@@ -53,6 +53,9 @@ public class AttackPreview extends OverworldContext{
 		super.startContext();
 		stage.addEntity(preview);
 		weapons = attacker.equippableWeapons(Grid.getDistance(attacker, defender));
+		index = 0;
+		// BattlePreview used the equipped weapon; so equip a usable weapon now
+		this.equip();
 	}
 
 	/* (non-Javadoc)
@@ -102,6 +105,7 @@ public class AttackPreview extends OverworldContext{
 		if(index < 0){
 			index += weapons.size();
 		}
+		// BattlePreview used the equipped weapon; so equip next weapon to see preview for next weapon
 		equip();
 	}
 
@@ -111,6 +115,7 @@ public class AttackPreview extends OverworldContext{
 	@Override
 	public void onRight() {
 		index = (index+1)%weapons.size();
+		// BattlePreview used the equipped weapon; so equip next weapon to see preview for next weapon
 		equip();
 	}
 	
