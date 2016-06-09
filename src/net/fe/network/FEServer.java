@@ -333,7 +333,6 @@ public class FEServer extends Game {
 					if (message instanceof JoinTeam || message instanceof ReadyMessage) {
 						if (!(FEServer.getCurrentStage() instanceof LobbyStage)) {
 							// ignore message to prevent late-joining players from switching teams or readying up
-							messages.remove(message);
 						} else {
 							// TODO: percelate broadcasting of these up to stages
 							server.broadcastMessage(message);
