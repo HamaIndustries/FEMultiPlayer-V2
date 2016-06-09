@@ -52,6 +52,7 @@ public class ItemCmd extends MenuContext<ItemDisplay>{
 			}
 		} else if (i instanceof HealingItem){
 			if(unit.getHp() == unit.getStats().maxHp) return;
+			stage.setControl(false);
 			stage.addCmd(new UseCommand(unit.findItem(i)));
 			stage.send();
 			
@@ -66,6 +67,7 @@ public class ItemCmd extends MenuContext<ItemDisplay>{
 					destroy();
 					unit.setMoved(true);
 					ItemCmd.this.stage.reset();
+					ItemCmd.this.stage.setControl(true);
 				}
 			});
 		}
