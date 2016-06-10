@@ -218,7 +218,7 @@ public final class TeamSelectionStage extends Stage {
 		for(Entity e: entities){
 			e.beginStep();
 		}
-
+		builderStage.checkForQuits(messages);
 		
 		
 		MapAnimation.updateAll();

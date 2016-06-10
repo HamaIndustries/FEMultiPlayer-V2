@@ -15,6 +15,7 @@ import net.fe.lobbystage.ClientLobbyStage;
 import net.fe.modifier.Modifier;
 import net.fe.network.message.PartyMessage;
 import net.fe.network.message.QuitMessage;
+import net.fe.network.message.KickMessage;
 import net.fe.network.Message;
 import net.fe.unit.Item;
 import net.fe.unit.MapAnimation;
@@ -194,8 +195,8 @@ public class TeamBuilderStage extends Stage {
 		}
 		
 		TeamBuilderResources res = new TeamBuilderResources(FUNDS, EXP);
-		if(getSession() != null) {
-			for(Modifier m : getSession().getModifiers()) {
+		if(session != null) {
+			for(Modifier m : session.getModifiers()) {
 				res = m.modifyTeamResources(res);
 			}
 		}
@@ -289,14 +290,7 @@ public class TeamBuilderStage extends Stage {
 		for (Entity e : entities) {
 			e.beginStep();
 		}
-		for (Message m : messages) {
-			if (m instanceof QuitMessage) {
-				if (this.session.getNonSpectators().length < 2) {
-					// player has left
-					FEMultiplayer.setCurrentStage(new ClientLobbyStage(session));
-				}
-			}
-		}
+		this.checkForQuits(messages);
 		processAddStack();
 		processRemoveStack();
 		MapAnimation.updateAll();
@@ -592,12 +586,18 @@ public class TeamBuilderStage extends Stage {
 
 
 	/**
-	 * Gets the session.
-	 *
-	 * @return the session
+	 * Checks to see whether there are still enough players for the game to continue
+	 * If not, resets this client to the lobby.
 	 */
-	public Session getSession() {
-		return session;
+	void checkForQuits(List<Message> messages) {
+		for (Message m : messages) {
+			if (m instanceof QuitMessage || m instanceof KickMessage) {
+				if (this.session.getNonSpectators().length < 2) {
+					// player has left
+					FEMultiplayer.setCurrentStage(new ClientLobbyStage(session));
+				}
+			}
+		}
 	}
 }
 

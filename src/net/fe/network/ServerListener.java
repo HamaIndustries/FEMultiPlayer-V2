@@ -14,6 +14,7 @@ import net.fe.network.message.ClientInit;
 import net.fe.network.message.CommandMessage;
 import net.fe.network.message.JoinTeam;
 import net.fe.network.message.PartyMessage;
+import net.fe.network.message.KickMessage;
 import net.fe.network.message.QuitMessage;
 import net.fe.network.message.ReadyMessage;
 
@@ -135,6 +136,9 @@ public final class ServerListener extends Thread {
 			out.writeObject(message);
 			out.flush();
 			logger.fine("SERVER sent message: [" + message.toString() + "]");
+			if (message instanceof KickMessage && ((KickMessage) message).player == clientId) {
+				clientQuit = true;
+			}
 		} catch (IOException e) {
 			logger.severe("SERVER Unable to send message!");
 			logger.throwing("ServerListener", "sendMessage", e);

@@ -25,6 +25,7 @@ import net.fe.Session;
 import net.fe.network.Message;
 import net.fe.network.message.DraftMessage;
 import net.fe.network.message.QuitMessage;
+import net.fe.network.message.KickMessage;
 import net.fe.unit.MapAnimation;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitFactory;
@@ -403,10 +404,10 @@ public class DraftViewStage extends Stage {
 				lastAction = action.toString();
 				resetDraft();
 			}
-			else if(message instanceof QuitMessage) {
+			else if(message instanceof QuitMessage || message instanceof KickMessage) {
 				if (this.session.getNonSpectators().length < 2) {
 					// player has left
-					FEMultiplayer.disconnectGame("Opponent has disconnected. Exiting game.");
+					FEMultiplayer.setCurrentStage(FEMultiplayer.lobby);
 				}
 			}
 		}

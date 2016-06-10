@@ -11,6 +11,7 @@ import net.fe.network.Message;
 import net.fe.network.message.ChatMessage;
 import net.fe.network.message.JoinTeam;
 import net.fe.network.message.JoinLobby;
+import net.fe.network.message.KickMessage;
 import net.fe.network.message.QuitMessage;
 import net.fe.modifier.Modifier;
 import net.fe.overworldStage.objective.Objective;
@@ -225,6 +226,12 @@ public final class Session implements Serializable {
 				this.getChatlog().add(player, "has quit the game");
 			}
 			this.removePlayer(quit.origin);
+		} else if(message instanceof KickMessage) {
+			KickMessage kick = (KickMessage)message;
+			Player kicker = this.getPlayer(kick.origin); // better be null...
+			Player kickee = this.getPlayer(kick.player);
+			this.getChatlog().add(kicker, kickee.getName() + " was kicked: " + kick.reason);
+			this.removePlayer(kick.player);
 		} else if(message instanceof JoinTeam) {
 			JoinTeam join = (JoinTeam)message;
 			this.getPlayer(join.origin).setTeam(join.team);

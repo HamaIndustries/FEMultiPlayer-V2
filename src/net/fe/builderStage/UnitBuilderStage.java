@@ -162,6 +162,7 @@ public class UnitBuilderStage extends Stage {
 		for (Entity e : entities) {
 			e.beginStep();
 		}
+		back.checkForQuits(messages);
 		processAddStack();
 		processRemoveStack();
 		MapAnimation.updateAll();
@@ -608,19 +609,4 @@ public class UnitBuilderStage extends Stage {
 		}
 		
 	}
-
-	/**
-	 * Gets the session.
-	 *
-	 * @return the session
-	 */
-	public Session getSession() {
-		return back.getSession();
-	}
-	
-
 }
-
-
-
-

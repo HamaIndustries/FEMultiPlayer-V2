@@ -8,6 +8,7 @@ import net.fe.network.FEServer;
 import net.fe.network.Message;
 import net.fe.network.message.PartyMessage;
 import net.fe.network.message.QuitMessage;
+import net.fe.network.message.KickMessage;
 import net.fe.network.message.StartGame;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.unit.Unit;
@@ -58,10 +59,10 @@ public class ClientWaitStage extends Stage {
 				start = true;
 			}
 
-			if(message instanceof QuitMessage) {
+			if(message instanceof QuitMessage || message instanceof KickMessage) {
 				if (this.session.getNonSpectators().length < 2) {
 					// player has left
-					FEMultiplayer.disconnectGame("Player has disconnected. Exiting game.");
+					FEMultiplayer.setCurrentStage(FEMultiplayer.lobby);
 				}
 			}
 		}

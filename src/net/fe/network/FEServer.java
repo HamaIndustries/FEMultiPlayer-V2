@@ -246,6 +246,11 @@ public class FEServer extends Game {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				{
+					final JButton kickAll = new JButton("Kick all");
+					kickAll.addActionListener((e2) -> FEServer.resetToLobbyAndKickPlayers());
+					frame.getContentPane().add(kickAll);
+				}
 				frame.pack();
 				Thread serverThread = new Thread() {
 					public void run() {
@@ -340,6 +345,8 @@ public class FEServer extends Game {
 					} else if (message instanceof CommandMessage || message instanceof PartyMessage) {
 						// If the unit attacked, we need to generate battle results
 						// If party; don't tell others until all have selected their party
+					} else if (message instanceof KickMessage) {
+						// Clients are not allowed to do this.
 					} else {
 						// TODO: percelate broadcasting of these up to stages
 						server.broadcastMessage(message);
@@ -408,14 +415,17 @@ public class FEServer extends Game {
 	 */
 	public static void resetToLobbyAndKickPlayers(){
 		resetToLobby();
-		ArrayList<Integer> ids = new ArrayList<Integer>();
+		ArrayList<Byte> ids = new ArrayList<>();
 		for(Player p : getPlayers().values()) {
-			ids.add(new Integer(p.getID()));
+			ids.add(p.getID());
 		}
-		for(Integer i : ids){
-			server.getSession().removePlayer(i.byteValue());
+		synchronized(server.messagesLock) {
+			for(byte i : ids){
+				final KickMessage kick = new KickMessage((byte) 0, i, "Reseting server");
+				server.broadcastMessage(kick);
+				server.messages.add(kick);
+			}
 		}
-		
 	}
 
 }

@@ -3,6 +3,7 @@ package net.fe.builderStage;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.Consumer;
 
 import net.fe.FEMultiplayer;
 import net.fe.Player;
@@ -12,6 +13,7 @@ import net.fe.network.Message;
 import net.fe.network.message.PartyMessage;
 import net.fe.network.message.QuitMessage;
 import net.fe.network.message.StartGame;
+import net.fe.network.message.KickMessage;
 import net.fe.overworldStage.OverworldStage;
 import net.fe.unit.Unit;
 import chu.engine.Game;
@@ -61,11 +63,20 @@ public final class WaitStage extends Stage {
 		for(Message message : messages) {
 			if(message instanceof PartyMessage) {
 				PartyMessage pm = (PartyMessage)message;
-				pm.validateTeam(
+				java.util.Optional<String> validationResult = pm.validateTeam(
 					net.fe.unit.UnitFactory::getUnit,
 					net.fe.unit.Item.getAllItems(),
 					session.getModifiers()
 				);
+				validationResult.ifPresent(new Consumer<String>() {
+					@Override public void accept(String validationError) {
+						synchronized(FEServer.getServer().messagesLock) {
+							final KickMessage kick = new KickMessage((byte) 0, pm.origin, validationError);
+							FEServer.getServer().broadcastMessage(kick);
+							FEServer.getServer().messages.add(kick);
+						}
+					}
+				});
 				for(Player p : session.getPlayers()){ 
 					if(p.getID() == message.origin) {
 						p.getParty().clear();
@@ -76,10 +87,10 @@ public final class WaitStage extends Stage {
 				}
 				this.messages.add(pm);
 			}
-			else if(message instanceof QuitMessage) {
+			else if(message instanceof QuitMessage || message instanceof KickMessage) {
 				if (this.session.getNonSpectators().length < 2) {
 					// player has left
-					FEMultiplayer.disconnectGame("Player has disconnected. Exiting game.");
+					FEServer.resetToLobby();
 				}
 			}
 		}

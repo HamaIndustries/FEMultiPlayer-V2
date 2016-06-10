@@ -3,6 +3,7 @@ package net.fe.network.message;
 import java.util.List;
 import java.util.Collection;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.function.Function;
 
 import net.fe.builderStage.TeamBuilderResources;
@@ -56,9 +57,9 @@ public final class PartyMessage extends Message {
 	/**
 	 * Compares the units contained in this message with the parameters to detect anomalies
 	 * 
-	 * @throws IllegalStateException if something is off
+	 * @return None if the team is acceptable; a Some with a message otherwise
 	 */
-	public void validateTeam(Function<String,Unit> realUnits, Iterable<Item> realItems, Iterable<Modifier> mods) {
+	public Optional<String> validateTeam(Function<String,Unit> realUnits, Iterable<Item> realItems, Iterable<Modifier> mods) {
 		
 		TeamBuilderResources usableRes = new TeamBuilderResources(TeamBuilderStage.FUNDS, TeamBuilderStage.EXP);
 		for (Modifier m : mods ) {
@@ -80,19 +81,19 @@ public final class PartyMessage extends Message {
 				Unit u3 = realUnits.apply(u.name);
 				u3.setLevel(u.getLevel());
 				if (! u.getBase().equals(u3.getBase())) {
-					throw new IllegalStateException("unit's stats don't match expected: " +
+					return Optional.of("unit's stats don't match expected: " +
 						"\n\tClient: " + u.getBase() +
 						"\n\tServer: " + u3.getBase()
 					);
 				}
 				if (! u.getTheClass().equals(u3.getTheClass())) {
-					throw new IllegalStateException("unit's class don't match expected" +
+					return Optional.of("unit's class don't match expected" +
 						"\n\tClient: " + u.getTheClass() +
 						"\n\tServer: " + u3.getTheClass()
 					);
 				}
 				if (! u.getTriggers().equals(u3.getTriggers())) {
-					throw new IllegalStateException("unit's skills don't match expected" +
+					return Optional.of("unit's skills don't match expected" +
 						"\n\tClient: " + u.getTriggers() +
 						"\n\tServer: " + u3.getTriggers()
 					);
@@ -101,17 +102,19 @@ public final class PartyMessage extends Message {
 			
 			for (Item i : u.getInventory()) {
 				if (! realItems2.contains(i)) {
-					throw new IllegalStateException("Item does not exist in list of real items: " + i);
+					return Optional.of("Item does not exist in list of real items: " + i);
 				}
 			}
 		}
 		
 		if (usedRes.exp > usableRes.exp) {
-			throw new IllegalStateException("Used EXP exceeded usable EXP: " + usedRes.exp + " > " + usableRes.exp);
+			return Optional.of("Used EXP exceeded usable EXP: " + usedRes.exp + " > " + usableRes.exp);
 		}
 		if (usedRes.funds > usableRes.funds) {
-			throw new IllegalStateException("Used FUNDS exceeded usable FUNDS: " + usedRes.funds + " > " + usableRes.funds);
+			return Optional.of("Used FUNDS exceeded usable FUNDS: " + usedRes.funds + " > " + usableRes.funds);
 		}
+		
+		return Optional.empty();
 	}
 	
 }

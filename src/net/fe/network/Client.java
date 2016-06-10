@@ -16,6 +16,7 @@ import net.fe.Session;
 import net.fe.network.message.ClientInit;
 import net.fe.network.message.EndGame;
 import net.fe.network.message.JoinLobby;
+import net.fe.network.message.KickMessage;
 import net.fe.network.message.QuitMessage;
 
 import org.newdawn.slick.Color;
@@ -156,6 +157,14 @@ public class Client {
 		} else if (message instanceof QuitMessage) {
 			if(message.origin == id && closeRequested) {
 				close();
+			}
+		} else if (message instanceof KickMessage) {
+			KickMessage kick = (KickMessage) message;
+			if (kick.player == id) {
+				close();
+				FEMultiplayer.setCurrentStage(FEMultiplayer.connect);
+				FEMultiplayer.connect.addEntity(new Notification(
+					180, 120, "default_med", "KICKED: " + kick.reason, 5f, new Color(255, 100, 100), 0f));
 			}
 		} else if(message instanceof EndGame) {
 			winner = (byte) ((EndGame)message).winner;
