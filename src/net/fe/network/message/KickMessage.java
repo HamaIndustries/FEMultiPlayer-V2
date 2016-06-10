@@ -25,4 +25,9 @@ public final class KickMessage extends Message {
 		this.player = player;
 		this.reason = reason;
 	}
+	
+	@Override
+	public String toString(){
+		return super.toString() + player + " :: " + reason;
+	}
 }
