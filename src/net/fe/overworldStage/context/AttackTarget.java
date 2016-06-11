@@ -28,7 +28,6 @@ public class AttackTarget extends SelectTargetContext {
 	@Override
 	public void updateCursor() {
 		super.updateCursor();
-		unit.equipFirstWeapon(Grid.getDistance(unit, getCurrentTarget()));
 	}
 
 	/* (non-Javadoc)

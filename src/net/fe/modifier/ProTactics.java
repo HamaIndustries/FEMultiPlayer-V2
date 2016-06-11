@@ -2,42 +2,32 @@ package net.fe.modifier;
 
 import net.fe.modifier.Pavise;
 import net.fe.builderStage.ShopMenu;
-import net.fe.builderStage.TeamBuilderStage;
+import net.fe.builderStage.TeamBuilderResources;
 import net.fe.builderStage.TeamSelectionStage;
 import net.fe.overworldStage.OverworldStage;
 import net.fe.unit.Unit;
+import net.fe.unit.Item;
 
 public class ProTactics implements Modifier {
 
 	@Override
-	public void modifyTeam(TeamBuilderStage stage) {
-
+	public TeamBuilderResources modifyTeamResources(TeamBuilderResources limits) {
+		return limits;
 	}
 
 	@Override
-	public void modifyShop(ShopMenu shop) {
-
+	public Iterable<Item> modifyShop(Iterable<Item> shop) {
+		return shop;
 	}
 
 	@Override
-	public void modifyUnits(TeamSelectionStage stage) {
-		
-
-	}
-
-	@Override
-	public void initOverworld(OverworldStage stage) {
-		for(Unit u : stage.getAllUnits()) {
+	public void initOverworldUnits(Iterable<Unit> units) {
+		for(Unit u : units) {
 			u.addSkill(new Pavise());
 		}
 
 	}
 
-	@Override
-	public void endOfTurn(OverworldStage stage) {
-
-	}
-	
 	@Override
 	public String toString() {
 		return "Pro Tactics";

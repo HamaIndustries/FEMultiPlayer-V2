@@ -1,5 +1,6 @@
 package net.fe.builderStage;
 
+import java.util.Set;
 import net.fe.FEResources;
 import net.fe.Session;
 import net.fe.modifier.Modifier;
@@ -52,7 +53,7 @@ public class ShopMenu extends Entity {
 	 * @param y the y
 	 * @param s the s
 	 */
-	public ShopMenu(float x, float y, Session s) {
+	public ShopMenu(float x, float y, Set<Modifier> ms) {
 		super(x, y);
 		shops = new ItemMenu[9];
 		shopIcons = new Texture[9];
@@ -63,34 +64,36 @@ public class ShopMenu extends Entity {
 			}};
 			shopIcons[i] = FEResources.getTexture("shop" + i);
 		}
-		for(Weapon w: WeaponFactory.getAllWeapons()){
-			ItemDisplay i = new ItemDisplay(0, 0, w.getCopy(), false);
-			if(w.pref != null || w.name.startsWith("Debug") || w.getCost() == 1) continue;
-			switch(w.type){
-			case SWORD: shops[0].addItem(i); break;
-			case LANCE: shops[1].addItem(i); break;
-			case AXE: shops[2].addItem(i); break;
-			case BOW: shops[3].addItem(i); break;
-			case CROSSBOW: shops[3].addItem(i); break;
-			case LIGHT: shops[4].addItem(i); break;
-			case ANIMA: shops[5].addItem(i); break;
-			case DARK: shops[6].addItem(i); break;
-			case STAFF: shops[7].addItem(i); break;
+		
+		Iterable<Item> items = Item.getAllItems();
+		for (Modifier m : ms) { items = m.modifyShop(items); }
+		
+		for (Item i : items) {
+			ItemDisplay display = new ItemDisplay(0, 0, i.getCopy(), false);
+			
+			if (i instanceof Weapon) {
+				Weapon w = (Weapon) i;
+				if(w.pref != null || w.name.startsWith("Debug") || w.getCost() == 1) continue;
+				switch(w.type){
+					case SWORD: shops[0].addItem(display); break;
+					case LANCE: shops[1].addItem(display); break;
+					case AXE: shops[2].addItem(display); break;
+					case BOW: shops[3].addItem(display); break;
+					case CROSSBOW: shops[3].addItem(display); break;
+					case LIGHT: shops[4].addItem(display); break;
+					case ANIMA: shops[5].addItem(display); break;
+					case DARK: shops[6].addItem(display); break;
+					case STAFF: shops[7].addItem(display); break;
+				}
+			} else if (i instanceof RiseTome) {
+				shops[6].addItem(display);
+			} else { // including HealingItems
+				shops[8].addItem(display);
 			}
 		}
-		shops[8].addItem(new ItemDisplay(0,0,HealingItem.VULNERARY.getCopy(), false));
-		shops[8].addItem(new ItemDisplay(0,0,HealingItem.CONCOCTION.getCopy(), false));
-		shops[8].addItem(new ItemDisplay(0,0,HealingItem.ELIXIR.getCopy(), false));
-		shops[6].addItem(new ItemDisplay(0,0,new RiseTome(), false));
 		
 		for(ItemMenu shop: shops){
 			shop.sortItems();
-		}
-		
-		if(s != null) {
-			for(Modifier m : s.getModifiers()) {
-				m.modifyShop(this);
-			}
 		}
 	}
 	

@@ -4,9 +4,9 @@ import net.fe.network.Message;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class QuitMessage.
+ * A message sent when a client leaves the server
  */
-public class QuitMessage extends Message {
+public final class QuitMessage extends Message {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 6558427589809693714L;
@@ -14,7 +14,7 @@ public class QuitMessage extends Message {
 	/**
 	 * Instantiates a new quit message.
 	 *
-	 * @param origin the origin
+	 * @param origin the leaving client
 	 */
 	public QuitMessage(byte origin) {
 		super(origin);

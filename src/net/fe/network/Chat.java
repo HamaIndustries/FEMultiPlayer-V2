@@ -2,6 +2,7 @@ package net.fe.network;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
 import net.fe.Player;
 
@@ -11,10 +12,12 @@ import net.fe.Player;
  *
  * @author Shawn
  */
-public class Chat {
+public final class Chat implements Serializable {
+	
+	private static final long serialVersionUID = -3975855319618106122L;
 	
 	/** The chat messages. */
-	private ArrayList<Chatlog> chatMessages;
+	private final ArrayList<Chatlog> chatMessages;
 
 	/**
 	 * Instantiates a new chat.
@@ -33,21 +36,13 @@ public class Chat {
 		chatMessages.add(new Chatlog(p, line));
 	}
 	
-	/**
-	 * Gets the.
-	 *
-	 * @param i the i
-	 * @return the string
-	 */
-	public String get(int i) {
-		return chatMessages.get(i).toString();
-	}
 	
 	/**
-	 * Gets the last.
+	 * Gets the last i messages from this chat
 	 *
-	 * @param i the i
-	 * @return the last
+	 * @param i the number of messages to return
+	 * @return A list of size <var>i</var> containing the most recent messages added to this Chat.
+	 *       If there are not at least i messages, this is filled with ""s to reach the desired size.
 	 */
 	public List<String> getLast(int i) {
 		List<String> list = new ArrayList<String>();
@@ -64,7 +59,9 @@ public class Chat {
 	/**
 	 * The Class Chatlog.
 	 */
-	private class Chatlog {
+	private final class Chatlog implements Serializable {
+		
+		private static final long serialVersionUID = -3975855319618106122L;
 		
 		/** The player. */
 		Player player;

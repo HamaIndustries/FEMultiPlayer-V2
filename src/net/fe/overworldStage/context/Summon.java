@@ -7,8 +7,10 @@ import java.util.List;
 import chu.engine.anim.AudioPlayer;
 import net.fe.FEResources;
 import net.fe.overworldStage.*;
+import net.fe.unit.Statistics;
 import net.fe.unit.Unit;
 import net.fe.unit.WeaponFactory;
+import net.fe.network.command.SummonCommand;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -73,7 +75,7 @@ public class Summon extends OverworldContext {
 			if (u == null
 					&& grid.getTerrain(n.x, n.y).getMoveCost(
 							net.fe.unit.Class.createClass("Phantom")) <
-							unit.get("Mov")) {
+							unit.getStats().mov) {
 				targets.add(n);
 			}
 		}
@@ -85,7 +87,9 @@ public class Summon extends OverworldContext {
 	@Override
 	public void onSelect() {
 		AudioPlayer.playAudio("select");
-		stage.addCmd("SUMMON", getCurrentTarget().x, getCurrentTarget().y);
+		SummonCommand c = new SummonCommand(getCurrentTarget().x, getCurrentTarget().y);
+		stage.addCmd(c);
+		c.applyClient(stage, unit, null, new EmptyRunnable()).run();
 		stage.send();
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
@@ -181,38 +185,46 @@ public class Summon extends OverworldContext {
 	public static Unit generateSummon(Unit summoner) {
 		WeaponFactory.loadWeapons();
 		
-		HashMap<String, Integer> bases = new HashMap();
-		HashMap<String, Integer> growths = new HashMap();
-		bases.put("HP", 1);
-		bases.put("Str", 5);
-		bases.put("Def", 0);
-		bases.put("Mag", 0);
-		bases.put("Res", 0);
-		bases.put("Lck", 0);
-		bases.put("Skl", 2);
-		bases.put("Spd", 4);
-		bases.put("Con", 11);
-		bases.put("Mov", 5);
-		bases.put("Aid", 10);
-		growths.put("HP", 0);
-		growths.put("Str", 55);
-		growths.put("Def", 15);
-		growths.put("Mag", 15);
-		growths.put("Res", 15);
-		growths.put("Lck", 50);
-		growths.put("Skl", 35);
-		growths.put("Spd", 45);
-		growths.put("Mov", 0);
+		Statistics bases = new Statistics(
+			/* hp = */ 1,
+			/* str = */ 5,
+			/* mag = */ 0,
+			/* skl = */ 2,
+			/* spd = */ 4,
+			/* def = */ 0,
+			/* res = */ 0,
+			/* lck = */ 0,
+			/* mov = */ 5,
+			/* con = */ 11,
+			/* aid = */ 10
+		);
+		Statistics growths = new Statistics(
+			/* hp = */ 0,
+			/* str = */ 55,
+			/* mag = */ 15,
+			/* skl = */ 35,
+			/* spd = */ 45,
+			/* def = */ 15,
+			/* res = */ 15,
+			/* lck = */ 50,
+			/* mov = */ 0,
+			/* con = */ 0,
+			/* aid = */ 0
+		);
 		summonCount = summonCount + 1;
 		final Unit summon = new Unit("Phantom " + summonCount, net.fe.unit.Class.createClass("Phantom"), '-', bases, growths);
 		summon.addToInventory(net.fe.unit.Item.getItem("Iron Axe"));
 		summon.initializeEquipment();
-		summon.setLevel(summoner.get("Lvl"));
+		summon.setLevel(summoner.getLevel());
 		summon.fillHp();
 		summon.setMoved(true);
 		
 		summoner.getParty().addUnit(summon);
 		summon.stage = summoner.stage;
 		return summon;
+	}
+
+	private static final class EmptyRunnable implements Runnable {
+		@Override public void run() {}
 	}
 }

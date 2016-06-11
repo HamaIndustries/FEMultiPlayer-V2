@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import org.newdawn.slick.Color;
 
@@ -24,6 +25,7 @@ import net.fe.Session;
 import net.fe.network.Message;
 import net.fe.network.message.DraftMessage;
 import net.fe.network.message.QuitMessage;
+import net.fe.network.message.KickMessage;
 import net.fe.unit.MapAnimation;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitFactory;
@@ -82,7 +84,7 @@ public class DraftViewStage extends Stage {
 	private String lastAction;
 	
 	/** The red gray. */
-	private static Color
+	private final static Color
 		BLUE_TURN = Party.TEAM_BLUE,
 		RED_TURN = Party.TEAM_RED,
 		BAN_COLOR = new Color(0xf57272),
@@ -154,12 +156,6 @@ public class DraftViewStage extends Stage {
 		vassalList.addUnits(vassals);
 		vassalList.sort(new SortByName());
 		addEntity(vassalList);
-		//TODO: Modifiers
-//		if(s != null) {
-//			for(Modifier m : s.getModifiers()) {
-//				m.modifyUnits(this);
-//			}
-//		}
 		classSort = new Button(CS_BUTTON_X, BUTTON_Y, "Sort By Class", Color.blue, 95) {
 			public void execute() {
 				vassalList.sort(new SortByClass());
@@ -348,12 +344,12 @@ public class DraftViewStage extends Stage {
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
+	public void beginStep(List<Message> messages) {
 		for(Entity e: entities){
 			e.beginStep();
 		}
 		
-		for(Message message : Game.getMessages()) {
+		for(Message message : messages) {
 			if(message instanceof DraftMessage) {
 				DraftMessage dm = (DraftMessage)message;
 				Player p = session.getPlayer(dm.origin);
@@ -408,14 +404,17 @@ public class DraftViewStage extends Stage {
 				lastAction = action.toString();
 				resetDraft();
 			}
-			else if(message instanceof QuitMessage) {
-				//player has left
-				FEMultiplayer.disconnectGame("Opponent has disconnected. Exiting game.");
+			else if(message instanceof QuitMessage || message instanceof KickMessage) {
+				if (this.session.getNonSpectators().length < 2) {
+					// player has left
+					FEMultiplayer.setCurrentStage(FEMultiplayer.lobby);
+				}
 			}
 		}
 		
 		MapAnimation.updateAll();
 	}
+	
 	/* (non-Javadoc)
 	 * @see chu.engine.Stage#render()
 	 */

@@ -27,7 +27,7 @@ public class Crisis extends CombatTrigger{
 	 */
 	@Override
 	public boolean attempt(Unit user, int range, Unit opponent) {
-		return user.getHp() < user.get("HP")/3;
+		return user.getHp() < user.getStats().maxHp/3;
 	}
 
 	/* (non-Javadoc)

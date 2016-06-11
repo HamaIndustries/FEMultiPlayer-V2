@@ -5,37 +5,34 @@ package net.fe.unit;
 /**
  * The Class HealingItem.
  */
-public class HealingItem extends Item {
+public final class HealingItem extends Item {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -6169687038185884864L;
 	
 	/** The vulnerary. */
-	public static HealingItem VULNERARY = new HealingItem("Vulnerary", 10, 0, 300);
+	public static final HealingItem VULNERARY = new HealingItem("Vulnerary", 10, 0, 300);
 	
 	/** The concoction. */
-	public static HealingItem CONCOCTION = new HealingItem("Concoction", 20, 1, 1300);
+	public static final HealingItem CONCOCTION = new HealingItem("Concoction", 20, 1, 1300);
 	
 	/** The elixir. */
-	public static HealingItem ELIXIR = new HealingItem("Elixir", 99, 2, 3000);
+	public static final HealingItem ELIXIR = new HealingItem("Elixir", 99, 2, 3000);
 	
 	/** The amount. */
-	public int amount;
+	public final int amount;
 	
 	/**
 	 * Instantiates a new healing item.
 	 *
-	 * @param name the name
-	 * @param amount the amount
-	 * @param id the id
-	 * @param cost the cost
+	 * @param name the name of the item
+	 * @param amount the amount to heal by
+	 * @param id the icon index
+	 * @param cost the item's shop price
 	 */
 	public HealingItem(String name, int amount, int id, int cost){
-		super(name);
-		setMaxUses(3);
+		super(name, 3, id, cost);
 		this.amount = amount;
-		this.id = id;
-		setCost(cost);
 	}
 	
 	/* (non-Javadoc)
@@ -43,7 +40,7 @@ public class HealingItem extends Item {
 	 */
 	public int use(Unit user){
 		super.use(user);
-		int maxHeal = user.get("HP") - user.getHp();
+		int maxHeal = user.getStats().maxHp - user.getHp();
 		user.setHp(user.getHp() + Math.min(amount, maxHeal));
 		return amount;
 	}
@@ -67,5 +64,41 @@ public class HealingItem extends Item {
 		} else {
 			return 1;
 		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return super.hashCode() * 31 + amount;
+	}
+	
+	@Override
+	protected boolean canEquals(Object other) {
+		return other instanceof HealingItem;
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (other != null && other instanceof HealingItem) {
+			HealingItem o2 = (HealingItem) other;
+			if (o2.canEquals(this)) {
+				return super.equals(o2) &&
+					this.amount == o2.amount;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return "HealingItem [" +
+			"name: " + name + "; " +
+			"maxUses: " + getMaxUses() + "; " +
+			"uses: " + getUses() + "; " +
+			"id: " + id + "; " +
+			"cost: " + getCost() + "; " +
+			"amount: " + amount + "]";
 	}
 }

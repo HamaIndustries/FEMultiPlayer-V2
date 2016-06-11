@@ -20,8 +20,11 @@ import net.fe.fightStage.anim.MissEffect;
 import net.fe.fightStage.anim.NoDamageEffect;
 import net.fe.fightStage.anim.Platform;
 import net.fe.fightStage.anim.SkillIndicator;
+import net.fe.network.Message;
 import net.fe.overworldStage.Grid;
+import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.transition.FightOverworldTransition;
+import net.fe.unit.BattleStats;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
 
@@ -42,7 +45,7 @@ import chu.engine.anim.Renderer;
 public class FightStage extends Stage {
 	
 	/** The right. */
-	private Unit left, right;
+	private final Unit left, right;
 	
 	/** The right fighter. */
 	private FightUnit leftFighter, rightFighter;
@@ -164,16 +167,27 @@ public class FightStage extends Stage {
 	
 	/** The Constant DONE. */
 	public static final int DONE = 9;
+	
+	/** The stage to return to after the Fight Stage plays out */
+	private final ClientOverworldStage returnTo;
+	
+	/** A Runnable to be called after the Fight Stage plays out */
+	private final Runnable returnCallback;
 
 	/**
 	 * Instantiates a new fight stage.
 	 *
 	 * @param u1 the u1
 	 * @param u2 the u2
-	 * @param attackQ the attack q
+	 * @param attackQ the attack queue
+	 * @param returnTo the stage to return to after this stage has played its animation
+	 * @param returnCallback a callback to be run after this stage has played its animation
 	 */
 	public FightStage(UnitIdentifier u1, UnitIdentifier u2,
-			ArrayList<AttackRecord> attackQ) {
+			ArrayList<AttackRecord> attackQ,
+			ClientOverworldStage returnTo,
+			Runnable returnCallback
+	) {
 		super(u1.partyColor.equals(u2.partyColor) ? "curing" :
 				u1.partyColor.equals(FEMultiplayer.getLocalPlayer().getParty().getColor()) ?
 						"fight" : "defense");
@@ -185,9 +199,6 @@ public class FightStage extends Stage {
 		shakeY = 0;
 		left = FEMultiplayer.getUnit(u1);
 		right = FEMultiplayer.getUnit(u2);
-		
-//		System.out.println(left);
-//		System.out.println(right);
 
 		range = Grid.getDistance(left, right);
 		cameraOffsetF = rangeToHeadDistance(range) - rangeToHeadDistance(1);
@@ -208,6 +219,8 @@ public class FightStage extends Stage {
 				+ "_bg");
 
 		this.attackQ = attackQ;
+		this.returnTo = returnTo;
+		this.returnCallback = returnCallback;
 		preload();
 	}
 	
@@ -263,7 +276,10 @@ public class FightStage extends Stage {
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
+	public void beginStep(List<Message> messages) {
+		// Ensure messages are enqueued to be run in the Overworld stage
+		returnTo.beginStep(messages);
+		
 		for (Entity e : entities) {
 			e.beginStep();
 		}
@@ -274,9 +290,7 @@ public class FightStage extends Stage {
 			System.out.println(left.name + " HP:" + left.getHp() + " | "
 					+ right.name + " HP:" + right.getHp());
 			PRELOADED_EFFECTS.clear();
-			FEMultiplayer.reportFightResults(this);
-			addEntity(new FightOverworldTransition(FEMultiplayer.map, left,
-					right));
+			addEntity(new FightOverworldTransition(returnTo, left, right, returnCallback));
 			done = true;
 		}
 		processAddStack();
@@ -400,11 +414,20 @@ public class FightStage extends Stage {
 				if(!defender.getPartyColor().equals(attacker.getPartyColor())) {
 					if(rec.damage > 0) {
 						defender.getAssisters().add(attacker);
-						attacker.addBattleStat("Damage", rec.damage);
-						attacker.addBattleStat("Healing", rec.drain);
+						attacker.addBattleStats(new BattleStats(
+							/* kills = */ 0,
+							/* assists = */ 0,
+							/* damage = */ rec.damage,
+							/* healing = */ rec.drain
+						));
 					}
 				} else {
-					attacker.addBattleStat("Healing", -rec.damage);
+					attacker.addBattleStats(new BattleStats(
+						/* kills = */ 0,
+						/* assists = */ 0,
+						/* damage = */ 0,
+						/* healing = */ -rec.damage
+					));
 				}
 				if(rec.damage > 0) {
 					startShaking(hitEffects.get(0).getShakeLength() * 0.05f, hitEffects.get(0).getShakeIntensity());
@@ -425,10 +448,10 @@ public class FightStage extends Stage {
 			if (dhp.getHp() == 0) {
 				d.state = FightUnit.FLASHING;
 				// battle stats
-				attacker.addBattleStat("Kills", 1);
+				attacker.addBattleStats(new BattleStats(/* kills = */ 1, 0, 0, 0));
 				defender.getAssisters().remove(attacker);
 				for(Unit u : defender.getAssisters()) {
-					u.addBattleStat("Assists", 1);
+					u.addBattleStats(new BattleStats(0, /* assists = */ 1, 0, 0));
 				}
 				AudioPlayer.playAudio("die");
 				currentEvent = DYING;//////////TODO: check here for bug, DYING->DONE illegal transition

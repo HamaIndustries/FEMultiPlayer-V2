@@ -6,7 +6,6 @@ import net.fe.unit.Unit;
 
 /**
  * An action that can a unit can perform after moving
- * @TODO: figure out a way to get OverworldStage to ask this how to processCommands
  */
 public abstract class FieldSkill implements Serializable {
 	

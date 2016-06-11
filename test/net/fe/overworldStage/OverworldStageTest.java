@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import net.fe.unit.UnitIdentifier;
+import net.fe.network.command.*;
 import net.fe.network.message.CommandMessage;
 import net.fe.FEMultiplayer;
 import net.fe.Player;
@@ -19,6 +20,7 @@ import net.fe.overworldStage.Terrain;
 import net.fe.overworldStage.Zone;
 import net.fe.unit.Class;
 import net.fe.unit.Unit;
+import net.fe.unit.Statistics;
 
 public final class OverworldStageTest {
 	
@@ -34,17 +36,13 @@ public final class OverworldStageTest {
 	public void testCommand_whenShove_thenMovesTarget() {
 		
 		// given a stage and a unit
-		new net.fe.network.FEServer(); // ...
 		Session session = new Session();
-		session.setMap("test"); // Must be a valid name, despite the bypass `stage.grid = ` later
+		new net.fe.network.FEServer(session); // ...
 		session.addPlayer(FEMultiplayer.getLocalPlayer());
 		OverworldStage stage = new OverworldStage(session);
 		stage.grid = new Grid(6,6, Terrain.PLAIN);
 		
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("shover", Class.createClass("Sorcerer"), '-', vals, vals);
 		Unit shovee = new Unit("shovee", Class.createClass("Sorcerer"), '-', vals, vals);
 		FEMultiplayer.getLocalPlayer().getParty().addUnit(shover); // processCommands cannot find the unit without this
@@ -54,9 +52,9 @@ public final class OverworldStageTest {
 		
 		// when processing a shove command
 		CommandMessage command = new CommandMessage(
-				new UnitIdentifier(shover), 0,0,
+				new UnitIdentifier(shover),
 				new java.util.ArrayList<net.fe.fightStage.AttackRecord>(),
-				"SHOVE", new UnitIdentifier(shovee));
+				new ShoveCommand(new UnitIdentifier(shovee)));
 		stage.processCommands(command);
 		
 		// then the shovee has a new position
@@ -68,17 +66,13 @@ public final class OverworldStageTest {
 	public void testCommand_whenSmite_thenMovesTarget() {
 		
 		// given a stage and a unit
-		new net.fe.network.FEServer(); // ...
 		Session session = new Session();
-		session.setMap("test"); // Must be a valid name, despite the bypass `stage.grid = ` later
+		new net.fe.network.FEServer(session); // ...
 		session.addPlayer(FEMultiplayer.getLocalPlayer());
 		OverworldStage stage = new OverworldStage(session);
 		stage.grid = new Grid(6,6, Terrain.PLAIN);
 		
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit shover = new Unit("shover", Class.createClass("Sorcerer"), '-', vals, vals);
 		Unit shovee = new Unit("shovee", Class.createClass("Sorcerer"), '-', vals, vals);
 		FEMultiplayer.getLocalPlayer().getParty().addUnit(shover); // processCommands cannot find the unit without this
@@ -88,9 +82,9 @@ public final class OverworldStageTest {
 		
 		// when processing a shove command
 		CommandMessage command = new CommandMessage(
-				new UnitIdentifier(shover), 0,0,
+				new UnitIdentifier(shover),
 				new java.util.ArrayList<net.fe.fightStage.AttackRecord>(),
-				"SMITE", new UnitIdentifier(shovee));
+				new SmiteCommand(new UnitIdentifier(shovee)));
 		stage.processCommands(command);
 		
 		// then the shovee has a new position

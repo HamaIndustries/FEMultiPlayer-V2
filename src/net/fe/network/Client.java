@@ -16,8 +16,11 @@ import net.fe.Session;
 import net.fe.network.message.ClientInit;
 import net.fe.network.message.EndGame;
 import net.fe.network.message.JoinLobby;
+import net.fe.network.message.KickMessage;
 import net.fe.network.message.QuitMessage;
-import net.fe.network.message.SessionUpdate;
+
+import org.newdawn.slick.Color;
+import chu.engine.menu.Notification;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -62,7 +65,7 @@ public class Client {
 	private boolean closeRequested = false;
 	
 	/** The winner. */
-	public byte winner = -1;
+	public volatile byte winner = -1;
 	
 	/** The id. */
 	byte id;
@@ -130,33 +133,44 @@ public class Client {
 	 */
 	private void processInput(Message message) {
 		if(message instanceof ClientInit) {
-			id = ((ClientInit)message).clientID;
-			this.session = ((ClientInit)message).session;
-			FEMultiplayer.getLocalPlayer().setClientID(id);
-			if(id >= 2) {
-				FEMultiplayer.getLocalPlayer().getParty().setColor(Party.TEAM_RED);
+			ClientInit message2 = (ClientInit) message;
+			if (message2.hashes.equals(ClientInit.Hashes.pullFromStatics(message2.session.getMap()))) {
+				this.id = message2.clientID;
+				this.session = message2.session;
+				FEMultiplayer.getLocalPlayer().setClientID(message2.clientID);
+				if(id >= 2) {
+					FEMultiplayer.getLocalPlayer().getParty().setColor(Party.TEAM_RED);
+				}
+				logger.info("CLIENT: Recieved ID "+id+" from server");
+				// Send a join lobby request
+				sendMessage(new JoinLobby(id, FEMultiplayer.getLocalPlayer().getName()));
+			} else {
+				logger.info("CLIENT: Mismatched hashes:" +
+						"\n\tServer: " + message2.hashes +
+						"\n\tClient: " + ClientInit.Hashes.pullFromStatics(message2.session.getMap()));
+				this.id = message2.clientID;
+				this.quit();
+				FEMultiplayer.setCurrentStage(FEMultiplayer.connect);
+				FEMultiplayer.connect.addEntity(new Notification(
+					180, 120, "default_med", "ERROR: Server and Client versions don't match", 5f, new Color(255, 100, 100), 0f));
 			}
-			logger.info("CLIENT: Recieved ID "+id+" from server");
-			// Send a join lobby request
-			sendMessage(new JoinLobby(id, FEMultiplayer.getLocalPlayer()));
 		} else if (message instanceof QuitMessage) {
 			if(message.origin == id && closeRequested) {
 				close();
 			}
+		} else if (message instanceof KickMessage) {
+			KickMessage kick = (KickMessage) message;
+			if (kick.player == id) {
+				close();
+				FEMultiplayer.setCurrentStage(FEMultiplayer.connect);
+				FEMultiplayer.connect.addEntity(new Notification(
+					180, 120, "default_med", "KICKED: " + kick.reason, 5f, new Color(255, 100, 100), 0f));
+			}
 		} else if(message instanceof EndGame) {
 			winner = (byte) ((EndGame)message).winner;
-		} else if(message instanceof SessionUpdate) {
-			Session update = ((SessionUpdate)message).session;
-			for(Player p : update.getPlayers()) {
-				if(!session.getPlayerMap().containsKey(p.getID())) {
-					session.addPlayer(p);
-				}
-			}
-			session.setMap(update.getMap());
-			session.setMaxUnits(update.getMaxUnits());
-			session.setObjective(update.getObjective());
-			session.setPickMode(update.getPickMode());
 		}
+		
+		session.handleMessage(message);
 		
 		synchronized (messagesLock) {
 			messages.add(message);

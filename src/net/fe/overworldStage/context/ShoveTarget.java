@@ -6,8 +6,8 @@ import net.fe.overworldStage.SelectTargetContext;
 import net.fe.overworldStage.Zone;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
+import net.fe.network.command.ShoveCommand;
 
-// TODO: Auto-generated Javadoc
 /**
  * An overworld context in which a target for the Shove action is selected
  */
@@ -34,11 +34,16 @@ public final class ShoveTarget extends SelectTargetContext {
 	
 	@Override
 	public void unitSelected(Unit u) {
-		stage.addCmd("SHOVE");
-		stage.addCmd(new UnitIdentifier(u));
+		ShoveCommand c = new ShoveCommand(new UnitIdentifier(u));
+		c.applyClient(stage, unit, null, new EmptyRunnable()).run();
+		stage.addCmd(c);
 		stage.send();
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
 		stage.reset();
+	}
+
+	private static final class EmptyRunnable implements Runnable {
+		@Override public void run() {}
 	}
 }

@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import java.util.HashMap;
 
@@ -12,10 +13,7 @@ public final class UnitTest {
 	
 	@Test
 	public void testGetWeapon_FreshUnitNonHasNoEquippedWeapon() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit dut = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
 		
 		assertEquals(null, dut.getWeapon());
@@ -24,10 +22,7 @@ public final class UnitTest {
 	
 	@Test
 	public void testGetWeapon_AddingItemDoesNotEquipWeapon() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit dut = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
 		
 		dut.addToInventory(new RiseTome());
@@ -38,10 +33,7 @@ public final class UnitTest {
 	
 	@Test
 	public void testGetWeapon_AddingWeaponDoesNotEquipWeapon() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit dut = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
 		
 		dut.addToInventory(createAxe(1));
@@ -52,10 +44,7 @@ public final class UnitTest {
 	
 	@Test
 	public void testGetWeapon_EquippingWeaponMakesWeaponEquipped() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit dut = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
 		Weapon weap = createAxe(1);
 		
@@ -67,10 +56,7 @@ public final class UnitTest {
 	
 	@Test
 	public void testGetWeapon_UnequippingWeaponMakesWeaponUnequipped() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit dut = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
 		Weapon weap = createAxe(1);
 		
@@ -83,10 +69,7 @@ public final class UnitTest {
 	
 	@Test
 	public void testGetWeapon_BreakingWeaponEquipsNextWeapon() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit dut = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
 		Weapon weap1 = createAxe(1);
 		Weapon weap2 = createAxe(2);
@@ -106,10 +89,7 @@ public final class UnitTest {
 	
 	@Test
 	public void testGetWeapon_BreakingAllWeaponsEquipsNull() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit dut = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
 		Weapon weap1 = createAxe(1);
 		Weapon weap2 = createAxe(2);
@@ -128,10 +108,7 @@ public final class UnitTest {
 	
 	@Test
 	public void testGetWeapon_TradingAwayWeaponsResultsInUnequippedWeapon() {
-		HashMap<String, Integer> vals = new HashMap<String, Integer>();
-		vals.put("HP", 20);
-		vals.put("Mov", 5);
-		vals.put("Con", 8);
+		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
 		Unit dut = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
 		Weapon weap1 = createAxe(1);
 		Weapon weap2 = createAxe(2);
@@ -150,12 +127,42 @@ public final class UnitTest {
 		assertEquals(null, dut.getWeapon());
 	}
 	
+	@Test
+	public void testHashcode() {
+		Statistics vals = new Statistics(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
+		Unit dut1 = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
+		Unit dut2 = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
+		
+		assertEquals(dut1.hashCode(), dut2.hashCode());
+	}
+	
+	@Test
+	public void testGetCopy_isNotReferenceEqual() {
+		Statistics vals = new Statistics(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
+		Unit original = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
+		Unit copy = original.getCopy();
+		
+		assertFalse("top-level object", original == copy);
+	}
+	
+	@Test
+	public void testGetCopy_inventoryIsClonedTo() {
+		Statistics vals = new Statistics(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
+		Unit original = new Unit("ADFASDF", Class.createClass("Phantom"), '-', vals, vals);
+		original.addToInventory(createAxe(1));
+		Unit copy = original.getCopy();
+		
+		assertFalse(original.getInventory().get(0) == copy.getInventory().get(0));
+		assertTrue(original.getInventory().get(0).equals(copy.getInventory().get(0)));
+	}
+	
 	private Weapon createAxe(int i) {
-		Weapon retVal = new Weapon("baton" + i);
-		retVal.type = Weapon.Type.AXE;
-		retVal.range = java.util.Arrays.asList(1);
-		retVal.setMaxUses(1);
-		retVal.setUsesDEBUGGING(1);
+		
+		Weapon retVal = new Weapon(
+			"baton" + i, 1, 0, 0,
+			Weapon.Type.AXE, 0, 0, 0, (s) -> java.util.Arrays.asList(1),
+			new Statistics(), new java.util.ArrayList<>(), null
+		);
 		return retVal;
 	}
 }

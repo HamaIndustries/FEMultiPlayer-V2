@@ -48,7 +48,7 @@ public abstract class Healthbar extends Entity {
 		super(0,0);
 		this.displayedHealth = hp0;
 		this.hp1 = hp1;
-		this.totalHealth = u.get("HP");
+		this.totalHealth = u.getStats().maxHp;
 		x = u.x + 8 - 30 - stage.camX;
 		y = u.y - 32 - stage.camY;
 		color = u.getPartyColor();
