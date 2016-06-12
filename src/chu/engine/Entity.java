@@ -6,7 +6,7 @@ import chu.engine.anim.Sprite;
 /**
  * The Class Entity.
  */
-public abstract class Entity implements Comparable<Entity> {
+public abstract class Entity {
 	
 	/** The x. */
 	public float x;
@@ -26,14 +26,11 @@ public abstract class Entity implements Comparable<Entity> {
 	/** The prev y. */
 	public float prevY;
 	
-	/** The update priority. */
-	public int updatePriority;
-	
 	/** The render depth. */
 	public float renderDepth;
 	
 	/** The sprite. */
-	public Sprite sprite;
+	public final Sprite sprite;
 	
 	/** The hitbox. */
 	public Hitbox hitbox;
@@ -100,10 +97,9 @@ public abstract class Entity implements Comparable<Entity> {
 	}
 	
 	/**
-	 * Destroy.
+	 * Destroy. Called when the entity is removed from the stage.
 	 */
-	//Called when the entity is removed from the stage.
-	public void destroy() {
+	public final void destroy() {
 		if(stage == null) {
 			flagForRemoval();
 		} else {
@@ -111,27 +107,19 @@ public abstract class Entity implements Comparable<Entity> {
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
-	//Lower numbers = higher priority.
-	public int compareTo(Entity e) {
-		return updatePriority - e.updatePriority;
-	}
-	
 	/**
 	 * Will be removed.
 	 *
 	 * @return true, if successful
 	 */
-	public boolean willBeRemoved() {
+	public final boolean willBeRemoved() {
 		return willBeRemoved;
 	}
 	
 	/**
 	 * Flag for removal.
 	 */
-	public void flagForRemoval() {
+	public final void flagForRemoval() {
 		willBeRemoved = true;
 	}
 	

@@ -12,7 +12,7 @@ import chu.engine.anim.Transform;
 /**
  * The Class Corpse.
  */
-public class Corpse extends Entity {
+public final class Corpse extends Entity {
 
 	/** The alpha. */
 	private transient float alpha;

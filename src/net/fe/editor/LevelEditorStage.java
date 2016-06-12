@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
 
 import net.fe.Party;
 
@@ -25,6 +26,8 @@ import chu.engine.KeyboardEvent;
 import chu.engine.Stage;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Tileset;
+
+import net.fe.network.Message;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -48,7 +51,7 @@ public class LevelEditorStage extends Stage {
 	private String levelName;
 	
 	/** The spawns. */
-	private Set<SpawnPoint> spawns;
+	private HashSet<SpawnPoint> spawns;
 
 	static {
 		try {
@@ -77,7 +80,7 @@ public class LevelEditorStage extends Stage {
             ObjectInputStream ois = new ObjectInputStream(in);
             Level level = (Level) ois.readObject();
             tiles = level.tiles;
-            spawns = level.spawns;
+            spawns = new HashSet<>(level.spawns);
             if(spawns == null) spawns = new HashSet<SpawnPoint>();
             ois.close();
             in.close();
@@ -92,7 +95,7 @@ public class LevelEditorStage extends Stage {
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
+	public void beginStep(List<Message> messages) {
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
 			if (Mouse.isButtonDown(0)) {
 				selectedID = Math.min((Game.getWindowHeight() - Mouse.getY())

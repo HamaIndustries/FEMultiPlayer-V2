@@ -6,7 +6,7 @@ import net.fe.network.Message;
 /**
  * The Class ChatMessage.
  */
-public class ChatMessage extends Message {
+public final class ChatMessage extends Message {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -386437094794678483L;

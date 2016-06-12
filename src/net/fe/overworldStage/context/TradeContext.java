@@ -2,6 +2,8 @@ package net.fe.overworldStage.context;
 
 import java.util.List;
 
+import net.fe.network.command.TradeCommand;
+import net.fe.network.command.EquipCommand;
 import chu.engine.anim.AudioPlayer;
 import net.fe.overworldStage.*;
 import net.fe.unit.*;
@@ -61,6 +63,8 @@ public class TradeContext extends OverworldContext {
 		super.cleanUp();
 		stage.removeEntity(trader);
 		stage.removeEntity(tradee);
+		stage.addCmd(u1.reEquipCommand());
+		stage.addCmd(u2.reEquipCommand());
 		u1.reEquip();
 		u2.reEquip();
 		
@@ -218,20 +222,12 @@ public class TradeContext extends OverworldContext {
 		if(!result) return false;
 		
 		//Add the message
-		stage.addCmd("TRADE");
-		
-		if(from == inv1)
-			stage.addCmd(new UnitIdentifier(u1));
-		else
-			stage.addCmd(new UnitIdentifier(u2));
-		stage.addCmd(fromIndex);
-		
-		if(to == inv1)
-			stage.addCmd(new UnitIdentifier(u1));
-		else
-			stage.addCmd(new UnitIdentifier(u2));
-		stage.addCmd(toIndex);
-		
+		stage.addCmd(new TradeCommand(
+			new UnitIdentifier((from == inv1 ? u1 : u2)),
+			fromIndex,
+			new UnitIdentifier((to == inv1 ? u1 : u2)),
+			toIndex
+		));
 		return true;
 	}
 	

@@ -54,18 +54,17 @@ public final class Server {
 	/** The allow connections. */
 	public boolean allowConnections;
 	
-	/** The counter. */
-	private byte counter = 1;
+	/** Contains the next playerId to be used when a player joins the server */
+	private byte nextPlayerId = 1;
 	
 	/**
 	 * Instantiates a new server.
 	 */
-	public Server() {
+	public Server(Session s) {
 		messages = new ArrayList<Message>();
 		messagesLock = new Object();
 		clients = new CopyOnWriteArrayList<ServerListener>();
-		session = new Session();
-		session.setObjective(new Seize());
+		session = s;
 		allowConnections = true;
 	}
 	
@@ -80,11 +79,11 @@ public final class Server {
 			logger.info("SERVER: Waiting for connections...");
 			while(!closeRequested) {
 				Socket connectSocket = serverSocket.accept();
-				logger.info("SERVER: Connection #"+counter+" accepted!");
-				ServerListener listener = new ServerListener(this, connectSocket);
+				logger.info("SERVER: Connection #"+nextPlayerId+" accepted!");
+				ServerListener listener = new ServerListener(this, connectSocket, nextPlayerId);
 				clients.add(listener);
 				listener.start();
-				counter++;
+				nextPlayerId++;
 			}
 			serverSocket.close();
 		} catch (IOException e) {
@@ -104,15 +103,6 @@ public final class Server {
 		}
 	}
 	
-	/**
-	 * Gets the count.
-	 *
-	 * @return the count
-	 */
-	public byte getCount() {
-		return counter;
-	}
-
 	/**
 	 * Gets the session.
 	 *

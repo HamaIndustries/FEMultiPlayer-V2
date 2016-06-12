@@ -1,6 +1,7 @@
 package net.fe.network.message;
 
 import java.util.HashMap;
+import java.util.function.Function;
 
 import net.fe.FEMultiplayer;
 import net.fe.network.FEServer;
@@ -12,13 +13,13 @@ import net.fe.unit.UnitIdentifier;
 /**
  * The Class EndTurn.
  */
-public class EndTurn extends Message {
+public final class EndTurn extends Message {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 390213251720606794L;
 	
 	/** The unit hp. */
-	private HashMap<UnitIdentifier, Integer> unitHp;
+	private final HashMap<UnitIdentifier, Integer> unitHp;
 	
 	/**
 	 * Instantiates a new end turn.
@@ -31,22 +32,14 @@ public class EndTurn extends Message {
 	}
 	
 	/**
-	 * Check hp.
+	 * Checks that the HPs claimed by this EndTurn match what this thinks the HPs are
 	 *
-	 * @param server the server
+	 * @param dereference A function that converts a UnitIdentifier into a Unit
 	 */
-	public void checkHp(boolean server){
-		if(server){
-			for(UnitIdentifier u: unitHp.keySet()){
-				if(FEServer.getUnit(u).getHp() != unitHp.get(u)){
-					throw new RuntimeException("Desynced HP: " + u.name);
-				}
-			}
-		} else {
-			for(UnitIdentifier u: unitHp.keySet()){
-				if(FEMultiplayer.getUnit(u).getHp() != unitHp.get(u)){
-					throw new RuntimeException("Desynced HP: " + u.name);
-				}
+	public void checkHp(Function<UnitIdentifier, Unit> dereference){
+		for (UnitIdentifier u : unitHp.keySet()) {
+			if (dereference.apply(u).getHp() != unitHp.get(u)) {
+				throw new IllegalStateException("Desynched HP: " + u.name);
 			}
 		}
 	}

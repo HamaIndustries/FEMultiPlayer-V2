@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import net.fe.network.Message;
-
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -47,20 +45,11 @@ public abstract class Game {
 	/** The window height. */
 	protected static int windowHeight = 480;
 	
-	/** The paused. */
-	protected boolean paused = false;
-	
 	/** The keys. */
-	protected static List<KeyboardEvent> keys;
+	private static List<KeyboardEvent> keys;
 	
 	/** The mouse events. */
-	protected static List<MouseEvent> mouseEvents;
-	
-	/** The messages. */
-	protected static CopyOnWriteArrayList<Message> messages;
-	
-	/** The time. */
-	protected long time;
+	private static List<MouseEvent> mouseEvents;
 	
 	/** The time delta. */
 	protected static long timeDelta;
@@ -76,8 +65,6 @@ public abstract class Game {
 	 * @param name the name
 	 */
 	public void init(int width, int height, String name) {
-		time = System.nanoTime();
-		
 		windowWidth = Math.round(width*net.fe.FEResources.getWindowScale());
 		windowHeight = Math.round(height*net.fe.FEResources.getWindowScale());
 
@@ -166,33 +153,6 @@ public abstract class Game {
 	 */
 	public static List<MouseEvent> getMouseEvents() {
 		return mouseEvents;
-	}
-	
-	/**
-	 * Gets the messages.
-	 *
-	 * @return the messages
-	 */
-	public static List<Message> getMessages() {
-		return messages;
-	}
-
-	/**
-	 * Gets the delta.
-	 *
-	 * @return the delta
-	 */
-	public static long getDelta() {
-		return timeDelta;
-	}
-	
-	/**
-	 * Gets the delta millis.
-	 *
-	 * @return the delta millis
-	 */
-	public static float getDeltaMillis() {
-		return timeDelta/1000000.0f;
 	}
 	
 	/**

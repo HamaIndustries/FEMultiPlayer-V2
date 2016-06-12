@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.logging.Logger;
+import java.util.function.Function;
 import java.time.LocalDateTime;
-import static java.lang.System.out;
 
 import net.fe.FEMultiplayer;
 import net.fe.RNG;
@@ -39,16 +39,16 @@ public class CombatCalculator {
 	}
 	
 	/** The left & right units */
-	protected Unit left, right;
+	protected final Unit left, right;
 	
 	/** The attack queue. */
-	private ArrayList<AttackRecord> attackQueue;
+	private final ArrayList<AttackRecord> attackQueue;
 	
 	/** The range. */
-	private int range;
+	private final int range;
 	
 	/** The next attack. */
-	private Queue<String> nextAttack;
+	private final Queue<String> nextAttack;
 	
 	/** The attack triggers, weapon and unit skills */
 	private ArrayList<CombatTrigger> leftTriggers, rightTriggers;
@@ -58,55 +58,54 @@ public class CombatCalculator {
 	 *
 	 * @param u1 the unit id of fighter 1
 	 * @param u2 the unit id of fighter 2
-	 * @param local whether the attack was made by the client (true) or opponent (false)
+	 * @param dereference A function that converts a UnitIdentifier into a Unit
 	 */
-	public CombatCalculator(UnitIdentifier u1, UnitIdentifier u2, boolean local){
+	public CombatCalculator(UnitIdentifier u1, UnitIdentifier u2, Function<UnitIdentifier, Unit> dereference){
 		
-		if(local){
-			left = FEMultiplayer.getUnit(u1);
-			right = FEMultiplayer.getUnit(u2);
-		} else {
-			left = FEServer.getUnit(u1);
-			right = FEServer.getUnit(u2);
-			logger.fine("[BATL]0 BATTLESTART::");
-			logger.fine("[BATL]0 HP::" + left.name + " HP" + left.getHp() +
-					" " + right.name + " HP" + right.getHp());
-		}
-//		System.out.println(left);
-//		System.out.println(right);
+		left = dereference.apply(u1);
+		right = dereference.apply(u2);
+		
+		logger.fine("[BATL]0 BATTLESTART::");
+		logger.fine("[BATL]0 HP::" + left.name + " HP" + left.getHp() +
+				" " + right.name + " HP" + right.getHp());
+		
 		range = Grid.getDistance(left, right);
 		attackQueue = new ArrayList<AttackRecord>();
 		nextAttack = new LinkedList<String>();
 		calculate();
-		if(!local){
-			for(AttackRecord atk: attackQueue){
-				logger.fine("[BATL]0 ATTACKRECORD::" + atk.toString());
-			}
-			logger.fine("[BATL]0 HP::" + left.name + " HP" + left.getHp() +
-					" " + right.name + " HP" + right.getHp());
-			logger.fine("[BATL]0 BATTLEEND::");
+		
+		for(AttackRecord atk: attackQueue){
+			logger.fine("[BATL]0 ATTACKRECORD::" + atk.toString());
 		}
+		logger.fine("[BATL]0 HP::" + left.name + " HP" + left.getHp() +
+				" " + right.name + " HP" + right.getHp());
+		logger.fine("[BATL]0 BATTLEEND::");
 	}
 	
 	/**
 	 * Main calculation method, determines attack order, which units should attack, sets triggers, and finally runs each attack
 	 */
 	protected void calculate() {
+		// The units will automatically equip the next weapon if the current one breaks.
+		// This, however, should not affect the battle. The weapon should not change until
+		// the round is over. So, record used weapons now, and not ask the units for their weapons again.
+		final Weapon leftWeap = left.getWeapon();
+		final Weapon rightWeap = right.getWeapon();
+		
 		// Determine turn order
 		ArrayList<Boolean> attackOrder = new ArrayList<Boolean>();
-		if (shouldAttack(left,right,range))
+		if (shouldAttack(left,right,leftWeap,range))
 			attackOrder.add(true);
-		if (shouldAttack(right,left,range))
+		if (shouldAttack(right,left,rightWeap,range))
 			attackOrder.add(false);
-		if (left.get("Spd") >= right.get("Spd") + 4 
-				&& shouldAttack(left,right,range)) {
+		if (left.getStats().spd >= right.getStats().spd + 4 
+				&& shouldAttack(left,right,leftWeap,range)) {
 			attackOrder.add(true);
 		}
-		if (right.get("Spd") >= left.get("Spd") + 4
-				&& shouldAttack(right,left,range)) {
+		if (right.getStats().spd >= left.getStats().spd + 4
+				&& shouldAttack(right,left,rightWeap,range)) {
 			attackOrder.add(false);
 		}
-		//System.out.println(attackOrder);
 		leftTriggers = new ArrayList<CombatTrigger>();
 		for(CombatTrigger t: left.getTriggers()){
 			leftTriggers.add(t.getCopy());
@@ -118,9 +117,9 @@ public class CombatCalculator {
 		}
 		
 		for (Boolean i : attackOrder) {
-			attack(i, "None");
+			attack(i, "None",leftWeap,rightWeap);
 			while(!nextAttack.isEmpty()){
-				attack(i, nextAttack.poll());
+				attack(i, nextAttack.poll(),leftWeap,rightWeap);
 			}
 		}
 	}
@@ -134,12 +133,12 @@ public class CombatCalculator {
 	 * @param range the range
 	 * @return true, if a is able to attack d
 	 */
-	public static boolean shouldAttack(Unit a, Unit d, int range){
+	public static boolean shouldAttack(Unit a, Unit d, Weapon aWeap, int range){
 		if(a.getHp() <= 0) return false;
-		if(a.getWeapon() == null) return false;
-		if(a.getWeapon().getUses() == 0) return false;
-		if(!a.getWeapon().range.contains(range)) return false;
-		if(a.getWeapon().type == Weapon.Type.STAFF) return false;
+		if(aWeap == null) return false;
+		if(aWeap.getUses() == 0) return false;
+		if(!aWeap.range.apply(a.getStats()).contains(range)) return false;
+		if(aWeap.type == Weapon.Type.STAFF) return false;
 		return true;
 	}
 	
@@ -174,12 +173,13 @@ public class CombatCalculator {
 	 * @param leftAttacking If the left fighter is attacking
 	 * @param currentEffect the current effect
 	 */
-	private void attack(boolean leftAttacking, String currentEffect) {
+	private void attack(boolean leftAttacking, String currentEffect, Weapon leftWeap, Weapon rightWeap) {
 		Unit a = leftAttacking?left: right;
 		Unit d = leftAttacking?right: left;
+		Weapon aWeap = leftAttacking ? leftWeap : rightWeap;
 		List<CombatTrigger> aTriggers = leftAttacking?leftTriggers: rightTriggers;
 		List<CombatTrigger> dTriggers = leftAttacking?rightTriggers: leftTriggers;
-		if(!shouldAttack(a, d, range)) return;
+		if(!shouldAttack(a, d, aWeap, range)) return;
 		int damage = 0;
 		int drain = 0;
 		String animation = "Attack";
@@ -316,7 +316,7 @@ public class CombatCalculator {
 		rec.drain = drain;
 		attackQueue.add(rec);
 
-		System.out.println(rec);
+		logger.fine(rec.toString());
 	}
 	
 	/**
@@ -340,13 +340,13 @@ public class CombatCalculator {
 		
 		int base;
 		if (a.getWeapon().isMagic()) {
-			base = a.get("Mag")
+			base = a.getStats().mag
 					+ (a.getWeapon().mt + a.getWeapon().triMod(d.getWeapon()))
-					* (effective ? 3: 1) - d.get("Res");
+					* (effective ? 3: 1) - d.getStats().res;
 		} else {
-			base = a.get("Str")
+			base = a.getStats().str
 					+ (a.getWeapon().mt + a.getWeapon().triMod(d.getWeapon()))
-					* (effective? 3:1) - d.get("Def");
+					* (effective? 3:1) - d.getStats().def;
 		}
 		
 		return Math.max(base, 0);

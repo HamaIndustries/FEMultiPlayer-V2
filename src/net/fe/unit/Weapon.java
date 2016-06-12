@@ -1,6 +1,7 @@
 package net.fe.unit;
 
 import java.util.*;
+import java.util.function.Function;
 
 import net.fe.fightStage.Brave;
 import net.fe.fightStage.CombatTrigger;
@@ -13,57 +14,56 @@ import net.fe.fightStage.CrossBow;
 /**
  * The Class Weapon.
  */
-public class Weapon extends Item {
+public final class Weapon extends Item {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 6496663141806177211L;
 	
 	/** The modifiers. */
-	public HashMap<String, Integer> modifiers;
+	public final Statistics modifiers;
 	
 	/** The crit. */
-	public int mt, hit, crit;
+	public final int mt, hit, crit;
 	
-	/** The range. */
-	public List<Integer> range;
+	/** The weapon's range. */
+	public final Function<Statistics, List<Integer>> range;
 	
 	/** The type. */
-	public Type type;
+	public final Type type;
 	
 	/** The effective. */
-	public ArrayList<String> effective;
+	public final List<String> effective;
 	
 	/** The pref. */
-	public String pref;
+	public final String pref;
 
 	
 	/**
 	 * Instantiates a new weapon.
 	 *
-	 * @param name the name
+	 * @param name the weapon's name
+	 * @param maxUses the durability of the weapon
+	 * @param id icon number
+	 * @param cost price in shop
+	 * @param type the type of the weapon
+	 * @param range the weapon's range. If this weapon is expected to travel over a network, this
+	 * 		should be serializable and have a stable hashCode. Note that lambdas don't generally
+	 * 		satisfy this property
 	 */
-	public Weapon(String name) {
-		super(name);
-		// Initialize modifiers to 0
-		modifiers = new HashMap<String, Integer>();
-		modifiers.put("Skl", 0);
-		modifiers.put("Lck", 0);
-		modifiers.put("HP",  0);
-		modifiers.put("Str", 0);
-		modifiers.put("Mag", 0);
-		modifiers.put("Def", 0);
-		modifiers.put("Res", 0);
-		modifiers.put("Spd", 0);
-		modifiers.put("Lvl", 0);
-		modifiers.put("Con", 0);
-		modifiers.put("Mov", 0);
-		modifiers.put("Con", 0);
-		modifiers.put("Aid", 0);
-		mt = 0;
-		hit = 0;
-		crit = 0;
-		type = null;
-		effective = new ArrayList<String>();
+	public Weapon(String name, int maxUses, int id, int cost,
+			Type type, int mt, int hit, int crit, 
+			Function<Statistics, List<Integer>> range,
+			Statistics modifiers,
+			List<String> effective, String pref) {
+		super(name, maxUses, id, cost);
+		this.type = type;
+		this.modifiers = modifiers;
+		this.mt = mt;
+		this.hit = hit;
+		this.crit = crit;
+		this.effective = java.util.Collections.unmodifiableList(new ArrayList<String>(effective));
+		this.range = range;
+		this.pref = pref;
 	}
 	
 	/**
@@ -190,20 +190,16 @@ public class Weapon extends Item {
 	 * @see net.fe.unit.Item#getCopy()
 	 */
 	public Weapon getCopy(){
-		Weapon w = new Weapon(name);
-		w.type = type;
-		w.range = new ArrayList<Integer>(range);
-		w.mt = mt;
-		w.hit = hit;
-		w.crit = crit;
-		w.setMaxUses(getMaxUses());
-		w.setCost(getCost());
-		w.effective = new ArrayList<String>(effective);
-		w.pref = pref;
-		w.modifiers = new HashMap<String, Integer>(modifiers);
-		w.id = id;
-		return w;
-		
+		return new Weapon(name, getMaxUses(), id, getCost(),
+				type, mt, hit, crit, range,
+				modifiers, effective, pref);
+	}
+	
+	/** Returns an item identical to this one, with the exception of an updated mt, hit and crit */
+	public Weapon getCopyWithNewMtHitCrit(int newmt, int newhit, int newcrit){
+		return new Weapon(name, getMaxUses(), id, getCost(),
+				type, newmt, newhit, newcrit, range,
+				modifiers, effective, pref);
 	}
 
 	/* (non-Javadoc)
@@ -219,5 +215,63 @@ public class Weapon extends Item {
 		} else {
 			return -1;
 		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return (((((super.hashCode() * 31 +
+				this.type.ordinal()) * 31 +
+				this.range.hashCode()) * 31 +
+				this.modifiers.hashCode()) * 31 +
+				java.util.Objects.hashCode(this.pref)) * 31 +
+				this.effective.hashCode()) * 31 +
+				(crit << 14 + hit << 7 + mt);
+	}
+	
+	@Override
+	protected boolean canEquals(Object other) {
+		return other instanceof Weapon;
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (other != null && other instanceof Weapon) {
+			Weapon o2 = (Weapon) other;
+			if (o2.canEquals(this)) {
+				return super.equals(o2) &&
+					this.mt == o2.mt &&
+					this.hit == o2.hit &&
+					this.crit == o2.crit &&
+					this.type == o2.type &&
+					this.range.equals(o2.range) &&
+					this.effective.equals(o2.effective) &&
+					(this.pref == null ?
+							o2.pref == null :
+							this.pref.equals(o2.pref)
+					) &&
+					this.modifiers.equals(o2.modifiers);
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return "Weapon [" +
+			"name: " + name + "; " +
+			"maxUses: " + getMaxUses() + "; " +
+			"uses: " + getUses() + "; " +
+			"id: " + id + "; " +
+			"cost: " + getCost() + "; " +
+			"type: " + type + "; " +
+			"mt: " + mt + "; " +
+			"hit: " + hit + "; " +
+			"range: " + range + "; " +
+			"modifiers: " + modifiers + "; " +
+			"effective: " + effective + "; " +
+			"pref: " + pref + "]";
 	}
 }

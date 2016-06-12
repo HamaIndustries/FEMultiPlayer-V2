@@ -1,10 +1,11 @@
 package net.fe.modifier;
 
 import net.fe.builderStage.ShopMenu;
-import net.fe.builderStage.TeamBuilderStage;
+import net.fe.builderStage.TeamBuilderResources;
 import net.fe.builderStage.TeamSelectionStage;
 import net.fe.overworldStage.OverworldStage;
 import net.fe.unit.Unit;
+import net.fe.unit.Item;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -21,43 +22,26 @@ public class SuddenDeath implements Modifier{
 	 * @see net.fe.modifier.Modifier#modifyTeam(net.fe.builderStage.TeamBuilderStage)
 	 */
 	@Override
-	public void modifyTeam(TeamBuilderStage stage) {
-		// TODO Auto-generated method stub
-		
+	public TeamBuilderResources modifyTeamResources(TeamBuilderResources limits) {
+		return limits;
 	}
 
 	/* (non-Javadoc)
 	 * @see net.fe.modifier.Modifier#modifyShop(net.fe.builderStage.ShopMenu)
 	 */
 	@Override
-	public void modifyShop(ShopMenu shop) {
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see net.fe.modifier.Modifier#modifyUnits(net.fe.builderStage.TeamSelectionStage)
-	 */
-	@Override
-	public void modifyUnits(TeamSelectionStage stage) {
-		
+	public Iterable<Item> modifyShop(Iterable<Item> shop) {
+		return shop;
 	}
 
 	/* (non-Javadoc)
 	 * @see net.fe.modifier.Modifier#initOverworld(net.fe.overworldStage.OverworldStage)
 	 */
 	@Override
-	public void initOverworld(OverworldStage stage) {
-		for(Unit u : stage.getAllUnits()) {
+	public void initOverworldUnits(Iterable<Unit> units) {
+		for(Unit u : units) {
 			u.setHp(1);
 		}
-	}
-
-	/* (non-Javadoc)
-	 * @see net.fe.modifier.Modifier#endOfTurn(net.fe.overworldStage.OverworldStage)
-	 */
-	@Override
-	public void endOfTurn(OverworldStage stage) {
-		
 	}
 
 	/* (non-Javadoc)

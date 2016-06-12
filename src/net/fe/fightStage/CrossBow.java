@@ -3,7 +3,7 @@ package net.fe.fightStage;
 import net.fe.RNG;
 import net.fe.unit.Unit;
 
-/** A skill that always negates enemy defenses */
+/** A skill that always negates the users str and mag */
 public final class CrossBow extends CombatTrigger {
 	private static final long serialVersionUID = -6539654970701395612L;
 	public CrossBow(){
@@ -16,8 +16,8 @@ public final class CrossBow extends CombatTrigger {
 
 	@Override
 	public boolean runPreAttack(CombatCalculator stage, Unit a, Unit d) {
-		a.setTempMod("Str", -a.get("Str"));
-		a.setTempMod("Mag", -a.get("Mag"));
+		a.setTempMod("Str", -a.getStats().str);
+		a.setTempMod("Mag", -a.getStats().mag);
 		return true;
 	}
 	

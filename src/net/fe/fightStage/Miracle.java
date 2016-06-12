@@ -30,7 +30,7 @@ public class Miracle extends CombatTrigger {
 	@Override
 	public boolean attempt(Unit user, int range, Unit opponent) {
 		//return true;
-		return RNG.get() < user.get("Lck") && user.getHp() != 1;
+		return RNG.get() < user.getStats().lck && user.getHp() != 1;
 	}
 	
 	/* (non-Javadoc)

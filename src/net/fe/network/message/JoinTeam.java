@@ -6,13 +6,13 @@ import net.fe.network.Message;
 /**
  * The Class JoinTeam.
  */
-public class JoinTeam extends Message {
+public final class JoinTeam extends Message {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -2805120675582622842L;
 	
 	/** The team. */
-	public int team;
+	public final int team;
 	
 	/**
 	 * Instantiates a new join team.

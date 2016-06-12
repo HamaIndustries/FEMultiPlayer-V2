@@ -6,6 +6,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.fe.network.Chat;
+import net.fe.network.Message;
+import net.fe.network.message.ChatMessage;
+import net.fe.network.message.JoinTeam;
+import net.fe.network.message.JoinLobby;
+import net.fe.network.message.KickMessage;
+import net.fe.network.message.QuitMessage;
 import net.fe.modifier.Modifier;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.overworldStage.objective.Rout;
@@ -18,37 +25,50 @@ import net.fe.pick.PickMode;
  * @author Shawn
  *
  */
-public class Session implements Serializable {
+public final class Session implements Serializable {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 696432583909698581L;
 	
 	/** The players. */
-	private HashMap<Byte, Player> players;
+	private final HashMap<Byte, Player> players;
+	
+	/** The chatlog */
+	private final Chat chatlog;
 	
 	/** The objective. */
-	private Objective objective;
+	private final Objective objective;
 	
 	/** The map. */
-	private String map;
+	private final String map;
 	
 	/** The max units. */
-	private int maxUnits;
+	private final int maxUnits;
 	
 	/** The modifiers. */
-	private Set<Modifier> modifiers;
+	private final Set<Modifier> modifiers;
 	
 	/** The pick mode. */
-	private PickMode pickMode;
+	private final PickMode pickMode;
 	
 	/**
-	 * Instantiates a new session.
+	 * Instantiates a new session with default values.
 	 */
 	public Session() {
+		this(new Rout(), "test", 8, new HashSet<>(), new Draft());
+	}
+	
+	/**
+	 * Instantiates a new session with the specified values
+	 */
+	public Session(Objective objective, String map, int maxUnits, Set<Modifier> modifiers, PickMode pickMode) {
 		players = new HashMap<Byte, Player>();
-		objective = new Rout();
-		modifiers = new HashSet<Modifier>();
-		pickMode = new Draft();
+		this.chatlog = new Chat();
+		this.objective = objective;
+		this.modifiers = java.util.Collections.unmodifiableSet(new HashSet<Modifier>(modifiers));
+		this.maxUnits = maxUnits;
+		this.map = map;
+		this.pickMode = pickMode;
 	}
 	
 	/**
@@ -149,12 +169,11 @@ public class Session implements Serializable {
 	}
 	
 	/**
-	 * Sets the objective.
-	 *
-	 * @param objective the new objective
+	 * Gets the chatlog.
+	 * @return the chatlog
 	 */
-	public void setObjective(Objective objective) {
-		this.objective = objective;
+	public Chat getChatlog() {
+		return chatlog;
 	}
 	
 	/**
@@ -167,15 +186,6 @@ public class Session implements Serializable {
 	}
 	
 	/**
-	 * Sets the map.
-	 *
-	 * @param map the new map
-	 */
-	public void setMap(String map) {
-		this.map = map;
-	}
-	
-	/**
 	 * Gets the max units.
 	 *
 	 * @return the max units
@@ -184,15 +194,6 @@ public class Session implements Serializable {
 		return maxUnits;
 	}
 	
-	/**
-	 * Sets the max units.
-	 *
-	 * @param i the new max units
-	 */
-	public void setMaxUnits(int i) {
-		maxUnits = i;
-	}
-
 	/**
 	 * Gets the modifiers.
 	 *
@@ -203,15 +204,6 @@ public class Session implements Serializable {
 	}
 	
 	/**
-	 * Adds the modifier.
-	 *
-	 * @param m the m
-	 */
-	public void addModifier(Modifier m) {
-		modifiers.add(m);
-	}
-
-	/**
 	 * Gets the pick mode.
 	 *
 	 * @return the pick mode
@@ -221,13 +213,38 @@ public class Session implements Serializable {
 	}
 
 	/**
-	 * Sets the pick mode.
-	 *
-	 * @param selectedItem the new pick mode
+	 * Perform an action in response to the message
 	 */
-	public void setPickMode(PickMode selectedItem) {
-		pickMode = selectedItem;
+	public void handleMessage(Message message) {
+		if(message instanceof JoinLobby) {
+			JoinLobby join = (JoinLobby)message;
+			this.addPlayer((byte) join.origin, new Player(join.nickname, join.origin));
+		} else if(message instanceof QuitMessage) {
+			QuitMessage quit = (QuitMessage)message;
+			Player player = this.getPlayer(quit.origin);
+			if (player != null) {
+				this.getChatlog().add(player, "has quit the game");
+			}
+			this.removePlayer(quit.origin);
+		} else if(message instanceof KickMessage) {
+			KickMessage kick = (KickMessage)message;
+			Player kicker = this.getPlayer(kick.origin); // better be null...
+			Player kickee = this.getPlayer(kick.player);
+			this.getChatlog().add(kicker, kickee.getName() + " was kicked: " + kick.reason);
+			this.removePlayer(kick.player);
+		} else if(message instanceof JoinTeam) {
+			JoinTeam join = (JoinTeam)message;
+			this.getPlayer(join.origin).setTeam(join.team);
+			if(join.team == Player.TEAM_BLUE) {
+				this.getPlayer(join.origin).getParty().setColor(Party.TEAM_BLUE);
+			} else if(join.team == Player.TEAM_RED) {
+				this.getPlayer(join.origin).getParty().setColor(Party.TEAM_RED);
+			}
+			this.getPlayer(join.origin).ready = false;
+		} else if (message instanceof ChatMessage) {
+			ChatMessage chatMsg = (ChatMessage)message;
+			this.getChatlog().add(this.getPlayer(chatMsg.origin), chatMsg.text);
+		}
 	}
-	
 	
 }

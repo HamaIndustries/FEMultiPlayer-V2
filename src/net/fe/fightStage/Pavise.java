@@ -29,7 +29,7 @@ public class Pavise extends CombatTrigger {
 	@Override
 	public boolean attempt(Unit user, int range, Unit opponent) {
 		//return true;
-		return RNG.get() < user.get("Skl");
+		return RNG.get() < user.getStats().skl;
 	}
 	
 	/* (non-Javadoc)
