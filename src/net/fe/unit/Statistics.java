@@ -6,9 +6,7 @@ import java.util.Map;
  * A unit's combat capabilities
  */
 public final class Statistics implements java.io.Serializable {
-	public final int maxHp; /*Note - no longer final in order to fix a bug with Sudden Death.  It's the only
-	easy way I'm seeing to do it, and it does open up some interesting possibilities later, but maybe it's
-	a bad idea? */
+	public final int maxHp;
 	public final int str;
 	public final int mag;
 	public final int skl;
