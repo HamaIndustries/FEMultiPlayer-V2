@@ -919,7 +919,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 * 
 	 */
 	public void setMaxHp(int mhp){
-		this.stats.maxHp = mhp;
+		this.stats = this.stats.copy("HP", mhp);
 		if(this.getHp() > this.stats.maxHp){
 			this.setHp(mhp);
 		}
