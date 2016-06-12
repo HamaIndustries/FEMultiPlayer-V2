@@ -34,7 +34,7 @@ public enum Terrain {
 	MOUNTAIN(4,2,30,0),
 	
 	/** The village. */
-	VILLAGE(1,10,0,0),
+	VILLAGE(1,0,10,0),
 	
 	/** The peak. */
 	PEAK(127,2,40,0), 

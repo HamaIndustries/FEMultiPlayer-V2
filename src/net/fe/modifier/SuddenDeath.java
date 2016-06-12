@@ -40,7 +40,7 @@ public class SuddenDeath implements Modifier{
 	@Override
 	public void initOverworldUnits(Iterable<Unit> units) {
 		for(Unit u : units) {
-			u.setHp(1);
+			u.setMaxHp(1);
 		}
 	}
 
