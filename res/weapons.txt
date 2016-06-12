@@ -53,6 +53,10 @@ Brave Bow	Bow	2	10	70	0	15	7500	Flier	-	-
 Debug Short Bow	Bow	1-2	5	85	10	11	1760	Flier	-	-
 Longbow		Bow	2-3	5	65	0	10	2000	Flier	-	-
 Double Bow	Bow	2-3	18	85	5	12	10000	Flier	-	Str 5
+Bowgun		Crossbow	1-2	24	100	0	12	2000	Flier	-	-
+Crossbow	Crossbow	1-2	28	100	0	10	3000	Flier	-	-
+Aqqar		Crossbow	1-2	32	100	0	8	5000	Flier	-	-
+Arbalest	Crossbow	1-2	38	100	15	10	10000	Flier	-	-
 Fire		Anima	1-2	5	90	0	20	560	-	-	-
 Elfire		Anima	1-2	10	85	0	15	1200	-	-	-
 Fimbulvetr	Anima	1-2	13	80	0	10	6000	-	-	-
@@ -71,7 +75,7 @@ Ereshkigal	Dark	1-2	20	95	0	12	15000	-	-	Skl 5
 Heal		Staff	1	10	100	0	15	600	-	-	-
 Mend		Staff	1	20	100	0	10	1000	-	-	-
 Recover		Staff	1	99	100	0	7	2250	-	-	-
-Physic		Staff	1-15	10	100	0	4	7500	-	-	-
+Physic		Staff	1-Mag/2	10	100	0	4	7500	-	-	-
 # Debug items
 Debug Sword	Sword	1	10	100	200	20	1000	-	-	-
 Debug Axe	Axe	1	10	100	200	20	1000	-	-	-

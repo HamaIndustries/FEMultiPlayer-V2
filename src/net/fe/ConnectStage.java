@@ -3,6 +3,7 @@ package net.fe;
 import java.util.List;
 
 import net.fe.builderStage.TeamBuilderStage;
+import net.fe.network.Message;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
@@ -24,19 +25,7 @@ import chu.engine.menu.TextInputBox;
  *
  * @author Shawn
  */
-public class ConnectStage extends Stage {
-	
-	/** The Constant BORDER_DARK. */
-	public static final Color BORDER_DARK = new Color(0x483828);
-	
-	/** The Constant BORDER_LIGHT. */
-	public static final Color BORDER_LIGHT = new Color(0xf8f0c8);
-	
-	/** The Constant NEUTRAL. */
-	public static final Color NEUTRAL = new Color(0xb0a878);
-	
-	/** The Constant NEUTRAL_DARK. */
-	public static final Color NEUTRAL_DARK = new Color(0x58543c);
+public final class ConnectStage extends Stage {
 	
 	/** The Constant UNFOCUSED. */
 	private static final Color UNFOCUSED = new Color(0x58543c);
@@ -48,10 +37,10 @@ public class ConnectStage extends Stage {
 	private static final Color CURSOR = new Color(0xeeeeee);
 	
 	/** The name. */
-	private ConnectInputBox name;
+	private final ConnectInputBox name;
 	
 	/** The ip. */
-	private ConnectInputBox ip;
+	private final ConnectInputBox ip;
 	
 	/**
 	 * Instantiates a new connect stage.
@@ -88,7 +77,7 @@ public class ConnectStage extends Stage {
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
+	public void beginStep(List<Message> messages) {
 		for(Entity e : entities) {
 			e.beginStep();
 		}
@@ -119,11 +108,6 @@ public class ConnectStage extends Stage {
 	 */
 	public void render() {
 		// Draw and label boxes
-//		Renderer.drawRectangle(60, 110, 430, 240, 0.5f, NEUTRAL);
-//		Renderer.drawRectangle(61, 111, 429, 239, 0.5f, BORDER_DARK);
-//		Renderer.drawRectangle(62, 112, 428, 238, 0.5f, BORDER_LIGHT);
-//		Renderer.drawRectangle(63, 113, 427, 237, 0.5f, NEUTRAL);
-		
 		Renderer.drawString("default_med", "Name:", 150, 140, 0.0f);
 		Renderer.drawString("default_med", "Server IP:", 133, 170, 0.0f);
 		

@@ -7,6 +7,7 @@ import net.fe.overworldStage.SelectTargetContext;
 import net.fe.overworldStage.Zone;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
+import net.fe.network.command.RescueCommand;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -41,12 +42,16 @@ public class RescueTarget extends SelectTargetContext {
 	 */
 	@Override
 	public void unitSelected(Unit u) {
-		stage.addCmd("RESCUE");
-		stage.addCmd(new UnitIdentifier(u));
+		RescueCommand c = new RescueCommand(new UnitIdentifier(u));
+		c.applyClient(stage, unit, null, new EmptyRunnable()).run();
+		stage.addCmd(c);
 		stage.send();
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
 		stage.reset();
 	}
 
+	private static final class EmptyRunnable implements Runnable {
+		@Override public void run() {}
+	}
 }

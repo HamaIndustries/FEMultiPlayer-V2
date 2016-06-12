@@ -16,24 +16,28 @@ public abstract class Item implements Serializable, Comparable<Item>{
 	public final String name;
 	
 	/** The max uses. */
-	private int maxUses;
+	private final int maxUses;
 	
 	/** The uses. */
 	private int uses;
 	
 	/** The cost. */
-	private int cost;
+	private final int cost;
 	
 	/** The id. */
-	public int id;
+	public final int id;
 	
 	/**
 	 * Instantiates a new item.
 	 *
 	 * @param name the name
 	 */
-	public Item(String name){
+	public Item(String name, int maxUses, int id, int cost){
 		this.name = name;
+		this.id = id;
+		this.maxUses = maxUses;
+		this.uses = maxUses;
+		this.cost = cost;
 	}
 	
 	/**
@@ -52,18 +56,8 @@ public abstract class Item implements Serializable, Comparable<Item>{
 	 *
 	 * @return the uses
 	 */
-	public int getUses(){
+	public final int getUses(){
 		return uses;
-	}
-	
-	/**
-	 * Sets the max uses.
-	 *
-	 * @param x the new max uses
-	 */
-	public void setMaxUses(int x){
-		uses = x;
-		maxUses = x;
 	}
 	
 	/**
@@ -71,7 +65,7 @@ public abstract class Item implements Serializable, Comparable<Item>{
 	 *
 	 * @return the max uses
 	 */
-	public int getMaxUses(){
+	public final int getMaxUses(){
 		return maxUses;
 	}
 	
@@ -80,7 +74,7 @@ public abstract class Item implements Serializable, Comparable<Item>{
 	 *
 	 * @param uses the new uses debugging
 	 */
-	public void setUsesDEBUGGING(int uses){
+	public final void setUsesDEBUGGING(int uses){
 		this.uses = uses;
 	}
 	
@@ -89,17 +83,8 @@ public abstract class Item implements Serializable, Comparable<Item>{
 	 *
 	 * @return the cost
 	 */
-	public int getCost(){
+	public final int getCost(){
 		return cost;
-	}
-	
-	/**
-	 * Sets the cost.
-	 *
-	 * @param gold the new cost
-	 */
-	public void setCost(int gold){
-		cost = gold;
 	}
 	
 	/**
@@ -121,5 +106,45 @@ public abstract class Item implements Serializable, Comparable<Item>{
 		if(name.equals("Elixir")) return HealingItem.ELIXIR.getCopy();
 		if(name.equals("Rise")) return new RiseTome();
 		return WeaponFactory.getWeapon(name);
+	}
+	
+	public static Iterable<Item> getAllItems() {
+		final java.util.ArrayList<Item> retVal = new java.util.ArrayList<>();
+		WeaponFactory.getAllWeapons().forEach(retVal::add);
+		retVal.add(HealingItem.VULNERARY.getCopy());
+		retVal.add(HealingItem.CONCOCTION.getCopy());
+		retVal.add(HealingItem.ELIXIR.getCopy());
+		retVal.add(new RiseTome());
+		return retVal;
+	}
+	
+	@Override
+	public int hashCode() {
+		return ((name.hashCode() * 31 +
+				id) * 31 +
+				maxUses) * 31 +
+				cost;
+	}
+	
+	protected boolean canEquals(Object other) {
+		return other instanceof Item;
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (other != null && other instanceof Item) {
+			Item o2 = (Item) other;
+			if (o2.canEquals(this)) {
+				return this.name.equals(o2.name) &&
+					this.id == o2.id &&
+					this.maxUses == o2.maxUses &&
+					this.uses == o2.uses &&
+					this.cost == o2.cost;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 }

@@ -18,6 +18,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -51,6 +52,7 @@ import net.fe.modifier.SuddenDeath;
 import net.fe.modifier.Treasury;
 import net.fe.modifier.Vegas;
 import net.fe.modifier.Veterans;
+import net.fe.network.message.*;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.overworldStage.objective.Rout;
 import net.fe.overworldStage.objective.Seize;
@@ -79,9 +81,6 @@ public class FEServer extends Game {
 	/** The lobby. */
 	public static LobbyStage lobby;
 	
-	/** The maps. */
-	private static Map<String, Objective[]> maps;
-	
 	/**
 	 * The main method.
 	 *
@@ -90,28 +89,30 @@ public class FEServer extends Game {
 	public static void main(String[] args) {
 		final JFrame frame = new JFrame("FEServer");
 		
-		Rout rout = new Rout();
-		Seize seize = new Seize();
-		
-		maps = new HashMap<String, Objective[]>();
-		maps.put("delphino", new Objective[]{rout});
-		maps.put("town", new Objective[]{rout});
-		maps.put("alpea", new Objective[]{seize});
-		maps.put("plains", new Objective[]{rout, seize});
-		maps.put("fort", new Objective[]{rout, seize});
-		maps.put("decay", new Objective[]{rout, seize});
+		final Map<String, Objective[]> maps = new HashMap<String, Objective[]>();
+		{
+			Rout rout = new Rout();
+			Seize seize = new Seize();
+			
+			maps.put("delphino", new Objective[]{rout});
+			maps.put("town", new Objective[]{rout});
+			maps.put("alpea", new Objective[]{seize});
+			maps.put("plains", new Objective[]{rout, seize});
+			maps.put("fort", new Objective[]{rout, seize});
+			maps.put("decay", new Objective[]{rout, seize});
+		}
 		
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
-		DefaultListModel sModel = new DefaultListModel();
+		DefaultListModel<Modifier> selectedModifiersModel = new DefaultListModel<Modifier>();
 		// Modifiers
-		DefaultListModel model = new DefaultListModel();
-		model.addElement(new MadeInChina());
-		model.addElement(new Treasury());
-		model.addElement(new Veterans());
-		model.addElement(new DivineIntervention());
-		model.addElement(new SuddenDeath());
-		model.addElement(new Vegas());
-		model.addElement(new ProTactics());
+		DefaultListModel<Modifier> unselectedModifiersModel = new DefaultListModel<Modifier>();
+		unselectedModifiersModel.addElement(new MadeInChina());
+		unselectedModifiersModel.addElement(new Treasury());
+		unselectedModifiersModel.addElement(new Veterans());
+		unselectedModifiersModel.addElement(new DivineIntervention());
+		unselectedModifiersModel.addElement(new SuddenDeath());
+		unselectedModifiersModel.addElement(new Vegas());
+		unselectedModifiersModel.addElement(new ProTactics());
 		
 		final JPanel mainPanel = new JPanel();
 		frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
@@ -130,18 +131,18 @@ public class FEServer extends Game {
 		JLabel objLabel = new JLabel("Objective: ");
 		objectivePanel.add(objLabel);
 		
-		final JComboBox objComboBox = new JComboBox();
+		final JComboBox<Objective> objComboBox = new JComboBox<>();
 		objectivePanel.add(objComboBox);
 		
 		// populate list of maps
-		final JComboBox mapSelectionBox = new JComboBox();
+		final JComboBox<String> mapSelectionBox = new JComboBox<>();
 		mapSelectionBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				objComboBox.setModel(new DefaultComboBoxModel(maps.get(mapSelectionBox.getSelectedItem())));
+				objComboBox.setModel(new DefaultComboBoxModel<Objective>(maps.get(mapSelectionBox.getSelectedItem())));
 			}
 		});
 		mapPanel.add(mapSelectionBox);
-		mapSelectionBox.setModel(new DefaultComboBoxModel(maps.keySet().toArray()));
+		mapSelectionBox.setModel(new DefaultComboBoxModel<String>(maps.keySet().toArray(new String[0])));
 		
 		JLabel label = new JLabel("Max units: ");
 		mapPanel.add(label);
@@ -151,16 +152,16 @@ public class FEServer extends Game {
 		maxUnitsSpinner.setModel(new SpinnerNumberModel(8, 1, 8, 1));
 		
 		// Objectives
-		ComboBoxModel oModel = new DefaultComboBoxModel(maps.get(mapSelectionBox.getSelectedItem()));
+		ComboBoxModel<Objective> oModel = new DefaultComboBoxModel<>(maps.get(mapSelectionBox.getSelectedItem()));
 		objComboBox.setModel(oModel);
 		
 		JLabel lblPickMode = new JLabel("Pick mode: ");
 		objectivePanel.add(lblPickMode);
 		
 		// Pick modes
-		ComboBoxModel pModel = new DefaultComboBoxModel(new PickMode[] { new AllPick(), new Draft()});
-		final JComboBox pickModeBox = new JComboBox();
-		pickModeBox.setModel(pModel);
+		ComboBoxModel<PickMode> pickModeModel = new DefaultComboBoxModel<>(new PickMode[] { new AllPick(), new Draft()});
+		final JComboBox<PickMode> pickModeBox = new JComboBox<>();
+		pickModeBox.setModel(pickModeModel);
 		objectivePanel.add(pickModeBox);
 		
 		JSeparator separator = new JSeparator();
@@ -185,13 +186,13 @@ public class FEServer extends Game {
 		final ModifierList modifiersList = new ModifierList();
 		modifiersList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		modifiersScrollPane.add(modifiersList);
-		modifiersList.setModel(model);
+		modifiersList.setModel(unselectedModifiersModel);
 		modifiersScrollPane.setViewportView(modifiersList);
 		
 		final ModifierList selectedModifiersList = new ModifierList();
 		selectedModifiersList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		selectedModifiersScrollPane.add(selectedModifiersList);
-		selectedModifiersList.setModel(sModel);
+		selectedModifiersList.setModel(selectedModifiersModel);
 		selectedModifiersScrollPane.setViewportView(selectedModifiersList);
 		
 		JPanel buttonsPanel = new JPanel();
@@ -202,9 +203,9 @@ public class FEServer extends Game {
 			public void actionPerformed(ActionEvent arg0) {
 				int index = modifiersList.getSelectedIndex();
 				if(index != -1) {
-					Object o = modifiersList.getModel().getElementAt(index);
-					((DefaultListModel)modifiersList.getModel()).remove(modifiersList.getSelectedIndex());
-					((DefaultListModel)selectedModifiersList.getModel()).add(0,o);
+					Modifier o = unselectedModifiersModel.getElementAt(index);
+					unselectedModifiersModel.remove(modifiersList.getSelectedIndex());
+					selectedModifiersModel.add(0,o);
 				}
 			}
 		});
@@ -216,9 +217,9 @@ public class FEServer extends Game {
 			public void actionPerformed(ActionEvent e) {
 				int index = selectedModifiersList.getSelectedIndex();
 				if(index != -1) {
-					Object o = selectedModifiersList.getModel().getElementAt(index);
-					((DefaultListModel)selectedModifiersList.getModel()).remove(selectedModifiersList.getSelectedIndex());
-					((DefaultListModel)modifiersList.getModel()).add(0,o);
+					Modifier o = selectedModifiersModel.getElementAt(index);
+					selectedModifiersModel.remove(selectedModifiersList.getSelectedIndex());
+					unselectedModifiersModel.add(0,o);
 				}
 			}
 		});
@@ -245,20 +246,28 @@ public class FEServer extends Game {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				{
+					final JButton kickAll = new JButton("Kick all");
+					kickAll.addActionListener((e2) -> FEServer.resetToLobbyAndKickPlayers());
+					frame.getContentPane().add(kickAll);
+				}
 				frame.pack();
 				Thread serverThread = new Thread() {
 					public void run() {
-						FEServer feserver = new FEServer();
+						HashSet<Modifier> mods = new HashSet<Modifier>();
+						for(int i=0; i< selectedModifiersList.getModel().getSize(); i++) {
+							mods.add(selectedModifiersList.getModel().getElementAt(i));
+						}
+						Session s = new Session(
+							(Objective)objComboBox.getSelectedItem(),
+							(String)mapSelectionBox.getSelectedItem(),
+							(Integer)maxUnitsSpinner.getValue(),
+							mods,
+							(PickMode)pickModeBox.getSelectedItem()
+						);
+						
+						FEServer feserver = new FEServer(s);
 						try{
-							Session s = FEServer.getServer().getSession();
-							s.setMaxUnits((Integer)maxUnitsSpinner.getValue());
-							for(int i=0; i< selectedModifiersList.getModel().getSize(); i++) {
-								Modifier m = (Modifier) selectedModifiersList.getModel().getElementAt(i);
-								s.addModifier(m);
-							}
-							s.setMap((String)mapSelectionBox.getSelectedItem());
-							s.setObjective((Objective)objComboBox.getSelectedItem());
-							s.setPickMode((PickMode)pickModeBox.getSelectedItem());
 							feserver.init();
 							feserver.loop();
 						} catch (Exception e){
@@ -284,29 +293,21 @@ public class FEServer extends Game {
 		frame.pack();
 		frame.setVisible(true);
 	}
-	
-	/**
-	 * Gets the session.
-	 *
-	 * @return the session
-	 */
-	protected Session getSession() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	/**
 	 * Instantiates a new FE server.
 	 */
-	public FEServer() {
-		server = new Server();
+	public FEServer(Session s) {
+		server = new Server(s);
 	}
 	
 	/**
 	 * Inits the.
 	 */
 	public void init() {
-		messages = new CopyOnWriteArrayList<Message>();
+		net.fe.unit.WeaponFactory.loadWeapons();
+		net.fe.unit.UnitFactory.loadUnits();
+		
 		Thread serverThread = new Thread() {
 			public void run() {
 				server.start(21255);
@@ -317,21 +318,6 @@ public class FEServer extends Game {
 		serverThread.start();
 	}
 	
-	/**
-	 * Gets the unit.
-	 *
-	 * @param id the id
-	 * @return the unit
-	 */
-	public static Unit getUnit(UnitIdentifier id){
-		for(Player p: getPlayers().values()){
-			if(!p.isSpectator() && p.getParty().getColor().equals(id.partyColor)){
-				return p.getParty().search(id.name);
-			}
-		}
-		return null;
-	}
-	
 	/* (non-Javadoc)
 	 * @see chu.engine.Game#loop()
 	 */
@@ -339,12 +325,38 @@ public class FEServer extends Game {
 	public void loop() {
 		boolean yes = true;
 		while(yes) {
-			time = System.nanoTime();
-			messages.clear();
-			messages.addAll(server.messages);
-			for(Message m : messages)
-				server.messages.remove(m);
-			currentStage.beginStep();
+			final long time = System.nanoTime();
+			final ArrayList<Message> messages = new ArrayList<>();
+			synchronized (server.messagesLock) {
+				try {
+					server.messagesLock.wait(1000);
+				} catch (InterruptedException e) {
+					// No, really. Has there ever been a meaningful response to an InterruptedException?
+				}
+				messages.addAll(server.messages);
+				for(Message message : messages) {
+					if (message instanceof JoinTeam || message instanceof ReadyMessage) {
+						if (!(FEServer.getCurrentStage() instanceof LobbyStage)) {
+							// ignore message to prevent late-joining players from switching teams or readying up
+						} else {
+							// TODO: percelate broadcasting of these up to stages
+							server.broadcastMessage(message);
+						}
+					} else if (message instanceof CommandMessage || message instanceof PartyMessage) {
+						// If the unit attacked, we need to generate battle results
+						// If party; don't tell others until all have selected their party
+					} else if (message instanceof KickMessage) {
+						// Clients are not allowed to do this.
+					} else {
+						// TODO: percelate broadcasting of these up to stages
+						server.broadcastMessage(message);
+					}
+					
+					server.messages.remove(message);	
+				}
+			}
+			for(Message m : messages) {server.getSession().handleMessage(m);}
+			currentStage.beginStep(messages);
 			currentStage.onStep();
 			currentStage.endStep();
 			timeDelta = System.nanoTime()-time;
@@ -383,7 +395,7 @@ public class FEServer extends Game {
 	 *
 	 * @return the players
 	 */
-	public static HashMap<Byte, Player> getPlayers() {
+	private static HashMap<Byte, Player> getPlayers() {
 		return server.getSession().getPlayerMap();
 	}
 
@@ -403,28 +415,22 @@ public class FEServer extends Game {
 	 */
 	public static void resetToLobbyAndKickPlayers(){
 		resetToLobby();
-		ArrayList<Integer> ids = new ArrayList<Integer>();
+		ArrayList<Byte> ids = new ArrayList<>();
 		for(Player p : getPlayers().values()) {
-			ids.add(new Integer(p.getID()));
+			ids.add(p.getID());
 		}
-		for(Integer i : ids){
-			server.getSession().removePlayer(i.byteValue());
+		synchronized(server.messagesLock) {
+			for(byte i : ids){
+				final KickMessage kick = new KickMessage((byte) 0, i, "Reseting server");
+				server.broadcastMessage(kick);
+				server.messages.add(kick);
+			}
 		}
-		
-	}
-	
-	/**
-	 * Log.
-	 *
-	 * @param s the s
-	 */
-	public static void log(String s){
-		server.log.log(s);
 	}
 
 }
 
-class ModifierList extends JList {
+class ModifierList extends JList<Modifier> {
 	
 	private static final long serialVersionUID = 561574462354745569L;
 

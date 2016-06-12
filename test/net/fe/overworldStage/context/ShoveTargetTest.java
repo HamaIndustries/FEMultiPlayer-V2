@@ -20,6 +20,7 @@ import net.fe.overworldStage.Terrain;
 import net.fe.overworldStage.Zone;
 import net.fe.unit.Class;
 import net.fe.unit.Unit;
+import net.fe.unit.Statistics;
 
 public class ShoveTargetTest {
 	
@@ -50,16 +51,12 @@ public class ShoveTargetTest {
 	public void testTargetsWhenAllShoveesThenFourTargets() {
 		// things that have nothing to do with the test but need to be set up anyway
 		Session session = new Session();
-		session.setMap("test"); // Must be a valid name, despite the bypass `stage.grid = ` later
 		session.addPlayer(FEMultiplayer.getLocalPlayer());
 		ClientOverworldStage stage = new ClientOverworldStage(session);
 		stage.cursor.stage = stage; // this just looks wrong
 		stage.grid = new Grid(6,6, Terrain.FLOOR);
 		
-		HashMap<String, Integer> shoveeVals = new HashMap<String, Integer>();
-		shoveeVals.put("HP", 20);
-		shoveeVals.put("Mov", 5);
-		shoveeVals.put("Con", 2);
+		Statistics shoveeVals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 2, 0);
 		Unit shovee1 = new Unit("shovee", Class.createClass("Sorcerer"), '-', shoveeVals, shoveeVals);
 		Unit shovee2 = new Unit("shovee", Class.createClass("Sorcerer"), '-', shoveeVals, shoveeVals);
 		Unit shovee3 = new Unit("shovee", Class.createClass("Sorcerer"), '-', shoveeVals, shoveeVals);
@@ -70,10 +67,7 @@ public class ShoveTargetTest {
 		stage.grid.addUnit(shovee4, 4,3);
 		
 		Zone zone = new Zone(stage.grid.getRange(new Node(3,3), 1), null);
-		HashMap<String, Integer> shoverVals = new HashMap<String, Integer>();
-		shoverVals.put("HP", 20);
-		shoverVals.put("Mov", 5);
-		shoverVals.put("Con", 15);
+		Statistics shoverVals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 15, 0);
 		Unit shover = new Unit("test", Class.createClass("Sorcerer"), '-', shoverVals, shoverVals);
 		stage.grid.addUnit(shover, 3, 3);
 		

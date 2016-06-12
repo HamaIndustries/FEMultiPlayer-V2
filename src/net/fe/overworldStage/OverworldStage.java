@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
 import java.util.HashMap;
 
 import net.fe.FEMultiplayer;
@@ -16,12 +17,14 @@ import net.fe.Player;
 import net.fe.Session;
 import net.fe.editor.Level;
 import net.fe.editor.SpawnPoint;
+import net.fe.fightStage.AttackRecord;
 import net.fe.fightStage.CombatCalculator;
 import net.fe.fightStage.HealCalculator;
 import net.fe.modifier.Modifier;
 import net.fe.network.Chat;
 import net.fe.network.FEServer;
 import net.fe.network.Message;
+import net.fe.network.command.Command;
 import net.fe.network.message.ChatMessage;
 import net.fe.network.message.CommandMessage;
 import net.fe.network.message.EndGame;
@@ -49,9 +52,6 @@ public class OverworldStage extends Stage {
 	/** The grid. */
 	public Grid grid;
 	
-	/** The chat. */
-	protected Chat chat;
-	
 	/** The session. */
 	protected Session session;
 	
@@ -73,7 +73,6 @@ public class OverworldStage extends Stage {
 		super(null);
 		this.session = s;
 		System.out.println(session.getObjective().getDescription());
-		chat = new Chat();
 		turnOrder = new ArrayList<Player>();
 		for(Player p : session.getNonSpectators()) {
 			turnOrder.add(p);
@@ -88,7 +87,7 @@ public class OverworldStage extends Stage {
 		turnCount = 1;
 		loadLevel(session.getMap());
 		for(Modifier m : session.getModifiers()) {
-			m.initOverworld(this);
+			m.initOverworldUnits(this.getAllUnits());
 		}
 		processAddStack();
 	}
@@ -135,7 +134,7 @@ public class OverworldStage extends Stage {
 	 * @param y the y
 	 * @return the terrain
 	 */
-	public Terrain getTerrain(int x, int y) {
+	public final Terrain getTerrain(int x, int y) {
 		return grid.getTerrain(x, y);
 	}
 
@@ -146,7 +145,7 @@ public class OverworldStage extends Stage {
 	 * @param y the y
 	 * @return the unit
 	 */
-	public Unit getUnit(int x, int y) {
+	public final Unit getUnit(int x, int y) {
 		return grid.getUnit(x, y);
 	}
 
@@ -158,7 +157,7 @@ public class OverworldStage extends Stage {
 	 * @param y the y
 	 * @return true, if successful
 	 */
-	public boolean addUnit(Unit u, int x, int y) {
+	public final boolean addUnit(Unit u, int x, int y) {
 		if (grid.addUnit(u, x, y)) {
 			this.addEntity(u);
 			return true;
@@ -174,7 +173,7 @@ public class OverworldStage extends Stage {
 	 * @param y the y
 	 * @return the unit
 	 */
-	public Unit removeUnit(int x, int y) {
+	public final Unit removeUnit(int x, int y) {
 		Unit u = grid.removeUnit(x, y);
 		if (u != null) {
 			this.removeEntity(u);
@@ -187,7 +186,7 @@ public class OverworldStage extends Stage {
 	 *
 	 * @param u the u
 	 */
-	public void removeUnit(Unit u) {
+	public final void removeUnit(Unit u) {
 		grid.removeUnit(u.getXCoord(), u.getYCoord());
 		this.removeEntity(u);
 	}
@@ -202,7 +201,7 @@ public class OverworldStage extends Stage {
         	InputStream in = ResourceLoader.getResourceAsStream("levels/"+levelName+".lvl");
             ObjectInputStream ois = new ObjectInputStream(in);
             Level level = (Level) ois.readObject();
-            Set<SpawnPoint> spawns = level.spawns;
+            Set<SpawnPoint> spawns = new HashSet<>(level.spawns);
             grid = new Grid(level.width, level.height, Terrain.NONE);
             for(int i=0; i<level.tiles.length; i++) {
             	for(int j=0; j<level.tiles[0].length; j++) {
@@ -253,47 +252,38 @@ public class OverworldStage extends Stage {
         }
 	}
 
-	/* (non-Javadoc)
-	 * @see chu.engine.Stage#beginStep()
-	 */
 	@Override
-	public void beginStep() {
-		for(Message message : Game.getMessages()) {
+	public void beginStep(List<Message> messages) {
+		for(Message message : messages) {
+			this.executeMessage(message);
+		}
+	}
+	
+	/** Peroform an action in response to receiving the message */
+	protected final void executeMessage(Message message) {
 			if(message instanceof CommandMessage) {
 				processCommands((CommandMessage)message);
 			}
-			else if(message instanceof ChatMessage) {
-				ChatMessage chatMsg = (ChatMessage)message;
-				for(Player p : session.getPlayers())
-					if(p.getID() == chatMsg.origin)
-						chat.add(p, chatMsg.text);
-			}
 			else if(message instanceof EndTurn) {
-				if(this instanceof ClientOverworldStage){
-					((EndTurn) message).checkHp(false);
-				} else {
-					((EndTurn) message).checkHp(true);
+				//Only end the turn if it is this player's turn to end. (Or, if for some reason we want to let
+				//the server end turns in the future.
+				System.out.println("" + message.origin + " " + currentPlayer);
+				if(message.origin == getCurrentPlayer().getID() || message.origin == 0){
+					((EndTurn) message).checkHp((ui) -> this.getUnit(ui));
+					doEndTurn(message.origin);
+					currentPlayer++;
+					if(currentPlayer >= turnOrder.size()) {
+						currentPlayer = 0;
+					}
+					doStartTurn(message.origin);
 				}
-				doEndTurn(message.origin);
-				currentPlayer++;
-				if(currentPlayer >= turnOrder.size()) {
-					currentPlayer = 0;
-				}
-				doStartTurn(message.origin);
 			}
 			else if(message instanceof QuitMessage) {
-				Player leaver = null;
-				for(Player p : session.getPlayers()) {
-					if(p.getID() == message.origin) {
-						chat.add(p, p.getName()+" left the game!");
-						leaver = p;
-					}
-				}
-				session.removePlayer(leaver);
-				System.out.println(leaver.getName()+" LEFT THE GAME");
-				checkEndGame();
+				this.checkEndGame();
 			}
-		}
+			else if(message instanceof EndGame) {
+				this.checkEndGame();
+			}
 	}
 	
 	/**
@@ -317,9 +307,6 @@ public class OverworldStage extends Stage {
 			for(Unit u : p.getParty()) {
 				u.setMoved(false);
 			}
-		}
-		for(Modifier m : session.getModifiers()) {
-			m.endOfTurn(this);
 		}
 		turnCount++;
 		checkEndGame();
@@ -360,93 +347,28 @@ public class OverworldStage extends Stage {
 	 * @param message the message
 	 */
 	public void processCommands(CommandMessage message) {
-		CommandMessage cmds = (CommandMessage) message;
 		//TODO: command validation
 		// After validation, update the unit position
 		// Move it instantly since this is the server stage
-		final Unit unit = (cmds.unit == null ? null : getUnit(cmds.unit));
-		if(unit != null) {
-			grid.move(unit, unit.getXCoord()+cmds.moveX, unit.getYCoord()+cmds.moveY, false);
-			unit.setMoved(true);
-		}
-		// Parse commands
+		final Unit unit = (message.unit == null ? null : getUnit(message.unit));
 		
-		for(int i=0; i<cmds.commands.length; i++) {
-			Object obj = cmds.commands[i];
-			if(obj.equals("EQUIP")) {
-				Unit other = getUnit((UnitIdentifier) cmds.commands[++i]);
-				other.equip((Integer) cmds.commands[++i]);
-			}
-			else if(obj.equals("TRADE")) {
-				Unit u1 = getUnit((UnitIdentifier) cmds.commands[++i]);
-				int i1 = (Integer)cmds.commands[++i];
-				Unit u2 = getUnit((UnitIdentifier) cmds.commands[++i]);
-				int i2 = (Integer)cmds.commands[++i];
-				//Swap the two items
-				TradeContext.doTrade(u1.getInventory(), u2.getInventory(), i1, i2);
-			}
-			else if(obj.equals("USE")) {
-				int index = (Integer)cmds.commands[++i];
-				unit.use(index);
-			}
-			else if(obj.equals("RESCUE")) {
-				Unit rescuee = getUnit((UnitIdentifier) cmds.commands[++i]);
-				unit.rescue(rescuee);
-			}
-			else if(obj.equals("TAKE")) {
-				Unit other = getUnit((UnitIdentifier) cmds.commands[++i]);
-				other.give(unit);
-			}
-			else if(obj.equals("DROP")) {
-				int dropX = (Integer) cmds.commands[++i];
-				int dropY = (Integer) cmds.commands[++i];
-				unit.drop(dropX, dropY);
-			}
-			else if(obj.equals("ATTACK")) {
-				//This updates HP so we're ok
-				CombatCalculator calc = new CombatCalculator(cmds.unit, (UnitIdentifier) cmds.commands[++i], false);
-				cmds.attackRecords = calc.getAttackQueue();
-			}
-			else if(obj.equals("HEAL")) {
-				//This updates HP so we're ok
-				HealCalculator calc = new HealCalculator(cmds.unit, (UnitIdentifier) cmds.commands[++i], false);
-				cmds.attackRecords = calc.getAttackQueue();
-			}
-			else if(obj.equals("SUMMON")) {
-				final int dropX = (Integer) cmds.commands[++i];
-				final int dropY = (Integer) cmds.commands[++i];
-				
-				final Unit summon = net.fe.overworldStage.context.Summon.generateSummon(unit);
-				int tomeToUse = 0;
-				List<Item> items = unit.getInventory();
-				for(int z = 0; z < items.size(); z++){
-					if (items.get(z) instanceof RiseTome){
-						tomeToUse = z;
+		for(int i=0; i<message.commands.length; i++) {
+			try {
+				ArrayList<AttackRecord> record = message.commands[i].applyServer(this, unit);
+				if (record != null) {
+					if (message.attackRecords != null) {
+						throw new IllegalStateException("Two attacks in the same move");
+					} else {
+						message.attackRecords = record;
 					}
 				}
+			} catch (IllegalStateException e) {
 				
-				OverworldStage.this.addUnit(summon, dropX, dropY);
-				unit.use(tomeToUse);
-				checkEndGame();
+				throw e;
 			}
-			else if(obj.equals("SHOVE")) {
-				final Unit shovee = getUnit((UnitIdentifier) cmds.commands[++i]);
-				int deltaX = shovee.getXCoord() - unit.getXCoord();
-				int deltaY = shovee.getYCoord() - unit.getYCoord();
-				grid.move(shovee, shovee.getXCoord() + deltaX, shovee.getYCoord() + deltaY, false);
-			}
-			else if(obj.equals("SMITE")) {
-				final Unit shovee = getUnit((UnitIdentifier) cmds.commands[++i]);
-				int deltaX = 2 * (shovee.getXCoord() - unit.getXCoord());
-				int deltaY = 2 * (shovee.getYCoord() - unit.getYCoord());
-				grid.move(shovee, shovee.getXCoord() + deltaX, shovee.getYCoord() + deltaY, false);
-			}
-			else if(obj.equals("WAIT")) {
-				// do nothing
-			}
-			else {
-				throw new IllegalArgumentException("Unkown command: " + obj);
-			}
+		}
+		if(unit != null) {
+			unit.setMoved(true);
 		}
 		FEServer.getServer().broadcastMessage(message);
 		checkEndGame();
@@ -475,7 +397,7 @@ public class OverworldStage extends Stage {
 	 * @param id the id
 	 * @return the unit
 	 */
-	protected Unit getUnit(UnitIdentifier id) {
+	public Unit getUnit(UnitIdentifier id) {
 		for(Player p: session.getPlayers()){
 			if(!p.isSpectator() && p.getParty().getColor().equals(id.partyColor)){
 				return p.getParty().search(id.name);

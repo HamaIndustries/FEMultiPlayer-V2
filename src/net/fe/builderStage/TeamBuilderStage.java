@@ -11,8 +11,12 @@ import java.util.List;
 
 import net.fe.*;
 import net.fe.fightStage.FightStage;
+import net.fe.lobbystage.ClientLobbyStage;
 import net.fe.modifier.Modifier;
 import net.fe.network.message.PartyMessage;
+import net.fe.network.message.QuitMessage;
+import net.fe.network.message.KickMessage;
+import net.fe.network.Message;
 import net.fe.unit.Item;
 import net.fe.unit.MapAnimation;
 import net.fe.unit.Unit;
@@ -42,7 +46,7 @@ public class TeamBuilderStage extends Stage {
 	private Cursor cursor;
 	
 	/** The repeat timers. */
-	private float[] repeatTimers;
+	private final float[] repeatTimers;
 	
 	/** The funds. */
 	private int funds;
@@ -51,7 +55,7 @@ public class TeamBuilderStage extends Stage {
 	private int exp;
 	
 	/** The select. */
-	private TeamSelectionStage select;
+	private final TeamSelectionStage select;
 	
 	/** The buttons. */
 	private final List<Button> buttons;
@@ -66,23 +70,23 @@ public class TeamBuilderStage extends Stage {
 	private boolean control = true;
 	
 	/** The controls. */
-	private ControlsDisplay controls;
+	private final ControlsDisplay controls;
 	
 	/** The can edit units. */
-	private boolean canEditUnits;
+	private final boolean canEditUnits;
 	
 	/** The hgap. */
 	//CONFIG
-	private static int name = 30, clazz = 100, lv = 170, hgap = 30; //xvals
+	private final static int name = 30, clazz = 100, lv = 170, hgap = 30; //xvals
 	
 	/** The table_ystart. */
-	private static int yStart = 40, vgap = 20, table_ystart = 10;
+	private final static int yStart = 40, vgap = 20, table_ystart = 10;
 	
-	/** The funds. */
-	public static int FUNDS = 48000;
+	/** The default maximum funds */
+	public final static int FUNDS = 48000;
 	
-	/** The exp. */
-	public static int EXP = 84000;
+	/** The default maximum EXP */
+	public final static int EXP = 84000;
 	
 	
 	
@@ -185,18 +189,19 @@ public class TeamBuilderStage extends Stage {
 			
 			buttons = Arrays.asList( end, back, save, load );
 		} else {
+			select = null;
 			units = presetUnits;
 			buttons = Arrays.asList( end );
 		}
 		
-		setFunds(FUNDS);
-		setExp(EXP);
-		
-		if(getSession() != null) {
-			for(Modifier m : getSession().getModifiers()) {
-				m.modifyTeam(this);
+		TeamBuilderResources res = new TeamBuilderResources(FUNDS, EXP);
+		if(session != null) {
+			for(Modifier m : session.getModifiers()) {
+				res = m.modifyTeamResources(res);
 			}
 		}
+		this.setFunds(res.funds);
+		this.setExp(res.exp);
 		
 		cursor = new Cursor(9, yStart-4, 462, vgap, units.size());
 		cursor.on = true;
@@ -280,11 +285,12 @@ public class TeamBuilderStage extends Stage {
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
+	public void beginStep(List<Message> messages) {
 		boolean capture = control;
 		for (Entity e : entities) {
 			e.beginStep();
 		}
+		this.checkForQuits(messages);
 		processAddStack();
 		processRemoveStack();
 		MapAnimation.updateAll();
@@ -464,7 +470,7 @@ public class TeamBuilderStage extends Stage {
 		for(int i = 0; i < units.size(); i++){
 			Unit u = units.get(i);
 			teamData[i][0] = u.name;
-			teamData[i][1] = u.get("Lvl") + "";
+			teamData[i][1] = u.getLevel() + "";
 			for(int j = 0; j < u.getInventory().size(); j++){
 				teamData[i][2+j] = u.getInventory().get(j).name;
 			}
@@ -515,11 +521,11 @@ public class TeamBuilderStage extends Stage {
 		for(int i = 0; i < select.getMaxUnits() && i < teamData.length; i++){
 			Unit u = select.getUnit(teamData[i][0]);
 			int lv = Integer.parseInt(teamData[i][1]);
-			while(u.get("Lvl") != lv){
-				int expCost = Unit.getExpCost(u.get("Lvl") + 1);
+			while(u.getLevel() != lv){
+				int expCost = Unit.getExpCost(u.getLevel() + 1);
 				if(expCost <= exp){
 					exp -= expCost;
-					u.setLevel(u.get("Lvl")+1);
+					u.setLevel(u.getLevel()+1);
 				} else {
 					expout = true;
 					break;
@@ -580,12 +586,18 @@ public class TeamBuilderStage extends Stage {
 
 
 	/**
-	 * Gets the session.
-	 *
-	 * @return the session
+	 * Checks to see whether there are still enough players for the game to continue
+	 * If not, resets this client to the lobby.
 	 */
-	public Session getSession() {
-		return session;
+	void checkForQuits(List<Message> messages) {
+		for (Message m : messages) {
+			if (m instanceof QuitMessage || m instanceof KickMessage) {
+				if (this.session.getNonSpectators().length < 2) {
+					// player has left
+					FEMultiplayer.setCurrentStage(new ClientLobbyStage(session));
+				}
+			}
+		}
 	}
 }
 

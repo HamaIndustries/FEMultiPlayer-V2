@@ -33,40 +33,40 @@ import chu.engine.anim.Renderer;
 /**
  * The Class TeamSelectionStage.
  */
-public class TeamSelectionStage extends Stage {
+public final class TeamSelectionStage extends Stage {
 	
 	/** The vassal list. */
-	private UnitList vassalList;
+	private final UnitList vassalList;
 	
 	/** The lord list. */
-	private UnitList lordList;
+	private final UnitList lordList;
 	
 	/** The builder stage. */
-	private TeamBuilderStage builderStage;
+	private final TeamBuilderStage builderStage;
 	
 	/** The cursor. */
-	private Cursor cursor;
+	private final Cursor cursor;
 	
 	/** The buttons. */
-	private Button[] buttons;
+	private final Button[] buttons;
 	
 	/** The ok. */
-	private Button ok;
+	private final Button ok;
 	
 	/** The class sort. */
-	private Button classSort;
+	private final Button classSort;
 	
 	/** The name sort. */
-	private Button nameSort;
+	private final Button nameSort;
 	
 	/** The controls. */
-	private ControlsDisplay controls;
+	private final ControlsDisplay controls;
 	
 	/** The max units. */
-	private int maxUnits = 8;
+	private final int maxUnits;
 	
 	/** The repeat timers. */
-	private float[] repeatTimers = new float[4];
+	private final float[] repeatTimers = new float[4];
 	
 	/** The Constant NS_BUTTON_X. */
 	//CONFIG
@@ -106,11 +106,6 @@ public class TeamSelectionStage extends Stage {
 		vassalList.addUnits(vassals);
 		vassalList.sort(new SortByName());
 		addEntity(vassalList);
-		if(s != null) {
-			for(Modifier m : s.getModifiers()) {
-				m.modifyUnits(this);
-			}
-		}
 		ok = new Button(OK_BUTTON_X, BUTTON_Y, "OK", Color.green, 95) {
 			public void execute() {
 				builderStage.setUnits(getSelectedUnits());
@@ -156,10 +151,12 @@ public class TeamSelectionStage extends Stage {
 	 *
 	 * @param name the name
 	 * @return the unit
+	 * @throws IllegalArgumentException if a unit with the specified name could not be found
 	 */
 	public Unit getUnit(String name){
 		Unit u = lordList.getUnit(name);
 		if(u == null) u = vassalList.getUnit(name);
+		if(u == null) throw new IllegalArgumentException("Unknown unit name: " + name);
 		return u;
 	}
 	
@@ -217,11 +214,11 @@ public class TeamSelectionStage extends Stage {
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
+	public void beginStep(List<Message> messages) {
 		for(Entity e: entities){
 			e.beginStep();
 		}
-
+		builderStage.checkForQuits(messages);
 		
 		
 		MapAnimation.updateAll();

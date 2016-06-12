@@ -111,7 +111,7 @@ public class BattlePreview extends Entity {
 		boolean dEffective = false;
 		
 		//attacker determination
-		if (CombatCalculator.shouldAttack(attacker, defender, range)) {
+		if (CombatCalculator.shouldAttack(attacker, defender, attacker.getWeapon(), range)) {
 			List<String> mods = new ArrayList<String>();
 			for(Modifier i : FEMultiplayer.getClient().getSession().getModifiers()){
 				mods.add(i.toString());
@@ -122,26 +122,12 @@ public class BattlePreview extends Entity {
 						Math.max(0,
 								Math.min(100, CombatCalculator.hitRate(attacker, defender)))/2);
 				aAtk = String.format("%d",
-						CombatCalculator.calculateBaseDamage(attacker, defender));
+						CombatCalculator.calculatePreviewDamage(attacker, defender));
 				aCrit = String.format(
 						"%d",
 						Math.max(0,
 								Math.min(100, attacker.crit() - defender.dodge()))*2);
-				if(attacker.get("Spd") >= defender.get("Spd") + 4) aMult*=2;
-				if(attacker.getWeapon().name.contains("Brave")) aMult*=2;
-				aEffective = attacker.getWeapon().effective.contains(defender.noGenderName());
-			}else if(mods.contains("Pro Tactics")){
-				aHit = String.format(
-						"%d",
-						Math.max(0,
-								Math.min(100, CombatCalculator.hitRate(attacker, defender))));
-				aAtk = String.format("%d",
-						CombatCalculator.calculateBaseDamage(attacker, defender)/2);
-				aCrit = String.format(
-						"%d",
-						Math.max(0,
-								Math.min(100, attacker.crit() - defender.dodge())));
-				if(attacker.get("Spd") >= defender.get("Spd") + 4) aMult*=2;
+				if(attacker.getStats().spd >= defender.getStats().spd + 4) aMult*=2;
 				if(attacker.getWeapon().name.contains("Brave")) aMult*=2;
 				aEffective = attacker.getWeapon().effective.contains(defender.noGenderName());
 			}else{// normal
@@ -150,19 +136,19 @@ public class BattlePreview extends Entity {
 						Math.max(0,
 								Math.min(100, CombatCalculator.hitRate(attacker, defender))));
 				aAtk = String.format("%d",
-						CombatCalculator.calculateBaseDamage(attacker, defender));
+						CombatCalculator.calculatePreviewDamage(attacker, defender));
 				aCrit = String.format(
 						"%d",
 						Math.max(0,
 								Math.min(100, attacker.crit() - defender.dodge())));
-				if(attacker.get("Spd") >= defender.get("Spd") + 4) aMult*=2;
+				if(attacker.getStats().spd >= defender.getStats().spd + 4) aMult*=2;
 				if(attacker.getWeapon().name.contains("Brave")) aMult*=2;
 				aEffective = attacker.getWeapon().effective.contains(defender.noGenderName());
 			}
 		}
 		
 		//defender determination
-		if (CombatCalculator.shouldAttack(defender, attacker, range)) {
+		if (CombatCalculator.shouldAttack(defender, attacker, defender.getWeapon(), range)) {
 			List<String> mods = new ArrayList<String>();
 			for(Modifier i : FEMultiplayer.getClient().getSession().getModifiers()){
 				mods.add(i.toString());
@@ -173,12 +159,12 @@ public class BattlePreview extends Entity {
 						Math.max(0,
 								Math.min(100, CombatCalculator.hitRate(defender, attacker)))/2);
 				dAtk = String.format("%d",
-						CombatCalculator.calculateBaseDamage(defender, attacker));
+						CombatCalculator.calculatePreviewDamage(defender, attacker));
 				dCrit = String.format(
 						"%d",
 						Math.max(0,
 								Math.min(100, defender.crit() - attacker.dodge()))*2);
-				if(defender.get("Spd") >= attacker.get("Spd") + 4) dMult*=2;
+				if(defender.getStats().spd >= attacker.getStats().spd + 4) dMult*=2;
 				if(defender.getWeapon().name.contains("Brave")) dMult*=2;
 				dEffective = defender.getWeapon().effective.contains(attacker.noGenderName());
 			}else if(mods.contains("Pro Tactics")){
@@ -187,12 +173,12 @@ public class BattlePreview extends Entity {
 						Math.max(0,
 								Math.min(100, CombatCalculator.hitRate(defender, attacker))));
 				dAtk = String.format("%d",
-						CombatCalculator.calculateBaseDamage(defender, attacker)/2);
+						CombatCalculator.calculatePreviewDamage(defender, attacker)/2);
 				dCrit = String.format(
 						"%d",
 						Math.max(0,
 								Math.min(100, defender.crit() - attacker.dodge())));
-				if(defender.get("Spd") >= attacker.get("Spd") + 4) dMult*=2;
+				if(defender.getStats().spd >= attacker.getStats().spd + 4) dMult*=2;
 				if(defender.getWeapon().name.contains("Brave")) dMult*=2;
 				dEffective = defender.getWeapon().effective.contains(attacker.noGenderName());
 			}else{// normal
@@ -201,12 +187,12 @@ public class BattlePreview extends Entity {
 						Math.max(0,
 								Math.min(100, CombatCalculator.hitRate(defender, attacker))));
 				dAtk = String.format("%d",
-						CombatCalculator.calculateBaseDamage(defender, attacker));
+						CombatCalculator.calculatePreviewDamage(defender, attacker));
 				dCrit = String.format(
 						"%d",
 						Math.max(0,
 								Math.min(100, defender.crit() - attacker.dodge())));
-				if(defender.get("Spd") >= attacker.get("Spd") + 4) dMult*=2;
+				if(defender.getStats().spd >= attacker.getStats().spd + 4) dMult*=2;
 				if(defender.getWeapon().name.contains("Brave")) dMult*=2;
 				dEffective = defender.getWeapon().effective.contains(attacker.noGenderName());
 			}

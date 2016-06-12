@@ -6,6 +6,10 @@ import net.fe.unit.Unit;
 // TODO: Auto-generated Javadoc
 /**
  * The Class Colossus.
+ * 
+ * Info: Doubles the user's Str.
+ * 
+ * Chance: Skl%
  */
 public class Colossus extends CombatTrigger{
 	
@@ -24,7 +28,7 @@ public class Colossus extends CombatTrigger{
 	 */
 	@Override
 	public boolean attempt(Unit user, int range, Unit opponent) {
-		return range == 1 && RNG.get() < user.get("Skl")/2;
+		return range == 1 && RNG.get() < user.getStats().skl/2;
 	}
 
 	/* (non-Javadoc)
@@ -32,7 +36,7 @@ public class Colossus extends CombatTrigger{
 	 */
 	@Override
 	public boolean runPreAttack(CombatCalculator stage, Unit a, Unit d) {
-		a.setTempMod("Str", a.get("Str"));
+		a.setTempMod("Str", a.getStats().str);
 		return true;
 	}
 	

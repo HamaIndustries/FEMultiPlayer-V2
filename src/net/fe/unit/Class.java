@@ -13,7 +13,7 @@ import net.fe.overworldStage.fieldskill.*;
 /**
  * The Class Class.
  */
-public class Class implements Serializable {
+public final class Class implements Serializable {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 9144407404798873761L;
@@ -46,15 +46,41 @@ public class Class implements Serializable {
 	 * @param types the types
 	 */
 	private Class(String name, String desc, int c, CombatTrigger m, List<? extends FieldSkill> fs, Weapon.Type... types){
-		crit = c;
-		masterSkill = m;
-		usableWeapon = Arrays.asList(types);
+		this.crit = c;
+		this.masterSkill = m;
+		this.usableWeapon = java.util.Collections.unmodifiableList(Arrays.asList(types));
 		this.name = name;
-		description = desc;
-		
-		List<FieldSkill> fs2 = new java.util.ArrayList<FieldSkill>(fs.size());
-		fs2.addAll(fs);
-		fieldSkills = java.util.Collections.unmodifiableList(fs2);
+		this.description = desc;
+		this.fieldSkills = java.util.Collections.unmodifiableList(new java.util.ArrayList<FieldSkill>(fs));
+	}
+	
+	@Override
+	public String toString() {
+		return "Class [" + name + ", " + description + ", ...]";
+	}
+	
+	@Override
+	public int hashCode() {
+		return (((this.crit * 31 +
+				this.masterSkill.hashCode()) * 31 +
+				this.name.hashCode()) * 31 + 
+				this.description.hashCode()) * 31 +
+				this.usableWeapon.stream().mapToInt((x) -> 1 << x.ordinal()).sum();
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (other != null && other instanceof Class) {
+			Class o2 = (Class) other;
+			
+			return this.crit == o2.crit &&
+				this.masterSkill.equals(o2.masterSkill) &&
+				this.usableWeapon.equals(o2.usableWeapon) &&
+				this.name.equals(o2.name) &&
+				this.description.equals(o2.description);
+		} else {
+			return false;
+		}
 	}
 	
 	/**
@@ -81,7 +107,7 @@ public class Class implements Serializable {
 			return new Class("Lord", 
 					"A serene youth who commands armies.",
 					 0, new Astra(), Arrays.asList(new Shove()),
-					 Weapon.Type.SWORD, Weapon.Type.BOW);
+					 Weapon.Type.SWORD, Weapon.Type.BOW, Weapon.Type.CROSSBOW);
 		if(name.equals("Hector"))
 			return new Class("Lord", 
 					"A mighty noble who commands armies.",
@@ -113,7 +139,7 @@ public class Class implements Serializable {
 			return new Class("Sniper", 
 					"An expert archer who has mastered the bow.",
 					10, new Deadeye(), Arrays.asList(new Shove()),
-					Weapon.Type.BOW);
+					Weapon.Type.BOW, Weapon.Type.CROSSBOW);
 		if(name.equals("Hero"))
 			return new Class("Hero", 
 					"Battle-hardened warriors who possess exceptional skill.",
@@ -128,7 +154,7 @@ public class Class implements Serializable {
 			return new Class("Warrior", 
 					"An experienced fighter whose might is second to none.",
 					0, new Colossus(),  Arrays.asList(new Shove(), new Smite()),
-					Weapon.Type.AXE, Weapon.Type.BOW);
+					Weapon.Type.AXE, Weapon.Type.CROSSBOW);
 		if(name.equals("Assassin"))
 			return new Class("Assassin", 
 					"A deadly killer who lives in the shadows.",
@@ -174,7 +200,7 @@ public class Class implements Serializable {
 					"A phantom that fights for its summoner.",
 					0, new Miracle(), Arrays.asList(new Shove()),
 					Weapon.Type.AXE);
-		return null;
 		
+		throw new IllegalArgumentException("Unknown Class Name: " + name);
 	}
 }

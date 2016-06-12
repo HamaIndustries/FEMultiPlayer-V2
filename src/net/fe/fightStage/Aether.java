@@ -23,7 +23,11 @@ public class Aether extends CombatTrigger {
 	
 	
 	/**
-	 * Instantiates a new aether.
+	 * Instantiates Ather.
+	 * 
+	 * Info: Allows for 2 Consecutive attacks. The first counts as Sol, the other acts as Luna.
+	 * 
+	 * Chance: Skl/2
 	 */
 	public Aether(){
 		super(REPLACE_NAME_AFTER_PRE, YOUR_TURN_PRE + YOUR_TURN_POST + YOUR_TURN_DRAIN,
@@ -36,7 +40,7 @@ public class Aether extends CombatTrigger {
 	@Override
 	public boolean attempt(Unit user, int range, Unit opponent) {
 		//return true;
-		return range == 1 && (RNG.get() < user.get("Skl")/2 || phase != SOL);
+		return range == 1 && (RNG.get() < user.getStats().skl/2 || phase != SOL);
 	}
 	
 	/* (non-Javadoc)
@@ -57,7 +61,7 @@ public class Aether extends CombatTrigger {
 	public int runDrain(Unit a, Unit d, int damage){
 		if(phase == SOL){
 			if(damage == 0) return 0;
-			return Math.min(damage/2, a.get("HP") - a.getHp());
+			return Math.min(damage/2, a.getStats().maxHp - a.getHp());
 		} else {
 			return 0;
 		}

@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.Queue;
+import java.util.HashSet;
 import java.util.HashMap;
 
-import net.fe.Command;
 import net.fe.FEMultiplayer;
 import net.fe.FEResources;
 import net.fe.Party;
@@ -19,11 +20,18 @@ import net.fe.Session;
 import net.fe.SoundTrack;
 import net.fe.editor.Level;
 import net.fe.editor.SpawnPoint;
+import net.fe.fightStage.FightStage;
+import net.fe.network.Message;
+import net.fe.network.command.Command;
+import net.fe.network.command.AttackCommand;
+import net.fe.network.command.HealCommand;
+import net.fe.network.command.MoveCommand;
 import net.fe.network.message.CommandMessage;
 import net.fe.network.message.EndTurn;
 import net.fe.overworldStage.context.Idle;
 import net.fe.overworldStage.context.TradeContext;
 import net.fe.overworldStage.context.WaitForMessages;
+import net.fe.transition.OverworldFightTransition;
 import net.fe.transition.OverworldEndTransition;
 import net.fe.unit.Item;
 import net.fe.unit.MapAnimation;
@@ -58,7 +66,7 @@ public class ClientOverworldStage extends OverworldStage {
 	/** The menu. */
 	private Menu<?> menu;
 	
-	/** The on control. */
+	/** If false, then this stage will ignore all key/mouse events */
 	private boolean onControl;
 	
 	/** The repeat timers. */
@@ -71,7 +79,7 @@ public class ClientOverworldStage extends OverworldStage {
 	private Unit selectedUnit;
 	
 	/** The current cmd string. */
-	protected ArrayList<Object> currentCmdString;
+	protected final ArrayList<Command> currentCmdString;
 	
 	/** The cam x. */
 	public int camX;
@@ -80,10 +88,18 @@ public class ClientOverworldStage extends OverworldStage {
 	public int camY;
 	
 	/** The cam max x. */
-	public int camMaxX;
+	public final int camMaxX;
 	
 	/** The cam max y. */
-	public int camMaxY;
+	public final int camMaxY;
+	
+	/** The number of currently running messages.
+	 * Should be used as a semaphore to prevent messages from running in parallel
+	 */
+	private volatile int runningMessagesCount;
+	
+	/** Messages that this has recieved but not yet executed */
+	private final Queue<Message> pendingMessages;
 	
 	/** The Constant TILE_DEPTH. */
 	public static final float TILE_DEPTH = 0.95f;
@@ -144,7 +160,7 @@ public class ClientOverworldStage extends OverworldStage {
 		addEntity(new RunesBg(c));
 		addEntity(unitInfo);
 		addEntity(new TerrainInfo(cursor));
-		addEntity(new OverworldChat(this.chat));
+		addEntity(new OverworldChat(this.session.getChatlog()));
 		addEntity(new ObjectiveInfo());
 		setControl(true);
 		if(getCurrentPlayer().equals(FEMultiplayer.getLocalPlayer())) {
@@ -160,7 +176,9 @@ public class ClientOverworldStage extends OverworldStage {
 			SoundTrack.loop("enemy");
 		}
 		repeatTimers = new float[4];
-		currentCmdString = new ArrayList<Object>();
+		currentCmdString = new ArrayList<Command>();
+		pendingMessages = new java.util.LinkedList<Message>();
+		runningMessagesCount = 0;
 	}
 	
 	/**
@@ -249,7 +267,6 @@ public class ClientOverworldStage extends OverworldStage {
 	 * @see chu.engine.Stage#render()
 	 */
 	public void render(){
-//		Renderer.scale(2, 2);
 		super.render();
 	}
 
@@ -257,8 +274,12 @@ public class ClientOverworldStage extends OverworldStage {
 	 * @see net.fe.overworldStage.OverworldStage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
-		super.beginStep();
+	public void beginStep(List<Message> messages) {
+		messages.forEach(pendingMessages::add);
+		while (runningMessagesCount == 0 && pendingMessages.peek() != null) {
+			super.executeMessage(pendingMessages.poll());
+		}
+		
 		for (Entity e : entities) {
 			e.beginStep();
 		}
@@ -339,18 +360,20 @@ public class ClientOverworldStage extends OverworldStage {
 	}
 	
 	/**
-	 * Sets the control.
+	 * Sets whether this will respond to keyboard events
 	 *
-	 * @param c the new control
+	 * @see #hasControl
+	 * @param c true if this should respond to keyboard and mouse events, else false
 	 */
 	public void setControl(boolean c){
 		onControl = c;
 	}
 	
 	/**
-	 * Checks for control.
+	 * Returns whether this responds to keyboard events
 	 *
-	 * @return true, if successful
+	 * @see #setControl
+	 * @return true, if this is responding to keyboard and mouse events, else false
 	 */
 	public boolean hasControl(){
 		return onControl;
@@ -360,9 +383,11 @@ public class ClientOverworldStage extends OverworldStage {
 	 * End.
 	 */
 	public void end(){
-		FEMultiplayer.getClient().sendMessage(new EndTurn());
+		EndTurn message = new EndTurn();
+		FEMultiplayer.getClient().sendMessage(message);
 		selectedUnit = null;
-		removeExtraneousEntities();
+		// do the turn transition stuff now to prevent fast-fingering a second end turn
+		super.beginStep(java.util.Collections.singletonList(message));
 	}
 	
 	/* (non-Javadoc)
@@ -370,6 +395,7 @@ public class ClientOverworldStage extends OverworldStage {
 	 */
 	@Override
 	protected void doEndTurn(int playerID) {
+		removeExtraneousEntities();
 		super.doEndTurn(playerID);
 		context.cleanUp();
 		// reset assists
@@ -378,7 +404,8 @@ public class ClientOverworldStage extends OverworldStage {
 				u.getAssisters().clear();
 			}
 		}
-		send();
+		assert (selectedUnit == null); // If this is false, send() and clearCmdString() are not interchangable
+		clearCmdString();
 		if(FEMultiplayer.getLocalPlayer().getID() != getCurrentPlayer().getID()){
 			SoundTrack.loop("overworld");
 		} else {
@@ -432,202 +459,46 @@ public class ClientOverworldStage extends OverworldStage {
 	}
 	
 	/**
-	 * Adds the cmd.
+	 * Queues a command to be sent to the server
 	 *
 	 * @param cmd the cmd
 	 */
-	public void addCmd(Object cmd){
+	public void addCmd(Command cmd){
 		currentCmdString.add(cmd);
-	}
-	
-	/**
-	 * Adds the cmd.
-	 *
-	 * @param cmd the cmd
-	 */
-	public void addCmd(Object... cmd){
-		for(Object o: cmd)
-			currentCmdString.add(o);
 	}
 	
 	/* (non-Javadoc)
 	 * @see net.fe.overworldStage.OverworldStage#processCommands(net.fe.network.message.CommandMessage)
 	 */
 	@Override
-	public void processCommands(CommandMessage message) {
-		final CommandMessage cmds = (CommandMessage) message;
-		boolean execute = true;
-		if(cmds.origin == FEMultiplayer.getClient().getID()) {
-			execute = false;
-		}
-		//TODO: command validation
+	public void processCommands(final CommandMessage message) {
+		runningMessagesCount++;
+		final boolean execute = (message.origin != FEMultiplayer.getClient().getID());
+		
 		// Get unit and path
-		final Unit unit = (cmds.unit == null ? null : getUnit(cmds.unit));
+		final Unit unit = (message.unit == null ? null : getUnit(message.unit));
 		// Parse commands
-		Command callback = new Command() {
+		Runnable callback = new Runnable() {
 			@Override
-			public void execute() {
+			public void run() {
 				if(unit != null) unit.setMoved(true);
 				checkEndGame();
+				runningMessagesCount--;
 			}
 		};
-		for(int i=0; i<cmds.commands.length; i++) {
-			Object obj = cmds.commands[i];
-			if(obj.equals("EQUIP") && execute) {
-				Unit other = getUnit((UnitIdentifier) cmds.commands[++i]);
-				other.equip((Integer) cmds.commands[++i]);
-			}
-			else if(obj.equals("TRADE")) {
-				Unit u1 = getUnit((UnitIdentifier) cmds.commands[++i]);
-				int i1 = (Integer)cmds.commands[++i];
-				Unit u2 = getUnit((UnitIdentifier) cmds.commands[++i]);
-				int i2 = (Integer)cmds.commands[++i];
-				//Swap the two items
-				if(execute) {
-					TradeContext.doTrade(u1.getInventory(), u2.getInventory(), i1, i2);
-				}
-			}
-			else if(obj.equals("USE")) {
-				final int oHp = unit.getHp();
-				final int index = (Integer)cmds.commands[++i];
-				if(execute) {
-					callback = new Command() {
-						public void execute() {
-							unit.use(index);
-							unit.setMoved(true);
-							checkEndGame();
-							//TODO Positioning
-							addEntity(new Healthbar(unit, oHp, 
-									unit.getHp(), ClientOverworldStage.this){
-								@Override
-								public void done() {
-									destroy();
-								}
-							});
-						}
-					};
-				}
-			}
-			else if(obj.equals("RESCUE")) {
-				final Unit rescuee = getUnit((UnitIdentifier) cmds.commands[++i]);
-				callback = new Command() {
-					public void execute() {
-						unit.setMoved(true);
-						unit.rescue(rescuee);
-						checkEndGame();
-					}
-				};
-			}
-			else if(obj.equals("TAKE")) {
-				if(execute) {
-					unit.setMoved(true);
-					Unit other = getUnit((UnitIdentifier) cmds.commands[++i]);
-					other.give(unit);
-					checkEndGame();
-				}
-			}
-			else if(obj.equals("DROP")) {
-				final int dropX = (Integer) cmds.commands[++i];
-				final int dropY = (Integer) cmds.commands[++i];
-				callback = new Command() {
-					public void execute() {
-						unit.setMoved(true);
-						unit.rescuedUnit().setMoved(true);
-						unit.drop(dropX, dropY);
-						checkEndGame();
-					}
-				};
-			}
-			else if(obj.equals("ATTACK") || obj.equals("HEAL")) {
-				final UnitIdentifier other = (UnitIdentifier) cmds.commands[++i];
-				callback = new Command() {
-					public void execute() {
-						unit.setMoved(true);
-						FEMultiplayer.goToFightStage(cmds.unit, 
-								other, cmds.attackRecords);
-					}
-				};
-			}
-			else if(obj.equals("SUMMON")) {
-				final int dropX = (Integer) cmds.commands[++i];
-				final int dropY = (Integer) cmds.commands[++i];
-				callback = new Command() {
-					public void execute() {
-						final Unit summon = net.fe.overworldStage.context.Summon.generateSummon(unit);
-						
-						int tomeToUse = 0;
-						List<Item> items = unit.getInventory();
-						for(int i = 0; i < items.size(); i++){
-							if (items.get(i) instanceof RiseTome){
-								tomeToUse = i;
-							}
-						}
-						
-						summon.loadMapSprites();
-						ClientOverworldStage.this.addUnit(summon, dropX, dropY);
-						unit.setMoved(true);
-						unit.use(tomeToUse);
-						checkEndGame();
-					}
-				};
-			}
-			else if(obj.equals("SHOVE")) {
-				final Unit shovee = getUnit((UnitIdentifier) cmds.commands[++i]);
-				callback = new Command() {
-					public void execute() {
-						unit.setMoved(true);
-						int deltaX = shovee.getXCoord() - unit.getXCoord();
-						int deltaY = shovee.getYCoord() - unit.getYCoord();
-						int newX = shovee.getXCoord() + deltaX;
-						int newY = shovee.getYCoord() + deltaY;
-						
-						shovee.setOrigX(newX); // Otherwise, shovee will jump back to it's inital space on select 
-						shovee.setOrigY(newY); // Otherwise, shovee will jump back to it's inital space on select
-						Path p = new Path();
-						p.add(new Node(newX, newY));
-						grid.move(shovee, newX, newY, true);
-						shovee.move(p, new Command() {
-							public void execute() {
-								shovee.sprite.setAnimation("IDLE");
-								checkEndGame();
-							}
-						});
-					}
-				};
-			}
-			else if(obj.equals("SMITE")) {
-				final Unit shovee = getUnit((UnitIdentifier) cmds.commands[++i]);
-				callback = new Command() {
-					public void execute() {
-						unit.setMoved(true);
-						int deltaX = shovee.getXCoord() - unit.getXCoord();
-						int deltaY = shovee.getYCoord() - unit.getYCoord();
-						int newX = shovee.getXCoord() + 2 * deltaX;
-						int newY = shovee.getYCoord() + 2 * deltaY;
-						
-						shovee.setOrigX(newX); // Otherwise, shovee will jump back to it's inital space on select
-						shovee.setOrigY(newY); // Otherwise, shovee will jump back to it's inital space on select
-						Path p = new Path();
-						p.add(new Node(newX, newY));
-						grid.move(shovee, newX, newY, true);
-						shovee.move(p, new Command() {
-							public void execute() {
-								shovee.sprite.setAnimation("IDLE");
-								checkEndGame();
-							}
-						});
-					}
-				};
+		for (int i = message.commands.length - 1; i >= 0; i--) {
+			Command c = message.commands[i];
+			
+			// only execute if originated from another server or if the command has info added from the server
+			if (execute || c instanceof AttackCommand || c instanceof HealCommand) {
+				callback = c.applyClient(ClientOverworldStage.this, unit, message.attackRecords, callback);
 			}
 		}
 		if(execute && unit != null) {
 			AudioPlayer.playAudio("select");
-			Path p = grid.getShortestPath(unit, unit.getXCoord()+cmds.moveX, unit.getYCoord()+cmds.moveY);
-			grid.move(unit, unit.getXCoord()+cmds.moveX, unit.getYCoord()+cmds.moveY, true);
-			unit.move(p, callback);
-			includeInView(p.getAllNodes());
+			callback.run();
 		} else {
-			callback.execute();
+			callback.run();
 		}
 	}
 	
@@ -676,20 +547,22 @@ public class ClientOverworldStage extends OverworldStage {
 		UnitIdentifier uid = null;
 		if(selectedUnit != null)
 			uid = new UnitIdentifier(selectedUnit);
-		FEMultiplayer.send(uid, movX, movY, currentCmdString.toArray());
+		currentCmdString.add(0, new MoveCommand(movX, movY));
+		FEMultiplayer.send(uid, currentCmdString.toArray(new Command[0]));
 		clearCmdString();
 	}
 	
 	/* (non-Javadoc)
 	 * @see net.fe.overworldStage.OverworldStage#loadLevel(java.lang.String)
 	 */
+	@Override
 	public void loadLevel(String levelName) {
         try {
             InputStream in = ResourceLoader.getResourceAsStream("levels/"+levelName+".lvl");
             ObjectInputStream ois = new ObjectInputStream(in);
             Level level = (Level) ois.readObject();
             grid = new Grid(level.width, level.height, Terrain.NONE);
-            Set<SpawnPoint> spawns = level.spawns;
+            Set<SpawnPoint> spawns = new HashSet<>(level.spawns);
             for(int i=0; i<level.tiles.length; i++) {
             	for(int j=0; j<level.tiles[0].length; j++) {
             		Tile tile = new Tile(j, i, level.tiles[i][j]);

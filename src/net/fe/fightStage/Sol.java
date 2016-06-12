@@ -18,6 +18,10 @@ public class Sol extends CombatTrigger {
 	/**
 	 * Instantiates a new sol.
 	 *
+	 *Info: Increases HP by half the damage the user has dealt.
+	 *
+	 *Chance: Skl
+	 *
 	 * @param rangeok the rangeok
 	 */
 	public Sol(boolean rangeok) {
@@ -30,7 +34,7 @@ public class Sol extends CombatTrigger {
 	 */
 	@Override
 	public boolean attempt(Unit user, int range, Unit opponent) {
-		return (ranged || range == 1) && RNG.get() < user.get("Skl");
+		return (ranged || range == 1) && RNG.get() < user.getStats().skl;
 	}
 	
 	/* (non-Javadoc)
@@ -39,7 +43,7 @@ public class Sol extends CombatTrigger {
 	public int runDrain(Unit a, Unit d, int damage){
 		if (damage == 0)
 			return 0;
-		return Math.min(damage / 2, a.get("HP") - a.getHp());
+		return Math.min(damage / 2, a.getStats().maxHp - a.getHp());
 	}
 	
 	/* (non-Javadoc)

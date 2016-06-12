@@ -7,16 +7,20 @@ import net.fe.unit.Unit;
 /**
  * The Class Luna.
  */
-public class Luna extends CombatTrigger {
+public final class Luna extends CombatTrigger {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -6539654970701395612L;
 	
 	/** The ranged. */
-	private transient boolean ranged;
+	private final boolean ranged;
 	
 	/**
 	 * Instantiates a new luna.
+	 *
+	 *Info: Halves enemy Res/Def.
+	 *
+	 *Chance: Skl/2
 	 *
 	 * @param rangeok the rangeok
 	 */
@@ -31,7 +35,7 @@ public class Luna extends CombatTrigger {
 	@Override
 	public boolean attempt(Unit user, int range, Unit opponent) {
 
-		return (ranged || range == 1) && RNG.get() < user.get("Skl")/2;
+		return (ranged || range == 1) && RNG.get() < user.getStats().skl/2;
 	}
 
 	/* (non-Javadoc)
@@ -39,8 +43,8 @@ public class Luna extends CombatTrigger {
 	 */
 	@Override
 	public boolean runPreAttack(CombatCalculator stage, Unit a, Unit d) {
-		d.setTempMod("Def", -d.get("Def")/2);
-		d.setTempMod("Res", -d.get("Res")/2);
+		d.setTempMod("Def", -d.getStats().def/2);
+		d.setTempMod("Res", -d.getStats().res/2);
 		return true;
 	}
 	
@@ -51,4 +55,17 @@ public class Luna extends CombatTrigger {
 		return new Luna(ranged);
 	}
 
+	
+	protected boolean canEquals(Object other) {
+		return other instanceof Luna;
+	}
+	@Override
+	public boolean equals(Object other) {
+		return super.equals(other) &&
+			other instanceof Luna &&
+			((Luna) other).canEquals(this) &&
+			((Luna) other).ranged == this.ranged;
+	}
+	@Override public int hashCode() { return "Luna".hashCode() + (ranged ? 1 : 0); }
+	@Override public String toString() { return "Luna[" + (ranged ? "melee" : "ranged") + "]"; }
 }

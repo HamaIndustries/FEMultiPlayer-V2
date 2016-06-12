@@ -1,9 +1,12 @@
 package chu.engine;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Stack;
-import java.util.TreeSet;
+import java.util.LinkedList;
+
+import net.fe.network.Message;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -12,13 +15,13 @@ import java.util.TreeSet;
 public abstract class Stage {
 	
 	/** The entities. */
-	protected TreeSet<Entity> entities;
+	protected final LinkedList<Entity> entities;  // can't be a sorted set because it's impossible to make a compare that is consistant with equals
 	
 	/** The add stack. */
-	protected Stack<Entity> addStack;
+	protected final Stack<Entity> addStack;
 	
 	/** The remove stack. */
-	protected Stack<Entity> removeStack;
+	protected final Stack<Entity> removeStack;
 	
 	/** The sound track. */
 	public final String soundTrack;
@@ -29,7 +32,7 @@ public abstract class Stage {
 	 * @param soundTrack the sound track
 	 */
 	public Stage(String soundTrack) {
-		entities = new TreeSet<Entity>(new SortByUpdate());
+		entities = new LinkedList<Entity>();
 		addStack = new Stack<Entity>();
 		removeStack = new Stack<Entity>();
 		this.soundTrack = soundTrack;
@@ -40,7 +43,7 @@ public abstract class Stage {
 	 *
 	 * @return the all entities
 	 */
-	public TreeSet<Entity> getAllEntities() {
+	public final List<Entity> getAllEntities() {
 		return entities;
 	}
 	
@@ -49,7 +52,7 @@ public abstract class Stage {
 	 *
 	 * @param e the e
 	 */
-	public void addEntity(Entity e) {
+	public final void addEntity(Entity e) {
 		addStack.push(e);
 		e.willBeRemoved = false;
 	}
@@ -60,7 +63,7 @@ public abstract class Stage {
 	 *
 	 * @param e the e
 	 */
-	public void removeEntity(Entity e) {
+	public final void removeEntity(Entity e) {
 		if(e != null) {
 			e.flagForRemoval();
 			if(removeStack.contains(e)){
@@ -101,7 +104,7 @@ public abstract class Stage {
 	 * @param y the y
 	 * @return the entity
 	 */
-	public Entity instanceAt(int x, int y) {
+	public final Entity instanceAt(int x, int y) {
 		for(Entity e : entities) {
 			if(e.x == x && e.y == y && !e.willBeRemoved()) return e;
 		}
@@ -115,7 +118,7 @@ public abstract class Stage {
 	 * @param y the y
 	 * @return the entity[]
 	 */
-	public Entity[] allInstancesAt(int x, int y) {
+	public final Entity[] allInstancesAt(int x, int y) {
 		ArrayList<Entity> ans = new ArrayList<Entity>();
 		for(Entity e : entities) {
 			if(e.x == x && e.y == y && !e.willBeRemoved()) ans.add(e);
@@ -139,7 +142,7 @@ public abstract class Stage {
 	 * @param y the y
 	 * @return the collidable[]
 	 */
-	public Collidable[] collideableAt(int x, int y) {
+	public final Collidable[] collideableAt(int x, int y) {
 		ArrayList<Collidable> ans = new ArrayList<Collidable>();
 		for(Entity e : entities) {
 			if(e instanceof Collidable && e.x == x && e.y == y && !e.willBeRemoved()) 
@@ -161,7 +164,7 @@ public abstract class Stage {
 	/**
 	 * Process add stack.
 	 */
-	public void processAddStack() {
+	public final void processAddStack() {
 		while(!addStack.isEmpty()) {
 			Entity e = addStack.pop();
 			entities.add(e);
@@ -175,14 +178,14 @@ public abstract class Stage {
 	 * @param e the e
 	 * @return true, if successful
 	 */
-	public boolean willBeRemoved(Entity e) {
+	public final boolean willBeRemoved(Entity e) {
 		return removeStack.contains(e);
 	}
 	
 	/**
 	 * Process remove stack.
 	 */
-	public void processRemoveStack() {
+	public final void processRemoveStack() {
 		while(!removeStack.isEmpty()) {
 			Entity e = removeStack.pop();
 			entities.remove(e);
@@ -193,7 +196,7 @@ public abstract class Stage {
 	/**
 	 * Begin step.
 	 */
-	public abstract void beginStep();
+	public abstract void beginStep(List<Message> messages);
 
 	/**
 	 * On step.

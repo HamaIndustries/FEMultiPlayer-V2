@@ -57,7 +57,7 @@ public class AnimationArgs {
 		} else {
 			wepAnimName = w.type.toString().toLowerCase();
 			classification = "normal";
-			if(w.range.contains(range) && range > 1){
+			if(w.range.apply(u.getStats()).contains(range) && range > 1){
 				if(w.type == Weapon.Type.AXE){
 					wepAnimName = "handaxe";
 					classification = "ranged";
@@ -72,6 +72,10 @@ public class AnimationArgs {
 				}
 			}
 			if (w.type == Weapon.Type.BOW){
+				this.classification = "ranged";
+			}
+			if (w.type == Weapon.Type.CROSSBOW){
+				wepAnimName = "bow";
 				this.classification = "ranged";
 			}
 		}

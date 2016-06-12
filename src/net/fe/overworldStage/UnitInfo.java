@@ -106,9 +106,9 @@ public class UnitInfo extends Entity implements DoNotDestroy{
 		Renderer.drawRectangle(x+2, y+2, x+318, y+20, renderDepth, BORDER_DARK);
 		Renderer.drawRectangle(x+2, y+2, x+318, y+19, renderDepth, BORDER_LIGHT);
 		Renderer.drawRectangle(x+2, y+2, x+318, y+18, renderDepth, u.getPartyColor());
-		Renderer.drawString("default_med", u.name + "   Lv" + u.get("Lvl"), 
+		Renderer.drawString("default_med", u.name + "   Lv" + u.getLevel(), 
 				x+92, y+4, renderDepth);
-		String hp = "HP " + u.getHp() + "/" + u.get("HP");
+		String hp = "HP " + u.getHp() + "/" + u.getStats().maxHp;
 		int width = FEResources.getBitmapFont("default_med").getStringWidth(hp);
 		Renderer.drawString("default_med", hp, x+316-width, y+4, renderDepth);
 		
@@ -180,10 +180,10 @@ public class UnitInfo extends Entity implements DoNotDestroy{
 
 			// Info
 			Renderer.drawString("default_med",
-					rescued.name + "  Lv" + rescued.get("Lvl"), x + 325, y + 47,
+					rescued.name + "  Lv" + rescued.getLevel(), x + 325, y + 47,
 					renderDepth);
 			Renderer.drawString("default_med",
-					"HP " + rescued.getHp() + "/" + rescued.get("HP"), x + 325, y + 63,
+					"HP " + rescued.getHp() + "/" + rescued.getStats().maxHp, x + 325, y + 63,
 					renderDepth);
 		}
 	}

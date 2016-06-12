@@ -6,10 +6,13 @@ import net.fe.overworldStage.InventoryMenu;
 import net.fe.overworldStage.MenuContext;
 import net.fe.overworldStage.OverworldContext;
 import net.fe.overworldStage.ClientOverworldStage;
+import net.fe.network.command.EquipCommand;
+import net.fe.network.command.UseCommand;
 import net.fe.unit.HealingItem;
 import net.fe.unit.Item;
 import net.fe.unit.ItemDisplay;
 import net.fe.unit.Unit;
+import net.fe.unit.UnitIdentifier;
 import net.fe.unit.Weapon;
 
 // TODO: Auto-generated Javadoc
@@ -43,13 +46,14 @@ public class ItemCmd extends MenuContext<ItemDisplay>{
 		AudioPlayer.playAudio("select");
 		if(i instanceof Weapon){
 			if(unit.equippable((Weapon) i)){
+				stage.addCmd(new EquipCommand(new UnitIdentifier(unit), unit.findItem(i)));
 				unit.equip((Weapon)i);
 				menu.setSelection(0);
 			}
 		} else if (i instanceof HealingItem){
-			if(unit.getHp() == unit.get("HP")) return;
-			stage.addCmd("USE");
-			stage.addCmd(unit.findItem(i));
+			if(unit.getHp() == unit.getStats().maxHp) return;
+			stage.setControl(false);
+			stage.addCmd(new UseCommand(unit.findItem(i)));
 			stage.send();
 			
 			stage.setMenu(null);
@@ -63,6 +67,7 @@ public class ItemCmd extends MenuContext<ItemDisplay>{
 					destroy();
 					unit.setMoved(true);
 					ItemCmd.this.stage.reset();
+					ItemCmd.this.stage.setControl(true);
 				}
 			});
 		}

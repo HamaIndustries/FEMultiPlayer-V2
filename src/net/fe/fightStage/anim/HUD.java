@@ -43,7 +43,7 @@ public class HUD extends Entity {
 		if(battleStats == null)
 			battleStats = FEResources.getTexture("gui_battleStats");
 		
-		if (!CombatCalculator.shouldAttack(u1, u2, stage.getRange())) {
+		if (!CombatCalculator.shouldAttack(u1, u2, u1.getWeapon(), stage.getRange())) {
 			hit = "  -";
 			crit = "  -";
 			dmg = "  -";
@@ -53,7 +53,7 @@ public class HUD extends Entity {
 			crit = String.format("%3d",
 					Math.min(100, Math.max(u1.crit() - u2.dodge(), 0)));
 			dmg = String.format("%3d", Math.min(100,
-					Math.max(CombatCalculator.calculateBaseDamage(u1, u2), 0)));
+					Math.max(CombatCalculator.calculatePreviewDamage(u1, u2), 0)));
 		}
 
 		renderDepth = FightStage.HUD_DEPTH;

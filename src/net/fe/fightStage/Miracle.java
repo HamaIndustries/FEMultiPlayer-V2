@@ -14,6 +14,11 @@ public class Miracle extends CombatTrigger {
 
 	/**
 	 * Instantiates a new miracle.
+	 * 
+	 * Info: If damage dealt would be lethal, user's Hp becomes 1 instead.
+	 * Will not proc if Hp = 1.
+	 * 
+	 * Chance: Lck
 	 */
 	public Miracle() {
 		super(APPEND_NAME_AFTER_MOD, ENEMY_TURN_MOD);
@@ -25,7 +30,7 @@ public class Miracle extends CombatTrigger {
 	@Override
 	public boolean attempt(Unit user, int range, Unit opponent) {
 		//return true;
-		return RNG.get() < user.get("Lck") && user.getHp() != 1;
+		return RNG.get() < user.getStats().lck && user.getHp() != 1;
 	}
 	
 	/* (non-Javadoc)

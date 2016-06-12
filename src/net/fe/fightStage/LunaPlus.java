@@ -7,7 +7,7 @@ import net.fe.unit.Unit;
 public final class LunaPlus extends CombatTrigger {
 	private static final long serialVersionUID = -6539654970701395612L;
 	public LunaPlus(){
-		super(NO_NAME_MOD, YOUR_TURN_PRE);
+		super(NO_NAME_MOD, YOUR_TURN_PRE | SHOW_IN_PREVIEW);
 	}
 	@Override
 	public boolean attempt(Unit user, int range, Unit opponent) {
@@ -16,8 +16,8 @@ public final class LunaPlus extends CombatTrigger {
 
 	@Override
 	public boolean runPreAttack(CombatCalculator stage, Unit a, Unit d) {
-		d.setTempMod("Def", -d.get("Def"));
-		d.setTempMod("Res", -d.get("Res"));
+		d.setTempMod("Def", -d.getStats().def);
+		d.setTempMod("Res", -d.getStats().res);
 		return true;
 	}
 	

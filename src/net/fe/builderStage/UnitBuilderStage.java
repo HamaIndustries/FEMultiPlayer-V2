@@ -9,9 +9,11 @@ import net.fe.FEMultiplayer;
 import net.fe.FEResources;
 import net.fe.RunesBg;
 import net.fe.Session;
+import net.fe.fightStage.CrossBow;
 import net.fe.fightStage.FightStage;
 import net.fe.overworldStage.InventoryMenu;
 import net.fe.overworldStage.UnitInfo;
+import net.fe.network.Message;
 import net.fe.unit.HealingItem;
 import net.fe.unit.Item;
 import net.fe.unit.MapAnimation;
@@ -93,23 +95,23 @@ public class UnitBuilderStage extends Stage {
 		ui.setUnit(u);
 		addEntity(ui);
 		
-		shop = new ShopMenu(SHOP_X, SHOP_Y, session);
+		shop = new ShopMenu(SHOP_X, SHOP_Y, (session != null ? session.getModifiers() : java.util.Collections.emptySet()));
 		shop.clearSelection();
 		
 		addEntity(shop);
 		
 		levelUp = new Button(LEVEL_X, LEVEL_Y, "Level Up", Color.green, 135){
 			public void onStep(){
-				String exp =  Unit.getExpCost(unit.get("Lvl") + 1)+"";
-				if(unit.get("Lvl") == 20)
+				String exp =  Unit.getExpCost(unit.getLevel() + 1)+"";
+				if(unit.getLevel() == 20)
 					exp = "--";
 				text = "Level Up: " +exp + " EXP";
 			}
 			public void execute() {
-				if(unit.get("Lvl") != 20){
-					int cost = Unit.getExpCost(unit.get("Lvl") + 1);
+				if(unit.getLevel() != 20){
+					int cost = Unit.getExpCost(unit.getLevel() + 1);
 					if(cost <= back.getExp()){
-						unit.setLevel(unit.get("Lvl") + 1);
+						unit.setLevel(unit.getLevel() + 1);
 						back.setExp(back.getExp() - cost);
 					}
 				}
@@ -117,15 +119,15 @@ public class UnitBuilderStage extends Stage {
 		};
 		levelDown = new Button(LEVEL_X, LEVEL_Y + 24, "Level Down", Color.red, 135){
 			public void onStep(){
-				String exp =  Unit.getExpCost(unit.get("Lvl"))+"";
-				if(unit.get("Lvl") == 1)
+				String exp =  Unit.getExpCost(unit.getLevel())+"";
+				if(unit.getLevel() == 1)
 					exp = "--";
 				text = "Level Down: " + exp + " EXP";
 			}
 			public void execute() {
-				if(unit.get("Lvl") != 1){
-					int cost = Unit.getExpCost(unit.get("Lvl"));
-					unit.setLevel(unit.get("Lvl")-1);
+				if(unit.getLevel() != 1){
+					int cost = Unit.getExpCost(unit.getLevel());
+					unit.setLevel(unit.getLevel()-1);
 					back.setExp(back.getExp() + cost);
 				}
 			}
@@ -156,10 +158,11 @@ public class UnitBuilderStage extends Stage {
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
+	public void beginStep(List<Message> messages) {
 		for (Entity e : entities) {
 			e.beginStep();
 		}
+		back.checkForQuits(messages);
 		processAddStack();
 		processRemoveStack();
 		MapAnimation.updateAll();
@@ -249,19 +252,12 @@ public class UnitBuilderStage extends Stage {
 			Renderer.drawString("default_med", "Mt " + wep.mt, INFO_X+8, INFO_Y+20, 1);
 			Renderer.drawString("default_med", "Hit " + wep.hit, INFO_X+68, INFO_Y+20, 1);
 			Renderer.drawString("default_med", "Crit " + wep.crit, INFO_X+128, INFO_Y+20, 1);
-			int rngmin = 255;
-			int rngmax = 0;
-			for(int rng: wep.range){
-				if(rng < rngmin) rngmin = rng;
-				if(rng > rngmax) rngmax = rng;
-			}
-			if(rngmin == rngmax){
-				Renderer.drawString("default_med", "Rng " + rngmin, INFO_X+ 188, INFO_Y+20, 1);
-			} else {
-				Renderer.drawString("default_med", "Rng " + rngmin + "-" + rngmax, INFO_X+ 188, INFO_Y+20, 1);
-			}
+			Renderer.drawString("default_med", "Rng " + wep.range.toString(), INFO_X+ 188, INFO_Y+20, 1);
 			
 			ArrayList<String> flavor = new ArrayList<String>();
+			if(wep.type == Weapon.Type.CROSSBOW) {
+				flavor.add("A Crossbow");
+			}
 			if(wep.name.contains("Brave")){
 				flavor.add("Allows double attacks");
 			}
@@ -271,6 +267,9 @@ public class UnitBuilderStage extends Stage {
 			if(wep.name.contains("Kill") || wep.name.equals("Wo Dao")){
 				flavor.add("Has a high critical rate");
 			}
+			if(wep.getTriggers().contains(new CrossBow())) {
+				flavor.add("Ignores user's Str");
+			}
 			if(wep.getCost() == 10000){
 				flavor.add("A legendary weapon");
 			}
@@ -278,9 +277,9 @@ public class UnitBuilderStage extends Stage {
 				flavor.add("Ultimate magic");
 			}
 			if(wep.pref != null) flavor.add(wep.pref + " only");
-			for(String stat: wep.modifiers.keySet()){
-				if(wep.modifiers.get(stat) != 0){
-					flavor.add(stat + "+" + wep.modifiers.get(stat));
+			for(String stat: wep.modifiers.toMap().keySet()){
+				if(wep.modifiers.toMap().get(stat) != 0){
+					flavor.add(stat + "+" + wep.modifiers.toMap().get(stat));
 				}
 			}
 			if(wep.effective.size() != 0){
@@ -610,19 +609,4 @@ public class UnitBuilderStage extends Stage {
 		}
 		
 	}
-
-	/**
-	 * Gets the session.
-	 *
-	 * @return the session
-	 */
-	public Session getSession() {
-		return back.getSession();
-	}
-	
-
 }
-
-
-
-

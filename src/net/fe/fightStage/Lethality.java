@@ -14,6 +14,12 @@ public class Lethality extends CombatTrigger {
 
 	/**
 	 * Instantiates a new lethality.
+	 * 
+	 * Info: Sets the user's Hit/Str to 9000, 
+	 * guaranteeing a kill (except on FalseProof).
+	 *  Will not proc on Lords.
+	 * 
+	 * Chance: Skl/3
 	 */
 	public Lethality(){
 		super(REPLACE_NAME_AFTER_PRE, YOUR_TURN_PRE);
@@ -25,7 +31,7 @@ public class Lethality extends CombatTrigger {
 	@Override
 	public boolean attempt(Unit user, int range, Unit opponent) {
 		return (!opponent.getTheClass().name.equals("Lord")) &&
-				RNG.get() < user.get("Skl") / 3;
+				RNG.get() < user.getStats().skl / 3;
 	}
 
 	/* (non-Javadoc)
