@@ -338,7 +338,7 @@ public class FEResources {
 					prop.setProperty("DOWN", "DOWN");
 					prop.setProperty("VOLUME","1.0");
 					prop.setProperty("SCALE","1.0");
-					prop.setProperty("TURNSTARTONLORD", "TRUE");
+					prop.setProperty("AUTOCURSOR", "START");
 					prop.setProperty("CURING","curing");
 					prop.setProperty("DEFENSE","defense");
 					prop.setProperty("END","end");
@@ -384,12 +384,29 @@ public class FEResources {
 		return audioName;
 	}
 	
+	public static enum AutoCursor {
+		START(true, true),
+		START_LOCAL(true, false),
+		OFF(false, false);
+		
+		public final boolean applyAtStartOfLocalTurn;
+		public final boolean applyAtStartOfOtherTurn;
+		
+		private AutoCursor(boolean applyAtStartOfLocalTurn, boolean applyAtStartOfOtherTurn) {
+			this.applyAtStartOfLocalTurn = applyAtStartOfLocalTurn;
+			this.applyAtStartOfOtherTurn = applyAtStartOfOtherTurn;
+		}
+	}
+	
 	/**
-	 * Returns the move-cursor-to-lord-on-start-of-turn setting
+	 * Returns the autocursor setting; whether to move the cursor to the player's lord at the start of the turn.
 	 */
-	public static boolean getTurnStartOnLord() {
-		String volumeStr = getProperties().getProperty("TURNSTARTONLORD");
-		return ("true".equalsIgnoreCase(volumeStr));
+	public static AutoCursor getAutoCursor() {
+		String propStr = getProperties().getProperty("AUTOCURSOR");
+		if ("start".equalsIgnoreCase(propStr)) { return AutoCursor.START; }
+		else if ("startLocal".equalsIgnoreCase(propStr)) { return AutoCursor.START_LOCAL; }
+		else if ("off".equalsIgnoreCase(propStr)) { return AutoCursor.OFF; }
+		else { return AutoCursor.OFF; }
 	}
 	
 	/**
