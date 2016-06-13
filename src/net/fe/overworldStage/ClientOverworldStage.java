@@ -138,7 +138,19 @@ public class ClientOverworldStage extends OverworldStage {
 		camX = camY = 0;
 		camMaxX = Math.max(0,grid.width*16-368);
 		camMaxY = Math.max(0,grid.height*16-240);
-		cursor = new Cursor(2, 2);
+		{
+			List<Unit> units = FEMultiplayer.getLocalPlayer().getParty().getUnits();
+			Node[] n = units.stream()
+					.filter((Unit u) -> u.getHp() > 0)
+					.map((Unit u) -> new Node(u.getXCoord(), u.getYCoord()))
+					.toArray(Node[]::new);
+			if (n.length > 0) {
+				cursor = new Cursor(n[0].x, n[0].y);
+				this.includeInView(n);
+			} else {
+				cursor = new Cursor(2, 2);
+			}
+		}
 		addEntity(cursor);
 		unitInfo = new UnitInfo();
 		Color c= new Color(FEMultiplayer.getLocalPlayer().getParty().getColor());
@@ -409,12 +421,35 @@ public class ClientOverworldStage extends OverworldStage {
 		if(FEMultiplayer.getLocalPlayer().getID() == getCurrentPlayer().getID()){
 			context = new Idle(this, FEMultiplayer.getLocalPlayer());
 			addEntity(new TurnDisplay(true, Party.TEAM_BLUE));
+			if (FEResources.getAutoCursor().applyAtStartOfLocalTurn) {
+				List<Unit> units = FEMultiplayer.getLocalPlayer().getParty().getUnits();
+				Node[] n = units.stream()
+						.filter((Unit u) -> u.getHp() > 0 && !u.isRescued())
+						.map((Unit u) -> new Node(u.getXCoord(), u.getYCoord()))
+						.toArray(Node[]::new);
+				if (n.length > 0) {
+					cursor.setXCoord(n[0].x);
+					cursor.setYCoord(n[0].y);
+				}
+			}
 		} else {
 			context = new WaitForMessages(this);
 			if(FEMultiplayer.getLocalPlayer().isSpectator())
 				addEntity(new TurnDisplay(false, getCurrentPlayer().getParty().getColor()));
 			else
 				addEntity(new TurnDisplay(false, Party.TEAM_RED));
+			
+			if (FEResources.getAutoCursor().applyAtStartOfOtherTurn) {
+				List<Unit> units = this.getCurrentPlayer().getParty().getUnits();
+				Node[] n = units.stream()
+						.filter((Unit u) -> u.getHp() > 0 && !u.isRescued())
+						.map((Unit u) -> new Node(u.getXCoord(), u.getYCoord()))
+						.toArray(Node[]::new);
+				if (n.length > 0) {
+					cursor.setXCoord(n[0].x);
+					cursor.setYCoord(n[0].y);
+				}
+			}
 		}
 	}
 	

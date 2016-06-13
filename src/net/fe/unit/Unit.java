@@ -298,7 +298,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	public void give(Unit u){
 		if(rescuedUnit == null) throw new IllegalStateException("rescuedUnit == null");
 		if(u.rescuedUnit() != null) throw new IllegalStateException(u.name + ".rescuedUnit() != null");
-		u.setRescuedUnit(rescuedUnit);
+		u.rescuedUnit = rescuedUnit;
 		rescuedUnit = null;
 	}
 	
@@ -1162,12 +1162,10 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	}
 
 	/**
-	 * Sets the rescued unit.
-	 *
-	 * @param unit the new rescued unit
+	 * Returns true if this unit has been rescued by another unit
 	 */
-	public void setRescuedUnit(Unit unit) {
-		rescuedUnit = unit;
+	public boolean isRescued() {
+		return this.rescued;
 	}
 	
 	@Override public int hashCode() {
