@@ -35,7 +35,7 @@ We deliberately took out some gameplay elements because of the single-match, mul
 * Arenas, shops, and treasure chests aren't in the game.
 * Units don't level up in game (you can distribute experience beforehand)
 * All units start in the promoted version of their class.
-~~* True hit is gone. The chance to hit is actually the chance to hit.~~ *(actually in for whatever reason)*
+* ~~True hit is gone. The chance to hit is actually the chance to hit.~~ *(actually in for whatever reason)*
 * Some characters have slightly different skills for balance reasons.
 * Not all characters from the games are in our version; we left out units with extremely subpar stats and growths.
 * Units do not persist from game to game, and are reset for each match. There is a possiblity for a campaign battle mode, which would feature permadeath and leveling in successive objective-based matches.
