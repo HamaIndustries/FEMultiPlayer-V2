@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -308,8 +309,36 @@ public class FEResources {
 			return a;
 		}
 	}
+	
+	/** Returns the default properties */
+	private static Properties getDefaultProperties() {
+		final Properties defaultProps = new Properties();
+		// keybindings
+		defaultProps.setProperty("Z", "Z");
+		defaultProps.setProperty("X", "X");
+		defaultProps.setProperty("RETURN", "RETURN");
+		defaultProps.setProperty("LEFT", "LEFT");
+		defaultProps.setProperty("RIGHT", "RIGHT");
+		defaultProps.setProperty("UP", "UP");
+		defaultProps.setProperty("DOWN", "DOWN");
+		// other
+		defaultProps.setProperty("VOLUME","1.0");
+		defaultProps.setProperty("SCALE","1.0");
+		defaultProps.setProperty("AUTOCURSOR", "START");
+		
+		// music
+		defaultProps.setProperty("CURING","curing");
+		defaultProps.setProperty("DEFENSE","defense");
+		defaultProps.setProperty("END","end");
+		defaultProps.setProperty("ENEMY","enemy");
+		defaultProps.setProperty("FIGHT","fight");
+		defaultProps.setProperty("MAIN","main");
+		defaultProps.setProperty("OVERWORLD","overworld");
+		defaultProps.setProperty("PREPARATIONS","preparations");
+		return defaultProps;
+	}
 
-	/** The prop. */
+	/** The set of user settings. */
 	private static Properties prop;
 	
 	/**
@@ -318,43 +347,32 @@ public class FEResources {
 	 * @return the properties
 	 */
 	//takes in a key such as Keyboard.KEY_Z and returns the corresponding key the user presses
-	private static Properties getProperties(){
-		if(prop==null){
+	private static Properties getProperties() {
+		if (prop == null) {
 			prop = new Properties();
-			String path = "app.config";
-			try{
-				File f = new File(path);
+			final File path = new File("app.config");
+			try {
+				final boolean isPatch = path.exists();
 				//should probably also have a check for directory  && !f.isDirectory() 
-				//but unless the user creates it, that won't be true. No clear way of handling it. 
-				if(!f.exists()) {
+				//but unless the user creates it, that won't be true. No clear way of handling it.
+				if (path.exists()) {
+					try(InputStream in = new FileInputStream(path)) {
+						prop.load(in);
+					}
+				} else {
 					//make file and populate it
-					f.createNewFile();
-					prop.setProperty("Z", "Z");
-					prop.setProperty("X", "X");
-					prop.setProperty("RETURN", "RETURN");
-					prop.setProperty("LEFT", "LEFT");
-					prop.setProperty("RIGHT", "RIGHT");
-					prop.setProperty("UP", "UP");
-					prop.setProperty("DOWN", "DOWN");
-					prop.setProperty("VOLUME","1.0");
-					prop.setProperty("SCALE","1.0");
-					prop.setProperty("AUTOCURSOR", "START");
-					prop.setProperty("CURING","curing");
-					prop.setProperty("DEFENSE","defense");
-					prop.setProperty("END","end");
-					prop.setProperty("ENEMY","enemy");
-					prop.setProperty("FIGHT","fight");
-					prop.setProperty("MAIN","main");
-					prop.setProperty("OVERWORLD","overworld");
-					prop.setProperty("PREPARATIONS","preparations");
-					
-					FileOutputStream out = new FileOutputStream(path);
-					prop.store(out, "---Initial Configuration---");
-					out.close();
-				}else{
-					FileInputStream in = new FileInputStream(path);
-					prop.load(in);
-					in.close();
+					path.createNewFile();
+				}
+				
+				final Properties defaultProps = getDefaultProperties();
+				for (String key : prop.stringPropertyNames()) { defaultProps.remove(key); }
+				for (String key : defaultProps.stringPropertyNames()) { prop.setProperty(key, defaultProps.getProperty(key)); }
+				
+				if (! defaultProps.isEmpty()) {
+					try(OutputStream out = new FileOutputStream(path, isPatch)) {
+						if (isPatch) {out.write('\n');}
+						defaultProps.store(out, (isPatch ? "---Patch---" : "---Initial Configuration---"));
+					}
 				}
 			} catch (IOException e){
 				e.printStackTrace();
