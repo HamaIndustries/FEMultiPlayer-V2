@@ -913,6 +913,17 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 			}
 		}
 	}
+	
+	/**
+	 * Sets the unit's max HP (used for Sudden Death)
+	 * 
+	 */
+	public void setMaxHp(int mhp){
+		this.stats = this.stats.copy("HP", mhp);
+		if(this.getHp() > this.stats.maxHp){
+			this.setHp(mhp);
+		}
+	}
 
 	/** Returns the unit's current level */
 	public int getLevel() {
