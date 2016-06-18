@@ -103,12 +103,12 @@ public class UnitBuilderStage extends Stage {
 		levelUp = new Button(LEVEL_X, LEVEL_Y, "Level Up", Color.green, 135){
 			public void onStep(){
 				String exp =  Unit.getExpCost(unit.getLevel() + 1)+"";
-				if(unit.getLevel() == 20)
+				if(unit.getLevel() == unit.getMaxLv())
 					exp = "--";
 				text = "Level Up: " +exp + " EXP";
 			}
 			public void execute() {
-				if(unit.getLevel() != 20){
+				if(unit.getLevel() != unit.getMaxLv()){
 					int cost = Unit.getExpCost(unit.getLevel() + 1);
 					if(cost <= back.getExp()){
 						unit.setLevel(unit.getLevel() + 1);
@@ -120,12 +120,12 @@ public class UnitBuilderStage extends Stage {
 		levelDown = new Button(LEVEL_X, LEVEL_Y + 24, "Level Down", Color.red, 135){
 			public void onStep(){
 				String exp =  Unit.getExpCost(unit.getLevel())+"";
-				if(unit.getLevel() == 1)
+				if(unit.getLevel() == unit.getMinLv())
 					exp = "--";
 				text = "Level Down: " + exp + " EXP";
 			}
 			public void execute() {
-				if(unit.getLevel() != 1){
+				if(unit.getLevel() != unit.getMinLv()){
 					int cost = Unit.getExpCost(unit.getLevel());
 					unit.setLevel(unit.getLevel()-1);
 					back.setExp(back.getExp() + cost);

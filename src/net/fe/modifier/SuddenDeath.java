@@ -60,4 +60,10 @@ public class SuddenDeath implements Modifier{
 		return "Sudden Death";
 	}
 
+	@Override
+	public void initBuilderUnits(Iterable<Unit> units) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

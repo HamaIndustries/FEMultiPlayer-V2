@@ -55,6 +55,7 @@ public class ShopMenu extends Entity {
 	 */
 	public ShopMenu(float x, float y, Set<Modifier> ms) {
 		super(x, y);
+		System.out.println("new shop");
 		shops = new ItemMenu[9];
 		shopIcons = new Texture[9];
 		for(int i = 0; i < shops.length; i++){

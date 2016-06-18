@@ -54,6 +54,12 @@ public final class Vegas implements Modifier {
 	public String toString() {
 		return "Vegas";
 	}
+
+	@Override
+	public void initBuilderUnits(Iterable<Unit> units) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }

@@ -1,6 +1,5 @@
 package net.fe.modifier;
 
-import net.fe.modifier.Pavise;
 import net.fe.builderStage.ShopMenu;
 import net.fe.builderStage.TeamBuilderResources;
 import net.fe.builderStage.TeamSelectionStage;
@@ -8,11 +7,15 @@ import net.fe.overworldStage.OverworldStage;
 import net.fe.unit.Unit;
 import net.fe.unit.Item;
 
-public class ProTactics implements Modifier {
+public class TournamentRules implements Modifier {
+	public final int newFunds = 48000;
+	public final int newExp = 26400;
+	public final int minLevel = 10;
+	public final int maxLevel = 20;
 
 	@Override
 	public TeamBuilderResources modifyTeamResources(TeamBuilderResources limits) {
-		return limits;
+		return limits.copyWithNewExp(newExp).copyWithNewFunds(newFunds);
 	}
 
 	@Override
@@ -22,25 +25,26 @@ public class ProTactics implements Modifier {
 
 	@Override
 	public void initOverworldUnits(Iterable<Unit> units) {
-		for(Unit u : units) {
-			u.addSkill(new Pavise());
-		}
 
 	}
 
 	@Override
 	public String toString() {
-		return "Pro Tactics";
+		return "Tournament ruleset";
 	}
 
 	@Override
 	public String getDescription() {
-		return "Halves damage to better emulate traditional GBA games. All units get 100%Pavise.";
+		return "A balance-improving tournament ruleset (temporary while I figure out how to make this work"
+				+ "customizably";
 	}
 
 	@Override
 	public void initBuilderUnits(Iterable<Unit> units) {
-		// TODO Auto-generated method stub
+		for(Unit u : units){
+			u.setMinLv(minLevel);
+			u.setMaxLv(maxLevel);
+		}
 		
 	}
 

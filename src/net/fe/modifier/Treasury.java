@@ -54,4 +54,10 @@ public final class Treasury implements Modifier {
 		return "Start with the maximum amount of gold.";
 	}
 
+	@Override
+	public void initBuilderUnits(Iterable<Unit> units) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -43,6 +43,13 @@ public interface Modifier extends Serializable{
 	public void initOverworldUnits(Iterable<Unit> units);
 	
 	/**
+	 * Modifies a list of units; for use immediately before team building.
+	 * 
+	 * @param units
+	 */
+	public void initBuilderUnits(Iterable<Unit> units);
+	
+	/**
 	 * Gets the description.
 	 *
 	 * @return the description

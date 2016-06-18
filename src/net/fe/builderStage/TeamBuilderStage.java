@@ -230,6 +230,18 @@ public class TeamBuilderStage extends Stage {
 			exp += u.squeezeExp();
 		}
 		this.units = units;
+		if(session != null){
+
+			System.out.println("Session isn't null");
+			for(Modifier m : session.getModifiers()) {
+
+				System.out.println("Modifier: " + m.toString());
+				m.initBuilderUnits(units);
+			}
+		}
+//		for(Modifier m : session.getModifiers()) {
+//			m.initBuilderUnits(this.units);
+//		}
 		for(Entity e: entities){
 			if(e instanceof UnitIcon) e.destroy();
 		}
@@ -240,6 +252,7 @@ public class TeamBuilderStage extends Stage {
 			y+=vgap;
 			d-=0.001f;
 		}
+		
 	}
 	
 	/* (non-Javadoc)

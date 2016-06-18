@@ -51,6 +51,12 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	/** The unit's current level */
 	private int level;
 	
+	/** The unit's min level.  For use with rulesets */
+	private int minLevel = 1;
+
+	/** The unit's max level.  For use with rulesets */
+	private int maxLevel = 20;
+	
 	/** The unit's current stats. */
 	private Statistics stats;
 	
@@ -149,6 +155,8 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		skills = new ArrayList<CombatTrigger>();
 		battleStats = new BattleStats();
 		this.setLevel(1);
+		this.setMinLv(1);
+		this.setMaxLv(20);
 		fillHp();
 		
 		renderDepth = ClientOverworldStage.UNIT_DEPTH;
@@ -731,7 +739,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 * @param lv the new level
 	 */
 	public void setLevel(int lv) {
-		if (lv > 20 || lv < 1) {
+		if (lv > maxLevel || lv < minLevel) {
 			return;
 		}
 		this.level = lv;
@@ -739,6 +747,48 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		stats = growths.times(lv / 100f).plus(bases)
 				.min(new Statistics(60, 35,35,35, 35,35,35, 35,35,35,35));
 		fillHp();
+	}
+	
+	/**
+	 * Sets the minimum level.
+	 *
+	 * @param lv the new minimum level
+	 */
+	public void setMinLv(int lv){
+		if(this.getLevel() < lv){
+			this.setLevel(lv);
+		}
+		
+		this.minLevel = lv;
+	}
+	
+	/**
+	 * Sets the maximum level.
+	 *
+	 * @param lv the new maximum level
+	 */
+	public void setMaxLv(int lv){
+		if(this.getLevel() > lv){
+			this.setLevel(lv);
+		}
+		
+		this.maxLevel = lv;
+	}
+	
+	/**
+	 * Gets the max level.
+	 *
+	 */
+	public int getMaxLv(){
+		return this.maxLevel;
+	}
+	
+	/**
+	 * Gets the min level.
+	 *
+	 */
+	public int getMinLv(){
+		return this.minLevel;
 	}
 	
 	/**
@@ -765,7 +815,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 */
 	public int squeezeExp(){
 		int exp = 0;
-		while(getLevel() != 1){
+		while(getLevel() != minLevel){
 			exp += getExpCost(getLevel());
 			setLevel(getLevel() - 1);
 		}

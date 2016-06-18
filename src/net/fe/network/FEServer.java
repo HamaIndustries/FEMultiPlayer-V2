@@ -49,6 +49,7 @@ import net.fe.modifier.MadeInChina;
 import net.fe.modifier.Modifier;
 import net.fe.modifier.ProTactics;
 import net.fe.modifier.SuddenDeath;
+import net.fe.modifier.TournamentRules;
 import net.fe.modifier.Treasury;
 import net.fe.modifier.Vegas;
 import net.fe.modifier.Veterans;
@@ -113,6 +114,7 @@ public class FEServer extends Game {
 		unselectedModifiersModel.addElement(new SuddenDeath());
 		unselectedModifiersModel.addElement(new Vegas());
 		unselectedModifiersModel.addElement(new ProTactics());
+		unselectedModifiersModel.addElement(new TournamentRules());
 		
 		final JPanel mainPanel = new JPanel();
 		frame.getContentPane().add(mainPanel, BorderLayout.CENTER);

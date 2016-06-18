@@ -108,7 +108,9 @@ public final class TeamSelectionStage extends Stage {
 		addEntity(vassalList);
 		ok = new Button(OK_BUTTON_X, BUTTON_Y, "OK", Color.green, 95) {
 			public void execute() {
-				builderStage.setUnits(getSelectedUnits());
+				List<Unit> units = getSelectedUnits();
+
+				builderStage.setUnits(units);
 				builderStage.refresh();
 				FEMultiplayer.setCurrentStage(builderStage);
 			}
@@ -194,6 +196,7 @@ public final class TeamSelectionStage extends Stage {
 		ArrayList<Unit> units = new ArrayList<Unit>();
 		units.addAll(lordList.getSelectedUnits());
 		units.addAll(vassalList.getSelectedUnits());
+
 		
 		return units;
 	}

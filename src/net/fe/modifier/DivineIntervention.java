@@ -59,4 +59,10 @@ public class DivineIntervention implements Modifier {
 	public String getDescription() {
 		return "All units have a version of Miracle that is guarenteed to activate.";
 	}
+
+	@Override
+	public void initBuilderUnits(Iterable<Unit> units) {
+		// TODO Auto-generated method stub
+		
+	}
 }

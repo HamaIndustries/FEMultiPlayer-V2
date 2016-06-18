@@ -66,4 +66,10 @@ public class MadeInChina implements Modifier {
 		return "All weapons have greatly reduced durability. Start with extra gold.";
 	}
 
+	@Override
+	public void initBuilderUnits(Iterable<Unit> units) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

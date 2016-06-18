@@ -51,5 +51,11 @@ public class Veterans implements Modifier {
 	public String toString() {
 		return "Veterans";
 	}
+
+	@Override
+	public void initBuilderUnits(Iterable<Unit> units) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
