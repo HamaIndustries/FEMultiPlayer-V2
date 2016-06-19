@@ -9,6 +9,7 @@ import net.fe.unit.HealingItem;
 import net.fe.unit.Item;
 import net.fe.unit.ItemDisplay;
 import net.fe.unit.RiseTome;
+import net.fe.unit.Unit;
 import net.fe.unit.Weapon;
 import net.fe.unit.WeaponFactory;
 
@@ -30,6 +31,9 @@ public class ShopMenu extends Entity {
 	
 	/** The shop icons. */
 	private Texture[] shopIcons;
+	
+	/** The shop inventory */
+	private ShopInventory shopInventory;
 	
 	/** The selected. */
 	private int selected;
@@ -58,6 +62,7 @@ public class ShopMenu extends Entity {
 		System.out.println("new shop");
 		shops = new ItemMenu[9];
 		shopIcons = new Texture[9];
+		shopInventory = ShopInventory.GetInstance(ms);
 		for(int i = 0; i < shops.length; i++){
 			shops[i] = new ItemMenu(x + 140*i,y){{
 				drawCost = true;
@@ -148,6 +153,43 @@ public class ShopMenu extends Entity {
 	 */
 	public Item getItem(){
 		return getSelectedShop().getSelection().getItem().getCopy();
+	}
+	
+	/**
+	 * Reduce the number available by 1.  False if there isn't enough stock left.
+	 * 
+	 * @return
+	 */
+	public boolean buyItem(){
+		return shopInventory.buyItem(getSelectedShop().getSelection().getItem().name);
+	}
+	
+	/**
+	 * Returns true if the currently selected item can be gotten (if the inventory is present)
+	 * 
+	 * @return
+	 */
+	public boolean canGetItem(){
+		return shopInventory.itemInStock(getSelectedShop().getSelection().getItem().name);
+	}
+	
+	/**
+	 * Returns the item i to the shop's inventory.
+	 * 
+	 * @param i
+	 */
+	public void returnItem(Item i){
+		shopInventory.returnItem(i.name);
+	}
+	
+	
+	/**
+	 * Returns all items possessed by this unit to the shop's inventory.
+	 * 
+	 * @param u
+	 */
+	public void massReturnItem(Unit u){
+		shopInventory.refundItems(u);
 	}
 	
 	/**

@@ -1,5 +1,7 @@
 package net.fe.modifier;
 
+import java.util.Map;
+
 import net.fe.builderStage.ShopMenu;
 import net.fe.builderStage.TeamBuilderResources;
 import net.fe.builderStage.TeamSelectionStage;
@@ -62,6 +64,12 @@ public class DivineIntervention implements Modifier {
 
 	@Override
 	public void initBuilderUnits(Iterable<Unit> units) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setShopLimits(Map<String, Integer> inventory) {
 		// TODO Auto-generated method stub
 		
 	}

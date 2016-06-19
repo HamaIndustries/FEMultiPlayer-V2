@@ -37,6 +37,10 @@ public class ClientWaitStage extends Stage {
 		super("preparations");
 		start = false;
 		session = s;
+		
+		//Clear the session so that everything will work on the next game on the same server.
+		ShopInventory shop = ShopInventory.GetInstance(session.getModifiers());
+		shop.DestroyInstance();
 	}
 	
 	/* (non-Javadoc)

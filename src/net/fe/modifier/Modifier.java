@@ -1,6 +1,7 @@
 package net.fe.modifier;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import net.fe.builderStage.ShopMenu;
 import net.fe.builderStage.TeamBuilderResources;
@@ -55,5 +56,10 @@ public interface Modifier extends Serializable{
 	 * @return the description
 	 */
 	public String getDescription();
+	
+	/**
+	 * Sets the limits on items in the shop.  -1 is no limit.
+	 */
+	public void setShopLimits(Map<String, Integer> inventory);
 
 }

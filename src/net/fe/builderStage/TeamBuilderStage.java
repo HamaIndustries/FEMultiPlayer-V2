@@ -88,6 +88,11 @@ public class TeamBuilderStage extends Stage {
 	/** The default maximum EXP */
 	public final static int EXP = 84000;
 	
+	/**
+	 * Shop inventory. Needed for when units are deleted.
+	 */
+	public ShopInventory shopInventory;
+	
 	
 	
 	/**
@@ -224,10 +229,26 @@ public class TeamBuilderStage extends Stage {
 	 * @param units the new units
 	 */
 	public void setUnits(List<Unit> units){
+		if(shopInventory == null && session != null){
+			shopInventory = ShopInventory.GetInstance(session.getModifiers());
+		}
+		else if(shopInventory == null){
+			shopInventory = ShopInventory.GetInstance(null);
+		}
+		
+		//I know it seems strange that this is out here and not in the for loop below, but it wasn't recognizing
+		//the units' inventories in that one.  No idea why.
+		for(Unit u : this.units){
+			if(!(units.contains(u))){
+				shopInventory.refundItems(u);
+			}
+		}
+		
 		this.units.removeAll(units);
 		for(Unit u: this.units){
 			funds += u.squeezeGold();
 			exp += u.squeezeExp();
+
 		}
 		this.units = units;
 		if(session != null){
@@ -239,9 +260,6 @@ public class TeamBuilderStage extends Stage {
 				m.initBuilderUnits(units);
 			}
 		}
-//		for(Modifier m : session.getModifiers()) {
-//			m.initBuilderUnits(this.units);
-//		}
 		for(Entity e: entities){
 			if(e instanceof UnitIcon) e.destroy();
 		}

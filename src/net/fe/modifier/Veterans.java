@@ -1,5 +1,7 @@
 package net.fe.modifier;
 
+import java.util.Map;
+
 import net.fe.builderStage.ShopMenu;
 import net.fe.builderStage.TeamBuilderResources;
 import net.fe.unit.Item;
@@ -54,6 +56,12 @@ public class Veterans implements Modifier {
 
 	@Override
 	public void initBuilderUnits(Iterable<Unit> units) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setShopLimits(Map<String, Integer> inventory) {
 		// TODO Auto-generated method stub
 		
 	}
