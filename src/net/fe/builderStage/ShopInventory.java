@@ -14,7 +14,7 @@ public class ShopInventory {
 
 	private Map<String, Integer> inventory;
 
-	private ShopInventory(Iterable<Modifier> mods){
+	public ShopInventory(Iterable<Modifier> mods){
 		inventory = new HashMap<String, Integer>();
 
 		for(Item i : Item.getAllItems()){
@@ -29,29 +29,6 @@ public class ShopInventory {
 		}
 	}
 
-	/**
-	 * Singleton constructor method
-	 * 
-	 * @param mods The modifiers used by this session.  Only loaded the first time this is called, but
-	 * there's no harm in passing it again.
-	 * 
-	 * @return
-	 */
-	public static ShopInventory GetInstance(Iterable<Modifier> mods){
-		if(obj == null){
-			obj = new ShopInventory(mods);
-		}
-
-		return obj;
-	}
-
-	/**
-	 * destroys the current instance of the inventory.  To be called when the battle starts to reset
-	 * it for the next game.
-	 */
-	public void DestroyInstance(){
-		obj = null;
-	}
 
 	/**
 	 * Takes the item name of the item the player is trying to buy.  Returns true and decrements the remaining

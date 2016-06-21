@@ -60,6 +60,7 @@ public class UnitBuilderStage extends Stage {
 
 	/** The controls. */
 	private ControlsDisplay controls;
+	
 
 	/** The Constant INFO_H. */
 	//CONFIG
@@ -75,7 +76,7 @@ public class UnitBuilderStage extends Stage {
 	 * @param s the s
 	 * @param session the session
 	 */
-	public UnitBuilderStage(Unit u, TeamBuilderStage s, Session session){
+	public UnitBuilderStage(Unit u, TeamBuilderStage s, Session session, ShopInventory si){
 		super("preparations");
 		addEntity(new RunesBg(new Color(0xd2b48c)));
 		back = s;
@@ -95,7 +96,7 @@ public class UnitBuilderStage extends Stage {
 		ui.setUnit(u);
 		addEntity(ui);
 
-		shop = new ShopMenu(SHOP_X, SHOP_Y, (session != null ? session.getModifiers() : java.util.Collections.emptySet()));
+		shop = new ShopMenu(SHOP_X, SHOP_Y, (session != null ? session.getModifiers() : java.util.Collections.emptySet()),si);
 		shop.clearSelection();
 
 		addEntity(shop);

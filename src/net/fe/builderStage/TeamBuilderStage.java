@@ -38,63 +38,64 @@ import chu.engine.anim.Renderer;
  * The Class TeamBuilderStage.
  */
 public class TeamBuilderStage extends Stage {
-	
+
 	/** The units. */
 	private List<Unit> units;
-	
+
 	/** The cursor. */
 	private Cursor cursor;
-	
+
 	/** The repeat timers. */
 	private final float[] repeatTimers;
-	
+
 	/** The funds. */
 	private int funds;
-	
+
 	/** The exp. */
 	private int exp;
-	
+
 	/** The select. */
 	private final TeamSelectionStage select;
-	
+
 	/** The buttons. */
 	private final List<Button> buttons;
-	
+
 	/** The curr button. */
 	private int currButton;
-	
+
 	/** The session. */
 	private Session session;
-	
+
 	/** The control. */
 	private boolean control = true;
-	
+
 	/** The controls. */
 	private final ControlsDisplay controls;
-	
+
 	/** The can edit units. */
 	private final boolean canEditUnits;
-	
+
+
 	/** The hgap. */
 	//CONFIG
 	private final static int name = 30, clazz = 100, lv = 170, hgap = 30; //xvals
-	
+
 	/** The table_ystart. */
 	private final static int yStart = 40, vgap = 20, table_ystart = 10;
-	
+
 	/** The default maximum funds */
 	public final static int FUNDS = 48000;
-	
+
 	/** The default maximum EXP */
 	public final static int EXP = 84000;
-	
+
 	/**
 	 * Shop inventory. Needed for when units are deleted.
 	 */
 	public ShopInventory shopInventory;
-	
-	
-	
+
+
+
 	/**
 	 * Instantiates a new team builder stage.
 	 *
@@ -108,9 +109,16 @@ public class TeamBuilderStage extends Stage {
 		addEntity(new RunesBg(new Color(0xd2b48c)));
 		session = s;
 		canEditUnits = (presetUnits == null);
-		
+
 		Button end;
-		
+
+		if(s != null){
+			shopInventory = new ShopInventory(s.getModifiers());
+		}
+		else{
+			shopInventory = new ShopInventory(null);
+		}
+
 		controls = new ControlsDisplay();
 		controls.addControl("Z", "Items/Train");
 		controls.addControl("X", "Back");
@@ -120,7 +128,7 @@ public class TeamBuilderStage extends Stage {
 			controls.addControl("Enter", "Fight!");
 		}
 		addEntity(controls);
-		
+
 		if(!toMainMenu) {
 			end = new Button(390, 270, "Fight!", Color.green, 80){
 				@Override
@@ -160,21 +168,21 @@ public class TeamBuilderStage extends Stage {
 			};
 		}
 		addEntity(end);
-		
+
 		if(canEditUnits) {
 			select = new TeamSelectionStage(this, s);
 			units = new ArrayList<Unit>();
 			setUnits(select.getSelectedUnits());
-			
+
 			Button save = new Button(220, 270, "Save", Color.blue, 80){
 				@Override
 				public void execute() {
 					new TeamNameInput(true).setStage(TeamBuilderStage.this);
 				}
-				
+
 			};
 			addEntity(save);
-			
+
 			Button load = new Button(305, 270, "Load", Color.blue, 80){
 				@Override
 				public void execute() {
@@ -182,7 +190,7 @@ public class TeamBuilderStage extends Stage {
 				}
 			};
 			addEntity(load);
-			
+
 			Button back = new Button(10,270, "Back to Unit Selection", Color.red, 120){
 				public void execute() {
 					AudioPlayer.playAudio("cancel");
@@ -191,14 +199,14 @@ public class TeamBuilderStage extends Stage {
 				}
 			};
 			addEntity(back);
-			
+
 			buttons = Arrays.asList( end, back, save, load );
 		} else {
 			select = null;
 			units = presetUnits;
 			buttons = Arrays.asList( end );
 		}
-		
+
 		TeamBuilderResources res = new TeamBuilderResources(FUNDS, EXP);
 		if(session != null) {
 			for(Modifier m : session.getModifiers()) {
@@ -207,11 +215,11 @@ public class TeamBuilderStage extends Stage {
 		}
 		this.setFunds(res.funds);
 		this.setExp(res.exp);
-		
+
 		cursor = new Cursor(9, yStart-4, 462, vgap, units.size());
 		cursor.on = true;
 		addEntity(cursor);
-		
+
 		int y = yStart;
 		float d = 0.1f;
 		for(Unit u: units){
@@ -220,22 +228,16 @@ public class TeamBuilderStage extends Stage {
 			d-=0.001f;
 		}
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Sets the units.
 	 *
 	 * @param units the new units
 	 */
 	public void setUnits(List<Unit> units){
-		if(shopInventory == null && session != null){
-			shopInventory = ShopInventory.GetInstance(session.getModifiers());
-		}
-		else if(shopInventory == null){
-			shopInventory = ShopInventory.GetInstance(null);
-		}
-		
+
 		//I know it seems strange that this is out here and not in the for loop below, but it wasn't recognizing
 		//the units' inventories in that one.  No idea why.
 		for(Unit u : this.units){
@@ -243,7 +245,7 @@ public class TeamBuilderStage extends Stage {
 				shopInventory.refundItems(u);
 			}
 		}
-		
+
 		this.units.removeAll(units);
 		for(Unit u: this.units){
 			funds += u.squeezeGold();
@@ -270,22 +272,22 @@ public class TeamBuilderStage extends Stage {
 			y+=vgap;
 			d-=0.001f;
 		}
-		
+
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see chu.engine.Stage#render()
 	 */
 	@Override
 	public void render() {
-		
+
 		List<String> stats = Arrays.asList(
-			"Lvl", "HP", "Str", "Mag", "Skl", "Spd", "Lck", "Def", "Res", "Mov"
-		);
-		
+				"Lvl", "HP", "Str", "Mag", "Skl", "Spd", "Lck", "Def", "Res", "Mov"
+				);
+
 		Renderer.drawBorderedRectangle(9, table_ystart-2, 471, table_ystart+14, 0.9f, 
 				FightStage.NEUTRAL, FightStage.BORDER_LIGHT, FightStage.BORDER_DARK);
-		
+
 		Renderer.drawString("default_med", "Name", name, table_ystart, 0.5f);
 		Renderer.drawString("default_med", "Class", clazz, table_ystart, 0.5f);
 		int x = lv;
@@ -293,11 +295,11 @@ public class TeamBuilderStage extends Stage {
 			Renderer.drawString("default_med", s, x, table_ystart, 0.5f);
 			x+= hgap;
 		}
-		
+
 		Renderer.drawBorderedRectangle(
 				9, yStart-6, 471, yStart + vgap * units.size()-2, 0.9f, 
 				FightStage.NEUTRAL, FightStage.BORDER_LIGHT, FightStage.BORDER_DARK);
-		
+
 		int y = yStart;
 		for(Unit u: units){
 			Renderer.drawString("default_med", u.name, name, y, 0.5f);
@@ -330,19 +332,19 @@ public class TeamBuilderStage extends Stage {
 			if (Keyboard.isKeyDown(FEResources.getKeyMapped(Keyboard.KEY_UP)) && repeatTimers[0] == 0) {
 				repeatTimers[0] = 0.15f;
 				if(control)
-				if(!cursor.on){
-					buttons.get(currButton).setHover(false);
-					cursor.on = true;
-					cursor.index = cursor.max - 1;
-					cursor.instant = true;
-					controls.set("Z", "Items/Train");
-				}else if(cursor.index == 0){
-					cursor.on = false;
-					controls.set("Z", "Select");
-					buttons.get(currButton).setHover(true);
-				} else {
-					cursor.up();
-				}
+					if(!cursor.on){
+						buttons.get(currButton).setHover(false);
+						cursor.on = true;
+						cursor.index = cursor.max - 1;
+						cursor.instant = true;
+						controls.set("Z", "Items/Train");
+					}else if(cursor.index == 0){
+						cursor.on = false;
+						controls.set("Z", "Select");
+						buttons.get(currButton).setHover(true);
+					} else {
+						cursor.up();
+					}
 				AudioPlayer.playAudio("cursor2");
 			}
 			if (Keyboard.isKeyDown(FEResources.getKeyMapped(Keyboard.KEY_DOWN)) && repeatTimers[1] == 0) {
@@ -387,12 +389,12 @@ public class TeamBuilderStage extends Stage {
 					if(ke.key == FEResources.getKeyMapped(Keyboard.KEY_Z)) {
 						AudioPlayer.playAudio("select");
 						if(cursor.on){
-							FEMultiplayer.setCurrentStage(new UnitBuilderStage(units.get(cursor.getIndex()), this, session));
+							FEMultiplayer.setCurrentStage(new UnitBuilderStage(units.get(cursor.getIndex()), this, session, shopInventory));
 						} else {
 							buttons.get(currButton).setHover(false);
 							buttons.get(currButton).execute();
 						}
-						
+
 					} else if (ke.key == FEResources.getKeyMapped(Keyboard.KEY_X)){
 						if(canEditUnits) {
 							AudioPlayer.playAudio("cancel");
@@ -403,10 +405,10 @@ public class TeamBuilderStage extends Stage {
 						AudioPlayer.playAudio("select");
 						buttons.get(0).execute();
 					}
-						
+
 				}
 			}
-		
+
 			for(int i=0; i<repeatTimers.length; i++) {
 				if(repeatTimers[i] > 0) {
 					repeatTimers[i] -= Game.getDeltaSeconds();
@@ -426,7 +428,7 @@ public class TeamBuilderStage extends Stage {
 		}
 		processAddStack();
 		processRemoveStack();
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -489,7 +491,7 @@ public class TeamBuilderStage extends Stage {
 		}
 		addEntity(cursor);
 	}
-	
+
 	/**
 	 * Save team.
 	 *
@@ -519,10 +521,10 @@ public class TeamBuilderStage extends Stage {
 			controls.setTempMessage("Could not save team [" + teamName + "].", 3.2f);
 			return false;
 		}
-		
-		
+
+
 	}
-	
+
 	/**
 	 * Load team.
 	 *
@@ -592,7 +594,7 @@ public class TeamBuilderStage extends Stage {
 		}
 		setUnits(select.getSelectedUnits());
 		refresh();
-		
+
 		return true;
 	}
 
@@ -648,7 +650,7 @@ class Cursor extends Entity{
 		renderDepth = 0.6f;
 		this.max = max;
 	}
-	
+
 	public void onStep(){
 		int supposedY = initialY + index*height;
 		if(instant){
@@ -662,7 +664,7 @@ class Cursor extends Entity{
 			}
 		}
 	}
-	
+
 	public void render(){
 		if(on){
 			if(max == 0)
@@ -671,7 +673,7 @@ class Cursor extends Entity{
 				Renderer.drawRectangle(x, y, x+width, y+height, renderDepth, new Color(128,128,213,128));
 		}
 	}
-	
+
 	public void up(){
 		if(max == 0) return;
 		index--;
@@ -680,7 +682,7 @@ class Cursor extends Entity{
 			instant = true;
 		}
 	}
-	
+
 	public void down(){
 		if(max == 0) return;
 		index++;
@@ -689,13 +691,13 @@ class Cursor extends Entity{
 			instant = true;
 		}
 	}
-	
+
 	public int getIndex(){
 		return index;
 	}
-	
+
 	public void setIndex(int i){
 		index = i;
 	}
-	
+
 }

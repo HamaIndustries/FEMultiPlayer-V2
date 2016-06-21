@@ -57,12 +57,12 @@ public class ShopMenu extends Entity {
 	 * @param y the y
 	 * @param s the s
 	 */
-	public ShopMenu(float x, float y, Set<Modifier> ms) {
+	public ShopMenu(float x, float y, Set<Modifier> ms, ShopInventory si) {
 		super(x, y);
 		System.out.println("new shop");
 		shops = new ItemMenu[9];
 		shopIcons = new Texture[9];
-		shopInventory = ShopInventory.GetInstance(ms);
+		shopInventory = si;
 		for(int i = 0; i < shops.length; i++){
 			shops[i] = new ItemMenu(x + 140*i,y){{
 				drawCost = true;
