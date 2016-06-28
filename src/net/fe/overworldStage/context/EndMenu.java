@@ -15,7 +15,7 @@ import net.fe.overworldStage.ClientOverworldStage;
 public final class EndMenu extends MenuContext<String> {
 	
 	private final static String next = "Next Unit";
-	private final static String end = "End Turn";
+	private final static String end = "End";
 	
 	/**
 	 * Instantiates a new end menu.
