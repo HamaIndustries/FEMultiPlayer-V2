@@ -383,6 +383,12 @@ public class ClientOverworldStage extends OverworldStage {
 	 * End.
 	 */
 	public void end(){
+		if (! currentCmdString.isEmpty()) {
+			// It is possible for cmdString to be non empty; if, for example,
+			// a unit rearanges its inventory, then cancels back to context.Idle
+			// and End Turns
+			send();
+		}
 		EndTurn message = new EndTurn();
 		FEMultiplayer.getClient().sendMessage(message);
 		selectedUnit = null;
@@ -404,8 +410,6 @@ public class ClientOverworldStage extends OverworldStage {
 				u.getAssisters().clear();
 			}
 		}
-		assert (selectedUnit == null); // If this is false, send() and clearCmdString() are not interchangable
-		clearCmdString();
 		if(FEMultiplayer.getLocalPlayer().getID() != getCurrentPlayer().getID()){
 			SoundTrack.loop("overworld");
 		} else {
@@ -557,9 +561,10 @@ public class ClientOverworldStage extends OverworldStage {
 	 */
 	public void send(){
 		UnitIdentifier uid = null;
-		if(selectedUnit != null)
+		if(selectedUnit != null) {
 			uid = new UnitIdentifier(selectedUnit);
-		currentCmdString.add(0, new MoveCommand(movX, movY));
+			currentCmdString.add(0, new MoveCommand(movX, movY));
+		}
 		FEMultiplayer.send(uid, currentCmdString.toArray(new Command[0]));
 		clearCmdString();
 	}
