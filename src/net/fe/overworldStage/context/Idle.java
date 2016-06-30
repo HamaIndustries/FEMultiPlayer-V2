@@ -34,18 +34,6 @@ public class Idle extends CursorContext {
 	 * @see net.fe.overworldStage.OverworldContext#startContext()
 	 */
 	public void startContext(){
-//		boolean movable = false;
-//		for(Unit u: stage.getCurrentPlayer().getParty()){
-//			if(!u.hasMoved()){
-//				movable = true;
-//			}
-//		}
-//		if(movable){
-//			super.startContext();
-//			cursorChanged();
-//		} else {
-//			stage.end();
-//		}
 		super.startContext();
 		cursorChanged();
 	}
@@ -86,7 +74,7 @@ public class Idle extends CursorContext {
 		Unit target = null;
 		boolean found = false;
 		for (Unit unit : player.getParty()) {
-			if (unit.hasMoved())
+			if (unit.hasMoved() || unit.getHp() == 0)
 				continue;
 			
 			// If the current unit was found, the target is the next one.
