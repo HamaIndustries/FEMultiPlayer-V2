@@ -48,7 +48,7 @@ public class ProTactics implements Modifier {
 	}
 
 	@Override
-	public void setShopLimits(Map<String, Integer> inventory) {
+	public void setShopLimits(Map<String, Integer> inventory, Map<String, Integer> classInventory) {
 		// TODO Auto-generated method stub
 		
 	}

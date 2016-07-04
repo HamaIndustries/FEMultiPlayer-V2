@@ -59,7 +59,8 @@ public interface Modifier extends Serializable{
 	
 	/**
 	 * Sets the limits on items in the shop.  -1 is no limit.
+	 * @param classInventory 
 	 */
-	public void setShopLimits(Map<String, Integer> inventory);
+	public void setShopLimits(Map<String, Integer> inventory, Map<String, Integer> classInventory);
 
 }

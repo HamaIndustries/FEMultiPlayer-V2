@@ -51,25 +51,32 @@ public class TournamentRules implements Modifier {
 	}
 
 	@Override
-	public void setShopLimits(Map<String, Integer> inventory) {
-		//No Legendary Weapons
-		inventory.put("Audhulma", 0);
-		inventory.put("Gradivus", 0);
-		inventory.put("Garm", 0);
-		inventory.put("Double Bow", 0);
-		inventory.put("Arbalest", 0);
-		inventory.put("Aureola", 0);
-		inventory.put("Excalibur", 0);
-		inventory.put("Ereshkigal", 0);
+	public void setShopLimits(Map<String, Integer> inventory, Map<String, Integer> classInventory) {
 		
-		//No brave weapons, killer weapons 1 each
+		//1 longbow, for demonstration purposes
 		for(String key : inventory.keySet()){
-			if(key.startsWith("Brave")){
-				inventory.put(key, 0);
+			if(key.equals("Longbow")){
+				inventory.put(key, 1);
+			}
+		}
+		
+		//item classes
+		for(String key : classInventory.keySet()){
+			//1 killing weapon, 3 slaying weapons, 2 reavers, no braves or legends
+			if(key.equals("Killer")){
+				classInventory.put(key, 1);
+			}
+
+			if(key.equals("Slayer")){
+				classInventory.put(key, 3);
 			}
 			
-			if(key.startsWith("Killer") || key.startsWith("Killing") || key.equals("Wo Dao")){
-				inventory.put(key, 1);
+			if(key.equals("Reaver")){
+				classInventory.put(key, 2);
+			}
+
+			if(key.equals("Brave") || key.equals("Legend")){
+				classInventory.put(key, 0);
 			}
 		}
 		

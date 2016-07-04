@@ -11,13 +11,13 @@ public final class HealingItem extends Item {
 	private static final long serialVersionUID = -6169687038185884864L;
 	
 	/** The vulnerary. */
-	public static final HealingItem VULNERARY = new HealingItem("Vulnerary", 10, 0, 300);
+	public static final HealingItem VULNERARY = new HealingItem("Vulnerary", 10, 0, 300, "Healing");
 	
 	/** The concoction. */
-	public static final HealingItem CONCOCTION = new HealingItem("Concoction", 20, 1, 1300);
+	public static final HealingItem CONCOCTION = new HealingItem("Concoction", 20, 1, 1300, "Healing");
 	
 	/** The elixir. */
-	public static final HealingItem ELIXIR = new HealingItem("Elixir", 99, 2, 3000);
+	public static final HealingItem ELIXIR = new HealingItem("Elixir", 99, 2, 3000, "Healing");
 	
 	/** The amount. */
 	public final int amount;
@@ -30,8 +30,8 @@ public final class HealingItem extends Item {
 	 * @param id the icon index
 	 * @param cost the item's shop price
 	 */
-	public HealingItem(String name, int amount, int id, int cost){
-		super(name, 3, id, cost);
+	public HealingItem(String name, int amount, int id, int cost, String itemClass){
+		super(name, 3, id, cost, itemClass);
 		this.amount = amount;
 	}
 	
@@ -49,7 +49,7 @@ public final class HealingItem extends Item {
 	 * @see net.fe.unit.Item#getCopy()
 	 */
 	public HealingItem getCopy(){
-		return new HealingItem(name, amount, id, getCost());
+		return new HealingItem(name, amount, id, getCost(), getItemClass());
 	}
 	
 	/* (non-Javadoc)

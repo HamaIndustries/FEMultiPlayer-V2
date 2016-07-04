@@ -161,7 +161,7 @@ public class ShopMenu extends Entity {
 	 * @return
 	 */
 	public boolean buyItem(){
-		return shopInventory.buyItem(getSelectedShop().getSelection().getItem().name);
+		return shopInventory.buyItem(getSelectedShop().getSelection().getItem());
 	}
 	
 	/**
@@ -170,7 +170,7 @@ public class ShopMenu extends Entity {
 	 * @return
 	 */
 	public boolean canGetItem(){
-		return shopInventory.itemInStock(getSelectedShop().getSelection().getItem().name);
+		return shopInventory.itemInStock(getSelectedShop().getSelection().getItem());
 	}
 	
 	/**
@@ -179,7 +179,7 @@ public class ShopMenu extends Entity {
 	 * @param i
 	 */
 	public void returnItem(Item i){
-		shopInventory.returnItem(i.name);
+		shopInventory.returnItem(i);
 	}
 	
 	
