@@ -6,7 +6,7 @@ import net.fe.unit.Unit;
 /**
  * The Class Nosferatu.
  */
-public class Nosferatu extends CombatTrigger{
+public final class Nosferatu extends CombatTrigger{
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -42,4 +42,11 @@ public class Nosferatu extends CombatTrigger{
 	public CombatTrigger getCopy(){
 		return new Nosferatu();
 	}
+	
+	@Override
+	public boolean equals(Object o){
+		return o instanceof Nosferatu;
+	}
+	@Override
+	public int hashCode() { return (int)serialVersionUID; }
 }
