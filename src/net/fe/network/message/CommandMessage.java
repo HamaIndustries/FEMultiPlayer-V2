@@ -35,7 +35,6 @@ public final class CommandMessage extends Message {
 	 */
 	public CommandMessage(UnitIdentifier unit, 
 			ArrayList<AttackRecord> atk, Command... commands) {
-		assert(unit != null);
 		this.commands = commands;
 		this.unit = unit;
 		this.attackRecords = atk;

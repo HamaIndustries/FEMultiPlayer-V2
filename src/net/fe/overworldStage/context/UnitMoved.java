@@ -137,6 +137,9 @@ public class UnitMoved extends MenuContext<String> {
 			return; // You can't cancel this.
 		}
 		super.onCancel();
+		// clear variables set by starting the context
+		stage.setMovX(0);
+		stage.setMovY(0);
 	}
 
 	/**

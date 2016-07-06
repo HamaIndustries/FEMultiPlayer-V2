@@ -100,6 +100,8 @@ public class UnitSelected extends CursorContext {
 	public void onCancel() {
 		cursor.setXCoord(selected.getOrigX());
 		cursor.setYCoord(selected.getOrigY());
+		// clear variables set by starting the context
+		stage.setSelectedUnit(null);
 		super.onCancel();
 	}
 	
