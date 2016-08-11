@@ -938,8 +938,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		Statistics retVal = this.stats;
 		if (this.getWeapon() != null) {retVal = retVal.plus(this.getWeapon().modifiers);}
 		retVal = retVal.plus(new Statistics(tempMods));
-		retVal = retVal.copy("Def", retVal.def + this.getTerrain().getDefenseBonus(this));
-		retVal = retVal.copy("Res", retVal.res + this.getTerrain().getDefenseBonus(this));
+		retVal = retVal.plus(this.getTerrain().getDefenseBonus(this));
 		if (rescuedUnit != null) {
 			retVal = retVal.copy("Spd", retVal.spd / 2);
 			retVal = retVal.copy("Skl", retVal.skl / 2);
