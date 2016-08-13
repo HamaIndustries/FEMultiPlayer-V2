@@ -2,6 +2,7 @@ package net.fe;
 
 import java.util.List;
 
+import net.fe.fightStage.FightStage;
 import net.fe.builderStage.TeamBuilderStage;
 import net.fe.network.Message;
 
@@ -68,6 +69,24 @@ public final class ConnectStage extends Stage {
 				} else {
 					sprite.render(x, y, renderDepth);
 				}
+			}
+		});
+		addEntity(new MenuButton(180,232,128,32) {
+			private int x = 180, y = 232, width = 128, height = 32; 
+			
+			@Override
+			public void onClick() {
+				FEMultiplayer.setCurrentStage(new OptionsStage());
+			}
+			@Override
+			public void render() {
+				final String text = "Options";
+				final int stringWidth = FEResources.getBitmapFont("default_med").getStringWidth(text);
+				Color c = Color.blue;
+				if(!hover)
+					c = c.darker();
+				Renderer.drawBorderedRectangle(x, y, x+width, y+height, renderDepth, c, FightStage.BORDER_LIGHT, FightStage.BORDER_DARK);
+				Renderer.drawString("default_med", text, x+width/2-stringWidth/2, y + 4, renderDepth);
 			}
 		});
 		processAddStack();

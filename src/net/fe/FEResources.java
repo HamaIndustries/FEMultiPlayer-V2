@@ -382,6 +382,20 @@ public class FEResources {
 	}
 	
 	/**
+	 * Stores a set of properties to disk
+	 */
+	public static void writeProperties(java.util.Map<String, String> newProperties) {
+		Properties p = FEResources.getProperties();
+		p.putAll(newProperties);
+		final File path = new File("app.config");
+		try(OutputStream out = new FileOutputStream(path, false)) {
+			p.store(out, "---Updated---");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Gets the audio volume.
 	 *
 	 * @return the audio volume
