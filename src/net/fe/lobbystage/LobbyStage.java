@@ -75,30 +75,30 @@ public class LobbyStage extends Stage {
 	@Override
 	public void endStep() {
 		if(session.numPlayers() <=1 ) return;
-		int activePlayers = 0;
-		int team = Player.TEAM_NONE;
+		int activeBlue = 0;
+		int activeRed = 0;
 		for(Player p : session.getPlayers()) {
-			if(team == Player.TEAM_NONE){
-				team = p.getTeam();
-			}else{
-				if(team == p.getTeam()){
-					//two players are on the same team.
-					return;
-				}
+			if (team == Player.TEAM_BLUE) {
+				activeBlue++;
 			}
-			if(!p.isSpectator()){
-				activePlayers += 1;
+			else if (team == Player.TEAM_RED) {
+				activeRed++;
 			}
+			
 			if(!p.ready) {
 				return;
 			}
 		}
-		//to get here, might have 1 person ready, and 1 spectator.
-		//need to have 2 people ready.
-		//note, this is not exhaustive, since teams are not considered
-		if(activePlayers<=1){
+		
+		// more than one player on either team
+		if(activeBlue > 1 || activeRed > 1) {
+			return;
+		} 
+		// no players on one of either team
+		if (activeBlue == 0 || activeRed == 0) {
 			return;
 		}
+		
 		FEServer.getServer().broadcastMessage(new StartPicking((byte)0));
 		FEServer.getServer().allowConnections = false;
 		session.getPickMode().setUpServer(session);
