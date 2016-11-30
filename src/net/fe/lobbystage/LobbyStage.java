@@ -95,7 +95,7 @@ public class LobbyStage extends Stage {
 			return;
 		} 
 		// no players on one of either team
-		if (activeblue == 0 || activeRed == 0) {
+		if (activeBlue == 0 || activeRed == 0) {
 			return;
 		}
 		
