@@ -1,7 +1,6 @@
-FEMultiplayer {V2}
+FEMultiplayer for the Hitbox Dimension
 =============
 
-note: the latest version can be found under the release tab in the bar ^
 
 Fire Emblem Multiplayer Application
 
@@ -14,12 +13,12 @@ Original Developers:
     Artifical intelligence
 
 
-Note: This is the current, updated version. Please submit issues via the issue tracker, or ask on reddit.com/r/femp.
+Note: This is the a fork of the original version, because it's not maintained anymore.
 
 What is Fire Emblem: Multiplayer?
 ---------------------------------
 
-Our goal with this project is to recreate the tactical, turn-based gameplay of the GBA Fire Emblem games, while allowing for online multiplayer that does not sacrifice too many gameplay features. Previous official Fire Emblem multiplayer modes have been lackluster. The Link Arena had limited functionality, only simulating battles between units without the tactical aspects of army movement; while the multiplayer mode from Shadow Dragon, while fully featured, forced the player to use units from their Single Player campaign, only had one game mode, and had the unfortunate characteristic of being partnered with a terrible game.
+The goal of this project is to recreate the tactical, turn-based gameplay of the GBA Fire Emblem games, while allowing for online multiplayer that does not sacrifice too many gameplay features. Previous official Fire Emblem multiplayer modes have been lackluster. The Link Arena had limited functionality, only simulating battles between units without the tactical aspects of army movement; while the multiplayer mode from Shadow Dragon, while fully featured, forced the player to use units from their Single Player campaign, only had one game mode, and had the unfortunate characteristic of being partnered with a terrible game.
 
 Features we are adding to the game:
 -----------------------------------
@@ -35,7 +34,6 @@ We deliberately took out some gameplay elements because of the single-match, mul
 * Arenas, shops, and treasure chests aren't in the game.
 * Units don't level up in game (you can distribute experience beforehand)
 * All units start in the promoted version of their class.
-* ~~True hit is gone. The chance to hit is actually the chance to hit.~~ *(actually in for whatever reason)*
 * Some characters have slightly different skills for balance reasons.
 * Not all characters from the games are in our version; we left out units with extremely subpar stats and growths.
 * Units do not persist from game to game, and are reset for each match. There is a possiblity for a campaign battle mode, which would feature permadeath and leveling in successive objective-based matches.
@@ -63,4 +61,5 @@ Intelligent Systems
 
 -------------------
 
-Uploaded & maintained by /u/eliatlarge, with updates by FEMP community.
+Originally uploaded by /u/eliatlarge.
+Maintained by Wellme.
