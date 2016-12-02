@@ -83,6 +83,22 @@ public class FEServer extends Game {
 	/** The lobby. */
 	public static LobbyStage lobby;
 	
+	private static Map<String, Objective[]> maps = new HashMap<String, Objective[]>();
+	
+	private static FEServerFrame frame;
+	
+	static {
+		Rout rout = new Rout();
+		Seize seize = new Seize();
+		
+		maps.put("delphino", new Objective[]{rout});
+		maps.put("town", new Objective[]{rout});
+		maps.put("alpea", new Objective[]{seize});
+		maps.put("plains", new Objective[]{rout, seize});
+		maps.put("fort", new Objective[]{rout, seize});
+		maps.put("decay", new Objective[]{rout, seize});
+	}
+	
 	/**
 	 * The main method.
 	 *
@@ -90,217 +106,7 @@ public class FEServer extends Game {
 	 */
 	public static void main(String[] args) {
 		
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
-		
-		final JFrame frame = new JFrame("FEServer");
-		
-		final Map<String, Objective[]> maps = new HashMap<String, Objective[]>();
-		{
-			Rout rout = new Rout();
-			Seize seize = new Seize();
-			
-			maps.put("delphino", new Objective[]{rout});
-			maps.put("town", new Objective[]{rout});
-			maps.put("alpea", new Objective[]{seize});
-			maps.put("plains", new Objective[]{rout, seize});
-			maps.put("fort", new Objective[]{rout, seize});
-			maps.put("decay", new Objective[]{rout, seize});
-		}
-		
-		frame.getContentPane().setLayout(new BorderLayout(0, 0));
-		DefaultListModel<Modifier> selectedModifiersModel = new DefaultListModel<Modifier>();
-		// Modifiers
-		DefaultListModel<Modifier> unselectedModifiersModel = new DefaultListModel<Modifier>();
-		unselectedModifiersModel.addElement(new MadeInChina());
-		unselectedModifiersModel.addElement(new Treasury());
-		unselectedModifiersModel.addElement(new Veterans());
-		unselectedModifiersModel.addElement(new DivineIntervention());
-		unselectedModifiersModel.addElement(new SuddenDeath());
-		unselectedModifiersModel.addElement(new Vegas());
-		unselectedModifiersModel.addElement(new ProTactics());
-		
-		final JPanel mainPanel = new JPanel();
-		frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		
-		JPanel mapPanel = new JPanel();
-		mainPanel.add(mapPanel);
-		mapPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		JLabel mapNameLabel = new JLabel("Map: ");
-		mapPanel.add(mapNameLabel);
-		
-		JPanel objectivePanel = new JPanel();
-		mainPanel.add(objectivePanel);
-		
-		JLabel objLabel = new JLabel("Objective: ");
-		objectivePanel.add(objLabel);
-		
-		final JComboBox<Objective> objComboBox = new JComboBox<>();
-		objectivePanel.add(objComboBox);
-		
-		// populate list of maps
-		final JComboBox<String> mapSelectionBox = new JComboBox<>();
-		mapSelectionBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				objComboBox.setModel(new DefaultComboBoxModel<Objective>(maps.get(mapSelectionBox.getSelectedItem())));
-			}
-		});
-		mapPanel.add(mapSelectionBox);
-		mapSelectionBox.setModel(new DefaultComboBoxModel<String>(maps.keySet().toArray(new String[0])));
-		
-		JLabel label = new JLabel("Max units: ");
-		mapPanel.add(label);
-		
-		final JSpinner maxUnitsSpinner = new JSpinner();
-		mapPanel.add(maxUnitsSpinner);
-		maxUnitsSpinner.setModel(new SpinnerNumberModel(8, 1, 8, 1));
-		
-		// Objectives
-		ComboBoxModel<Objective> oModel = new DefaultComboBoxModel<>(maps.get(mapSelectionBox.getSelectedItem()));
-		objComboBox.setModel(oModel);
-		
-		JLabel lblPickMode = new JLabel("Pick mode: ");
-		objectivePanel.add(lblPickMode);
-		
-		// Pick modes
-		ComboBoxModel<PickMode> pickModeModel = new DefaultComboBoxModel<>(new PickMode[] { new AllPick(), new Draft()});
-		final JComboBox<PickMode> pickModeBox = new JComboBox<>();
-		pickModeBox.setModel(pickModeModel);
-		objectivePanel.add(pickModeBox);
-		
-		JSeparator separator = new JSeparator();
-		mainPanel.add(separator);
-		
-		JLabel modifiersLabel = new JLabel("Modifiers");
-		modifiersLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		mainPanel.add(modifiersLabel);
-		
-		JPanel modifiersPane = new JPanel();
-		mainPanel.add(modifiersPane);
-		modifiersPane.setLayout(new BoxLayout(modifiersPane, BoxLayout.X_AXIS));
-		
-		JScrollPane selectedModifiersScrollPane = new JScrollPane();
-		selectedModifiersScrollPane.setPreferredSize(new Dimension(120,150));
-		modifiersPane.add(selectedModifiersScrollPane);
-		
-		JScrollPane modifiersScrollPane = new JScrollPane();
-		modifiersScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		modifiersScrollPane.setPreferredSize(new Dimension(120,150));
-		
-		final ModifierList modifiersList = new ModifierList();
-		modifiersList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		modifiersScrollPane.add(modifiersList);
-		modifiersList.setModel(unselectedModifiersModel);
-		modifiersScrollPane.setViewportView(modifiersList);
-		
-		final ModifierList selectedModifiersList = new ModifierList();
-		selectedModifiersList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		selectedModifiersScrollPane.add(selectedModifiersList);
-		selectedModifiersList.setModel(selectedModifiersModel);
-		selectedModifiersScrollPane.setViewportView(selectedModifiersList);
-		
-		JPanel buttonsPanel = new JPanel();
-		modifiersPane.add(buttonsPanel);
-		
-		JButton addModifierBtn = new JButton("<-- Add");
-		addModifierBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int index = modifiersList.getSelectedIndex();
-				if(index != -1) {
-					Modifier o = unselectedModifiersModel.getElementAt(index);
-					unselectedModifiersModel.remove(modifiersList.getSelectedIndex());
-					selectedModifiersModel.add(0,o);
-				}
-			}
-		});
-		buttonsPanel.setLayout(new GridLayout(0, 1, 0, 0));
-		buttonsPanel.add(addModifierBtn);
-		
-		JButton removeModifierBtn = new JButton("Remove -->");
-		removeModifierBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int index = selectedModifiersList.getSelectedIndex();
-				if(index != -1) {
-					Modifier o = selectedModifiersModel.getElementAt(index);
-					selectedModifiersModel.remove(selectedModifiersList.getSelectedIndex());
-					unselectedModifiersModel.add(0,o);
-				}
-			}
-		});
-		buttonsPanel.add(removeModifierBtn);
-		
-		modifiersPane.add(modifiersScrollPane);
-		
-		Component verticalStrut = Box.createVerticalStrut(20);
-		mainPanel.add(verticalStrut);
-		
-		final JButton startServer = new JButton("Start server");
-		startServer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					frame.getContentPane().add(new JLabel("Server IP: " + InetAddress.getLocalHost().getHostAddress()){
-						private static final long serialVersionUID = 1L;
-					{
-						this.setFont(getFont().deriveFont(20f));
-						this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-					}}, BorderLayout.NORTH);
-					frame.remove(mainPanel);
-					frame.remove(startServer);
-				} catch (UnknownHostException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				{
-					final JButton kickAll = new JButton("Kick all");
-					kickAll.addActionListener((e2) -> FEServer.resetToLobbyAndKickPlayers());
-					frame.getContentPane().add(kickAll);
-				}
-				frame.pack();
-				Thread serverThread = new Thread() {
-					public void run() {
-						HashSet<Modifier> mods = new HashSet<Modifier>();
-						for(int i=0; i< selectedModifiersList.getModel().getSize(); i++) {
-							mods.add(selectedModifiersList.getModel().getElementAt(i));
-						}
-						Session s = new Session(
-							(Objective)objComboBox.getSelectedItem(),
-							(String)mapSelectionBox.getSelectedItem(),
-							(Integer)maxUnitsSpinner.getValue(),
-							mods,
-							(PickMode)pickModeBox.getSelectedItem()
-						);
-						
-						FEServer feserver = new FEServer(s);
-						try{
-							feserver.init();
-							feserver.loop();
-						} catch (Exception e){
-							System.err.println("Exception occurred, writing to logs...");
-							e.printStackTrace();
-							try{
-								File errLog = new File("error_log_server" + System.currentTimeMillis()%100000000 + ".log");
-								PrintWriter pw = new PrintWriter(errLog);
-								e.printStackTrace(pw);
-								pw.close();
-							}catch (IOException e2){
-								e2.printStackTrace();
-							}
-							System.exit(0);
-						}
-					}
-				};
-				serverThread.start();
-			}
-		});
-		frame.getContentPane().add(startServer, BorderLayout.SOUTH);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
+		frame = new FEServerFrame();
 	}
 
 	/**
@@ -319,7 +125,7 @@ public class FEServer extends Game {
 		
 		Thread serverThread = new Thread() {
 			public void run() {
-				server.start(21255);
+				server.start(frame.getPort());
 			}
 		};
 		lobby = new LobbyStage(server.getSession());
@@ -439,17 +245,8 @@ public class FEServer extends Game {
 		}
 	}
 
-}
-
-class ModifierList extends JList<Modifier> {
-	
-	private static final long serialVersionUID = 561574462354745569L;
-
-	public String getToolTipText(MouseEvent event) {
-		Point p = event.getPoint();
-		int index = locationToIndex(p);
-		String tip = ((Modifier) getModel().getElementAt(index)).getDescription();
-		return tip;
+	public static Map<String, Objective[]> getMaps() {
+		return maps;
 	}
-	
+
 }
