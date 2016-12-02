@@ -7,31 +7,31 @@ import org.newdawn.slick.Color;
  * The Class Transform.
  */
 public class Transform {
-	
+
 	/** The rotation. */
 	public float rotation;
-	
+
 	/** The translate x. */
 	public float translateX;
-	
+
 	/** The translate y. */
 	public float translateY;
-	
+
 	/** The scale x. */
 	public float scaleX;
-	
+
 	/** The scale y. */
 	public float scaleY;
-	
+
 	/** The flip horizontal. */
 	public boolean flipHorizontal;
-	
+
 	/** The flip vertical. */
 	public boolean flipVertical;
-	
+
 	/** The color. */
 	public Color color;
-	
+
 	/**
 	 * Instantiates a new transform.
 	 */
@@ -45,7 +45,7 @@ public class Transform {
 		flipVertical = false;
 		color = Color.white;
 	}
-	
+
 	/**
 	 * Sets the rotation.
 	 *
@@ -54,7 +54,7 @@ public class Transform {
 	public void setRotation(float angle) {
 		rotation = angle;
 	}
-	
+
 	/**
 	 * Sets the translation.
 	 *
@@ -65,7 +65,7 @@ public class Transform {
 		translateX = x;
 		translateY = y;
 	}
-	
+
 	/**
 	 * Sets the scale.
 	 *
@@ -76,7 +76,7 @@ public class Transform {
 		scaleX = x;
 		scaleY = y;
 	}
-	
+
 	/**
 	 * Flip horizontal.
 	 */
@@ -90,7 +90,7 @@ public class Transform {
 	public void flipVertical() {
 		flipVertical = true;
 	}
-	
+
 	/**
 	 * Sets the color.
 	 *

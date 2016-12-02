@@ -14,15 +14,20 @@ public final class Vegas implements Modifier {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 3407505862142624494L;
 
-	/* (non-Javadoc)
-	 * @see net.fe.modifier.Modifier#modifyTeam(net.fe.builderStage.TeamBuilderStage)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.fe.modifier.Modifier#modifyTeam(net.fe.builderStage.TeamBuilderStage)
 	 */
 	@Override
 	public TeamBuilderResources modifyTeamResources(TeamBuilderResources limits) {
 		return limits;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.modifier.Modifier#modifyShop(net.fe.builderStage.ShopMenu)
 	 */
 	@Override
@@ -30,30 +35,36 @@ public final class Vegas implements Modifier {
 		return shop;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.fe.modifier.Modifier#initOverworld(net.fe.overworldStage.OverworldStage)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.fe.modifier.Modifier#initOverworld(net.fe.overworldStage.
+	 * OverworldStage)
 	 */
 	@Override
 	public void initOverworldUnits(Iterable<Unit> units) {
-		for(Unit u : units) {
+		for (Unit u : units) {
 			u.addSkill(new Gamble());
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.modifier.Modifier#getDescription()
 	 */
 	@Override
 	public String getDescription() {
 		return "Gamble! All units have halved hit rates and doubled crit rates.";
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
 		return "Vegas";
 	}
-	
 
 }

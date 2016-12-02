@@ -28,14 +28,16 @@ import chu.engine.entity.menu.Notification;
  * The Class Client.
  */
 public class Client {
-	
+
 	/** a logger */
 	private static final Logger logger = Logger.getLogger("net.fe.network.Client");
+
 	static {
 		logger.setLevel(java.util.logging.Level.FINER);
 		try {
 			java.nio.file.Files.createDirectories(new java.io.File("logs").toPath());
-			String file = "logs/client_log_" + LocalDateTime.now().toString().replace("T", "@").replace(":", "-") + ".log";
+			String file = "logs/client_log_" + LocalDateTime.now().toString().replace("T", "@").replace(":", "-")
+			        + ".log";
 			java.util.logging.Handler h = new java.util.logging.FileHandler(file);
 			h.setFormatter(new java.util.logging.SimpleFormatter());
 			logger.addHandler(h);
@@ -43,40 +45,45 @@ public class Client {
 			logger.throwing("net.fe.network.Client", "logging initializing", e);
 		}
 	}
-	
+
 	/** The server socket. */
 	private Socket serverSocket;
-	
+
 	/** The out. */
 	private ObjectOutputStream out;
-	
+
 	/** The in. */
 	private ObjectInputStream in;
-	
+
 	/** The server in. */
 	private Thread serverIn;
-	
+
 	/** The session. */
 	private Session session;
-	
+
 	/** The open. */
 	private boolean open = false;
-	
+
 	/** The close requested. */
 	private boolean closeRequested = false;
-	
+
 	/** The winner. */
 	public volatile byte winner = -1;
-	
+
 	/** The id. */
 	byte id;
-	
-	/** The messages. Should only operate on if the monitor to messagesLock is held */
+
+	/**
+	 * The messages. Should only operate on if the monitor to messagesLock is
+	 * held
+	 */
 	public final CopyOnWriteArrayList<Message> messages;
-	
-	/** A lock which should be waited upon or notified for changes to messages */
+
+	/**
+	 * A lock which should be waited upon or notified for changes to messages
+	 */
 	public final Object messagesLock;
-	
+
 	/**
 	 * Instantiates a new client.
 	 *
@@ -88,11 +95,16 @@ public class Client {
 		session = new Session();
 		messagesLock = new Object();
 		try {
-			logger.info("CLIENT: Connecting to server: "+ip+":"+port);
+			logger.info("CLIENT: Connecting to server: " + ip + ":" + port);
+
 			serverSocket = new Socket(ip, port);
+
 			logger.info("CLIENT: Successfully connected!");
+
 			out = new ObjectOutputStream(serverSocket.getOutputStream());
+
 			out.flush();
+
 			in = new ObjectInputStream(serverSocket.getInputStream());
 			logger.info("CLIENT: I/O streams initialized");
 			open = true;
@@ -100,7 +112,7 @@ public class Client {
 				public void run() {
 					try {
 						Message message;
-						while((message = (Message)in.readObject()) != null) {
+						while ((message = (Message) in.readObject()) != null) {
 							logger.info("CLIENT: Read " + message);
 							processInput(message);
 						}
@@ -119,44 +131,43 @@ public class Client {
 			logger.throwing("Client", "<init>", e);
 		}
 	}
-	
+
 	/**
 	 * Start.
 	 */
 	public void start() {
 		serverIn.start();
 	}
-	
+
 	/**
 	 * Process input.
 	 *
 	 * @param message the message
 	 */
 	private void processInput(Message message) {
-		if(message instanceof ClientInit) {
+		if (message instanceof ClientInit) {
 			ClientInit message2 = (ClientInit) message;
 			if (message2.hashes.equals(ClientInit.Hashes.pullFromStatics(message2.session.getMap()))) {
 				this.id = message2.clientID;
 				this.session = message2.session;
 				FEMultiplayer.getLocalPlayer().setClientID(message2.clientID);
-				if(id >= 2) {
+				if (id >= 2) {
 					FEMultiplayer.getLocalPlayer().getParty().setColor(Party.TEAM_RED);
 				}
-				logger.info("CLIENT: Recieved ID "+id+" from server");
+				logger.info("CLIENT: Recieved ID " + id + " from server");
 				// Send a join lobby request
 				sendMessage(new JoinLobby(id, FEMultiplayer.getLocalPlayer().getName()));
 			} else {
-				logger.info("CLIENT: Mismatched hashes:" +
-						"\n\tServer: " + message2.hashes +
-						"\n\tClient: " + ClientInit.Hashes.pullFromStatics(message2.session.getMap()));
+				logger.info("CLIENT: Mismatched hashes:" + "\n\tServer: " + message2.hashes + "\n\tClient: "
+				        + ClientInit.Hashes.pullFromStatics(message2.session.getMap()));
 				this.id = message2.clientID;
 				this.quit();
 				FEMultiplayer.setCurrentStage(FEMultiplayer.connect);
-				FEMultiplayer.connect.addEntity(new Notification(
-					180, 120, "default_med", "ERROR: Server and Client versions don't match", 5f, new Color(255, 100, 100), 0f));
+				FEMultiplayer.connect.addEntity(new Notification(180, 120, "default_med",
+				        "ERROR: Server and Client versions don't match", 5f, new Color(255, 100, 100), 0f));
 			}
 		} else if (message instanceof QuitMessage) {
-			if(message.origin == id && closeRequested) {
+			if (message.origin == id && closeRequested) {
 				close();
 			}
 		} else if (message instanceof KickMessage) {
@@ -164,20 +175,20 @@ public class Client {
 			if (kick.player == id) {
 				close();
 				FEMultiplayer.setCurrentStage(FEMultiplayer.connect);
-				FEMultiplayer.connect.addEntity(new Notification(
-					180, 120, "default_med", "KICKED: " + kick.reason, 5f, new Color(255, 100, 100), 0f));
+				FEMultiplayer.connect.addEntity(new Notification(180, 120, "default_med", "KICKED: " + kick.reason, 5f,
+				        new Color(255, 100, 100), 0f));
 			}
-		} else if(message instanceof EndGame) {
-			winner = (byte) ((EndGame)message).winner;
+		} else if (message instanceof EndGame) {
+			winner = (byte) ((EndGame) message).winner;
 		}
-		
+
 		session.handleMessage(message);
-		
+
 		synchronized (messagesLock) {
 			messages.add(message);
 		}
 	}
-	
+
 	/**
 	 * Close.
 	 */
@@ -191,7 +202,7 @@ public class Client {
 			logger.throwing("Client", "close", e);
 		}
 	}
-	
+
 	/**
 	 * Quit.
 	 */
@@ -200,7 +211,7 @@ public class Client {
 		// simple security to prevent clients closing other clients
 		closeRequested = true;
 	}
-	
+
 	/**
 	 * Send message.
 	 *
@@ -210,13 +221,13 @@ public class Client {
 		try {
 			message.origin = id;
 			out.writeObject(message);
-			logger.info("CLIENT: Sent message ["+message.toString()+"]");
+			logger.info("CLIENT: Sent message [" + message.toString() + "]");
 		} catch (IOException e) {
-			logger.severe("CLIENT Unable to send message: ["+message.toString()+"]");
+			logger.severe("CLIENT Unable to send message: [" + message.toString() + "]");
 			logger.throwing("Client", "sendMessage", e);
 		}
 	}
-	
+
 	/**
 	 * Checks if is open.
 	 *

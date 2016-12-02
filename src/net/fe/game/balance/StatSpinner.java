@@ -9,10 +9,10 @@ import javax.swing.*;
  * The Class StatSpinner.
  */
 public class StatSpinner extends JSpinner {
-	
+
 	/** The name. */
 	public final String name;
-	
+
 	/**
 	 * Instantiates a new stat spinner.
 	 *
@@ -20,8 +20,8 @@ public class StatSpinner extends JSpinner {
 	 * @param initial the initial
 	 * @param step the step
 	 */
-	public StatSpinner(String name, int initial, int step){
-		super(new SpinnerNumberModel(initial,0,100,step));
+	public StatSpinner(String name, int initial, int step) {
+		super(new SpinnerNumberModel(initial, 0, 100, step));
 		this.name = name;
 	}
 }

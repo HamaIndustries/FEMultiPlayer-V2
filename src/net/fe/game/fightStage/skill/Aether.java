@@ -10,73 +10,84 @@ import net.fe.game.unit.Unit;
  * The Class Aether.
  */
 public class Aether extends CombatTrigger {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -618799965651832966L;
 
 	/** The phase. */
 	private transient int phase;
-	
+
 	/** The Constant SOL. */
 	private static final int SOL = 0;
-	
+
 	/** The Constant LUNA. */
 	private static final int LUNA = 1;
-	
-	
+
 	/**
 	 * Instantiates Ather.
 	 * 
-	 * Info: Allows for 2 Consecutive attacks. The first counts as Sol, the other acts as Luna.
+	 * Info: Allows for 2 Consecutive attacks. The first counts as Sol, the
+	 * other acts as Luna.
 	 * 
 	 * Chance: Skl/2
 	 */
-	public Aether(){
-		super(REPLACE_NAME_AFTER_PRE, YOUR_TURN_PRE + YOUR_TURN_POST + YOUR_TURN_DRAIN,
-				"aether1", "aether2");
+	public Aether() {
+		super(REPLACE_NAME_AFTER_PRE, YOUR_TURN_PRE + YOUR_TURN_POST + YOUR_TURN_DRAIN, "aether1", "aether2");
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
 	public boolean attempt(Unit user, int range, Unit opponent) {
-		//return true;
-		return range == 1 && (RNG.get() < user.getStats().skl/2 || phase != SOL);
+		// return true;
+		return range == 1 && (RNG.get() < user.getStats().skl / 2 || phase != SOL);
 	}
-	
-	/* (non-Javadoc)
-	 * @see net.fe.fightStage.CombatTrigger#runPreAttack(net.fe.fightStage.CombatCalculator, net.fe.unit.Unit, net.fe.unit.Unit)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.fe.fightStage.CombatTrigger#runPreAttack(net.fe.fightStage.
+	 * CombatCalculator, net.fe.unit.Unit, net.fe.unit.Unit)
 	 */
 	@Override
 	public boolean runPreAttack(CombatCalculator calc, Unit a, Unit d) {
-		if(phase == LUNA){
+		if (phase == LUNA) {
 			new Luna(false).runPreAttack(calc, a, d);
 		}
 		return true;
 	}
-	
-	/* (non-Javadoc)
-	 * @see net.fe.fightStage.CombatTrigger#runDrain(net.fe.unit.Unit, net.fe.unit.Unit, int)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.fe.fightStage.CombatTrigger#runDrain(net.fe.unit.Unit,
+	 * net.fe.unit.Unit, int)
 	 */
 	@Override
-	public int runDrain(Unit a, Unit d, int damage){
-		if(phase == SOL){
-			if(damage == 0) return 0;
-			return Math.min(damage/2, a.getStats().maxHp - a.getHp());
+	public int runDrain(Unit a, Unit d, int damage) {
+		if (phase == SOL) {
+			if (damage == 0)
+				return 0;
+			return Math.min(damage / 2, a.getStats().maxHp - a.getHp());
 		} else {
 			return 0;
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see net.fe.fightStage.CombatTrigger#runPostAttack(net.fe.fightStage.CombatCalculator, boolean, net.fe.unit.Unit, net.fe.unit.Unit, int, java.lang.String)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.fe.fightStage.CombatTrigger#runPostAttack(net.fe.fightStage.
+	 * CombatCalculator, boolean, net.fe.unit.Unit, net.fe.unit.Unit, int,
+	 * java.lang.String)
 	 */
 	@Override
-	public void runPostAttack(CombatCalculator calc, boolean dir, Unit a, Unit d,
-			int damage, String currentEffect) {
-		if(phase == SOL){
-			if(d.getHp() > 0){
+	public void runPostAttack(CombatCalculator calc, boolean dir, Unit a, Unit d, int damage, String currentEffect) {
+		if (phase == SOL) {
+			if (d.getHp() > 0) {
 				phase = LUNA;
 				calc.addAttack("Aether");
 			}
@@ -84,18 +95,22 @@ public class Aether extends CombatTrigger {
 			phase = SOL;
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.fightStage.CombatTrigger#getName()
 	 */
-	public String getName(){
+	public String getName() {
 		return "Aether" + (phase + 1);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.fightStage.CombatTrigger#getCopy()
 	 */
-	public CombatTrigger getCopy(){
+	public CombatTrigger getCopy() {
 		return new Aether();
 	}
 }

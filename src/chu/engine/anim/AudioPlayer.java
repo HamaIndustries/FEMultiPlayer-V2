@@ -26,15 +26,15 @@ public class AudioPlayer {
 	public static void setCamera(Camera c) {
 		camera = c;
 	}
-	
+
 	/**
 	 * Play audio.
 	 *
 	 * @param name the name
 	 */
-	public static void playAudio(String name){
-			Audio audio = FEResources.getAudio(name);
-			audio.playAsSoundEffect(1.0f, FEResources.getAudioVolume(), false);
-		
+	public static void playAudio(String name) {
+		Audio audio = FEResources.getAudio(name);
+		audio.playAsSoundEffect(1.0f, FEResources.getAudioVolume(), false);
+
 	}
 }

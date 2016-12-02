@@ -5,7 +5,7 @@ package net.fe.overworldStage;
  * The Class CursorContext.
  */
 public abstract class CursorContext extends OverworldContext {
-	
+
 	/**
 	 * Instantiates a new cursor context.
 	 *
@@ -15,8 +15,10 @@ public abstract class CursorContext extends OverworldContext {
 	public CursorContext(ClientOverworldStage s, OverworldContext prevContext) {
 		super(s, prevContext);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onUp()
 	 */
 	public void onUp() {
@@ -27,7 +29,9 @@ public abstract class CursorContext extends OverworldContext {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onDown()
 	 */
 	public void onDown() {
@@ -38,7 +42,9 @@ public abstract class CursorContext extends OverworldContext {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onLeft()
 	 */
 	public void onLeft() {
@@ -50,7 +56,9 @@ public abstract class CursorContext extends OverworldContext {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onRight()
 	 */
 	public void onRight() {
@@ -65,7 +73,7 @@ public abstract class CursorContext extends OverworldContext {
 	 * Cursor changed.
 	 */
 	public abstract void cursorChanged();
-	
+
 	/**
 	 * Cursor will change.
 	 */

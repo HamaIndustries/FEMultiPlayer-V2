@@ -14,16 +14,16 @@ public final class Tileset {
 
 	/** The image to use */
 	private Texture tileset;
-	
+
 	/** The width of each tile */
 	private final int tileWidth;
-	
+
 	/** The height of each tile */
 	private final int tileHeight;
-	
+
 	/** The width of `tileset` */
 	private int width;
-	
+
 	/** The height of `tileset` */
 	private int height;
 
@@ -52,9 +52,8 @@ public final class Tileset {
 	 */
 	public Tileset(String path, int tileWidth, int tileHeight) {
 		try {
-			tileset = TextureLoader.getTexture("PNG",
-					ResourceLoader.getResourceAsStream(path));
-			System.out.println("Loaded: "+path);
+			tileset = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(path));
+			System.out.println("Loaded: " + path);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -78,10 +77,10 @@ public final class Tileset {
 		float ty0 = (float) ty / (height / tileHeight);
 		float tx1 = (float) (tx + 1) / (width / tileWidth);
 		float ty1 = (float) (ty + 1) / (height / tileHeight);
-		Renderer.render(tileset, tx0, ty0, tx1, ty1, (int) x, (int) y,
-				(int) (x + tileWidth), (int) (y + tileHeight), depth);
+		Renderer.render(tileset, tx0, ty0, tx1, ty1, (int) x, (int) y, (int) (x + tileWidth), (int) (y + tileHeight),
+		        depth);
 	}
-	
+
 	/**
 	 * Render transformed.
 	 *
@@ -97,8 +96,8 @@ public final class Tileset {
 		float ty0 = (float) ty / (height / tileHeight);
 		float tx1 = (float) (tx + 1) / (width / tileWidth);
 		float ty1 = (float) (ty + 1) / (height / tileHeight);
-		Renderer.render(tileset, tx0, ty0, tx1, ty1, (int) x, (int) y,
-				(int) (x + tileWidth), (int) (y + tileHeight), depth, t);
+		Renderer.render(tileset, tx0, ty0, tx1, ty1, (int) x, (int) y, (int) (x + tileWidth), (int) (y + tileHeight),
+		        depth, t);
 	}
 
 }

@@ -17,27 +17,28 @@ import net.fe.overworldStage.Node;
 import java.util.Optional;
 
 public final class RescueCommand extends Command {
-	
+
 	private static final long serialVersionUID = 6468268282716381357L;
-	
+
 	private final UnitIdentifier rescueeId;
-	
+
 	public RescueCommand(UnitIdentifier rescueeId) {
 		this.rescueeId = rescueeId;
 	}
-	
+
 	@Override
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit unit) {
-		
-		//TODO: validate
+
+		// TODO: validate
 		Unit rescuee = stage.getUnit(rescueeId);
 		unit.rescue(rescuee);
 		return null;
 	}
-	
+
 	@Override
-	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords, Runnable callback) {
-		
+	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords,
+	        Runnable callback) {
+
 		return new Runnable() {
 			public void run() {
 				Unit rescuee = stage.getUnit(rescueeId);
@@ -48,7 +49,7 @@ public final class RescueCommand extends Command {
 			}
 		};
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Rescue[" + rescueeId + "]";

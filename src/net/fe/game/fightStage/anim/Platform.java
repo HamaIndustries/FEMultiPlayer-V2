@@ -14,10 +14,10 @@ import chu.engine.entity.Entity;
  * The Class Platform.
  */
 public class Platform extends Entity {
-	
+
 	/** The left. */
 	private boolean left;
-	
+
 	/** The texture. */
 	private Texture texture;
 
@@ -32,14 +32,16 @@ public class Platform extends Entity {
 		super(left ? 0 : FightStage.CENTRAL_AXIS, FightStage.FLOOR - 16);
 		this.left = left;
 		String txtName = t.name().toLowerCase();
-		if(range > 1){
+		if (range > 1) {
 			txtName += "_far";
 		}
 		texture = FEResources.getTexture("platform_" + txtName);
 		renderDepth = FightStage.PLATFORM_DEPTH;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Entity#render()
 	 */
 	public void render() {
@@ -47,8 +49,7 @@ public class Platform extends Entity {
 		if (!left) {
 			t.flipHorizontal();
 		}
-		Renderer.render(texture, 0, 0, 1, 1, x, y, x + 120, y + 40,
-				1, t);
+		Renderer.render(texture, 0, 0, 1, 1, x, y, x + 120, y + 40, 1, t);
 	}
 
 }

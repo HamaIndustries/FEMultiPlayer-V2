@@ -15,19 +15,19 @@ public class Notification extends Entity {
 
 	/** The text. */
 	private String text;
-	
+
 	/** The transform. */
 	private Transform transform;
-	
+
 	/** The font. */
 	private String font;
-	
+
 	/** The timer. */
 	private float timer;
-	
+
 	/** The lifetime. */
 	private float lifetime;
-	
+
 	/**
 	 * Instantiates a new notification.
 	 *
@@ -41,7 +41,7 @@ public class Notification extends Entity {
 	public Notification(float x, float y, String font, String text, float lifetime, float depth) {
 		this(x, y, font, text, lifetime, Color.white, depth);
 	}
-	
+
 	/**
 	 * Instantiates a new notification.
 	 *
@@ -63,16 +63,21 @@ public class Notification extends Entity {
 		transform = new Transform();
 		transform.color = c;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Entity#endStep()
 	 */
 	public void endStep() {
 		timer += Game.getDeltaSeconds();
-		if(timer > lifetime) destroy();
+		if (timer > lifetime)
+			destroy();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Entity#render()
 	 */
 	public void render() {

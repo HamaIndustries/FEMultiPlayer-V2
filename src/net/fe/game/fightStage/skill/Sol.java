@@ -9,19 +9,19 @@ import net.fe.game.unit.Unit;
  * The Class Sol.
  */
 public class Sol extends CombatTrigger {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 4213665653533259538L;
-	
+
 	/** The ranged. */
 	private transient boolean ranged;
-	
+
 	/**
 	 * Instantiates a new sol.
 	 *
-	 *Info: Increases HP by half the damage the user has dealt.
+	 * Info: Increases HP by half the damage the user has dealt.
 	 *
-	 *Chance: Skl
+	 * Chance: Skl
 	 *
 	 * @param rangeok the rangeok
 	 */
@@ -30,27 +30,34 @@ public class Sol extends CombatTrigger {
 		ranged = rangeok;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
 	public boolean attempt(Unit user, int range, Unit opponent) {
 		return (ranged || range == 1) && RNG.get() < user.getStats().skl;
 	}
-	
-	/* (non-Javadoc)
-	 * @see net.fe.fightStage.CombatTrigger#runDrain(net.fe.unit.Unit, net.fe.unit.Unit, int)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.fe.fightStage.CombatTrigger#runDrain(net.fe.unit.Unit,
+	 * net.fe.unit.Unit, int)
 	 */
-	public int runDrain(Unit a, Unit d, int damage){
+	public int runDrain(Unit a, Unit d, int damage) {
 		if (damage == 0)
 			return 0;
 		return Math.min(damage / 2, a.getStats().maxHp - a.getHp());
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.fightStage.CombatTrigger#getCopy()
 	 */
-	public CombatTrigger getCopy(){
+	public CombatTrigger getCopy() {
 		return new Sol(ranged);
 	}
 }

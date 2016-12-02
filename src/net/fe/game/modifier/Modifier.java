@@ -11,8 +11,8 @@ import net.fe.game.unit.Unit;
 /**
  * The Interface Modifier.
  */
-public interface Modifier extends Serializable{
-	
+public interface Modifier extends Serializable {
+
 	/**
 	 * Edit the resources availiable while building a team.
 	 * 
@@ -22,7 +22,7 @@ public interface Modifier extends Serializable{
 	 * @return the new starting resources
 	 */
 	public TeamBuilderResources modifyTeamResources(TeamBuilderResources limits);
-	
+
 	/**
 	 * Transforms a list of items.
 	 * 
@@ -32,7 +32,7 @@ public interface Modifier extends Serializable{
 	 * @return the modified list
 	 */
 	public Iterable<Item> modifyShop(Iterable<Item> shop);
-	
+
 	/**
 	 * Modifies a list of units; for use immediately before the game starts
 	 *
@@ -41,7 +41,7 @@ public interface Modifier extends Serializable{
 	 * @param units the units
 	 */
 	public void initOverworldUnits(Iterable<Unit> units);
-	
+
 	/**
 	 * Gets the description.
 	 *

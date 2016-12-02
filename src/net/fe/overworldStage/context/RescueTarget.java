@@ -16,6 +16,7 @@ import net.fe.network.command.RescueCommand;
 public class RescueTarget extends SelectTargetContext {
 
 	private Unit unit;
+
 	/**
 	 * Instantiates a new rescue target.
 	 *
@@ -24,21 +25,26 @@ public class RescueTarget extends SelectTargetContext {
 	 * @param z the z
 	 * @param u the u
 	 */
-	public RescueTarget(ClientOverworldStage stage, OverworldContext context, Zone z,
-			Unit u) {
+	public RescueTarget(ClientOverworldStage stage, OverworldContext context, Zone z, Unit u) {
 		super(stage, context, z, u, true);
 		unit = u;
 	}
-	
-	/* (non-Javadoc)
-	 * @see net.fe.overworldStage.SelectTargetContext#validTarget(net.fe.unit.Unit)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.fe.overworldStage.SelectTargetContext#validTarget(net.fe.unit.Unit)
 	 */
-	public boolean validTarget(Unit p){
+	public boolean validTarget(Unit p) {
 		return super.validTarget(p) && p.rescuedUnit() == null && unit.canRescue(p);
 	}
 
-	/* (non-Javadoc)
-	 * @see net.fe.overworldStage.SelectTargetContext#unitSelected(net.fe.unit.Unit)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.fe.overworldStage.SelectTargetContext#unitSelected(net.fe.unit.Unit)
 	 */
 	@Override
 	public void unitSelected(Unit u) {
@@ -52,6 +58,8 @@ public class RescueTarget extends SelectTargetContext {
 	}
 
 	private static final class EmptyRunnable implements Runnable {
-		@Override public void run() {}
+		@Override
+		public void run() {
+		}
 	}
 }

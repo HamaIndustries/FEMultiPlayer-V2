@@ -7,10 +7,9 @@ import chu.engine.entity.Entity;
  * The Interface Collidable.
  */
 public interface Collidable {
-	
+
 	/**
-	 * Method that deals with any collisions with the entities in
-	 * the array.
+	 * Method that deals with any collisions with the entities in the array.
 	 *
 	 * @param entity the entity
 	 */

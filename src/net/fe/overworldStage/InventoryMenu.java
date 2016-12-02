@@ -11,10 +11,10 @@ import net.fe.game.unit.Unit;
  * The Class InventoryMenu.
  */
 public class InventoryMenu extends ItemMenu {
-	
+
 	/** The unit. */
 	protected Unit unit;
-	
+
 	/**
 	 * Instantiates a new inventory menu.
 	 *
@@ -26,26 +26,28 @@ public class InventoryMenu extends ItemMenu {
 		super(x, y);
 		unit = u;
 	}
-	
+
 	/**
 	 * Instantiates a new inventory menu.
 	 *
 	 * @param u the u
 	 */
-	public InventoryMenu(Unit u){
-		this(u,0,0);
+	public InventoryMenu(Unit u) {
+		this(u, 0, 0);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Entity#onStep()
 	 */
-	public void onStep(){
+	public void onStep() {
 		items.clear();
 		Iterator<Item> inv = unit.getInventory().iterator();
-		for(int i = 0; i < 4; i++){
-			if(inv.hasNext()){
+		for (int i = 0; i < 4; i++) {
+			if (inv.hasNext()) {
 				Item it = inv.next();
-				items.add(new ItemDisplay(0,0, it, unit.getWeapon() == it));
+				items.add(new ItemDisplay(0, 0, it, unit.getWeapon() == it));
 			} else {
 				items.add(null);
 			}

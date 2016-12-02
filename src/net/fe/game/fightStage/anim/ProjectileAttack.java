@@ -9,11 +9,11 @@ import net.fe.game.fightStage.FightStage;
 /**
  * The Class ProjectileAttack.
  */
-public class ProjectileAttack extends AttackAnimation{
-	
+public class ProjectileAttack extends AttackAnimation {
+
 	/** The ididit. */
 	private boolean ididit;
-	
+
 	/**
 	 * Instantiates a new projectile attack.
 	 *
@@ -21,36 +21,41 @@ public class ProjectileAttack extends AttackAnimation{
 	 * @param stage the stage
 	 * @param animArgs the anim args
 	 */
-	public ProjectileAttack(AnimationData data, FightStage stage,
-			AnimationArgs animArgs) {
+	public ProjectileAttack(AnimationData data, FightStage stage, AnimationArgs animArgs) {
 		super(data, stage, animArgs);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.fightStage.anim.AttackAnimation#update()
 	 */
-	public void update(){
+	public void update() {
 		super.update();
-		if(getFrame() >= hitframes[0] && !ididit){
+		if (getFrame() >= hitframes[0] && !ididit) {
 			ididit = true;
 			((FightStage) stage).moveCamera(animationArgs.left);
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.fightStage.anim.AttackAnimation#done()
 	 */
-	public void done(){
-		try{
+	public void done() {
+		try {
 			super.done();
-		} catch (IllegalArgumentException e){
-			//Drats! We'll try again next frame.
-			setFrame(getLength()-1);
+		} catch (IllegalArgumentException e) {
+			// Drats! We'll try again next frame.
+			setFrame(getLength() - 1);
 		}
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.fightStage.anim.AttackAnimation#onLastHit()
 	 */
 	@Override
@@ -58,12 +63,14 @@ public class ProjectileAttack extends AttackAnimation{
 		stage.setCurrentEvent(FightStage.HIT_EFFECT);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.fightStage.anim.AttackAnimation#onHit()
 	 */
 	@Override
 	public void onHit() {
-		
+
 	}
 
 }

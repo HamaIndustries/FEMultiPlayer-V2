@@ -22,7 +22,7 @@ import chu.engine.anim.Renderer;
  * The Class LevelEditor.
  */
 public class LevelEditor extends Game {
-	
+
 	/** The current stage. */
 	private static Stage currentStage;
 
@@ -36,8 +36,10 @@ public class LevelEditor extends Game {
 		game.init(960, 640, "Fire Emblem Level Editor");
 		game.loop();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Game#init(int, int, java.lang.String)
 	 */
 	@Override
@@ -45,30 +47,30 @@ public class LevelEditor extends Game {
 		super.init(width, height, name);
 		currentStage = new LevelEditorStage("seven?");
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Game#loop()
 	 */
 	@Override
 	public void loop() {
-		while(!Display.isCloseRequested()) {
+		while (!Display.isCloseRequested()) {
 			final long time = System.nanoTime();
-			glClear(GL_COLOR_BUFFER_BIT |
-			        GL_DEPTH_BUFFER_BIT |
-			        GL_STENCIL_BUFFER_BIT);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 			glClearDepth(1.0f);
 			getInput();
 			glPushMatrix();
-				currentStage.beginStep(emptyList());
-				currentStage.onStep();
-				currentStage.processAddStack();
-				currentStage.processRemoveStack();
-				Renderer.getCamera().lookThrough();
-				currentStage.render();
-				currentStage.endStep();
+			currentStage.beginStep(emptyList());
+			currentStage.onStep();
+			currentStage.processAddStack();
+			currentStage.processRemoveStack();
+			Renderer.getCamera().lookThrough();
+			currentStage.render();
+			currentStage.endStep();
 			glPopMatrix();
 			Display.update();
-			timeDelta = System.nanoTime()-time;
+			timeDelta = System.nanoTime() - time;
 		}
 		AL.destroy();
 		Display.destroy();

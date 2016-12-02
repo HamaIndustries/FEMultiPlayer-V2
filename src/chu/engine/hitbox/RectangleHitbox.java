@@ -7,10 +7,10 @@ import chu.engine.entity.Entity;
  * The Class RectangleHitbox.
  */
 public class RectangleHitbox extends Hitbox {
-	
+
 	/** The width. */
 	private float width;
-	
+
 	/** The height. */
 	private float height;
 
@@ -55,7 +55,7 @@ public class RectangleHitbox extends Hitbox {
 	public float getHeight() {
 		return height;
 	}
-	
+
 	/**
 	 * Sets the height.
 	 *
@@ -73,7 +73,7 @@ public class RectangleHitbox extends Hitbox {
 	public float getEndY() {
 		return getY() + height;
 	}
-	
+
 	/**
 	 * Gets the end x.
 	 *
@@ -82,5 +82,5 @@ public class RectangleHitbox extends Hitbox {
 	public float getEndX() {
 		return getX() + width;
 	}
-	
+
 }

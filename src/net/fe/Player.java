@@ -9,22 +9,22 @@ import net.fe.network.message.JoinTeam;
  * The Class Player.
  */
 public class Player implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -7461827659473965623L;
-	
+
 	/** The party. */
 	private Party party;
-	
+
 	/** The client id. */
 	private byte clientID;
-	
+
 	/** The nickname. */
 	private String nickname;
-	
+
 	/** The team. */
 	private Team team;
-	
+
 	/** The ready. */
 	public boolean ready;
 
@@ -41,7 +41,7 @@ public class Player implements Serializable {
 		team = Team.SPECTATOR;
 		ready = false;
 	}
-	
+
 	/**
 	 * Checks if is spectator.
 	 *
@@ -50,7 +50,7 @@ public class Player implements Serializable {
 	public boolean isSpectator() {
 		return team == Team.SPECTATOR;
 	}
-	
+
 	/**
 	 * Gets the party.
 	 *
@@ -59,7 +59,7 @@ public class Player implements Serializable {
 	public Party getParty() {
 		return party;
 	}
-	
+
 	/**
 	 * Gets the id.
 	 *
@@ -68,7 +68,7 @@ public class Player implements Serializable {
 	public byte getID() {
 		return clientID;
 	}
-	
+
 	/**
 	 * Gets the name.
 	 *
@@ -113,7 +113,7 @@ public class Player implements Serializable {
 	public void joinTeam(Team team) {
 		FEMultiplayer.getClient().sendMessage(new JoinTeam(clientID, team));
 	}
-	
+
 	/**
 	 * Equals.
 	 *

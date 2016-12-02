@@ -22,7 +22,7 @@ public class ProTactics implements Modifier {
 
 	@Override
 	public void initOverworldUnits(Iterable<Unit> units) {
-		for(Unit u : units) {
+		for (Unit u : units) {
 			u.addSkill(new Pavise());
 		}
 

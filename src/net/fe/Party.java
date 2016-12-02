@@ -13,29 +13,29 @@ import net.fe.game.unit.Unit;
 /**
  * The Class Party.
  */
-public class Party implements Iterable<Unit>, Serializable{
-	
+public class Party implements Iterable<Unit>, Serializable {
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1334090578185765598L;
-	
+
 	/** The color. */
 	private Color color;
-	
+
 	/** The units. */
 	private ArrayList<Unit> units;
-	
+
 	/** The allies. */
 	private ArrayList<Party> allies;
-	
+
 	/** The Constant TEAM_RED. */
-	public static final Color TEAM_RED = new Color(220,0,0);
-	
+	public static final Color TEAM_RED = new Color(220, 0, 0);
+
 	/** The Constant TEAM_GREEN. */
-	public static final Color TEAM_GREEN = new Color(0,190,0);
-	
+	public static final Color TEAM_GREEN = new Color(0, 190, 0);
+
 	/** The Constant TEAM_BLUE. */
-	public static final Color TEAM_BLUE = new Color(0,0,220);
-	
+	public static final Color TEAM_BLUE = new Color(0, 0, 220);
+
 	/**
 	 * Instantiates a new party.
 	 */
@@ -45,7 +45,7 @@ public class Party implements Iterable<Unit>, Serializable{
 		allies.add(this);
 		color = TEAM_BLUE;
 	}
-	
+
 	/**
 	 * Instantiates a new party.
 	 *
@@ -56,26 +56,26 @@ public class Party implements Iterable<Unit>, Serializable{
 		allies = new ArrayList<Party>();
 		allies.add(this);
 	}
-	
+
 	/**
 	 * Adds the ally.
 	 *
 	 * @param p the p
 	 */
-	public void addAlly(Party p){
+	public void addAlly(Party p) {
 		allies.add(p);
 	}
-	
+
 	/**
 	 * Checks if is ally.
 	 *
 	 * @param p the p
 	 * @return true, if is ally
 	 */
-	public boolean isAlly(Party p){
+	public boolean isAlly(Party p) {
 		return allies.contains(p);
 	}
-	
+
 	/**
 	 * Adds the unit.
 	 *
@@ -85,7 +85,7 @@ public class Party implements Iterable<Unit>, Serializable{
 		units.add(unit);
 		unit.setParty(this);
 	}
-	
+
 	/**
 	 * Gets the unit.
 	 *
@@ -104,7 +104,7 @@ public class Party implements Iterable<Unit>, Serializable{
 	public List<Unit> getUnits() {
 		return units;
 	}
-	
+
 	/**
 	 * Search.
 	 *
@@ -112,14 +112,14 @@ public class Party implements Iterable<Unit>, Serializable{
 	 * @return the unit
 	 */
 	public Unit search(String name) {
-		for(Unit u : units) {
-			if(u.name.equals(name)){
+		for (Unit u : units) {
+			if (u.name.equals(name)) {
 				return u;
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Size.
 	 *
@@ -128,26 +128,28 @@ public class Party implements Iterable<Unit>, Serializable{
 	public int size() {
 		return units.size();
 	}
-	
+
 	/**
 	 * Sets the color.
 	 *
 	 * @param c the new color
 	 */
-	public void setColor(Color c){
+	public void setColor(Color c) {
 		color = c;
 	}
-	
+
 	/**
 	 * Gets the color.
 	 *
 	 * @return the color
 	 */
-	public Color getColor(){
+	public Color getColor() {
 		return color;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Iterable#iterator()
 	 */
 	@Override

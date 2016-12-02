@@ -10,10 +10,10 @@ public class LineHitbox extends Hitbox {
 
 	/** The dx. */
 	protected float dx;
-	
+
 	/** The dy. */
 	protected float dy;
-	
+
 	/**
 	 * Instantiates a new line hitbox.
 	 *
@@ -28,7 +28,7 @@ public class LineHitbox extends Hitbox {
 		this.dx = dx;
 		this.dy = dy;
 	}
-	
+
 	/**
 	 * Gets the end x.
 	 *
@@ -37,7 +37,7 @@ public class LineHitbox extends Hitbox {
 	public float getEndX() {
 		return parent.x + offsetX + dx;
 	}
-	
+
 	/**
 	 * Gets the end y.
 	 *

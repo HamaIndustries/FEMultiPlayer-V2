@@ -7,10 +7,10 @@ import org.lwjgl.opengl.GL20;
  * The Class ShaderArgs.
  */
 public class ShaderArgs {
-	
+
 	/** The program name. */
 	public String programName;
-	
+
 	/** The args. */
 	public float[] args;
 
@@ -24,7 +24,7 @@ public class ShaderArgs {
 		this.programName = prog;
 		this.args = args;
 	}
-	
+
 	/**
 	 * Instantiates a new shader args.
 	 */
@@ -39,8 +39,8 @@ public class ShaderArgs {
 	 * @param program the program
 	 */
 	public void bindArgs(int program) {
-		for(int i=0; i<args.length; i++) {
-			int loc = GL20.glGetUniformLocation(program, "arg"+i);
+		for (int i = 0; i < args.length; i++) {
+			int loc = GL20.glGetUniformLocation(program, "arg" + i);
 			GL20.glUniform1f(loc, args[i]);
 		}
 	}

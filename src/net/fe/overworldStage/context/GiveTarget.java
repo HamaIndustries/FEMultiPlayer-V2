@@ -15,7 +15,7 @@ import net.fe.overworldStage.Zone;
 public class GiveTarget extends SelectTargetContext {
 
 	private Unit unit;
-	
+
 	/**
 	 * Instantiates a new give target.
 	 *
@@ -24,21 +24,26 @@ public class GiveTarget extends SelectTargetContext {
 	 * @param z the z
 	 * @param u the u
 	 */
-	public GiveTarget(ClientOverworldStage stage, OverworldContext context, Zone z,
-			Unit u) {
+	public GiveTarget(ClientOverworldStage stage, OverworldContext context, Zone z, Unit u) {
 		super(stage, context, z, u, true);
 		unit = u;
 	}
-	
-	/* (non-Javadoc)
-	 * @see net.fe.overworldStage.SelectTargetContext#validTarget(net.fe.unit.Unit)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.fe.overworldStage.SelectTargetContext#validTarget(net.fe.unit.Unit)
 	 */
-	public boolean validTarget(Unit u){
+	public boolean validTarget(Unit u) {
 		return super.validTarget(u) && u.rescuedUnit() == null && u.canRescue(unit.rescuedUnit());
 	}
 
-	/* (non-Javadoc)
-	 * @see net.fe.overworldStage.SelectTargetContext#unitSelected(net.fe.unit.Unit)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.fe.overworldStage.SelectTargetContext#unitSelected(net.fe.unit.Unit)
 	 */
 	@Override
 	public void unitSelected(Unit u) {

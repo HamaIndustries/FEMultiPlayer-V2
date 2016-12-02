@@ -11,7 +11,7 @@ import net.fe.game.fightStage.FightStage;
  * The Class NormalAttack.
  */
 public class NormalAttack extends AttackAnimation {
-	
+
 	/**
 	 * Instantiates a new normal attack.
 	 *
@@ -23,7 +23,9 @@ public class NormalAttack extends AttackAnimation {
 		super(data, stage, args);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.fightStage.anim.AttackAnimation#onLastHit()
 	 */
 	@Override
@@ -32,7 +34,9 @@ public class NormalAttack extends AttackAnimation {
 		loopNextFrames(freeze);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.fightStage.anim.AttackAnimation#onHit()
 	 */
 	@Override

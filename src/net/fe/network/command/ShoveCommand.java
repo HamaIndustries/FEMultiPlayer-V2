@@ -14,32 +14,33 @@ import net.fe.overworldStage.Node;
 import java.util.Optional;
 
 public final class ShoveCommand extends Command {
-	
+
 	private static final long serialVersionUID = 6468268282716381357L;
-	
+
 	private final UnitIdentifier shoveeId;
-	
+
 	public ShoveCommand(UnitIdentifier shoveeId) {
 		this.shoveeId = shoveeId;
 	}
-	
+
 	@Override
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit unit) {
 		final Unit shovee = stage.getUnit(shoveeId);
 		int deltaX = shovee.getXCoord() - unit.getXCoord();
 		int deltaY = shovee.getYCoord() - unit.getYCoord();
-		
-		if (! net.fe.overworldStage.fieldskill.Shove.canShove(stage.grid, unit, shovee)) {
+
+		if (!net.fe.overworldStage.fieldskill.Shove.canShove(stage.grid, unit, shovee)) {
 			throw new IllegalStateException("SHOVE: Shover is not allowed to shove shovee");
 		} else {
 			stage.grid.move(shovee, shovee.getXCoord() + deltaX, shovee.getYCoord() + deltaY, false);
 			return null;
 		}
 	}
-	
+
 	@Override
-	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords, Runnable callback) {
-		
+	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords,
+	        Runnable callback) {
+
 		return new Runnable() {
 			public void run() {
 				final Unit shovee = stage.getUnit(shoveeId);
@@ -48,9 +49,11 @@ public final class ShoveCommand extends Command {
 				int deltaY = shovee.getYCoord() - unit.getYCoord();
 				int newX = shovee.getXCoord() + deltaX;
 				int newY = shovee.getYCoord() + deltaY;
-				
-				shovee.setOrigX(newX); // Otherwise, shovee will jump back to it's inital space on select 
-				shovee.setOrigY(newY); // Otherwise, shovee will jump back to it's inital space on select
+
+				shovee.setOrigX(newX); // Otherwise, shovee will jump back to
+		                               // it's inital space on select
+				shovee.setOrigY(newY); // Otherwise, shovee will jump back to
+		                               // it's inital space on select
 				Path p = new Path();
 				p.add(new Node(newX, newY));
 				stage.grid.move(shovee, newX, newY, true);
@@ -64,7 +67,7 @@ public final class ShoveCommand extends Command {
 			}
 		};
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Shove[" + shoveeId + "]";

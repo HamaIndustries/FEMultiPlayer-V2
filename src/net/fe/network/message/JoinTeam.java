@@ -8,13 +8,13 @@ import net.fe.network.Message;
  * The Class JoinTeam.
  */
 public final class JoinTeam extends Message {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -2805120675582622842L;
-	
+
 	/** The team. */
 	public final Team team;
-	
+
 	/**
 	 * Instantiates a new join team.
 	 *
@@ -25,11 +25,13 @@ public final class JoinTeam extends Message {
 		super(origin);
 		this.team = team;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.network.Message#toString()
 	 */
 	public String toString() {
-		return super.toString()+team;
+		return super.toString() + team;
 	}
 }

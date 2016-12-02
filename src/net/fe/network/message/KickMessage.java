@@ -7,12 +7,12 @@ import net.fe.network.Message;
  */
 public final class KickMessage extends Message {
 	private static final long serialVersionUID = 6558427589809693714L;
-	
+
 	/** The client that is being told to leave */
 	public final byte player;
 	/** The reason for the kick */
 	public final String reason;
-	
+
 	/**
 	 * Instantiates a new KickMessage.
 	 *
@@ -25,9 +25,9 @@ public final class KickMessage extends Message {
 		this.player = player;
 		this.reason = reason;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return super.toString() + player + " :: " + reason;
 	}
 }

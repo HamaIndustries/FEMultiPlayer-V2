@@ -9,47 +9,47 @@ import chu.engine.Game;
  * The Class Animation.
  */
 public class Animation {
-	
+
 	private boolean hasRun = false;
-	
+
 	/** The texture. */
 	private Texture texture;
-	
+
 	/** The width. */
 	private int width;
-	
+
 	/** The height. */
 	private int height;
-	
+
 	/** The rows. */
 	private int rows;
-	
+
 	/** The columns. */
 	private int columns;
-	
+
 	/** The current frame. */
 	private int currentFrame;
-	
+
 	/** The counter. */
 	private float counter;
-	
+
 	/** The length. */
 	private int length;
-	
+
 	/** The offset x. */
 	private int offsetX;
-	
+
 	/** The offset y. */
 	private int offsetY;
-	
+
 	/** The sprite. */
 	protected Sprite sprite;
-	
+
 	/** Time for each frame in seconds */
 	protected float speed;
-	
+
 	private BlendModeArgs blend;
-	
+
 	/**
 	 * Instantiates a new single-frame animation.
 	 *
@@ -68,7 +68,7 @@ public class Animation {
 		counter = 0;
 		this.blend = blend;
 	}
-	
+
 	/**
 	 * Instantiates a new animation.
 	 *
@@ -85,7 +85,7 @@ public class Animation {
 		this.width = width;
 		this.height = height;
 		this.columns = columns;
-		this.rows = (length/columns)+1;
+		this.rows = (length / columns) + 1;
 		this.length = length;
 		this.speed = speed;
 		this.offsetX = 0;
@@ -93,7 +93,7 @@ public class Animation {
 		this.currentFrame = 0;
 		counter = 0;
 	}
-	
+
 	/**
 	 * Instantiates a new animation.
 	 *
@@ -107,13 +107,13 @@ public class Animation {
 	 * @param speed the speed
 	 * @param blend the blend mode to use when drawing this animation
 	 */
-	public Animation(Texture t, int width, int height, int length, int columns,
-			int offsetX, int offsetY, float speed, BlendModeArgs blend) {
+	public Animation(Texture t, int width, int height, int length, int columns, int offsetX, int offsetY, float speed,
+	        BlendModeArgs blend) {
 		this(t, blend);
 		this.width = width;
 		this.height = height;
 		this.columns = columns;
-		this.rows = (length/columns)+1;
+		this.rows = (length / columns) + 1;
 		this.length = length;
 		this.speed = speed;
 		this.offsetX = offsetX;
@@ -121,113 +121,133 @@ public class Animation {
 		this.currentFrame = 0;
 		counter = 0;
 	}
-	
+
 	/**
 	 * Gets the length.
 	 *
 	 * @return the length
 	 */
-	public int getLength() { return length; }
-	
+	public int getLength() {
+		return length;
+	}
+
 	/**
 	 * Gets the frame.
 	 *
 	 * @return the frame
 	 */
-	public int getFrame() { return currentFrame; }
-	
+	public int getFrame() {
+		return currentFrame;
+	}
+
 	/**
 	 * Gets the width.
 	 *
 	 * @return the width
 	 */
-	public int getWidth() { return width; }
-	
+	public int getWidth() {
+		return width;
+	}
+
 	/**
 	 * Gets the height.
 	 *
 	 * @return the height
 	 */
-	public int getHeight() { return height; }
-	
+	public int getHeight() {
+		return height;
+	}
+
 	/**
 	 * Gets the rows.
 	 *
 	 * @return the rows
 	 */
-	public int getRows() { return rows; }
-	
+	public int getRows() {
+		return rows;
+	}
+
 	/**
 	 * Gets the columns.
 	 *
 	 * @return the columns
 	 */
-	public int getColumns() { return columns; }
-	
+	public int getColumns() {
+		return columns;
+	}
+
 	/**
 	 * Gets the image height.
 	 *
 	 * @return the image height
 	 */
-	public int getImageHeight() { return texture.getImageHeight(); }
-	
+	public int getImageHeight() {
+		return texture.getImageHeight();
+	}
+
 	/**
 	 * Gets the image width.
 	 *
 	 * @return the image width
 	 */
-	public int getImageWidth() { return texture.getImageWidth(); }
-	
+	public int getImageWidth() {
+		return texture.getImageWidth();
+	}
+
 	/**
 	 * Gets the texture.
 	 *
 	 * @return the texture
 	 */
-	public Texture getTexture() { return texture; }
-	
-	
+	public Texture getTexture() {
+		return texture;
+	}
+
 	/**
 	 * Update.
 	 */
 	public void update() {
-		if(speed != 0) counter += Game.getDeltaSeconds();
-		if(speed != 0 && counter > Math.abs(speed)) {
+		if (speed != 0)
+			counter += Game.getDeltaSeconds();
+		if (speed != 0 && counter > Math.abs(speed)) {
 			increment();
 			counter = 0;
 		}
 	}
-	
+
 	public boolean updateRunOnce() {
-		if(speed != 0) counter += Game.getDeltaSeconds();
-		if(speed != 0 && counter > Math.abs(speed) && !hasRun) {
+		if (speed != 0)
+			counter += Game.getDeltaSeconds();
+		if (speed != 0 && counter > Math.abs(speed) && !hasRun) {
 			increment();
 			counter = 0;
 		}
 		return hasRun;
 	}
-	
-	
+
 	/**
 	 * Increment.
 	 */
 	public void increment() {
-		if(speed > 0) {
+		if (speed > 0) {
 			currentFrame += 1;
-			if(currentFrame >= length) done();
+			if (currentFrame >= length)
+				done();
 		} else {
 			currentFrame -= 1;
-			if(currentFrame < 0) done();
+			if (currentFrame < 0)
+				done();
 		}
 	}
-	
+
 	/**
 	 * Done.
 	 */
 	public void done() {
-		if(speed > 0)
+		if (speed > 0)
 			currentFrame = 0;
 		else
-			currentFrame = columns-1;
+			currentFrame = columns - 1;
 		hasRun = true;
 	}
 
@@ -257,7 +277,7 @@ public class Animation {
 	public void setSprite(Sprite sprite2) {
 		sprite = sprite2;
 	}
-	
+
 	/**
 	 * Gets the sprite.
 	 *
@@ -266,7 +286,7 @@ public class Animation {
 	public Sprite getSprite() {
 		return sprite;
 	}
-	
+
 	/**
 	 * Gets the offset x.
 	 *
@@ -275,7 +295,7 @@ public class Animation {
 	public int getOffsetX() {
 		return offsetX;
 	}
-	
+
 	/**
 	 * Gets the offset y.
 	 *
@@ -293,7 +313,7 @@ public class Animation {
 	public float getSpeed() {
 		return speed;
 	}
-	
+
 	public BlendModeArgs getBlendMode() {
 		return blend;
 	}

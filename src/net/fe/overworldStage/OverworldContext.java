@@ -8,16 +8,16 @@ import net.fe.game.unit.Unit;
  * The Class OverworldContext.
  */
 public abstract class OverworldContext {
-	
+
 	/** The stage. */
 	protected ClientOverworldStage stage;
-	
+
 	/** The prev. */
 	protected OverworldContext prev;
-	
+
 	/** The cursor. */
 	protected Cursor cursor;
-	
+
 	/** The grid. */
 	protected Grid grid;
 
@@ -33,7 +33,7 @@ public abstract class OverworldContext {
 		cursor = stage.cursor;
 		grid = stage.grid;
 	}
-	
+
 	/**
 	 * Cursor speed
 	 */
@@ -49,11 +49,11 @@ public abstract class OverworldContext {
 	/**
 	 * On cancel.
 	 */
-	public void onCancel(){
+	public void onCancel() {
 		AudioPlayer.playAudio("cancel");
 		prev.startContext();
 	}
-	
+
 	public void onNextUnit() {
 	}
 
@@ -61,34 +61,34 @@ public abstract class OverworldContext {
 	 * On up.
 	 */
 	public abstract void onUp();
-	
+
 	/**
 	 * On down.
 	 */
 	public abstract void onDown();
-	
+
 	/**
 	 * On left.
 	 */
 	public abstract void onLeft();
-	
+
 	/**
 	 * On right.
 	 */
 	public abstract void onRight();
-	
+
 	/**
 	 * Start context.
 	 */
-	public void startContext(){
+	public void startContext() {
 		stage.setContext(this);
 	}
-	
+
 	/**
 	 * Clean up.
 	 */
-	public void cleanUp(){
-		
+	public void cleanUp() {
+
 	}
 
 	/**

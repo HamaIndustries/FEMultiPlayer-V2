@@ -17,28 +17,29 @@ import net.fe.overworldStage.Node;
 import java.util.Optional;
 
 public final class DropCommand extends Command {
-	
+
 	private static final long serialVersionUID = 6468268282716381357L;
-	
+
 	private final int dropX;
 	private final int dropY;
-	
+
 	public DropCommand(int dropX, int dropY) {
 		this.dropX = dropX;
 		this.dropY = dropY;
 	}
-	
+
 	@Override
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit unit) {
-		
-		//TODO: validate
+
+		// TODO: validate
 		unit.drop(dropX, dropY);
 		return null;
 	}
-	
+
 	@Override
-	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords, Runnable callback) {
-		
+	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords,
+	        Runnable callback) {
+
 		return new Runnable() {
 			public void run() {
 				unit.setMoved(true);
@@ -49,7 +50,7 @@ public final class DropCommand extends Command {
 			}
 		};
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Drop[" + dropX + "," + dropY + "]";

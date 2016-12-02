@@ -1,4 +1,5 @@
 package chu.engine;
+
 import static org.lwjgl.opengl.GL11.GL_ALPHA_TEST;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
@@ -35,31 +36,30 @@ import org.lwjgl.opengl.DisplayMode;
 import chu.engine.event.KeyboardEvent;
 import chu.engine.event.MouseEvent;
 
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class Game.
  */
 public abstract class Game {
-	
+
 	/** The window width. */
 	protected static int windowWidth = 640;
-	
+
 	/** The window height. */
 	protected static int windowHeight = 480;
-	
+
 	/** The keys. */
 	private static List<KeyboardEvent> keys;
-	
+
 	/** The mouse events. */
 	private static List<MouseEvent> mouseEvents;
-	
+
 	/** The time delta. */
 	protected static long timeDelta;
-	
+
 	/** The gl context exists. */
 	protected static boolean glContextExists;
-	
+
 	/**
 	 * Inits the.
 	 *
@@ -68,8 +68,8 @@ public abstract class Game {
 	 * @param name the name
 	 */
 	public void init(int width, int height, String name) {
-		windowWidth = Math.round(width*net.fe.FEResources.getWindowScale());
-		windowHeight = Math.round(height*net.fe.FEResources.getWindowScale());
+		windowWidth = Math.round(width * net.fe.FEResources.getWindowScale());
+		windowHeight = Math.round(height * net.fe.FEResources.getWindowScale());
 
 		try {
 			Display.setDisplayMode(new DisplayMode(windowWidth, windowHeight));
@@ -83,8 +83,8 @@ public abstract class Game {
 			e.printStackTrace();
 			System.exit(0);
 		}
-		
-		//init OpenGL
+
+		// init OpenGL
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LEQUAL);
 		glEnable(GL_ALPHA_TEST);
@@ -98,18 +98,21 @@ public abstract class Game {
 		glViewport(0, 0, windowWidth, windowHeight);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, windowWidth/net.fe.FEResources.getWindowScale(), windowHeight/net.fe.FEResources.getWindowScale(), 0, 1, -1);		//It's basically a camera
+		glOrtho(0, windowWidth / net.fe.FEResources.getWindowScale(),
+		        windowHeight / net.fe.FEResources.getWindowScale(), 0, 1, -1); // It's
+		                                                                       // basically
+		                                                                       // a
+		                                                                       // camera
 		glMatrixMode(GL_MODELVIEW);
-		
+
 		keys = new ArrayList<KeyboardEvent>();
 		mouseEvents = new ArrayList<MouseEvent>();
 	}
-	
+
 	/**
 	 * Loop.
 	 */
 	public abstract void loop();
-
 
 	/**
 	 * Gets the input.
@@ -119,27 +122,20 @@ public abstract class Game {
 	public static void getInput() {
 		Keyboard.poll();
 		keys.clear();
-		while(Keyboard.next()) {
-			KeyboardEvent ke = new KeyboardEvent(
-					Keyboard.getEventKey(),
-					Keyboard.getEventCharacter(),
-					Keyboard.isRepeatEvent(),
-					Keyboard.getEventKeyState());
+		while (Keyboard.next()) {
+			KeyboardEvent ke = new KeyboardEvent(Keyboard.getEventKey(), Keyboard.getEventCharacter(),
+			        Keyboard.isRepeatEvent(), Keyboard.getEventKeyState());
 			keys.add(ke);
 		}
 		Mouse.poll();
 		mouseEvents.clear();
-		while(Mouse.next()) {
-			MouseEvent me = new MouseEvent(
-					Mouse.getEventX(),
-					Mouse.getEventY(),
-					Mouse.getEventDWheel(),
-					Mouse.getEventButton(),
-					Mouse.getEventButtonState());
+		while (Mouse.next()) {
+			MouseEvent me = new MouseEvent(Mouse.getEventX(), Mouse.getEventY(), Mouse.getEventDWheel(),
+			        Mouse.getEventButton(), Mouse.getEventButtonState());
 			mouseEvents.add(me);
 		}
 	}
-	
+
 	/**
 	 * Gets the keys.
 	 *
@@ -148,7 +144,7 @@ public abstract class Game {
 	public static List<KeyboardEvent> getKeys() {
 		return keys;
 	}
-	
+
 	/**
 	 * Gets the mouse events.
 	 *
@@ -157,16 +153,16 @@ public abstract class Game {
 	public static List<MouseEvent> getMouseEvents() {
 		return mouseEvents;
 	}
-	
+
 	/**
 	 * Gets the delta seconds.
 	 *
 	 * @return the delta seconds
 	 */
 	public static float getDeltaSeconds() {
-		return timeDelta/1000000000.0f;
+		return timeDelta / 1000000000.0f;
 	}
-	
+
 	/**
 	 * Gets the window width.
 	 *
@@ -175,7 +171,7 @@ public abstract class Game {
 	public static int getWindowWidth() {
 		return windowWidth;
 	}
-	
+
 	/**
 	 * Gets the window height.
 	 *
@@ -193,7 +189,7 @@ public abstract class Game {
 	public static boolean glContextExists() {
 		return glContextExists;
 	}
-	
+
 	/**
 	 * Gets the scale x.
 	 *
@@ -202,7 +198,7 @@ public abstract class Game {
 	public static float getScaleX() {
 		return net.fe.FEResources.getWindowScale();
 	}
-	
+
 	/**
 	 * Gets the scale y.
 	 *

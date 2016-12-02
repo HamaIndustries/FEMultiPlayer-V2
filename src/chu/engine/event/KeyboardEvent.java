@@ -5,19 +5,19 @@ package chu.engine.event;
  * The Class KeyboardEvent.
  */
 public final class KeyboardEvent {
-	
+
 	/** The key. */
 	public final int key;
-	
+
 	/** The event char. */
 	public final char eventChar;
-	
+
 	/** The is repeat event. */
 	public final boolean isRepeatEvent;
-	
-	/** true if the event key was pressed or false if it was released.  */
+
+	/** true if the event key was pressed or false if it was released. */
 	public final boolean state;
-	
+
 	/**
 	 * Instantiates a new keyboard event.
 	 *
@@ -32,13 +32,10 @@ public final class KeyboardEvent {
 		isRepeatEvent = r;
 		state = s;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "String [" +
-			"key: " + key + ", " +
-			"char: " + eventChar + ", " +
-			"repeat: " + isRepeatEvent + ", " +
-			"state: " + (state ? "pressed" : "released") + "]";
+		return "String [" + "key: " + key + ", " + "char: " + eventChar + ", " + "repeat: " + isRepeatEvent + ", "
+		        + "state: " + (state ? "pressed" : "released") + "]";
 	}
 }

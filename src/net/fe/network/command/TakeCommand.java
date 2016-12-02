@@ -17,26 +17,27 @@ import net.fe.overworldStage.Node;
 import java.util.Optional;
 
 public final class TakeCommand extends Command {
-	
+
 	private static final long serialVersionUID = 6468268282716381357L;
-	
+
 	private final UnitIdentifier otherId;
-	
+
 	public TakeCommand(UnitIdentifier otherId) {
 		this.otherId = otherId;
 	}
-	
+
 	@Override
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit unit) {
-		
+
 		Unit other = stage.getUnit(otherId);
 		other.give(unit); // throws IllegalStateException
 		return null;
 	}
-	
+
 	@Override
-	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords, Runnable callback) {
-		
+	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords,
+	        Runnable callback) {
+
 		return new Runnable() {
 			public void run() {
 				Unit other = stage.getUnit(otherId);
@@ -46,7 +47,7 @@ public final class TakeCommand extends Command {
 			}
 		};
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Take[" + otherId + "]";

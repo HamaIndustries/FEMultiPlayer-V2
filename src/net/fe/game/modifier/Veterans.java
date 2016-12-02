@@ -14,15 +14,20 @@ public class Veterans implements Modifier {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 8924524348358477808L;
 
-	/* (non-Javadoc)
-	 * @see net.fe.modifier.Modifier#modifyTeam(net.fe.builderStage.TeamBuilderStage)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.fe.modifier.Modifier#modifyTeam(net.fe.builderStage.TeamBuilderStage)
 	 */
 	@Override
 	public TeamBuilderResources modifyTeamResources(TeamBuilderResources limits) {
 		return limits.copyWithNewExp(999999999);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.modifier.Modifier#modifyShop(net.fe.builderStage.ShopMenu)
 	 */
 	@Override
@@ -30,26 +35,33 @@ public class Veterans implements Modifier {
 		return shop;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.fe.modifier.Modifier#initOverworld(net.fe.overworldStage.OverworldStage)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.fe.modifier.Modifier#initOverworld(net.fe.overworldStage.
+	 * OverworldStage)
 	 */
 	@Override
 	public void initOverworldUnits(Iterable<Unit> units) {
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.modifier.Modifier#getDescription()
 	 */
 	@Override
 	public String getDescription() {
 		return "Unlimited starting EXP.";
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
 		return "Veterans";
 	}
-	
+
 }

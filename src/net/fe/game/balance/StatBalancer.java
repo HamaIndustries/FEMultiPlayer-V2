@@ -17,97 +17,95 @@ import net.fe.game.unit.*;
  * The Class StatBalancer.
  */
 public class StatBalancer extends JFrame {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** The class tabs. */
 	private TreeMap<String, BalancerTab> classTabs;
-	
-	
+
 	/**
 	 * Instantiates a new stat balancer.
 	 *
 	 * @param units the units
 	 */
-	public StatBalancer(List<Unit> units){
+	public StatBalancer(List<Unit> units) {
 		super("FE:Multiplayer Stat Balancer");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		classTabs = new TreeMap<String, BalancerTab>();
-		
+
 		JTabbedPane panel = new JTabbedPane();
-		
-		HashMap<String, ArrayList<BalanceData>> data = 
-				new HashMap<String, ArrayList<BalanceData>>();
-		for(Unit u: units){
-			String clazz = u.getTheClass().name;
-			if(!data.containsKey(clazz)){
-				
-				data.put(clazz, new ArrayList<BalanceData>());
+
+		HashMap<String, ArrayList<BalanceData>> data = new HashMap<String, ArrayList<BalanceData>>();
+		for (Unit u : units) {
+			String unitClass = u.getUnitClass().name;
+			if (!data.containsKey(unitClass)) {
+
+				data.put(unitClass, new ArrayList<BalanceData>());
 			}
-			data.get(clazz).add(new BalanceData(u));
+			data.get(unitClass).add(new BalanceData(u));
 		}
-		
-		for(String clazz: data.keySet()){
-			
-			BalancerTab tab = new BalancerTab(data.get(clazz));
-			classTabs.put(clazz,tab);
-			panel.addTab(clazz, tab);
+
+		for (String unitClass : data.keySet()) {
+
+			BalancerTab tab = new BalancerTab(data.get(unitClass));
+			classTabs.put(unitClass, tab);
+			panel.addTab(unitClass, tab);
 		}
-		
+
 		add(panel);
-		
+
 		JButton button = new JButton("Export");
-		button.addActionListener(new ActionListener(){
+		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser(".");
 				int ret = chooser.showSaveDialog(StatBalancer.this);
-				if(ret == JFileChooser.APPROVE_OPTION){
+				if (ret == JFileChooser.APPROVE_OPTION) {
 					export(chooser.getSelectedFile());
 				}
 			}
 		});
 		add(button, BorderLayout.SOUTH);
-		
+
 		pack();
 	}
-	
+
 	/**
 	 * Export.
 	 *
 	 * @param f the f
 	 */
-	private void export(File f){
+	private void export(File f) {
 		try {
 			PrintWriter pw = new PrintWriter(f);
 			String head = "#Name\t\tClass\t\t\tLv\t";
-			for(String stat: BalanceData.ORDER){
+			for (String stat : BalanceData.ORDER) {
 				head += stat + "\t";
 			}
 			head += "Con\tMov\t\t";
-			for(String stat: BalanceData.ORDER){
+			for (String stat : BalanceData.ORDER) {
 				head += stat + "\t";
 			}
 			head += "\tGender";
 			pw.println(head);
-			for(String clazz: classTabs.keySet()){
-				pw.println(classTabs.get(clazz).exportString());
+			for (String unitClass : classTabs.keySet()) {
+				pw.println(classTabs.get(unitClass).exportString());
 			}
 			pw.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	/**
 	 * The main method.
 	 *
 	 * @param args the arguments
 	 */
-	public static void main(String[] args){
-		SwingUtilities.invokeLater(new Runnable(){
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				WeaponFactory.loadWeapons();

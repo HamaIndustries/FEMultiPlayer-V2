@@ -8,19 +8,19 @@ import org.newdawn.slick.Color;
  * Represents a location where a unit will be placed upon level initialization
  */
 public final class SpawnPoint implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 8955139984944016201L;
-	
+
 	/** The x-coordinate. */
 	public final int x;
-	
+
 	/** The y-coordinate. */
 	public final int y;
-	
+
 	/** The team. */
 	public final Color team;
-	
+
 	/**
 	 * Instantiates a new spawn point.
 	 *
@@ -33,8 +33,10 @@ public final class SpawnPoint implements Serializable {
 		this.y = y;
 		this.team = team;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -46,7 +48,9 @@ public final class SpawnPoint implements Serializable {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -66,6 +70,5 @@ public final class SpawnPoint implements Serializable {
 		// so that both teams can't have a spawn on the same tile
 		return true;
 	}
-	
 
 }

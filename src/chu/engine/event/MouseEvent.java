@@ -5,19 +5,19 @@ package chu.engine.event;
  * The Class MouseEvent.
  */
 public class MouseEvent {
-	
+
 	/** The x. */
 	public int x;
-	
+
 	/** The y. */
 	public int y;
-	
+
 	/** The dwheel. */
 	public int dwheel;
-	
+
 	/** The button. */
 	public int button;
-	
+
 	/** The state. */
 	public boolean state;
 

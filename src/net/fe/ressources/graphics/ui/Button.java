@@ -11,20 +11,20 @@ import net.fe.game.fightStage.FightStage;
 /**
  * The Class Button.
  */
-public abstract class Button extends Entity{
-	
+public abstract class Button extends Entity {
+
 	/** The text. */
 	protected String text;
-	
+
 	/** The color. */
 	private Color color;
-	
+
 	/** The hover. */
 	private boolean hover;
-	
+
 	/** The width. */
 	private int width;
-	
+
 	/**
 	 * Instantiates a new button.
 	 *
@@ -41,38 +41,41 @@ public abstract class Button extends Entity{
 		this.width = width;
 		this.renderDepth = 0.05f;
 	}
-		
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Entity#render()
 	 */
-	public void render(){
+	public void render() {
 		int stringWidth = FEResources.getBitmapFont("default_med").getStringWidth(text);
 		Color c = new Color(color);
-		if(!hover)
+		if (!hover)
 			c = c.darker();
-		Renderer.drawBorderedRectangle(x, y, x+width, y+20, renderDepth, c, FightStage.BORDER_LIGHT, FightStage.BORDER_DARK);
-		Renderer.drawString("default_med", text, x+width/2-stringWidth/2, y + 4, renderDepth);
-		
+		Renderer.drawBorderedRectangle(x, y, x + width, y + 20, renderDepth, c, FightStage.BORDER_LIGHT,
+		        FightStage.BORDER_DARK);
+		Renderer.drawString("default_med", text, x + width / 2 - stringWidth / 2, y + 4, renderDepth);
+
 	}
-	
+
 	/**
 	 * Sets the hover.
 	 *
 	 * @param hover the new hover
 	 */
-	public void setHover(boolean hover){
+	public void setHover(boolean hover) {
 		this.hover = hover;
 	}
-	
+
 	/**
 	 * Hovered.
 	 *
 	 * @return true, if successful
 	 */
-	public boolean hovered(){
+	public boolean hovered() {
 		return hover;
 	}
-	
+
 	/**
 	 * Execute.
 	 */

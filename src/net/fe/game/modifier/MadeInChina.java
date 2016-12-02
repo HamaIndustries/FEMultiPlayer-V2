@@ -10,8 +10,8 @@ import net.fe.overworldStage.OverworldStage;
 
 // TODO: Auto-generated Javadoc
 /**
- * All weapons have 2 durability. Players are given
- * extra gold to compensate.
+ * All weapons have 2 durability. Players are given extra gold to compensate.
+ * 
  * @author Shawn
  *
  */
@@ -20,15 +20,20 @@ public class MadeInChina implements Modifier {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -3929819526675171008L;
 
-	/* (non-Javadoc)
-	 * @see net.fe.modifier.Modifier#modifyTeam(net.fe.builderStage.TeamBuilderStage)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.fe.modifier.Modifier#modifyTeam(net.fe.builderStage.TeamBuilderStage)
 	 */
 	@Override
 	public TeamBuilderResources modifyTeamResources(TeamBuilderResources limits) {
 		return limits.copyWithNewFunds((i) -> i * 2);
 	}
-	
-	/** Modifies each weapon in `shop` to have a maximum of two uses
+
+	/**
+	 * Modifies each weapon in `shop` to have a maximum of two uses
+	 * 
 	 * @see net.fe.game.modifier.Modifier#modifyShop(net.fe.builderStage.ShopMenu)
 	 */
 	@Override
@@ -36,29 +41,36 @@ public class MadeInChina implements Modifier {
 		return shop;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.fe.modifier.Modifier#initOverworld(net.fe.overworldStage.OverworldStage)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.fe.modifier.Modifier#initOverworld(net.fe.overworldStage.
+	 * OverworldStage)
 	 */
 	@Override
 	public void initOverworldUnits(Iterable<Unit> units) {
 		for (Unit u : units) {
-			for(Item item : u.getInventory()) {
-				if(item instanceof Weapon) {
+			for (Item item : u.getInventory()) {
+				if (item instanceof Weapon) {
 					item.setUsesDEBUGGING(2);
 				}
 			}
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "Made In China";
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.modifier.Modifier#getDescription()
 	 */
 	@Override

@@ -19,11 +19,11 @@ import net.fe.network.command.UseCommand;
 /**
  * The Class ItemCmd.
  */
-public class ItemCmd extends MenuContext<ItemDisplay>{
-	
+public class ItemCmd extends MenuContext<ItemDisplay> {
+
 	/** The unit. */
 	private Unit unit;
-	
+
 	/**
 	 * Instantiates a new item cmd.
 	 *
@@ -35,33 +35,37 @@ public class ItemCmd extends MenuContext<ItemDisplay>{
 		super(stage, prev, new InventoryMenu(u));
 		unit = u;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.MenuContext#onSelect(java.lang.Object)
 	 */
 	@Override
 	public void onSelect(ItemDisplay selectedItem) {
-		if(selectedItem == null) return;
+		if (selectedItem == null)
+			return;
 		Item i = selectedItem.getItem();
 		AudioPlayer.playAudio("select");
-		if(i instanceof Weapon){
-			if(unit.equippable((Weapon) i)){
+		if (i instanceof Weapon) {
+			if (unit.equippable((Weapon) i)) {
 				stage.addCmd(new EquipCommand(new UnitIdentifier(unit), unit.findItem(i)));
-				unit.equip((Weapon)i);
+				unit.equip((Weapon) i);
 				menu.setSelection(0);
 			}
-		} else if (i instanceof HealingItem){
-			if(unit.getHp() == unit.getStats().maxHp) return;
+		} else if (i instanceof HealingItem) {
+			if (unit.getHp() == unit.getStats().maxHp)
+				return;
 			stage.setControl(false);
 			stage.addCmd(new UseCommand(unit.findItem(i)));
 			stage.send();
-			
+
 			stage.setMenu(null);
-			
+
 			int oHp = unit.getHp();
 			unit.use(i);
-			//TODO Positioning
-			stage.addEntity(new Healthbar(unit, oHp, unit.getHp(), stage){
+			// TODO Positioning
+			stage.addEntity(new Healthbar(unit, oHp, unit.getHp(), stage) {
 				@Override
 				public void done() {
 					destroy();
@@ -73,20 +77,24 @@ public class ItemCmd extends MenuContext<ItemDisplay>{
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onLeft()
 	 */
 	@Override
 	public void onLeft() {
-		
+
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onRight()
 	 */
 	@Override
 	public void onRight() {
-		
+
 	}
-	
+
 }

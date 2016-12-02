@@ -12,23 +12,23 @@ import net.fe.overworldStage.*;
 /**
  * The Class AttackPreview.
  */
-public final class AttackPreview extends OverworldContext{
-	
+public final class AttackPreview extends OverworldContext {
+
 	/** The attacker. */
 	private final Unit attacker;
-	
+
 	/** The defender. */
 	private final Unit defender;
-	
+
 	/** The preview. */
 	private final BattlePreview preview;
-	
+
 	/** The weapons. */
 	private ArrayList<Weapon> weapons;
-	
+
 	/** The index. */
 	private int index;
-	
+
 	/**
 	 * Instantiates a new attack preview.
 	 *
@@ -41,15 +41,16 @@ public final class AttackPreview extends OverworldContext{
 		super(s, prevContext);
 		attacker = a;
 		defender = d;
-		preview = new BattlePreview(ClientOverworldStage.RIGHT_AXIS - 44,
-				76, a, d, Grid.getDistance(a, d));
-		
+		preview = new BattlePreview(ClientOverworldStage.RIGHT_AXIS - 44, 76, a, d, Grid.getDistance(a, d));
+
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#startContext()
 	 */
-	public void startContext(){
+	public void startContext() {
 		super.startContext();
 		stage.addEntity(preview);
 		weapons = attacker.equippableWeapons(Grid.getDistance(attacker, defender));
@@ -58,7 +59,9 @@ public final class AttackPreview extends OverworldContext{
 		this.equip();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onSelect()
 	 */
 	@Override
@@ -72,57 +75,69 @@ public final class AttackPreview extends OverworldContext{
 		cursor.setYCoord(attacker.getYCoord());
 		stage.reset();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#cleanUp()
 	 */
-	public void cleanUp(){
+	public void cleanUp() {
 		stage.removeEntity(preview);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onUp()
 	 */
 	@Override
 	public void onUp() {
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onDown()
 	 */
 	@Override
 	public void onDown() {
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onLeft()
 	 */
 	@Override
 	public void onLeft() {
 		index--;
-		if(index < 0){
+		if (index < 0) {
 			index += weapons.size();
 		}
-		// BattlePreview used the equipped weapon; so equip next weapon to see preview for next weapon
+		// BattlePreview used the equipped weapon; so equip next weapon to see
+		// preview for next weapon
 		equip();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onRight()
 	 */
 	@Override
 	public void onRight() {
-		index = (index+1)%weapons.size();
-		// BattlePreview used the equipped weapon; so equip next weapon to see preview for next weapon
+		index = (index + 1) % weapons.size();
+		// BattlePreview used the equipped weapon; so equip next weapon to see
+		// preview for next weapon
 		equip();
 	}
-	
+
 	/**
 	 * Equip.
 	 */
-	public void equip(){
+	public void equip() {
 		stage.addCmd(new EquipCommand(new UnitIdentifier(attacker), attacker.findItem(weapons.get(index))));
 		attacker.equip(weapons.get(index));
 	}

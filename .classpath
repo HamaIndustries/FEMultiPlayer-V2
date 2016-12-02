@@ -4,7 +4,7 @@
 	<classpathentry kind="src" path="shaders"/>
 	<classpathentry kind="src" path="lwjgl-2.9.0">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="FEMultiPlayer-V2/lwjgl-2.9.0/native/windows"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="FEMPFTHD/lwjgl-2.9.0/native/windows"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="res"/>
@@ -12,7 +12,7 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry exported="true" kind="lib" path="lwjgl-2.9.0/jar/lwjgl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="FEMultiplayer/lwjgl-2.9.0/native/windows"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="FEMPFTHD/lwjgl-2.9.0/native/windows"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="lwjgl-2.9.0/jar/slick-util.jar"/>

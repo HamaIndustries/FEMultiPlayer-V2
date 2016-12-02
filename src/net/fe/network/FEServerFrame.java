@@ -56,8 +56,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
 public class FEServerFrame extends JFrame {
-	
-	
+
 	private JPanel mainPanel;
 	private JPanel mapPanel;
 	private JPanel objectivePanel;
@@ -84,18 +83,17 @@ public class FEServerFrame extends JFrame {
 	private JLabel label;
 	private JSpinner maxUnitsSpinner;
 
-	private int port;
-	
 	public FEServerFrame() {
-		
+
 		setTitle("FEServer");
-		
+
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+		        | UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
-		
+
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		DefaultListModel<Modifier> selectedModifiersModel = new DefaultListModel<Modifier>();
 		// Modifiers
@@ -107,133 +105,131 @@ public class FEServerFrame extends JFrame {
 		unselectedModifiersModel.addElement(new SuddenDeath());
 		unselectedModifiersModel.addElement(new Vegas());
 		unselectedModifiersModel.addElement(new ProTactics());
-		
+
 		mainPanel = new JPanel();
 		getContentPane().add(mainPanel, BorderLayout.CENTER);
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		
+
 		mapPanel = new JPanel();
 		mainPanel.add(mapPanel);
 		mapPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
+
 		mapNameLabel = new JLabel("Map: ");
 		mapPanel.add(mapNameLabel);
-		
+
 		objectivePanel = new JPanel();
 		mainPanel.add(objectivePanel);
-		
+
 		objLabel = new JLabel("Objective: ");
 		objectivePanel.add(objLabel);
-		
+
 		objComboBox = new JComboBox<>();
 		objectivePanel.add(objComboBox);
-		
+
 		// populate list of FEServer.getMaps()
 		mapSelectionBox = new JComboBox<>();
 		mapSelectionBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				objComboBox.setModel(new DefaultComboBoxModel<Objective>(FEServer.getMaps().get(mapSelectionBox.getSelectedItem())));
+				objComboBox.setModel(
+		                new DefaultComboBoxModel<Objective>(FEServer.getMaps().get(mapSelectionBox.getSelectedItem())));
 			}
 		});
 		mapPanel.add(mapSelectionBox);
 		mapSelectionBox.setModel(new DefaultComboBoxModel<String>(FEServer.getMaps().keySet().toArray(new String[0])));
-		
+
 		label = new JLabel("Max units: ");
 		mapPanel.add(label);
-		
+
 		maxUnitsSpinner = new JSpinner();
 		mapPanel.add(maxUnitsSpinner);
 		maxUnitsSpinner.setModel(new SpinnerNumberModel(8, 1, 8, 1));
-		
+
 		// Objectives
-		ComboBoxModel<Objective> oModel = new DefaultComboBoxModel<>(FEServer.getMaps().get(mapSelectionBox.getSelectedItem()));
+		ComboBoxModel<Objective> oModel = new DefaultComboBoxModel<>(
+		        FEServer.getMaps().get(mapSelectionBox.getSelectedItem()));
 		objComboBox.setModel(oModel);
-		
+
 		lblPickMode = new JLabel("Pick mode: ");
 		objectivePanel.add(lblPickMode);
-		
+
 		// Pick modes
-		ComboBoxModel<PickMode> pickModeModel = new DefaultComboBoxModel<>(new PickMode[] { new AllPick(), new Draft()});
+		ComboBoxModel<PickMode> pickModeModel = new DefaultComboBoxModel<>(
+		        new PickMode[] { new AllPick(), new Draft() });
 		pickModeBox = new JComboBox<>();
 		pickModeBox.setModel(pickModeModel);
 		objectivePanel.add(pickModeBox);
-		
+
 		separator = new JSeparator();
 		mainPanel.add(separator);
-		
+
 		modifiersLabel = new JLabel("Modifiers");
 		modifiersLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		mainPanel.add(modifiersLabel);
-		
+
 		modifiersPane = new JPanel();
 		mainPanel.add(modifiersPane);
 		modifiersPane.setLayout(new BoxLayout(modifiersPane, BoxLayout.X_AXIS));
-		
+
 		selectedModifiersScrollPane = new JScrollPane();
-		selectedModifiersScrollPane.setPreferredSize(new Dimension(120,150));
+		selectedModifiersScrollPane.setPreferredSize(new Dimension(120, 150));
 		modifiersPane.add(selectedModifiersScrollPane);
-		
+
 		modifiersScrollPane = new JScrollPane();
 		modifiersScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		modifiersScrollPane.setPreferredSize(new Dimension(120,150));
-		
+		modifiersScrollPane.setPreferredSize(new Dimension(120, 150));
+
 		modifiersList = new ModifierList();
 		modifiersScrollPane.add(modifiersList);
 		modifiersList.setModel(unselectedModifiersModel);
 		modifiersScrollPane.setViewportView(modifiersList);
-		
+
 		selectedModifiersList = new ModifierList();
 		selectedModifiersScrollPane.add(selectedModifiersList);
 		selectedModifiersList.setModel(selectedModifiersModel);
 		selectedModifiersScrollPane.setViewportView(selectedModifiersList);
-		
+
 		buttonsPanel = new JPanel();
 		modifiersPane.add(buttonsPanel);
-		
+
 		addModifierBtn = new JButton("<-- Add");
 		addModifierBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int index;
-				while((index = modifiersList.getSelectedIndex()) != -1){
+				while ((index = modifiersList.getSelectedIndex()) != -1) {
 					Modifier o = unselectedModifiersModel.getElementAt(index);
 					unselectedModifiersModel.remove(modifiersList.getSelectedIndex());
-					selectedModifiersModel.add(0,o);
+					selectedModifiersModel.add(0, o);
 				}
 			}
 		});
 		buttonsPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		buttonsPanel.add(addModifierBtn);
-		
+
 		removeModifierBtn = new JButton("Remove -->");
 		removeModifierBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int index;
-				while((index = modifiersList.getSelectedIndex()) != -1){
+				while ((index = modifiersList.getSelectedIndex()) != -1) {
 					Modifier o = selectedModifiersModel.getElementAt(index);
 					selectedModifiersModel.remove(selectedModifiersList.getSelectedIndex());
-					unselectedModifiersModel.add(0,o);
+					unselectedModifiersModel.add(0, o);
 				}
 			}
 		});
 		buttonsPanel.add(removeModifierBtn);
-		
+
 		modifiersPane.add(modifiersScrollPane);
-		
+
 		panel = new JPanel();
 		mainPanel.add(panel);
-		
+
 		label_1 = new JLabel("Port :");
 		panel.add(label_1);
-		
+
 		spnPort = new JSpinner();
-		spnPort.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent arg0) {
-				port = (Integer) spnPort.getValue();
-			}
-		});
 		spnPort.setModel(new SpinnerNumberModel(21255, 0, 65535, 1));
 		panel.add(spnPort);
-		
+
 		startServer = new JButton("Start server");
 		startServer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -245,58 +241,55 @@ public class FEServerFrame extends JFrame {
 		pack();
 		setVisible(true);
 	}
-	
-	public int getPort(){
-		System.out.printf("Port : %s%n", port);
-		return port;
+
+	public int getPort() {
+		return (Integer) spnPort.getValue();
 	}
 
 	private void changeFrameAndStartServer() {
 		try {
-			getContentPane().add(new JLabel("Server IP: " + InetAddress.getLocalHost().getHostAddress()){
-					private static final long serialVersionUID = 1L;
+			getContentPane().add(new JLabel("Server IP: " + InetAddress.getLocalHost().getHostAddress()) {
+				private static final long serialVersionUID = 1L;
+
 				{
 					this.setFont(getFont().deriveFont(20f));
 					this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-				}}, BorderLayout.NORTH);
+				}
+			}, BorderLayout.NORTH);
 			remove(mainPanel);
 			remove(startServer);
 		} catch (UnknownHostException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		JButton btnkickAll = new JButton("Kick all");
 		btnkickAll.addActionListener((e2) -> FEServer.resetToLobbyAndKickPlayers());
 		getContentPane().add(btnkickAll);
-		
+
 		pack();
 		Thread serverThread = new Thread() {
 			public void run() {
 				HashSet<Modifier> mods = new HashSet<Modifier>();
-				for(int i=0; i< selectedModifiersList.getModel().getSize(); i++) {
+				for (int i = 0; i < selectedModifiersList.getModel().getSize(); i++) {
 					mods.add(selectedModifiersList.getModel().getElementAt(i));
 				}
-				Session s = new Session(
-					(Objective)objComboBox.getSelectedItem(),
-					(String)mapSelectionBox.getSelectedItem(),
-					(Integer)maxUnitsSpinner.getValue(),
-					mods,
-					(PickMode)pickModeBox.getSelectedItem()
-				);
-				
+				Session s = new Session((Objective) objComboBox.getSelectedItem(),
+		                (String) mapSelectionBox.getSelectedItem(), (Integer) maxUnitsSpinner.getValue(), mods,
+		                (PickMode) pickModeBox.getSelectedItem());
+
 				FEServer feserver = new FEServer(s);
-				try{
+				try {
 					feserver.init();
 					feserver.loop();
-				} catch (Exception e){
+				} catch (Exception e) {
 					System.err.println("Exception occurred, writing to logs...");
 					e.printStackTrace();
-					try{
-						File errLog = new File("error_log_server" + System.currentTimeMillis()%100000000 + ".log");
+					try {
+						File errLog = new File("error_log_server" + System.currentTimeMillis() % 100000000 + ".log");
 						PrintWriter pw = new PrintWriter(errLog);
 						e.printStackTrace(pw);
 						pw.close();
-					}catch (IOException e2){
+					} catch (IOException e2) {
 						e2.printStackTrace();
 					}
 					System.exit(0);
@@ -306,8 +299,9 @@ public class FEServerFrame extends JFrame {
 		serverThread.start();
 	}
 }
+
 class ModifierList extends JList<Modifier> {
-	
+
 	private static final long serialVersionUID = 561574462354745569L;
 
 	public String getToolTipText(MouseEvent event) {
@@ -316,6 +310,5 @@ class ModifierList extends JList<Modifier> {
 		String tip = ((Modifier) getModel().getElementAt(index)).getDescription();
 		return tip;
 	}
-	
-}
 
+}

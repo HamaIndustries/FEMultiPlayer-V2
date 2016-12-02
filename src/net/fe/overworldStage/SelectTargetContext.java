@@ -11,19 +11,19 @@ import net.fe.game.unit.Unit;
  * The Class SelectTargetContext.
  */
 public abstract class SelectTargetContext extends OverworldContext {
-	
+
 	/** The zone. */
 	private Zone zone;
-	
+
 	/** The targets. */
 	private List<Unit> targets;
-	
+
 	/** The selected. */
 	protected int selected;
-	
+
 	/** The unit. */
 	protected Unit unit;
-	
+
 	/** The friendly. */
 	protected boolean friendly;
 
@@ -36,30 +36,33 @@ public abstract class SelectTargetContext extends OverworldContext {
 	 * @param u the u
 	 * @param friendly the friendly
 	 */
-	public SelectTargetContext(ClientOverworldStage stage, OverworldContext context, Zone z,
-			Unit u, boolean friendly) {
+	public SelectTargetContext(ClientOverworldStage stage, OverworldContext context, Zone z, Unit u, boolean friendly) {
 		super(stage, context);
 		zone = z;
 		targets = new ArrayList<Unit>();
 		this.unit = u;
 		this.friendly = friendly;
-		
+
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#startContext()
 	 */
-	public void startContext(){
+	public void startContext() {
 		super.startContext();
 		findTargets(unit, friendly);
 		stage.addEntity(zone);
 		updateCursor();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#cleanUp()
 	 */
-	public void cleanUp(){
+	public void cleanUp() {
 		super.cleanUp();
 		stage.removeEntity(zone);
 
@@ -75,7 +78,7 @@ public abstract class SelectTargetContext extends OverworldContext {
 		targets.clear();
 		for (Node n : zone.getNodes()) {
 			Unit u = grid.getUnit(n.x, n.y);
-			if(u!= null && validTarget(u)){
+			if (u != null && validTarget(u)) {
 				targets.add(u);
 			}
 		}
@@ -83,18 +86,20 @@ public abstract class SelectTargetContext extends OverworldContext {
 			throw new IllegalStateException("No valid targets found");
 		}
 	}
-	
+
 	/**
 	 * Valid target.
 	 *
 	 * @param u the u
 	 * @return true, if successful
 	 */
-	public boolean validTarget(Unit u){
+	public boolean validTarget(Unit u) {
 		return friendly == u.getParty().isAlly(stage.getCurrentPlayer().getParty());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onSelect()
 	 */
 	@Override
@@ -110,28 +115,36 @@ public abstract class SelectTargetContext extends OverworldContext {
 	 */
 	public abstract void unitSelected(Unit u);
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onUp()
 	 */
 	public void onUp() {
 		prevTarget();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onDown()
 	 */
 	public void onDown() {
 		nextTarget();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onLeft()
 	 */
 	public void onLeft() {
 		prevTarget();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onRight()
 	 */
 	public void onRight() {
@@ -143,8 +156,8 @@ public abstract class SelectTargetContext extends OverworldContext {
 	 */
 	public void prevTarget() {
 		selected--;
-		if(selected < 0){
-			selected+=targets.size();
+		if (selected < 0) {
+			selected += targets.size();
 		}
 		updateCursor();
 	}
@@ -154,16 +167,16 @@ public abstract class SelectTargetContext extends OverworldContext {
 	 */
 	public void nextTarget() {
 		selected++;
-		selected%= targets.size();
+		selected %= targets.size();
 		updateCursor();
 	}
-	
+
 	/**
 	 * Gets the current target.
 	 *
 	 * @return the current target
 	 */
-	public Unit getCurrentTarget(){
+	public Unit getCurrentTarget() {
 		return targets.get(selected);
 	}
 
@@ -176,14 +189,16 @@ public abstract class SelectTargetContext extends OverworldContext {
 		cursor.setYCoord(targets.get(selected).getYCoord());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onCancel()
 	 */
 	@Override
 	public void onCancel() {
 		super.onCancel();
-		//Reset the position of the cursor on cancels
-		
+		// Reset the position of the cursor on cancels
+
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
 	}

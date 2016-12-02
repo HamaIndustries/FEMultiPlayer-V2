@@ -18,15 +18,20 @@ public class DivineIntervention implements Modifier {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -7509901063099817137L;
 
-	/* (non-Javadoc)
-	 * @see net.fe.modifier.Modifier#modifyTeam(net.fe.builderStage.TeamBuilderStage)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.fe.modifier.Modifier#modifyTeam(net.fe.builderStage.TeamBuilderStage)
 	 */
 	@Override
 	public TeamBuilderResources modifyTeamResources(TeamBuilderResources limits) {
 		return limits;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.modifier.Modifier#modifyShop(net.fe.builderStage.ShopMenu)
 	 */
 	@Override
@@ -34,25 +39,32 @@ public class DivineIntervention implements Modifier {
 		return shop;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.fe.modifier.Modifier#initOverworld(net.fe.overworldStage.OverworldStage)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.fe.modifier.Modifier#initOverworld(net.fe.overworldStage.
+	 * OverworldStage)
 	 */
 	@Override
 	public void initOverworldUnits(Iterable<Unit> units) {
-		for(Unit u : units) {
+		for (Unit u : units) {
 			u.addSkill(new Miracle());
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "Divine Intervention";
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.modifier.Modifier#getDescription()
 	 */
 	@Override

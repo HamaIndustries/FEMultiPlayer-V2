@@ -21,13 +21,13 @@ import chu.engine.anim.Renderer;
  * The Class ClientWaitStage.
  */
 public class ClientWaitStage extends Stage {
-	
+
 	/** The start. */
 	private boolean start;
-	
+
 	/** The session. */
 	protected final Session session;
-	
+
 	/**
 	 * Instantiates a new client wait stage.
 	 *
@@ -38,28 +38,30 @@ public class ClientWaitStage extends Stage {
 		start = false;
 		session = s;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.builderStage.WaitStage#beginStep()
 	 */
 	@Override
 	public void beginStep(List<Message> messages) {
-		for(Message message : messages) {
-			if(message instanceof PartyMessage) {
-				PartyMessage pm = (PartyMessage)message;
-				for(Player p : session.getPlayers()){ 
-					if(p.getID() == message.origin) {
+		for (Message message : messages) {
+			if (message instanceof PartyMessage) {
+				PartyMessage pm = (PartyMessage) message;
+				for (Player p : session.getPlayers()) {
+					if (p.getID() == message.origin) {
 						p.getParty().clear();
-						for(Unit u : pm.teamData)
+						for (Unit u : pm.teamData)
 							p.getParty().addUnit(u);
 					}
 				}
 			}
-			if(message instanceof StartGame) {
+			if (message instanceof StartGame) {
 				start = true;
 			}
 
-			if(message instanceof QuitMessage || message instanceof KickMessage) {
+			if (message instanceof QuitMessage || message instanceof KickMessage) {
 				if (this.session.getNonSpectators().length < 2) {
 					// player has left
 					FEMultiplayer.setCurrentStage(FEMultiplayer.lobby);
@@ -67,15 +69,17 @@ public class ClientWaitStage extends Stage {
 			}
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.builderStage.WaitStage#endStep()
 	 */
 	@Override
 	public void endStep() {
-		if(start) {
-			for(Player p : session.getPlayers()) {
-				for(Unit u : p.getParty()) {
+		if (start) {
+			for (Player p : session.getPlayers()) {
+				for (Unit u : p.getParty()) {
 					u.initializeEquipment();
 				}
 			}
@@ -83,15 +87,19 @@ public class ClientWaitStage extends Stage {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Stage#onStep()
 	 */
 	@Override
 	public void onStep() {
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Stage#render()
 	 */
 	@Override

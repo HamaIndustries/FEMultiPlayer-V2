@@ -14,43 +14,43 @@ import net.fe.game.fightStage.FightStage;
  * The Class AttackAnimation.
  */
 public abstract class AttackAnimation extends Animation {
-	
+
 	/** The hitframes. */
 	protected int[] hitframes;
-	
+
 	/** The head x. */
 	private int headX;
-	
+
 	/** The head y. */
 	private int headY;
-	
+
 	/** The prev frame. */
 	private int prevFrame;
-	
+
 	/** The stop. */
 	private boolean stop;
-	
+
 	/** The loop until. */
 	protected int loopUntil;
-	
+
 	/** The animation args. */
 	protected AnimationArgs animationArgs;
-	
+
 	/** The stage. */
 	protected FightStage stage;
-	
+
 	/** The freeze. */
 	protected int freeze;
-	
+
 	/** The sound map. */
 	protected HashMap<Integer, String> soundMap;
-	
+
 	/** The Constant NORMAL_SPEED. */
 	public static final float NORMAL_SPEED = .055f;
-	
+
 	/** The default speed. */
 	private float defaultSpeed = NORMAL_SPEED;
-	
+
 	/**
 	 * Instantiates a new attack animation.
 	 *
@@ -58,10 +58,10 @@ public abstract class AttackAnimation extends Animation {
 	 * @param stage the stage
 	 * @param animArgs the anim args
 	 */
-	//TODO You can't have a hit frame on the very last frame
+	// TODO You can't have a hit frame on the very last frame
 	public AttackAnimation(AnimationData data, FightStage stage, AnimationArgs animArgs) {
-		super(data.getTexture(), data.frameWidth, data.frameHeight, data.frames,
-                data.columns, data.offsetX, data.offsetY, 0, data.getBlendMode());
+		super(data.getTexture(), data.frameWidth, data.frameHeight, data.frames, data.columns, data.offsetX,
+		        data.offsetY, 0, data.getBlendMode());
 		this.hitframes = data.hitframes;
 		this.stage = stage;
 		this.animationArgs = animArgs;
@@ -70,59 +70,63 @@ public abstract class AttackAnimation extends Animation {
 		this.prevFrame = -1;
 		this.soundMap = data.soundMap;
 		this.stop = data.stop;
-		if(data.speed != 0) {
+		if (data.speed != 0) {
 			defaultSpeed = data.speed;
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.anim.Animation#done()
 	 */
 	@Override
 	public void done() {
-		((FightStage)stage).setCurrentEvent(FightStage.DONE);
+		((FightStage) stage).setCurrentEvent(FightStage.DONE);
 		setSpeed(0);
-		if(stop)
-			setFrame(getFrame()-1);
+		if (stop)
+			setFrame(getFrame() - 1);
 		else
 			setFrame(0);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.anim.Animation#update()
 	 */
 	@Override
 	public void update() {
 		prevFrame = getFrame();
 		super.update();
-		if(prevFrame != getFrame()) {
-			for(int j=0; j<hitframes.length; j++) {
+		if (prevFrame != getFrame()) {
+			for (int j = 0; j < hitframes.length; j++) {
 				int i = hitframes[j];
-				if(getFrame() == i) {
-					if(j == hitframes.length - 1)
+				if (getFrame() == i) {
+					if (j == hitframes.length - 1)
 						onLastHit();
 					else
 						onHit();
 				}
 			}
-			if(soundMap.get(getFrame()) != null) {
+			if (soundMap.get(getFrame()) != null) {
 				AudioPlayer.playAudio(soundMap.get(getFrame()));
 			}
 		}
-		if(getFrame() == loopUntil) {
-			setFrame(getFrame()-freeze);
+		if (getFrame() == loopUntil) {
+			setFrame(getFrame() - freeze);
 		}
 	}
-	
+
 	/**
 	 * Loop next frames.
 	 *
 	 * @param frames the frames
 	 */
-	protected void loopNextFrames(int frames){
-		if(frames == 0){
+	protected void loopNextFrames(int frames) {
+		if (frames == 0) {
 			setSpeed(0);
-		} else if (frames > 0){
+		} else if (frames > 0) {
 			loopUntil = getFrame() + frames;
 		}
 	}
@@ -135,7 +139,7 @@ public abstract class AttackAnimation extends Animation {
 	public int getHeadX() {
 		return headX;
 	}
-	
+
 	/**
 	 * Gets the head y.
 	 *
@@ -144,8 +148,10 @@ public abstract class AttackAnimation extends Animation {
 	public int getHeadY() {
 		return headY;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.anim.Animation#setSpeed(float)
 	 */
 	@Override
@@ -153,8 +159,7 @@ public abstract class AttackAnimation extends Animation {
 		super.setSpeed(speed);
 		loopUntil = -1;
 	}
-	
-	
+
 	/**
 	 * Gets the default speed.
 	 *
@@ -163,17 +168,17 @@ public abstract class AttackAnimation extends Animation {
 	public float getDefaultSpeed() {
 		return defaultSpeed;
 	}
-	
+
 	/**
 	 * On hit.
 	 */
 	public abstract void onHit();
-	
+
 	/**
 	 * On last hit.
 	 */
 	public abstract void onLastHit();
-	
+
 	/**
 	 * Creates the animation.
 	 *
@@ -182,13 +187,12 @@ public abstract class AttackAnimation extends Animation {
 	 * @param args the args
 	 * @return the attack animation
 	 */
-	public static AttackAnimation createAnimation(AnimationData data, 
-			FightStage stage, AnimationArgs args){
-		if(args.classification.equals("normal")){
+	public static AttackAnimation createAnimation(AnimationData data, FightStage stage, AnimationArgs args) {
+		if (args.classification.equals("normal")) {
 			return new NormalAttack(data, stage, args);
-		} else if (args.classification.equals("ranged")){
+		} else if (args.classification.equals("ranged")) {
 			return new ProjectileAttack(data, stage, args);
-		} else if (args.classification.equals("magic")){
+		} else if (args.classification.equals("magic")) {
 			return new MagicAttack(data, stage, args);
 		}
 		return null;
@@ -200,8 +204,8 @@ public abstract class AttackAnimation extends Animation {
 	 * @return the next hit frame
 	 */
 	public int getNextHitFrame() {
-		for(int h : hitframes) {
-			if(h >= getFrame()) {
+		for (int h : hitframes) {
+			if (h >= getFrame()) {
 				return h;
 			}
 		}

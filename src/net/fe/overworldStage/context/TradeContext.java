@@ -13,19 +13,19 @@ import net.fe.overworldStage.*;
  * The Class TradeContext.
  */
 public class TradeContext extends OverworldContext {
-	
+
 	/** The u2. */
 	private Unit u1, u2;
-	
+
 	/** The curr. */
 	private Menu<ItemDisplay> trader, tradee, curr;
-	
+
 	/** The traded. */
 	private boolean traded;
-	
+
 	/** The marked. */
 	private int marked;
-	
+
 	/**
 	 * Instantiates a new trade context.
 	 *
@@ -44,22 +44,26 @@ public class TradeContext extends OverworldContext {
 		tradee.clearSelection();
 		marked = -1;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#startContext()
 	 */
-	public void startContext(){
+	public void startContext() {
 		super.startContext();
 		stage.addEntity(trader);
 		stage.addEntity(tradee);
 		u1.unequip();
 		u2.unequip();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#cleanUp()
 	 */
-	public void cleanUp(){
+	public void cleanUp() {
 		super.cleanUp();
 		stage.removeEntity(trader);
 		stage.removeEntity(tradee);
@@ -67,39 +71,44 @@ public class TradeContext extends OverworldContext {
 		stage.addCmd(u2.reEquipCommand());
 		u1.reEquip();
 		u2.reEquip();
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onSelect()
 	 */
 	@Override
 	public void onSelect() {
-		if(marked == -1){
+		if (marked == -1) {
 			AudioPlayer.playAudio("select");
 			marked = getIndex();
 			curr.mark(curr.getSelectedIndex());
 			curr.down();
-			
+
 			switchMenu();
 			curr.setSelection(0);
 		} else {
-			//Trade
+			// Trade
 			AudioPlayer.playAudio("cancel");
-			if(swap(marked, getIndex())) traded = true;
+			if (swap(marked, getIndex()))
+				traded = true;
 			marked = -1;
 			trader.unmark();
 			tradee.unmark();
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onCancel()
 	 */
 	public void onCancel() {
-		
-		if(marked == -1){
-			if(!traded){
+
+		if (marked == -1) {
+			if (!traded) {
 				super.onCancel();
 			} else {
 				AudioPlayer.playAudio("cancel");
@@ -110,7 +119,7 @@ public class TradeContext extends OverworldContext {
 		} else {
 			AudioPlayer.playAudio("cancel");
 			Menu<ItemDisplay> m1, m2;
-			if(marked < 4){
+			if (marked < 4) {
 				m1 = trader;
 				m2 = tradee;
 			} else {
@@ -123,14 +132,16 @@ public class TradeContext extends OverworldContext {
 			curr = m1;
 			m1.restoreSelection();
 			m2.clearSelection();
-			
+
 			marked = -1;
-			
+
 		}
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onUp()
 	 */
 	@Override
@@ -139,7 +150,9 @@ public class TradeContext extends OverworldContext {
 		AudioPlayer.playAudio("cursor2");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onDown()
 	 */
 	@Override
@@ -148,7 +161,9 @@ public class TradeContext extends OverworldContext {
 		AudioPlayer.playAudio("cursor2");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onLeft()
 	 */
 	@Override
@@ -159,7 +174,9 @@ public class TradeContext extends OverworldContext {
 		curr.setSelection(i);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onRight()
 	 */
 	@Override
@@ -169,28 +186,27 @@ public class TradeContext extends OverworldContext {
 		switchMenu();
 		curr.setSelection(i);
 	}
-	
-	
+
 	/**
 	 * Gets the index.
 	 *
 	 * @return the index
 	 */
-	private int getIndex(){
+	private int getIndex() {
 		int i = 0;
-		if(curr == tradee){
-			i+=4;
+		if (curr == tradee) {
+			i += 4;
 		}
-		i+= curr.getSelectedIndex();
+		i += curr.getSelectedIndex();
 		return i;
 	}
-	
+
 	/**
 	 * Switch menu.
 	 */
-	private void switchMenu(){
-		
-		if(curr == trader){
+	private void switchMenu() {
+
+		if (curr == trader) {
 			trader.clearSelection();
 			tradee.restoreSelection();
 			curr = tradee;
@@ -199,10 +215,9 @@ public class TradeContext extends OverworldContext {
 			trader.restoreSelection();
 			curr = trader;
 		}
-		
+
 	}
-	
-	
+
 	/**
 	 * Swap.
 	 *
@@ -210,27 +225,24 @@ public class TradeContext extends OverworldContext {
 	 * @param i2 the i2
 	 * @return true, if successful
 	 */
-	private boolean swap(int i1, int i2){
+	private boolean swap(int i1, int i2) {
 		List<Item> inv1 = u1.getInventory();
 		List<Item> inv2 = u2.getInventory();
-		List<Item> from = i1 < 4? inv1:inv2;
-		List<Item> to = i2 < 4? inv1:inv2;
-		int fromIndex = i1%4;
-		int toIndex = i2%4;
-		
+		List<Item> from = i1 < 4 ? inv1 : inv2;
+		List<Item> to = i2 < 4 ? inv1 : inv2;
+		int fromIndex = i1 % 4;
+		int toIndex = i2 % 4;
+
 		boolean result = doTrade(from, to, fromIndex, toIndex);
-		if(!result) return false;
-		
-		//Add the message
-		stage.addCmd(new TradeCommand(
-			new UnitIdentifier((from == inv1 ? u1 : u2)),
-			fromIndex,
-			new UnitIdentifier((to == inv1 ? u1 : u2)),
-			toIndex
-		));
+		if (!result)
+			return false;
+
+		// Add the message
+		stage.addCmd(new TradeCommand(new UnitIdentifier((from == inv1 ? u1 : u2)), fromIndex,
+		        new UnitIdentifier((to == inv1 ? u1 : u2)), toIndex));
 		return true;
 	}
-	
+
 	/**
 	 * Do trade.
 	 *
@@ -240,11 +252,12 @@ public class TradeContext extends OverworldContext {
 	 * @param toIndex the to index
 	 * @return true, if successful
 	 */
-	public static boolean doTrade(List<Item> from, List<Item> to, int fromIndex, int toIndex){
-		if(toIndex >= to.size() && fromIndex >= from.size()) return false;
-		if(toIndex >= to.size()){
+	public static boolean doTrade(List<Item> from, List<Item> to, int fromIndex, int toIndex) {
+		if (toIndex >= to.size() && fromIndex >= from.size())
+			return false;
+		if (toIndex >= to.size()) {
 			to.add(from.remove(fromIndex));
-		} else if (fromIndex >= from.size()){
+		} else if (fromIndex >= from.size()) {
 			from.add(to.remove(toIndex));
 		} else {
 			Item temp = to.get(toIndex);

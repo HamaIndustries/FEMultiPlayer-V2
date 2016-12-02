@@ -19,18 +19,18 @@ import net.fe.overworldStage.Healthbar;
 import java.util.Optional;
 
 public final class UseCommand extends Command {
-	
+
 	private static final long serialVersionUID = 6468268282716381357L;
-	
+
 	private final int itemIndex;
-	
+
 	public UseCommand(int itemIndex) {
 		this.itemIndex = itemIndex;
 	}
-	
+
 	@Override
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit unit) {
-		
+
 		if (unit.getInventory().get(itemIndex) instanceof HealingItem) {
 			unit.use(itemIndex);
 			return null;
@@ -38,17 +38,18 @@ public final class UseCommand extends Command {
 			throw new IllegalStateException("USE: not a healing item: " + unit.getInventory().get(itemIndex));
 		}
 	}
-	
+
 	@Override
-	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords, Runnable callback) {
-		
+	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords,
+	        Runnable callback) {
+
 		final int oHp = unit.getHp();
 		return new Runnable() {
 			public void run() {
 				unit.use(itemIndex);
 				unit.setMoved(true);
 				stage.checkEndGame();
-				//TODO Positioning
+				// TODO Positioning
 				stage.addEntity(new Healthbar(unit, oHp, unit.getHp(), stage) {
 					@Override
 					public void done() {
@@ -59,7 +60,7 @@ public final class UseCommand extends Command {
 			}
 		};
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Use[" + itemIndex + "]";

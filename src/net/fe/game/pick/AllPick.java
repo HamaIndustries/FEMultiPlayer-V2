@@ -16,12 +16,14 @@ public class AllPick implements PickMode {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -6038985000232148129L;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.pick.PickMode#setUpClient(net.fe.Session)
 	 */
 	@Override
 	public void setUpClient(Session session) {
-		if(!FEMultiplayer.getLocalPlayer().isSpectator()) {
+		if (!FEMultiplayer.getLocalPlayer().isSpectator()) {
 			TeamBuilderStage stage = new TeamBuilderStage(false, null, session);
 			FEMultiplayer.setCurrentStage(stage);
 		} else {
@@ -30,15 +32,19 @@ public class AllPick implements PickMode {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.pick.PickMode#setUpServer(net.fe.Session)
 	 */
 	@Override
 	public void setUpServer(Session session) {
 		FEServer.setCurrentStage(new WaitStage(session));
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {

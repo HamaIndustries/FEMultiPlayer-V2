@@ -8,13 +8,13 @@ import net.fe.network.Message;
  * The Class JoinLobby.
  */
 public final class JoinLobby extends Message {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 4749147769637678401L;
-	
+
 	/** The name to display when refrencing this player */
 	public final String nickname;
-	
+
 	/**
 	 * Instantiates a new join lobby.
 	 *
@@ -25,12 +25,14 @@ public final class JoinLobby extends Message {
 		super(origin);
 		this.nickname = nickname;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.network.Message#toString()
 	 */
 	public String toString() {
-		return super.toString()+nickname;
+		return super.toString() + nickname;
 	}
 
 }

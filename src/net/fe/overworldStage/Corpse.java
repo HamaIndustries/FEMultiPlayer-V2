@@ -27,8 +27,10 @@ public final class Corpse extends Entity {
 		sprite.addAnimation("DYING", u.sprite.getAnimation("IDLE"));
 		alpha = 1.0f;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Entity#beginStep()
 	 */
 	public void beginStep() {
@@ -38,16 +40,17 @@ public final class Corpse extends Entity {
 			destroy();
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Entity#render()
 	 */
 	public void render() {
 		Transform t = new Transform();
 		t.color = new Color(1f, 1f, 1f, alpha);
-		sprite.render(x-((ClientOverworldStage) stage).camX, 
-				y-((ClientOverworldStage) stage).camY, renderDepth,
-				t, new ShaderArgs("greyscale"));
+		sprite.render(x - ((ClientOverworldStage) stage).camX, y - ((ClientOverworldStage) stage).camY, renderDepth, t,
+		        new ShaderArgs("greyscale"));
 	}
 
 }

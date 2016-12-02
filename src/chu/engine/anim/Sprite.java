@@ -6,31 +6,33 @@ import org.newdawn.slick.opengl.Texture;
 
 // TODO: Auto-generated Javadoc
 /**
- * Manages a set of animations, and allows
- * the user to switch between animations.
+ * Manages a set of animations, and allows the user to switch between
+ * animations.
+ * 
  * @author Shawn
  *
  */
 public class Sprite {
-	
+
 	/** The animations. */
 	private HashMap<String, Animation> animations;
-	
+
 	/** The current animation. */
 	protected Animation currentAnimation;
-	
+
 	/** The cur anim name. */
 	private String curAnimName;
-	
+
 	/**
 	 * Instantiates a new sprite.
 	 */
 	public Sprite() {
 		animations = new HashMap<String, Animation>();
 	}
-	
+
 	/**
-	 * Add a new animation to the sprite by creating an animation with the given parameters.
+	 * Add a new animation to the sprite by creating an animation with the given
+	 * parameters.
 	 *
 	 * @param name Name of the animation
 	 * @param tex Texture to use as the spritesheet
@@ -47,9 +49,10 @@ public class Sprite {
 		curAnimName = name;
 		anim.setSprite(this);
 	}
-	
+
 	/**
 	 * Add a new single-image animation.
+	 * 
 	 * @param name Name of the animation
 	 * @param tex Texture to use as the static image
 	 */
@@ -60,7 +63,7 @@ public class Sprite {
 		curAnimName = name;
 		anim.setSprite(this);
 	}
-	
+
 	/**
 	 * Add an existing animation to the sprite.
 	 *
@@ -73,46 +76,49 @@ public class Sprite {
 		curAnimName = name;
 		anim.setSprite(this);
 	}
-	
+
 	/**
 	 * Gets the animation with the given name.
+	 * 
 	 * @param name Name of the animation
 	 * @return Animation that corresponds with that name
 	 */
 	public Animation getAnimation(String name) {
 		return animations.get(name.toUpperCase());
 	}
-	
+
 	/**
 	 * Gets the current animation.
 	 *
 	 * @return the current animation
 	 */
-	public Animation getCurrentAnimation(){
+	public Animation getCurrentAnimation() {
 		return currentAnimation;
 	}
-	
+
 	/**
 	 * Checks for animation.
 	 *
 	 * @param name the name
 	 * @return true, if successful
 	 */
-	public boolean hasAnimation(String name){
+	public boolean hasAnimation(String name) {
 		return animations.containsKey(name.toUpperCase());
 	}
+
 	/**
-	 * Sets the current, rendering animation to the animation with the
-	 * given name.
+	 * Sets the current, rendering animation to the animation with the given
+	 * name.
+	 * 
 	 * @param name Name of the animation
 	 */
 	public void setAnimation(String name) {
-		if(!hasAnimation(name))
-				return;
+		if (!hasAnimation(name))
+			return;
 		currentAnimation = animations.get(name.toUpperCase());
 		curAnimName = name.toUpperCase();
 	}
-	
+
 	/**
 	 * Gets the frame.
 	 *
@@ -121,7 +127,7 @@ public class Sprite {
 	public int getFrame() {
 		return currentAnimation.getFrame();
 	}
-	
+
 	/**
 	 * Sets the current animation to the given frame.
 	 *
@@ -130,7 +136,7 @@ public class Sprite {
 	public void setFrame(int frame) {
 		currentAnimation.setFrame(frame % currentAnimation.getLength());
 	}
-	
+
 	/**
 	 * Size.
 	 *
@@ -139,7 +145,7 @@ public class Sprite {
 	public int size() {
 		return animations.size();
 	}
-	
+
 	/**
 	 * Draws the sprite at the specified coordinates.
 	 *
@@ -150,7 +156,7 @@ public class Sprite {
 	public void render(float x, float y, float depth) {
 		this.render(x, y, depth, null, new ShaderArgs());
 	}
-	
+
 	/**
 	 * Render.
 	 *
@@ -167,13 +173,13 @@ public class Sprite {
 	 * Updates the current animation.
 	 */
 	public void update() {
-		if(currentAnimation == null)
+		if (currentAnimation == null)
 			return;
 		currentAnimation.update();
 	}
-	
+
 	public boolean updateRunOnce() {
-		if(currentAnimation == null)
+		if (currentAnimation == null)
 			return true;
 		return currentAnimation.updateRunOnce();
 	}
@@ -188,29 +194,31 @@ public class Sprite {
 	 * @param shader the shader
 	 */
 	public void render(float x, float y, float depth, Transform transform, ShaderArgs shader) {
-		if(currentAnimation == null) return;
-		
+		if (currentAnimation == null)
+			return;
+
 		int width = currentAnimation.getWidth();
 		int height = currentAnimation.getHeight();
 		int frameX = currentAnimation.getFrame() % currentAnimation.getColumns();
 		int frameY = currentAnimation.getFrame() / currentAnimation.getColumns();
 		int offX = currentAnimation.getOffsetX();
-		int offY = currentAnimation.getOffsetY();;
-		if(transform != null) {
-			if(transform.flipHorizontal) {
+		int offY = currentAnimation.getOffsetY();
+		;
+		if (transform != null) {
+			if (transform.flipHorizontal) {
 				offX = -offX + width;
 			}
-			if(transform.flipVertical) {
+			if (transform.flipVertical) {
 				offY = -offY + height;
 			}
 		}
-		float x0 = ((float)frameX * width)/currentAnimation.getImageWidth();
-		float x1 = ((float)(frameX+1) * width)/currentAnimation.getImageWidth();
-		float y0 = ((float)frameY * height)/currentAnimation.getImageHeight();
-		float y1 = ((float)(frameY+1) * height)/currentAnimation.getImageHeight();
+		float x0 = ((float) frameX * width) / currentAnimation.getImageWidth();
+		float x1 = ((float) (frameX + 1) * width) / currentAnimation.getImageWidth();
+		float y0 = ((float) frameY * height) / currentAnimation.getImageHeight();
+		float y1 = ((float) (frameY + 1) * height) / currentAnimation.getImageHeight();
 		Texture texture = currentAnimation.getTexture();
-		Renderer.render(texture, x0, y0, x1, y1, x - offX, y - offY,
-				x + width - offX, y + height - offY, depth, transform, shader, currentAnimation.getBlendMode());
+		Renderer.render(texture, x0, y0, x1, y1, x - offX, y - offY, x + width - offX, y + height - offY, depth,
+		        transform, shader, currentAnimation.getBlendMode());
 	}
 
 	/**
@@ -221,7 +229,7 @@ public class Sprite {
 	public void setSpeed(float newSpeed) {
 		currentAnimation.setSpeed(newSpeed);
 	}
-	
+
 	/**
 	 * Gets the animation name.
 	 *

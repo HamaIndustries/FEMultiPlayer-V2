@@ -7,8 +7,8 @@ import net.fe.game.unit.Unit;
 /**
  * The Class Nosferatu.
  */
-public final class Nosferatu extends CombatTrigger{
-	
+public final class Nosferatu extends CombatTrigger {
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
@@ -20,34 +20,44 @@ public final class Nosferatu extends CombatTrigger{
 		// TODO Auto-generated constructor stub
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
 	public boolean attempt(Unit user, int range, Unit opponent) {
 		return true;
 	}
-	
-	/* (non-Javadoc)
-	 * @see net.fe.fightStage.CombatTrigger#runDrain(net.fe.unit.Unit, net.fe.unit.Unit, int)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.fe.fightStage.CombatTrigger#runDrain(net.fe.unit.Unit,
+	 * net.fe.unit.Unit, int)
 	 */
-	public int runDrain(Unit a, Unit d, int damage){
+	public int runDrain(Unit a, Unit d, int damage) {
 		if (damage == 0)
 			return 0;
 		return Math.min(damage / 2, a.getStats().maxHp - a.getHp());
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.fightStage.CombatTrigger#getCopy()
 	 */
-	public CombatTrigger getCopy(){
+	public CombatTrigger getCopy() {
 		return new Nosferatu();
 	}
-	
+
 	@Override
-	public boolean equals(Object o){
+	public boolean equals(Object o) {
 		return o instanceof Nosferatu;
 	}
+
 	@Override
-	public int hashCode() { return (int)serialVersionUID; }
+	public int hashCode() {
+		return (int) serialVersionUID;
+	}
 }

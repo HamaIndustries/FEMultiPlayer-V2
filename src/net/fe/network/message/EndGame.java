@@ -10,10 +10,10 @@ public class EndGame extends Message {
 
 	/** The winner. */
 	public int winner;
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 654326008504474145L;
-	
+
 	/**
 	 * Instantiates a new end game.
 	 *
@@ -24,11 +24,13 @@ public class EndGame extends Message {
 		super(origin);
 		this.winner = winner;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.network.Message#toString()
 	 */
-	public String toString(){
+	public String toString() {
 		return "ENDGAME:: winner = " + winner;
 	}
 

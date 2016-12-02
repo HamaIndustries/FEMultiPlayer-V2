@@ -19,22 +19,22 @@ public abstract class TextInputBox extends Entity {
 
 	/** The width. */
 	protected float width;
-	
+
 	/** The height. */
 	protected float height;
-	
+
 	/** The has focus. */
 	protected boolean hasFocus;
-	
+
 	/** The cursor pos. */
 	protected int cursorPos;
-	
+
 	/** The input. */
 	protected StringBuilder input;
-	
+
 	/** The font. */
 	protected BitmapFont font;
-	
+
 	/**
 	 * Instantiates a new text input box.
 	 *
@@ -53,32 +53,33 @@ public abstract class TextInputBox extends Entity {
 		input = new StringBuilder();
 		font = FEResources.getBitmapFont(fontname);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Entity#beginStep()
 	 */
 	public void beginStep() {
-		if(hasFocus) {
+		if (hasFocus) {
 			List<KeyboardEvent> keys = Game.getKeys();
-			for(KeyboardEvent ke : keys) {
-				if(ke.state) {
+			for (KeyboardEvent ke : keys) {
+				if (ke.state) {
 					char c = ke.eventChar;
-					if(isValidCharacter(c) && FEResources.getBitmapFont("default_med")
-							.getStringWidth(input.toString()+c) < 246) {
+					if (isValidCharacter(c)
+					        && FEResources.getBitmapFont("default_med").getStringWidth(input.toString() + c) < 246) {
 						input.insert(cursorPos, c);
 						cursorPos++;
 					} else {
-						if(ke.key == FEResources.getKeyMapped(Keyboard.KEY_LEFT) && cursorPos > 0) { 
+						if (ke.key == FEResources.getKeyMapped(Keyboard.KEY_LEFT) && cursorPos > 0) {
 							cursorPos--;
-						}
-						else if(ke.key == FEResources.getKeyMapped(Keyboard.KEY_RIGHT) && cursorPos < input.length()) { 
+						} else if (ke.key == FEResources.getKeyMapped(Keyboard.KEY_RIGHT)
+						        && cursorPos < input.length()) {
 							cursorPos++;
-						}
-						else if(ke.key == FEResources.getKeyMapped(Keyboard.KEY_BACK) && cursorPos > 0) { 
-							input.deleteCharAt(cursorPos-1);
+						} else if (ke.key == FEResources.getKeyMapped(Keyboard.KEY_BACK) && cursorPos > 0) {
+							input.deleteCharAt(cursorPos - 1);
 							cursorPos--;
-						}
-						else if(ke.key == FEResources.getKeyMapped(Keyboard.KEY_DELETE) && cursorPos < input.length()) { 
+						} else if (ke.key == FEResources.getKeyMapped(Keyboard.KEY_DELETE)
+						        && cursorPos < input.length()) {
 							input.deleteCharAt(cursorPos);
 						}
 					}
@@ -86,7 +87,7 @@ public abstract class TextInputBox extends Entity {
 			}
 		}
 	}
-	
+
 	/**
 	 * In bounds.
 	 *
@@ -95,13 +96,12 @@ public abstract class TextInputBox extends Entity {
 	 * @return true, if successful
 	 */
 	protected boolean inBounds(float otherX, float otherY) {
-		if(otherX < x || otherX >= x+width 
-				|| otherY < y || otherY >= y+height) {
+		if (otherX < x || otherX >= x + width || otherY < y || otherY >= y + height) {
 			return false;
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Checks if is valid character.
 	 *

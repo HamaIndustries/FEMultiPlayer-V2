@@ -14,15 +14,20 @@ public final class Treasury implements Modifier {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 843174984852438018L;
 
-	/* (non-Javadoc)
-	 * @see net.fe.modifier.Modifier#modifyTeam(net.fe.builderStage.TeamBuilderStage)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.fe.modifier.Modifier#modifyTeam(net.fe.builderStage.TeamBuilderStage)
 	 */
 	@Override
 	public TeamBuilderResources modifyTeamResources(TeamBuilderResources limits) {
 		return limits.copyWithNewFunds(99999900);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.modifier.Modifier#modifyShop(net.fe.builderStage.ShopMenu)
 	 */
 	@Override
@@ -30,23 +35,30 @@ public final class Treasury implements Modifier {
 		return shop;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.fe.modifier.Modifier#initOverworld(net.fe.overworldStage.OverworldStage)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.fe.modifier.Modifier#initOverworld(net.fe.overworldStage.
+	 * OverworldStage)
 	 */
 	@Override
 	public void initOverworldUnits(Iterable<Unit> units) {
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "Treasury";
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.modifier.Modifier#getDescription()
 	 */
 	@Override

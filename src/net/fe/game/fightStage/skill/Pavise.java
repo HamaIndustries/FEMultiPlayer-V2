@@ -24,27 +24,34 @@ public class Pavise extends CombatTrigger {
 		super(APPEND_NAME_AFTER_MOD, ENEMY_TURN_MOD);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
 	public boolean attempt(Unit user, int range, Unit opponent) {
-		//return true;
+		// return true;
 		return RNG.get() < user.getStats().skl;
 	}
-	
-	/* (non-Javadoc)
-	 * @see net.fe.fightStage.CombatTrigger#runDamageMod(net.fe.unit.Unit, net.fe.unit.Unit, int)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.fe.fightStage.CombatTrigger#runDamageMod(net.fe.unit.Unit,
+	 * net.fe.unit.Unit, int)
 	 */
 	@Override
-	public int runDamageMod(Unit a, Unit d, int dmg){
-		return dmg/2;
+	public int runDamageMod(Unit a, Unit d, int dmg) {
+		return dmg / 2;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.fightStage.CombatTrigger#getCopy()
 	 */
-	public CombatTrigger getCopy(){
+	public CombatTrigger getCopy() {
 		return new Pavise();
 	}
 

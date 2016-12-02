@@ -8,10 +8,10 @@ public class GriddedEntity extends Entity {
 
 	/** The xcoord. */
 	protected int xcoord;
-	
+
 	/** The ycoord. */
 	protected int ycoord;
-	
+
 	/**
 	 * Instantiates a new gridded entity.
 	 */
@@ -31,7 +31,9 @@ public class GriddedEntity extends Entity {
 		ycoord = yy;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Entity#beginStep()
 	 */
 	@Override
@@ -40,48 +42,50 @@ public class GriddedEntity extends Entity {
 		y = ycoord * 16;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Entity#endStep()
 	 */
 	@Override
 	public void endStep() {
 
 	}
-	
+
 	/**
 	 * Gets the x coord.
 	 *
 	 * @return the x coord
 	 */
-	public int getXCoord(){
+	public int getXCoord() {
 		return xcoord;
 	}
-	
+
 	/**
 	 * Gets the y coord.
 	 *
 	 * @return the y coord
 	 */
-	public int getYCoord(){
+	public int getYCoord() {
 		return ycoord;
 	}
-	
+
 	/**
 	 * Grid set x coord.
 	 *
 	 * @param x the x
 	 */
-	//ONLY THE GRID SHOULD CALL THESE METHODS.
-	public void gridSetXCoord(int x){
+	// ONLY THE GRID SHOULD CALL THESE METHODS.
+	public void gridSetXCoord(int x) {
 		xcoord = x;
 	}
-	
+
 	/**
 	 * Grid set y coord.
 	 *
 	 * @param y the y
 	 */
-	public void gridSetYCoord(int y){
+	public void gridSetYCoord(int y) {
 		ycoord = y;
 	}
 }

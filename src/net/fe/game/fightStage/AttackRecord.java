@@ -9,27 +9,28 @@ import net.fe.game.unit.UnitIdentifier;
  * The Class AttackRecord.
  */
 public class AttackRecord implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 2227786706936956528L;
-	
+
 	/** The animation. */
 	public String animation;
-	
+
 	/** The defender. */
 	public UnitIdentifier attacker, defender;
-	
+
 	/** The damage. */
 	public int damage;
-	
+
 	/** The drain. */
 	public int drain;
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString(){
-		return animation + ": " + attacker.name + ", " + defender.name + ", "
-				+ damage + ", " + drain + " (drain)";
+	public String toString() {
+		return animation + ": " + attacker.name + ", " + defender.name + ", " + damage + ", " + drain + " (drain)";
 	}
 }

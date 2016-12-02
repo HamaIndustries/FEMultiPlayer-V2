@@ -37,91 +37,94 @@ import chu.engine.entity.GriddedEntity;
 /**
  * The Class Unit.
  */
-public final class Unit extends GriddedEntity implements Serializable, DoNotDestroy{
-	
+public final class Unit extends GriddedEntity implements Serializable, DoNotDestroy {
+
 	/** The bases. */
 	public final Statistics bases;
-	
+
 	/** The growths. */
 	public final Statistics growths;
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -5101031417704315547L;
-	
+
 	/** The unit's current level */
 	private int level;
-	
+
 	/** The unit's current stats. */
 	private Statistics stats;
-	
+
 	/** The skills. */
 	private final ArrayList<CombatTrigger> skills;
-	
+
 	/** The hp. */
 	private int hp;
-	
-	/** The clazz. */
-	private final Class clazz;
-	
+
+	/** The class of the unit. */
+	private final UnitClass unitClass;
+
 	/** The gender. */
 	public final char gender;
-	
-	/** True if the unit does not have an equipped weapon, even if it is possible for it to do so. */
+
+	/**
+	 * True if the unit does not have an equipped weapon, even if it is possible
+	 * for it to do so.
+	 */
 	private boolean isUnequipped;
-	
+
 	/** The inventory. */
 	private final ArrayList<Item> inventory;
-	
+
 	/** The name. */
 	public final String name;
-	
+
 	/** The team. */
 	private Party team;
-	
+
 	/** The temp mods. */
 	private transient HashMap<String, Integer> tempMods;
-	
+
 	/** The battle contributions record */
 	private BattleStats battleStats;
-	
+
 	/** The assist. */
 	private transient Set<Unit> assist;
-	
+
 	/** The rescued unit. */
 	private transient Unit rescuedUnit;
-	
+
 	/** The moved. */
 	private transient boolean moved;
-	
+
 	/** The path. */
 	private transient Path path;
-	
+
 	/** The r y. */
 	private transient float rX, rY;
-	
+
 	/** The callback. */
 	private transient Runnable callback;
-	
+
 	/** The rescued. */
 	private boolean rescued;
-	
+
 	/** The counter. */
 	private float counter;
 
 	/** The orig y. */
 	private int origX, origY;
-	
+
 	/** The Constant MAP_ANIM_SPEED. */
 	public static final float MAP_ANIM_SPEED = 0.2f;
-	
+
 	/** The Constant MOVE_SPEED. */
 	public static final int MOVE_SPEED = 250;
-	
+
 	/** The rescue. */
 	public static Texture rescue;
-	
+
 	static {
-		if(Game.glContextExists())
+		if (Game.glContextExists())
 			rescue = FEResources.getTexture("rescue");
 	}
 
@@ -134,11 +137,10 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 * @param bases the bases
 	 * @param growths the growths
 	 */
-	public Unit(String name, Class c, char gender, Statistics bases,
-			Statistics growths) {
+	public Unit(String name, UnitClass c, char gender, Statistics bases, Statistics growths) {
 		super(0, 0);
 		this.name = name;
-		this.clazz = c;
+		this.unitClass = c;
 		this.bases = bases;
 		this.growths = growths;
 		this.gender = gender;
@@ -150,29 +152,23 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		battleStats = new BattleStats();
 		this.setLevel(1);
 		fillHp();
-		
+
 		renderDepth = ClientOverworldStage.UNIT_DEPTH;
 	}
-	
+
 	/**
 	 * Load map sprites.
 	 */
-	public void loadMapSprites(){
-		sprite.addAnimation("IDLE", new MapAnimation(functionalClassName() + 
-				"_map_idle", false));
-		sprite.addAnimation("SELECTED", new MapAnimation(functionalClassName() + 
-				"_map_selected", false));
-		sprite.addAnimation("LEFT", new MapAnimation(functionalClassName() + 
-				"_map_side", true));
-		sprite.addAnimation("RIGHT", new MapAnimation(functionalClassName() + 
-				"_map_side", true));
-		sprite.addAnimation("UP", new MapAnimation(functionalClassName() + 
-				"_map_up", true));
-		sprite.addAnimation("DOWN", new MapAnimation(functionalClassName() + 
-				"_map_down", true));
+	public void loadMapSprites() {
+		sprite.addAnimation("IDLE", new MapAnimation(functionalClassName() + "_map_idle", false));
+		sprite.addAnimation("SELECTED", new MapAnimation(functionalClassName() + "_map_selected", false));
+		sprite.addAnimation("LEFT", new MapAnimation(functionalClassName() + "_map_side", true));
+		sprite.addAnimation("RIGHT", new MapAnimation(functionalClassName() + "_map_side", true));
+		sprite.addAnimation("UP", new MapAnimation(functionalClassName() + "_map_up", true));
+		sprite.addAnimation("DOWN", new MapAnimation(functionalClassName() + "_map_down", true));
 		sprite.setAnimation("IDLE");
 	}
-	
+
 	/**
 	 * Read object.
 	 *
@@ -181,36 +177,36 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 * @throws ClassNotFoundException the class not found exception
 	 */
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        tempMods = new HashMap<String, Integer>();
-        assist = new HashSet<Unit>();
-        battleStats = new BattleStats();
-    }
-	
+		in.defaultReadObject();
+		tempMods = new HashMap<String, Integer>();
+		assist = new HashSet<Unit>();
+		battleStats = new BattleStats();
+	}
+
 	/**
 	 * Functional class name.
 	 *
 	 * @return the string
 	 */
-	public String functionalClassName(){
-		String prefix = clazz.name;
-		if(prefix.equals("Lord")){
+	public String functionalClassName() {
+		String prefix = unitClass.name;
+		if (prefix.equals("Lord")) {
 			prefix = name;
 		}
-		if(gender != '-'){
+		if (gender != '-') {
 			prefix += gender;
 		}
 		return prefix.toLowerCase();
 	}
-	
+
 	/**
 	 * No gender name.
 	 *
 	 * @return the string
 	 */
 	public String noGenderName() {
-		String prefix = clazz.name;
-		if(prefix.equals("Lord")){
+		String prefix = unitClass.name;
+		if (prefix.equals("Lord")) {
 			prefix = name;
 		}
 		return prefix;
@@ -226,13 +222,13 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		this.path = p.getCopy();
 		this.callback = callback;
 	}
-	
+
 	/**
 	 * Rescue.
 	 *
 	 * @param u the u
 	 */
-	public void rescue(Unit u){
+	public void rescue(Unit u) {
 		final int oldX = u.xcoord;
 		final int oldY = u.ycoord;
 		rescuedUnit = u;
@@ -240,7 +236,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		final OverworldStage grid = (OverworldStage) stage;
 		Path p = new Path();
 		p.add(new Node(this.xcoord, this.ycoord));
-		rescuedUnit.move(p, new Runnable(){
+		rescuedUnit.move(p, new Runnable() {
 			@Override
 			public void run() {
 				rescuedUnit.xcoord = oldX;
@@ -250,36 +246,34 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		});
 	}
 
-	public static boolean isRider(Unit u){
+	public static boolean isRider(Unit u) {
 		List<String> mounts = WeaponFactory.riding;
-		return mounts.contains(u.name) || mounts.contains(u.clazz.name);
+		return mounts.contains(u.name) || mounts.contains(u.unitClass.name);
 	}
-	
-	public static boolean isRider(Class c){
-		List<String> mounts = WeaponFactory.riding;
-		return mounts.contains(c.name);
+
+	public static boolean isRider(UnitClass c) {
+		return WeaponFactory.riding.contains(c.name);
 	}
-	
-	public static boolean isRider(String n){
-		List<String> mounts = WeaponFactory.riding;
-		return mounts.contains(n);
+
+	public static boolean isRider(String n) {
+		return WeaponFactory.riding.contains(n);
 	}
-	
-	public boolean canRescue(Unit u){
-		if(u == null)
+
+	public boolean canRescue(Unit u) {
+		if (u == null)
 			return false;
 		return this.getStats().aid >= u.getStats().con;
 	}
 
-	
 	/**
 	 * Drop.
 	 *
 	 * @param x the x
 	 * @param y the y
 	 */
-	public void drop(int x, int y){
-		if(rescuedUnit == null) throw new IllegalStateException("rescuedUnit == null");
+	public void drop(int x, int y) {
+		if (rescuedUnit == null)
+			throw new IllegalStateException("rescuedUnit == null");
 		rescuedUnit.rescued = false;
 		rescuedUnit.setMoved(true);
 		final OverworldStage grid = (OverworldStage) stage;
@@ -288,64 +282,73 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		rescuedUnit.rY = this.y - y * 16;
 		rescuedUnit = null;
 	}
-	
-	
+
 	/**
 	 * Give.
 	 *
 	 * @param u the u
 	 */
-	public void give(Unit u){
-		if(rescuedUnit == null) throw new IllegalStateException("rescuedUnit == null");
-		if(u.rescuedUnit() != null) throw new IllegalStateException(u.name + ".rescuedUnit() != null");
+	public void give(Unit u) {
+		if (rescuedUnit == null)
+			throw new IllegalStateException("rescuedUnit == null");
+		if (u.rescuedUnit() != null)
+			throw new IllegalStateException(u.name + ".rescuedUnit() != null");
 		u.rescuedUnit = rescuedUnit;
 		rescuedUnit = null;
 	}
-	
-	
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.GriddedEntity#beginStep()
 	 */
-	public void beginStep(){
+	public void beginStep() {
 		super.beginStep();
-		if(Game.glContextExists() && !sprite.hasAnimation("IDLE")) {
-    		loadMapSprites();
-        }
-		if(path != null){
+		if (Game.glContextExists() && !sprite.hasAnimation("IDLE")) {
+			loadMapSprites();
+		}
+		if (path != null) {
 			String name;
-			if(rX > 0) 		name = "left";
-			else if(rX < 0) name = "right";
-			else if(rY > 0) name = "up";
-			else 			name = "down";
+			if (rX > 0)
+				name = "left";
+			else if (rX < 0)
+				name = "right";
+			else if (rY > 0)
+				name = "up";
+			else
+				name = "down";
 			sprite.setAnimation(name);
 		}
 		renderDepth = calcRenderDepth();
 	}
-	
+
 	/**
 	 * Calc render depth.
 	 *
 	 * @return the float
 	 */
-	private float calcRenderDepth(){
+	private float calcRenderDepth() {
 		float depth = ClientOverworldStage.UNIT_DEPTH;
-		if(rescued){
-			return depth-0.0001f;
+		if (rescued) {
+			return depth - 0.0001f;
 		}
-		float highlightDiff = (ClientOverworldStage.UNIT_DEPTH - ClientOverworldStage.UNIT_MAX_DEPTH)/2;
+		float highlightDiff = (ClientOverworldStage.UNIT_DEPTH - ClientOverworldStage.UNIT_MAX_DEPTH) / 2;
 		Grid g = ((ClientOverworldStage) stage).grid;
-		float yDiff = highlightDiff/g.width;
-		float xDiff = yDiff/g.height;
-		
-		if(path!=null) depth -= highlightDiff;
-		if(((ClientOverworldStage) stage).getHoveredUnit() == this) depth -= highlightDiff;
-		depth -= ycoord*yDiff;
-		depth -= (g.width-xcoord)*xDiff;
+		float yDiff = highlightDiff / g.width;
+		float xDiff = yDiff / g.height;
+
+		if (path != null)
+			depth -= highlightDiff;
+		if (((ClientOverworldStage) stage).getHoveredUnit() == this)
+			depth -= highlightDiff;
+		depth -= ycoord * yDiff;
+		depth -= (g.width - xcoord) * xDiff;
 		return depth;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Entity#onStep()
 	 */
 	public void onStep() {
@@ -354,12 +357,12 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		float rYOld = rY;
 		rX = rX - Math.signum(rX) * Game.getDeltaSeconds() * 250;
 		rY = rY - Math.signum(rY) * Game.getDeltaSeconds() * 250;
-		if(rXOld * rX < 0 || rYOld * rY < 0 || (rXOld == rX && rYOld == rY)){
+		if (rXOld * rX < 0 || rYOld * rY < 0 || (rXOld == rX && rYOld == rY)) {
 			rX = 0;
 			rY = 0;
 			if (path != null) {
 				if (path.size() == 0) {
-					// We made it to destination					
+					// We made it to destination
 					path = null;
 					callback.run();
 				} else {
@@ -372,15 +375,16 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 					y = ycoord * 16;
 				}
 			}
-		}		
+		}
 	}
 
 	/**
 	 * Creates a clone of this unit. Transient characteristics might not be
-	 * carried over to the new object. Other mutable characteristics are deep-cloned.
+	 * carried over to the new object. Other mutable characteristics are
+	 * deep-cloned.
 	 */
 	public Unit getCopy() {
-		Unit copy = new Unit(name, clazz, gender, bases, growths);
+		Unit copy = new Unit(name, unitClass, gender, bases, growths);
 		copy.setLevel(this.level);
 		for (Item i : inventory) {
 			copy.addToInventory(i.getCopy());
@@ -389,54 +393,52 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		return copy;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Entity#render()
 	 */
 	public void render() {
-		ClientOverworldStage cs = (ClientOverworldStage)stage;
+		ClientOverworldStage cs = (ClientOverworldStage) stage;
 		Renderer.translate(-cs.camX, -cs.camY);
 		Renderer.addClip(0, 0, 368, 240, true);
-		
-		if(FEResources.hasTexture(functionalClassName().toLowerCase() + "_map_idle")){
+
+		if (FEResources.hasTexture(functionalClassName().toLowerCase() + "_map_idle")) {
 			Transform t = new Transform();
-			if(sprite.getAnimationName().equals("RIGHT")){
+			if (sprite.getAnimationName().equals("RIGHT")) {
 				t.flipHorizontal();
-				t.setTranslation(14, 0); //Why do we have to do this?
+				t.setTranslation(14, 0); // Why do we have to do this?
 			}
 			Color mod = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 			t.setColor(mod);
-			if(moved) {
-				sprite.render(x+1+rX, y+1+rY, renderDepth, t, new ShaderArgs("greyscale"));
+			if (moved) {
+				sprite.render(x + 1 + rX, y + 1 + rY, renderDepth, t, new ShaderArgs("greyscale"));
 			} else {
 				ShaderArgs args = PaletteSwapper.setup(this);
-				sprite.render(x+1+rX, y+1+rY, renderDepth, t, args);
+				sprite.render(x + 1 + rX, y + 1 + rY, renderDepth, t, args);
 			}
 		} else {
 			Color c = !moved ? new Color(getPartyColor()) : new Color(128, 128, 128);
-			Renderer.drawRectangle(x + 1 + rX, y + 1 + rY, x + 14 + rX,
-					y + 14 + rY, ClientOverworldStage.UNIT_DEPTH, c);
-			Renderer.drawString("default_med",
-					name.charAt(0) + "" + name.charAt(1), x + 2 + rX, y + 1 + rY,
-					ClientOverworldStage.UNIT_DEPTH);
-			
+			Renderer.drawRectangle(x + 1 + rX, y + 1 + rY, x + 14 + rX, y + 14 + rY, ClientOverworldStage.UNIT_DEPTH,
+			        c);
+			Renderer.drawString("default_med", name.charAt(0) + "" + name.charAt(1), x + 2 + rX, y + 1 + rY,
+			        ClientOverworldStage.UNIT_DEPTH);
+
 		}
-		if(rescuedUnit!=null){
-			counter+=Game.getDeltaSeconds();
-			counter%=1;
-			if(counter > 0.5){
-				Renderer.render(rescue, 
-						0, 0, 1, 1, x+9, y+7, x+9+8, y+7+8, renderDepth);
+		if (rescuedUnit != null) {
+			counter += Game.getDeltaSeconds();
+			counter %= 1;
+			if (counter > 0.5) {
+				Renderer.render(rescue, 0, 0, 1, 1, x + 9, y + 7, x + 9 + 8, y + 7 + 8, renderDepth);
 			}
 		}
-		
+
 		Renderer.removeClip();
 		Renderer.translate(cs.camX, cs.camY);
 	}
 
-	
-	
-	//Skills
-	
+	// Skills
+
 	/**
 	 * Adds the skill.
 	 *
@@ -445,18 +447,18 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	public void addSkill(CombatTrigger t) {
 		skills.add(t);
 	}
-	
+
 	/**
 	 * Gets the attack anims.
 	 *
 	 * @return the attack anims
 	 */
-	public List<String> getAttackAnims(){
+	public List<String> getAttackAnims() {
 		ArrayList<String> ans = new ArrayList<String>();
 		ans.add("attack");
 		ans.add("critical");
-		for(CombatTrigger skill: getTriggers()){
-			for(String a: skill.attackAnims){
+		for (CombatTrigger skill : getTriggers()) {
+			for (String a : skill.attackAnims) {
 				ans.add(a);
 			}
 		}
@@ -473,36 +475,36 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	public List<Item> getInventory() {
 		return inventory;
 	}
-	
+
 	/**
 	 * Find item.
 	 *
 	 * @param i the i
 	 * @return the int
 	 */
-	public int findItem(Item i){
+	public int findItem(Item i) {
 		return inventory.indexOf(i);
 	}
-	
+
 	/**
 	 * Removes the from inventory.
 	 *
 	 * @param item the item
 	 */
-	public void removeFromInventory(Item item){
+	public void removeFromInventory(Item item) {
 		inventory.remove(item);
 	}
-	
+
 	/**
 	 * Adds the to inventory.
 	 *
 	 * @param item the item
 	 */
 	public void addToInventory(Item item) {
-		if(inventory.size() < 4)
+		if (inventory.size() < 4)
 			inventory.add(item);
 	}
-	
+
 	/**
 	 * Gets the total wep range.
 	 *
@@ -520,12 +522,12 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		}
 		return range;
 	}
-	
+
 	/**
 	 * Equips the specified item.
 	 *
-	 * The assumption is that w is currently in this unit's inventory.
-	 * The weapon will pop into existence otherwise.
+	 * The assumption is that w is currently in this unit's inventory. The
+	 * weapon will pop into existence otherwise.
 	 * 
 	 * @param w the weapon
 	 */
@@ -536,27 +538,27 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 			inventory.add(0, w);
 		}
 	}
-	
+
 	/**
 	 * Equip the item in the nth slot.
 	 *
-	 * @param i the index of the item to equip 
-	 * @throws ClassCastException if the item is not a Weapon 
+	 * @param i the index of the item to equip
+	 * @throws ClassCastException if the item is not a Weapon
 	 */
 	// For use in command message processing only
 	public void equip(int i) {
-		Weapon w = (Weapon)inventory.get(i);
+		Weapon w = (Weapon) inventory.get(i);
 		if (equippable(w)) {
 			this.isUnequipped = false;
 			inventory.remove(w);
 			inventory.add(0, w);
 		}
 	}
-	
+
 	/**
 	 * Unequip.
 	 */
-	public void unequip(){
+	public void unequip() {
 		this.isUnequipped = true;
 	}
 
@@ -567,10 +569,10 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 * @return true, if successful
 	 */
 	public boolean equippable(Weapon w) {
-		if(w.pref!= null){
+		if (w.pref != null) {
 			return name.equals(w.pref);
 		}
-		return clazz.usableWeapon.contains(w.type);
+		return unitClass.usableWeapon.contains(w.type);
 
 	}
 
@@ -585,15 +587,14 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		for (Item i : inventory) {
 			if (i instanceof Weapon) {
 				Weapon w = (Weapon) i;
-				if (equippable(w) && w.type != Weapon.Type.STAFF
-						&& w.range.apply(this.getStats()).contains(range)) {
+				if (equippable(w) && w.type != Weapon.Type.STAFF && w.range.apply(this.getStats()).contains(range)) {
 					weps.add(w);
 				}
 			}
 		}
 		return weps;
 	}
-	
+
 	/**
 	 * Equippable staves.
 	 *
@@ -605,31 +606,31 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		for (Item i : inventory) {
 			if (i instanceof Weapon) {
 				Weapon w = (Weapon) i;
-				if (equippable(w) && w.type == Weapon.Type.STAFF
-						&& w.range.apply(this.getStats()).contains(range)) {
+				if (equippable(w) && w.type == Weapon.Type.STAFF && w.range.apply(this.getStats()).contains(range)) {
 					weps.add(w);
 				}
 			}
 		}
 		return weps;
 	}
-	
+
 	/**
 	 * Initialize equipment.
 	 */
-	public void initializeEquipment(){
-		for(Item it: inventory){
-			if(it instanceof Weapon){
-				if(equippable((Weapon)it)){
+	public void initializeEquipment() {
+		for (Item it : inventory) {
+			if (it instanceof Weapon) {
+				if (equippable((Weapon) it)) {
 					equip((Weapon) it);
 					break;
 				}
 			}
 		}
 	}
-	
+
 	/**
-	 * Returns an Command that, if executed, would perform the same action as a call to #reEquip()
+	 * Returns an Command that, if executed, would perform the same action as a
+	 * call to #reEquip()
 	 */
 	public net.fe.network.command.Command reEquipCommand() {
 		for (int i = 0; i < inventory.size(); i++) {
@@ -643,11 +644,12 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		}
 		return new net.fe.network.command.WaitCommand(); /* a not-null no-op */
 	}
-	
+
 	/**
-	 * Remove any currently equipped weapon, then equip the top-most weapon eligible for equipping.
+	 * Remove any currently equipped weapon, then equip the top-most weapon
+	 * eligible for equipping.
 	 */
-	public void reEquip(){
+	public void reEquip() {
 		this.unequip();
 		for (int i = 0; i < inventory.size(); i++) {
 			Item it = inventory.get(i);
@@ -670,7 +672,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	public int use(int index) {
 		return use(inventory.get(index), true);
 	}
-	
+
 	/**
 	 * Use.
 	 *
@@ -678,17 +680,17 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 * @param destroy the destroy
 	 * @return the int
 	 */
-	public int use(int index, boolean destroy){
+	public int use(int index, boolean destroy) {
 		return use(inventory.get(index), destroy);
 	}
-	
+
 	/**
 	 * Use.
 	 *
 	 * @param i the i
 	 * @return the int
 	 */
-	public int use(Item i){
+	public int use(Item i) {
 		return use(i, true);
 	}
 
@@ -701,7 +703,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 */
 	public int use(Item i, boolean destroy) {
 		int ans = i.use(this);
-		if(i.getUses() <= 0 && destroy){
+		if (i.getUses() <= 0 && destroy) {
 			inventory.remove(i);
 			reEquip();
 		}
@@ -716,15 +718,15 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	public ArrayList<CombatTrigger> getTriggers() {
 		ArrayList<CombatTrigger> triggers = new ArrayList<CombatTrigger>();
 		triggers.addAll(skills);
-		if (clazz.masterSkill != null)
-			triggers.add(clazz.masterSkill);
-		if(getWeapon() != null)
+		if (unitClass.masterSkill != null)
+			triggers.add(unitClass.masterSkill);
+		if (getWeapon() != null)
 			triggers.addAll(getWeapon().getTriggers());
 		return triggers;
 	}
-	
-	//Development
-	
+
+	// Development
+
 	/**
 	 * Sets the level.
 	 *
@@ -736,75 +738,75 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		}
 		this.level = lv;
 		lv--;
-		stats = growths.times(lv / 100f).plus(bases)
-				.min(new Statistics(60, 35,35,35, 35,35,35, 35,35,35,35));
+		stats = growths.times(lv / 100f).plus(bases).min(new Statistics(60, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35));
 		fillHp();
 	}
-	
+
 	/**
 	 * Fill hp.
 	 */
 	public void fillHp() {
 		setHp(getStats().maxHp);
 	}
-	
+
 	/**
 	 * Gets the exp cost.
 	 *
 	 * @param level the level
 	 * @return the exp cost
 	 */
-	public static int getExpCost(int level){
+	public static int getExpCost(int level) {
 		return level * 50 + 500;
 	}
-	
+
 	/**
 	 * Squeeze exp.
 	 *
 	 * @return the int
 	 */
-	public int squeezeExp(){
+	public int squeezeExp() {
 		int exp = 0;
-		while(getLevel() != 1){
+		while (getLevel() != 1) {
 			exp += getExpCost(getLevel());
 			setLevel(getLevel() - 1);
 		}
 		return exp;
 	}
-	
+
 	/**
 	 * Squeeze gold.
 	 *
 	 * @return the int
 	 */
-	public int squeezeGold(){
+	public int squeezeGold() {
 		int gold = 0;
 		ListIterator<Item> items = inventory.listIterator();
-		while(items.hasNext()){
+		while (items.hasNext()) {
 			Item i = items.next();
 			boolean remove = true;
-			if(i instanceof Weapon){
+			if (i instanceof Weapon) {
 				Weapon w = (Weapon) i;
-				if(w.pref != null){
+				if (w.pref != null) {
 					remove = false;
 				}
 			}
-			if(remove){
+			if (remove) {
 				items.remove();
-				gold+= i.getCost();
+				gold += i.getCost();
 			}
 		}
 		return gold;
 	}
-	
+
 	/**
 	 * Increments this unit's contributions-to-battle record
+	 * 
 	 * @param add the values to increment by
 	 */
 	public void addBattleStats(BattleStats add) {
 		this.battleStats = this.battleStats.plus(add);
 	}
-	
+
 	/**
 	 * Gets the battle stat.
 	 *
@@ -814,14 +816,19 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	public int getBattleStat(String stat) {
 		/* LOOOOOPS! */
 		switch (stat) {
-			case "Kills": return battleStats.kills; 
-			case "Assists": return battleStats.assists; 
-			case "Damage": return battleStats.damage; 
-			case "Healing": return battleStats.healing; 
-			default: return -1; 
+			case "Kills":
+				return battleStats.kills;
+			case "Assists":
+				return battleStats.assists;
+			case "Damage":
+				return battleStats.damage;
+			case "Healing":
+				return battleStats.healing;
+			default:
+				return -1;
 		}
 	}
-	
+
 	/**
 	 * Gets the assisters.
 	 *
@@ -832,16 +839,17 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	}
 
 	// Combat statistics
-	
+
 	/**
 	 * Hit.
 	 *
 	 * @return the int
 	 */
 	public int hit() {
-		if(this.getWeapon() == null) return 0;
+		if (this.getWeapon() == null)
+			return 0;
 		return getWeapon().hit + 2 * getStats().skl + getStats().lck / 2
-				+ (tempMods.get("Hit") != null ? tempMods.get("Hit") : 0);
+		        + (tempMods.get("Hit") != null ? tempMods.get("Hit") : 0);
 	}
 
 	/**
@@ -850,9 +858,8 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 * @return the int
 	 */
 	public int avoid() {
-		return 2 * getStats().spd + getStats().lck / 2
-				+ (tempMods.get("Avo") != null ? tempMods.get("Avo") : 0)
-				+ getTerrain().getAvoidBonus(this);
+		return 2 * getStats().spd + getStats().lck / 2 + (tempMods.get("Avo") != null ? tempMods.get("Avo") : 0)
+		        + getTerrain().getAvoidBonus(this);
 	}
 
 	/**
@@ -861,9 +868,10 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 * @return the int
 	 */
 	public int crit() {
-		if(getWeapon() == null) return 0;
-		return getWeapon().crit + getStats().skl / 2 + clazz.crit
-				+ (tempMods.get("Crit") != null ? tempMods.get("Crit") : 0);
+		if (getWeapon() == null)
+			return 0;
+		return getWeapon().crit + getStats().skl / 2 + unitClass.crit
+		        + (tempMods.get("Crit") != null ? tempMods.get("Crit") : 0);
 	}
 
 	/**
@@ -872,8 +880,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 * @return the int
 	 */
 	public int dodge() {
-		return getStats().lck
-				+ (tempMods.get("Dodge") != null ? tempMods.get("Dodge") : 0);
+		return getStats().lck + (tempMods.get("Dodge") != null ? tempMods.get("Dodge") : 0);
 	}
 
 	/**
@@ -882,8 +889,8 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 * @return the the class
 	 */
 	// Getter/Setter
-	public Class getTheClass() {
-		return clazz;
+	public UnitClass getUnitClass() {
+		return unitClass;
 	}
 
 	/**
@@ -902,25 +909,25 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 */
 	public void setHp(int hp) {
 		this.hp = Math.max(hp, 0);
-		if(this.hp == 0) {
+		if (this.hp == 0) {
 			((OverworldStage) stage).removeUnit(xcoord, ycoord);
-			if(rescuedUnit != null) {
+			if (rescuedUnit != null) {
 				drop(xcoord, ycoord);
 			}
-			if(Game.glContextExists()) {
+			if (Game.glContextExists()) {
 				((ClientOverworldStage) stage).setControl(false);
 				stage.addEntity(new Corpse(this));
 			}
 		}
 	}
-	
+
 	/**
 	 * Sets the unit's max HP (used for Sudden Death)
 	 * 
 	 */
-	public void setMaxHp(int mhp){
+	public void setMaxHp(int mhp) {
 		this.stats = this.stats.copy("HP", mhp);
-		if(this.getHp() > this.stats.maxHp){
+		if (this.getHp() > this.stats.maxHp) {
 			this.setHp(mhp);
 		}
 	}
@@ -931,12 +938,14 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	}
 
 	/**
-	 * Return current statistics including tempMods and weapon
-	 * and other non-unit things.
+	 * Return current statistics including tempMods and weapon and other
+	 * non-unit things.
 	 */
 	public Statistics getStats() {
 		Statistics retVal = this.stats;
-		if (this.getWeapon() != null) {retVal = retVal.plus(this.getWeapon().modifiers);}
+		if (this.getWeapon() != null) {
+			retVal = retVal.plus(this.getWeapon().modifiers);
+		}
 		retVal = retVal.plus(new Statistics(tempMods));
 		retVal = retVal.copy("Def", retVal.def + this.getTerrain().getDefenseBonus(this));
 		retVal = retVal.copy("Res", retVal.res + this.getTerrain().getDefenseBonus(this));
@@ -948,32 +957,44 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	}
 
 	/**
-	 * Return current statistics (NOT BASES) before tempMods and weapon
-	 * and other non-unit things are taken into account.
+	 * Return current statistics (NOT BASES) before tempMods and weapon and
+	 * other non-unit things are taken into account.
 	 */
 	public Statistics getBase() {
 		return stats;
 	}
 
 	/**
-	 * Return current statistics (NOT BASES) before tempMods and weapon
-	 * and other non-unit things are taken into account.
+	 * Return current statistics (NOT BASES) before tempMods and weapon and
+	 * other non-unit things are taken into account.
 	 */
 	// this is used in too many loops to be easily refactored
 	public int getBase(String stat) {
 		switch (stat) {
-			case "Lvl": return this.getLevel();
-			case "Str" : return this.getBase().str;
-			case "Mag" : return this.getBase().mag;
-			case "Skl" : return this.getBase().skl;
-			case "Spd" : return this.getBase().spd;
-			case "Lck" : return this.getBase().lck;
-			case "Def" : return this.getBase().def;
-			case "Res" : return this.getBase().res;
-			case "Mov" : return this.getBase().mov;
-			case "Con" : return this.getBase().con;
-			case "HP": return this.getBase().maxHp;
-			default : throw new IllegalArgumentException("Unknown Stat: " + stat);
+			case "Lvl":
+				return this.getLevel();
+			case "Str":
+				return this.getBase().str;
+			case "Mag":
+				return this.getBase().mag;
+			case "Skl":
+				return this.getBase().skl;
+			case "Spd":
+				return this.getBase().spd;
+			case "Lck":
+				return this.getBase().lck;
+			case "Def":
+				return this.getBase().def;
+			case "Res":
+				return this.getBase().res;
+			case "Mov":
+				return this.getBase().mov;
+			case "Con":
+				return this.getBase().con;
+			case "HP":
+				return this.getBase().maxHp;
+			default:
+				throw new IllegalArgumentException("Unknown Stat: " + stat);
 		}
 	}
 
@@ -986,41 +1007,41 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	public void setTempMod(String stat, int val) {
 		tempMods.put(stat, val);
 	}
-	
+
 	/**
 	 * Debug stat.
 	 *
 	 * @param stat the stat
 	 */
-	public void debugStat(String stat){
+	public void debugStat(String stat) {
 		stats = stats.copy(stat, 9999);
 	}
-	
+
 	/**
 	 * Debug stat.
 	 *
 	 * @param stat the stat
 	 * @param value the value
 	 */
-	public void debugStat(String stat, int value){
+	public void debugStat(String stat, int value) {
 		stats = stats.copy(stat, value);
 	}
-	
+
 	/**
 	 * Debug crit.
 	 *
 	 * @param might the might
 	 */
-	public void debugCrit(int might){
+	public void debugCrit(int might) {
 		Weapon w = getWeapon();
 		this.removeFromInventory(w);
 		this.equip(w.getCopyWithNewMtHitCrit(might, 100, 100));
 	}
-	
+
 	/**
 	 * Debug crit.
 	 */
-	public void debugCrit(){
+	public void debugCrit() {
 		Weapon w = getWeapon();
 		this.removeFromInventory(w);
 		this.equip(w.getCopyWithNewMtHitCrit(100, 100, 100));
@@ -1064,11 +1085,14 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 * @return the terrain
 	 */
 	public Terrain getTerrain() {
-		if(stage == null) return Terrain.PLAIN;
+		if (stage == null)
+			return Terrain.PLAIN;
 		return ((OverworldStage) stage).getTerrain(xcoord, ycoord);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
@@ -1081,7 +1105,8 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 * @return the party color
 	 */
 	public Color getPartyColor() {
-		if(team == null) return Party.TEAM_BLUE;
+		if (team == null)
+			return Party.TEAM_BLUE;
 		return team.getColor();
 	}
 
@@ -1110,7 +1135,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 */
 	public void setMoved(boolean status) {
 		moved = status;
-		if(moved) {
+		if (moved) {
 			sprite.setAnimation("IDLE");
 			origX = xcoord;
 			origY = ycoord;
@@ -1125,7 +1150,6 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	public boolean hasMoved() {
 		return moved;
 	}
-
 
 	/**
 	 * Gets the orig x.
@@ -1162,13 +1186,13 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	public int getOrigY() {
 		return origY;
 	}
-	
+
 	/**
 	 * Rescued unit.
 	 *
 	 * @return the unit
 	 */
-	public Unit rescuedUnit(){
+	public Unit rescuedUnit() {
 		return rescuedUnit;
 	}
 
@@ -1178,12 +1202,10 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	public boolean isRescued() {
 		return this.rescued;
 	}
-	
-	@Override public int hashCode() {
-		return ((((
-			this.name.hashCode()) * 31 +
-			this.bases.hashCode()) * 31 +
-			this.growths.hashCode()) * 31 +
-			this.clazz.hashCode());
+
+	@Override
+	public int hashCode() {
+		return ((((this.name.hashCode()) * 31 + this.bases.hashCode()) * 31 + this.growths.hashCode()) * 31
+		        + this.unitClass.hashCode());
 	}
 }

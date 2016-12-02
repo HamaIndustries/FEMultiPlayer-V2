@@ -15,7 +15,7 @@ import net.fe.network.command.TakeCommand;
 public class TakeTarget extends SelectTargetContext {
 
 	private Unit unit;
-	
+
 	/**
 	 * Instantiates a new take target.
 	 *
@@ -24,21 +24,26 @@ public class TakeTarget extends SelectTargetContext {
 	 * @param z the z
 	 * @param u the u
 	 */
-	public TakeTarget(ClientOverworldStage stage, OverworldContext context, Zone z,
-			Unit u) {
+	public TakeTarget(ClientOverworldStage stage, OverworldContext context, Zone z, Unit u) {
 		super(stage, context, z, u, true);
 		unit = u;
 	}
-	
-	/* (non-Javadoc)
-	 * @see net.fe.overworldStage.SelectTargetContext#validTarget(net.fe.unit.Unit)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.fe.overworldStage.SelectTargetContext#validTarget(net.fe.unit.Unit)
 	 */
-	public boolean validTarget(Unit u){
+	public boolean validTarget(Unit u) {
 		return super.validTarget(u) && u.rescuedUnit() != null && unit.canRescue(u.rescuedUnit());
 	}
 
-	/* (non-Javadoc)
-	 * @see net.fe.overworldStage.SelectTargetContext#unitSelected(net.fe.unit.Unit)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.fe.overworldStage.SelectTargetContext#unitSelected(net.fe.unit.Unit)
 	 */
 	@Override
 	public void unitSelected(Unit u) {
@@ -51,6 +56,8 @@ public class TakeTarget extends SelectTargetContext {
 	}
 
 	private static final class EmptyRunnable implements Runnable {
-		@Override public void run() {}
+		@Override
+		public void run() {
+		}
 	}
 }

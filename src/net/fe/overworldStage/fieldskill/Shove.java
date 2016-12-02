@@ -16,18 +16,19 @@ import net.fe.overworldStage.Path;
  * A skill in which a unit moves an adjacent unit one space away from the user
  */
 public final class Shove extends FieldSkill {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 6468268282716381356L;
-	
+
 	/**
 	 * A skill that can be used in the overworld
 	 */
 	public Shove() {
 	}
-	
+
 	/**
 	 * Checks whether the unit is capable of shiving anyone
+	 * 
 	 * @param unit the unit to check
 	 * @param grid the grid containing the unit
 	 */
@@ -44,7 +45,7 @@ public final class Shove extends FieldSkill {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Returns the context to start when this command is selected
 	 */
@@ -52,35 +53,34 @@ public final class Shove extends FieldSkill {
 	public OverworldContext onSelect(ClientOverworldStage stage, OverworldContext context, Zone z, Unit unit) {
 		return new net.fe.overworldStage.context.ShoveTarget(stage, context, z, unit);
 	}
-	
+
 	@Override
 	public Zone getZone(Unit unit, Grid grid) {
-		return new Zone(grid.getRange(
-					new Node(unit.getXCoord(), unit.getYCoord()), 1),
-					Zone.MOVE_DARK);
+		return new Zone(grid.getRange(new Node(unit.getXCoord(), unit.getYCoord()), 1), Zone.MOVE_DARK);
 	}
-	
+
 	/**
 	 * Returns true if the shover is allowed to shove the shovee
 	 */
 	public static boolean canShove(Grid grid, Unit shover, Unit shovee) {
 		int deltaX = shovee.getXCoord() - shover.getXCoord();
 		int deltaY = shovee.getYCoord() - shover.getYCoord();
-		
+
 		int shoveToX = shover.getXCoord() + 2 * deltaX;
 		int shoveToY = shover.getYCoord() + 2 * deltaY;
-		
-		return (
-			(Math.abs(deltaX) + Math.abs(deltaY)) == 1 && 
-			grid.contains(shoveToX, shoveToY) &&
-			grid.getTerrain(shoveToX, shoveToY).getMoveCost(shovee.getTheClass()) < shovee.getStats().mov &&
-			null == grid.getUnit(shoveToX, shoveToY) &&
-			shovee.getStats().con - 2 <= shover.getStats().con
-		);
+
+		return ((Math.abs(deltaX) + Math.abs(deltaY)) == 1 && grid.contains(shoveToX, shoveToY)
+		        && grid.getTerrain(shoveToX, shoveToY).getMoveCost(shovee.getUnitClass()) < shovee.getStats().mov
+		        && null == grid.getUnit(shoveToX, shoveToY) && shovee.getStats().con - 2 <= shover.getStats().con);
 	}
-	
+
 	@Override
-	public int hashCode() { return (int) serialVersionUID; }
+	public int hashCode() {
+		return (int) serialVersionUID;
+	}
+
 	@Override
-	public boolean equals(Object other) { return other instanceof Smite; }
+	public boolean equals(Object other) {
+		return other instanceof Smite;
+	}
 }

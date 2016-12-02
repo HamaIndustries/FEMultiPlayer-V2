@@ -36,27 +36,25 @@ public class LevelEditorStage extends Stage {
 
 	/** The palette. */
 	private static Texture palette;
-	
+
 	/** The tileset. */
 	private static Tileset tileset;
-	
+
 	/** The selected id. */
 	private int selectedID;
-	
+
 	/** The tiles. */
 	private int[][] tiles;
-	
+
 	/** The level name. */
 	private String levelName;
-	
+
 	/** The spawns. */
 	private HashSet<SpawnPoint> spawns;
 
 	static {
 		try {
-			palette = TextureLoader
-					.getTexture("PNG", ResourceLoader
-							.getResourceAsStream("res/terrain_tiles.png"));
+			palette = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/terrain_tiles.png"));
 			tileset = new Tileset(palette, 16, 16);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -75,43 +73,44 @@ public class LevelEditorStage extends Stage {
 		tiles = new int[3][3];
 		spawns = new HashSet<SpawnPoint>();
 		try {
-            FileInputStream in = new FileInputStream(new File("levels/"+levelName+".lvl"));
-            ObjectInputStream ois = new ObjectInputStream(in);
-            Level level = (Level) ois.readObject();
-            tiles = level.tiles;
-            spawns = new HashSet<>(level.spawns);
-            if(spawns == null) spawns = new HashSet<SpawnPoint>();
-            ois.close();
-            in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+			FileInputStream in = new FileInputStream(new File("levels/" + levelName + ".lvl"));
+			ObjectInputStream ois = new ObjectInputStream(in);
+			Level level = (Level) ois.readObject();
+			tiles = level.tiles;
+			spawns = new HashSet<>(level.spawns);
+			if (spawns == null)
+				spawns = new HashSet<SpawnPoint>();
+			ois.close();
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
 	public void beginStep(List<Message> messages) {
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
 			if (Mouse.isButtonDown(0)) {
-				selectedID = Math.min((Game.getWindowHeight() - Mouse.getY())
-						/ 16 * 25 + Mouse.getX() / 16, 25 * 40 - 1);
+				selectedID = Math.min((Game.getWindowHeight() - Mouse.getY()) / 16 * 25 + Mouse.getX() / 16,
+				        25 * 40 - 1);
 			}
 		} else {
 			if (Mouse.isButtonDown(0)) {
 				try {
-					tiles[(Game.getWindowHeight() - Mouse.getY()) / 16][Mouse
-							.getX() / 16] = selectedID;
+					tiles[(Game.getWindowHeight() - Mouse.getY()) / 16][Mouse.getX() / 16] = selectedID;
 				} catch (ArrayIndexOutOfBoundsException e) {
 					System.err.println("Tried to place tile out of bounds");
 				}
 			} else if (Mouse.isButtonDown(1)) {
 				try {
-					tiles[(Game.getWindowHeight() - Mouse.getY()) / 16][Mouse
-						.getX() / 16] = 0;
+					tiles[(Game.getWindowHeight() - Mouse.getY()) / 16][Mouse.getX() / 16] = 0;
 				} catch (ArrayIndexOutOfBoundsException e) {
 					System.err.println("Tried to place tile out of bounds");
 				}
@@ -128,65 +127,59 @@ public class LevelEditorStage extends Stage {
 					} else if (ke.key == Keyboard.KEY_D) {
 						modifySize(1, 0);
 					} else if (ke.key == Keyboard.KEY_Z) {
-						SpawnPoint spawn = new SpawnPoint(
-								Mouse.getX() / 16,
-								(Game.getWindowHeight() - Mouse.getY()) / 16,
-								Party.TEAM_BLUE);
-						if(!spawns.add(spawn)) {
+						SpawnPoint spawn = new SpawnPoint(Mouse.getX() / 16,
+						        (Game.getWindowHeight() - Mouse.getY()) / 16, Party.TEAM_BLUE);
+						if (!spawns.add(spawn)) {
 							System.err.println("Spawnpoint already exists");
 						} else {
-							System.out.println("Spawnpoint added at ("+spawn.x+", "+spawn.y+")");
+							System.out.println("Spawnpoint added at (" + spawn.x + ", " + spawn.y + ")");
 						}
-					} else if (ke.key == Keyboard.KEY_X) { 
-						SpawnPoint spawn = new SpawnPoint(
-								Mouse.getX() / 16,
-								(Game.getWindowHeight() - Mouse.getY()) / 16,
-								Party.TEAM_RED);
-						if(!spawns.add(spawn)) {
+					} else if (ke.key == Keyboard.KEY_X) {
+						SpawnPoint spawn = new SpawnPoint(Mouse.getX() / 16,
+						        (Game.getWindowHeight() - Mouse.getY()) / 16, Party.TEAM_RED);
+						if (!spawns.add(spawn)) {
 							System.err.println("Spawnpoint already exists");
 						} else {
-							System.out.println("Spawnpoint added at ("+spawn.x+", "+spawn.y+")");
+							System.out.println("Spawnpoint added at (" + spawn.x + ", " + spawn.y + ")");
 						}
-					} else if (ke.key == Keyboard.KEY_C) { 
-						SpawnPoint spawn = new SpawnPoint(
-								Mouse.getX() / 16,
-								(Game.getWindowHeight() - Mouse.getY()) / 16,
-								Party.TEAM_GREEN);
-						if(!spawns.add(spawn)) {
+					} else if (ke.key == Keyboard.KEY_C) {
+						SpawnPoint spawn = new SpawnPoint(Mouse.getX() / 16,
+						        (Game.getWindowHeight() - Mouse.getY()) / 16, Party.TEAM_GREEN);
+						if (!spawns.add(spawn)) {
 							System.err.println("Spawnpoint already exists");
 						} else {
-							System.out.println("Spawnpoint added at ("+spawn.x+", "+spawn.y+")");
+							System.out.println("Spawnpoint added at (" + spawn.x + ", " + spawn.y + ")");
 						}
-					} else if (ke.key == Keyboard.KEY_V) { 
-						spawns.remove(new SpawnPoint(
-								Mouse.getX() / 16,
-								(Game.getWindowHeight() - Mouse.getY()) / 16,
-								null));
-					} else if (ke.key == Keyboard.KEY_F1) { 
+					} else if (ke.key == Keyboard.KEY_V) {
+						spawns.remove(
+						        new SpawnPoint(Mouse.getX() / 16, (Game.getWindowHeight() - Mouse.getY()) / 16, null));
+					} else if (ke.key == Keyboard.KEY_F1) {
 						Level level = new Level(tiles[0].length, tiles.length, tiles, spawns);
-						File file = new File("levels/"+levelName+".lvl");
-		                FileOutputStream fo;
-		                ObjectOutputStream oos;
-		                try {
-		                        fo = new FileOutputStream(file);
-		                        oos = new ObjectOutputStream(fo);
-		                        oos.writeObject(level);
-		                        oos.close();
-		                        System.out.println("Level serialization successful.");
-		                } catch (FileNotFoundException e) {
-		                        System.out.println("Invalid file path!");
-		                        e.printStackTrace();
-		                } catch (IOException e) {
-		                        System.err.println("Failed to create object output stream");
-		                        e.printStackTrace();
-		                }
+						File file = new File("levels/" + levelName + ".lvl");
+						FileOutputStream fo;
+						ObjectOutputStream oos;
+						try {
+							fo = new FileOutputStream(file);
+							oos = new ObjectOutputStream(fo);
+							oos.writeObject(level);
+							oos.close();
+							System.out.println("Level serialization successful.");
+						} catch (FileNotFoundException e) {
+							System.out.println("Invalid file path!");
+							e.printStackTrace();
+						} catch (IOException e) {
+							System.err.println("Failed to create object output stream");
+							e.printStackTrace();
+						}
 					}
 				}
 			}
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Stage#onStep()
 	 */
 	@Override
@@ -195,7 +188,9 @@ public class LevelEditorStage extends Stage {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Stage#endStep()
 	 */
 	@Override
@@ -204,7 +199,9 @@ public class LevelEditorStage extends Stage {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Stage#render()
 	 */
 	@Override
@@ -213,26 +210,21 @@ public class LevelEditorStage extends Stage {
 			Renderer.render(palette, 0, 0, 1, 1, 0, 0, 400, 640, 0.1f);
 			int x = selectedID % 25 * 16;
 			int y = selectedID / 25 * 16;
-			Renderer.drawLine(x - 1, y - 1, x + 17, y - 1, 1, 0, Color.red,
-					Color.red);
-			Renderer.drawLine(x + 17, y - 1, x + 17, y + 17, 1, 0, Color.red,
-					Color.red);
-			Renderer.drawLine(x - 1, y + 17, x + 17, y + 17, 1, 0, Color.red,
-					Color.red);
-			Renderer.drawLine(x - 1, y - 1, x - 1, y + 17, 1, 0, Color.red,
-					Color.red);
+			Renderer.drawLine(x - 1, y - 1, x + 17, y - 1, 1, 0, Color.red, Color.red);
+			Renderer.drawLine(x + 17, y - 1, x + 17, y + 17, 1, 0, Color.red, Color.red);
+			Renderer.drawLine(x - 1, y + 17, x + 17, y + 17, 1, 0, Color.red, Color.red);
+			Renderer.drawLine(x - 1, y - 1, x - 1, y + 17, 1, 0, Color.red, Color.red);
 		} else {
 			for (int i = 0; i < tiles.length; i++) {
 				for (int j = 0; j < tiles[0].length; j++) {
-					tileset.render(j * 16, i * 16, tiles[i][j] % 25,
-							tiles[i][j] / 25, 0.5f);
+					tileset.render(j * 16, i * 16, tiles[i][j] % 25, tiles[i][j] / 25, 0.5f);
 				}
 			}
-			
-			for(SpawnPoint sp : spawns) {
+
+			for (SpawnPoint sp : spawns) {
 				Color c = new Color(sp.team);
 				c.a = 0.3f;
-				Renderer.drawSquare(sp.x*16, sp.y*16, 16, 0.4f, c);
+				Renderer.drawSquare(sp.x * 16, sp.y * 16, 16, 0.4f, c);
 			}
 
 			int x = tiles[0].length * 16;

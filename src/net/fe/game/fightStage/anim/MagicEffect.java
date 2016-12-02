@@ -15,7 +15,7 @@ import chu.engine.entity.Entity;
  * The Class MagicEffect.
  */
 public class MagicEffect extends Entity {
-	
+
 	/** The args. */
 	private AnimationArgs args;
 
@@ -28,18 +28,20 @@ public class MagicEffect extends Entity {
 		super(0, 0);
 		this.args = args;
 		final AnimationData data = getTexture(args);
-		Animation anim = new Animation(FightStage.getPreload(getTextureName(args)), data.frameWidth,
-				data.frameHeight, data.frames, data.columns, data.offsetX,
-				data.offsetY, data.speed==0.0f?0.05f:data.speed, data.getBlendMode()) {
+		Animation anim = new Animation(FightStage.getPreload(getTextureName(args)), data.frameWidth, data.frameHeight,
+		        data.frames, data.columns, data.offsetX, data.offsetY, data.speed == 0.0f ? 0.05f : data.speed,
+		        data.getBlendMode()) {
 			HashMap<Integer, String> soundMap = data.soundMap;
 			int prevFrame = -1;
+
 			public void update() {
 				super.update();
-				if(soundMap.get(getFrame()) != null && prevFrame != getFrame()) {
+				if (soundMap.get(getFrame()) != null && prevFrame != getFrame()) {
 					prevFrame = getFrame();
 					AudioPlayer.playAudio(soundMap.get(getFrame()));
 				}
 			}
+
 			@Override
 			public void done() {
 				setFrame(0);
@@ -50,23 +52,24 @@ public class MagicEffect extends Entity {
 			}
 		};
 		sprite.addAnimation("default", anim);
-		
+
 		renderDepth = FightStage.EFFECT_DEPTH;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Entity#render()
 	 */
-	public void render(){
+	public void render() {
 		Transform t = new Transform();
 		int offset = FightStage.rangeToHeadDistance(args.range);
 		if (args.left) {
 			t.flipHorizontal();
-			offset *=-1;
+			offset *= -1;
 		}
-		sprite.render(FightStage.CENTRAL_AXIS + offset,				
-				FightStage.FLOOR, 0, t);
-		
+		sprite.render(FightStage.CENTRAL_AXIS + offset, FightStage.FLOOR, 0, t);
+
 	}
 
 	/**
@@ -78,7 +81,7 @@ public class MagicEffect extends Entity {
 	public static AnimationData getTexture(String name) {
 		return FEResources.getTextureData(name);
 	}
-	
+
 	/**
 	 * Gets the texture.
 	 *
@@ -88,14 +91,14 @@ public class MagicEffect extends Entity {
 	public static AnimationData getTexture(AnimationArgs args) {
 		return getTexture(getTextureName(args));
 	}
-	
+
 	/**
 	 * Gets the texture name.
 	 *
 	 * @param args the args
 	 * @return the texture name
 	 */
-	public static String getTextureName(AnimationArgs args){
+	public static String getTextureName(AnimationArgs args) {
 		return "magic_effect_" + args.unit.getWeapon().name.toLowerCase();
 	}
 

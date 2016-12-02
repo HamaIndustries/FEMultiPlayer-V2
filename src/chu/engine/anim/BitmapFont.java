@@ -12,19 +12,19 @@ import org.newdawn.slick.util.ResourceLoader;
  * The Class BitmapFont.
  */
 public class BitmapFont {
-	
+
 	/** The texture. */
 	private Texture texture;
-	
+
 	/** The glyph height. */
 	private int glyphHeight;
-	
+
 	/** The spacing. */
 	private int spacing;
-	
+
 	/** The glyphs. */
 	private HashMap<Character, Glyph> glyphs;
-	
+
 	/**
 	 * Instantiates a new bitmap font.
 	 *
@@ -32,14 +32,14 @@ public class BitmapFont {
 	 */
 	public BitmapFont(String texName) {
 		try {
-			texture = TextureLoader.getTexture("PNG", 
-					ResourceLoader.getResourceAsStream("res/fonts/"+texName+".png"));
+			texture = TextureLoader.getTexture("PNG",
+			        ResourceLoader.getResourceAsStream("res/fonts/" + texName + ".png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		glyphs = new HashMap<Character, Glyph>();
 	}
-	
+
 	/**
 	 * Sets the height.
 	 *
@@ -48,7 +48,7 @@ public class BitmapFont {
 	public void setHeight(int height) {
 		glyphHeight = height;
 	}
-	
+
 	/**
 	 * Sets the spacing.
 	 *
@@ -57,7 +57,7 @@ public class BitmapFont {
 	public void setSpacing(int spacing) {
 		this.spacing = spacing;
 	}
-	
+
 	/**
 	 * Put.
 	 *
@@ -68,7 +68,7 @@ public class BitmapFont {
 	public void put(char c, int pos, int width) {
 		glyphs.put(c, new Glyph(pos, width));
 	}
-	
+
 	/**
 	 * Render.
 	 *
@@ -78,21 +78,21 @@ public class BitmapFont {
 	 * @param depth the depth
 	 */
 	public void render(String string, float beginX, float beginY, float depth) {
-		int x = (int)beginX;
-		for(char c : string.toCharArray()) {
+		int x = (int) beginX;
+		for (char c : string.toCharArray()) {
 			Glyph g = glyphs.get(c);
-			if(g == null) {
-				System.err.println("I don't have this character: '"+c+"'");
+			if (g == null) {
+				System.err.println("I don't have this character: '" + c + "'");
 				continue;
 			}
-			float tx0 = (float)g.pos/texture.getImageWidth();
-			float tx1 = (float)(g.pos+g.width)/texture.getImageWidth();
-			Renderer.render(texture, tx0, 0, tx1, 1, x, beginY, x+g.width, beginY+glyphHeight, depth);
+			float tx0 = (float) g.pos / texture.getImageWidth();
+			float tx1 = (float) (g.pos + g.width) / texture.getImageWidth();
+			Renderer.render(texture, tx0, 0, tx1, 1, x, beginY, x + g.width, beginY + glyphHeight, depth);
 			x += g.width;
 			x += spacing;
 		}
 	}
-	
+
 	/**
 	 * Render.
 	 *
@@ -103,17 +103,17 @@ public class BitmapFont {
 	 * @param t the t
 	 */
 	public void render(String string, float beginX, float beginY, float depth, Transform t) {
-		int x = (int)beginX;
-		for(char c : string.toCharArray()) {
+		int x = (int) beginX;
+		for (char c : string.toCharArray()) {
 			Glyph g = glyphs.get(c);
-			float tx0 = (float)g.pos/texture.getImageWidth();
-			float tx1 = (float)(g.pos+g.width)/texture.getImageWidth();
-			Renderer.render(texture, tx0, 0, tx1, 1, x, beginY, x+g.width, beginY+glyphHeight, depth, t);
-			x += g.width * (t != null?t.scaleX:1);
-			x += spacing * (t != null?t.scaleX:1);
+			float tx0 = (float) g.pos / texture.getImageWidth();
+			float tx1 = (float) (g.pos + g.width) / texture.getImageWidth();
+			Renderer.render(texture, tx0, 0, tx1, 1, x, beginY, x + g.width, beginY + glyphHeight, depth, t);
+			x += g.width * (t != null ? t.scaleX : 1);
+			x += spacing * (t != null ? t.scaleX : 1);
 		}
 	}
-	
+
 	/**
 	 * Gets the string width.
 	 *
@@ -122,13 +122,13 @@ public class BitmapFont {
 	 */
 	public int getStringWidth(String string) {
 		int width = 0;
-		for(char c : string.toCharArray()) {
+		for (char c : string.toCharArray()) {
 			width += glyphs.get(c).width;
 			width += spacing;
 		}
 		return width;
 	}
-	
+
 	/**
 	 * Contains character.
 	 *
@@ -138,18 +138,18 @@ public class BitmapFont {
 	public boolean containsCharacter(char c) {
 		return glyphs.containsKey(c);
 	}
-	
+
 	/**
 	 * The Class Glyph.
 	 */
 	private class Glyph {
-		
+
 		/** The pos. */
 		int pos;
-		
+
 		/** The width. */
 		int width;
-		
+
 		/**
 		 * Instantiates a new glyph.
 		 *

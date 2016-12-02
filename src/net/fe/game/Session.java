@@ -25,42 +25,43 @@ import net.fe.overworldStage.objective.Rout;
 // TODO: Auto-generated Javadoc
 /**
  * Contains data on game setup and players.
+ * 
  * @author Shawn
  *
  */
 public final class Session implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 696432583909698581L;
-	
+
 	/** The players. */
 	private final HashMap<Byte, Player> players;
-	
+
 	/** The chatlog */
 	private final Chat chatlog;
-	
+
 	/** The objective. */
 	private final Objective objective;
-	
+
 	/** The map. */
 	private final String map;
-	
+
 	/** The max units. */
 	private final int maxUnits;
-	
+
 	/** The modifiers. */
 	private final Set<Modifier> modifiers;
-	
+
 	/** The pick mode. */
 	private final PickMode pickMode;
-	
+
 	/**
 	 * Instantiates a new session with default values.
 	 */
 	public Session() {
 		this(new Rout(), "test", 8, new HashSet<>(), new Draft());
 	}
-	
+
 	/**
 	 * Instantiates a new session with the specified values
 	 */
@@ -73,7 +74,7 @@ public final class Session implements Serializable {
 		this.map = map;
 		this.pickMode = pickMode;
 	}
-	
+
 	/**
 	 * Adds the player.
 	 *
@@ -82,7 +83,7 @@ public final class Session implements Serializable {
 	public void addPlayer(Player p) {
 		players.put(p.getID(), p);
 	}
-	
+
 	/**
 	 * Adds the player.
 	 *
@@ -93,7 +94,7 @@ public final class Session implements Serializable {
 		players.put(id, p);
 		p.setClientID(id);
 	}
-	
+
 	/**
 	 * Removes the player.
 	 *
@@ -103,7 +104,7 @@ public final class Session implements Serializable {
 	public Player removePlayer(Player p) {
 		return players.remove(p.getID());
 	}
-	
+
 	/**
 	 * Removes the player.
 	 *
@@ -113,7 +114,7 @@ public final class Session implements Serializable {
 	public Player removePlayer(byte id) {
 		return players.remove(id);
 	}
-	
+
 	/**
 	 * Gets the player.
 	 *
@@ -123,7 +124,7 @@ public final class Session implements Serializable {
 	public Player getPlayer(byte id) {
 		return players.get(id);
 	}
-	
+
 	/**
 	 * Num players.
 	 *
@@ -132,7 +133,7 @@ public final class Session implements Serializable {
 	public int numPlayers() {
 		return players.size();
 	}
-	
+
 	/**
 	 * Gets the player map.
 	 *
@@ -141,7 +142,7 @@ public final class Session implements Serializable {
 	public HashMap<Byte, Player> getPlayerMap() {
 		return players;
 	}
-	
+
 	/**
 	 * Gets the players.
 	 *
@@ -150,18 +151,19 @@ public final class Session implements Serializable {
 	public Player[] getPlayers() {
 		return players.values().toArray(new Player[players.size()]);
 	}
-	
+
 	/**
-	 * Returns a list of players, filtered to not include players that are spectators
+	 * Returns a list of players, filtered to not include players that are
+	 * spectators
 	 */
 	public Player[] getNonSpectators() {
 		ArrayList<Player> ans = new ArrayList<Player>();
-		for(Player p : this.getPlayers()) {
-			if(!p.isSpectator()) ans.add(p);
-		}
-		return ans.toArray(new Player[ans.size()]);
+		for (Player p : this.getPlayers())
+			if (!p.isSpectator())
+				ans.add(p);
+		return ans.toArray(new Player[0]);
 	}
-	
+
 	/**
 	 * Gets the objective.
 	 *
@@ -170,15 +172,16 @@ public final class Session implements Serializable {
 	public Objective getObjective() {
 		return objective;
 	}
-	
+
 	/**
 	 * Gets the chatlog.
+	 * 
 	 * @return the chatlog
 	 */
 	public Chat getChatlog() {
 		return chatlog;
 	}
-	
+
 	/**
 	 * Gets the map.
 	 *
@@ -187,7 +190,7 @@ public final class Session implements Serializable {
 	public String getMap() {
 		return map;
 	}
-	
+
 	/**
 	 * Gets the max units.
 	 *
@@ -196,7 +199,7 @@ public final class Session implements Serializable {
 	public int getMaxUnits() {
 		return maxUnits;
 	}
-	
+
 	/**
 	 * Gets the modifiers.
 	 *
@@ -205,7 +208,7 @@ public final class Session implements Serializable {
 	public Set<Modifier> getModifiers() {
 		return modifiers;
 	}
-	
+
 	/**
 	 * Gets the pick mode.
 	 *
@@ -219,35 +222,35 @@ public final class Session implements Serializable {
 	 * Perform an action in response to the message
 	 */
 	public void handleMessage(Message message) {
-		if(message instanceof JoinLobby) {
-			JoinLobby join = (JoinLobby)message;
+		if (message instanceof JoinLobby) {
+			JoinLobby join = (JoinLobby) message;
 			this.addPlayer((byte) join.origin, new Player(join.nickname, join.origin));
-		} else if(message instanceof QuitMessage) {
-			QuitMessage quit = (QuitMessage)message;
+		} else if (message instanceof QuitMessage) {
+			QuitMessage quit = (QuitMessage) message;
 			Player player = this.getPlayer(quit.origin);
 			if (player != null) {
 				this.getChatlog().add(player, "has quit the game");
 			}
 			this.removePlayer(quit.origin);
-		} else if(message instanceof KickMessage) {
-			KickMessage kick = (KickMessage)message;
+		} else if (message instanceof KickMessage) {
+			KickMessage kick = (KickMessage) message;
 			Player kicker = this.getPlayer(kick.origin); // better be null...
 			Player kickee = this.getPlayer(kick.player);
 			this.getChatlog().add(kicker, kickee.getName() + " was kicked: " + kick.reason);
 			this.removePlayer(kick.player);
-		} else if(message instanceof JoinTeam) {
-			JoinTeam join = (JoinTeam)message;
+		} else if (message instanceof JoinTeam) {
+			JoinTeam join = (JoinTeam) message;
 			this.getPlayer(join.origin).setTeam(join.team);
-			if(join.team == Team.BLUE) {
+			if (join.team == Team.BLUE) {
 				this.getPlayer(join.origin).getParty().setColor(Party.TEAM_BLUE);
-			} else if(join.team == Team.RED) {
+			} else if (join.team == Team.RED) {
 				this.getPlayer(join.origin).getParty().setColor(Party.TEAM_RED);
 			}
 			this.getPlayer(join.origin).ready = false;
 		} else if (message instanceof ChatMessage) {
-			ChatMessage chatMsg = (ChatMessage)message;
+			ChatMessage chatMsg = (ChatMessage) message;
 			this.getChatlog().add(this.getPlayer(chatMsg.origin), chatMsg.text);
 		}
 	}
-	
+
 }

@@ -13,9 +13,9 @@ import net.fe.Player;
  * @author Shawn
  */
 public final class Chat implements Serializable {
-	
+
 	private static final long serialVersionUID = -3975855319618106122L;
-	
+
 	/** The chat messages. */
 	private final ArrayList<Chatlog> chatMessages;
 
@@ -25,7 +25,7 @@ public final class Chat implements Serializable {
 	public Chat() {
 		chatMessages = new ArrayList<Chatlog>();
 	}
-	
+
 	/**
 	 * Adds the.
 	 *
@@ -35,19 +35,19 @@ public final class Chat implements Serializable {
 	public void add(Player p, String line) {
 		chatMessages.add(new Chatlog(p, line));
 	}
-	
-	
+
 	/**
 	 * Gets the last i messages from this chat
 	 *
 	 * @param i the number of messages to return
-	 * @return A list of size <var>i</var> containing the most recent messages added to this Chat.
-	 *       If there are not at least i messages, this is filled with ""s to reach the desired size.
+	 * @return A list of size <var>i</var> containing the most recent messages
+	 *         added to this Chat. If there are not at least i messages, this is
+	 *         filled with ""s to reach the desired size.
 	 */
 	public List<String> getLast(int i) {
 		List<String> list = new ArrayList<String>();
-		for(int j = chatMessages.size()-i; j < chatMessages.size(); j++) {
-			if(j < 0) {
+		for (int j = chatMessages.size() - i; j < chatMessages.size(); j++) {
+			if (j < 0) {
 				list.add("");
 			} else {
 				list.add(chatMessages.get(j).toString());
@@ -55,20 +55,20 @@ public final class Chat implements Serializable {
 		}
 		return list;
 	}
-	
+
 	/**
 	 * The Class Chatlog.
 	 */
 	private final class Chatlog implements Serializable {
-		
+
 		private static final long serialVersionUID = -3975855319618106122L;
-		
+
 		/** The player. */
 		Player player;
-		
+
 		/** The line. */
 		String line;
-		
+
 		/**
 		 * Instantiates a new chatlog.
 		 *
@@ -79,17 +79,19 @@ public final class Chat implements Serializable {
 			player = p;
 			line = s;
 		}
-		
-		/* (non-Javadoc)
+
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see java.lang.Object#toString()
 		 */
 		public String toString() {
-			if(player == null) {
+			if (player == null) {
 				return line;
 			} else {
 				return player.getName() + ": " + line;
 			}
 		}
 	}
-	
+
 }
