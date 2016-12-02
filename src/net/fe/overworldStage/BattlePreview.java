@@ -6,19 +6,19 @@ import java.util.Set;
 
 import net.fe.FEMultiplayer;
 import net.fe.FEResources;
-import net.fe.Session;
-import net.fe.fightStage.CombatCalculator;
-import net.fe.fightStage.CombatTrigger;
-import net.fe.fightStage.FightStage;
-import net.fe.modifier.Modifier;
-import net.fe.unit.ItemDisplay;
-import net.fe.unit.Unit;
-import chu.engine.Entity;
+import net.fe.game.Session;
+import net.fe.game.fightStage.CombatCalculator;
+import net.fe.game.fightStage.CombatTrigger;
+import net.fe.game.fightStage.FightStage;
+import net.fe.game.modifier.Modifier;
+import net.fe.game.unit.ItemDisplay;
+import net.fe.game.unit.Unit;
 import chu.engine.Game;
 import chu.engine.anim.Animation;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Sprite;
 import chu.engine.anim.Transform;
+import chu.engine.entity.Entity;
 
 // TODO: Auto-generated Javadoc
 /**

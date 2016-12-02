@@ -1,24 +1,24 @@
 package net.fe.overworldStage;
 
-import static net.fe.fightStage.FightStage.BORDER_DARK;
-import static net.fe.fightStage.FightStage.BORDER_LIGHT;
-import static net.fe.fightStage.FightStage.NEUTRAL;
+import static net.fe.game.fightStage.FightStage.BORDER_DARK;
+import static net.fe.game.fightStage.FightStage.BORDER_LIGHT;
+import static net.fe.game.fightStage.FightStage.NEUTRAL;
 
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 import net.fe.FEResources;
-import net.fe.unit.Item;
-import net.fe.unit.ItemDisplay;
-import net.fe.unit.Unit;
+import net.fe.game.unit.Item;
+import net.fe.game.unit.ItemDisplay;
+import net.fe.game.unit.Unit;
 
 import org.newdawn.slick.opengl.Texture;
 
-import chu.engine.Entity;
 import chu.engine.Game;
 import chu.engine.anim.BitmapFont;
 import chu.engine.anim.Renderer;
+import chu.engine.entity.Entity;
 
 // TODO: Auto-generated Javadoc
 /**

@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Set;
 
 import chu.engine.anim.AudioPlayer;
+import net.fe.game.unit.Item;
+import net.fe.game.unit.RiseTome;
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.Weapon;
 import net.fe.network.command.WaitCommand;
 import net.fe.overworldStage.FieldSkill;
 import net.fe.overworldStage.Menu;
@@ -14,10 +18,6 @@ import net.fe.overworldStage.Node;
 import net.fe.overworldStage.OverworldContext;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.Zone;
-import net.fe.unit.Item;
-import net.fe.unit.RiseTome;
-import net.fe.unit.Unit;
-import net.fe.unit.Weapon;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -242,7 +242,7 @@ public class UnitMoved extends MenuContext<String> {
 			//summon
 			if (p == null
 					&& grid.getTerrain(n.x, n.y).getMoveCost(
-							net.fe.unit.Class.createClass("Phantom")) <
+							net.fe.game.unit.Class.createClass("Phantom")) <
 							unit.getStats().mov && 
 							unit.getTheClass().usableWeapon.contains(Weapon.Type.DARK)) {
 				for (Item i : unit.getInventory()) {

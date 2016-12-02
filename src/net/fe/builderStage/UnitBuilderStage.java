@@ -3,36 +3,36 @@ package net.fe.builderStage;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.fe.Button;
 import net.fe.ControlsDisplay;
 import net.fe.FEMultiplayer;
 import net.fe.FEResources;
 import net.fe.RunesBg;
-import net.fe.Session;
-import net.fe.fightStage.CrossBow;
-import net.fe.fightStage.FightStage;
-import net.fe.fightStage.EclipseSix;
-import net.fe.fightStage.LunaPlus;
-import net.fe.fightStage.Nosferatu;
+import net.fe.game.Session;
+import net.fe.game.fightStage.FightStage;
+import net.fe.game.fightStage.skill.CrossBow;
+import net.fe.game.fightStage.skill.EclipseSix;
+import net.fe.game.fightStage.skill.LunaPlus;
+import net.fe.game.fightStage.skill.Nosferatu;
+import net.fe.game.unit.HealingItem;
+import net.fe.game.unit.Item;
+import net.fe.game.unit.MapAnimation;
+import net.fe.game.unit.RiseTome;
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.Weapon;
 import net.fe.overworldStage.InventoryMenu;
 import net.fe.overworldStage.UnitInfo;
+import net.fe.ressources.graphics.ui.Button;
 import net.fe.network.Message;
-import net.fe.unit.HealingItem;
-import net.fe.unit.Item;
-import net.fe.unit.MapAnimation;
-import net.fe.unit.RiseTome;
-import net.fe.unit.Unit;
-import net.fe.unit.Weapon;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 
-import chu.engine.Entity;
 import chu.engine.Game;
-import chu.engine.KeyboardEvent;
 import chu.engine.Stage;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Renderer;
+import chu.engine.entity.Entity;
+import chu.engine.event.KeyboardEvent;
 
 // TODO: Auto-generated Javadoc
 /**

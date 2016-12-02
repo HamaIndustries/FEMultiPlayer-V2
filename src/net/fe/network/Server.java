@@ -8,7 +8,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
 import java.time.LocalDateTime;
 
-import net.fe.Session;
+import net.fe.game.Session;
 import net.fe.overworldStage.objective.Seize;
 
 // TODO: Auto-generated Javadoc

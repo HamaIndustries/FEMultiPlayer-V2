@@ -5,10 +5,10 @@ import net.fe.overworldStage.DoNotDestroy;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
-import chu.engine.Entity;
 import chu.engine.Game;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Transform;
+import chu.engine.entity.Entity;
 
 // TODO: Auto-generated Javadoc
 /**

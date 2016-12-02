@@ -7,7 +7,8 @@ import java.util.function.Consumer;
 
 import net.fe.FEMultiplayer;
 import net.fe.Player;
-import net.fe.Session;
+import net.fe.game.Session;
+import net.fe.game.unit.Unit;
 import net.fe.network.FEServer;
 import net.fe.network.Message;
 import net.fe.network.message.PartyMessage;
@@ -15,7 +16,6 @@ import net.fe.network.message.QuitMessage;
 import net.fe.network.message.StartGame;
 import net.fe.network.message.KickMessage;
 import net.fe.overworldStage.OverworldStage;
-import net.fe.unit.Unit;
 import chu.engine.Game;
 import chu.engine.Stage;
 
@@ -64,8 +64,8 @@ public final class WaitStage extends Stage {
 			if(message instanceof PartyMessage) {
 				PartyMessage pm = (PartyMessage)message;
 				java.util.Optional<String> validationResult = pm.validateTeam(
-					net.fe.unit.UnitFactory::getUnit,
-					net.fe.unit.Item.getAllItems(),
+					net.fe.game.unit.UnitFactory::getUnit,
+					net.fe.game.unit.Item.getAllItems(),
 					session.getModifiers()
 				);
 				validationResult.ifPresent(new Consumer<String>() {

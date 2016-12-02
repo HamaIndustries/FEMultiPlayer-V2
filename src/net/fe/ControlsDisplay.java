@@ -5,9 +5,9 @@ import java.util.*;
 
 import org.newdawn.slick.Color;
 
-import chu.engine.Entity;
 import chu.engine.Game;
 import chu.engine.anim.Renderer;
+import chu.engine.entity.Entity;
 
 // TODO: Auto-generated Javadoc
 /**

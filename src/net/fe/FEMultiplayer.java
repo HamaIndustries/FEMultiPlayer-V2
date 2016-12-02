@@ -21,9 +21,15 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.time.*;
 
 import net.fe.builderStage.TeamDraftStage;
-import net.fe.fightStage.AttackRecord;
-import net.fe.fightStage.CombatCalculator;
-import net.fe.fightStage.FightStage;
+import net.fe.game.Session;
+import net.fe.game.fightStage.AttackRecord;
+import net.fe.game.fightStage.CombatCalculator;
+import net.fe.game.fightStage.FightStage;
+import net.fe.game.unit.RiseTome;
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.UnitFactory;
+import net.fe.game.unit.UnitIdentifier;
+import net.fe.game.unit.WeaponFactory;
 import net.fe.lobbystage.ClientLobbyStage;
 import net.fe.network.Client;
 import net.fe.network.FEServer;
@@ -34,12 +40,9 @@ import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.Grid;
 import net.fe.overworldStage.Terrain;
 import net.fe.overworldStage.objective.Seize;
-import net.fe.transition.OverworldFightTransition;
-import net.fe.unit.RiseTome;
-import net.fe.unit.Unit;
-import net.fe.unit.UnitFactory;
-import net.fe.unit.UnitIdentifier;
-import net.fe.unit.WeaponFactory;
+import net.fe.ressources.graphics.transition.OverworldFightTransition;
+import net.fe.ressources.graphics.ui.TitleStage;
+import net.fe.ressources.sound.SoundTrack;
 
 import org.lwjgl.Sys;
 import org.lwjgl.openal.AL;
@@ -52,7 +55,7 @@ import org.newdawn.slick.util.ResourceLoader;
 import chu.engine.Game;
 import chu.engine.Stage;
 import chu.engine.anim.Renderer;
-import chu.engine.menu.Notification;
+import chu.engine.entity.menu.Notification;
 
 /**
  * Main class for the Clientside program.
@@ -149,7 +152,7 @@ public class FEMultiplayer extends Game{
 	 */
 	public void testDraftStage() {
 		Player p1 = localPlayer;
-		testSession = new Session(new net.fe.overworldStage.objective.Rout(), "test", 6, new java.util.HashSet<>(), new net.fe.pick.Draft());
+		testSession = new Session(new net.fe.overworldStage.objective.Rout(), "test", 6, new java.util.HashSet<>(), new net.fe.game.pick.Draft());
 		Player p2 = new Player("p2", (byte) 1);
 		Player p3 = new Player("p3", (byte) 2);
 		p2.getParty().setColor(Party.TEAM_RED);
@@ -177,7 +180,7 @@ public class FEMultiplayer extends Game{
 	 */
 	public void testFightStage(){
 		Player p1 = localPlayer;
-		testSession = new Session(new Seize(), "test", 8, new java.util.HashSet<>(), new net.fe.pick.Draft());
+		testSession = new Session(new Seize(), "test", 8, new java.util.HashSet<>(), new net.fe.game.pick.Draft());
 		Player p2 = new Player("p2", (byte) 1);
 		p2.getParty().setColor(Party.TEAM_RED);
 		p1.getParty().setColor(Party.TEAM_BLUE);
@@ -228,7 +231,7 @@ public class FEMultiplayer extends Game{
 	 * Test overworld stage.
 	 */
 	public void testOverworldStage() {
-		testSession = new Session(new Seize(), "test", 8, new java.util.HashSet<>(), new net.fe.pick.Draft());
+		testSession = new Session(new Seize(), "test", 8, new java.util.HashSet<>(), new net.fe.game.pick.Draft());
 		testSession.addPlayer(localPlayer);
 		
 		Player p2 = new Player("P2", (byte)1);

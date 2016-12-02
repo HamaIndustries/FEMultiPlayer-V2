@@ -4,8 +4,8 @@ import java.util.List;
 
 import net.fe.Party;
 import net.fe.Player;
-import net.fe.Session;
 import net.fe.builderStage.WaitStage;
+import net.fe.game.Session;
 import net.fe.network.Chat;
 import net.fe.network.FEServer;
 import net.fe.network.Message;

@@ -1,7 +1,7 @@
 package net.fe.overworldStage;
 
 import chu.engine.anim.AudioPlayer;
-import net.fe.unit.Unit;
+import net.fe.game.unit.Unit;
 
 // TODO: Auto-generated Javadoc
 /**

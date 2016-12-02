@@ -5,7 +5,7 @@ import java.util.List;
 
 import chu.engine.anim.AudioPlayer;
 import net.fe.overworldStage.*;
-import net.fe.unit.Unit;
+import net.fe.game.unit.Unit;
 import net.fe.network.command.DropCommand;
 
 // TODO: Auto-generated Javadoc

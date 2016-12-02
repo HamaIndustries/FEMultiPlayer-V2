@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.newdawn.slick.Color;
 
-import net.fe.unit.Unit;
+import net.fe.game.unit.Unit;
 
 // TODO: Auto-generated Javadoc
 /**

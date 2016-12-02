@@ -16,11 +16,15 @@ import net.fe.FEResources;
 import net.fe.Party;
 import net.fe.Player;
 import net.fe.RunesBg;
-import net.fe.Session;
-import net.fe.SoundTrack;
 import net.fe.editor.Level;
 import net.fe.editor.SpawnPoint;
-import net.fe.fightStage.FightStage;
+import net.fe.game.Session;
+import net.fe.game.fightStage.FightStage;
+import net.fe.game.unit.Item;
+import net.fe.game.unit.MapAnimation;
+import net.fe.game.unit.RiseTome;
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.UnitIdentifier;
 import net.fe.network.Message;
 import net.fe.network.command.Command;
 import net.fe.network.command.AttackCommand;
@@ -31,22 +35,18 @@ import net.fe.network.message.EndTurn;
 import net.fe.overworldStage.context.Idle;
 import net.fe.overworldStage.context.TradeContext;
 import net.fe.overworldStage.context.WaitForMessages;
-import net.fe.transition.OverworldFightTransition;
-import net.fe.transition.OverworldEndTransition;
-import net.fe.unit.Item;
-import net.fe.unit.MapAnimation;
-import net.fe.unit.RiseTome;
-import net.fe.unit.Unit;
-import net.fe.unit.UnitIdentifier;
+import net.fe.ressources.graphics.transition.OverworldEndTransition;
+import net.fe.ressources.graphics.transition.OverworldFightTransition;
+import net.fe.ressources.sound.SoundTrack;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.util.ResourceLoader;
 
-import chu.engine.Entity;
 import chu.engine.Game;
-import chu.engine.KeyboardEvent;
 import chu.engine.anim.AudioPlayer;
+import chu.engine.entity.Entity;
+import chu.engine.event.KeyboardEvent;
 
 // TODO: Auto-generated Javadoc
 /**

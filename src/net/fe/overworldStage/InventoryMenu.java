@@ -2,9 +2,9 @@ package net.fe.overworldStage;
 
 import java.util.Iterator;
 
-import net.fe.unit.Item;
-import net.fe.unit.ItemDisplay;
-import net.fe.unit.Unit;
+import net.fe.game.unit.Item;
+import net.fe.game.unit.ItemDisplay;
+import net.fe.game.unit.Unit;
 
 // TODO: Auto-generated Javadoc
 /**

@@ -1,8 +1,8 @@
 package net.fe.overworldStage.objective;
 
 import net.fe.Player;
+import net.fe.game.unit.Unit;
 import net.fe.overworldStage.OverworldStage;
-import net.fe.unit.Unit;
 
 // TODO: Auto-generated Javadoc
 /**

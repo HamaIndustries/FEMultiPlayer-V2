@@ -32,6 +32,9 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
+import chu.engine.event.KeyboardEvent;
+import chu.engine.event.MouseEvent;
+
 
 // TODO: Auto-generated Javadoc
 /**

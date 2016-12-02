@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.fe.fightStage.FightUnit;
-import net.fe.unit.Unit;
+import net.fe.game.fightStage.FightUnit;
+import net.fe.game.unit.Unit;
 
 import org.lwjgl.opengl.GL13;
 import org.newdawn.slick.opengl.Texture;

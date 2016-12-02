@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import net.fe.FEMultiplayer;
 import net.fe.Party;
 import net.fe.Player;
-import net.fe.Session;
+import net.fe.game.Session;
 import net.fe.network.message.ClientInit;
 import net.fe.network.message.EndGame;
 import net.fe.network.message.JoinLobby;
@@ -20,7 +20,8 @@ import net.fe.network.message.KickMessage;
 import net.fe.network.message.QuitMessage;
 
 import org.newdawn.slick.Color;
-import chu.engine.menu.Notification;
+
+import chu.engine.entity.menu.Notification;
 
 // TODO: Auto-generated Javadoc
 /**

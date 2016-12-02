@@ -2,7 +2,7 @@ package net.fe.overworldStage;
 
 import java.io.Serializable;
 
-import net.fe.unit.Unit;
+import net.fe.game.unit.Unit;
 
 /**
  * An action that can a unit can perform after moving

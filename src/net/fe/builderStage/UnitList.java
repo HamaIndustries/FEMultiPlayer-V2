@@ -8,16 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.fe.FEResources;
-import net.fe.fightStage.FightStage;
-import net.fe.unit.Unit;
-import net.fe.unit.UnitIcon;
+import net.fe.game.fightStage.FightStage;
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.UnitIcon;
 
 import org.newdawn.slick.Color;
 
-import chu.engine.Entity;
 import chu.engine.Game;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Sprite;
+import chu.engine.entity.Entity;
 
 // TODO: Auto-generated Javadoc
 /**

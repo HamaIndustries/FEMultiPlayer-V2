@@ -10,16 +10,16 @@ import java.io.ObjectOutputStream;
 import java.util.List;
 
 import net.fe.FEResources;
-import net.fe.fightStage.FightStage;
+import net.fe.game.fightStage.FightStage;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 
 import chu.engine.Game;
-import chu.engine.KeyboardEvent;
 import chu.engine.anim.BitmapFont;
 import chu.engine.anim.Renderer;
-import chu.engine.menu.TextInputBox;
+import chu.engine.entity.menu.TextInputBox;
+import chu.engine.event.KeyboardEvent;
 
 // TODO: Auto-generated Javadoc
 /**

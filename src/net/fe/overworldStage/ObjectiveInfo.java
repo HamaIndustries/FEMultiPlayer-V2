@@ -4,11 +4,11 @@ import org.newdawn.slick.Color;
 
 import net.fe.FEResources;
 import net.fe.Player;
-import net.fe.fightStage.FightStage;
-import net.fe.unit.Unit;
-import chu.engine.Entity;
+import net.fe.game.fightStage.FightStage;
+import net.fe.game.unit.Unit;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Transform;
+import chu.engine.entity.Entity;
 
 // TODO: Auto-generated Javadoc
 /**

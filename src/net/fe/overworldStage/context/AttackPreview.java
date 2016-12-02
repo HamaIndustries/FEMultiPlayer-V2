@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import chu.engine.anim.AudioPlayer;
 import net.fe.network.command.EquipCommand;
+import net.fe.game.unit.*;
 import net.fe.network.command.AttackCommand;
 import net.fe.overworldStage.*;
-import net.fe.unit.*;
 
 // TODO: Auto-generated Javadoc
 /**

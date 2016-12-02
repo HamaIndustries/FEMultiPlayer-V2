@@ -1,5 +1,7 @@
 package chu.engine;
 
+import chu.engine.entity.Entity;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Interface Collidable.

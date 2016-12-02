@@ -7,10 +7,10 @@ import net.fe.Party;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
-import chu.engine.Entity;
 import chu.engine.Game;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Sprite;
+import chu.engine.entity.Entity;
 
 // TODO: Auto-generated Javadoc
 /**

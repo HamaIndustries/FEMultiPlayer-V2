@@ -3,11 +3,11 @@ package net.fe.overworldStage;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import chu.engine.entity.Entity;
 import net.fe.Player;
-import net.fe.unit.Class;
-import net.fe.unit.Unit;
-import net.fe.unit.WeaponFactory;
-import chu.engine.Entity;
+import net.fe.game.unit.Class;
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.WeaponFactory;
 
 // TODO: Auto-generated Javadoc
 /**

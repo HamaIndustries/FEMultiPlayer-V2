@@ -5,8 +5,8 @@ import net.fe.overworldStage.Node;
 import net.fe.overworldStage.OverworldContext;
 import net.fe.overworldStage.SelectTargetContext;
 import net.fe.overworldStage.Zone;
-import net.fe.unit.Unit;
-import net.fe.unit.UnitIdentifier;
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.UnitIdentifier;
 import net.fe.network.command.RescueCommand;
 
 // TODO: Auto-generated Javadoc

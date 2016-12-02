@@ -2,11 +2,11 @@ package net.fe.overworldStage;
 
 import org.newdawn.slick.Color;
 
-import net.fe.unit.Unit;
-import chu.engine.Entity;
 import chu.engine.Game;
 import chu.engine.anim.ShaderArgs;
 import chu.engine.anim.Transform;
+import chu.engine.entity.Entity;
+import net.fe.game.unit.Unit;
 
 // TODO: Auto-generated Javadoc
 /**

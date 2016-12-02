@@ -23,9 +23,9 @@ import org.newdawn.slick.util.ResourceLoader;
 import chu.engine.AnimationData;
 import chu.engine.anim.BitmapFont;
 import net.fe.builderStage.TeamNameInput;
-import net.fe.unit.Item;
-import net.fe.unit.Unit;
-import net.fe.unit.Weapon;
+import net.fe.game.unit.Item;
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.Weapon;
 
 import org.lwjgl.input.Keyboard;
 import java.io.File;

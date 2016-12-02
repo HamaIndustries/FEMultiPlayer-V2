@@ -1,14 +1,14 @@
 package net.fe.overworldStage;
 
-import static net.fe.fightStage.FightStage.*;
+import static net.fe.game.fightStage.FightStage.*;
 
 import org.newdawn.slick.opengl.Texture;
 
 import net.fe.FEResources;
-import chu.engine.Entity;
 import chu.engine.Game;
 import chu.engine.anim.BitmapFont;
 import chu.engine.anim.Renderer;
+import chu.engine.entity.Entity;
 
 // TODO: Auto-generated Javadoc
 /**

@@ -7,9 +7,9 @@ import net.fe.FEMultiplayer;
 import net.fe.FEResources;
 import net.fe.Party;
 import net.fe.Player;
-import net.fe.Session;
+import net.fe.game.Session;
+import net.fe.game.modifier.Modifier;
 import net.fe.ConnectStage;
-import net.fe.modifier.Modifier;
 import net.fe.network.FEServer;
 import net.fe.network.Message;
 import net.fe.network.message.QuitMessage;
@@ -18,13 +18,13 @@ import net.fe.network.message.StartPicking;
 
 import org.newdawn.slick.Color;
 
-import chu.engine.Entity;
 import chu.engine.Game;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.ShaderArgs;
 import chu.engine.anim.Transform;
-import chu.engine.menu.MenuButton;
+import chu.engine.entity.Entity;
+import chu.engine.entity.menu.MenuButton;
 
 // TODO: Auto-generated Javadoc
 /**

@@ -40,27 +40,29 @@ import javax.swing.JSpinner;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import net.fe.Player;
-import net.fe.Session;
+import net.fe.game.Session;
+import net.fe.game.modifier.DivineIntervention;
+import net.fe.game.modifier.MadeInChina;
+import net.fe.game.modifier.Modifier;
+import net.fe.game.modifier.ProTactics;
+import net.fe.game.modifier.SuddenDeath;
+import net.fe.game.modifier.Treasury;
+import net.fe.game.modifier.Vegas;
+import net.fe.game.modifier.Veterans;
+import net.fe.game.pick.AllPick;
+import net.fe.game.pick.Draft;
+import net.fe.game.pick.PickMode;
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.UnitIdentifier;
 import net.fe.lobbystage.LobbyStage;
-import net.fe.modifier.DivineIntervention;
-import net.fe.modifier.MadeInChina;
-import net.fe.modifier.Modifier;
-import net.fe.modifier.ProTactics;
-import net.fe.modifier.SuddenDeath;
-import net.fe.modifier.Treasury;
-import net.fe.modifier.Vegas;
-import net.fe.modifier.Veterans;
 import net.fe.network.message.*;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.overworldStage.objective.Rout;
 import net.fe.overworldStage.objective.Seize;
-import net.fe.pick.AllPick;
-import net.fe.pick.Draft;
-import net.fe.pick.PickMode;
-import net.fe.unit.Unit;
-import net.fe.unit.UnitIdentifier;
 import chu.engine.Game;
 import chu.engine.Stage;
 
@@ -87,6 +89,13 @@ public class FEServer extends Game {
 	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
+		
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
+		
 		final JFrame frame = new JFrame("FEServer");
 		
 		final Map<String, Objective[]> maps = new HashMap<String, Objective[]>();
@@ -305,8 +314,8 @@ public class FEServer extends Game {
 	 * Inits the.
 	 */
 	public void init() {
-		net.fe.unit.WeaponFactory.loadWeapons();
-		net.fe.unit.UnitFactory.loadUnits();
+		net.fe.game.unit.WeaponFactory.loadWeapons();
+		net.fe.game.unit.UnitFactory.loadUnits();
 		
 		Thread serverThread = new Thread() {
 			public void run() {

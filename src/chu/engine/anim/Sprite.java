@@ -107,7 +107,8 @@ public class Sprite {
 	 * @param name Name of the animation
 	 */
 	public void setAnimation(String name) {
-		if(!hasAnimation(name)) return;
+		if(!hasAnimation(name))
+				return;
 		currentAnimation = animations.get(name.toUpperCase());
 		curAnimName = name.toUpperCase();
 	}
@@ -166,12 +167,14 @@ public class Sprite {
 	 * Updates the current animation.
 	 */
 	public void update() {
-		if(currentAnimation == null) return;
+		if(currentAnimation == null)
+			return;
 		currentAnimation.update();
 	}
 	
 	public boolean updateRunOnce() {
-		if(currentAnimation == null) return true;
+		if(currentAnimation == null)
+			return true;
 		return currentAnimation.updateRunOnce();
 	}
 

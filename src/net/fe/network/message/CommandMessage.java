@@ -3,10 +3,10 @@ package net.fe.network.message;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import net.fe.fightStage.AttackRecord;
+import net.fe.game.fightStage.AttackRecord;
+import net.fe.game.unit.UnitIdentifier;
 import net.fe.network.Message;
 import net.fe.network.command.Command;
-import net.fe.unit.UnitIdentifier;
 
 // TODO: Auto-generated Javadoc
 /**

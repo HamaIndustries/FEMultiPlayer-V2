@@ -8,28 +8,28 @@ import java.util.Set;
 
 import org.newdawn.slick.Color;
 
-import chu.engine.Entity;
 import chu.engine.Game;
 import chu.engine.Stage;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Transform;
+import chu.engine.entity.Entity;
 import net.fe.builderStage.ClientWaitStage;
-import net.fe.Button;
+import net.fe.game.Session;
+import net.fe.game.unit.MapAnimation;
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.UnitFactory;
+import net.fe.game.unit.UnitIcon;
 import net.fe.ControlsDisplay;
 import net.fe.FEMultiplayer;
 import net.fe.FEResources;
 import net.fe.Party;
 import net.fe.Player;
 import net.fe.RunesBg;
-import net.fe.Session;
 import net.fe.network.Message;
 import net.fe.network.message.DraftMessage;
 import net.fe.network.message.QuitMessage;
+import net.fe.ressources.graphics.ui.Button;
 import net.fe.network.message.KickMessage;
-import net.fe.unit.MapAnimation;
-import net.fe.unit.Unit;
-import net.fe.unit.UnitFactory;
-import net.fe.unit.UnitIcon;
 
 public class DraftViewStage extends Stage {
 	/** The vassal list. */

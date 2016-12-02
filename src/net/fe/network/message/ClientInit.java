@@ -1,6 +1,6 @@
 package net.fe.network.message;
 
-import net.fe.Session;
+import net.fe.game.Session;
 import net.fe.network.Message;
 import org.newdawn.slick.util.ResourceLoader;
 
@@ -80,8 +80,8 @@ public final class ClientInit extends Message {
 			
 			return new Hashes(
 				"??.??.??",
-				net.fe.unit.Item.getAllItems().hashCode(),
-				net.fe.unit.UnitFactory.getAllUnits().hashCode(),
+				net.fe.game.unit.Item.getAllItems().hashCode(),
+				net.fe.game.unit.UnitFactory.getAllUnits().hashCode(),
 				mapHash
 			);
 		}

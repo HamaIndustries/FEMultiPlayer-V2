@@ -6,14 +6,14 @@ import net.fe.overworldStage.InventoryMenu;
 import net.fe.overworldStage.MenuContext;
 import net.fe.overworldStage.OverworldContext;
 import net.fe.overworldStage.ClientOverworldStage;
+import net.fe.game.unit.HealingItem;
+import net.fe.game.unit.Item;
+import net.fe.game.unit.ItemDisplay;
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.UnitIdentifier;
+import net.fe.game.unit.Weapon;
 import net.fe.network.command.EquipCommand;
 import net.fe.network.command.UseCommand;
-import net.fe.unit.HealingItem;
-import net.fe.unit.Item;
-import net.fe.unit.ItemDisplay;
-import net.fe.unit.Unit;
-import net.fe.unit.UnitIdentifier;
-import net.fe.unit.Weapon;
 
 // TODO: Auto-generated Javadoc
 /**

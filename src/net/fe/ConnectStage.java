@@ -8,16 +8,16 @@ import net.fe.network.Message;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 
-import chu.engine.Entity;
 import chu.engine.Game;
-import chu.engine.MouseEvent;
 import chu.engine.Stage;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.BitmapFont;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.ShaderArgs;
-import chu.engine.menu.MenuButton;
-import chu.engine.menu.TextInputBox;
+import chu.engine.entity.Entity;
+import chu.engine.entity.menu.MenuButton;
+import chu.engine.entity.menu.TextInputBox;
+import chu.engine.event.MouseEvent;
 
 // TODO: Auto-generated Javadoc
 /**

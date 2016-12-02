@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Stack;
+
+import chu.engine.entity.Entity;
+import chu.engine.entity.SortByRender;
+
 import java.util.LinkedList;
 
 import net.fe.network.Message;

@@ -1,8 +1,9 @@
 package chu.engine.anim;
 
 import static org.lwjgl.opengl.GL11.glTranslatef;
-import chu.engine.Entity;
+
 import chu.engine.Game;
+import chu.engine.entity.Entity;
 
 // TODO: Auto-generated Javadoc
 /**

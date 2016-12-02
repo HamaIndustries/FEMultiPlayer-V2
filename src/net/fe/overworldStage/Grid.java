@@ -9,8 +9,8 @@ import java.util.Set;
 import org.newdawn.slick.Color;
 
 import net.fe.Party;
-import net.fe.unit.Unit;
-import net.fe.unit.UnitIdentifier;
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.UnitIdentifier;
 
 // TODO: Auto-generated Javadoc
 /**

@@ -6,10 +6,10 @@ import java.util.List;
 
 import chu.engine.anim.AudioPlayer;
 import net.fe.FEResources;
+import net.fe.game.unit.Statistics;
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.WeaponFactory;
 import net.fe.overworldStage.*;
-import net.fe.unit.Statistics;
-import net.fe.unit.Unit;
-import net.fe.unit.WeaponFactory;
 import net.fe.network.command.SummonCommand;
 
 // TODO: Auto-generated Javadoc
@@ -74,7 +74,7 @@ public class Summon extends OverworldContext {
 			Unit u = grid.getUnit(n.x, n.y);
 			if (u == null
 					&& grid.getTerrain(n.x, n.y).getMoveCost(
-							net.fe.unit.Class.createClass("Phantom")) <
+							net.fe.game.unit.Class.createClass("Phantom")) <
 							unit.getStats().mov) {
 				targets.add(n);
 			}
@@ -212,8 +212,8 @@ public class Summon extends OverworldContext {
 			/* aid = */ 0
 		);
 		summonCount = summonCount + 1;
-		final Unit summon = new Unit("Phantom " + summonCount, net.fe.unit.Class.createClass("Phantom"), '-', bases, growths);
-		summon.addToInventory(net.fe.unit.Item.getItem("Iron Axe"));
+		final Unit summon = new Unit("Phantom " + summonCount, net.fe.game.unit.Class.createClass("Phantom"), '-', bases, growths);
+		summon.addToInventory(net.fe.game.unit.Item.getItem("Iron Axe"));
 		summon.initializeEquipment();
 		summon.setLevel(summoner.getLevel());
 		summon.fillHp();

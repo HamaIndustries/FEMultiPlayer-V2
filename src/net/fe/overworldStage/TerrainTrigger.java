@@ -1,7 +1,7 @@
 package net.fe.overworldStage;
 
+import chu.engine.entity.Entity;
 import net.fe.Player;
-import chu.engine.Entity;
 
 // TODO: Auto-generated Javadoc
 /**

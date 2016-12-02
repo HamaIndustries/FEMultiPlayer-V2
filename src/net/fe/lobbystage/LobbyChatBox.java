@@ -10,12 +10,12 @@ import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 
 import chu.engine.Game;
-import chu.engine.KeyboardEvent;
-import chu.engine.MouseEvent;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.BitmapFont;
 import chu.engine.anim.Renderer;
-import chu.engine.menu.TextInputBox;
+import chu.engine.entity.menu.TextInputBox;
+import chu.engine.event.KeyboardEvent;
+import chu.engine.event.MouseEvent;
 
 // TODO: Auto-generated Javadoc
 /**

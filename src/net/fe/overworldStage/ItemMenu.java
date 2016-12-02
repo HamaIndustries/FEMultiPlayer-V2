@@ -5,7 +5,7 @@ import java.util.Comparator;
 
 import chu.engine.anim.Renderer;
 import net.fe.FEResources;
-import net.fe.unit.ItemDisplay;
+import net.fe.game.unit.ItemDisplay;
 
 // TODO: Auto-generated Javadoc
 /**

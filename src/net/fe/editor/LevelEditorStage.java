@@ -22,11 +22,10 @@ import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
 import chu.engine.Game;
-import chu.engine.KeyboardEvent;
 import chu.engine.Stage;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Tileset;
-
+import chu.engine.event.KeyboardEvent;
 import net.fe.network.Message;
 
 // TODO: Auto-generated Javadoc
