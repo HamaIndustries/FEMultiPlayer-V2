@@ -364,7 +364,9 @@ public class FEServer extends Game {
 					server.messages.remove(message);	
 				}
 			}
-			for(Message m : messages) {server.getSession().handleMessage(m);}
+			for(Message m : messages) {
+				server.getSession().handleMessage(m);
+			}
 			currentStage.beginStep(messages);
 			currentStage.onStep();
 			currentStage.endStep();

@@ -23,23 +23,11 @@ public class Player implements Serializable {
 	private String nickname;
 	
 	/** The team. */
-	private int team;
+	private Team team;
 	
 	/** The ready. */
 	public boolean ready;
-	
-	/** The Constant TEAM_NONE. */
-	public static final int TEAM_NONE = -1;
-	
-	/** The Constant TEAM_SPECTATOR. */
-	public static final int TEAM_SPECTATOR = 0;
-	
-	/** The Constant TEAM_BLUE. */
-	public static final int TEAM_BLUE = 1;
-	
-	/** The Constant TEAM_RED. */
-	public static final int TEAM_RED = 2;
-	
+
 	/**
 	 * Instantiates a new player.
 	 *
@@ -50,7 +38,7 @@ public class Player implements Serializable {
 		party = new Party();
 		clientID = id;
 		nickname = name;
-		team = 0;
+		team = Team.SPECTATOR;
 		ready = false;
 	}
 	
@@ -60,7 +48,7 @@ public class Player implements Serializable {
 	 * @return true, if is spectator
 	 */
 	public boolean isSpectator() {
-		return team == TEAM_SPECTATOR;
+		return team == Team.SPECTATOR;
 	}
 	
 	/**
@@ -104,7 +92,7 @@ public class Player implements Serializable {
 	 *
 	 * @return the team
 	 */
-	public int getTeam() {
+	public Team getTeam() {
 		return team;
 	}
 
@@ -113,7 +101,7 @@ public class Player implements Serializable {
 	 *
 	 * @param team2 the new team
 	 */
-	public void setTeam(int team2) {
+	public void setTeam(Team team2) {
 		team = team2;
 	}
 
@@ -122,7 +110,7 @@ public class Player implements Serializable {
 	 *
 	 * @param team the team
 	 */
-	public void joinTeam(int team) {
+	public void joinTeam(Team team) {
 		FEMultiplayer.getClient().sendMessage(new JoinTeam(clientID, team));
 	}
 	

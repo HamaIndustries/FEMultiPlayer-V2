@@ -8,14 +8,15 @@ import java.util.Set;
 
 import net.fe.Party;
 import net.fe.Player;
+import net.fe.Team;
 import net.fe.game.modifier.Modifier;
 import net.fe.game.pick.Draft;
 import net.fe.game.pick.PickMode;
 import net.fe.network.Chat;
 import net.fe.network.Message;
 import net.fe.network.message.ChatMessage;
-import net.fe.network.message.JoinTeam;
 import net.fe.network.message.JoinLobby;
+import net.fe.network.message.JoinTeam;
 import net.fe.network.message.KickMessage;
 import net.fe.network.message.QuitMessage;
 import net.fe.overworldStage.objective.Objective;
@@ -237,9 +238,9 @@ public final class Session implements Serializable {
 		} else if(message instanceof JoinTeam) {
 			JoinTeam join = (JoinTeam)message;
 			this.getPlayer(join.origin).setTeam(join.team);
-			if(join.team == Player.TEAM_BLUE) {
+			if(join.team == Team.BLUE) {
 				this.getPlayer(join.origin).getParty().setColor(Party.TEAM_BLUE);
-			} else if(join.team == Player.TEAM_RED) {
+			} else if(join.team == Team.RED) {
 				this.getPlayer(join.origin).getParty().setColor(Party.TEAM_RED);
 			}
 			this.getPlayer(join.origin).ready = false;

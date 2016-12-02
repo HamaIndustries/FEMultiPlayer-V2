@@ -184,8 +184,8 @@ public class FEMultiplayer extends Game{
 		Player p2 = new Player("p2", (byte) 1);
 		p2.getParty().setColor(Party.TEAM_RED);
 		p1.getParty().setColor(Party.TEAM_BLUE);
-		p2.setTeam(2);
-		p1.setTeam(1);
+		p2.setTeam(Team.RED);
+		p1.setTeam(Team.BLUE);
 		
 		testSession.addPlayer(p1);
 		testSession.addPlayer(p2);
@@ -238,8 +238,8 @@ public class FEMultiplayer extends Game{
 		p2.getParty().setColor(Party.TEAM_RED);
 		testSession.addPlayer(p2);
 		localPlayer.getParty().setColor(Party.TEAM_BLUE);
-		p2.setTeam(2);
-		localPlayer.setTeam(1);
+		p2.setTeam(Team.RED);
+		localPlayer.setTeam(Team.BLUE);
 		
 		Unit u1 = UnitFactory.getUnit("Natasha");
 		u1.addToInventory(WeaponFactory.getWeapon("Physic"));

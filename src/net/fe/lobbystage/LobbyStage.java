@@ -69,37 +69,32 @@ public class LobbyStage extends Stage {
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see chu.engine.Stage#endStep()
+	/**
+	 * <p>
+	 * 	Determines whether or not players are ready to start a game.
+	 * 	The game will start when every player assigned to a team is ready and
+	 * 	there's at least one player in either team. 
+	 * </p><p>
+	 * 	This will automatically change the FEServer's current stage
+	 * </p>
 	 */
 	@Override
 	public void endStep() {
-		if(session.numPlayers() <=1 ) return;
-		int activePlayers = 0;
-		int team = Player.TEAM_NONE;
+		/* 0 => no team has a player
+		 * 1 => blue team has at least a player
+		 * 2 => red team has at least a player
+		 * 3 (= 1 | 2) => both teams has at least 1 player
+		 */
+		byte activePlayers = 0;
 		for(Player p : session.getPlayers()) {
-			if(team == Player.TEAM_NONE){
-				team = p.getTeam();
-			}else{
-				if(team == p.getTeam()){
-					//two players are on the same team.
-					return;
-				}
-			}
-			if(!p.isSpectator()){
-				activePlayers += 1;
-			}
-			if(!p.ready) {
+			activePlayers |= p.getTeam().ordinal();
+			if(p.getTeam().ordinal() > 0 && !p.ready)
 				return;
-			}
 		}
-		//to get here, might have 1 person ready, and 1 spectator.
-		//need to have 2 people ready.
-		//note, this is not exhaustive, since teams are not considered
-		if(activePlayers<=1){
+		if(activePlayers != 3)
 			return;
-		}
-		FEServer.getServer().broadcastMessage(new StartPicking((byte)0));
+		
+		FEServer.getServer().broadcastMessage(new StartPicking((byte) 0));
 		FEServer.getServer().allowConnections = false;
 		session.getPickMode().setUpServer(session);
 	}

@@ -7,6 +7,7 @@ import net.fe.FEMultiplayer;
 import net.fe.FEResources;
 import net.fe.Party;
 import net.fe.Player;
+import net.fe.Team;
 import net.fe.game.Session;
 import net.fe.game.modifier.Modifier;
 import net.fe.ConnectStage;
@@ -64,7 +65,7 @@ public class ClientLobbyStage extends LobbyStage {
 			@Override
 			public void onClick() {
 				AudioPlayer.playAudio("select");
-				FEMultiplayer.getLocalPlayer().joinTeam(Player.TEAM_SPECTATOR);
+				FEMultiplayer.getLocalPlayer().joinTeam(Team.SPECTATOR);
 			}
 			@Override
 			public void render() {
@@ -79,7 +80,7 @@ public class ClientLobbyStage extends LobbyStage {
 			@Override
 			public void onClick() {
 				AudioPlayer.playAudio("select");
-				FEMultiplayer.getLocalPlayer().joinTeam(Player.TEAM_BLUE);
+				FEMultiplayer.getLocalPlayer().joinTeam(Team.BLUE);
 			}
 			@Override
 			
@@ -96,7 +97,7 @@ public class ClientLobbyStage extends LobbyStage {
 			@Override
 			public void onClick() {
 				AudioPlayer.playAudio("select");
-				FEMultiplayer.getLocalPlayer().joinTeam(Player.TEAM_RED);
+				FEMultiplayer.getLocalPlayer().joinTeam(Team.RED);
 			}
 			@Override
 			public void render() {
@@ -268,11 +269,11 @@ public class ClientLobbyStage extends LobbyStage {
 			if(p.ready) {
 				t.setColor(new Color(90,200,90));
 			}
-			if(p.getTeam() == Player.TEAM_SPECTATOR) {
+			if(p.getTeam() == Team.SPECTATOR) {
 				Renderer.drawString("default_med", p.getName(), 324, 24+(b++)*tightSpacing, 0.8f, t);
-			} else if(p.getTeam() == Player.TEAM_BLUE)  {
+			} else if(p.getTeam() == Team.BLUE)  {
 				Renderer.drawString("default_med", p.getName(), 8, 24+(c++)*tightSpacing, 0.8f, t);
-			} else if(p.getTeam() == Player.TEAM_RED)  {
+			} else if(p.getTeam() == Team.RED)  {
 				Renderer.drawString("default_med", p.getName(), 160, 24+(d++)*tightSpacing, 0.8f, t);
 			}
 		}
