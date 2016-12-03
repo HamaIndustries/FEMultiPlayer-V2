@@ -123,8 +123,13 @@ public abstract class Game {
 		Keyboard.poll();
 		keys.clear();
 		while (Keyboard.next()) {
+			int modifiers = (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) ? 1 : 0) |
+							(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL) ? 2 : 0) | 
+							(Keyboard.isKeyDown(Keyboard.KEY_LMETA) ? 4 : 0) | 
+							(Keyboard.isKeyDown(Keyboard.KEY_RMETA) ? 8 : 0);
+			
 			KeyboardEvent ke = new KeyboardEvent(Keyboard.getEventKey(), Keyboard.getEventCharacter(),
-			        Keyboard.isRepeatEvent(), Keyboard.getEventKeyState());
+			        Keyboard.isRepeatEvent(), Keyboard.getEventKeyState(), modifiers);
 			keys.add(ke);
 		}
 		Mouse.poll();

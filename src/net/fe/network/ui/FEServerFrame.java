@@ -5,7 +5,10 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.HeadlessException;
 import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -238,25 +241,32 @@ public class FEServerFrame extends JFrame {
 	}
 
 	private void changeFrameAndStartServer() {
+		String ipPort = "";
 		try {
-			JLabel label = new JLabel("Server IP: " + InetAddress.getLocalHost().getHostAddress());
-			label.setFont(getFont().deriveFont(20f));
-			label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-			getContentPane().add(label, BorderLayout.NORTH);
-			
-			remove(mainPanel);
-			remove(startServer);
-		} catch (UnknownHostException e1) {
-			
-			e1.printStackTrace();
-			
-			throw new RuntimeException("Failed to get the address of the localhost");
+			ipPort = InetAddress.getLocalHost().getHostAddress() + ":" + getPort();
+		} catch (UnknownHostException e3) {
+			e3.printStackTrace();
 		}
-
+		
+		JLabel label = new JLabel("Server IP: " + ipPort);
+		label.setFont(getFont().deriveFont(20f));
+		label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		getContentPane().add(label, BorderLayout.NORTH);
+			
+		remove(mainPanel);
+		remove(startServer);
+		
 		JButton btnkickAll = new JButton("Kick all");
 		btnkickAll.addActionListener(event -> FEServer.resetToLobbyAndKickPlayers());
 		getContentPane().add(btnkickAll);
 
+
+		JButton btnCopyClipboard = new JButton("Copy to clipboard");
+		
+		String thanksJava = ipPort;
+		btnCopyClipboard.addActionListener(event -> Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(thanksJava), null));
+		
+		getContentPane().add(btnCopyClipboard, BorderLayout.AFTER_LAST_LINE);
 		pack();
 		Thread serverThread = new Thread() {
 			public void run() {

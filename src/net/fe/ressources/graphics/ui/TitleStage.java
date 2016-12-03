@@ -62,10 +62,8 @@ public class TitleStage extends Stage {
 		List<KeyboardEvent> keys = Game.getKeys();
 		for (KeyboardEvent ke : keys) {
 			if (ke.state) {
-				if (ke.key == FEResources.getKeyMapped(Keyboard.KEY_RETURN)) {
-					counter += Game.getDeltaSeconds();
-					AudioPlayer.playAudio("start");
-				}
+				counter += Game.getDeltaSeconds();
+				AudioPlayer.playAudio("start");
 			}
 		}
 		for (Entity e : entities) {
@@ -134,7 +132,7 @@ public class TitleStage extends Stage {
 		t.setScale(2, 2);
 		t.setColor(new Color(1 - alpha, 1, 1 - alpha, 1));
 		if (counter * 20 % 2 < 1)
-			Renderer.drawString("default_med", "Press Enter", 189, 230, 0, t);
+			Renderer.drawString("default_med", "Press any key", 189, 230, 0, t);
 	}
 
 }
