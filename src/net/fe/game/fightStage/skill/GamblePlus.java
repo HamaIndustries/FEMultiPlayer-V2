@@ -1,4 +1,4 @@
-package net.fe.game.modifier;
+package net.fe.game.fightStage.skill;
 
 import net.fe.game.fightStage.CombatCalculator;
 import net.fe.game.fightStage.CombatTrigger;
@@ -8,7 +8,7 @@ import net.fe.game.unit.Unit;
 /**
  * The Class Gamble.
  */
-public class Gamble extends CombatTrigger {
+public class GamblePlus extends CombatTrigger {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 5208500314150806972L;
@@ -16,7 +16,7 @@ public class Gamble extends CombatTrigger {
 	/**
 	 * Instantiates a new gamble.
 	 */
-	public Gamble() {
+	public GamblePlus() {
 		super(REPLACE_NAME_AFTER_PRE, YOUR_TURN_PRE, "gamble");
 	}
 
@@ -49,7 +49,7 @@ public class Gamble extends CombatTrigger {
 	 * @see net.fe.fightStage.CombatTrigger#getCopy()
 	 */
 	public CombatTrigger getCopy() {
-		return new Gamble();
+		return new GamblePlus();
 	}
 
 }

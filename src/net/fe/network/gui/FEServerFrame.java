@@ -1,4 +1,4 @@
-package net.fe.network;
+package net.fe.network.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -19,7 +19,6 @@ import java.net.UnknownHostException;
 import java.util.HashSet;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -33,27 +32,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
-import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import net.fe.game.Session;
-import net.fe.game.modifier.DivineIntervention;
-import net.fe.game.modifier.MadeInChina;
 import net.fe.game.modifier.Modifier;
-import net.fe.game.modifier.ProTactics;
-import net.fe.game.modifier.SuddenDeath;
-import net.fe.game.modifier.Treasury;
-import net.fe.game.modifier.Vegas;
-import net.fe.game.modifier.Veterans;
+import net.fe.game.modifier.ModifierList;
 import net.fe.game.pick.AllPick;
 import net.fe.game.pick.Draft;
 import net.fe.game.pick.PickMode;
+import net.fe.network.FEServer;
 import net.fe.overworldStage.objective.Objective;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 
 public class FEServerFrame extends JFrame {
 
@@ -64,10 +55,10 @@ public class FEServerFrame extends JFrame {
 	private JLabel modifiersLabel;
 	private JPanel modifiersPane;
 	private JScrollPane selectedModifiersScrollPane;
-	private ModifierList selectedModifiersList;
+	private ModifierJList selectedModifiersList;
 	private JPanel buttonsPanel;
 	private JScrollPane modifiersScrollPane;
-	private ModifierList modifiersList;
+	private ModifierJList modifiersList;
 	private JPanel panel;
 	private JLabel label_1;
 	private JSpinner spnPort;
@@ -98,13 +89,9 @@ public class FEServerFrame extends JFrame {
 		DefaultListModel<Modifier> selectedModifiersModel = new DefaultListModel<Modifier>();
 		// Modifiers
 		DefaultListModel<Modifier> unselectedModifiersModel = new DefaultListModel<Modifier>();
-		unselectedModifiersModel.addElement(new MadeInChina());
-		unselectedModifiersModel.addElement(new Treasury());
-		unselectedModifiersModel.addElement(new Veterans());
-		unselectedModifiersModel.addElement(new DivineIntervention());
-		unselectedModifiersModel.addElement(new SuddenDeath());
-		unselectedModifiersModel.addElement(new Vegas());
-		unselectedModifiersModel.addElement(new ProTactics());
+		
+		for(Modifier mod : ModifierList.values())
+			unselectedModifiersModel.addElement(mod);
 
 		mainPanel = new JPanel();
 		getContentPane().add(mainPanel, BorderLayout.CENTER);
@@ -178,12 +165,12 @@ public class FEServerFrame extends JFrame {
 		modifiersScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		modifiersScrollPane.setPreferredSize(new Dimension(120, 150));
 
-		modifiersList = new ModifierList();
+		modifiersList = new ModifierJList();
 		modifiersScrollPane.add(modifiersList);
 		modifiersList.setModel(unselectedModifiersModel);
 		modifiersScrollPane.setViewportView(modifiersList);
 
-		selectedModifiersList = new ModifierList();
+		selectedModifiersList = new ModifierJList();
 		selectedModifiersScrollPane.add(selectedModifiersList);
 		selectedModifiersList.setModel(selectedModifiersModel);
 		selectedModifiersScrollPane.setViewportView(selectedModifiersList);
@@ -248,22 +235,22 @@ public class FEServerFrame extends JFrame {
 
 	private void changeFrameAndStartServer() {
 		try {
-			getContentPane().add(new JLabel("Server IP: " + InetAddress.getLocalHost().getHostAddress()) {
-				private static final long serialVersionUID = 1L;
-
-				{
-					this.setFont(getFont().deriveFont(20f));
-					this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-				}
-			}, BorderLayout.NORTH);
+			JLabel label = new JLabel("Server IP: " + InetAddress.getLocalHost().getHostAddress());
+			label.setFont(getFont().deriveFont(20f));
+			label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+			getContentPane().add(label, BorderLayout.NORTH);
+			
 			remove(mainPanel);
 			remove(startServer);
 		} catch (UnknownHostException e1) {
+			
 			e1.printStackTrace();
+			
+			throw new RuntimeException("Failed to get the address of the localhost");
 		}
 
 		JButton btnkickAll = new JButton("Kick all");
-		btnkickAll.addActionListener((e2) -> FEServer.resetToLobbyAndKickPlayers());
+		btnkickAll.addActionListener(event -> FEServer.resetToLobbyAndKickPlayers());
 		getContentPane().add(btnkickAll);
 
 		pack();
@@ -298,17 +285,19 @@ public class FEServerFrame extends JFrame {
 		};
 		serverThread.start();
 	}
+
+	private class ModifierJList extends JList<Modifier> {
+	
+		private static final long serialVersionUID = 561574462354745569L;
+	
+		public String getToolTipText(MouseEvent event) {
+			Point p = event.getPoint();
+			int index = locationToIndex(p);
+			String tip = ((Modifier) getModel().getElementAt(index)).getDescription();
+			return tip;
+		}
+
+}
+	
 }
 
-class ModifierList extends JList<Modifier> {
-
-	private static final long serialVersionUID = 561574462354745569L;
-
-	public String getToolTipText(MouseEvent event) {
-		Point p = event.getPoint();
-		int index = locationToIndex(p);
-		String tip = ((Modifier) getModel().getElementAt(index)).getDescription();
-		return tip;
-	}
-
-}

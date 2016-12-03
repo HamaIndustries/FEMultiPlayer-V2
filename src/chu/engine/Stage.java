@@ -145,32 +145,6 @@ public abstract class Stage {
 	}
 
 	/**
-	 * Collideable at.
-	 *
-	 * @param x the x
-	 * @param y the y
-	 * @return the collidable[]
-	 */
-	public final Collidable[] collideableAt(int x, int y) {
-		ArrayList<Collidable> ans = new ArrayList<Collidable>();
-		for (Entity e : entities) {
-			if (e instanceof Collidable && e.x == x && e.y == y && !e.willBeRemoved())
-				ans.add((Collidable) e);
-		}
-
-		for (Entity e : addStack) {
-			if (e instanceof Collidable && e.x == x && e.y == y && !e.willBeRemoved())
-				ans.add((Collidable) e);
-		}
-
-		Collidable[] ret = new Collidable[ans.size()];
-		for (int i = 0; i < ret.length; i++) {
-			ret[i] = ans.get(i);
-		}
-		return ret;
-	}
-
-	/**
 	 * Process add stack.
 	 */
 	public final void processAddStack() {

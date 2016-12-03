@@ -7,10 +7,10 @@ import net.fe.game.unit.Unit;
 import static java.lang.System.out;
 
 /** Skill that, on a successful hit, will reduce enemy hp to one. */
-public final class EclipseSix extends CombatTrigger {
+public final class EclipseSixPlus extends CombatTrigger {
 	private static final long serialVersionUID = -6539654970701395612L;
 
-	public EclipseSix() {
+	public EclipseSixPlus() {
 		super(NO_NAME_MOD, YOUR_TURN_MOD | SHOW_IN_PREVIEW);
 	}
 
@@ -34,12 +34,12 @@ public final class EclipseSix extends CombatTrigger {
 	}
 
 	public CombatTrigger getCopy() {
-		return new EclipseSix();
+		return new EclipseSixPlus();
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		return o instanceof EclipseSix;
+		return o instanceof EclipseSixPlus;
 	}
 
 	public int hashCode() {

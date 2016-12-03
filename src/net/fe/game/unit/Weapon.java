@@ -4,11 +4,11 @@ import java.util.*;
 import java.util.function.Function;
 
 import net.fe.game.fightStage.CombatTrigger;
-import net.fe.game.fightStage.skill.Brave;
-import net.fe.game.fightStage.skill.CrossBow;
-import net.fe.game.fightStage.skill.EclipseSix;
-import net.fe.game.fightStage.skill.LunaPlus;
-import net.fe.game.fightStage.skill.Nosferatu;
+import net.fe.game.fightStage.skill.EclipseSixPlus;
+import net.fe.game.fightStage.weaponEffect.Brave;
+import net.fe.game.fightStage.weaponEffect.CrossBow;
+import net.fe.game.fightStage.weaponEffect.LunaPlus;
+import net.fe.game.fightStage.weaponEffect.Nosferatu;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -187,7 +187,7 @@ public final class Weapon extends Item {
 		} else if (name.equals("Lunase")) {
 			triggers.add(new LunaPlus());
 		} else if (name.equals("Eclipse")) {
-			triggers.add(new EclipseSix());
+			triggers.add(new EclipseSixPlus());
 		} else if (type == Type.CROSSBOW) {
 			triggers.add(new CrossBow());
 		}

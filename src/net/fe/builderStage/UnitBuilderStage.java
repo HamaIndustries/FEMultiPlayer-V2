@@ -9,10 +9,10 @@ import net.fe.FEResources;
 import net.fe.RunesBg;
 import net.fe.game.Session;
 import net.fe.game.fightStage.FightStage;
-import net.fe.game.fightStage.skill.CrossBow;
-import net.fe.game.fightStage.skill.EclipseSix;
-import net.fe.game.fightStage.skill.LunaPlus;
-import net.fe.game.fightStage.skill.Nosferatu;
+import net.fe.game.fightStage.skill.EclipseSixPlus;
+import net.fe.game.fightStage.weaponEffect.CrossBow;
+import net.fe.game.fightStage.weaponEffect.LunaPlus;
+import net.fe.game.fightStage.weaponEffect.Nosferatu;
 import net.fe.game.unit.HealingItem;
 import net.fe.game.unit.Item;
 import net.fe.game.unit.MapAnimation;
@@ -266,7 +266,7 @@ public class UnitBuilderStage extends Stage {
 		} else if (i instanceof Weapon) {
 			Weapon wep = (Weapon) i;
 			{ // When might is irrelevant, show "-" instead
-				String s = (wep.getTriggers().contains(new EclipseSix()) ? "-" : "" + wep.mt);
+				String s = (wep.getTriggers().contains(new EclipseSixPlus()) ? "-" : "" + wep.mt);
 				Renderer.drawString("default_med", "Mt " + s, INFO_X + 8, INFO_Y + 20, 1);
 			}
 			Renderer.drawString("default_med", "Hit " + wep.hit, INFO_X + 68, INFO_Y + 20, 1);
@@ -289,7 +289,7 @@ public class UnitBuilderStage extends Stage {
 			if (wep.getTriggers().contains(new CrossBow())) {
 				flavor.add("Ignores user's Str");
 			}
-			if (wep.getTriggers().contains(new EclipseSix())) {
+			if (wep.getTriggers().contains(new EclipseSixPlus())) {
 				flavor.add("Reduces enemy HP to 1");
 			}
 			if (wep.getTriggers().contains(new LunaPlus())) {

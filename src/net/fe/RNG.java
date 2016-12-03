@@ -26,11 +26,6 @@ public final class RNG {
 	static {
 		long seed = RNG.nextLong();
 		RNG.setSeed(seed);
-		// Temporarily rig the RNG
-		// System.out.println("**********************************");
-		// System.out.println("******WARNING: RNG IS RIGGED******");
-		// System.out.println("**********************************");
-		// RNG.setSeed(3171284040465844943L);
 		System.out.println("Seed:" + seed);
 	}
 }

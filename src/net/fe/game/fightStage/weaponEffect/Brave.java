@@ -1,4 +1,4 @@
-package net.fe.game.fightStage.skill;
+package net.fe.game.fightStage.weaponEffect;
 
 import net.fe.game.fightStage.CombatCalculator;
 import net.fe.game.fightStage.CombatTrigger;

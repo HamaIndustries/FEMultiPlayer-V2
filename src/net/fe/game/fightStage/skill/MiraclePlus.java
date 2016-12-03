@@ -1,4 +1,4 @@
-package net.fe.game.modifier;
+package net.fe.game.fightStage.skill;
 
 import net.fe.game.fightStage.CombatTrigger;
 import net.fe.game.unit.Unit;
@@ -7,7 +7,7 @@ import net.fe.game.unit.Unit;
 /**
  * The Class Miracle.
  */
-public class Miracle extends CombatTrigger {
+public class MiraclePlus extends CombatTrigger {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -8613896121666026506L;
@@ -15,7 +15,7 @@ public class Miracle extends CombatTrigger {
 	/**
 	 * Instantiates a new miracle.
 	 */
-	public Miracle() {
+	public MiraclePlus() {
 		super(APPEND_NAME_AFTER_MOD, ENEMY_TURN_MOD);
 	}
 
@@ -52,7 +52,7 @@ public class Miracle extends CombatTrigger {
 	 * @see net.fe.fightStage.CombatTrigger#getCopy()
 	 */
 	public CombatTrigger getCopy() {
-		return new Miracle();
+		return new MiraclePlus();
 	}
 
 }

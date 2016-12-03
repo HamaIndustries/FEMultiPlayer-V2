@@ -11,6 +11,7 @@ import net.fe.game.Session;
 import net.fe.game.unit.UnitFactory;
 import net.fe.game.unit.WeaponFactory;
 import net.fe.lobbystage.LobbyStage;
+import net.fe.network.gui.FEServerFrame;
 import net.fe.network.message.CommandMessage;
 import net.fe.network.message.JoinTeam;
 import net.fe.network.message.KickMessage;
