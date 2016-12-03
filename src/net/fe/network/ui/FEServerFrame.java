@@ -221,7 +221,7 @@ public class FEServerFrame extends JFrame {
 		panel.add(label_1);
 
 		spnPort = new JSpinner();
-		spnPort.setModel(new SpinnerNumberModel(21255, 0, 65535, 1));
+		spnPort.setModel(new SpinnerNumberModel(FEServer.DEFAULT_PORT, 0, 65535, 1));
 		panel.add(spnPort);
 
 		startServer = new JButton("Start server");
@@ -243,10 +243,12 @@ public class FEServerFrame extends JFrame {
 	private void changeFrameAndStartServer() {
 		String ipPort = "";
 		try {
-			ipPort = InetAddress.getLocalHost().getHostAddress() + ":" + getPort();
+			ipPort = InetAddress.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e3) {
 			e3.printStackTrace();
 		}
+		if(getPort() != FEServer.DEFAULT_PORT)
+			ipPort += ":" + getPort();
 		
 		JLabel label = new JLabel("Server IP: " + ipPort);
 		label.setFont(getFont().deriveFont(20f));

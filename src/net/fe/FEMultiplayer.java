@@ -303,7 +303,7 @@ public class FEMultiplayer extends Game {
 			throw new FailedToConnectException("Failed to parse the port number");
 		} catch (ArrayIndexOutOfBoundsException e) {
 			// Assign the default port
-			port = 21255;
+			port = FEServer.DEFAULT_PORT;
 		}
 		client = new Client(ip, port);
 		if (client.isOpen()) {
