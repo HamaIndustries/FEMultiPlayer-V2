@@ -1,4 +1,4 @@
-package net.fe.network.gui;
+package net.fe.network.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -90,8 +90,10 @@ public class FEServerFrame extends JFrame {
 		// Modifiers
 		DefaultListModel<Modifier> unselectedModifiersModel = new DefaultListModel<Modifier>();
 		
-		for(Modifier mod : ModifierList.values())
+		for(Modifier mod : ModifierList.values()){
+			System.out.println("adding "+mod + "\ttest" + ModifierList.PRO_TACTICS);
 			unselectedModifiersModel.addElement(mod);
+		}
 
 		mainPanel = new JPanel();
 		getContentPane().add(mainPanel, BorderLayout.CENTER);
@@ -140,6 +142,8 @@ public class FEServerFrame extends JFrame {
 		objectivePanel.add(lblPickMode);
 
 		// Pick modes
+		
+		//TODO HARD CODED AAAAAAAAAA
 		ComboBoxModel<PickMode> pickModeModel = new DefaultComboBoxModel<>(
 		        new PickMode[] { new AllPick(), new Draft() });
 		pickModeBox = new JComboBox<>();
@@ -196,7 +200,7 @@ public class FEServerFrame extends JFrame {
 		removeModifierBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int index;
-				while ((index = modifiersList.getSelectedIndex()) != -1) {
+				while ((index = selectedModifiersList.getSelectedIndex()) != -1) {
 					Modifier o = selectedModifiersModel.getElementAt(index);
 					selectedModifiersModel.remove(selectedModifiersList.getSelectedIndex());
 					unselectedModifiersModel.add(0, o);

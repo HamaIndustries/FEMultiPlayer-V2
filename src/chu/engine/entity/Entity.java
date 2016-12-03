@@ -2,7 +2,6 @@ package chu.engine.entity;
 
 import chu.engine.Stage;
 import chu.engine.anim.Sprite;
-import chu.engine.hitbox.Hitbox;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -34,8 +33,6 @@ public abstract class Entity {
 	/** The sprite. */
 	public final Sprite sprite;
 
-	/** The hitbox. */
-	public Hitbox hitbox;
 
 	/** The stage. */
 	public Stage stage;

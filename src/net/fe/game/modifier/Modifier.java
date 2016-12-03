@@ -2,7 +2,6 @@ package net.fe.game.modifier;
 
 import java.io.Serializable;
 
-import net.fe.builderStage.ShopMenu;
 import net.fe.builderStage.TeamBuilderResources;
 import net.fe.game.unit.Item;
 import net.fe.game.unit.Unit;
