@@ -93,10 +93,8 @@ public class FEServerFrame extends JFrame {
 		// Modifiers
 		DefaultListModel<Modifier> unselectedModifiersModel = new DefaultListModel<Modifier>();
 		
-		for(Modifier mod : ModifierList.values()){
-			System.out.println("adding "+mod + "\ttest" + ModifierList.PRO_TACTICS);
+		for(Modifier mod : ModifierList.values())
 			unselectedModifiersModel.addElement(mod);
-		}
 
 		mainPanel = new JPanel();
 		getContentPane().add(mainPanel, BorderLayout.CENTER);

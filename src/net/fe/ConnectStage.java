@@ -205,14 +205,22 @@ public final class ConnectStage extends Stage {
 		 * 
 		 * @see chu.engine.menu.MenuButton#onClick()
 		 */
+		
+		private Entity prevEntity;
+		
 		@Override
 		public void onClick() {
 			AudioPlayer.playAudio("select");
 			try {
 				FEMultiplayer.connect(name.getInput(), ipPort.getInput());
 			} catch (FailedToConnectException e) {
-				addEntity(new Notification(180, 120, "default_med", "ERROR: " + e.getMessage(), 5f,
-				        new Color(255, 100, 100), 0f));
+				int count = e.getMessage().replaceAll("[^\n]", "").length();
+				System.out.println("count : " +count);
+				if(prevEntity != null)
+					removeEntity(prevEntity);
+				prevEntity = new Notification(180, 120 - count * 20, "default_med", "ERROR: " + e.getMessage(), 5f,
+				        new Color(255, 120, 100), 0f);
+				addEntity(prevEntity);
 			}
 		}
 

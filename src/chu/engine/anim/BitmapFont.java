@@ -76,39 +76,25 @@ public class BitmapFont {
 	 * @param beginX the begin x
 	 * @param beginY the begin y
 	 * @param depth the depth
+	 * @param t the t
 	 */
-	public void render(String string, float beginX, float beginY, float depth) {
+	public void render(String string, float beginX, float beginY, float depth, Transform t) {
 		int x = (int) beginX;
+		int y = (int) beginY;
 		for (char c : string.toCharArray()) {
 			Glyph g = glyphs.get(c);
-			if (g == null) {
+			if(c == '\n'){
+				y += texture.getImageHeight();
+				x = (int) beginX;
+				continue;
+			}
+			if(g == null){
 				System.err.println("I don't have this character: '" + c + "'");
 				continue;
 			}
 			float tx0 = (float) g.pos / texture.getImageWidth();
 			float tx1 = (float) (g.pos + g.width) / texture.getImageWidth();
-			Renderer.render(texture, tx0, 0, tx1, 1, x, beginY, x + g.width, beginY + glyphHeight, depth);
-			x += g.width;
-			x += spacing;
-		}
-	}
-
-	/**
-	 * Render.
-	 *
-	 * @param string the string
-	 * @param beginX the begin x
-	 * @param beginY the begin y
-	 * @param depth the depth
-	 * @param t the t
-	 */
-	public void render(String string, float beginX, float beginY, float depth, Transform t) {
-		int x = (int) beginX;
-		for (char c : string.toCharArray()) {
-			Glyph g = glyphs.get(c);
-			float tx0 = (float) g.pos / texture.getImageWidth();
-			float tx1 = (float) (g.pos + g.width) / texture.getImageWidth();
-			Renderer.render(texture, tx0, 0, tx1, 1, x, beginY, x + g.width, beginY + glyphHeight, depth, t);
+			Renderer.render(texture, tx0, 0, tx1, 1, x, y, x + g.width, y + glyphHeight, depth, t);
 			x += g.width * (t != null ? t.scaleX : 1);
 			x += spacing * (t != null ? t.scaleX : 1);
 		}

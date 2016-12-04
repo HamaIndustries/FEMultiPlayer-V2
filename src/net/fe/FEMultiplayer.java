@@ -292,6 +292,11 @@ public class FEMultiplayer extends Game {
 	 * @param ipPort the host ip and the port, concatenated using ":"
 	 */
 	public static void connect(String nickname, String ipPort) throws FailedToConnectException {
+		if(nickname.matches("\\s*"))
+			throw new FailedToConnectException("Name cannot be composed of only whitespace characters");
+		
+		nickname = nickname.trim();
+		
 		getLocalPlayer().setName(nickname);
 		String[] s = ipPort.split(":");
 		String ip = s[0];
@@ -311,7 +316,7 @@ public class FEMultiplayer extends Game {
 			setCurrentStage(lobby);
 			client.start();
 		} else {
-			String message = "Could not connect to the server.";
+			String message = "Could not connect to the server.\n";
 			if (s.length == 1)
 				message += " Make sure to specify the port";
 			throw new FailedToConnectException(message);
