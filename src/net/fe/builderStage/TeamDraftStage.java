@@ -17,10 +17,10 @@ import net.fe.game.unit.MapAnimation;
 import net.fe.game.unit.Unit;
 import net.fe.game.unit.UnitFactory;
 import net.fe.game.unit.UnitIcon;
-import net.fe.network.FEServer;
 import net.fe.network.Message;
 import net.fe.network.message.DraftMessage;
 import net.fe.network.message.QuitMessage;
+import net.fe.network.server.FEServer;
 import net.fe.ressources.graphics.ui.Button;
 import net.fe.network.message.KickMessage;
 

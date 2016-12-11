@@ -1,4 +1,4 @@
-package net.fe.network;
+package net.fe.network.server;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,12 +11,13 @@ import net.fe.game.Session;
 import net.fe.game.unit.UnitFactory;
 import net.fe.game.unit.WeaponFactory;
 import net.fe.lobbystage.LobbyStage;
+import net.fe.network.Message;
+import net.fe.network.Server;
 import net.fe.network.message.CommandMessage;
 import net.fe.network.message.JoinTeam;
 import net.fe.network.message.KickMessage;
 import net.fe.network.message.PartyMessage;
 import net.fe.network.message.ReadyMessage;
-import net.fe.network.ui.FEServerFrame;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.overworldStage.objective.Rout;
 import net.fe.overworldStage.objective.Seize;
@@ -39,13 +40,14 @@ public class FEServer extends Game {
 	private static Stage currentStage;
 
 	/** The lobby. */
-	public static LobbyStage lobby;
+	private static LobbyStage lobby;
 
 	private static Map<String, Objective[]> maps = new HashMap<String, Objective[]>();
 
 	private static FEServerFrame frame;
 
 	static {
+		//FIXME UP INSIDE
 		Rout rout = new Rout();
 		Seize seize = new Seize();
 
@@ -210,7 +212,7 @@ public class FEServer extends Game {
 			}
 		}
 	}
-
+	
 	public static Map<String, Objective[]> getMaps() {
 		return maps;
 	}

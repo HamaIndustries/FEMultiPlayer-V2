@@ -5,7 +5,7 @@ import net.fe.builderStage.ClientWaitStage;
 import net.fe.builderStage.TeamBuilderStage;
 import net.fe.builderStage.WaitStage;
 import net.fe.game.Session;
-import net.fe.network.FEServer;
+import net.fe.network.server.FEServer;
 
 // TODO: Auto-generated Javadoc
 /**

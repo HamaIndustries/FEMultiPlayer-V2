@@ -6,7 +6,7 @@ import net.fe.builderStage.TeamDraftStage;
 import net.fe.builderStage.DraftViewStage;
 import net.fe.builderStage.WaitStage;
 import net.fe.game.Session;
-import net.fe.network.FEServer;
+import net.fe.network.server.FEServer;
 
 /**
  * Draft picking mode.

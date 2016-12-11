@@ -12,12 +12,12 @@ import net.fe.game.Session;
 import net.fe.game.unit.Item;
 import net.fe.game.unit.Unit;
 import net.fe.game.unit.UnitFactory;
-import net.fe.network.FEServer;
 import net.fe.network.Message;
 import net.fe.network.message.KickMessage;
 import net.fe.network.message.PartyMessage;
 import net.fe.network.message.QuitMessage;
 import net.fe.network.message.StartGame;
+import net.fe.network.server.FEServer;
 import net.fe.overworldStage.OverworldStage;
 
 // TODO: Auto-generated Javadoc

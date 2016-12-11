@@ -27,6 +27,8 @@ public class OverworldChat extends TextInputBox implements DoNotDestroy {
 
 	/** The Constant TEXTBOX. */
 	private static final Color TEXTBOX = new Color(0.2f, 0.2f, 0.2f, 0.7f);
+	
+	private static final int MAX_MESSAGE_LENGTH = 5;
 
 	/** The Constant CURSOR. */
 	private static final Color CURSOR = new Color(1f, 1f, 1f, 1f);
@@ -70,6 +72,7 @@ public class OverworldChat extends TextInputBox implements DoNotDestroy {
 	 */
 	public void beginStep() {
 		super.beginStep();
+		trimInput();
 		List<KeyboardEvent> keys = Game.getKeys();
 		for (KeyboardEvent ke : keys) {
 			if (ke.state) {
@@ -97,6 +100,11 @@ public class OverworldChat extends TextInputBox implements DoNotDestroy {
 		FEMultiplayer.getClient().sendMessage(new ChatMessage(id, input.toString()));
 		input.delete(0, input.length());
 		cursorPos = 0;
+	}
+	
+	private void trimInput(){
+		if(input.length() > MAX_MESSAGE_LENGTH)
+			input = new StringBuilder(input.substring(0, MAX_MESSAGE_LENGTH));
 	}
 
 }

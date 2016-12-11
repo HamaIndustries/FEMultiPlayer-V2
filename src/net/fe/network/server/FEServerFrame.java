@@ -1,4 +1,4 @@
-package net.fe.network.ui;
+package net.fe.network.server;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -46,7 +46,6 @@ import net.fe.game.modifier.ModifierList;
 import net.fe.game.pick.AllPick;
 import net.fe.game.pick.Draft;
 import net.fe.game.pick.PickMode;
-import net.fe.network.FEServer;
 import net.fe.overworldStage.objective.Objective;
 
 public class FEServerFrame extends JFrame {
@@ -257,7 +256,7 @@ public class FEServerFrame extends JFrame {
 		remove(startServer);
 		
 		JButton btnkickAll = new JButton("Kick all");
-		btnkickAll.addActionListener(event -> FEServer.resetToLobbyAndKickPlayers());
+		btnkickAll.addActionListener(event -> FEServerProperties.kickAll());
 		getContentPane().add(btnkickAll);
 
 
@@ -268,36 +267,16 @@ public class FEServerFrame extends JFrame {
 		
 		getContentPane().add(btnCopyClipboard, BorderLayout.AFTER_LAST_LINE);
 		pack();
-		Thread serverThread = new Thread() {
-			public void run() {
-				HashSet<Modifier> mods = new HashSet<Modifier>();
-				for (int i = 0; i < selectedModifiersList.getModel().getSize(); i++) {
-					mods.add(selectedModifiersList.getModel().getElementAt(i));
-				}
-				Session s = new Session((Objective) objComboBox.getSelectedItem(),
-		                (String) mapSelectionBox.getSelectedItem(), (Integer) maxUnitsSpinner.getValue(), mods,
-		                (PickMode) pickModeBox.getSelectedItem());
-
-				FEServer feserver = new FEServer(s);
-				try {
-					feserver.init();
-					feserver.loop();
-				} catch (Exception e) {
-					System.err.println("Exception occurred, writing to logs...");
-					e.printStackTrace();
-					try {
-						File errLog = new File("error_log_server" + System.currentTimeMillis() % 100000000 + ".log");
-						PrintWriter pw = new PrintWriter(errLog);
-						e.printStackTrace(pw);
-						pw.close();
-					} catch (IOException e2) {
-						e2.printStackTrace();
-					}
-					System.exit(0);
-				}
-			}
-		};
-		serverThread.start();
+		
+		for (int i = 0; i < selectedModifiersList.getModel().getSize(); i++) 
+			FEServerProperties.addModifier(selectedModifiersList.getModel().getElementAt(i));
+		
+		FEServerProperties.setObjective((Objective) objComboBox.getSelectedItem());
+		FEServerProperties.setMap((String) mapSelectionBox.getSelectedItem());
+		FEServerProperties.setMaxUnits((Integer) maxUnitsSpinner.getValue());
+		FEServerProperties.setPickMode((PickMode) pickModeBox.getSelectedItem());
+		
+		FEServerProperties.startServer();
 	}
 
 	private class ModifierJList extends JList<Modifier> {

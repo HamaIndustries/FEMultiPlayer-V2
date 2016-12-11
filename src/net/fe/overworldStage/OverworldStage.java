@@ -26,7 +26,6 @@ import net.fe.game.unit.RiseTome;
 import net.fe.game.unit.Unit;
 import net.fe.game.unit.UnitIdentifier;
 import net.fe.network.Chat;
-import net.fe.network.FEServer;
 import net.fe.network.Message;
 import net.fe.network.command.Command;
 import net.fe.network.message.ChatMessage;
@@ -34,6 +33,7 @@ import net.fe.network.message.CommandMessage;
 import net.fe.network.message.EndGame;
 import net.fe.network.message.EndTurn;
 import net.fe.network.message.QuitMessage;
+import net.fe.network.server.FEServer;
 import net.fe.overworldStage.context.TradeContext;
 import net.fe.overworldStage.objective.Objective;
 

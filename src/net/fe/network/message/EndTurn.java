@@ -6,8 +6,8 @@ import java.util.function.Function;
 import net.fe.FEMultiplayer;
 import net.fe.game.unit.Unit;
 import net.fe.game.unit.UnitIdentifier;
-import net.fe.network.FEServer;
 import net.fe.network.Message;
+import net.fe.network.server.FEServer;
 
 // TODO: Auto-generated Javadoc
 /**

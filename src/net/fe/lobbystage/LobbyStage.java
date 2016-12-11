@@ -7,7 +7,6 @@ import net.fe.Player;
 import net.fe.builderStage.WaitStage;
 import net.fe.game.Session;
 import net.fe.network.Chat;
-import net.fe.network.FEServer;
 import net.fe.network.Message;
 import net.fe.network.message.ChatMessage;
 import net.fe.network.message.ClientInit;
@@ -16,6 +15,7 @@ import net.fe.network.message.JoinTeam;
 import net.fe.network.message.QuitMessage;
 import net.fe.network.message.ReadyMessage;
 import net.fe.network.message.StartPicking;
+import net.fe.network.server.FEServer;
 import chu.engine.Game;
 import chu.engine.Stage;
 

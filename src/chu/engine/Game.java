@@ -25,7 +25,6 @@ import static org.lwjgl.opengl.GL11.glViewport;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
@@ -35,6 +34,7 @@ import org.lwjgl.opengl.DisplayMode;
 
 import chu.engine.event.KeyboardEvent;
 import chu.engine.event.MouseEvent;
+import net.fe.FEResources;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -68,8 +68,8 @@ public abstract class Game {
 	 * @param name the name
 	 */
 	public void init(int width, int height, String name) {
-		windowWidth = Math.round(width * net.fe.FEResources.getWindowScale());
-		windowHeight = Math.round(height * net.fe.FEResources.getWindowScale());
+		windowWidth = Math.round(width * FEResources.getWindowScale());
+		windowHeight = Math.round(height * FEResources.getWindowScale());
 
 		try {
 			Display.setDisplayMode(new DisplayMode(windowWidth, windowHeight));
@@ -98,8 +98,8 @@ public abstract class Game {
 		glViewport(0, 0, windowWidth, windowHeight);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, windowWidth / net.fe.FEResources.getWindowScale(),
-		        windowHeight / net.fe.FEResources.getWindowScale(), 0, 1, -1); // It's
+		glOrtho(0, windowWidth / FEResources.getWindowScale(),
+		        windowHeight / FEResources.getWindowScale(), 0, 1, -1); // It's
 		                                                                       // basically
 		                                                                       // a
 		                                                                       // camera
@@ -201,7 +201,7 @@ public abstract class Game {
 	 * @return the scale x
 	 */
 	public static float getScaleX() {
-		return net.fe.FEResources.getWindowScale();
+		return FEResources.getWindowScale();
 	}
 
 	/**
@@ -210,6 +210,6 @@ public abstract class Game {
 	 * @return the scale y
 	 */
 	public static float getScaleY() {
-		return net.fe.FEResources.getWindowScale();
+		return FEResources.getWindowScale();
 	}
 }

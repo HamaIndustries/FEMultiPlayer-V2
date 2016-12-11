@@ -11,11 +11,11 @@ import net.fe.Team;
 import net.fe.game.Session;
 import net.fe.game.modifier.Modifier;
 import net.fe.ConnectStage;
-import net.fe.network.FEServer;
 import net.fe.network.Message;
 import net.fe.network.message.QuitMessage;
 import net.fe.network.message.ReadyMessage;
 import net.fe.network.message.StartPicking;
+import net.fe.network.server.FEServer;
 
 import org.newdawn.slick.Color;
 

@@ -14,7 +14,7 @@ import net.fe.RNG;
 import net.fe.game.unit.Unit;
 import net.fe.game.unit.UnitIdentifier;
 import net.fe.game.unit.Weapon;
-import net.fe.network.FEServer;
+import net.fe.network.server.FEServer;
 import net.fe.overworldStage.Grid;
 
 /**
