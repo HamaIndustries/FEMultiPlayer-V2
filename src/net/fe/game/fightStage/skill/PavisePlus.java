@@ -51,7 +51,7 @@ public class PavisePlus extends CombatTrigger {
 	 * @see net.fe.fightStage.CombatTrigger#getCopy()
 	 */
 	public CombatTrigger getCopy() {
-		return new Pavise();
+		return new PavisePlus();
 	}
 
 }
