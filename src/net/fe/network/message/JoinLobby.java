@@ -1,6 +1,5 @@
 package net.fe.network.message;
 
-import net.fe.Player;
 import net.fe.network.Message;
 
 // TODO: Auto-generated Javadoc

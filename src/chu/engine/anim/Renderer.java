@@ -31,20 +31,17 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Stack;
 
-import net.fe.FEResources;
-
 import org.lwjgl.opengl.ARBFragmentShader;
 import org.lwjgl.opengl.ARBShaderObjects;
 import org.lwjgl.opengl.ARBVertexShader;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
 import chu.engine.Game;
+import net.fe.FEResources;
 
 // TODO: Auto-generated Javadoc
 /**

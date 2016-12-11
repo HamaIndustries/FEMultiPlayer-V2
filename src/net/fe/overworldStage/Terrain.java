@@ -5,8 +5,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import chu.engine.entity.Entity;
 import net.fe.Player;
-import net.fe.game.unit.UnitClass;
 import net.fe.game.unit.Unit;
+import net.fe.game.unit.UnitClass;
 import net.fe.game.unit.WeaponFactory;
 
 // TODO: Auto-generated Javadoc

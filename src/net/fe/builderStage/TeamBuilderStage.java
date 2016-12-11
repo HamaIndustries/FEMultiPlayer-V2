@@ -9,23 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import net.fe.*;
-import net.fe.game.Session;
-import net.fe.game.fightStage.FightStage;
-import net.fe.game.modifier.Modifier;
-import net.fe.game.unit.Item;
-import net.fe.game.unit.MapAnimation;
-import net.fe.game.unit.Unit;
-import net.fe.game.unit.UnitIcon;
-import net.fe.game.unit.Weapon;
-import net.fe.lobbystage.ClientLobbyStage;
-import net.fe.network.message.PartyMessage;
-import net.fe.network.message.QuitMessage;
-import net.fe.ressources.graphics.ui.Button;
-import net.fe.ressources.graphics.ui.ConfirmationMessage;
-import net.fe.network.message.KickMessage;
-import net.fe.network.Message;
-
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 
@@ -35,6 +18,25 @@ import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Renderer;
 import chu.engine.entity.Entity;
 import chu.engine.event.KeyboardEvent;
+import net.fe.ControlsDisplay;
+import net.fe.FEMultiplayer;
+import net.fe.FEResources;
+import net.fe.RunesBg;
+import net.fe.game.Session;
+import net.fe.game.fightStage.FightStage;
+import net.fe.game.modifier.Modifier;
+import net.fe.game.unit.Item;
+import net.fe.game.unit.MapAnimation;
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.UnitIcon;
+import net.fe.game.unit.Weapon;
+import net.fe.lobbystage.ClientLobbyStage;
+import net.fe.network.Message;
+import net.fe.network.message.KickMessage;
+import net.fe.network.message.PartyMessage;
+import net.fe.network.message.QuitMessage;
+import net.fe.ressources.graphics.ui.Button;
+import net.fe.ressources.graphics.ui.ConfirmationMessage;
 
 // TODO: Auto-generated Javadoc
 /**

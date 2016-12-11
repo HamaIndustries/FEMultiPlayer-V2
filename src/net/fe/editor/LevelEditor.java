@@ -1,5 +1,6 @@
 package net.fe.editor;
 
+import static java.util.Collections.emptyList;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_STENCIL_BUFFER_BIT;
@@ -10,8 +11,6 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
-
-import static java.util.Collections.emptyList;
 
 import chu.engine.Game;
 import chu.engine.Stage;

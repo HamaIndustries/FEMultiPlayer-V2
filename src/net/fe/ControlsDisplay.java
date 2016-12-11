@@ -1,7 +1,8 @@
 package net.fe;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Map.Entry;
-import java.util.*;
 
 import org.newdawn.slick.Color;
 

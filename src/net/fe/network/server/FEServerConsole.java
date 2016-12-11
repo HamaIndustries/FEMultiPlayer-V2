@@ -1,7 +1,6 @@
 package net.fe.network.server;
 
 import java.io.Console;
-import java.io.IOException;
 import java.util.Arrays;
 
 import net.fe.network.server.commands.CommandNotFoundException;
@@ -13,7 +12,7 @@ public class FEServerConsole {
 	
 	public static void main(String[] args){
 		if(console == null){
-			System.out.println("Couldn't find a console");
+			System.out.println("Couldn't find the system's console");
 			return;
 		}
 		while(true){

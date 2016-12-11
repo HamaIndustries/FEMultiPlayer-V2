@@ -1,10 +1,10 @@
 package net.fe.game.fightStage.anim;
 
-import net.fe.FEResources;
-import net.fe.game.fightStage.FightStage;
 import chu.engine.anim.Animation;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.entity.Entity;
+import net.fe.FEResources;
+import net.fe.game.fightStage.FightStage;
 
 // TODO: Auto-generated Javadoc
 /**

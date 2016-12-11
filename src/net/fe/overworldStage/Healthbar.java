@@ -1,9 +1,5 @@
 package net.fe.overworldStage;
 
-import net.fe.FEResources;
-import net.fe.game.fightStage.FightStage;
-import net.fe.game.unit.Unit;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
@@ -11,6 +7,9 @@ import chu.engine.Game;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Renderer;
 import chu.engine.entity.Entity;
+import net.fe.FEResources;
+import net.fe.game.fightStage.FightStage;
+import net.fe.game.unit.Unit;
 
 // TODO: Auto-generated Javadoc
 /**

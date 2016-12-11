@@ -10,22 +10,27 @@ import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 
-import static java.lang.System.out;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.time.*;
 
+import org.lwjgl.Sys;
+import org.lwjgl.openal.AL;
+import org.lwjgl.opengl.Display;
+import org.newdawn.slick.openal.SoundStore;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
+
+import chu.engine.Game;
+import chu.engine.Stage;
 import net.fe.builderStage.TeamDraftStage;
 import net.fe.game.Session;
-import net.fe.game.fightStage.AttackRecord;
 import net.fe.game.fightStage.CombatCalculator;
 import net.fe.game.fightStage.FightStage;
-import net.fe.game.unit.RiseTome;
 import net.fe.game.unit.Unit;
 import net.fe.game.unit.UnitFactory;
 import net.fe.game.unit.UnitIdentifier;
@@ -37,25 +42,9 @@ import net.fe.network.command.Command;
 import net.fe.network.message.CommandMessage;
 import net.fe.network.server.FEServer;
 import net.fe.overworldStage.ClientOverworldStage;
-import net.fe.overworldStage.Grid;
-import net.fe.overworldStage.Terrain;
 import net.fe.overworldStage.objective.Seize;
-import net.fe.ressources.graphics.transition.OverworldFightTransition;
 import net.fe.ressources.graphics.ui.TitleStage;
 import net.fe.ressources.sound.SoundTrack;
-
-import org.lwjgl.Sys;
-import org.lwjgl.openal.AL;
-import org.lwjgl.opengl.Display;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.openal.SoundStore;
-import org.newdawn.slick.opengl.TextureLoader;
-import org.newdawn.slick.util.ResourceLoader;
-
-import chu.engine.Game;
-import chu.engine.Stage;
-import chu.engine.anim.Renderer;
-import chu.engine.entity.menu.Notification;
 
 /**
  * Main class for the Clientside program.

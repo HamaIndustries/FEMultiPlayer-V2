@@ -1,8 +1,7 @@
 package net.fe.game.balance;
 
-import java.awt.Dimension;
-
-import javax.swing.*;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 // TODO: Auto-generated Javadoc
 /**

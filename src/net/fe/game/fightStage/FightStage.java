@@ -4,8 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
-import static java.lang.System.out;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.opengl.Texture;
+
+import chu.engine.Game;
+import chu.engine.Stage;
+import chu.engine.anim.AudioPlayer;
+import chu.engine.anim.Renderer;
+import chu.engine.entity.Entity;
+import chu.engine.entity.SortByRender;
 import net.fe.FEMultiplayer;
 import net.fe.FEResources;
 import net.fe.game.fightStage.anim.AnimationArgs;
@@ -24,19 +32,9 @@ import net.fe.game.unit.BattleStats;
 import net.fe.game.unit.Unit;
 import net.fe.game.unit.UnitIdentifier;
 import net.fe.network.Message;
+import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.Grid;
 import net.fe.ressources.graphics.transition.FightOverworldTransition;
-import net.fe.overworldStage.ClientOverworldStage;
-
-import org.newdawn.slick.Color;
-import org.newdawn.slick.opengl.Texture;
-
-import chu.engine.Game;
-import chu.engine.Stage;
-import chu.engine.anim.AudioPlayer;
-import chu.engine.anim.Renderer;
-import chu.engine.entity.Entity;
-import chu.engine.entity.SortByRender;
 
 // TODO: Auto-generated Javadoc
 /**

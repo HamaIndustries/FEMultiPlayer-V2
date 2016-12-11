@@ -7,17 +7,16 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import net.fe.FEResources;
-import net.fe.game.fightStage.FightStage;
-import net.fe.game.unit.Unit;
-import net.fe.game.unit.UnitIcon;
-
 import org.newdawn.slick.Color;
 
 import chu.engine.Game;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Sprite;
 import chu.engine.entity.Entity;
+import net.fe.FEResources;
+import net.fe.game.fightStage.FightStage;
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.UnitIcon;
 
 // TODO: Auto-generated Javadoc
 /**

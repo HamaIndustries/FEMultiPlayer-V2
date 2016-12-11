@@ -2,13 +2,13 @@ package net.fe.overworldStage;
 
 import org.newdawn.slick.Color;
 
+import chu.engine.anim.Renderer;
+import chu.engine.anim.Transform;
+import chu.engine.entity.Entity;
 import net.fe.FEResources;
 import net.fe.Player;
 import net.fe.game.fightStage.FightStage;
 import net.fe.game.unit.Unit;
-import chu.engine.anim.Renderer;
-import chu.engine.anim.Transform;
-import chu.engine.entity.Entity;
 
 // TODO: Auto-generated Javadoc
 /**

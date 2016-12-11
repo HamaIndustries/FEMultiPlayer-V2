@@ -1,7 +1,7 @@
 package net.fe.game.fightStage.anim;
 
-import chu.engine.Game;
 import chu.engine.AnimationData;
+import chu.engine.Game;
 import chu.engine.anim.Animation;
 
 // TODO: Auto-generated Javadoc

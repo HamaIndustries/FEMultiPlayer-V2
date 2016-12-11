@@ -1,7 +1,5 @@
 package net.fe.game.fightStage.anim;
 
-import static java.lang.System.out;
-
 import net.fe.game.unit.Unit;
 import net.fe.game.unit.Weapon;
 import net.fe.game.unit.Weapon.Type;

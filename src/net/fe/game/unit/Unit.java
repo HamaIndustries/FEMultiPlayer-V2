@@ -4,25 +4,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
-
-import net.fe.FEResources;
-import net.fe.PaletteSwapper;
-import net.fe.Party;
-import net.fe.game.fightStage.CombatTrigger;
-import net.fe.overworldStage.Corpse;
-import net.fe.overworldStage.DoNotDestroy;
-import net.fe.overworldStage.Grid;
-import net.fe.overworldStage.Node;
-import net.fe.overworldStage.ClientOverworldStage;
-import net.fe.overworldStage.OverworldStage;
-import net.fe.overworldStage.Path;
-import net.fe.overworldStage.Terrain;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
@@ -32,6 +18,18 @@ import chu.engine.anim.Renderer;
 import chu.engine.anim.ShaderArgs;
 import chu.engine.anim.Transform;
 import chu.engine.entity.GriddedEntity;
+import net.fe.FEResources;
+import net.fe.PaletteSwapper;
+import net.fe.Party;
+import net.fe.game.fightStage.CombatTrigger;
+import net.fe.overworldStage.ClientOverworldStage;
+import net.fe.overworldStage.Corpse;
+import net.fe.overworldStage.DoNotDestroy;
+import net.fe.overworldStage.Grid;
+import net.fe.overworldStage.Node;
+import net.fe.overworldStage.OverworldStage;
+import net.fe.overworldStage.Path;
+import net.fe.overworldStage.Terrain;
 
 // TODO: Auto-generated Javadoc
 /**

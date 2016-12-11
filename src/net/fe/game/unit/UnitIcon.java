@@ -1,14 +1,13 @@
 package net.fe.game.unit;
 
-import net.fe.FEResources;
-import net.fe.Party;
-
 import org.newdawn.slick.Color;
 
 import chu.engine.anim.Renderer;
 import chu.engine.anim.ShaderArgs;
 import chu.engine.anim.Transform;
 import chu.engine.entity.Entity;
+import net.fe.FEResources;
+import net.fe.Party;
 
 // TODO: Auto-generated Javadoc
 /**

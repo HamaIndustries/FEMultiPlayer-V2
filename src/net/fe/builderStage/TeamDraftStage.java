@@ -4,8 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 
+import org.lwjgl.input.Keyboard;
+import org.newdawn.slick.Color;
+
+import chu.engine.Game;
+import chu.engine.Stage;
+import chu.engine.anim.AudioPlayer;
+import chu.engine.anim.Renderer;
+import chu.engine.anim.Transform;
+import chu.engine.entity.Entity;
+import chu.engine.event.KeyboardEvent;
 import net.fe.ControlsDisplay;
 import net.fe.FEMultiplayer;
 import net.fe.FEResources;
@@ -19,21 +28,9 @@ import net.fe.game.unit.UnitFactory;
 import net.fe.game.unit.UnitIcon;
 import net.fe.network.Message;
 import net.fe.network.message.DraftMessage;
-import net.fe.network.message.QuitMessage;
-import net.fe.network.server.FEServer;
-import net.fe.ressources.graphics.ui.Button;
 import net.fe.network.message.KickMessage;
-
-import org.lwjgl.input.Keyboard;
-import org.newdawn.slick.Color;
-
-import chu.engine.Game;
-import chu.engine.Stage;
-import chu.engine.anim.AudioPlayer;
-import chu.engine.anim.Renderer;
-import chu.engine.anim.Transform;
-import chu.engine.entity.Entity;
-import chu.engine.event.KeyboardEvent;
+import net.fe.network.message.QuitMessage;
+import net.fe.ressources.graphics.ui.Button;
 
 // TODO: Auto-generated Javadoc
 /**

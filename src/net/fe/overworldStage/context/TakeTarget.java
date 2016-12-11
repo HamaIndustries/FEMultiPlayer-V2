@@ -1,12 +1,12 @@
 package net.fe.overworldStage.context;
 
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.UnitIdentifier;
+import net.fe.network.command.TakeCommand;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.OverworldContext;
 import net.fe.overworldStage.SelectTargetContext;
 import net.fe.overworldStage.Zone;
-import net.fe.game.unit.Unit;
-import net.fe.game.unit.UnitIdentifier;
-import net.fe.network.command.TakeCommand;
 
 // TODO: Auto-generated Javadoc
 /**

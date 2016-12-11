@@ -1,11 +1,12 @@
 package net.fe.game.unit;
 
+import static java.util.Collections.emptyList;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
-import static java.util.Collections.emptyList;
 
-import net.fe.game.fightStage.*;
+import net.fe.game.fightStage.CombatTrigger;
 import net.fe.game.fightStage.skill.Aether;
 import net.fe.game.fightStage.skill.Astra;
 import net.fe.game.fightStage.skill.Colossus;
@@ -17,7 +18,8 @@ import net.fe.game.fightStage.skill.Miracle;
 import net.fe.game.fightStage.skill.Pavise;
 import net.fe.game.fightStage.skill.Sol;
 import net.fe.overworldStage.FieldSkill;
-import net.fe.overworldStage.fieldskill.*;
+import net.fe.overworldStage.fieldskill.Shove;
+import net.fe.overworldStage.fieldskill.Smite;
 
 // TODO: Auto-generated Javadoc
 /**

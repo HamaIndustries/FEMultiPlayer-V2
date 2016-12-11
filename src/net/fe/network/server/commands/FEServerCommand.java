@@ -1,9 +1,8 @@
 package net.fe.network.server.commands;
 
-import net.fe.network.server.FEServerConsole;
-
-import java.io.IOException;
 import java.util.ArrayList;
+
+import net.fe.network.server.FEServerConsole;
 
 public enum FEServerCommand{
 	HELP("help", "help command", "Get a description of the specified command", "", x -> {

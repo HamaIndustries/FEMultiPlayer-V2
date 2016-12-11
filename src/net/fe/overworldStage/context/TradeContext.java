@@ -2,11 +2,16 @@ package net.fe.overworldStage.context;
 
 import java.util.List;
 
-import net.fe.network.command.TradeCommand;
-import net.fe.game.unit.*;
-import net.fe.network.command.EquipCommand;
 import chu.engine.anim.AudioPlayer;
-import net.fe.overworldStage.*;
+import net.fe.game.unit.Item;
+import net.fe.game.unit.ItemDisplay;
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.UnitIdentifier;
+import net.fe.network.command.TradeCommand;
+import net.fe.overworldStage.ClientOverworldStage;
+import net.fe.overworldStage.Menu;
+import net.fe.overworldStage.OverworldContext;
+import net.fe.overworldStage.TradeMenu;
 
 // TODO: Auto-generated Javadoc
 /**

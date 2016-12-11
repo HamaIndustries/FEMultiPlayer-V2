@@ -1,12 +1,14 @@
 package net.fe.game.balance;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.HashMap;
 
-import javax.swing.*;
-import javax.swing.event.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 // TODO: Auto-generated Javadoc
 /**

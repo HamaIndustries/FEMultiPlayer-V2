@@ -2,11 +2,11 @@ package net.fe.ressources.graphics.transition;
 
 import org.newdawn.slick.Color;
 
-import net.fe.FEResources;
-import net.fe.overworldStage.EndGameStage;
 import chu.engine.Game;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Transform;
+import net.fe.FEResources;
+import net.fe.overworldStage.EndGameStage;
 
 // TODO: Auto-generated Javadoc
 /**

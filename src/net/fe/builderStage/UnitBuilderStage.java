@@ -3,6 +3,15 @@ package net.fe.builderStage;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+import org.newdawn.slick.Color;
+
+import chu.engine.Game;
+import chu.engine.Stage;
+import chu.engine.anim.AudioPlayer;
+import chu.engine.anim.Renderer;
+import chu.engine.entity.Entity;
+import chu.engine.event.KeyboardEvent;
 import net.fe.ControlsDisplay;
 import net.fe.FEMultiplayer;
 import net.fe.FEResources;
@@ -19,20 +28,10 @@ import net.fe.game.unit.MapAnimation;
 import net.fe.game.unit.RiseTome;
 import net.fe.game.unit.Unit;
 import net.fe.game.unit.Weapon;
+import net.fe.network.Message;
 import net.fe.overworldStage.InventoryMenu;
 import net.fe.overworldStage.UnitInfo;
 import net.fe.ressources.graphics.ui.Button;
-import net.fe.network.Message;
-
-import org.lwjgl.input.Keyboard;
-import org.newdawn.slick.Color;
-
-import chu.engine.Game;
-import chu.engine.Stage;
-import chu.engine.anim.AudioPlayer;
-import chu.engine.anim.Renderer;
-import chu.engine.entity.Entity;
-import chu.engine.event.KeyboardEvent;
 
 // TODO: Auto-generated Javadoc
 /**

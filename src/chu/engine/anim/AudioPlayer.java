@@ -1,13 +1,8 @@
 package chu.engine.anim;
 
-import net.fe.FEResources;
-
-import java.io.File;
-import java.io.PrintWriter;
-
 import org.newdawn.slick.openal.Audio;
 
-import chu.engine.Game;
+import net.fe.FEResources;
 
 // TODO: Auto-generated Javadoc
 /**

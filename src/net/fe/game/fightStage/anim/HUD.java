@@ -2,13 +2,13 @@ package net.fe.game.fightStage.anim;
 
 import org.newdawn.slick.opengl.Texture;
 
+import chu.engine.anim.Renderer;
+import chu.engine.entity.Entity;
 import net.fe.FEResources;
 import net.fe.game.fightStage.CombatCalculator;
 import net.fe.game.fightStage.FightStage;
 import net.fe.game.unit.ItemDisplay;
 import net.fe.game.unit.Unit;
-import chu.engine.anim.Renderer;
-import chu.engine.entity.Entity;
 
 // TODO: Auto-generated Javadoc
 /**

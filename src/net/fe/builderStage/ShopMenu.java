@@ -1,16 +1,6 @@
 package net.fe.builderStage;
 
 import java.util.Set;
-import net.fe.FEResources;
-import net.fe.game.Session;
-import net.fe.game.modifier.Modifier;
-import net.fe.game.unit.HealingItem;
-import net.fe.game.unit.Item;
-import net.fe.game.unit.ItemDisplay;
-import net.fe.game.unit.RiseTome;
-import net.fe.game.unit.Weapon;
-import net.fe.game.unit.WeaponFactory;
-import net.fe.overworldStage.ItemMenu;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
@@ -18,6 +8,13 @@ import org.newdawn.slick.opengl.Texture;
 import chu.engine.Game;
 import chu.engine.anim.Renderer;
 import chu.engine.entity.Entity;
+import net.fe.FEResources;
+import net.fe.game.modifier.Modifier;
+import net.fe.game.unit.Item;
+import net.fe.game.unit.ItemDisplay;
+import net.fe.game.unit.RiseTome;
+import net.fe.game.unit.Weapon;
+import net.fe.overworldStage.ItemMenu;
 
 // TODO: Auto-generated Javadoc
 /**

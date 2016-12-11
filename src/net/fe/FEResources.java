@@ -1,19 +1,20 @@
 package net.fe;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.Scanner;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.ParseException;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.AudioLoader;
@@ -22,15 +23,6 @@ import org.newdawn.slick.util.ResourceLoader;
 
 import chu.engine.AnimationData;
 import chu.engine.anim.BitmapFont;
-import net.fe.builderStage.TeamNameInput;
-import net.fe.game.unit.Item;
-import net.fe.game.unit.Unit;
-import net.fe.game.unit.Weapon;
-
-import org.lwjgl.input.Keyboard;
-import java.io.File;
-
-import java.util.Properties;
 
 // TODO: Auto-generated Javadoc
 /**

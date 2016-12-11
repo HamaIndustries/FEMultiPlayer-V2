@@ -1,10 +1,7 @@
 package net.fe.game.fightStage.skill;
 
-import net.fe.RNG;
 import net.fe.game.fightStage.CombatTrigger;
 import net.fe.game.unit.Unit;
-
-import static java.lang.System.out;
 
 /** Skill that, on a successful hit, will reduce enemy hp to one. */
 public final class EclipseSixPlus extends CombatTrigger {

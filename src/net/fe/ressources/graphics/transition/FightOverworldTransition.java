@@ -2,17 +2,16 @@ package net.fe.ressources.graphics.transition;
 
 import static java.util.Collections.emptyList;
 
+import org.newdawn.slick.Color;
+
+import chu.engine.Game;
+import chu.engine.anim.Renderer;
 import net.fe.FEMultiplayer;
 import net.fe.game.fightStage.FightStage;
 import net.fe.game.unit.Unit;
 import net.fe.game.unit.UnitIdentifier;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.Grid;
-
-import org.newdawn.slick.Color;
-
-import chu.engine.Game;
-import chu.engine.anim.Renderer;
 
 // TODO: Auto-generated Javadoc
 /**

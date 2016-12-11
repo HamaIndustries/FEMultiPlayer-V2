@@ -5,7 +5,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.HeadlessException;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
@@ -14,12 +13,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.HashSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -40,7 +35,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import net.fe.game.Session;
 import net.fe.game.modifier.Modifier;
 import net.fe.game.modifier.ModifierList;
 import net.fe.game.pick.AllPick;
@@ -75,6 +69,8 @@ public class FEServerFrame extends JFrame {
 	private JComboBox<String> mapSelectionBox;
 	private JLabel label;
 	private JSpinner maxUnitsSpinner;
+	
+	private ServerProperties properties;
 
 	public FEServerFrame() {
 
@@ -256,7 +252,7 @@ public class FEServerFrame extends JFrame {
 		remove(startServer);
 		
 		JButton btnkickAll = new JButton("Kick all");
-		btnkickAll.addActionListener(event -> FEServerProperties.kickAll());
+		btnkickAll.addActionListener(event -> properties.kickAll());
 		getContentPane().add(btnkickAll);
 
 
@@ -269,14 +265,14 @@ public class FEServerFrame extends JFrame {
 		pack();
 		
 		for (int i = 0; i < selectedModifiersList.getModel().getSize(); i++) 
-			FEServerProperties.addModifier(selectedModifiersList.getModel().getElementAt(i));
+			properties.addModifier(selectedModifiersList.getModel().getElementAt(i));
 		
-		FEServerProperties.setObjective((Objective) objComboBox.getSelectedItem());
-		FEServerProperties.setMap((String) mapSelectionBox.getSelectedItem());
-		FEServerProperties.setMaxUnits((Integer) maxUnitsSpinner.getValue());
-		FEServerProperties.setPickMode((PickMode) pickModeBox.getSelectedItem());
+		properties.setObjective((Objective) objComboBox.getSelectedItem());
+		properties.setMap((String) mapSelectionBox.getSelectedItem());
+		properties.setMaxUnits((Integer) maxUnitsSpinner.getValue());
+		properties.setPickMode((PickMode) pickModeBox.getSelectedItem());
 		
-		FEServerProperties.startServer();
+		properties.startServer();
 	}
 
 	private class ModifierJList extends JList<Modifier> {

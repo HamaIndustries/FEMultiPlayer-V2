@@ -1,8 +1,8 @@
 package net.fe.game.unit;
 
-import net.fe.FEResources;
 import chu.engine.Game;
 import chu.engine.anim.Animation;
+import net.fe.FEResources;
 
 // TODO: Auto-generated Javadoc
 /**

@@ -1,16 +1,7 @@
 package net.fe.builderStage;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.List;
-
-import net.fe.FEResources;
-import net.fe.game.fightStage.FightStage;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
@@ -20,6 +11,8 @@ import chu.engine.anim.BitmapFont;
 import chu.engine.anim.Renderer;
 import chu.engine.entity.menu.TextInputBox;
 import chu.engine.event.KeyboardEvent;
+import net.fe.FEResources;
+import net.fe.game.fightStage.FightStage;
 
 // TODO: Auto-generated Javadoc
 /**

@@ -2,6 +2,14 @@ package net.fe.overworldStage;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+import org.newdawn.slick.Color;
+
+import chu.engine.Game;
+import chu.engine.Stage;
+import chu.engine.anim.Renderer;
+import chu.engine.entity.Entity;
+import chu.engine.event.KeyboardEvent;
 import net.fe.FEMultiplayer;
 import net.fe.FEResources;
 import net.fe.Player;
@@ -11,15 +19,6 @@ import net.fe.game.fightStage.FightStage;
 import net.fe.game.unit.MapAnimation;
 import net.fe.game.unit.Unit;
 import net.fe.game.unit.UnitIcon;
-
-import org.lwjgl.input.Keyboard;
-import org.newdawn.slick.Color;
-
-import chu.engine.Game;
-import chu.engine.Stage;
-import chu.engine.anim.Renderer;
-import chu.engine.entity.Entity;
-import chu.engine.event.KeyboardEvent;
 import net.fe.network.Message;
 
 // TODO: Auto-generated Javadoc

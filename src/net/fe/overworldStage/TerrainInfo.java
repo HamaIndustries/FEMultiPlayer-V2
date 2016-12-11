@@ -1,14 +1,16 @@
 package net.fe.overworldStage;
 
-import static net.fe.game.fightStage.FightStage.*;
+import static net.fe.game.fightStage.FightStage.BORDER_DARK;
+import static net.fe.game.fightStage.FightStage.BORDER_LIGHT;
+import static net.fe.game.fightStage.FightStage.NEUTRAL;
 
 import org.newdawn.slick.opengl.Texture;
 
-import net.fe.FEResources;
 import chu.engine.Game;
 import chu.engine.anim.BitmapFont;
 import chu.engine.anim.Renderer;
 import chu.engine.entity.Entity;
+import net.fe.FEResources;
 
 // TODO: Auto-generated Javadoc
 /**

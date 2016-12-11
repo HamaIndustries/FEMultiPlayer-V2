@@ -1,16 +1,14 @@
 package net.fe.overworldStage.fieldskill;
 
-import java.io.Serializable;
 import java.util.Set;
 
-import net.fe.overworldStage.FieldSkill;
-import net.fe.overworldStage.Node;
-import net.fe.overworldStage.OverworldContext;
 import net.fe.game.unit.Unit;
 import net.fe.overworldStage.ClientOverworldStage;
-import net.fe.overworldStage.Zone;
+import net.fe.overworldStage.FieldSkill;
 import net.fe.overworldStage.Grid;
-import net.fe.overworldStage.Path;
+import net.fe.overworldStage.Node;
+import net.fe.overworldStage.OverworldContext;
+import net.fe.overworldStage.Zone;
 
 /**
  * A skill in which a unit moves an adjacent unit one space away from the user

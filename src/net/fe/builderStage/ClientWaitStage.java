@@ -1,20 +1,18 @@
 package net.fe.builderStage;
 
 import java.util.List;
+import chu.engine.Stage;
+import chu.engine.anim.Renderer;
 import net.fe.FEMultiplayer;
 import net.fe.Player;
 import net.fe.game.Session;
 import net.fe.game.unit.Unit;
 import net.fe.network.Message;
+import net.fe.network.message.KickMessage;
 import net.fe.network.message.PartyMessage;
 import net.fe.network.message.QuitMessage;
-import net.fe.network.message.KickMessage;
 import net.fe.network.message.StartGame;
-import net.fe.network.server.FEServer;
 import net.fe.overworldStage.ClientOverworldStage;
-import chu.engine.Game;
-import chu.engine.Stage;
-import chu.engine.anim.Renderer;
 
 // TODO: Auto-generated Javadoc
 /**

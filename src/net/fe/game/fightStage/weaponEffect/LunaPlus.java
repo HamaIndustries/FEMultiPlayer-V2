@@ -1,6 +1,5 @@
 package net.fe.game.fightStage.weaponEffect;
 
-import net.fe.RNG;
 import net.fe.game.fightStage.CombatCalculator;
 import net.fe.game.fightStage.CombatTrigger;
 import net.fe.game.unit.Unit;

@@ -1,20 +1,17 @@
 package net.fe.game.fightStage;
 
-import net.fe.FEResources;
-import net.fe.PaletteSwapper;
-import net.fe.game.fightStage.anim.AnimationArgs;
-import net.fe.game.fightStage.anim.AttackAnimation;
-import net.fe.game.fightStage.anim.DodgeAnimation;
-import net.fe.game.unit.Unit;
-
-import static java.lang.System.out;
-
 import org.newdawn.slick.Color;
 
 import chu.engine.Game;
 import chu.engine.anim.ShaderArgs;
 import chu.engine.anim.Transform;
 import chu.engine.entity.Entity;
+import net.fe.FEResources;
+import net.fe.PaletteSwapper;
+import net.fe.game.fightStage.anim.AnimationArgs;
+import net.fe.game.fightStage.anim.AttackAnimation;
+import net.fe.game.fightStage.anim.DodgeAnimation;
+import net.fe.game.unit.Unit;
 
 // TODO: Auto-generated Javadoc
 /**

@@ -6,11 +6,20 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TreeMap;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 
-import net.fe.game.unit.*;
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.UnitFactory;
+import net.fe.game.unit.WeaponFactory;
 
 // TODO: Auto-generated Javadoc
 /**

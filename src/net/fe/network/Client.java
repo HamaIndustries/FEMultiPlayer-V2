@@ -4,24 +4,21 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
-import java.time.LocalDateTime;
 
+import org.newdawn.slick.Color;
+
+import chu.engine.entity.menu.Notification;
 import net.fe.FEMultiplayer;
 import net.fe.Party;
-import net.fe.Player;
 import net.fe.game.Session;
 import net.fe.network.message.ClientInit;
 import net.fe.network.message.EndGame;
 import net.fe.network.message.JoinLobby;
 import net.fe.network.message.KickMessage;
 import net.fe.network.message.QuitMessage;
-
-import org.newdawn.slick.Color;
-
-import chu.engine.entity.menu.Notification;
 
 // TODO: Auto-generated Javadoc
 /**

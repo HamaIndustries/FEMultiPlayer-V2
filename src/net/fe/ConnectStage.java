@@ -2,12 +2,6 @@ package net.fe;
 
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
-import net.fe.builderStage.TeamBuilderStage;
-import net.fe.network.Message;
-
-import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 
 import chu.engine.Game;
@@ -21,6 +15,8 @@ import chu.engine.entity.menu.MenuButton;
 import chu.engine.entity.menu.Notification;
 import chu.engine.entity.menu.TextInputBox;
 import chu.engine.event.MouseEvent;
+import net.fe.builderStage.TeamBuilderStage;
+import net.fe.network.Message;
 
 // TODO: Auto-generated Javadoc
 /**

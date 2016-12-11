@@ -2,23 +2,20 @@ package net.fe.overworldStage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import net.fe.FEMultiplayer;
-import net.fe.FEResources;
-import net.fe.game.Session;
-import net.fe.game.fightStage.CombatCalculator;
-import net.fe.game.fightStage.CombatTrigger;
-import net.fe.game.fightStage.FightStage;
-import net.fe.game.modifier.Modifier;
-import net.fe.game.unit.ItemDisplay;
-import net.fe.game.unit.Unit;
 import chu.engine.Game;
 import chu.engine.anim.Animation;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Sprite;
 import chu.engine.anim.Transform;
 import chu.engine.entity.Entity;
+import net.fe.FEMultiplayer;
+import net.fe.FEResources;
+import net.fe.game.fightStage.CombatCalculator;
+import net.fe.game.fightStage.FightStage;
+import net.fe.game.modifier.Modifier;
+import net.fe.game.unit.ItemDisplay;
+import net.fe.game.unit.Unit;
 
 // TODO: Auto-generated Javadoc
 /**

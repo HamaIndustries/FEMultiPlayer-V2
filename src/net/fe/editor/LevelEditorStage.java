@@ -9,10 +9,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
-
-import net.fe.Party;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -26,6 +22,7 @@ import chu.engine.Stage;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Tileset;
 import chu.engine.event.KeyboardEvent;
+import net.fe.Party;
 import net.fe.network.Message;
 
 // TODO: Auto-generated Javadoc

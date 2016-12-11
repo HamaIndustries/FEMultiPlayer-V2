@@ -2,8 +2,8 @@ package net.fe.game.pick;
 
 import net.fe.FEMultiplayer;
 import net.fe.Player;
-import net.fe.builderStage.TeamDraftStage;
 import net.fe.builderStage.DraftViewStage;
+import net.fe.builderStage.TeamDraftStage;
 import net.fe.builderStage.WaitStage;
 import net.fe.game.Session;
 import net.fe.network.server.FEServer;

@@ -1,7 +1,5 @@
 package net.fe.game.fightStage.anim;
 
-import static java.lang.System.out;
-
 import chu.engine.AnimationData;
 import net.fe.game.fightStage.FightStage;
 

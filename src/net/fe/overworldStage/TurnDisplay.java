@@ -1,9 +1,5 @@
 package net.fe.overworldStage;
 
-import net.fe.FEMultiplayer;
-import net.fe.FEResources;
-import net.fe.Party;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
@@ -11,6 +7,9 @@ import chu.engine.Game;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Sprite;
 import chu.engine.entity.Entity;
+import net.fe.FEMultiplayer;
+import net.fe.FEResources;
+import net.fe.Party;
 
 // TODO: Auto-generated Javadoc
 /**

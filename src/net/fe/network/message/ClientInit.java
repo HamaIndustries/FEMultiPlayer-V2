@@ -1,8 +1,9 @@
 package net.fe.network.message;
 
+import org.newdawn.slick.util.ResourceLoader;
+
 import net.fe.game.Session;
 import net.fe.network.Message;
-import org.newdawn.slick.util.ResourceLoader;
 
 /**
  * The first message sent to a client by the server. Contains information that

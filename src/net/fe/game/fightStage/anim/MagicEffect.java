@@ -2,13 +2,13 @@ package net.fe.game.fightStage.anim;
 
 import java.util.HashMap;
 
-import net.fe.FEResources;
-import net.fe.game.fightStage.FightStage;
 import chu.engine.AnimationData;
 import chu.engine.anim.Animation;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Transform;
 import chu.engine.entity.Entity;
+import net.fe.FEResources;
+import net.fe.game.fightStage.FightStage;
 
 // TODO: Auto-generated Javadoc
 /**

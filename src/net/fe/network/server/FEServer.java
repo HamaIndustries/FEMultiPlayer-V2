@@ -29,6 +29,7 @@ import net.fe.overworldStage.objective.Seize;
  * @author Shawn
  *
  */
+@Deprecated
 public class FEServer extends Game {
 
 	public static final int DEFAULT_PORT = 21225;

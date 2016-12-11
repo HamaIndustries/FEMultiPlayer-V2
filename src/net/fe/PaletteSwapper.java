@@ -5,13 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.fe.game.fightStage.FightUnit;
-import net.fe.game.unit.Unit;
-
 import org.lwjgl.opengl.GL13;
 import org.newdawn.slick.opengl.Texture;
 
 import chu.engine.anim.ShaderArgs;
+import net.fe.game.fightStage.FightUnit;
+import net.fe.game.unit.Unit;
 
 // TODO: Auto-generated Javadoc
 /**

@@ -6,12 +6,6 @@ import static net.fe.game.fightStage.FightStage.NEUTRAL;
 
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
-
-import net.fe.FEResources;
-import net.fe.game.unit.Item;
-import net.fe.game.unit.ItemDisplay;
-import net.fe.game.unit.Unit;
 
 import org.newdawn.slick.opengl.Texture;
 
@@ -19,6 +13,10 @@ import chu.engine.Game;
 import chu.engine.anim.BitmapFont;
 import chu.engine.anim.Renderer;
 import chu.engine.entity.Entity;
+import net.fe.FEResources;
+import net.fe.game.unit.Item;
+import net.fe.game.unit.ItemDisplay;
+import net.fe.game.unit.Unit;
 
 // TODO: Auto-generated Javadoc
 /**

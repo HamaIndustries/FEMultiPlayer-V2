@@ -2,7 +2,6 @@ package net.fe.ressources.graphics.ui;
 
 import java.util.ArrayList;
 
-import chu.engine.Game;
 import chu.engine.anim.Sprite;
 import chu.engine.entity.Entity;
 import net.fe.FEResources;

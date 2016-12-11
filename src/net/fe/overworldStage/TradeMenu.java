@@ -5,7 +5,6 @@ import org.newdawn.slick.opengl.Texture;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Transform;
 import net.fe.FEResources;
-import net.fe.game.fightStage.FightStage;
 import net.fe.game.unit.Unit;
 
 // TODO: Auto-generated Javadoc

@@ -1,8 +1,8 @@
 package net.fe.network;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.Serializable;
 
 import net.fe.Player;
 

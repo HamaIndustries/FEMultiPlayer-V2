@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import net.fe.FEResources;
-import net.fe.game.fightStage.AttackRecord;
-import net.fe.game.fightStage.FightStage;
-import net.fe.game.unit.Weapon;
 import chu.engine.AnimationData;
 import chu.engine.anim.Animation;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Transform;
 import chu.engine.entity.Entity;
+import net.fe.FEResources;
+import net.fe.game.fightStage.AttackRecord;
+import net.fe.game.fightStage.FightStage;
+import net.fe.game.unit.Weapon;
 
 // TODO: Auto-generated Javadoc
 /**

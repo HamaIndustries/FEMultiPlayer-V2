@@ -1,11 +1,6 @@
 package net.fe.overworldStage.context;
 
 import chu.engine.anim.AudioPlayer;
-import net.fe.overworldStage.Healthbar;
-import net.fe.overworldStage.InventoryMenu;
-import net.fe.overworldStage.MenuContext;
-import net.fe.overworldStage.OverworldContext;
-import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.game.unit.HealingItem;
 import net.fe.game.unit.Item;
 import net.fe.game.unit.ItemDisplay;
@@ -14,6 +9,11 @@ import net.fe.game.unit.UnitIdentifier;
 import net.fe.game.unit.Weapon;
 import net.fe.network.command.EquipCommand;
 import net.fe.network.command.UseCommand;
+import net.fe.overworldStage.ClientOverworldStage;
+import net.fe.overworldStage.Healthbar;
+import net.fe.overworldStage.InventoryMenu;
+import net.fe.overworldStage.MenuContext;
+import net.fe.overworldStage.OverworldContext;
 
 // TODO: Auto-generated Javadoc
 /**

@@ -2,11 +2,6 @@ package net.fe.overworldStage;
 
 import java.util.List;
 
-import net.fe.FEMultiplayer;
-import net.fe.FEResources;
-import net.fe.network.Chat;
-import net.fe.network.message.ChatMessage;
-
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 
@@ -15,6 +10,10 @@ import chu.engine.anim.BitmapFont;
 import chu.engine.anim.Renderer;
 import chu.engine.entity.menu.TextInputBox;
 import chu.engine.event.KeyboardEvent;
+import net.fe.FEMultiplayer;
+import net.fe.FEResources;
+import net.fe.network.Chat;
+import net.fe.network.message.ChatMessage;
 
 // TODO: Auto-generated Javadoc
 /**

@@ -1,10 +1,10 @@
 package net.fe.overworldStage;
 
-import net.fe.FEResources;
 import chu.engine.Game;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Tileset;
 import chu.engine.entity.GriddedEntity;
+import net.fe.FEResources;
 
 // TODO: Auto-generated Javadoc
 /**

@@ -1,7 +1,5 @@
 package net.fe;
 
-import net.fe.overworldStage.DoNotDestroy;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
@@ -9,6 +7,7 @@ import chu.engine.Game;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Transform;
 import chu.engine.entity.Entity;
+import net.fe.overworldStage.DoNotDestroy;
 
 // TODO: Auto-generated Javadoc
 /**

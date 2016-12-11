@@ -3,8 +3,6 @@ package net.fe.overworldStage;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.fe.FEResources;
-
 import org.newdawn.slick.Color;
 
 import chu.engine.Game;
@@ -12,6 +10,7 @@ import chu.engine.anim.Renderer;
 import chu.engine.anim.Tileset;
 import chu.engine.anim.Transform;
 import chu.engine.entity.Entity;
+import net.fe.FEResources;
 
 // TODO: Auto-generated Javadoc
 /**
