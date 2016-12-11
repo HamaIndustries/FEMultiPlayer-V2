@@ -207,7 +207,7 @@ public class FEServer extends Game {
 		}
 		synchronized (server.messagesLock) {
 			for (int i : ids) {
-				final KickMessage kick = new KickMessage((byte) 0, i, "Reseting server");
+				final KickMessage kick = new KickMessage((byte) 0, i, "Resetting server");
 				server.broadcastMessage(kick);
 				server.messages.add(kick);
 			}
