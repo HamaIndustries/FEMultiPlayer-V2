@@ -28,7 +28,7 @@ import net.fe.overworldStage.OverworldStage;
 public final class WaitStage extends Stage {
 
 	/** The ready status. */
-	private final HashMap<Byte, Boolean> readyStatus;
+	private final HashMap<Integer, Boolean> readyStatus;
 
 	/** The messages. */
 	private final ArrayList<PartyMessage> messages;
@@ -48,7 +48,7 @@ public final class WaitStage extends Stage {
 		super("preparations");
 		session = s;
 		sentStartMessage = false;
-		readyStatus = new HashMap<Byte, Boolean>();
+		readyStatus = new HashMap<Integer, Boolean>();
 		for (Player p : session.getNonSpectators()) {
 			readyStatus.put(p.getID(), false);
 		}

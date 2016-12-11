@@ -25,7 +25,7 @@ public class Seize implements Objective {
 
 		// If a player has a Lord on the other player's throne, they win
 		// Alternatively, if a player's Lord dies, they lose
-		byte winner = -1;
+		int winner = -1;
 		for (Player p : stage.getNonSpectators()) {
 			boolean hasLord = false;
 			for (int i = 0; i < p.getParty().size(); i++) {

@@ -35,7 +35,7 @@ public final class Session implements Serializable {
 	private static final long serialVersionUID = 696432583909698581L;
 
 	/** The players. */
-	private final HashMap<Byte, Player> players;
+	private final HashMap<Integer, Player> players;
 
 	/** The chatlog */
 	private final Chat chatlog;
@@ -66,7 +66,7 @@ public final class Session implements Serializable {
 	 * Instantiates a new session with the specified values
 	 */
 	public Session(Objective objective, String map, int maxUnits, Set<Modifier> modifiers, PickMode pickMode) {
-		players = new HashMap<Byte, Player>();
+		players = new HashMap<Integer, Player>();
 		this.chatlog = new Chat();
 		this.objective = objective;
 		this.modifiers = java.util.Collections.unmodifiableSet(new HashSet<Modifier>(modifiers));
@@ -90,7 +90,7 @@ public final class Session implements Serializable {
 	 * @param id the id
 	 * @param p the p
 	 */
-	public void addPlayer(byte id, Player p) {
+	public void addPlayer(int id, Player p) {
 		players.put(id, p);
 		p.setClientID(id);
 	}
@@ -111,7 +111,7 @@ public final class Session implements Serializable {
 	 * @param id the id
 	 * @return the player
 	 */
-	public Player removePlayer(byte id) {
+	public Player removePlayer(int id) {
 		return players.remove(id);
 	}
 
@@ -121,7 +121,7 @@ public final class Session implements Serializable {
 	 * @param id the id
 	 * @return the player
 	 */
-	public Player getPlayer(byte id) {
+	public Player getPlayer(int id) {
 		return players.get(id);
 	}
 
@@ -139,7 +139,7 @@ public final class Session implements Serializable {
 	 *
 	 * @return the player map
 	 */
-	public HashMap<Byte, Player> getPlayerMap() {
+	public HashMap<Integer, Player> getPlayerMap() {
 		return players;
 	}
 

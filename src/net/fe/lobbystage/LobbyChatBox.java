@@ -90,7 +90,7 @@ public class LobbyChatBox extends TextInputBox {
 		if (input.length() == 0)
 			return;
 		AudioPlayer.playAudio("cancel");
-		byte id = FEMultiplayer.getClient().getID();
+		int id = FEMultiplayer.getClient().getID();
 		FEMultiplayer.getClient().sendMessage(new ChatMessage(id, input.toString()));
 		input.delete(0, input.length());
 		cursorPos = 0;

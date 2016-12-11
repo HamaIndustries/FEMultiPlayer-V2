@@ -20,7 +20,7 @@ public class EndGame extends Message {
 	 * @param origin the origin
 	 * @param winner the winner
 	 */
-	public EndGame(byte origin, int winner) {
+	public EndGame(int origin, int winner) {
 		super(origin);
 		this.winner = winner;
 	}

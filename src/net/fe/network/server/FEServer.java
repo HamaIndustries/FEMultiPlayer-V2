@@ -181,7 +181,7 @@ public class FEServer extends Game {
 	 *
 	 * @return the players
 	 */
-	private static HashMap<Byte, Player> getPlayers() {
+	private static HashMap<Integer, Player> getPlayers() {
 		return server.getSession().getPlayerMap();
 	}
 
@@ -201,12 +201,12 @@ public class FEServer extends Game {
 	 */
 	public static void resetToLobbyAndKickPlayers() {
 		resetToLobby();
-		ArrayList<Byte> ids = new ArrayList<>();
+		ArrayList<Integer> ids = new ArrayList<>();
 		for (Player p : getPlayers().values()) {
 			ids.add(p.getID());
 		}
 		synchronized (server.messagesLock) {
-			for (byte i : ids) {
+			for (int i : ids) {
 				final KickMessage kick = new KickMessage((byte) 0, i, "Reseting server");
 				server.broadcastMessage(kick);
 				server.messages.add(kick);

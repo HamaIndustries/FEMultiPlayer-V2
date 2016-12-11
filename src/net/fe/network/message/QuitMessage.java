@@ -16,7 +16,7 @@ public final class QuitMessage extends Message {
 	 *
 	 * @param origin the leaving client
 	 */
-	public QuitMessage(byte origin) {
+	public QuitMessage(int origin) {
 		super(origin);
 	}
 

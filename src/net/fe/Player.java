@@ -17,7 +17,7 @@ public class Player implements Serializable {
 	private Party party;
 
 	/** The client id. */
-	private byte clientID;
+	private int clientID;
 
 	/** The nickname. */
 	private String nickname;
@@ -34,7 +34,7 @@ public class Player implements Serializable {
 	 * @param name the name
 	 * @param id the id
 	 */
-	public Player(String name, byte id) {
+	public Player(String name, int id) {
 		party = new Party();
 		clientID = id;
 		nickname = name;
@@ -65,7 +65,7 @@ public class Player implements Serializable {
 	 *
 	 * @return the id
 	 */
-	public byte getID() {
+	public int getID() {
 		return clientID;
 	}
 
@@ -83,7 +83,7 @@ public class Player implements Serializable {
 	 *
 	 * @param id the new client id
 	 */
-	public void setClientID(byte id) {
+	public void setClientID(int id) {
 		clientID = id;
 	}
 

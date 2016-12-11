@@ -68,7 +68,7 @@ public class Client {
 	public volatile byte winner = -1;
 
 	/** The id. */
-	byte id;
+	int id;
 
 	/**
 	 * The messages. Should only operate on if the monitor to messagesLock is
@@ -239,7 +239,7 @@ public class Client {
 	 *
 	 * @return the id
 	 */
-	public byte getID() {
+	public int getID() {
 		return id;
 	}
 

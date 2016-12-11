@@ -95,7 +95,7 @@ public class OverworldChat extends TextInputBox implements DoNotDestroy {
 	public void send() {
 		if (input.length() == 0)
 			return;
-		byte id = FEMultiplayer.getClient().getID();
+		int id = FEMultiplayer.getClient().getID();
 		FEMultiplayer.getClient().sendMessage(new ChatMessage(id, input.toString()));
 		input.delete(0, input.length());
 		cursorPos = 0;

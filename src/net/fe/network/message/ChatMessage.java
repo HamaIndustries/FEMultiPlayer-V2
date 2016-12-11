@@ -20,7 +20,7 @@ public final class ChatMessage extends Message {
 	 * @param origin the origin
 	 * @param text the text
 	 */
-	public ChatMessage(byte origin, String text) {
+	public ChatMessage(int origin, String text) {
 		super(origin);
 		this.text = text;
 	}

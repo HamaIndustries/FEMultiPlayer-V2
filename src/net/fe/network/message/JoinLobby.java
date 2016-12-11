@@ -20,7 +20,7 @@ public final class JoinLobby extends Message {
 	 * @param origin the origin
 	 * @param player the player
 	 */
-	public JoinLobby(byte origin, String nickname) {
+	public JoinLobby(int origin, String nickname) {
 		super(origin);
 		this.nickname = nickname;
 	}

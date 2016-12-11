@@ -16,7 +16,7 @@ public final class ClientInit extends Message {
 	private static final long serialVersionUID = -3189568095521401022L;
 
 	/** The id assigned to the client */
-	public final byte clientID;
+	public final int clientID;
 
 	/** Session data */
 	public final Session session;
@@ -31,7 +31,7 @@ public final class ClientInit extends Message {
 	 * @param clientID the client id
 	 * @param s the s
 	 */
-	public ClientInit(byte origin, byte clientID, Session s) {
+	public ClientInit(int origin, int clientID, Session s) {
 		super(origin);
 		this.clientID = clientID;
 		this.session = s;
