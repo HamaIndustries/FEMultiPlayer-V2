@@ -69,13 +69,13 @@ public final class WaitStage extends Stage {
 				        session.getModifiers());
 				validationResult.ifPresent(validationError -> {
 					synchronized (FEServer.getServer().messagesLock) {
-						KickMessage kick = new KickMessage((byte) 0, pm.origin, validationError);
+						KickMessage kick = new KickMessage((byte) 0, pm.getOrigin(), validationError);
 						FEServer.getServer().broadcastMessage(kick);
 						FEServer.getServer().messages.add(kick);
 					}
 				});
 				for (Player p : session.getPlayers()) {
-					if (p.getID() == message.origin) {
+					if (p.getID() == message.getOrigin()) {
 						p.getParty().clear();
 						for (Unit u : pm.teamData)
 							p.getParty().addUnit(u);

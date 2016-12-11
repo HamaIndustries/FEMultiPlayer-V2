@@ -31,7 +31,7 @@ public enum FEServerCommand{
 	}),
 	CLOSE("close", "close", "Close the server", "Force the server to close and effectively kill the process", x -> {
 		System.out.println("Close the server? (y/n)");
-		if(FEServerConsole.console.readLine().toLowerCase().matches("\\s*y(es)?\\s*")){
+		if(FEServerConsole.readLine().toLowerCase().matches("\\s*y(es)?\\s*")){
 			System.out.println("Closing the server");
 			System.exit(0);
 		}

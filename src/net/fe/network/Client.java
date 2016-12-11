@@ -164,7 +164,7 @@ public class Client {
 				        "ERROR: Server and Client versions don't match", 5f, new Color(255, 100, 100), 0f));
 			}
 		} else if (message instanceof QuitMessage) {
-			if (message.origin == id && closeRequested) {
+			if (message.getOrigin() == id && closeRequested) {
 				close();
 			}
 		} else if (message instanceof KickMessage) {
@@ -216,7 +216,6 @@ public class Client {
 	 */
 	public void sendMessage(Message message) {
 		try {
-			message.origin = id;
 			out.writeObject(message);
 			logger.info("CLIENT: Sent message [" + message.toString() + "]");
 		} catch (IOException e) {

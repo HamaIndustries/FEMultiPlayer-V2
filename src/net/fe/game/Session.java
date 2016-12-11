@@ -224,32 +224,32 @@ public final class Session implements Serializable {
 	public void handleMessage(Message message) {
 		if (message instanceof JoinLobby) {
 			JoinLobby join = (JoinLobby) message;
-			this.addPlayer((byte) join.origin, new Player(join.nickname, join.origin));
+			this.addPlayer((byte) join.getOrigin(), new Player(join.nickname, join.getOrigin()));
 		} else if (message instanceof QuitMessage) {
 			QuitMessage quit = (QuitMessage) message;
-			Player player = this.getPlayer(quit.origin);
+			Player player = this.getPlayer(quit.getOrigin());
 			if (player != null) {
 				this.getChatlog().add(player, "has quit the game");
 			}
-			this.removePlayer(quit.origin);
+			this.removePlayer(quit.getOrigin());
 		} else if (message instanceof KickMessage) {
 			KickMessage kick = (KickMessage) message;
-			Player kicker = this.getPlayer(kick.origin); // better be null...
+			Player kicker = this.getPlayer(kick.getOrigin()); // better be null...
 			Player kickee = this.getPlayer(kick.player);
 			this.getChatlog().add(kicker, kickee.getName() + " was kicked: " + kick.reason);
 			this.removePlayer(kick.player);
 		} else if (message instanceof JoinTeam) {
 			JoinTeam join = (JoinTeam) message;
-			this.getPlayer(join.origin).setTeam(join.team);
+			this.getPlayer(join.getOrigin()).setTeam(join.team);
 			if (join.team == Team.BLUE) {
-				this.getPlayer(join.origin).getParty().setColor(Party.TEAM_BLUE);
+				this.getPlayer(join.getOrigin()).getParty().setColor(Party.TEAM_BLUE);
 			} else if (join.team == Team.RED) {
-				this.getPlayer(join.origin).getParty().setColor(Party.TEAM_RED);
+				this.getPlayer(join.getOrigin()).getParty().setColor(Party.TEAM_RED);
 			}
-			this.getPlayer(join.origin).ready = false;
+			this.getPlayer(join.getOrigin()).ready = false;
 		} else if (message instanceof ChatMessage) {
 			ChatMessage chatMsg = (ChatMessage) message;
-			this.getChatlog().add(this.getPlayer(chatMsg.origin), chatMsg.text);
+			this.getChatlog().add(this.getPlayer(chatMsg.getOrigin()), chatMsg.text);
 		}
 	}
 

@@ -110,7 +110,7 @@ public final class ServerListener extends Thread {
 	 */
 	public void processInput(Message message) {
 		synchronized (main.messagesLock) {
-			if (message.origin == clientId) {
+			if (message.getOrigin() == clientId) {
 				if (message instanceof QuitMessage) {
 					clientQuit = true;
 				}

@@ -10,6 +10,8 @@ import net.fe.game.modifier.Modifier;
 import net.fe.game.pick.PickMode;
 import net.fe.overworldStage.objective.Objective;
 
+
+@Deprecated
 public final class FEServerProperties {
 	
 	

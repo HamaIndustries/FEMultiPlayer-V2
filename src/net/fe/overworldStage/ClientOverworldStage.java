@@ -502,7 +502,7 @@ public class ClientOverworldStage extends OverworldStage {
 	@Override
 	public void processCommands(final CommandMessage message) {
 		runningMessagesCount++;
-		final boolean execute = (message.origin != FEMultiplayer.getClient().getID());
+		final boolean execute = (message.getOrigin() != FEMultiplayer.getClient().getID());
 
 		// Get unit and path
 		final Unit unit = (message.unit == null ? null : getUnit(message.unit));

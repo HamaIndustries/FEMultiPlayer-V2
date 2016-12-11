@@ -6,7 +6,8 @@ public abstract class Message implements Serializable {
 
 	private static final long serialVersionUID = 8838417404744137405L;
 
-	public int origin;
+	private int origin;
+	private int server;
 	
 	public Message() {
 
@@ -19,5 +20,17 @@ public abstract class Message implements Serializable {
 	public String toString() {
 		return origin + " " + getClass().getSimpleName().toUpperCase() + "::";
 	}
-	
+
+	public int getServer() {
+		return server;
+	}
+
+	public void setServer(int server) {
+		this.server = server;
+	}
+
+	public int getOrigin() {
+		return origin;
+	}
+
 }

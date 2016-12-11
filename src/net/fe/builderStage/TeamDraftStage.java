@@ -373,10 +373,10 @@ public class TeamDraftStage extends Stage {
 		for (Message message : messages) {
 			if (message instanceof DraftMessage) {
 				DraftMessage dm = (DraftMessage) message;
-				Player p = session.getPlayer(dm.origin);
+				Player p = session.getPlayer(dm.getOrigin());
 				String round = getRoundID();
 				StringBuilder action = new StringBuilder();
-				if (message.origin == FEMultiplayer.getLocalPlayer().getID()) {
+				if (message.getOrigin() == FEMultiplayer.getLocalPlayer().getID()) {
 					action.append("You ");
 				} else {
 					action.append("The enemy ");

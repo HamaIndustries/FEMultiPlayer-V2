@@ -70,7 +70,7 @@ public class FEServerFrame extends JFrame {
 	private JLabel label;
 	private JSpinner maxUnitsSpinner;
 	
-	private ServerProperties properties;
+	private FEServerProperties properties;
 
 	public FEServerFrame() {
 
@@ -79,7 +79,7 @@ public class FEServerFrame extends JFrame {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-		        | UnsupportedLookAndFeelException e) {
+				| UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
 
@@ -115,8 +115,7 @@ public class FEServerFrame extends JFrame {
 		mapSelectionBox = new JComboBox<>();
 		mapSelectionBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				objComboBox.setModel(
-		                new DefaultComboBoxModel<Objective>(FEServer.getMaps().get(mapSelectionBox.getSelectedItem())));
+				objComboBox.setModel(new DefaultComboBoxModel<Objective>(FEServer.getMaps().get(mapSelectionBox.getSelectedItem())));
 			}
 		});
 		mapPanel.add(mapSelectionBox);
@@ -131,7 +130,7 @@ public class FEServerFrame extends JFrame {
 
 		// Objectives
 		ComboBoxModel<Objective> oModel = new DefaultComboBoxModel<>(
-		        FEServer.getMaps().get(mapSelectionBox.getSelectedItem()));
+				FEServer.getMaps().get(mapSelectionBox.getSelectedItem()));
 		objComboBox.setModel(oModel);
 
 		lblPickMode = new JLabel("Pick mode: ");
@@ -141,7 +140,7 @@ public class FEServerFrame extends JFrame {
 		
 		//TODO HARD CODED AAAAAAAAAA
 		ComboBoxModel<PickMode> pickModeModel = new DefaultComboBoxModel<>(
-		        new PickMode[] { new AllPick(), new Draft() });
+				new PickMode[] { new AllPick(), new Draft() });
 		pickModeBox = new JComboBox<>();
 		pickModeBox.setModel(pickModeModel);
 		objectivePanel.add(pickModeBox);

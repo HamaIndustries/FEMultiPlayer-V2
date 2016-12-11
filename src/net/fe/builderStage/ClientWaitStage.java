@@ -48,7 +48,7 @@ public class ClientWaitStage extends Stage {
 			if (message instanceof PartyMessage) {
 				PartyMessage pm = (PartyMessage) message;
 				for (Player p : session.getPlayers()) {
-					if (p.getID() == message.origin) {
+					if (p.getID() == message.getOrigin()) {
 						p.getParty().clear();
 						for (Unit u : pm.teamData)
 							p.getParty().addUnit(u);

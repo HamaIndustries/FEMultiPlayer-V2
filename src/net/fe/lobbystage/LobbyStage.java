@@ -44,12 +44,12 @@ public class LobbyStage extends Stage {
 				ClientInit init = (ClientInit) message;
 				session = init.session;
 			} else if (message instanceof ReadyMessage) {
-				boolean ready = !session.getPlayer(message.origin).ready;
-				session.getPlayer(message.origin).ready = ready;
+				boolean ready = !session.getPlayer(message.getOrigin()).ready;
+				session.getPlayer(message.getOrigin()).ready = ready;
 				if (ready)
-					session.getChatlog().add(session.getPlayer(message.origin), "Ready!");
+					session.getChatlog().add(session.getPlayer(message.getOrigin()), "Ready!");
 				else
-					session.getChatlog().add(session.getPlayer(message.origin), "Not ready!");
+					session.getChatlog().add(session.getPlayer(message.getOrigin()), "Not ready!");
 			}
 		}
 	}
