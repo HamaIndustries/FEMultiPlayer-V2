@@ -38,68 +38,41 @@ import net.fe.network.message.QuitMessage;
 import net.fe.ressources.graphics.ui.Button;
 import net.fe.ressources.graphics.ui.ConfirmationMessage;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class TeamBuilderStage.
- */
 public class TeamBuilderStage extends Stage {
 
-	/** The units. */
 	private List<Unit> units;
 
-	/** The cursor. */
 	private Cursor cursor;
 
-	/** The repeat timers. */
 	private final float[] repeatTimers;
 
-	/** The funds. */
 	private int funds;
 
-	/** The exp. */
 	private int exp;
 
-	/** The select. */
 	private final TeamSelectionStage select;
 
-	/** The buttons. */
 	private final List<Button> buttons;
 
-	/** The curr button. */
 	private int currButton;
 
-	/** The session. */
 	private Session session;
 
-	/** The control. */
 	private boolean control = true;
 
-	/** The controls. */
 	private final ControlsDisplay controls;
 
-	/** The can edit units. */
 	private final boolean canEditUnits;
 
-	/** The hgap. */
 	// CONFIG
 	private final static int name = 30, classPos = 100, lv = 170, hgap = 30; // xvals
 
-	/** The table_ystart. */
 	private final static int yStart = 40, vgap = 20, table_ystart = 10;
 
-	/** The default maximum funds */
 	public final static int FUNDS = 48000;
 
-	/** The default maximum EXP */
 	public final static int EXP = 84000;
 
-	/**
-	 * Instantiates a new team builder stage.
-	 *
-	 * @param toMainMenu the to main menu
-	 * @param presetUnits the preset units
-	 * @param s the s
-	 */
 	public TeamBuilderStage(boolean toMainMenu, List<Unit> presetUnits, Session s) {
 		super("preparations");
 		repeatTimers = new float[4];
@@ -221,11 +194,6 @@ public class TeamBuilderStage extends Stage {
 		}
 	}
 
-	/**
-	 * Sets the units.
-	 *
-	 * @param units the new units
-	 */
 	public void setUnits(List<Unit> units) {
 		this.units.removeAll(units);
 		for (Unit u : this.units) {
@@ -424,45 +392,22 @@ public class TeamBuilderStage extends Stage {
 		processRemoveStack();
 	}
 
-	/**
-	 * Gets the funds.
-	 *
-	 * @return the funds
-	 */
 	public int getFunds() {
 		return funds;
 	}
 
-	/**
-	 * Sets the funds.
-	 *
-	 * @param funds the new funds
-	 */
 	public void setFunds(int funds) {
 		this.funds = funds;
 	}
 
-	/**
-	 * Gets the exp.
-	 *
-	 * @return the exp
-	 */
 	public int getExp() {
 		return exp;
 	}
 
-	/**
-	 * Sets the exp.
-	 *
-	 * @param exp the new exp
-	 */
 	public void setExp(int exp) {
 		this.exp = exp;
 	}
 
-	/**
-	 * Refresh.
-	 */
 	public void refresh() {
 		cursor.destroy();
 		cursor = new Cursor(9, yStart - 4, 462, vgap, units.size());
@@ -473,12 +418,6 @@ public class TeamBuilderStage extends Stage {
 		addEntity(cursor);
 	}
 
-	/**
-	 * Save team.
-	 *
-	 * @param teamName the team name
-	 * @return true, if successful
-	 */
 	public boolean saveTeam(String teamName) {
 		String[][] teamData = new String[units.size()][6];
 		for (int i = 0; i < units.size(); i++) {
@@ -505,12 +444,6 @@ public class TeamBuilderStage extends Stage {
 
 	}
 
-	/**
-	 * Load team.
-	 *
-	 * @param teamName the team name
-	 * @return true, if successful
-	 */
 	public boolean loadTeam(String teamName) {
 		String[][] teamData;
 		try {
@@ -578,24 +511,14 @@ public class TeamBuilderStage extends Stage {
 		return true;
 	}
 
-	/**
-	 * Checks for control.
-	 *
-	 * @return true, if successful
-	 */
 	public boolean hasControl() {
 		return control;
 	}
 
-	/**
-	 * Sets the control.
-	 *
-	 * @param control the new control
-	 */
 	public void setControl(boolean control) {
 		this.control = control;
 	}
-
+	
 	/**
 	 * Checks to see whether there are still enough players for the game to
 	 * continue If not, resets this client to the lobby.

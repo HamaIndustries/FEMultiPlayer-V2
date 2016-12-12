@@ -20,7 +20,7 @@ public class PavisePlus extends CombatTrigger {
 	 * Chance: Skl
 	 */
 	public PavisePlus() {
-		super(APPEND_NAME_AFTER_MOD, ENEMY_TURN_MOD);
+		super(NO_NAME_MOD | SHOW_IN_PREVIEW, ENEMY_TURN_MOD);
 	}
 
 	/*

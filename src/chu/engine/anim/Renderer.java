@@ -43,28 +43,18 @@ import org.newdawn.slick.util.ResourceLoader;
 import chu.engine.Game;
 import net.fe.FEResources;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class Renderer.
- */
 public class Renderer {
 
-	/** The camera. */
 	private static Camera camera;
 
-	/** The clip. */
 	private static RectClip clip;
 
-	/** The Constant SCALE_FILTER. */
 	private static final int SCALE_FILTER = GL_NEAREST;
 
-	/** The color. */
 	private static Color color;
 
-	/** The state stack. */
 	private static Stack<RendererState> stateStack;
 
-	/** The programs. */
 	private static HashMap<String, Integer> programs;
 
 	static {
@@ -100,42 +90,11 @@ public class Renderer {
 		render(t, tx0, ty0, tx1, ty1, x0, y0, x1, y1, depth, null, new ShaderArgs(), BlendModeArgs.ALPHA_BLEND);
 	}
 
-	/**
-	 * Render.
-	 *
-	 * @param t the t
-	 * @param tx0 the tx0
-	 * @param ty0 the ty0
-	 * @param tx1 the tx1
-	 * @param ty1 the ty1
-	 * @param x0 the x0
-	 * @param y0 the y0
-	 * @param x1 the x1
-	 * @param y1 the y1
-	 * @param depth the depth
-	 * @param transform the transform
-	 */
 	public static void render(Texture t, float tx0, float ty0, float tx1, float ty1, float x0, float y0, float x1,
 	        float y1, float depth, Transform transform) {
 		render(t, tx0, ty0, tx1, ty1, x0, y0, x1, y1, depth, transform, new ShaderArgs(), BlendModeArgs.ALPHA_BLEND);
 	}
 
-	/**
-	 * Render.
-	 *
-	 * @param t the t
-	 * @param tx0 the tx0
-	 * @param ty0 the ty0
-	 * @param tx1 the tx1
-	 * @param ty1 the ty1
-	 * @param x0 the x0
-	 * @param y0 the y0
-	 * @param x1 the x1
-	 * @param y1 the y1
-	 * @param depth the depth
-	 * @param transform the transform
-	 * @param shader the shader
-	 */
 	public static void render(Texture t, float tx0, float ty0, float tx1, float ty1, float x0, float y0, float x1,
 	        float y1, float depth, Transform transform, ShaderArgs shader, BlendModeArgs blend) {
 
@@ -199,62 +158,20 @@ public class Renderer {
 		BlendModeArgs.ALPHA_BLEND.apply();
 	}
 
-	/**
-	 * Draw square.
-	 *
-	 * @param x the x
-	 * @param y the y
-	 * @param s the s
-	 * @param depth the depth
-	 * @param c the c
-	 */
 	public static void drawSquare(float x, float y, float s, float depth, Color c) {
 		drawRectangle(x, y, x + s, y + s, depth, c);
 	}
 
-	/**
-	 * Draw rectangle.
-	 *
-	 * @param x0 the x0
-	 * @param y0 the y0
-	 * @param x1 the x1
-	 * @param y1 the y1
-	 * @param depth the depth
-	 * @param c the c
-	 */
 	public static void drawRectangle(float x0, float y0, float x1, float y1, float depth, Color c) {
 		drawRectangle(x0, y0, x1, y1, depth, c, c, c, c);
 	}
 
-	/**
-	 * Draw bordered rectangle.
-	 *
-	 * @param x0 the x0
-	 * @param y0 the y0
-	 * @param x1 the x1
-	 * @param y1 the y1
-	 * @param depth the depth
-	 * @param c the c
-	 */
 	public static void drawBorderedRectangle(float x0, float y0, float x1, float y1, float depth, Color... c) {
 		for (int i = c.length - 1; i >= 0; i--) {
 			drawRectangle(x0 - i, y0 - i, x1 + i, y1 + i, depth, c[i]);
 		}
 	}
 
-	/**
-	 * Draw rectangle.
-	 *
-	 * @param x0 the x0
-	 * @param y0 the y0
-	 * @param x1 the x1
-	 * @param y1 the y1
-	 * @param depth the depth
-	 * @param c0 the c0
-	 * @param c1 the c1
-	 * @param c2 the c2
-	 * @param c3 the c3
-	 */
 	public static void drawRectangle(float x0, float y0, float x1, float y1, float depth, Color c0, Color c1, Color c2,
 	        Color c3) {
 		glDisable(GL_TEXTURE_2D);
@@ -277,18 +194,6 @@ public class Renderer {
 			clip.destroy();
 	}
 
-	/**
-	 * Draw line.
-	 *
-	 * @param x0 the x0
-	 * @param y0 the y0
-	 * @param x the x
-	 * @param y the y
-	 * @param width the width
-	 * @param depth the depth
-	 * @param c1 the c1
-	 * @param c2 the c2
-	 */
 	public static void drawLine(float x0, float y0, float x, float y, float width, float depth, Color c1, Color c2) {
 		glDisable(GL_TEXTURE_2D);
 		glLineWidth(width);
@@ -307,18 +212,6 @@ public class Renderer {
 			clip.destroy();
 	}
 
-	/**
-	 * Draw triangle.
-	 *
-	 * @param x0 the x0
-	 * @param y0 the y0
-	 * @param x the x
-	 * @param y the y
-	 * @param x2 the x2
-	 * @param y2 the y2
-	 * @param depth the depth
-	 * @param c the c
-	 */
 	public static void drawTriangle(float x0, float y0, float x, float y, float x2, float y2, float depth, Color c) {
 		c.bind();
 		glDisable(GL_TEXTURE_2D);
@@ -334,42 +227,14 @@ public class Renderer {
 			clip.destroy();
 	}
 
-	/**
-	 * Draw string.
-	 *
-	 * @param fontName the font name
-	 * @param num the num
-	 * @param x the x
-	 * @param y the y
-	 * @param depth the depth
-	 */
 	public static void drawString(String fontName, int num, float x, float y, float depth) {
 		drawString(fontName, num + "", x, y, depth);
 	}
 
-	/**
-	 * Draw string.
-	 *
-	 * @param fontName the font name
-	 * @param string the string
-	 * @param x the x
-	 * @param y the y
-	 * @param depth the depth
-	 */
 	public static void drawString(String fontName, String string, float x, float y, float depth) {
 		drawString(fontName, string, x, y, depth, null);
 	}
 
-	/**
-	 * Draw string.
-	 *
-	 * @param fontName the font name
-	 * @param string the string
-	 * @param x the x
-	 * @param y the y
-	 * @param depth the depth
-	 * @param t the t
-	 */
 	public static void drawString(String fontName, String string, float x, float y, float depth, Transform t) {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, SCALE_FILTER);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, SCALE_FILTER);
@@ -378,31 +243,14 @@ public class Renderer {
 			clip.destroy();
 	}
 
-	/**
-	 * Translate.
-	 *
-	 * @param x the x
-	 * @param y the y
-	 */
 	public static void translate(float x, float y) {
 		glTranslatef(x, y, 0);
 	}
 
-	/**
-	 * Scale.
-	 *
-	 * @param x the x
-	 * @param y the y
-	 */
 	public static void scale(float x, float y) {
 		glScalef(x, y, 0);
 	}
 
-	/**
-	 * Sets the color.
-	 *
-	 * @param c the new color
-	 */
 	public static void setColor(Color c) {
 		if (c == null)
 			color = Color.white;
@@ -410,9 +258,6 @@ public class Renderer {
 			color = c;
 	}
 
-	/**
-	 * Push matrix.
-	 */
 	public static void pushMatrix() {
 		glPushMatrix();
 		RendererState state = new RendererState();
@@ -421,9 +266,6 @@ public class Renderer {
 		stateStack.push(state);
 	}
 
-	/**
-	 * Pop matrix.
-	 */
 	public static void popMatrix() {
 		glPopMatrix();
 		RendererState state = stateStack.pop();
@@ -432,53 +274,23 @@ public class Renderer {
 		stateStack.push(state);
 	}
 
-	/**
-	 * Sets the camera.
-	 *
-	 * @param c the new camera
-	 */
 	public static void setCamera(Camera c) {
 		camera = c;
 	}
 
-	/**
-	 * Gets the camera.
-	 *
-	 * @return the camera
-	 */
 	public static Camera getCamera() {
 		return camera;
 	}
 
-	/**
-	 * Adds the clip.
-	 *
-	 * @param f the f
-	 * @param g the g
-	 * @param h the h
-	 * @param i the i
-	 * @param persistent the persistent
-	 */
 	public static void addClip(float f, float g, float h, float i, boolean persistent) {
 		clip = new RectClip(f, g, h, i, persistent);
 	}
 
-	/**
-	 * Removes the clip.
-	 */
 	public static void removeClip() {
 		if (clip != null)
 			clip.destroy();
 	}
 
-	/**
-	 * Creates the shader.
-	 *
-	 * @param filename the filename
-	 * @param shaderType the shader type
-	 * @return the int
-	 * @throws Exception the exception
-	 */
 	/*
 	 * With the exception of syntax, setting up vertex and fragment shaders is
 	 * the same.
@@ -507,13 +319,6 @@ public class Renderer {
 		}
 	}
 
-	/**
-	 * Creates the program.
-	 *
-	 * @param vertShader the vert shader
-	 * @param fragShader the frag shader
-	 * @return the int
-	 */
 	private static int createProgram(String vertShader, String fragShader) {
 		// Create program object
 		int prog = ARBShaderObjects.glCreateProgramObjectARB();
@@ -566,12 +371,6 @@ public class Renderer {
 		return prog;
 	}
 
-	/**
-	 * Gets the log info.
-	 *
-	 * @param obj the obj
-	 * @return the log info
-	 */
 	private static String getLogInfo(int obj) {
 		return ARBShaderObjects.glGetInfoLogARB(obj,
 		        ARBShaderObjects.glGetObjectParameteriARB(obj, ARBShaderObjects.GL_OBJECT_INFO_LOG_LENGTH_ARB));
@@ -632,34 +431,14 @@ public class Renderer {
 		return source.toString();
 	}
 
-	/**
-	 * Adds the program.
-	 *
-	 * @param name the name
-	 * @param vertShader the vert shader
-	 * @param fragShader the frag shader
-	 */
 	public static void addProgram(String name, String vertShader, String fragShader) {
 		programs.put(name, createProgram(vertShader, fragShader));
 	}
 
-	/**
-	 * The Class RectClip.
-	 */
 	static class RectClip {
 
-		/** The persistent. */
 		boolean persistent;
 
-		/**
-		 * Instantiates a new rect clip.
-		 *
-		 * @param x0 the x0
-		 * @param y0 the y0
-		 * @param w the w
-		 * @param h the h
-		 * @param p the p
-		 */
 		public RectClip(float x0, float y0, float w, float h, boolean p) {
 			persistent = p;
 			glEnable(GL_SCISSOR_TEST);
@@ -668,23 +447,15 @@ public class Renderer {
 			        Math.round(Game.getScaleX() * (int) w), Math.round(Game.getScaleY() * (int) h));
 		}
 
-		/**
-		 * Destroy.
-		 */
 		public void destroy() {
 			glDisable(GL_SCISSOR_TEST);
 		}
 	}
 
-	/**
-	 * The Class RendererState.
-	 */
 	static class RendererState {
 
-		/** The color. */
 		Color color;
 
-		/** The clip. */
 		RectClip clip;
 	}
 

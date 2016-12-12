@@ -14,34 +14,18 @@ import net.fe.network.message.QuitMessage;
 import net.fe.network.message.StartGame;
 import net.fe.overworldStage.ClientOverworldStage;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class ClientWaitStage.
- */
 public class ClientWaitStage extends Stage {
 
-	/** The start. */
 	private boolean start;
 
-	/** The session. */
 	protected final Session session;
 
-	/**
-	 * Instantiates a new client wait stage.
-	 *
-	 * @param s the s
-	 */
 	public ClientWaitStage(Session s) {
 		super("preparations");
 		start = false;
 		session = s;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.fe.builderStage.WaitStage#beginStep()
-	 */
 	@Override
 	public void beginStep(List<Message> messages) {
 		for (Message message : messages) {
@@ -68,11 +52,6 @@ public class ClientWaitStage extends Stage {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.fe.builderStage.WaitStage#endStep()
-	 */
 	@Override
 	public void endStep() {
 		if (start) {
@@ -85,22 +64,11 @@ public class ClientWaitStage extends Stage {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see chu.engine.Stage#onStep()
-	 */
 	@Override
 	public void onStep() {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see chu.engine.Stage#render()
-	 */
-	@Override
 	public void render() {
 		Renderer.drawString("default_med", "Waiting for other players...", 200, 150, 0.0f);
 	}

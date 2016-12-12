@@ -19,7 +19,6 @@ import net.fe.network.message.StartGame;
 import net.fe.network.server.FEServer;
 import net.fe.overworldStage.OverworldStage;
 
-// TODO: Auto-generated Javadoc
 /**
  * Wait for all players to select.
  *
@@ -27,23 +26,14 @@ import net.fe.overworldStage.OverworldStage;
  */
 public final class WaitStage extends Stage {
 
-	/** The ready status. */
 	private final HashMap<Integer, Boolean> readyStatus;
 
-	/** The messages. */
 	private final ArrayList<PartyMessage> messages;
 
-	/** The sent start message. */
 	private boolean sentStartMessage;
 
-	/** The session. */
 	protected final Session session;
 
-	/**
-	 * Instantiates a new wait stage.
-	 *
-	 * @param s the s
-	 */
 	public WaitStage(Session s) {
 		super("preparations");
 		session = s;

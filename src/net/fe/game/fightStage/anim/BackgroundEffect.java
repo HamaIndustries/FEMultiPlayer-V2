@@ -7,21 +7,10 @@ import chu.engine.entity.Entity;
 import net.fe.FEResources;
 import net.fe.game.fightStage.FightStage;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class BackgroundEffect.
- */
 public class BackgroundEffect extends Entity {
 
-	/** The left. */
 	private boolean left;
 
-	/**
-	 * Instantiates a new background effect.
-	 *
-	 * @param name the name
-	 * @param left the left
-	 */
 	public BackgroundEffect(String name, boolean left) {
 		super(0, 0);
 		renderDepth = FightStage.BG_DEPTH;

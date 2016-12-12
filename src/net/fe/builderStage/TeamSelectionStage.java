@@ -25,56 +25,34 @@ import net.fe.game.unit.UnitFactory;
 import net.fe.network.Message;
 import net.fe.ressources.graphics.ui.Button;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class TeamSelectionStage.
- */
 public final class TeamSelectionStage extends Stage {
 
-	/** The vassal list. */
 	private final UnitList vassalList;
 
-	/** The lord list. */
 	private final UnitList lordList;
 
-	/** The builder stage. */
 	private final TeamBuilderStage builderStage;
 
-	/** The cursor. */
 	private final Cursor cursor;
 
-	/** The buttons. */
 	private final Button[] buttons;
 
-	/** The ok. */
 	private final Button ok;
 
-	/** The class sort. */
 	private final Button classSort;
 
-	/** The name sort. */
 	private final Button nameSort;
 
-	/** The controls. */
 	private final ControlsDisplay controls;
 
-	/** The max units. */
 	private final int maxUnits;
 
-	/** The repeat timers. */
 	private final float[] repeatTimers = new float[4];
 
-	/** The Constant NS_BUTTON_X. */
 	// CONFIG
 	public static final int UNIT_LIST_X = 42, UNIT_LIST_Y = 100, LORD_LIST_X = 42, LORD_LIST_Y = 40, OK_BUTTON_X = 349,
 	        BUTTON_Y = 260, CS_BUTTON_X = 41, NS_BUTTON_X = 145;
 
-	/**
-	 * Instantiates a new team selection stage.
-	 *
-	 * @param stage the stage
-	 * @param s the s
-	 */
 	public TeamSelectionStage(TeamBuilderStage stage, Session s) {
 		super("preparations");
 		builderStage = stage;
@@ -140,14 +118,6 @@ public final class TeamSelectionStage extends Stage {
 		refresh();
 	}
 
-	/**
-	 * Gets the unit.
-	 *
-	 * @param name the name
-	 * @return the unit
-	 * @throws IllegalArgumentException if a unit with the specified name could
-	 *         not be found
-	 */
 	public Unit getUnit(String name) {
 		Unit u = lordList.getUnit(name);
 		if (u == null)
@@ -157,11 +127,6 @@ public final class TeamSelectionStage extends Stage {
 		return u;
 	}
 
-	/**
-	 * Select unit.
-	 *
-	 * @param u the u
-	 */
 	public void selectUnit(Unit u) {
 		if (u.getUnitClass().name.equals("Lord")) {
 			lordList.selectUnit(u);
@@ -170,9 +135,6 @@ public final class TeamSelectionStage extends Stage {
 		}
 	}
 
-	/**
-	 * Deselect all.
-	 */
 	public void deselectAll() {
 		for (Unit u : lordList.getSelectedUnits()) {
 			lordList.deSelectUnit(u);
@@ -182,11 +144,6 @@ public final class TeamSelectionStage extends Stage {
 		}
 	}
 
-	/**
-	 * Gets the selected units.
-	 *
-	 * @return the selected units
-	 */
 	public List<Unit> getSelectedUnits() {
 		ArrayList<Unit> units = new ArrayList<Unit>();
 		units.addAll(lordList.getSelectedUnits());
@@ -195,9 +152,6 @@ public final class TeamSelectionStage extends Stage {
 		return units;
 	}
 
-	/**
-	 * Refresh.
-	 */
 	public void refresh() {
 		lordList.refresh();
 		vassalList.refresh();
@@ -258,9 +212,6 @@ public final class TeamSelectionStage extends Stage {
 		}
 	}
 
-	/**
-	 * Up.
-	 */
 	private void up() {
 		if (cursor.index < 0)
 			buttons[-cursor.index - 1].setHover(false);
@@ -283,9 +234,6 @@ public final class TeamSelectionStage extends Stage {
 		checkFlow();
 	}
 
-	/**
-	 * Down.
-	 */
 	private void down() {
 		if (cursor.index < 0)
 			buttons[-cursor.index - 1].setHover(false);
@@ -305,9 +253,6 @@ public final class TeamSelectionStage extends Stage {
 		checkFlow();
 	}
 
-	/**
-	 * Left.
-	 */
 	private void left() {
 		AudioPlayer.playAudio("cursor");
 		if (cursor.index < 0)
@@ -316,9 +261,6 @@ public final class TeamSelectionStage extends Stage {
 		checkFlow();
 	}
 
-	/**
-	 * Right.
-	 */
 	private void right() {
 		AudioPlayer.playAudio("cursor");
 		if (cursor.index < 0)
@@ -330,9 +272,6 @@ public final class TeamSelectionStage extends Stage {
 		}
 	}
 
-	/**
-	 * Check flow.
-	 */
 	private void checkFlow() {
 		if (cursor.index >= lordList.size() + vassalList.size()) {
 			cursor.index = -buttons.length;
@@ -399,20 +338,10 @@ public final class TeamSelectionStage extends Stage {
 		}
 	}
 
-	/**
-	 * Gets the max units.
-	 *
-	 * @return the max units
-	 */
 	public int getMaxUnits() {
 		return maxUnits;
 	}
 
-	/**
-	 * Gets the all units.
-	 *
-	 * @return the all units
-	 */
 	public List<Unit> getAllUnits() {
 		List<Unit> ans = new ArrayList<Unit>();
 		ans.addAll(vassalList.getUnits());
@@ -420,23 +349,14 @@ public final class TeamSelectionStage extends Stage {
 		return ans;
 	}
 
-	/**
-	 * The Class Cursor.
-	 */
 	private class Cursor extends Entity {
 
-		/** The index. */
 		int index;
 
-		/** The on. */
 		boolean on = true;
 
-		/** The instant. */
 		boolean instant = false;
 
-		/**
-		 * Instantiates a new cursor.
-		 */
 		public Cursor() {
 			super(0, 0);
 			renderDepth = 0.5f;
@@ -480,9 +400,6 @@ public final class TeamSelectionStage extends Stage {
 			}
 		}
 
-		/**
-		 * Select.
-		 */
 		public void select() {
 
 			if (on) {
@@ -523,9 +440,6 @@ public final class TeamSelectionStage extends Stage {
 
 	}
 
-	/**
-	 * The Class SortByClass.
-	 */
 	private class SortByClass implements Comparator<UnitSet> {
 
 		/*
@@ -539,9 +453,6 @@ public final class TeamSelectionStage extends Stage {
 		}
 	}
 
-	/**
-	 * The Class SortByName.
-	 */
 	private class SortByName implements Comparator<UnitSet> {
 
 		/*

@@ -25,28 +25,18 @@ import chu.engine.event.KeyboardEvent;
 import net.fe.Party;
 import net.fe.network.Message;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class LevelEditorStage.
- */
 public class LevelEditorStage extends Stage {
 
-	/** The palette. */
 	private static Texture palette;
 
-	/** The tileset. */
 	private static Tileset tileset;
 
-	/** The selected id. */
 	private int selectedID;
 
-	/** The tiles. */
 	private int[][] tiles;
 
-	/** The level name. */
 	private String levelName;
 
-	/** The spawns. */
 	private HashSet<SpawnPoint> spawns;
 
 	static {
@@ -58,11 +48,6 @@ public class LevelEditorStage extends Stage {
 		}
 	}
 
-	/**
-	 * Instantiates a new level editor stage.
-	 *
-	 * @param levelName the level name
-	 */
 	public LevelEditorStage(String levelName) {
 		super(null);
 		selectedID = 0;
@@ -233,12 +218,6 @@ public class LevelEditorStage extends Stage {
 		}
 	}
 
-	/**
-	 * Modify size.
-	 *
-	 * @param dx the dx
-	 * @param dy the dy
-	 */
 	private void modifySize(int dx, int dy) {
 		int width = Math.max(0, tiles[0].length + dx);
 		int height = Math.max(0, tiles.length + dy);

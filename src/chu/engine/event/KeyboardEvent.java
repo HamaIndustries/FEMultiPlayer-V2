@@ -1,18 +1,11 @@
 package chu.engine.event;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class KeyboardEvent.
- */
 public final class KeyboardEvent {
 
-	/** The key. */
 	public final int key;
 
-	/** The event char. */
 	public final char eventChar;
 
-	/** The is repeat event. */
 	public final boolean isRepeatEvent;
 
 	/** true if the event key was pressed or false if it was released. */
@@ -22,15 +15,6 @@ public final class KeyboardEvent {
 	
 	
 
-	/**
-	 * Instantiates a new keyboard event.
-	 *
-	 * @param k the key
-	 * @param c the char
-	 * @param r is repeat
-	 * @param s true if the event key was pressed or false if it was released.
-	 * @param modifiers 
-	 */
 	public KeyboardEvent(int k, char c, boolean r, boolean s, int modifiers) {
 		key = k;
 		eventChar = c;

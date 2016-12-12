@@ -3,22 +3,10 @@ package net.fe.game.fightStage.anim;
 import chu.engine.AnimationData;
 import net.fe.game.fightStage.FightStage;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class ProjectileAttack.
- */
 public class ProjectileAttack extends AttackAnimation {
 
-	/** The ididit. */
 	private boolean ididit;
 
-	/**
-	 * Instantiates a new projectile attack.
-	 *
-	 * @param data the data
-	 * @param stage the stage
-	 * @param animArgs the anim args
-	 */
 	public ProjectileAttack(AnimationData data, FightStage stage, AnimationArgs animArgs) {
 		super(data, stage, animArgs);
 	}

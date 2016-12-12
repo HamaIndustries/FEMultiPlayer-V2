@@ -3,7 +3,6 @@ package net.fe.editor;
 import java.io.Serializable;
 import java.util.Set;
 
-// TODO: Auto-generated Javadoc
 /**
  * Contains a list of entities that are to be added to an OverworldStage upon
  * setup. These entities include: - tiles (id only, terrain info is generated at
@@ -18,29 +17,16 @@ import java.util.Set;
  */
 public final class Level implements Serializable {
 
-	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -3556853678338788517L;
 
-	/** The width. */
 	public final int width;
 
-	/** The height. */
 	public final int height;
 
-	/** The tiles. */
 	public final int[][] tiles;
 
-	/** The spawns. */
 	public final Set<SpawnPoint> spawns;
 
-	/**
-	 * Instantiates a new level.
-	 *
-	 * @param w the width
-	 * @param h the height
-	 * @param t the tiles
-	 * @param s the spawn points
-	 */
 	public Level(int w, int h, int[][] t, Set<SpawnPoint> s) {
 		width = w;
 		height = h;

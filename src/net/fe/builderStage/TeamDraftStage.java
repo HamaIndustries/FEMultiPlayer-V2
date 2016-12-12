@@ -32,7 +32,6 @@ import net.fe.network.message.KickMessage;
 import net.fe.network.message.QuitMessage;
 import net.fe.ressources.graphics.ui.Button;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TeamDraftStage.
  */

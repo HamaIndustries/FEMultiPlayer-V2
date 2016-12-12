@@ -33,48 +33,28 @@ import net.fe.overworldStage.InventoryMenu;
 import net.fe.overworldStage.UnitInfo;
 import net.fe.ressources.graphics.ui.Button;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class UnitBuilderStage.
- */
 public class UnitBuilderStage extends Stage {
 
-	/** The unit. */
 	private Unit unit;
 
-	/** The shop. */
 	private ShopMenu shop;
 
-	/** The inv. */
 	private InventoryMenu inv;
 
-	/** The repeat timers. */
 	private float[] repeatTimers = new float[4];
 
-	/** The back. */
 	private TeamBuilderStage back;
 
-	/** The state. */
 	private State state;
 
-	/** The level down. */
 	private Button levelUp, levelDown;
 
-	/** The controls. */
 	private ControlsDisplay controls;
 
-	/** The Constant INFO_H. */
 	// CONFIG
 	public static final int INVENTORY_X = 30, INVENTORY_Y = 115, SHOP_X = 335, SHOP_Y = 20, LEVEL_X = 175,
 	        LEVEL_Y = 115, INFO_X = 7, INFO_Y = 236, INFO_W = 316, INFO_H = 56;
 
-	/**
-	 * Instantiates a new unit builder stage.
-	 *
-	 * @param u the u
-	 * @param s the s
-	 * @param session the session
-	 */
 	public UnitBuilderStage(Unit u, TeamBuilderStage s, Session session) {
 		super("preparations");
 		addEntity(new RunesBg(new Color(0xd2b48c)));
@@ -249,11 +229,6 @@ public class UnitBuilderStage extends Stage {
 		processRemoveStack();
 	}
 
-	/**
-	 * Render item.
-	 *
-	 * @param i the i
-	 */
 	public void renderItem(Item i) {
 		Renderer.drawString("default_med", i.name, INFO_X + 2, INFO_Y + 4, 1);
 		if (i instanceof HealingItem) {
@@ -339,55 +314,25 @@ public class UnitBuilderStage extends Stage {
 		}
 	}
 
-	/**
-	 * The Class State.
-	 */
 	private abstract class State {
 
-		/**
-		 * Up.
-		 */
 		public abstract void up();
 
-		/**
-		 * Down.
-		 */
 		public abstract void down();
 
-		/**
-		 * Left.
-		 */
 		public abstract void left();
 
-		/**
-		 * Right.
-		 */
 		public abstract void right();
 
-		/**
-		 * Select.
-		 */
 		public abstract void select();
 
-		/**
-		 * Cancel.
-		 */
 		public abstract void cancel();
 
-		/**
-		 * Render.
-		 */
 		public abstract void render();
 
-		/**
-		 * Update controls.
-		 */
 		public abstract void updateControls();
 	}
 
-	/**
-	 * The Class Normal.
-	 */
 	private class Normal extends State {
 
 		/*
@@ -569,9 +514,6 @@ public class UnitBuilderStage extends Stage {
 
 	}
 
-	/**
-	 * The Class Shop.
-	 */
 	private class Shop extends State {
 
 		/*

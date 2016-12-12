@@ -37,8 +37,6 @@ public final class Nosferatu extends CombatTrigger {
 	 * net.fe.unit.Unit, int)
 	 */
 	public int runDrain(Unit a, Unit d, int damage) {
-		if (damage == 0)
-			return 0;
 		return Math.min(damage / 2, a.getStats().maxHp - a.getHp());
 	}
 

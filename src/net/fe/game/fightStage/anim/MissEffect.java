@@ -6,20 +6,10 @@ import chu.engine.entity.Entity;
 import net.fe.FEResources;
 import net.fe.game.fightStage.FightStage;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class MissEffect.
- */
 public class MissEffect extends Entity {
 
-	/** The left. */
 	private boolean left;
 
-	/**
-	 * Instantiates a new miss effect.
-	 *
-	 * @param left the left
-	 */
 	public MissEffect(boolean left) {
 		super(0, 0);
 		AudioPlayer.playAudio("miss");

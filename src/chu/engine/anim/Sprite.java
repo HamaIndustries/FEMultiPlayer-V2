@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import org.newdawn.slick.opengl.Texture;
 
-// TODO: Auto-generated Javadoc
 /**
  * Manages a set of animations, and allows the user to switch between
  * animations.
@@ -14,18 +13,12 @@ import org.newdawn.slick.opengl.Texture;
  */
 public class Sprite {
 
-	/** The animations. */
 	private HashMap<String, Animation> animations;
 
-	/** The current animation. */
 	protected Animation currentAnimation;
 
-	/** The cur anim name. */
 	private String curAnimName;
 
-	/**
-	 * Instantiates a new sprite.
-	 */
 	public Sprite() {
 		animations = new HashMap<String, Animation>();
 	}
@@ -119,11 +112,6 @@ public class Sprite {
 		curAnimName = name.toUpperCase();
 	}
 
-	/**
-	 * Gets the frame.
-	 *
-	 * @return Frame the current animation is on
-	 */
 	public int getFrame() {
 		return currentAnimation.getFrame();
 	}
@@ -137,11 +125,6 @@ public class Sprite {
 		currentAnimation.setFrame(frame % currentAnimation.getLength());
 	}
 
-	/**
-	 * Size.
-	 *
-	 * @return Number of animations in the sprite
-	 */
 	public int size() {
 		return animations.size();
 	}
@@ -157,14 +140,6 @@ public class Sprite {
 		this.render(x, y, depth, null, new ShaderArgs());
 	}
 
-	/**
-	 * Render.
-	 *
-	 * @param x the x
-	 * @param y the y
-	 * @param depth the depth
-	 * @param t the t
-	 */
 	public void render(float x, float y, float depth, Transform t) {
 		this.render(x, y, depth, t, new ShaderArgs());
 	}

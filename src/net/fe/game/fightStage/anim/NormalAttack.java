@@ -4,19 +4,8 @@ import chu.engine.AnimationData;
 import chu.engine.anim.AudioPlayer;
 import net.fe.game.fightStage.FightStage;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class NormalAttack.
- */
 public class NormalAttack extends AttackAnimation {
 
-	/**
-	 * Instantiates a new normal attack.
-	 *
-	 * @param data the data
-	 * @param stage the stage
-	 * @param args the args
-	 */
 	public NormalAttack(AnimationData data, FightStage stage, AnimationArgs args) {
 		super(data, stage, args);
 	}

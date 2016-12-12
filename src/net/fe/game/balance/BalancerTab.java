@@ -15,23 +15,12 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class BalancerTab.
- */
 public class BalancerTab extends JPanel {
 
-	/** The rows. */
 	private List<BalancerRow> rows;
 
-	/** The lv. */
 	private int lv;
 
-	/**
-	 * Instantiates a new balancer tab.
-	 *
-	 * @param data the data
-	 */
 	public BalancerTab(List<BalanceData> data) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		lv = 1;
@@ -74,9 +63,6 @@ public class BalancerTab extends JPanel {
 		add(lev);
 	}
 
-	/**
-	 * Refresh.
-	 */
 	public void refresh() {
 		for (BalancerRow row : rows) {
 			row.refresh();
@@ -84,20 +70,10 @@ public class BalancerTab extends JPanel {
 		repaint();
 	}
 
-	/**
-	 * Gets the level.
-	 *
-	 * @return the level
-	 */
 	public int getLevel() {
 		return lv;
 	}
 
-	/**
-	 * Export string.
-	 *
-	 * @return the string
-	 */
 	public String exportString() {
 		StringBuilder ans = new StringBuilder();
 		for (BalancerRow row : rows) {

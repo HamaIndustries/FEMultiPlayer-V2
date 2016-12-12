@@ -2,16 +2,10 @@ package net.fe;
 
 import java.util.Random;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class RNG.
- */
 public final class RNG {
 
-	private RNG() {
-	}
+	private RNG() { }
 
-	/** The rng. */
 	private final static Random RNG = new Random();
 
 	/**

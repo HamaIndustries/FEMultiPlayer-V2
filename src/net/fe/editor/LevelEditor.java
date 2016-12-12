@@ -16,20 +16,10 @@ import chu.engine.Game;
 import chu.engine.Stage;
 import chu.engine.anim.Renderer;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class LevelEditor.
- */
 public class LevelEditor extends Game {
 
-	/** The current stage. */
 	private static Stage currentStage;
 
-	/**
-	 * The main method.
-	 *
-	 * @param args the arguments
-	 */
 	public static void main(String[] args) {
 		LevelEditor game = new LevelEditor();
 		game.init(960, 640, "Fire Emblem Level Editor");

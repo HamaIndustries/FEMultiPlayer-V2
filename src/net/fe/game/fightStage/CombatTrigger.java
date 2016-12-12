@@ -143,7 +143,7 @@ public abstract class CombatTrigger implements Serializable {
 	 * @return the name
 	 */
 	public String getName() {
-		return getClass().getSimpleName();
+		return getClass().getSimpleName().replaceAll("Plus", "+");
 	}
 
 	/**

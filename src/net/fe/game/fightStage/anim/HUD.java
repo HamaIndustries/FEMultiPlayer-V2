@@ -10,31 +10,16 @@ import net.fe.game.fightStage.FightStage;
 import net.fe.game.unit.ItemDisplay;
 import net.fe.game.unit.Unit;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class HUD.
- */
 public class HUD extends Entity {
 
-	/** The unit. */
 	private Unit unit;
 
-	/** The sign. */
 	private int sign;
 
-	/** The dmg. */
 	private String hit, crit, dmg;
 
-	/** The battle stats. */
 	private static Texture battleStats;
 
-	/**
-	 * Instantiates a new hud.
-	 *
-	 * @param u1 the u1
-	 * @param u2 the u2
-	 * @param stage the stage
-	 */
 	public HUD(Unit u1, Unit u2, FightStage stage) {
 		super(0, 0);
 		this.unit = u1;

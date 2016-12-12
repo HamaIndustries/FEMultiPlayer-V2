@@ -6,10 +6,6 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class Tileset.
- */
 public final class Tileset {
 
 	/** The image to use */
@@ -27,13 +23,6 @@ public final class Tileset {
 	/** The height of `tileset` */
 	private int height;
 
-	/**
-	 * Instantiates a new tileset.
-	 *
-	 * @param t the t
-	 * @param tileWidth the tile width
-	 * @param tileHeight the tile height
-	 */
 	public Tileset(Texture t, int tileWidth, int tileHeight) {
 		tileset = t;
 		this.tileWidth = tileWidth;
@@ -43,13 +32,6 @@ public final class Tileset {
 
 	}
 
-	/**
-	 * Instantiates a new tileset.
-	 *
-	 * @param path the path
-	 * @param tileWidth the tile width
-	 * @param tileHeight the tile height
-	 */
 	public Tileset(String path, int tileWidth, int tileHeight) {
 		try {
 			tileset = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(path));
@@ -63,15 +45,6 @@ public final class Tileset {
 		height = tileset.getImageHeight();
 	}
 
-	/**
-	 * Render.
-	 *
-	 * @param x where to render the tile on the screen
-	 * @param y where to render the tile on the screen
-	 * @param tx the coordinates of the tile to render in the tilesheet
-	 * @param ty the coordinates of the tile to render in the tilesheet
-	 * @param depth the depth
-	 */
 	public void render(float x, float y, int tx, int ty, float depth) {
 		float tx0 = (float) tx / (width / tileWidth);
 		float ty0 = (float) ty / (height / tileHeight);
@@ -81,16 +54,6 @@ public final class Tileset {
 		        depth);
 	}
 
-	/**
-	 * Render transformed.
-	 *
-	 * @param x where to render the tile on the screen
-	 * @param y where to render the tile on the screen
-	 * @param tx the coordinates of the tile to render in the tilesheet
-	 * @param ty the coordinates of the tile to render in the tilesheet
-	 * @param depth the depth
-	 * @param t the t
-	 */
 	public void renderTransformed(float x, float y, int tx, int ty, float depth, Transform t) {
 		float tx0 = (float) tx / (width / tileWidth);
 		float ty0 = (float) ty / (height / tileHeight);

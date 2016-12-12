@@ -36,37 +36,20 @@ import chu.engine.event.KeyboardEvent;
 import chu.engine.event.MouseEvent;
 import net.fe.FEResources;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class Game.
- */
 public abstract class Game {
 
-	/** The window width. */
 	protected static int windowWidth = 640;
 
-	/** The window height. */
 	protected static int windowHeight = 480;
 
-	/** The keys. */
 	private static List<KeyboardEvent> keys;
 
-	/** The mouse events. */
 	private static List<MouseEvent> mouseEvents;
 
-	/** The time delta. */
 	protected static long timeDelta;
 
-	/** The gl context exists. */
 	protected static boolean glContextExists;
 
-	/**
-	 * Inits the.
-	 *
-	 * @param width the width
-	 * @param height the height
-	 * @param name the name
-	 */
 	public void init(int width, int height, String name) {
 		windowWidth = Math.round(width * FEResources.getWindowScale());
 		windowHeight = Math.round(height * FEResources.getWindowScale());
@@ -109,16 +92,8 @@ public abstract class Game {
 		mouseEvents = new ArrayList<MouseEvent>();
 	}
 
-	/**
-	 * Loop.
-	 */
 	public abstract void loop();
 
-	/**
-	 * Gets the input.
-	 *
-	 * @return the input
-	 */
 	public static void getInput() {
 		Keyboard.poll();
 		keys.clear();
@@ -141,74 +116,34 @@ public abstract class Game {
 		}
 	}
 
-	/**
-	 * Gets the keys.
-	 *
-	 * @return the keys
-	 */
 	public static List<KeyboardEvent> getKeys() {
 		return keys;
 	}
 
-	/**
-	 * Gets the mouse events.
-	 *
-	 * @return the mouse events
-	 */
 	public static List<MouseEvent> getMouseEvents() {
 		return mouseEvents;
 	}
 
-	/**
-	 * Gets the delta seconds.
-	 *
-	 * @return the delta seconds
-	 */
 	public static float getDeltaSeconds() {
 		return timeDelta / 1000000000.0f;
 	}
 
-	/**
-	 * Gets the window width.
-	 *
-	 * @return the window width
-	 */
 	public static int getWindowWidth() {
 		return windowWidth;
 	}
 
-	/**
-	 * Gets the window height.
-	 *
-	 * @return the window height
-	 */
 	public static int getWindowHeight() {
 		return windowHeight;
 	}
 
-	/**
-	 * Gl context exists.
-	 *
-	 * @return true, if successful
-	 */
 	public static boolean glContextExists() {
 		return glContextExists;
 	}
 
-	/**
-	 * Gets the scale x.
-	 *
-	 * @return the scale x
-	 */
 	public static float getScaleX() {
 		return FEResources.getWindowScale();
 	}
 
-	/**
-	 * Gets the scale y.
-	 *
-	 * @return the scale y
-	 */
 	public static float getScaleY() {
 		return FEResources.getWindowScale();
 	}

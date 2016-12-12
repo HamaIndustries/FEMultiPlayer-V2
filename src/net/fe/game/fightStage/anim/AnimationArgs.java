@@ -4,28 +4,18 @@ import net.fe.game.unit.Unit;
 import net.fe.game.unit.Weapon;
 import net.fe.game.unit.Weapon.Type;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class AnimationArgs.
- */
 public final class AnimationArgs {
 
-	/** The userclass. */
 	public final String userclass;
 
-	/** The wep anim name. */
 	public final String wepAnimName;
 
-	/** The classification. */
 	public final String classification;
 
-	/** The left. */
 	public final boolean left;
 
-	/** The unit. */
 	public final Unit unit;
 
-	/** The range. */
 	public final int range;
 
 	/**
