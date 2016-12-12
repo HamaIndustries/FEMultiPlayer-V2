@@ -71,6 +71,10 @@ public class AnimationData {
 			System.err.println("Texture not found: " + path);
 			e.printStackTrace();
 			return null;
+		} catch (OutOfMemoryError e){
+			//I'M SO SORRY
+			System.gc();
+			return getTexture();
 		}
 	}
 

@@ -593,7 +593,7 @@ public class FightStage extends Stage {
 			// System.out.println(currentEvent + " to " + event);
 			currentEvent = event;
 		} else {
-			// TODO: check here for bug? illegal transit - (7:DYING - 9:DONE)
+			//FIXME check here for bug? illegal transit - (7:DYING - 9:DONE)
 			throw new IllegalArgumentException("Invalid state transit: " + currentEvent + " to " + event);
 		}
 

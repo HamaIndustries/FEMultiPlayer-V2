@@ -41,7 +41,7 @@ public class SoundTrack {
 	 */
 
 	public static void loop(String name) {
-		if (!enabled || !(FEResources.getAudioVolume() > 0))
+		if (!enabled || (FEResources.getAudioVolume() <= 0))
 			return;
 		if (name.equals(current))
 			return;
@@ -67,6 +67,10 @@ public class SoundTrack {
 				b.playAsMusic(1.0f, FEResources.getAudioVolume(), true);
 			} catch (Exception f) {
 			}
+		} catch (OutOfMemoryError e){
+			System.out.printf("Out of memory when loading sound : %s, %s", e.getLocalizedMessage());
+			e.printStackTrace();
+			return;
 		}
 	}
 
