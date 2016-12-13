@@ -1,10 +1,11 @@
 package net.fe.overworldStage;
 
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import static java.util.Collections.unmodifiableList;
 
 import net.fe.Player;
 import net.fe.unit.Class;
+import net.fe.unit.Statistics;
 import net.fe.unit.Unit;
 import net.fe.unit.WeaponFactory;
 import chu.engine.Entity;
@@ -16,73 +17,73 @@ import chu.engine.Entity;
 public enum Terrain {
 	
 	/** The plain. */
-	PLAIN(1,0,0,0),
+	PLAIN(1,0,0,0,0),
 	
 	/** The path. */
-	PATH(1,0,0,0),
+	PATH(1,0,0,0,0),
 	
 	/** The forest. */
-	FOREST(2,1,20,0), 
+	FOREST(2,1,1,20,0),
 	
 	/** The floor. */
-	FLOOR(1,0,0,0), 
+	FLOOR(1,0,0,0,0),
 	
 	/** The pillar. */
-	PILLAR(2,1,20,0), 
+	PILLAR(2,1,1,20,0),
 	
 	/** The mountain. */
-	MOUNTAIN(4,2,30,0),
+	MOUNTAIN(4,2,2,30,0),
 	
 	/** The village. */
-	VILLAGE(1,0,10,0),
+	VILLAGE(1,0,0,10,0),
 	
 	/** The peak. */
-	PEAK(127,2,40,0), 
+	PEAK(127,2,2,40,0),
 	
 	/** The fort. */
-	FORT(2,1,15,10), 
+	FORT(2,1,1,15,10),
 	
 	/** The sea. */
-	SEA(127,0,10,0), 
+	SEA(127,0,0,10,0),
 	
 	/** The desert. */
-	DESERT(2,0,5,0),
+	DESERT(2,0,0,5,0),
 	
 	/** The wall. */
-	WALL(127,0,0,0), 
+	WALL(127,0,0,0,0),
 	
 	/** The fence. */
-	FENCE(127,0,0,0),
+	FENCE(127,0,0,0,0),
 	
 	/** The none. */
-	NONE(127,0,0,0), 
+	NONE(127,0,0,0,0),
 	
 	/** The cliff. */
-	CLIFF(127,0,0,0),
+	CLIFF(127,0,0,0,0),
 	
 	/** The throne. */
-	THRONE(1,3,30,10), 
+	THRONE(1,3,5,30,10),
 	
 	/** The hill. */
-	HILL(4,2,30,0),
+	HILL(4,2,2,30,0),
 	
 	/** The house. */
-	HOUSE(127,0,10,0);
+	HOUSE(127,0,0,10,0);
 
 	/** The base move cost. */
-	private int baseMoveCost;
+	private final int baseMoveCost;
 	
 	/** The avoid bonus. */
 	private final int avoidBonus;
 	
 	/** The defense bonus. */
-	private final int defenseBonus;
+	private final Statistics defenseBonus;
 	
 	/** The health bonus. */
 	public final int healthBonus;
 	
 	/** The triggers. */
-	private CopyOnWriteArrayList<TerrainTrigger> triggers;
+	private final List<TerrainTrigger> triggers;
 	
 	
 
@@ -90,19 +91,21 @@ public enum Terrain {
 	 * Instantiates a new terrain.
 	 *
 	 * @param baseMoveCost the base move cost
-	 * @param def the def
-	 * @param avo the avo
+	 * @param def the DEF gained by a unit while standing on this space
+	 * @param res the RES gained by a unit while standing on this space
+	 * @param avo the AVOID gained by a unit while standing on this space
 	 * @param health the health
 	 */
-	Terrain(int baseMoveCost, int def, int avo, int health) {
+	Terrain(int baseMoveCost, int def, int res, int avo, int health) {
 		this.baseMoveCost = baseMoveCost;
 		avoidBonus = avo;
-		defenseBonus = def;
+		defenseBonus = new Statistics().copy("Def", def).copy("Res", res);
 		healthBonus = health;
-		triggers = new CopyOnWriteArrayList<TerrainTrigger>();
+		List<TerrainTrigger> tmpTriggers = new java.util.ArrayList<>();
 		if(healthBonus > 0){
-			triggers.add(new Healing(healthBonus));
+			tmpTriggers.add(new Healing(healthBonus));
 		}
+		triggers = unmodifiableList(tmpTriggers);
 	}
 
 	/**
@@ -158,24 +161,6 @@ public enum Terrain {
 	}
 	
 	/**
-	 * Adds the trigger.
-	 *
-	 * @param e the e
-	 */
-	public void addTrigger(TerrainTrigger e){
-		triggers.add(e);
-	}
-	
-	/**
-	 * Removes the trigger.
-	 *
-	 * @param e the e
-	 */
-	public void removeTrigger(TerrainTrigger e){
-		triggers.remove(e);
-	}
-	
-	/**
 	 * Gets the triggers.
 	 *
 	 * @return the triggers
@@ -187,7 +172,7 @@ public enum Terrain {
 	/**
 	 * Gets the avoid bonus.
 	 *
-	 * @param u the u
+	 * @param u the unit to check, or null if a generic answer
 	 * @return the avoid bonus
 	 */
 	public int getAvoidBonus(Unit u) {
@@ -199,19 +184,19 @@ public enum Terrain {
 	/**
 	 * Gets the defense bonus.
 	 *
-	 * @param u the u
+	 * @param u the unit to check, or null if a generic answer
 	 * @return the defense bonus
 	 */
-	public int getDefenseBonus(Unit u) {
+	public Statistics getDefenseBonus(Unit u) {
 		if(u == null) return defenseBonus;
-		if(WeaponFactory.fliers.contains(u.getTheClass().name)) return 0;
+		if(WeaponFactory.fliers.contains(u.getTheClass().name)) return new Statistics();
 		return defenseBonus;
 	}
 	
 	/**
 	 * The Class Healing.
 	 */
-	public class Healing extends TerrainTrigger{
+	public final class Healing extends TerrainTrigger{
 		
 		/** The percent. */
 		private int percent;
