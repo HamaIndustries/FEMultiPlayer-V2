@@ -11,12 +11,13 @@ import net.fe.game.pick.PickMode;
 import net.fe.overworldStage.objective.Objective;
 
 
+@Deprecated
 public final class FEServerProperties {
 	
 	
 
 	private static PickMode pickMode;
-	private static HashSet<Modifier> modifiers = new HashSet<Modifier>();
+	private static HashSet<Modifier> modifiers;
 	private static String map;
 	private static int maxUnits;
 	private static Objective objective;
