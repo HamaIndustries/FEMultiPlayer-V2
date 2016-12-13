@@ -251,7 +251,7 @@ public class FEServerFrame extends JFrame {
 		remove(startServer);
 		
 		JButton btnkickAll = new JButton("Kick all");
-		btnkickAll.addActionListener(event -> properties.kickAll());
+		btnkickAll.addActionListener(event -> FEServerProperties.kickAll());
 		getContentPane().add(btnkickAll);
 
 
@@ -264,14 +264,14 @@ public class FEServerFrame extends JFrame {
 		pack();
 		
 		for (int i = 0; i < selectedModifiersList.getModel().getSize(); i++) 
-			properties.addModifier(selectedModifiersList.getModel().getElementAt(i));
+			FEServerProperties.addModifier(selectedModifiersList.getModel().getElementAt(i));
 		
-		properties.setObjective((Objective) objComboBox.getSelectedItem());
-		properties.setMap((String) mapSelectionBox.getSelectedItem());
-		properties.setMaxUnits((Integer) maxUnitsSpinner.getValue());
-		properties.setPickMode((PickMode) pickModeBox.getSelectedItem());
+		FEServerProperties.setObjective((Objective) objComboBox.getSelectedItem());
+		FEServerProperties.setMap((String) mapSelectionBox.getSelectedItem());
+		FEServerProperties.setMaxUnits((Integer) maxUnitsSpinner.getValue());
+		FEServerProperties.setPickMode((PickMode) pickModeBox.getSelectedItem());
 		
-		properties.startServer();
+		FEServerProperties.startServer();
 	}
 
 	private class ModifierJList extends JList<Modifier> {
