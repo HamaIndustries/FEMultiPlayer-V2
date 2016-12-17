@@ -66,6 +66,15 @@ public class FEMultiplayer extends Game {
 	private static Session testSession;
 
 	public static void main(String[] args) {
+		if (Runtime.getRuntime().maxMemory() < 2147483648l) {
+		    try {
+				Runtime.getRuntime().exec("java -Xmx2048M -jar " + FEMultiplayer.class.getProtectionDomain().getCodeSource().getLocation());
+			    return;
+			} catch (Exception e) {
+				System.out.println("Failed to increase the available memory");
+				e.printStackTrace();
+			}
+		}
 		try {
 			FEMultiplayer game = new FEMultiplayer();
 			// SoundTrack.enabled = false;
@@ -82,6 +91,10 @@ public class FEMultiplayer extends Game {
 				File errLog = new File("error_log_client"
 				        + LocalDateTime.now().toString().replace("T", "@").replace(":", "-") + ".log");
 				PrintWriter pw = new PrintWriter(errLog);
+				if(e instanceof OutOfMemoryError){
+					Runtime r = Runtime.getRuntime();
+					pw.printf("Free memory : %s%nTotal memory : %s%nMax memory : %s%n", r.freeMemory(), r.totalMemory(), r.maxMemory());
+				}
 				e.printStackTrace(pw);
 				pw.close();
 			} catch (IOException e2) {
