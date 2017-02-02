@@ -1,62 +1,58 @@
 package net.fe.network.command;
 
-import java.io.Serializable;
-import java.util.List;
 import java.util.ArrayList;
-import net.fe.fightStage.AttackRecord;
-import net.fe.fightStage.CombatCalculator;
-import net.fe.fightStage.FightStage;
-import net.fe.transition.OverworldFightTransition;
-import net.fe.overworldStage.OverworldStage;
+
+import net.fe.game.fightStage.AttackRecord;
+import net.fe.game.fightStage.CombatCalculator;
+import net.fe.game.fightStage.FightStage;
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.UnitIdentifier;
 import net.fe.overworldStage.ClientOverworldStage;
-import net.fe.overworldStage.Path;
-import net.fe.overworldStage.Node;
-import net.fe.overworldStage.Healthbar;
-import net.fe.unit.UnitIdentifier;
-import net.fe.unit.Unit;
-import net.fe.unit.Item;
-import net.fe.unit.RiseTome;
-import java.util.Optional;
+import net.fe.overworldStage.OverworldStage;
+import net.fe.ressources.graphics.transition.OverworldFightTransition;
 
 public final class AttackCommand extends Command {
-	
+
 	private static final long serialVersionUID = 6468268282716381357L;
-	
+
 	private final UnitIdentifier otherId;
-	
+
 	public AttackCommand(UnitIdentifier otherId) {
 		this.otherId = otherId;
-	} 
-	
+	}
+
 	@Override
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit unit) {
-		
-		//This updates HP so we're ok
+
+		// This updates HP so we're ok
 		final UnitIdentifier unitId = new UnitIdentifier(unit);
 		CombatCalculator calc = new CombatCalculator(unitId, otherId, (ui) -> stage.getUnit(ui));
 		return calc.getAttackQueue();
 	}
-	
+
 	@Override
-	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords, Runnable callback) {
-		
+	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords,
+	        Runnable callback) {
+
 		return new Runnable() {
 			public void run() {
-				final Runnable callback2 = new Runnable(){@Override public void run() {callback.run(); stage.setControl(true);}};
+				final Runnable callback2 = new Runnable() {
+					@Override
+					public void run() {
+						callback.run();
+						stage.setControl(true);
+					}
+				};
 				final UnitIdentifier unitId = new UnitIdentifier(unit);
 				final Unit other = stage.getUnit(otherId);
 				unit.setMoved(true);
 				// play the battle animation
-				stage.addEntity(new OverworldFightTransition(
-					stage,
-					new FightStage(unitId, otherId, attackRecords, stage, callback2),
-					unitId,
-					otherId
-				));
+				stage.addEntity(new OverworldFightTransition(stage,
+		                new FightStage(unitId, otherId, attackRecords, stage, callback2), unitId, otherId));
 			}
 		};
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Attack[" + otherId + "]";

@@ -1,21 +1,23 @@
 package net.fe.overworldStage;
 
-import static net.fe.fightStage.FightStage.*;
+import static net.fe.game.fightStage.FightStage.BORDER_DARK;
+import static net.fe.game.fightStage.FightStage.BORDER_LIGHT;
+import static net.fe.game.fightStage.FightStage.NEUTRAL;
 
 import org.newdawn.slick.opengl.Texture;
 
-import net.fe.FEResources;
-import chu.engine.Entity;
 import chu.engine.Game;
 import chu.engine.anim.BitmapFont;
 import chu.engine.anim.Renderer;
+import chu.engine.entity.Entity;
+import net.fe.FEResources;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class TerrainInfo.
  */
-public class TerrainInfo extends Entity implements DoNotDestroy{
-	
+public class TerrainInfo extends Entity implements DoNotDestroy {
+
 	/** The dragons. */
 	private static Texture dragons = FEResources.getTexture("dragon_separator");
 
@@ -25,24 +27,24 @@ public class TerrainInfo extends Entity implements DoNotDestroy{
 	 * @param c the c
 	 */
 	public TerrainInfo(Cursor c) {
-		super(0, Game.getWindowHeight()/net.fe.FEResources.getWindowScale()-80);
+		super(0, Game.getWindowHeight() / net.fe.FEResources.getWindowScale() - 80);
 		renderDepth = 0.8f;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Entity#render()
 	 */
 	public void render() {
-		Terrain terrain = ((ClientOverworldStage)stage).getHoveredTerrain();
-		
-		//Main box
-		Renderer.drawRectangle(x, y, x+50, y+80, renderDepth, BORDER_DARK);
-		Renderer.drawRectangle(x+1, y+1, x+49, y+79, renderDepth, BORDER_LIGHT);
-		Renderer.drawRectangle(x+2, y+2, x+48, y+78, renderDepth, 
-				NEUTRAL);
-		//Terrain name ribbon
-		Renderer.drawRectangle(x+3, y+3, x+47, y+26, renderDepth, 
-				NEUTRAL.darker(0.5f));
+		Terrain terrain = ((ClientOverworldStage) stage).getHoveredTerrain();
+
+		// Main box
+		Renderer.drawRectangle(x, y, x + 50, y + 80, renderDepth, BORDER_DARK);
+		Renderer.drawRectangle(x + 1, y + 1, x + 49, y + 79, renderDepth, BORDER_LIGHT);
+		Renderer.drawRectangle(x + 2, y + 2, x + 48, y + 78, renderDepth, NEUTRAL);
+		// Terrain name ribbon
+		Renderer.drawRectangle(x + 3, y + 3, x + 47, y + 26, renderDepth, NEUTRAL.darker(0.5f));
 		BitmapFont def = FEResources.getBitmapFont("default_med");
 		int width = def.getStringWidth(terrain.toString());
 		Renderer.drawString("default_med", terrain.toString(), x+25-width/2, y+8, renderDepth);

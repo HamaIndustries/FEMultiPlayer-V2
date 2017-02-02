@@ -15,11 +15,11 @@ import chu.engine.anim.Renderer;
 /**
  * The Class LoadStage.
  */
-public class LoadStage{
-	
+public class LoadStage {
+
 	/** The percent. */
 	private static float percent;
-	
+
 	/** The max. */
 	private static int max;
 
@@ -28,34 +28,32 @@ public class LoadStage{
 	 *
 	 * @param max the new maximum
 	 */
-	public static void setMaximum(int max){
+	public static void setMaximum(int max) {
 		LoadStage.max = max;
 	}
-	
+
 	/**
 	 * Update.
 	 *
 	 * @param number the number
 	 */
-	public static void update(int number){
-		percent = (number + 0f)/max;
+	public static void update(int number) {
+		percent = (number + 0f) / max;
 	}
 
 	/**
 	 * Render.
 	 */
-	public static void render(){
+	public static void render() {
 		int width = (int) (percent * 436);
-		glClear(GL_COLOR_BUFFER_BIT |
-		        GL_DEPTH_BUFFER_BIT |
-		        GL_STENCIL_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearDepth(1.0f);
 		Renderer.drawString("default_med", "FE: Multiplayer is loading...", 22, 262, 0);
-		String percentText = (int)(percent * 100) + "%";
+		String percentText = (int) (percent * 100) + "%";
 		int pwidth = FEResources.getBitmapFont("default_med").getStringWidth(percentText);
 		Renderer.drawString("default_med", percentText, 458 - pwidth, 263, 0);
 		Renderer.drawRectangle(20, 280, 460, 300, 0, Color.gray);
-		Renderer.drawRectangle(22, 282, 22+width, 298, 0, Color.blue.darker());
+		Renderer.drawRectangle(22, 282, 22 + width, 298, 0, Color.blue.darker());
 		Display.update();
 	}
 

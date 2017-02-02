@@ -1,21 +1,26 @@
 package net.fe.overworldStage.context;
 
 import chu.engine.anim.AudioPlayer;
-import net.fe.overworldStage.*;
-import net.fe.unit.Unit;
+import net.fe.game.unit.Unit;
+import net.fe.overworldStage.ClientOverworldStage;
+import net.fe.overworldStage.CursorContext;
+import net.fe.overworldStage.Node;
+import net.fe.overworldStage.OverworldContext;
+import net.fe.overworldStage.Path;
+import net.fe.overworldStage.Zone;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class UnitSelected.
  */
 public class UnitSelected extends CursorContext {
-	
+
 	/** The heal. */
 	private Zone move, attack, heal;
-	
+
 	/** The selected. */
 	private Unit selected;
-	
+
 	/** The path. */
 	private Path path;
 
@@ -30,61 +35,65 @@ public class UnitSelected extends CursorContext {
 		super(s, prev);
 		selected = u;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#startContext()
 	 */
-	public void startContext(){
+	public void startContext() {
 		super.startContext();
 		selected.sprite.setAnimation("DOWN");
 		grid.move(selected, selected.getOrigX(), selected.getOrigY(), false);
 		this.move = new Zone(grid.getPossibleMoves(selected), Zone.MOVE_DARK);
-		this.attack = Zone.minus(new Zone(grid.getAttackRange(selected),
-				Zone.ATTACK_DARK), move);
-		this.heal = Zone.minus(Zone.minus(new Zone(grid.getHealRange(selected),
-				Zone.HEAL_DARK), move), attack);
+		this.attack = Zone.minus(new Zone(grid.getAttackRange(selected), Zone.ATTACK_DARK), move);
+		this.heal = Zone.minus(Zone.minus(new Zone(grid.getHealRange(selected), Zone.HEAL_DARK), move), attack);
 		stage.addEntity(move);
 		stage.addEntity(attack);
 		stage.addEntity(heal);
-		
+
 		stage.setSelectedUnit(selected);
-		
+
 		updatePath();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#cleanUp()
 	 */
-	public void cleanUp(){
+	public void cleanUp() {
 		stage.removeEntity(attack);
 		stage.removeEntity(move);
 		stage.removeEntity(heal);
 		stage.removeEntity(path);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onSelect()
 	 */
 	@Override
 	public void onSelect() {
-		if (path == null) return;
+		if (path == null)
+			return;
 		if (move.getNodes().contains(new Node(cursor.getXCoord(), cursor.getYCoord()))) {
-			grid.move(selected, cursor.getXCoord(),	cursor.getYCoord(), true);
+			grid.move(selected, cursor.getXCoord(), cursor.getYCoord(), true);
 			stage.setControl(false);
 			AudioPlayer.playAudio("select");
 			selected.move(path, new Runnable() {
 				@Override
 				public void run() {
 					stage.setControl(true);
-					new UnitMoved(stage, UnitSelected.this,
-							selected, false, false).startContext();
+					new UnitMoved(stage, UnitSelected.this, selected, false, false).startContext();
 				}
 			});
 			// We don't want to display the path/range while moving.
 			cleanUp();
 		}
 	}
-	
+
 	@Override
 	public void onNextUnit() {
 		cursor.setXCoord(selected.getXCoord());
@@ -93,7 +102,9 @@ public class UnitSelected extends CursorContext {
 		AudioPlayer.playAudio("cancel");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onCancel()
 	 */
 	@Override
@@ -104,15 +115,19 @@ public class UnitSelected extends CursorContext {
 		stage.setSelectedUnit(null);
 		super.onCancel();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.CursorContext#cursorWillChange()
 	 */
-	public void cursorWillChange(){
-		//Nothing
+	public void cursorWillChange() {
+		// Nothing
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.CursorContext#cursorChanged()
 	 */
 	public void cursorChanged() {

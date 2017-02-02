@@ -2,40 +2,35 @@ package net.fe.network;
 
 import java.io.Serializable;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class Message.
- */
 public abstract class Message implements Serializable {
-	
-	/** The Constant serialVersionUID. */
+
 	private static final long serialVersionUID = 8838417404744137405L;
+
+	private int origin;
+	private int server;
 	
-	/** The origin. */
-	public byte origin;
-	
-	/**
-	 * Instantiates a new message.
-	 */
 	public Message() {
-		
+
 	}
-	
-	/**
-	 * Instantiates a new message.
-	 *
-	 * @param origin the origin
-	 */
-	public Message(byte origin) {
+
+	public Message(int origin) {
 		this.origin = origin;
 	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString(){
-		String classname = getClass().getSimpleName().toUpperCase();
-		classname.replaceAll("MESSAGE", "");
+
+	public String toString() {
 		return origin + " " + getClass().getSimpleName().toUpperCase() + "::";
 	}
+
+	public int getServer() {
+		return server;
+	}
+
+	public void setServer(int server) {
+		this.server = server;
+	}
+
+	public int getOrigin() {
+		return origin;
+	}
+
 }

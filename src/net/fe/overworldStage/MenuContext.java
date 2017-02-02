@@ -8,11 +8,11 @@ import chu.engine.anim.AudioPlayer;
  *
  * @param <T> the generic type
  */
-public abstract class MenuContext<T> extends OverworldContext{
-	
+public abstract class MenuContext<T> extends OverworldContext {
+
 	/** The menu. */
 	protected Menu<T> menu;
-	
+
 	/**
 	 * Instantiates a new menu context.
 	 *
@@ -20,39 +20,47 @@ public abstract class MenuContext<T> extends OverworldContext{
 	 * @param prev the prev
 	 * @param m the m
 	 */
-	public MenuContext(ClientOverworldStage stage, OverworldContext prev, Menu<T> m){
-		super(stage,prev);
+	public MenuContext(ClientOverworldStage stage, OverworldContext prev, Menu<T> m) {
+		super(stage, prev);
 		menu = m;
-		m.x = ClientOverworldStage.RIGHT_AXIS - menu.getWidth()/2;
+		m.x = ClientOverworldStage.RIGHT_AXIS - menu.getWidth() / 2;
 		m.y = 75;
-		
+
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#startContext()
 	 */
-	public void startContext(){
+	public void startContext() {
 		super.startContext();
 		cursor.off();
 		stage.setMenu(menu);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#cleanUp()
 	 */
-	public void cleanUp(){
+	public void cleanUp() {
 		cursor.on();
 		stage.setMenu(null);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onSelect()
 	 */
-	public void onSelect(){
+	public void onSelect() {
 		onSelect(menu.getSelection());
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onUp()
 	 */
 	@Override
@@ -61,7 +69,9 @@ public abstract class MenuContext<T> extends OverworldContext{
 		onChange();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onDown()
 	 */
 	@Override
@@ -69,18 +79,18 @@ public abstract class MenuContext<T> extends OverworldContext{
 		menu.down();
 		onChange();
 	}
-	
+
 	/**
 	 * On select.
 	 *
 	 * @param selectedItem the selected item
 	 */
 	public abstract void onSelect(T selectedItem);
-	
+
 	/**
 	 * On change.
 	 */
-	public void onChange(){
+	public void onChange() {
 		AudioPlayer.playAudio("cursor2");
 	}
 }

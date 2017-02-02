@@ -4,25 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chu.engine.anim.AudioPlayer;
-import net.fe.overworldStage.*;
-import net.fe.unit.Unit;
+import net.fe.game.unit.Unit;
 import net.fe.network.command.DropCommand;
+import net.fe.overworldStage.ClientOverworldStage;
+import net.fe.overworldStage.Node;
+import net.fe.overworldStage.OverworldContext;
+import net.fe.overworldStage.Zone;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class DropTarget.
  */
 public class DropTarget extends OverworldContext {
-	
+
 	/** The zone. */
 	private Zone zone;
-	
+
 	/** The targets. */
 	private List<Node> targets;
-	
+
 	/** The selected. */
 	protected int selected;
-	
+
 	/** The unit. */
 	protected Unit unit;
 
@@ -34,8 +37,7 @@ public class DropTarget extends OverworldContext {
 	 * @param z the z
 	 * @param u the u
 	 */
-	public DropTarget(ClientOverworldStage stage, OverworldContext context,
-			Zone z, Unit u) {
+	public DropTarget(ClientOverworldStage stage, OverworldContext context, Zone z, Unit u) {
 		super(stage, context);
 		zone = z;
 		targets = new ArrayList<Node>();
@@ -43,7 +45,9 @@ public class DropTarget extends OverworldContext {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#startContext()
 	 */
 	public void startContext() {
@@ -53,7 +57,9 @@ public class DropTarget extends OverworldContext {
 		updateCursor();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#cleanUp()
 	 */
 	public void cleanUp() {
@@ -71,16 +77,16 @@ public class DropTarget extends OverworldContext {
 		targets.clear();
 		for (Node n : zone.getNodes()) {
 			Unit u = grid.getUnit(n.x, n.y);
-			if (u == null
-					&& grid.getTerrain(n.x, n.y).getMoveCost(
-							unit.rescuedUnit().getTheClass()) < unit
-							.rescuedUnit().getStats().mov) {
+			if (u == null && grid.getTerrain(n.x, n.y)
+			        .getMoveCost(unit.rescuedUnit().getUnitClass()) < unit.rescuedUnit().getStats().mov) {
 				targets.add(n);
 			}
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onSelect()
 	 */
 	@Override
@@ -95,28 +101,36 @@ public class DropTarget extends OverworldContext {
 		stage.reset();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onUp()
 	 */
 	public void onUp() {
 		prevTarget();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onDown()
 	 */
 	public void onDown() {
 		nextTarget();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onLeft()
 	 */
 	public void onLeft() {
 		prevTarget();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onRight()
 	 */
 	public void onRight() {
@@ -161,7 +175,9 @@ public class DropTarget extends OverworldContext {
 		cursor.setYCoord(targets.get(selected).y);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.overworldStage.OverworldContext#onCancel()
 	 */
 	@Override
@@ -174,6 +190,8 @@ public class DropTarget extends OverworldContext {
 	}
 
 	private static final class EmptyRunnable implements Runnable {
-		@Override public void run() {}
+		@Override
+		public void run() {
+		}
 	}
 }

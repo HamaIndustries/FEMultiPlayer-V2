@@ -9,60 +9,48 @@ import net.fe.network.message.JoinTeam;
  * The Class Player.
  */
 public class Player implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -7461827659473965623L;
-	
+
 	/** The party. */
 	private Party party;
-	
+
 	/** The client id. */
-	private byte clientID;
-	
+	private int clientID;
+
 	/** The nickname. */
 	private String nickname;
-	
+
 	/** The team. */
-	private int team;
-	
+	private Team team;
+
 	/** The ready. */
 	public boolean ready;
-	
-	/** The Constant TEAM_NONE. */
-	public static final int TEAM_NONE = -1;
-	
-	/** The Constant TEAM_SPECTATOR. */
-	public static final int TEAM_SPECTATOR = 0;
-	
-	/** The Constant TEAM_BLUE. */
-	public static final int TEAM_BLUE = 1;
-	
-	/** The Constant TEAM_RED. */
-	public static final int TEAM_RED = 2;
-	
+
 	/**
 	 * Instantiates a new player.
 	 *
 	 * @param name the name
 	 * @param id the id
 	 */
-	public Player(String name, byte id) {
+	public Player(String name, int id) {
 		party = new Party();
 		clientID = id;
 		nickname = name;
-		team = 0;
+		team = Team.SPECTATOR;
 		ready = false;
 	}
-	
+
 	/**
 	 * Checks if is spectator.
 	 *
 	 * @return true, if is spectator
 	 */
 	public boolean isSpectator() {
-		return team == TEAM_SPECTATOR;
+		return team == Team.SPECTATOR;
 	}
-	
+
 	/**
 	 * Gets the party.
 	 *
@@ -71,16 +59,16 @@ public class Player implements Serializable {
 	public Party getParty() {
 		return party;
 	}
-	
+
 	/**
 	 * Gets the id.
 	 *
 	 * @return the id
 	 */
-	public byte getID() {
+	public int getID() {
 		return clientID;
 	}
-	
+
 	/**
 	 * Gets the name.
 	 *
@@ -95,7 +83,7 @@ public class Player implements Serializable {
 	 *
 	 * @param id the new client id
 	 */
-	public void setClientID(byte id) {
+	public void setClientID(int id) {
 		clientID = id;
 	}
 
@@ -104,7 +92,7 @@ public class Player implements Serializable {
 	 *
 	 * @return the team
 	 */
-	public int getTeam() {
+	public Team getTeam() {
 		return team;
 	}
 
@@ -113,7 +101,7 @@ public class Player implements Serializable {
 	 *
 	 * @param team2 the new team
 	 */
-	public void setTeam(int team2) {
+	public void setTeam(Team team2) {
 		team = team2;
 	}
 
@@ -122,10 +110,10 @@ public class Player implements Serializable {
 	 *
 	 * @param team the team
 	 */
-	public void joinTeam(int team) {
+	public void joinTeam(Team team) {
 		FEMultiplayer.getClient().sendMessage(new JoinTeam(clientID, team));
 	}
-	
+
 	/**
 	 * Equals.
 	 *

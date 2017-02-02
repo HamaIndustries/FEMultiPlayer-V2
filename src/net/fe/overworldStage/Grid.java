@@ -9,27 +9,27 @@ import java.util.Set;
 import org.newdawn.slick.Color;
 
 import net.fe.Party;
-import net.fe.unit.Unit;
-import net.fe.unit.UnitIdentifier;
+import net.fe.game.unit.Unit;
+import net.fe.game.unit.UnitIdentifier;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Grid.
  */
-public class Grid{
-	
+public class Grid {
+
 	/** The grid. */
 	private Unit[][] grid;
-	
+
 	/** The terrain. */
 	private Terrain[][] terrain;
-	
+
 	/** The blue throne y. */
 	private int blueThroneX, blueThroneY;
-	
+
 	/** The red throne y. */
 	private int redThroneX, redThroneY;
-	
+
 	/** The height. */
 	public final int width, height;
 
@@ -74,18 +74,18 @@ public class Grid{
 		u.setOrigY(y);
 		return true;
 	}
-	
+
 	/**
 	 * Find unit.
 	 *
 	 * @param u the u
 	 * @return the unit
 	 */
-	public Unit findUnit(UnitIdentifier u){
-		for(int i = 0; i < width; i++){
-			for(int j = 0; j < height; j++){
-				if(u.equals(new UnitIdentifier(getUnit(i,j)))){
-					return getUnit(i,j);
+	public Unit findUnit(UnitIdentifier u) {
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				if (u.equals(new UnitIdentifier(getUnit(i, j)))) {
+					return getUnit(i, j);
 				}
 			}
 		}
@@ -106,7 +106,7 @@ public class Grid{
 		grid[y][x] = null;
 		return ans;
 	}
-	
+
 	/**
 	 * Move.
 	 *
@@ -115,10 +115,10 @@ public class Grid{
 	 * @param y the y
 	 * @param animated the animated
 	 */
-	public void move(Unit u, int x, int y, boolean animated){
+	public void move(Unit u, int x, int y, boolean animated) {
 		grid[u.getYCoord()][u.getXCoord()] = null;
 		grid[y][x] = u;
-		if(!animated){
+		if (!animated) {
 			u.gridSetXCoord(x);
 			u.gridSetYCoord(y);
 		}
@@ -134,7 +134,7 @@ public class Grid{
 	public Terrain getTerrain(int x, int y) {
 		return terrain[y][x];
 	}
-	
+
 	/**
 	 * Sets the terrain.
 	 *
@@ -142,7 +142,7 @@ public class Grid{
 	 * @param y the y
 	 * @param t the t
 	 */
-	public void setTerrain(int x, int y, Terrain t){
+	public void setTerrain(int x, int y, Terrain t) {
 		terrain[y][x] = t;
 	}
 
@@ -156,14 +156,14 @@ public class Grid{
 	public Unit getUnit(int x, int y) {
 		return grid[y][x];
 	}
-	
+
 	/**
 	 * Returns true if the grid contains a space at (x,y).
 	 */
 	public boolean contains(int x, int y) {
 		return x >= 0 && y >= 0 && x < this.width && y < this.height;
 	}
-	
+
 	/**
 	 * Sets the throne pos.
 	 *
@@ -172,17 +172,17 @@ public class Grid{
 	 * @param y the y
 	 */
 	public void setThronePos(Color c, int x, int y) {
-		if(c.equals(Party.TEAM_BLUE)) {
+		if (c.equals(Party.TEAM_BLUE)) {
 			blueThroneX = x;
 			blueThroneY = y;
-			System.out.println("Blue throne: "+x+" "+y);
+			System.out.println("Blue throne: " + x + " " + y);
 		} else {
 			redThroneX = x;
 			redThroneY = y;
-			System.out.println("Red throne: "+x+" "+y);
+			System.out.println("Red throne: " + x + " " + y);
 		}
 	}
-	
+
 	/**
 	 * Can seize.
 	 *
@@ -190,53 +190,50 @@ public class Grid{
 	 * @return true, if successful
 	 */
 	public boolean canSeize(Unit u) {
-		//check if lord
-		if(!u.getTheClass().name.equals("Lord"))
+		// check if lord
+		if (!u.getUnitClass().name.equals("Lord"))
 			return false;
 		Color c = u.getPartyColor();
-		if(c.equals(Party.TEAM_BLUE) 
-				&& u.getXCoord() == redThroneX
-				&& u.getYCoord() == redThroneY) {
+		if (c.equals(Party.TEAM_BLUE) && u.getXCoord() == redThroneX && u.getYCoord() == redThroneY) {
 			return true;
-		} else if (c.equals(Party.TEAM_RED)
-				&& u.getXCoord() == blueThroneX
-				&& u.getYCoord() == blueThroneY){
+		} else if (c.equals(Party.TEAM_RED) && u.getXCoord() == blueThroneX && u.getYCoord() == blueThroneY) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public Path improvePath(Unit unit, int x, int y, Path p) {
 		if (grid[y][x] != null && grid[y][x] != unit)
 			return null;
-		
+
 		if (p == null)
 			return getShortestPath(unit, x, y);
 
 		Path improved = new Path();
-		
+
 		int move = unit.getStats().mov;
 		Node last = null;
 		// Rebuild the current path, counting the movement used
 		for (Node node : p.getAllNodes()) {
 			improved.add(node);
 			if (last != null) // The first node is the unit's current position
-				move -= terrain[node.y][node.x].getMoveCost(unit.getTheClass());
+				move -= terrain[node.y][node.x].getMoveCost(unit.getUnitClass());
 			last = node;
-			
-			// If we go somewhere that is already on the path, just cut the path.
+
+			// If we go somewhere that is already on the path, just cut the
+			// path.
 			if (node.x == x && node.y == y)
 				return improved;
 		}
-		
+
 		// Sanity check: we should be moving exactly one additional tile.
 		if (last.distance(new Node(x, y)) != 1)
 			return getShortestPath(unit, x, y);
 
 		// Check that we can actually extend the path
-		if (move < terrain[y][x].getMoveCost(unit.getTheClass()))
+		if (move < terrain[y][x].getMoveCost(unit.getUnitClass()))
 			return getShortestPath(unit, x, y);
-		
+
 		improved.add(new Node(x, y));
 		return improved;
 	}
@@ -250,7 +247,8 @@ public class Grid{
 	 * @return the shortest path
 	 */
 	public Path getShortestPath(Unit unit, int x, int y) {
-		if(grid[y][x] != null && grid[y][x] != unit) return null;
+		if (grid[y][x] != null && grid[y][x] != unit)
+			return null;
 		int move = unit.getStats().mov;
 		Set<Node> closed = new HashSet<Node>();
 		Set<Node> open = new HashSet<Node>();
@@ -272,23 +270,23 @@ public class Grid{
 			if (cur.equals(goal)) {
 				return getPath(cur);
 			}
-			
+
 			open.remove(cur);
 			closed.add(cur);
 			for (Node n : cur.getNeighbors(this)) {
-				for(Node o : open) {
-					if(o.equals(n)) n = o;
+				for (Node o : open) {
+					if (o.equals(n))
+						n = o;
 				}
-				int g = cur.g
-						+ terrain[n.y][n.x].getMoveCost(unit.getTheClass());
-				if(grid[n.y][n.x] != null && grid[n.y][n.x].getParty() != unit.getParty()) {
+				int g = cur.g + terrain[n.y][n.x].getMoveCost(unit.getUnitClass());
+				if (grid[n.y][n.x] != null && grid[n.y][n.x].getParty() != unit.getParty()) {
 					g += 128;
 				}
 				int f = g + heuristic(n, goal);
 				if (closed.contains(n) && f >= n.f) {
 					continue;
 				} else if (!open.contains(n) || f < n.f) {
-					if (g > move){
+					if (g > move) {
 						continue;
 					}
 					n.parent = cur;
@@ -312,66 +310,65 @@ public class Grid{
 	public Set<Node> getPossibleMoves(Unit u) {
 		int x = u.getXCoord();
 		int y = u.getYCoord();
-		Node start = new Node(x,y);
+		Node start = new Node(x, y);
 		start.d = 0;
 		Set<Node> set = new HashSet<Node>();
 		ArrayList<Node> q = new ArrayList<Node>();
 		q.add(new Node(x, y));
-		
-		while(q.size() > 0){
+
+		while (q.size() > 0) {
 			Node curr = q.remove(0);
 			set.add(curr);
-			for(Node n: curr.getNeighbors(this)){
-				if(!set.contains(n)){
-					n.d = curr.d + terrain[n.y][n.x].getMoveCost(u.getTheClass());
-					if(grid[n.y][n.x] != null && grid[n.y][n.x].getParty() != u.getParty()) {
+			for (Node n : curr.getNeighbors(this)) {
+				if (!set.contains(n)) {
+					n.d = curr.d + terrain[n.y][n.x].getMoveCost(u.getUnitClass());
+					if (grid[n.y][n.x] != null && grid[n.y][n.x].getParty() != u.getParty()) {
 						n.d += 128;
 					}
-					if(n.d <= u.getStats().mov){
+					if (n.d <= u.getStats().mov) {
 						q.add(n);
 					}
 				}
 			}
 		}
-		
-		
+
 		return set;
 	}
-	
+
 	/**
 	 * Gets the attack range.
 	 *
 	 * @param u the u
 	 * @return the attack range
 	 */
-	public Set<Node> getAttackRange(Unit u){
+	public Set<Node> getAttackRange(Unit u) {
 		Set<Node> move = getPossibleMoves(u);
 		Set<Node> set = new HashSet<Node>();
 		Set<Integer> range = u.getTotalWepRange(false);
-		for(Node n: move){
-			for(int i: range){
+		for (Node n : move) {
+			for (int i : range) {
 				set.addAll(getRange(n, i));
 			}
 		}
 		return set;
 	}
-	
+
 	/**
 	 * Gets the heal range.
 	 *
 	 * @param u the u
 	 * @return the heal range
 	 */
-	public Set<Node> getHealRange(Unit u){
+	public Set<Node> getHealRange(Unit u) {
 		Set<Node> move = getPossibleMoves(u);
 		Set<Node> set = new HashSet<Node>();
 		Set<Integer> range = u.getTotalWepRange(true);
-		for(Node n: move){
+		for (Node n : move) {
 			set.addAll(getRange(n, range));
 		}
 		return set;
 	}
-	
+
 	/**
 	 * Gets the range.
 	 *
@@ -379,15 +376,15 @@ public class Grid{
 	 * @param range the range
 	 * @return the range
 	 */
-	public Set<Node> getRange(Node start, Collection<Integer> range){
+	public Set<Node> getRange(Node start, Collection<Integer> range) {
 		int[] r = new int[range.size()];
 		Iterator<Integer> it = range.iterator();
-		for(int i = 0; i < range.size(); i++){
+		for (int i = 0; i < range.size(); i++) {
 			r[i] = it.next();
 		}
 		return getRange(start, r);
 	}
-	
+
 	/**
 	 * Gets the range.
 	 *
@@ -395,16 +392,16 @@ public class Grid{
 	 * @param range the range
 	 * @return the range
 	 */
-	public Set<Node> getRange(Node start, int... range){
+	public Set<Node> getRange(Node start, int... range) {
 		Set<Node> set = new HashSet<Node>();
-		for(int r: range){
-			for(int dx = -r; dx <=r; dx++){
-				for(int dy = -r; dy <= r; dy++){
+		for (int r : range) {
+			for (int dx = -r; dx <= r; dx++) {
+				for (int dy = -r; dy <= r; dy++) {
 					Node n = new Node(start.x + dx, start.y + dy);
-					if(n.x < 0 || n.x > width-1 ||n.y < 0 || n.y > height-1){
+					if (n.x < 0 || n.x > width - 1 || n.y < 0 || n.y > height - 1) {
 						continue;
 					}
-					if(n.distance(start) == r && !set.contains(n)){
+					if (n.distance(start) == r && !set.contains(n)) {
 						set.add(n);
 					}
 				}
@@ -423,7 +420,7 @@ public class Grid{
 		Path path = new Path();
 		Node cur = goal;
 		do {
-			path.add(0,cur);
+			path.add(0, cur);
 			cur = cur.parent;
 		} while (cur != null);
 		return path;

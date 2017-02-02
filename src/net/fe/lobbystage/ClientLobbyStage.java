@@ -1,54 +1,50 @@
 package net.fe.lobbystage;
 
 import java.util.List;
-import java.util.Set;
-
-import net.fe.FEMultiplayer;
-import net.fe.FEResources;
-import net.fe.Party;
-import net.fe.Player;
-import net.fe.Session;
-import net.fe.ConnectStage;
-import net.fe.modifier.Modifier;
-import net.fe.network.FEServer;
-import net.fe.network.Message;
-import net.fe.network.message.QuitMessage;
-import net.fe.network.message.ReadyMessage;
-import net.fe.network.message.StartPicking;
 
 import org.newdawn.slick.Color;
 
-import chu.engine.Entity;
-import chu.engine.Game;
 import chu.engine.anim.AudioPlayer;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.ShaderArgs;
 import chu.engine.anim.Transform;
-import chu.engine.menu.MenuButton;
+import chu.engine.entity.Entity;
+import chu.engine.entity.menu.MenuButton;
+import net.fe.FEMultiplayer;
+import net.fe.FEResources;
+import net.fe.Party;
+import net.fe.Player;
+import net.fe.Team;
+import net.fe.game.Session;
+import net.fe.game.modifier.Modifier;
+import net.fe.network.Message;
+import net.fe.network.message.ReadyMessage;
+import net.fe.network.message.StartPicking;
 
 // TODO: Auto-generated Javadoc
 /**
  * Lobby where the players wait before the game.
+ * 
  * @author Shawn
  *
  */
 public class ClientLobbyStage extends LobbyStage {
-	
+
 	/** The Constant BORDER_DARK. */
 	public static final Color BORDER_DARK = new Color(0x483828);
-	
+
 	/** The Constant BORDER_LIGHT. */
 	public static final Color BORDER_LIGHT = new Color(0xf8f0c8);
-	
+
 	/** The Constant NEUTRAL. */
 	public static final Color NEUTRAL = new Color(0xb0a878);
-	
+
 	/** The Constant NEUTRAL_DARK. */
 	public static final Color NEUTRAL_DARK = new Color(0x58543c);
-	
+
 	/** The chat input. */
 	private LobbyChatBox chatInput;
-	
+
 	/**
 	 * Instantiates a new client lobby stage.
 	 *
@@ -61,14 +57,16 @@ public class ClientLobbyStage extends LobbyStage {
 			{
 				sprite.addAnimation("default", FEResources.getTexture("spectate_button"));
 			}
+
 			@Override
 			public void onClick() {
 				AudioPlayer.playAudio("select");
-				FEMultiplayer.getLocalPlayer().joinTeam(Player.TEAM_SPECTATOR);
+				FEMultiplayer.getLocalPlayer().joinTeam(Team.SPECTATOR);
 			}
+
 			@Override
 			public void render() {
-				if(hover) {
+				if (hover) {
 					sprite.render(x, y, renderDepth, null, new ShaderArgs("lighten", 0.5f));
 				} else {
 					sprite.render(x, y, renderDepth);
@@ -79,48 +77,56 @@ public class ClientLobbyStage extends LobbyStage {
 			@Override
 			public void onClick() {
 				AudioPlayer.playAudio("select");
-				FEMultiplayer.getLocalPlayer().joinTeam(Player.TEAM_BLUE);
+				FEMultiplayer.getLocalPlayer().joinTeam(Team.BLUE);
 			}
+
 			@Override
-			
+
 			public void render() {
-				if(hover){
-					Renderer.drawBorderedRectangle(x, y, x+26, y+28, renderDepth, Party.TEAM_BLUE.brighter(), BORDER_LIGHT, BORDER_DARK);
+				if (hover) {
+					Renderer.drawBorderedRectangle(x, y, x + 26, y + 28, renderDepth, Party.TEAM_BLUE.brighter(),
+		                    BORDER_LIGHT, BORDER_DARK);
 				} else {
-					Renderer.drawBorderedRectangle(x, y, x+26, y+28, renderDepth, Party.TEAM_BLUE, BORDER_LIGHT, BORDER_DARK);
+					Renderer.drawBorderedRectangle(x, y, x + 26, y + 28, renderDepth, Party.TEAM_BLUE, BORDER_LIGHT,
+		                    BORDER_DARK);
 				}
-				Renderer.drawString("default_med", "Blue", x+5, y+8,  renderDepth);
+				Renderer.drawString("default_med", "Blue", x + 5, y + 8, renderDepth);
 			}
 		};
 		MenuButton redButton = new MenuButton(445, 59, 26, 28) {
 			@Override
 			public void onClick() {
 				AudioPlayer.playAudio("select");
-				FEMultiplayer.getLocalPlayer().joinTeam(Player.TEAM_RED);
+				FEMultiplayer.getLocalPlayer().joinTeam(Team.RED);
 			}
+
 			@Override
 			public void render() {
-				if(hover){
-					Renderer.drawBorderedRectangle(x, y, x+26, y+28, renderDepth, Party.TEAM_RED.brighter(), BORDER_LIGHT, BORDER_DARK);
+				if (hover) {
+					Renderer.drawBorderedRectangle(x, y, x + 26, y + 28, renderDepth, Party.TEAM_RED.brighter(),
+		                    BORDER_LIGHT, BORDER_DARK);
 				} else {
-					Renderer.drawBorderedRectangle(x, y, x+26, y+28, renderDepth, Party.TEAM_RED, BORDER_LIGHT, BORDER_DARK);
+					Renderer.drawBorderedRectangle(x, y, x + 26, y + 28, renderDepth, Party.TEAM_RED, BORDER_LIGHT,
+		                    BORDER_DARK);
 				}
-				Renderer.drawString("default_med", "Red", x+5, y+8,  renderDepth);
+				Renderer.drawString("default_med", "Red", x + 5, y + 8, renderDepth);
 			}
 		};
 		MenuButton exitButton = new MenuButton(409, 154, 64, 32) {
 			{
 				sprite.addAnimation("default", FEResources.getTexture("exit_button"));
 			}
+
 			@Override
 			public void onClick() {
 				AudioPlayer.playAudio("select");
 				FEMultiplayer.getClient().quit();
 				FEMultiplayer.setCurrentStage(FEMultiplayer.connect);
 			}
+
 			@Override
 			public void render() {
-				if(hover) {
+				if (hover) {
 					sprite.render(x, y, renderDepth, null, new ShaderArgs("lighten", 0.5f));
 				} else {
 					sprite.render(x, y, renderDepth);
@@ -131,13 +137,15 @@ public class ClientLobbyStage extends LobbyStage {
 			{
 				sprite.addAnimation("default", FEResources.getTexture("send_button"));
 			}
+
 			@Override
 			public void onClick() {
 				chatInput.send();
 			}
+
 			@Override
 			public void render() {
-				if(hover) {
+				if (hover) {
 					sprite.render(x, y, renderDepth, null, new ShaderArgs("lighten", 0.5f));
 				} else {
 					sprite.render(x, y, renderDepth);
@@ -148,14 +156,16 @@ public class ClientLobbyStage extends LobbyStage {
 			{
 				sprite.addAnimation("default", FEResources.getTexture("ready_button"));
 			}
+
 			@Override
 			public void onClick() {
 				AudioPlayer.playAudio("select");
 				FEMultiplayer.getClient().sendMessage(new ReadyMessage());
 			}
+
 			@Override
 			public void render() {
-				if(hover) {
+				if (hover) {
 					sprite.render(x, y, renderDepth, null, new ShaderArgs("lighten", 0.5f));
 				} else {
 					sprite.render(x, y, renderDepth);
@@ -171,22 +181,24 @@ public class ClientLobbyStage extends LobbyStage {
 		addEntity(chatInput);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.lobbystage.LobbyStage#beginStep()
 	 */
 	@Override
 	public void beginStep(List<Message> messages) {
 		super.beginStep(messages);
-		for(Entity e : entities) {
+		for (Entity e : entities) {
 			e.beginStep();
 		}
-		for(Message message : messages) {
-			if(message instanceof StartPicking) {
+		for (Message message : messages) {
+			if (message instanceof StartPicking) {
 				// Set up global list of players
-				for(Player p : FEMultiplayer.getPlayers().values()) {
-					if(p.equals(FEMultiplayer.getLocalPlayer()))
+				for (Player p : FEMultiplayer.getPlayers().values()) {
+					if (p.equals(FEMultiplayer.getLocalPlayer()))
 						FEMultiplayer.setLocalPlayer(p);
-					if(p.isSpectator())
+					if (p.isSpectator())
 						p.getParty().clear();
 				}
 				session.getPickMode().setUpClient(session);
@@ -196,32 +208,38 @@ public class ClientLobbyStage extends LobbyStage {
 		processRemoveStack();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.lobbystage.LobbyStage#onStep()
 	 */
 	@Override
 	public void onStep() {
 		super.onStep();
-		for(Entity e : entities) {
+		for (Entity e : entities) {
 			e.onStep();
 		}
 		processAddStack();
 		processRemoveStack();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.fe.lobbystage.LobbyStage#endStep()
 	 */
 	@Override
 	public void endStep() {
-		for(Entity e : entities) {
+		for (Entity e : entities) {
 			e.endStep();
 		}
 		processAddStack();
 		processRemoveStack();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see chu.engine.Stage#render()
 	 */
 	@Override
@@ -235,54 +253,55 @@ public class ClientLobbyStage extends LobbyStage {
 		int x, y;
 		x = 6;
 		y = 22;
-		Renderer.drawString("default_med", "Blue Team", x, y-14, 0.9f);
-		Renderer.drawString("default_med", "Red Team", x+152, y-14, 0.9f);
-		Renderer.drawRectangle(x, y, x+147, y+164, 1.0f, NEUTRAL_DARK);
-		Renderer.drawRectangle(x+152, y, x+300, y+164, 1.0f, NEUTRAL_DARK);
+		Renderer.drawString("default_med", "Blue Team", x, y - 14, 0.9f);
+		Renderer.drawString("default_med", "Red Team", x + 152, y - 14, 0.9f);
+		Renderer.drawRectangle(x, y, x + 147, y + 164, 1.0f, NEUTRAL_DARK);
+		Renderer.drawRectangle(x + 152, y, x + 300, y + 164, 1.0f, NEUTRAL_DARK);
 		y = y + 164 + 16;
-		Renderer.drawString("default_med", "Chat", x, y-14, 0.9f);
-		Renderer.drawRectangle(x, y, x+300, y+89, 1.0f, NEUTRAL_DARK);
+		Renderer.drawString("default_med", "Chat", x, y - 14, 0.9f);
+		Renderer.drawRectangle(x, y, x + 300, y + 89, 1.0f, NEUTRAL_DARK);
 		y = 22;
 		x = x + 300 + 16;
-		Renderer.drawString("default_med", "Spectators", x, y-14, 0.9f);
-		Renderer.drawRectangle(x, y, x+84, y+164, 1.0f, NEUTRAL_DARK);
+		Renderer.drawString("default_med", "Spectators", x, y - 14, 0.9f);
+		Renderer.drawRectangle(x, y, x + 84, y + 164, 1.0f, NEUTRAL_DARK);
 		y = y + 187;
-		Renderer.drawString("default_med", "Game info", x, y-14, 0.9f);
-		Renderer.drawString("default_med", "Map: "+session.getMap(), x+2, y+2, 0.9f);
-		Renderer.drawString("default_med", "Objective: "+session.getObjective().getDescription(), x+2, y+16, 0.9f);
-		Renderer.drawString("default_med", "Pick mode: "+session.getPickMode(), x+2, y+30, 0.9f);
-		Renderer.drawString("default_med", "Modifiers: ", x+2, y+44, 0.9f);
+		Renderer.drawString("default_med", "Game info", x, y - 14, 0.9f);
+		Renderer.drawString("default_med", "Map: " + session.getMap(), x + 2, y + 2, 0.9f);
+		Renderer.drawString("default_med", "Objective: " + session.getObjective().getDescription(), x + 2, y + 16,
+		        0.9f);
+		Renderer.drawString("default_med", "Pick mode: " + session.getPickMode(), x + 2, y + 30, 0.9f);
+		Renderer.drawString("default_med", "Modifiers: ", x + 2, y + 44, 0.9f);
 		int yy = 0;
-		for(Modifier m : session.getModifiers()) {
-			Renderer.drawString("default_med", "* "+m.toString(), x+20, y+58+yy*14, 0.9f);
+		for (Modifier m : session.getModifiers()) {
+			Renderer.drawString("default_med", "* " + m.toString(), x + 20, y + 58 + yy * 14, 0.9f);
 			yy++;
 		}
 		Renderer.drawRectangle(x, y, 474, 314, 1.0f, NEUTRAL_DARK);
-		
+
 		// Draw players in correct locations
 		int a, b, c, d;
 		a = b = c = d = 0;
 		final int tightSpacing = 16;
-		for(Player p : session.getPlayers()) {
+		for (Player p : session.getPlayers()) {
 			Transform t = new Transform();
-			if(p.ready) {
-				t.setColor(new Color(90,200,90));
+			if (p.ready) {
+				t.setColor(new Color(90, 200, 90));
 			}
-			if(p.getTeam() == Player.TEAM_SPECTATOR) {
-				Renderer.drawString("default_med", p.getName(), 324, 24+(b++)*tightSpacing, 0.8f, t);
-			} else if(p.getTeam() == Player.TEAM_BLUE)  {
-				Renderer.drawString("default_med", p.getName(), 8, 24+(c++)*tightSpacing, 0.8f, t);
-			} else if(p.getTeam() == Player.TEAM_RED)  {
-				Renderer.drawString("default_med", p.getName(), 160, 24+(d++)*tightSpacing, 0.8f, t);
+			if (p.getTeam() == Team.SPECTATOR) {
+				Renderer.drawString("default_med", p.getName(), 324, 24 + (b++) * tightSpacing, 0.8f, t);
+			} else if (p.getTeam() == Team.BLUE) {
+				Renderer.drawString("default_med", p.getName(), 8, 24 + (c++) * tightSpacing, 0.8f, t);
+			} else if (p.getTeam() == Team.RED) {
+				Renderer.drawString("default_med", p.getName(), 160, 24 + (d++) * tightSpacing, 0.8f, t);
 			}
 		}
-		
-		//Draw chat
+
+		// Draw chat
 		x = 6;
 		y = 202;
 		List<String> chats = session.getChatlog().getLast(5);
-		for(int i=0; i<5; i++) {
-			Renderer.drawString("default_med", chats.get(i), x+2, y+2+i*16, 0.8f);
+		for (int i = 0; i < 5; i++) {
+			Renderer.drawString("default_med", chats.get(i), x + 2, y + 2 + i * 16, 0.8f);
 		}
 	}
 }

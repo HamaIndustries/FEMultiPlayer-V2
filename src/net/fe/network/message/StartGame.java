@@ -7,10 +7,10 @@ import net.fe.network.Message;
  * The Class StartGame.
  */
 public class StartGame extends Message {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 996855764072238544L;
-	
+
 	/**
 	 * Instantiates a new start game.
 	 *
