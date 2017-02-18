@@ -292,10 +292,11 @@ public class FEMultiplayer extends Game{
 	 *
 	 * @param nickname player nickname
 	 * @param ip the host ip
+	 * @param port the host port
 	 */
-	public static void connect(String nickname, String ip) {
+	public static void connect(String nickname, String ip, int port) {
 		getLocalPlayer().setName(nickname);
-		client = new Client(ip, 21255);
+		client = new Client(ip, port);
 		if(client.isOpen()) {
 			lobby = new ClientLobbyStage(client.getSession());
 			setCurrentStage(lobby);

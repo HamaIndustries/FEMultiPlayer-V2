@@ -26,6 +26,7 @@ import net.fe.unit.WeaponFactory;
 public class FEServer extends Game {
 	
 	public static final short DEFAULT_PORT = 25525;
+	private int port = 25555;
 	
 	/** The server. */
 	private static Server server;
@@ -61,7 +62,7 @@ public class FEServer extends Game {
 		
 		Thread serverThread = new Thread() {
 			public void run() {
-				server.start(21255);
+				server.start(port);
 			}
 		};
 		lobby = new LobbyStage(server.getSession());

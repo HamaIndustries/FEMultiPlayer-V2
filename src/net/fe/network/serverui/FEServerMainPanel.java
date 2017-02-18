@@ -37,6 +37,7 @@ import net.fe.modifier.SuddenDeath;
 import net.fe.modifier.Treasury;
 import net.fe.modifier.Vegas;
 import net.fe.modifier.Veterans;
+import net.fe.network.FEServer;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.overworldStage.objective.Rout;
 import net.fe.overworldStage.objective.Seize;
@@ -51,7 +52,6 @@ import net.fe.pick.PickMode;
 public class FEServerMainPanel extends JPanel {
 
 	private JButton startServer;
-	private Component verticalStrut;
 	private ToolTipList<Modifier> modifiersList;
 	private JScrollPane modifiersScrollPane;
 	private JButton removeModifierBtn;
@@ -75,6 +75,9 @@ public class FEServerMainPanel extends JPanel {
 	private JPanel mainPanel;
 	
 	private Runnable serverStart;
+	private JPanel panel;
+	private JLabel lblPort;
+	private JSpinner spnPort;
 	
 	/**
 	 * Initializes the panel
@@ -215,8 +218,15 @@ public class FEServerMainPanel extends JPanel {
 		
 		modifiersPane.add(modifiersScrollPane);
 		
-		verticalStrut = Box.createVerticalStrut(20);
-		mainPanel.add(verticalStrut);
+		panel = new JPanel();
+		mainPanel.add(panel);
+		
+		lblPort = new JLabel("Port :");
+		panel.add(lblPort);
+		
+		spnPort = new JSpinner();
+		spnPort.setModel(new SpinnerNumberModel(FEServer.DEFAULT_PORT, 0, 65565, 1));
+		panel.add(spnPort);
 		
 		startServer = new JButton("Start server");
 		startServer.addActionListener(new ActionListener() {
@@ -241,6 +251,10 @@ public class FEServerMainPanel extends JPanel {
 	 * Returns the session described by the current values set in the different components of the frame.
 	 * @return the session described by the current values set in the different components of the frame.
 	 */
+	
+	public int getPort() {
+		return (Integer)spnPort.getValue();
+	}
 	
 	public Session getSession() {
 		HashSet<Modifier> mods = new HashSet<Modifier>();

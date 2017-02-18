@@ -32,12 +32,18 @@ public class FEServerRunPanel extends JPanel {
 	
 	private static final long serialVersionUID = 8683661864175580614L;
 	
-	private String ipPort;
+	private String ip;
+	private int port;
+	
+	
+	public FEServerRunPanel() {
+		this(FEServer.DEFAULT_PORT);
+	}
 
 	/**
 	 * Initialize the panel.
 	 */
-	public FEServerRunPanel() {
+	public FEServerRunPanel(int port) {
 
 		setLayout(new BorderLayout(0, 0));
 		mainPanel = new JPanel();
@@ -52,8 +58,11 @@ public class FEServerRunPanel extends JPanel {
 		//label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		
 		try {
-			ipPort = InetAddress.getLocalHost().getHostAddress();
-			label.setText("Server IP: " + ipPort);
+			ip = InetAddress.getLocalHost().getHostAddress();
+			String text = "Server IP:" + ip;
+			if(port != FEServer.DEFAULT_PORT)
+				text += ":" + port;
+			label.setText(text);
 		} catch (UnknownHostException e) {
 			label.setText("Error occured while getting the IP");
 		}
@@ -74,11 +83,21 @@ public class FEServerRunPanel extends JPanel {
 		JButton copyToClipboard = new JButton("Copy IP to clipboard");
 		copyToClipboard.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(ipPort != null)
-					Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(ipPort), null);
+				if(ip == null)
+					return;
+				String text = ip;
+				if(port != FEServer.DEFAULT_PORT)
+					text += ":" + port;
+				Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(text), null);
+				
 			}
 		});
 		panel.add(copyToClipboard);
 		
 	}
+	
+	public void setPort(int port) {
+		this.port = port;
+	}
+	
 }
