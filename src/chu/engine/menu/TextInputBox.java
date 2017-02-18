@@ -67,7 +67,6 @@ public abstract class TextInputBox extends Entity {
 			List<KeyboardEvent> keys = Game.getKeys();
 			for (KeyboardEvent ke : keys) {
 				if (ke.state) {
-					System.out.println(ke + "\t" + ke.isControlDown() + "\t" + ke.eventChar);
 					char c = ke.eventChar;
 					if(ke.isControlDown())
 						switch(ke.key){
@@ -76,6 +75,12 @@ public abstract class TextInputBox extends Entity {
 								continue;
 							case Keyboard.KEY_V:
 								String clip = getClipboardContent();
+								for(char ch : clip.toCharArray()) {
+									if (isValidCharacter(ch) && FEResources.getBitmapFont("default_med").getStringWidth(input.toString() + ch) < 246) {
+										input.insert(cursorPos, ch);
+										cursorPos++;
+									}
+								}
 								input = input.insert(cursorPos, clip);
 								cursorPos += clip.length();
 								continue;
