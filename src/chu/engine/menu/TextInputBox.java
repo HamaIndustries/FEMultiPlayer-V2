@@ -81,8 +81,6 @@ public abstract class TextInputBox extends Entity {
 										cursorPos++;
 									}
 								}
-								input = input.insert(cursorPos, clip);
-								cursorPos += clip.length();
 								continue;
 						}
 					if (isValidCharacter(c) && FEResources.getBitmapFont("default_med").getStringWidth(input.toString() + c) < 246) {
