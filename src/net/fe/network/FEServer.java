@@ -50,7 +50,12 @@ public class FEServer extends Game {
 	 * Instantiates a new FE server.
 	 */
 	public FEServer(Session s) {
+		this(s, DEFAULT_PORT);
+	}
+	
+	public FEServer(Session s, int port) {
 		server = new Server(s);
+		this.port = port;
 	}
 	
 	/**

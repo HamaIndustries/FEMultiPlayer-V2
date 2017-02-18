@@ -42,13 +42,13 @@ public class FEServerFrame extends JFrame {
 	
 	private void serverStart() {
 		remove(mainPanel);
-		runPanel = new FEServerRunPanel();
+		runPanel = new FEServerRunPanel(mainPanel.getPort());
 		getContentPane().add(runPanel);
 		pack();
 		
 		Thread serverThread = new Thread() {
 			public void run() {
-				FEServer feserver = new FEServer(mainPanel.getSession());
+				FEServer feserver = new FEServer(mainPanel.getSession(), mainPanel.getPort());
 				try{
 					feserver.init();
 					feserver.loop();
