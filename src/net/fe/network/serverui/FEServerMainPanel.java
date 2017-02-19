@@ -179,12 +179,14 @@ public class FEServerMainPanel extends JPanel {
 		modifiersScrollPane.setPreferredSize(new Dimension(120,150));
 		
 		modifiersList = new ToolTipList();
+		modifiersList.setToolTipFunction(modifier -> modifier.getDescription());
 		modifiersScrollPane.add(modifiersList);
 		modifiersList.setModel(unselectedModifiersModel);
 		modifiersScrollPane.setViewportView(modifiersList);
 		
 		selectedModifiersList = new ToolTipList();
 		selectedModifiersScrollPane.add(selectedModifiersList);
+		selectedModifiersList.setToolTipFunction(modifier -> modifier.getDescription());
 		selectedModifiersList.setModel(selectedModifiersModel);
 		selectedModifiersScrollPane.setViewportView(selectedModifiersList);
 		
@@ -221,10 +223,20 @@ public class FEServerMainPanel extends JPanel {
 		panel = new JPanel();
 		mainPanel.add(panel);
 		
-		lblPort = new JLabel("Port :");
+		lblPort = new JLabel("Port :") {
+			@Override
+			public String getToolTipText() {
+				return "Don't change this unless you know what you're doing!";
+			}
+		};
 		panel.add(lblPort);
 		
-		spnPort = new JSpinner();
+		spnPort = new JSpinner() {
+			@Override
+			public String getToolTipText() {
+				return "Don't change this unless you know what you're doing!";
+			}
+		};
 		spnPort.setModel(new SpinnerNumberModel(FEServer.DEFAULT_PORT, 0, 65565, 1));
 		panel.add(spnPort);
 		

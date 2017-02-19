@@ -22,6 +22,8 @@ public class ToolTipList<T> extends JList<T> {
 	public String getToolTipText(MouseEvent event) {
 		Point p = event.getPoint();
 		int index = locationToIndex(p);
+		if(index == -1 || toolTipFunction == null)
+			return "";
 		return toolTipFunction.apply((T)getModel().getElementAt(index));
 	}
 	/**
