@@ -49,11 +49,11 @@ public final class ConnectStage extends Stage {
 	public ConnectStage() {
 		super("main");
 		name = new ConnectInputBox(180,136,153,20);
-		ipPort = new ConnectInputBox(180,166,100,20);
+		ipPort = new ConnectInputBox(180,166,153,20);
 		addEntity(name);
 		addEntity(ipPort);
 		addEntity(new RunesBg(Color.gray));
-		addEntity(new ConnectButton(286,166,47,20));
+		addEntity(new ConnectButton(339,166,47,20));
 		addEntity(new MenuButton(180,196,128,32) {
 			{
 				sprite.addAnimation("default", FEResources.getTexture("team_builder_button"));
@@ -110,7 +110,7 @@ public final class ConnectStage extends Stage {
 	public void render() {
 		// Draw and label boxes
 		Renderer.drawString("default_med", "Name:", 150, 140, 0.0f);
-		Renderer.drawString("default_med", "Server IP:", 133, 170, 0.0f);
+		Renderer.drawString("default_med", "Server address:", 105, 170, 0.0f);
 		
 		super.render();
 	}
