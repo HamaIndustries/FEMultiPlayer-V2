@@ -13,4 +13,9 @@ public class TrueHitRNG extends RNG {
 		return (get() + get()) / 2 < successRate;
 	}
 
+	@Override
+	public String getName() {
+		return "True hit";
+	}
+
 }

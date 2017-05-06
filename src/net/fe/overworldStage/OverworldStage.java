@@ -56,9 +56,9 @@ public class OverworldStage extends Stage {
 	/** The turn count. */
 	private int turnCount;
 	
-	private RNG hitRNG = new TrueHitRNG();
-	private RNG critRNG = new SimpleRNG();
-	private RNG skillRNG = new SimpleRNG();
+	private RNG hitRNG;
+	private RNG critRNG;
+	private RNG skillRNG;
 
 	/**
 	 * Instantiates a new overworld stage.
@@ -68,6 +68,9 @@ public class OverworldStage extends Stage {
 	public OverworldStage(Session s) {
 		super(null);
 		this.session = s;
+		hitRNG = s.getHitRNG();
+		critRNG = s.getCritRNG();
+		skillRNG = s.getSkillRNG();
 		System.out.println(session.getObjective().getDescription());
 		turnOrder = new ArrayList<Player>();
 		for(Player p : session.getNonSpectators()) {

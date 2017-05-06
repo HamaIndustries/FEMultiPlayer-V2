@@ -39,6 +39,9 @@ import net.fe.overworldStage.objective.Seize;
 import net.fe.pick.AllPick;
 import net.fe.pick.Draft;
 import net.fe.pick.PickMode;
+import net.fe.rng.RNG;
+import net.fe.rng.SimpleRNG;
+import net.fe.rng.TrueHitRNG;
 
 /**
  * The initial panel displayed to the server's host.
@@ -72,9 +75,16 @@ public class FEServerMainPanel extends JPanel {
 	private JPanel mainPanel;
 
 	private Runnable serverStart;
-	private JPanel panel;
+	private JPanel pnlPort;
 	private JLabel lblPort;
 	private JSpinner spnPort;
+	private JPanel pnlRNG;
+	private JLabel lblHitRng;
+	private JComboBox<RNG> cbbHitRNG;
+	private JLabel lblCritRng;
+	private JComboBox<RNG> cbbCritRNG;
+	private JLabel lblSkillRng;
+	private JComboBox<RNG> cbbSkillRNG;
 
 	/**
 	 * Initializes the panel
@@ -209,17 +219,44 @@ public class FEServerMainPanel extends JPanel {
 
 		modifiersPane.add(modifiersScrollPane);
 
-		panel = new JPanel();
-		mainPanel.add(panel);
+		pnlPort = new JPanel();
+		mainPanel.add(pnlPort);
 
 		lblPort = new JLabel("Port :");
 		lblPort.setToolTipText("Don't change this unless you know what you're doing!");
-		panel.add(lblPort);
+		pnlPort.add(lblPort);
 
 		spnPort = new JSpinner();
 		spnPort.setToolTipText("Don't change this unless you know what you're doing!");
 		spnPort.setModel(new SpinnerNumberModel(FEServer.DEFAULT_PORT, 0, 65565, 1));
-		panel.add(spnPort);
+		pnlPort.add(spnPort);
+		
+		pnlRNG = new JPanel();
+		mainPanel.add(pnlRNG);
+		
+		lblHitRng = new JLabel("Hit RNG: ");
+		pnlRNG.add(lblHitRng);
+		
+		
+		cbbHitRNG = new JComboBox<>();
+		cbbHitRNG.setModel(new DefaultComboBoxModel<RNG>(new RNG[] {new SimpleRNG(), new TrueHitRNG()}));
+		cbbHitRNG.setSelectedIndex(1);
+		pnlRNG.add(cbbHitRNG);
+		
+		//Secret settings :o
+//		lblCritRng = new JLabel("Crit RNG");
+//		pnlRNG.add(lblCritRng);
+//		
+//		cbbCritRNG = new JComboBox<>();
+//		cbbCritRNG.setModel(new DefaultComboBoxModel<RNG>(new RNG[] {new SimpleRNG(), new TrueHitRNG()}));
+//		pnlRNG.add(cbbCritRNG);
+//		
+//		lblSkillRng = new JLabel("Skill RNG");
+//		pnlRNG.add(lblSkillRng);
+//		
+//		cbbSkillRNG = new JComboBox<>();
+//		cbbSkillRNG.setModel(new DefaultComboBoxModel<RNG>(new RNG[] {new SimpleRNG(), new TrueHitRNG()}));
+//		pnlRNG.add(cbbSkillRNG);
 
 		startServer = new JButton("Start server");
 		startServer.addActionListener(e -> {
@@ -251,7 +288,12 @@ public class FEServerMainPanel extends JPanel {
 		HashSet<Modifier> mods = new HashSet<Modifier>();
 		for (int i = 0; i < selectedModifiersList.getModel().getSize(); i++)
 			mods.add(selectedModifiersList.getModel().getElementAt(i));
-		return new Session((Objective) objComboBox.getSelectedItem(), (String) mapSelectionBox.getSelectedItem(), (Integer) maxUnitsSpinner.getValue(), mods, (PickMode) pickModeBox.getSelectedItem());
+		return new Session(
+				(Objective) objComboBox.getSelectedItem(),
+				(String) mapSelectionBox.getSelectedItem(),
+				(Integer) maxUnitsSpinner.getValue(), mods,
+				(PickMode) pickModeBox.getSelectedItem(),
+				new TrueHitRNG(), new SimpleRNG(), new SimpleRNG());
 
 	}
 }

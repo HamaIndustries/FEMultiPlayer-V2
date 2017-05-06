@@ -12,4 +12,9 @@ public class SimpleRNG extends RNG {
 	public boolean test(int successRate) {
 		return get() < successRate;
 	}
+
+	@Override
+	public String getName() {
+		return "Single roll";
+	}
 }

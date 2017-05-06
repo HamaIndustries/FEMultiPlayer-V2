@@ -29,6 +29,26 @@ public abstract class RNG {
 	 */
 	public abstract boolean test(int successRate);
 	
+	/**
+	 * Returns the name of the random number generator.
+	 * @return the name of the random number generator.
+	 */
+	public abstract String getName();
+	
+	/**
+	 * Returns a description of  the random number generator.
+	 * @return a description of  the random number generator.
+	 */
+	public String getDescription() {
+		return null;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return getName();
+	}
+	
 	static{
 		long seed = RNG.nextLong();
 		RNG.setSeed(seed);
