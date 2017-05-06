@@ -24,19 +24,19 @@ import net.fe.unit.WeaponFactory;
  *
  */
 public class FEServer extends Game {
-	
+
 	public static final short DEFAULT_PORT = 25525;
 	private int port = 25555;
-	
+
 	/** The server. */
 	private static Server server;
-	
+
 	/** The current stage. */
 	private static Stage currentStage;
-	
+
 	/** The lobby. */
 	public static LobbyStage lobby;
-	
+
 	/**
 	 * The main method.
 	 *
@@ -52,20 +52,21 @@ public class FEServer extends Game {
 	public FEServer(Session s) {
 		this(s, DEFAULT_PORT);
 	}
-	
+
 	public FEServer(Session s, int port) {
 		server = new Server(s);
 		this.port = port;
 	}
-	
+
 	/**
 	 * Inits the.
 	 */
 	public void init() {
 		WeaponFactory.loadWeapons();
 		UnitFactory.loadUnits();
-		
+
 		Thread serverThread = new Thread() {
+			@Override
 			public void run() {
 				server.start(port);
 			}
@@ -74,14 +75,14 @@ public class FEServer extends Game {
 		currentStage = lobby;
 		serverThread.start();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see chu.engine.Game#loop()
 	 */
 	@Override
 	public void loop() {
 		boolean yes = true;
-		while(yes) {
+		while (yes) {
 			final long time = System.nanoTime();
 			final ArrayList<Message> messages = new ArrayList<>();
 			synchronized (server.messagesLock) {
@@ -91,36 +92,34 @@ public class FEServer extends Game {
 					// No, really. Has there ever been a meaningful response to an InterruptedException?
 				}
 				messages.addAll(server.messages);
-				for(Message message : messages) {
+				for (Message message : messages) {
 					if (message instanceof JoinTeam || message instanceof ReadyMessage) {
 						if (!(FEServer.getCurrentStage() instanceof LobbyStage)) {
 							// ignore message to prevent late-joining players from switching teams or readying up
-						} else {
+						} else
 							// TODO: percelate broadcasting of these up to stages
 							server.broadcastMessage(message);
-						}
 					} else if (message instanceof CommandMessage || message instanceof PartyMessage) {
 						// If the unit attacked, we need to generate battle results
 						// If party; don't tell others until all have selected their party
 					} else if (message instanceof KickMessage) {
 						// Clients are not allowed to do this.
-					} else {
+					} else
 						// TODO: percelate broadcasting of these up to stages
 						server.broadcastMessage(message);
-					}
-					
-					server.messages.remove(message);	
+
+					server.messages.remove(message);
 				}
 			}
-			for(Message m : messages) 
+			for (Message m : messages)
 				server.getSession().handleMessage(m);
 			currentStage.beginStep(messages);
 			currentStage.onStep();
 			currentStage.endStep();
-			timeDelta = System.nanoTime()-time;
+			timeDelta = System.nanoTime() - time;
 		}
 	}
-	
+
 	/**
 	 * Gets the current stage.
 	 *
@@ -129,7 +128,7 @@ public class FEServer extends Game {
 	public static Stage getCurrentStage() {
 		return currentStage;
 	}
-	
+
 	/**
 	 * Sets the current stage.
 	 *
@@ -147,7 +146,7 @@ public class FEServer extends Game {
 	public static Server getServer() {
 		return server;
 	}
-	
+
 	/**
 	 * Gets the players.
 	 *
@@ -161,24 +160,22 @@ public class FEServer extends Game {
 	 * Reset to lobby.
 	 */
 	public static void resetToLobby() {
-		for(Player p : getPlayers().values()) {
+		for (Player p : getPlayers().values())
 			p.ready = false;
-		}
 		FEServer.getServer().allowConnections = false;
 		currentStage = lobby;
 	}
-	
+
 	/**
 	 * Reset to lobby and kick players.
 	 */
-	public static void resetToLobbyAndKickPlayers(){
+	public static void resetToLobbyAndKickPlayers() {
 		resetToLobby();
 		ArrayList<Byte> ids = new ArrayList<>();
-		for(Player p : getPlayers().values()) {
+		for (Player p : getPlayers().values())
 			ids.add(p.getID());
-		}
-		synchronized(server.messagesLock) {
-			for(byte i : ids){
+		synchronized (server.messagesLock) {
+			for (byte i : ids) {
 				final KickMessage kick = new KickMessage((byte) 0, i, "Reseting server");
 				server.broadcastMessage(kick);
 				server.messages.add(kick);
