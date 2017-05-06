@@ -49,7 +49,7 @@ public class FEServerMainPanel extends JPanel {
 	private static final long serialVersionUID = -5397645919464825016L;
 	
 	private JButton startServer;
-	private ToolTipList<Modifier> modifiersList;
+	private ToolTipList<Modifier> unselectedModifiersList;
 	private JScrollPane modifiersScrollPane;
 	private JButton removeModifierBtn;
 	private JButton addModifierBtn;
@@ -171,11 +171,11 @@ public class FEServerMainPanel extends JPanel {
 		modifiersScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		modifiersScrollPane.setPreferredSize(new Dimension(120, 150));
 
-		modifiersList = new ToolTipList<>();
-		modifiersList.setToolTipFunction(modifier -> modifier.getDescription());
-		modifiersScrollPane.add(modifiersList);
-		modifiersList.setModel(unselectedModifiersModel);
-		modifiersScrollPane.setViewportView(modifiersList);
+		unselectedModifiersList = new ToolTipList<>();
+		unselectedModifiersList.setToolTipFunction(modifier -> modifier.getDescription());
+		modifiersScrollPane.add(unselectedModifiersList);
+		unselectedModifiersList.setModel(unselectedModifiersModel);
+		modifiersScrollPane.setViewportView(unselectedModifiersList);
 
 		selectedModifiersList = new ToolTipList<>();
 		selectedModifiersScrollPane.add(selectedModifiersList);
@@ -188,22 +188,18 @@ public class FEServerMainPanel extends JPanel {
 
 		addModifierBtn = new JButton("<-- Add");
 		addModifierBtn.addActionListener(arg0 -> {
-			for (int index : modifiersList.getSelectedIndices()) {
-				Modifier o = unselectedModifiersModel.getElementAt(index);
-				unselectedModifiersModel.remove(modifiersList.getSelectedIndex());
-				selectedModifiersModel.add(0, o);
-			}
+			int index = -1;
+			while((index = unselectedModifiersList.getSelectedIndex()) != -1)
+				selectedModifiersModel.add(0, unselectedModifiersModel.remove(index));
 		});
 		buttonsPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		buttonsPanel.add(addModifierBtn);
 
 		removeModifierBtn = new JButton("Remove -->");
 		removeModifierBtn.addActionListener(e -> {
-			for (int index : selectedModifiersList.getSelectedIndices()) {
-				Modifier o = selectedModifiersModel.getElementAt(index);
-				selectedModifiersModel.remove(selectedModifiersList.getSelectedIndex());
-				unselectedModifiersModel.add(0, o);
-			}
+			int index = -1;
+			while((index = selectedModifiersList.getSelectedIndex()) != -1)
+				unselectedModifiersModel.add(0, selectedModifiersModel.remove(index));
 		});
 		buttonsPanel.add(removeModifierBtn);
 
