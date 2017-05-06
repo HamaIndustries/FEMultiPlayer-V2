@@ -40,6 +40,8 @@ import net.fe.network.command.Command;
 import net.fe.network.message.CommandMessage;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.objective.Seize;
+import net.fe.rng.SimpleRNG;
+import net.fe.rng.TrueHitRNG;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitFactory;
 import net.fe.unit.UnitIdentifier;
@@ -205,7 +207,7 @@ public class FEMultiplayer extends Game{
 		
 		// ^------- put all pre-calc stuff here
 		
-		CombatCalculator calc = new CombatCalculator(new UnitIdentifier(u1), new UnitIdentifier(u2), FEMultiplayer::getUnit);
+		CombatCalculator calc = new CombatCalculator(new UnitIdentifier(u1), new UnitIdentifier(u2), FEMultiplayer::getUnit, new TrueHitRNG(), new SimpleRNG(), new SimpleRNG());
 		System.out.println(calc.getAttackQueue());
 		
 		
