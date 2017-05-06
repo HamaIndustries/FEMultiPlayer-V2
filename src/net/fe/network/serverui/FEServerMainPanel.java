@@ -81,10 +81,10 @@ public class FEServerMainPanel extends JPanel {
 	private JPanel pnlRNG;
 	private JLabel lblHitRng;
 	private JComboBox<RNG> cbbHitRNG;
-	private JLabel lblCritRng;
-	private JComboBox<RNG> cbbCritRNG;
-	private JLabel lblSkillRng;
-	private JComboBox<RNG> cbbSkillRNG;
+//	private JLabel lblCritRng;
+//	private JComboBox<RNG> cbbCritRNG;
+//	private JLabel lblSkillRng;
+//	private JComboBox<RNG> cbbSkillRNG;
 
 	/**
 	 * Initializes the panel
@@ -289,7 +289,7 @@ public class FEServerMainPanel extends JPanel {
 				(String) mapSelectionBox.getSelectedItem(),
 				(Integer) maxUnitsSpinner.getValue(), mods,
 				(PickMode) pickModeBox.getSelectedItem(),
-				new TrueHitRNG(), new SimpleRNG(), new SimpleRNG());
+				(RNG) cbbHitRNG.getSelectedItem(), new SimpleRNG(), new SimpleRNG());
 
 	}
 }

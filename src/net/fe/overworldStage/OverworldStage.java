@@ -30,8 +30,6 @@ import net.fe.network.message.EndTurn;
 import net.fe.network.message.QuitMessage;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.rng.RNG;
-import net.fe.rng.SimpleRNG;
-import net.fe.rng.TrueHitRNG;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
 
