@@ -1,15 +1,12 @@
 package net.fe.network.serverui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,57 +22,52 @@ import net.fe.network.FEServer;
  */
 public class FEServerRunPanel extends JPanel {
 
-	private JPanel mainPanel;
-
 	private static final long serialVersionUID = 8683661864175580614L;
 
 	private String ip;
-	public FEServerRunPanel() {
-		this(FEServer.DEFAULT_PORT);
-	}
+	
 
 	/**
 	 * Initialize the panel.
 	 */
+	public FEServerRunPanel() {
+		this(FEServer.DEFAULT_PORT);
+	}
+
+
+	/**
+	 * Initialize the panel with the specified port.
+	 * @param port The port on which the server runs.
+	 */
 	public FEServerRunPanel(int port) {
-
+		
 		setLayout(new BorderLayout(0, 0));
-		mainPanel = new JPanel();
-		add(mainPanel, BorderLayout.CENTER);
-
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-
-		JLabel label = new JLabel();
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setText("TODO");
-		label.setFont(getFont().deriveFont(20f));
-		//label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
+		JLabel lblServerAddress = new JLabel();
+		
+		add(lblServerAddress, BorderLayout.NORTH);
+		lblServerAddress.setHorizontalAlignment(SwingConstants.CENTER);
+		lblServerAddress.setFont(getFont().deriveFont(20f));
+		
 		try {
 			ip = InetAddress.getLocalHost().getHostAddress();
 			String text = "Server IP:" + ip;
 			if (port != FEServer.DEFAULT_PORT)
 				text += ":" + port;
-			label.setText(text);
+			lblServerAddress.setText(text);
 		} catch (UnknownHostException e) {
-			label.setText("Error occured while getting the IP");
+			lblServerAddress.setText("Error occured while getting the IP");
 		}
-
-		mainPanel.add(label, BorderLayout.NORTH);
-
-		Component verticalStrut = Box.createVerticalStrut(20);
-		mainPanel.add(verticalStrut);
 
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.SOUTH);
 		panel.setLayout(new GridLayout(0, 1, 0, 0));
 
-		JButton kickAll = new JButton("Kick all");
-		kickAll.addActionListener((e2) -> FEServer.resetToLobbyAndKickPlayers());
-		panel.add(kickAll);
+		JButton btnKickAll = new JButton("Kick all");
+		btnKickAll.addActionListener((e2) -> FEServer.resetToLobbyAndKickPlayers());
+		panel.add(btnKickAll);
 
-		JButton copyToClipboard = new JButton("Copy IP to clipboard");
-		copyToClipboard.addActionListener(e -> {
+		JButton btnCopyToClipboard = new JButton("Copy IP to clipboard");
+		btnCopyToClipboard.addActionListener(e -> {
 			if (ip == null)
 				return;
 			String text = ip;
@@ -84,11 +76,6 @@ public class FEServerRunPanel extends JPanel {
 			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(text), null);
 
 		});
-		panel.add(copyToClipboard);
-
+		panel.add(btnCopyToClipboard);
 	}
-
-	public void setPort(int port) {
-	}
-
 }
