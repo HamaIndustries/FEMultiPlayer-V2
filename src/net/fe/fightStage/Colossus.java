@@ -28,7 +28,7 @@ public class Colossus extends CombatTrigger{
 	 */
 	@Override
 	public boolean attempt(Unit user, int range, Unit opponent) {
-		return range == 1 && RNG.get() < user.getStats().skl/2;
+		return range == 1 && RNG.get() < user.getStats().skl/2 ;
 	}
 
 	/* (non-Javadoc)
