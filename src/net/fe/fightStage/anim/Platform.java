@@ -31,24 +31,28 @@ public class Platform extends Entity {
 	public Platform(Terrain t, boolean left, int range) {
 		super(left ? 0 : FightStage.CENTRAL_AXIS, FightStage.FLOOR - 16);
 		this.left = left;
+		if(t != Terrain.NONE) {
 		String txtName = t.name().toLowerCase();
-		if(range > 1){
-			txtName += "_far";
+			if(range > 1){
+				txtName += "_far";
+			}
+			texture = FEResources.getTexture("platform_" + txtName);
+			renderDepth = FightStage.PLATFORM_DEPTH;
 		}
-		texture = FEResources.getTexture("platform_" + txtName);
-		renderDepth = FightStage.PLATFORM_DEPTH;
 	}
 
 	/* (non-Javadoc)
 	 * @see chu.engine.Entity#render()
 	 */
 	public void render() {
-		Transform t = new Transform();
-		if (!left) {
-			t.flipHorizontal();
+		if(texture != null) {
+			Transform t = new Transform();
+			if (!left) {
+				t.flipHorizontal();
+			}
+			Renderer.render(texture, 0, 0, 1, 1, x, y, x + 120, y + 40,
+					1, t);
 		}
-		Renderer.render(texture, 0, 0, 1, 1, x, y, x + 120, y + 40,
-				1, t);
 	}
 
 }

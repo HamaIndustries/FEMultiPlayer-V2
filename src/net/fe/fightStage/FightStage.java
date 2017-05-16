@@ -22,6 +22,7 @@ import net.fe.fightStage.anim.Platform;
 import net.fe.fightStage.anim.SkillIndicator;
 import net.fe.network.Message;
 import net.fe.overworldStage.Grid;
+import net.fe.overworldStage.Terrain;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.transition.FightOverworldTransition;
 import net.fe.unit.BattleStats;
@@ -215,8 +216,12 @@ public class FightStage extends Stage {
 		addEntity(new Platform(right.getTerrain(), false, range));
 		addEntity(new HUD(left, right, this));
 		addEntity(new HUD(right, left, this));
-		bg = FEResources.getTexture(right.getTerrain().toString().toLowerCase()
-				+ "_bg");
+		if(right.getTerrain() == Terrain.NONE)
+			bg = FEResources.getTexture(Terrain.PLAIN.toString().toLowerCase()
+					+ "_bg");
+		else
+			bg = FEResources.getTexture(right.getTerrain().toString().toLowerCase()
+					+ "_bg");
 
 		this.attackQ = attackQ;
 		this.returnTo = returnTo;
