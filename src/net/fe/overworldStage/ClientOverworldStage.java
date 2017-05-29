@@ -120,7 +120,7 @@ public class ClientOverworldStage extends OverworldStage {
 	public static final float CHAT_DEPTH = 0.3f;
 	
 	/** The Constant MENU_DEPTH. */
-	public static final float MENU_DEPTH = 0.2f;
+	public static final float MENU_DEPTH = 0.1f;
 	
 	/** The Constant CURSOR_DEPTH. */
 	public static final float CURSOR_DEPTH = 0.15f;
