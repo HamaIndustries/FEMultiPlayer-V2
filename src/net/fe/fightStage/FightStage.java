@@ -217,11 +217,12 @@ public class FightStage extends Stage {
 		addEntity(new HUD(left, right, this));
 		addEntity(new HUD(right, left, this));
 		if(right.getTerrain() == Terrain.NONE)
-			bg = FEResources.getTexture(Terrain.PLAIN.toString().toLowerCase()
-					+ "_bg");
+			if(left.getTerrain() == Terrain.NONE)
+				bg = FEResources.getTexture(Terrain.PLAIN.toString().toLowerCase() + "_bg");
+			else
+				bg = FEResources.getTexture(left.getTerrain().toString().toLowerCase() + "_bg");
 		else
-			bg = FEResources.getTexture(right.getTerrain().toString().toLowerCase()
-					+ "_bg");
+			bg = FEResources.getTexture(right.getTerrain().toString().toLowerCase() + "_bg");
 
 		this.attackQ = attackQ;
 		this.returnTo = returnTo;

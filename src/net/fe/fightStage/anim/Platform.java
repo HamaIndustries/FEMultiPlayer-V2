@@ -32,10 +32,9 @@ public class Platform extends Entity {
 		super(left ? 0 : FightStage.CENTRAL_AXIS, FightStage.FLOOR - 16);
 		this.left = left;
 		if(t != Terrain.NONE) {
-		String txtName = t.name().toLowerCase();
-			if(range > 1){
+			String txtName = t.name().toLowerCase();
+			if(range > 1)
 				txtName += "_far";
-			}
 			texture = FEResources.getTexture("platform_" + txtName);
 			renderDepth = FightStage.PLATFORM_DEPTH;
 		}
@@ -47,11 +46,9 @@ public class Platform extends Entity {
 	public void render() {
 		if(texture != null) {
 			Transform t = new Transform();
-			if (!left) {
+			if (!left)
 				t.flipHorizontal();
-			}
-			Renderer.render(texture, 0, 0, 1, 1, x, y, x + 120, y + 40,
-					1, t);
+			Renderer.render(texture, 0, 0, 1, 1, x, y, x + 120, y + 40, 1, t);
 		}
 	}
 
