@@ -88,7 +88,7 @@ public class FEMultiplayer extends Game{
 //			game.testOverworldStage();
 //			game.testDraftStage();
 			game.loop();
-		} catch (Exception e){
+		} catch (Throwable e){
 			System.err.println("Exception occurred, writing to logs...");
 			e.printStackTrace();
 			try{
