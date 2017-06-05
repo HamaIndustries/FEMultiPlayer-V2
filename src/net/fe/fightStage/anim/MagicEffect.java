@@ -30,7 +30,7 @@ public class MagicEffect extends Entity {
 		final AnimationData data = getTexture(args);
 		Animation anim = new Animation(FightStage.getPreload(getTextureName(args)), data.frameWidth,
 				data.frameHeight, data.frames, data.columns, data.offsetX,
-				data.offsetY, data.speed==0.0f?0.05f:data.speed) {
+				data.offsetY, data.speed==0.0f?0.05f:data.speed, data.getBlendMode()) {
 			HashMap<Integer, String> soundMap = data.soundMap;
 			int prevFrame = -1;
 			public void update() {

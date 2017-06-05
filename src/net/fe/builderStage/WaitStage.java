@@ -1,7 +1,9 @@
 package net.fe.builderStage;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.Consumer;
 
 import net.fe.FEMultiplayer;
 import net.fe.Player;
@@ -11,6 +13,7 @@ import net.fe.network.Message;
 import net.fe.network.message.PartyMessage;
 import net.fe.network.message.QuitMessage;
 import net.fe.network.message.StartGame;
+import net.fe.network.message.KickMessage;
 import net.fe.overworldStage.OverworldStage;
 import net.fe.unit.Unit;
 import chu.engine.Game;
@@ -22,19 +25,19 @@ import chu.engine.Stage;
  *
  * @author Shawn
  */
-public class WaitStage extends Stage {
+public final class WaitStage extends Stage {
 	
 	/** The ready status. */
-	private HashMap<Byte, Boolean> readyStatus;
+	private final HashMap<Byte, Boolean> readyStatus;
 	
 	/** The messages. */
-	private ArrayList<PartyMessage> messages;
+	private final ArrayList<PartyMessage> messages;
 	
 	/** The sent start message. */
 	private boolean sentStartMessage;
 	
 	/** The session. */
-	protected Session session;
+	protected final Session session;
 	
 	/**
 	 * Instantiates a new wait stage.
@@ -44,29 +47,36 @@ public class WaitStage extends Stage {
 	public WaitStage(Session s) {
 		super("preparations");
 		session = s;
-		init();
-	}
-	
-	/**
-	 * Inits the.
-	 */
-	protected void init() {
-		readyStatus = new HashMap<Byte, Boolean>();
 		sentStartMessage = false;
+		readyStatus = new HashMap<Byte, Boolean>();
 		for(Player p : session.getNonSpectators()) {
 			readyStatus.put(p.getID(), false);
 		}
 		messages = new ArrayList<PartyMessage>();
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see chu.engine.Stage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
-		for(Message message : Game.getMessages()) {
+	public void beginStep(List<Message> messages) {
+		for(Message message : messages) {
 			if(message instanceof PartyMessage) {
 				PartyMessage pm = (PartyMessage)message;
+				java.util.Optional<String> validationResult = pm.validateTeam(
+					net.fe.unit.UnitFactory::getUnit,
+					net.fe.unit.Item.getAllItems(),
+					session.getModifiers()
+				);
+				validationResult.ifPresent(new Consumer<String>() {
+					@Override public void accept(String validationError) {
+						synchronized(FEServer.getServer().messagesLock) {
+							final KickMessage kick = new KickMessage((byte) 0, pm.origin, validationError);
+							FEServer.getServer().broadcastMessage(kick);
+							FEServer.getServer().messages.add(kick);
+						}
+					}
+				});
 				for(Player p : session.getPlayers()){ 
 					if(p.getID() == message.origin) {
 						p.getParty().clear();
@@ -75,11 +85,13 @@ public class WaitStage extends Stage {
 						readyStatus.put(p.getID(), true);
 					}
 				}
-				messages.add(pm);
+				this.messages.add(pm);
 			}
-			else if(message instanceof QuitMessage) {
-				//player has left
-				FEMultiplayer.disconnectGame("Opponent has disconnected. Exiting game.");
+			else if(message instanceof QuitMessage || message instanceof KickMessage) {
+				if (this.session.getNonSpectators().length < 2) {
+					// player has left
+					FEServer.resetToLobby();
+				}
 			}
 		}
 		

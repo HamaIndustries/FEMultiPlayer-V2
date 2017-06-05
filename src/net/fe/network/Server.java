@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Logger;
+import java.time.LocalDateTime;
 
 import net.fe.Session;
 import net.fe.overworldStage.objective.Seize;
@@ -12,41 +15,56 @@ import net.fe.overworldStage.objective.Seize;
 /**
  * The Class Server.
  */
-public class Server {
+public final class Server {
+	
+	/** a logger */
+	private static final Logger logger = Logger.getLogger("net.fe.network.Server");
+	static {
+		logger.setLevel(java.util.logging.Level.FINER);
+		logger.addHandler(new java.util.logging.ConsoleHandler());
+		try {
+			java.nio.file.Files.createDirectories(new java.io.File("logs").toPath());
+			String file = "logs/server_log_" + LocalDateTime.now().toString().replace("T", "@").replace(":", "-") + ".log";
+			java.util.logging.Handler h = new java.util.logging.FileHandler(file);
+			h.setFormatter(new java.util.logging.SimpleFormatter());
+			logger.addHandler(h);
+		} catch (IOException e) {
+			logger.throwing("net.fe.network.Client", "logging initializing", e);
+		}
+	}
 	
 	/** The server socket. */
-	ServerSocket serverSocket;
+	private ServerSocket serverSocket;
 	
 	/** The close requested. */
-	boolean closeRequested = false;
+	private boolean closeRequested = false;
 	
 	/** The clients. */
-	volatile ArrayList<ServerListener> clients;
+	final CopyOnWriteArrayList<ServerListener> clients;
 	
-	/** The messages. */
-	public volatile ArrayList<Message> messages;
+	/** The messages. Should only operate on if the monitor to messagesLock is held */
+	public final ArrayList<Message> messages;
 	
-	/** The log. */
-	public ServerLog log;
+	/** A lock which should be wated upon or notified for changes to messages */
+	public final Object messagesLock;
 	
 	/** The session. */
-	private Session session;
+	private final Session session;
 	
 	/** The allow connections. */
 	public boolean allowConnections;
 	
-	/** The counter. */
-	byte counter = 1;
+	/** Contains the next playerId to be used when a player joins the server */
+	private byte nextPlayerId = 1;
 	
 	/**
 	 * Instantiates a new server.
 	 */
-	public Server() {
+	public Server(Session s) {
 		messages = new ArrayList<Message>();
-		clients = new ArrayList<ServerListener>();
-		session = new Session();
-		session.setObjective(new Seize());
-		log = new ServerLog();
+		messagesLock = new Object();
+		clients = new CopyOnWriteArrayList<ServerListener>();
+		session = s;
 		allowConnections = true;
 	}
 	
@@ -58,18 +76,18 @@ public class Server {
 	public void start(int port) {
 		try {
 			serverSocket = new ServerSocket(port);
-			System.out.println("SERVER: Waiting for connections...");
+			logger.info("SERVER: Waiting for connections...");
 			while(!closeRequested) {
 				Socket connectSocket = serverSocket.accept();
-				System.out.println("SERVER: Connection #"+counter+" accepted!");
-				ServerListener listener = new ServerListener(this, connectSocket);
+				logger.info("SERVER: Connection #"+nextPlayerId+" accepted!");
+				ServerListener listener = new ServerListener(this, connectSocket, nextPlayerId);
 				clients.add(listener);
 				listener.start();
-				counter++;
+				nextPlayerId++;
 			}
 			serverSocket.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.throwing("Server", "start", e);
 		}
 	}
 	
@@ -79,32 +97,12 @@ public class Server {
 	 * @param message the message
 	 */
 	public void broadcastMessage(Message message) {
-		log.logMessage(message, true);
+		logger.finer("[SEND]" + message);
 		for(ServerListener out : clients) {
 			out.sendMessage(message);
 		}
 	}
 	
-	/**
-	 * Sends a message only to the given client.
-	 *
-	 * @param client the client
-	 * @param message the message
-	 */
-	public void sendMessage(ServerListener client, Message message) {
-		log.logMessage(message, true);
-		client.sendMessage(message);
-	}
-	
-	/**
-	 * Gets the count.
-	 *
-	 * @return the count
-	 */
-	public byte getCount() {
-		return counter;
-	}
-
 	/**
 	 * Gets the session.
 	 *

@@ -6,7 +6,7 @@ import net.fe.unit.Unit;
 /**
  * The Class Nosferatu.
  */
-public class Nosferatu extends CombatTrigger{
+public final class Nosferatu extends CombatTrigger{
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -23,7 +23,7 @@ public class Nosferatu extends CombatTrigger{
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
-	public boolean attempt(Unit user, int range) {
+	public boolean attempt(Unit user, int range, Unit opponent) {
 		return true;
 	}
 	
@@ -33,7 +33,7 @@ public class Nosferatu extends CombatTrigger{
 	public int runDrain(Unit a, Unit d, int damage){
 		if (damage == 0)
 			return 0;
-		return Math.min(damage / 2, a.get("HP") - a.getHp());
+		return Math.min(damage / 2, a.getStats().maxHp - a.getHp());
 	}
 	
 	/* (non-Javadoc)
@@ -42,4 +42,11 @@ public class Nosferatu extends CombatTrigger{
 	public CombatTrigger getCopy(){
 		return new Nosferatu();
 	}
+	
+	@Override
+	public boolean equals(Object o){
+		return o instanceof Nosferatu;
+	}
+	@Override
+	public int hashCode() { return (int)serialVersionUID; }
 }

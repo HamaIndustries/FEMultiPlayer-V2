@@ -22,45 +22,54 @@ public abstract class CombatTrigger implements Serializable {
 	/** The attack anims. */
 	public final String[] attackAnims;
 	
-	/** The Constant NO_NAME_MOD. */
+	/** A constant value for use in nameModification */
 	public static final int NO_NAME_MOD = 0;
 	
-	/** The Constant REPLACE_NAME_AFTER_PRE. */
+	/** A constant value for use in nameModification */
 	public static final int REPLACE_NAME_AFTER_PRE = 1;
 	
-	/** The Constant APPEND_NAME_AFTER_MOD. */
+	/** A constant value for use in nameModification */
 	public static final int APPEND_NAME_AFTER_MOD = 2;
 	
-	/** The Constant YOUR_TURN_PRE. */
+	/** A constant value for use in turnToRun */
 	public static final int YOUR_TURN_PRE = 0x1;
 	
-	/** The Constant ENEMY_TURN_PRE. */
+	/** A constant value for use in turnToRun */
 	public static final int ENEMY_TURN_PRE = 0x2;
 	
-	/** The Constant YOUR_TURN_MOD. */
+	/** A constant value for use in turnToRun */
 	public static final int YOUR_TURN_MOD = 0x4;
 	
-	/** The Constant ENEMY_TURN_MOD. */
+	/** A constant value for use in turnToRun */
 	public static final int ENEMY_TURN_MOD = 0x8;
 	
-	/** The Constant YOUR_TURN_POST. */
+	/** A constant value for use in turnToRun */
 	public static final int YOUR_TURN_POST = 0x10;
 	
-	/** The Constant ENEMY_TURN_POST. */
+	/** A constant value for use in turnToRun */
 	public static final int ENEMY_TURN_POST = 0x20;
 	
-	/** The Constant YOUR_TURN_DRAIN. */
+	/** A constant value for use in turnToRun */
 	public static final int YOUR_TURN_DRAIN = 0x40;
 	
-	/** The Constant ENEMY_TURN_DRAIN. */
+	/** A constant value for use in turnToRun */
 	public static final int ENEMY_TURN_DRAIN = 0x80;
+	
+	/**
+	 * A turnToRun constant that indicates that this trigger should have its 
+	 * preAttack and CombatMod effects shown in the preview pane. In general,
+	 * this is true iff [[#attempt]] always returns true, runPreAttack has no
+	 * side effects other than setting a or d's tempMods, and runDamageMod has
+	 * no side effects. The other turnToRun constants are taken into account.
+	 */
+	public static final int SHOW_IN_PREVIEW = 0x100;
 	
 	/**
 	 * Instantiates a new combat trigger.
 	 *
-	 * @param mod the mod
-	 * @param turn the turn
-	 * @param attacks the attacks
+	 * @param mod nameModification
+	 * @param turn when to run the trigger
+	 * @param attacks the name of animations associated with this trigger
 	 */
 	public CombatTrigger(int mod, int turn, String... attacks){
 		nameModification = mod;
@@ -69,16 +78,17 @@ public abstract class CombatTrigger implements Serializable {
 	}
 	
 	/**
-	 * Attempt.
+	 * Determine whether this trigger should take effect this combat
 	 *
 	 * @param user the user
 	 * @param range the range
+	 * @param opponent the enemy
 	 * @return true, if successful
 	 */
-	public abstract boolean attempt(Unit user, int range);
+	public abstract boolean attempt(Unit user, int range, Unit opponent);
 	
 	/**
-	 * Run pre attack.
+	 * Something to do before the attack occurs. Modify statistics, for example.
 	 *
 	 * @param calc the calc
 	 * @param a the a
@@ -94,8 +104,8 @@ public abstract class CombatTrigger implements Serializable {
 	 *
 	 * @param a the a
 	 * @param d the d
-	 * @param damage the damage
-	 * @return the int
+	 * @param damage the amount of damage dealt, before modification
+	 * @return the amount of damage dealt, after modification
 	 */
 	public int runDamageMod(Unit a, Unit d, int damage){
 		return damage;
@@ -142,4 +152,17 @@ public abstract class CombatTrigger implements Serializable {
 	 * @return the copy
 	 */
 	public abstract CombatTrigger getCopy();
+	
+	
+	protected boolean canEquals(Object other) {
+		return other instanceof CombatTrigger;
+	}
+	@Override
+	public boolean equals(Object other) {
+		return other instanceof CombatTrigger &&
+			((CombatTrigger) other).canEquals(this) &&
+			this.getClass().equals(other.getClass());
+	}
+	@Override public int hashCode() { return this.getName().hashCode(); }
+	@Override public String toString() { return this.getName(); }
 }

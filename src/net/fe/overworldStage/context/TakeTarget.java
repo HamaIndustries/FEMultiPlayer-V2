@@ -6,6 +6,7 @@ import net.fe.overworldStage.SelectTargetContext;
 import net.fe.overworldStage.Zone;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
+import net.fe.network.command.TakeCommand;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -13,6 +14,8 @@ import net.fe.unit.UnitIdentifier;
  */
 public class TakeTarget extends SelectTargetContext {
 
+	private Unit unit;
+	
 	/**
 	 * Instantiates a new take target.
 	 *
@@ -24,13 +27,14 @@ public class TakeTarget extends SelectTargetContext {
 	public TakeTarget(ClientOverworldStage stage, OverworldContext context, Zone z,
 			Unit u) {
 		super(stage, context, z, u, true);
+		unit = u;
 	}
 	
 	/* (non-Javadoc)
 	 * @see net.fe.overworldStage.SelectTargetContext#validTarget(net.fe.unit.Unit)
 	 */
 	public boolean validTarget(Unit u){
-		return super.validTarget(u) && u.rescuedUnit() != null;
+		return super.validTarget(u) && u.rescuedUnit() != null && unit.canRescue(u.rescuedUnit());
 	}
 
 	/* (non-Javadoc)
@@ -38,12 +42,15 @@ public class TakeTarget extends SelectTargetContext {
 	 */
 	@Override
 	public void unitSelected(Unit u) {
-		stage.addCmd("TAKE");
-		stage.addCmd(new UnitIdentifier(u));
-		u.give(unit);
+		TakeCommand c = new TakeCommand(new UnitIdentifier(u));
+		stage.addCmd(c);
+		c.applyClient(stage, unit, null, new EmptyRunnable()).run();
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
 		new UnitMoved(stage, this, unit, false, true).startContext();
 	}
 
+	private static final class EmptyRunnable implements Runnable {
+		@Override public void run() {}
+	}
 }

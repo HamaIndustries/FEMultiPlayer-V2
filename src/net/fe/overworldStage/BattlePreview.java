@@ -1,10 +1,16 @@
 package net.fe.overworldStage;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
+import net.fe.FEMultiplayer;
 import net.fe.FEResources;
+import net.fe.Session;
 import net.fe.fightStage.CombatCalculator;
+import net.fe.fightStage.CombatTrigger;
 import net.fe.fightStage.FightStage;
+import net.fe.modifier.Modifier;
 import net.fe.unit.ItemDisplay;
 import net.fe.unit.Unit;
 import chu.engine.Entity;
@@ -62,10 +68,10 @@ public class BattlePreview extends Entity {
 		x4.addAnimation("default", FEResources.getTexture("x4"));
 		
 		modUp = new Sprite();
-		Animation up = new Animation(FEResources.getTexture("trianglemod_up"), 7, 10, 3, 3, 0, 10, 0.15f);
+		Animation up = new Animation(FEResources.getTexture("trianglemod_up"), 7, 10, 3, 3, 0, 10, 0.15f, chu.engine.anim.BlendModeArgs.ALPHA_BLEND);
 		modUp.addAnimation("default", up);
 		modDown = new Sprite();
-		Animation down = new Animation(FEResources.getTexture("trianglemod_down"), 7, 10, 3, 3, 0, 10, 0.15f);
+		Animation down = new Animation(FEResources.getTexture("trianglemod_down"), 7, 10, 3, 3, 0, 10, 0.15f, chu.engine.anim.BlendModeArgs.ALPHA_BLEND);
 		modDown.addAnimation("default", down);
 		sprites.add(rightArrow);
 		sprites.add(leftArrow);
@@ -104,35 +110,92 @@ public class BattlePreview extends Entity {
 		boolean aEffective = false;
 		boolean dEffective = false;
 		
-		if (CombatCalculator.shouldAttack(attacker, defender, range)) {
-			aHit = String.format(
-					"%d",
-					Math.max(0,
-							Math.min(100, CombatCalculator.hitRate(attacker, defender))));
-			aAtk = String.format("%d",
-					CombatCalculator.calculateBaseDamage(attacker, defender));
-			aCrit = String.format(
-					"%d",
-					Math.max(0,
-							Math.min(100, attacker.crit() - defender.dodge())));
-			if(attacker.get("Spd") >= defender.get("Spd") + 4) aMult*=2;
-			if(attacker.getWeapon().name.contains("Brave")) aMult*=2;
-			aEffective = attacker.getWeapon().effective.contains(defender.noGenderName());
+		//attacker determination
+		if (CombatCalculator.shouldAttack(attacker, defender, attacker.getWeapon(), range)) {
+			List<String> mods = new ArrayList<String>();
+			for(Modifier i : FEMultiplayer.getClient().getSession().getModifiers()){
+				mods.add(i.toString());
+			}
+			if(mods.contains("Vegas")){
+				aHit = String.format(
+						"%d",
+						Math.max(0,
+								Math.min(100, CombatCalculator.hitRate(attacker, defender)))/2);
+				aAtk = String.format("%d",
+						CombatCalculator.calculatePreviewDamage(attacker, defender));
+				aCrit = String.format(
+						"%d",
+						Math.max(0,
+								Math.min(100, attacker.crit() - defender.dodge()))*2);
+				if(attacker.getStats().spd >= defender.getStats().spd + 4) aMult*=2;
+				if(attacker.getWeapon().name.contains("Brave")) aMult*=2;
+				aEffective = attacker.getWeapon().effective.contains(defender.noGenderName());
+			}else{// normal
+				aHit = String.format(
+						"%d",
+						Math.max(0,
+								Math.min(100, CombatCalculator.hitRate(attacker, defender))));
+				aAtk = String.format("%d",
+						CombatCalculator.calculatePreviewDamage(attacker, defender));
+				aCrit = String.format(
+						"%d",
+						Math.max(0,
+								Math.min(100, attacker.crit() - defender.dodge())));
+				if(attacker.getStats().spd >= defender.getStats().spd + 4) aMult*=2;
+				if(attacker.getWeapon().name.contains("Brave")) aMult*=2;
+				aEffective = attacker.getWeapon().effective.contains(defender.noGenderName());
+			}
 		}
-		if (CombatCalculator.shouldAttack(defender, attacker, range)) {
-			dHit = String.format(
-					"%d",
-					Math.max(0,
-							Math.min(100, CombatCalculator.hitRate(defender, attacker))));
-			dAtk = String.format("%d",
-					CombatCalculator.calculateBaseDamage(defender, attacker));
-			dCrit = String.format(
-					"%d",
-					Math.max(0,
-							Math.min(100, defender.crit() - attacker.dodge())));
-			if(defender.get("Spd") >= attacker.get("Spd") + 4) dMult*=2;
-			if(defender.getWeapon().name.contains("Brave")) dMult*=2;
-			dEffective = defender.getWeapon().effective.contains(attacker.noGenderName());
+		
+		//defender determination
+		if (CombatCalculator.shouldAttack(defender, attacker, defender.getWeapon(), range)) {
+			List<String> mods = new ArrayList<String>();
+			for(Modifier i : FEMultiplayer.getClient().getSession().getModifiers()){
+				mods.add(i.toString());
+			}
+			if(mods.contains("Vegas")){
+				dHit = String.format(
+						"%d",
+						Math.max(0,
+								Math.min(100, CombatCalculator.hitRate(defender, attacker)))/2);
+				dAtk = String.format("%d",
+						CombatCalculator.calculatePreviewDamage(defender, attacker));
+				dCrit = String.format(
+						"%d",
+						Math.max(0,
+								Math.min(100, defender.crit() - attacker.dodge()))*2);
+				if(defender.getStats().spd >= attacker.getStats().spd + 4) dMult*=2;
+				if(defender.getWeapon().name.contains("Brave")) dMult*=2;
+				dEffective = defender.getWeapon().effective.contains(attacker.noGenderName());
+			}else if(mods.contains("Pro Tactics")){
+				dHit = String.format(
+						"%d",
+						Math.max(0,
+								Math.min(100, CombatCalculator.hitRate(defender, attacker))));
+				dAtk = String.format("%d",
+						CombatCalculator.calculatePreviewDamage(defender, attacker)/2);
+				dCrit = String.format(
+						"%d",
+						Math.max(0,
+								Math.min(100, defender.crit() - attacker.dodge())));
+				if(defender.getStats().spd >= attacker.getStats().spd + 4) dMult*=2;
+				if(defender.getWeapon().name.contains("Brave")) dMult*=2;
+				dEffective = defender.getWeapon().effective.contains(attacker.noGenderName());
+			}else{// normal
+				dHit = String.format(
+						"%d",
+						Math.max(0,
+								Math.min(100, CombatCalculator.hitRate(defender, attacker))));
+				dAtk = String.format("%d",
+						CombatCalculator.calculatePreviewDamage(defender, attacker));
+				dCrit = String.format(
+						"%d",
+						Math.max(0,
+								Math.min(100, defender.crit() - attacker.dodge())));
+				if(defender.getStats().spd >= attacker.getStats().spd + 4) dMult*=2;
+				if(defender.getWeapon().name.contains("Brave")) dMult*=2;
+				dEffective = defender.getWeapon().effective.contains(attacker.noGenderName());
+			}
 		}
 
 		// Borders

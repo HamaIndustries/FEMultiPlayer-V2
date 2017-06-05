@@ -7,13 +7,13 @@ import net.fe.network.Message;
 /**
  * The Class JoinLobby.
  */
-public class JoinLobby extends Message {
+public final class JoinLobby extends Message {
 	
 	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 2466162881020245626L;
+	private static final long serialVersionUID = 4749147769637678401L;
 	
-	/** The player. */
-	public Player player;
+	/** The name to display when refrencing this player */
+	public final String nickname;
 	
 	/**
 	 * Instantiates a new join lobby.
@@ -21,16 +21,16 @@ public class JoinLobby extends Message {
 	 * @param origin the origin
 	 * @param player the player
 	 */
-	public JoinLobby(byte origin, Player player) {
+	public JoinLobby(byte origin, String nickname) {
 		super(origin);
-		this.player = player;
+		this.nickname = nickname;
 	}
 	
 	/* (non-Javadoc)
 	 * @see net.fe.network.Message#toString()
 	 */
 	public String toString() {
-		return super.toString()+player;
+		return super.toString()+nickname;
 	}
 
 }

@@ -14,6 +14,10 @@ public class Pavise extends CombatTrigger {
 
 	/**
 	 * Instantiates a new pavise.
+	 * 
+	 * Info: Halves damage taken.
+	 * 
+	 * Chance: Skl
 	 */
 	public Pavise() {
 		super(APPEND_NAME_AFTER_MOD, ENEMY_TURN_MOD);
@@ -23,9 +27,9 @@ public class Pavise extends CombatTrigger {
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
-	public boolean attempt(Unit user, int range) {
+	public boolean attempt(Unit user, int range, Unit opponent) {
 		//return true;
-		return RNG.get() < user.get("Skl");
+		return RNG.get() < user.getStats().skl;
 	}
 	
 	/* (non-Javadoc)

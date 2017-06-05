@@ -158,6 +158,13 @@ public class Grid{
 	}
 	
 	/**
+	 * Returns true if the grid contains a space at (x,y).
+	 */
+	public boolean contains(int x, int y) {
+		return x >= 0 && y >= 0 && x < this.width && y < this.height;
+	}
+	
+	/**
 	 * Sets the throne pos.
 	 *
 	 * @param c the c
@@ -208,7 +215,7 @@ public class Grid{
 
 		Path improved = new Path();
 		
-		int move = unit.get("Mov");
+		int move = unit.getStats().mov;
 		Node last = null;
 		// Rebuild the current path, counting the movement used
 		for (Node node : p.getAllNodes()) {
@@ -244,7 +251,7 @@ public class Grid{
 	 */
 	public Path getShortestPath(Unit unit, int x, int y) {
 		if(grid[y][x] != null && grid[y][x] != unit) return null;
-		int move = unit.get("Mov");
+		int move = unit.getStats().mov;
 		Set<Node> closed = new HashSet<Node>();
 		Set<Node> open = new HashSet<Node>();
 
@@ -320,7 +327,7 @@ public class Grid{
 					if(grid[n.y][n.x] != null && grid[n.y][n.x].getParty() != u.getParty()) {
 						n.d += 128;
 					}
-					if(n.d <= u.get("Mov")){
+					if(n.d <= u.getStats().mov){
 						q.add(n);
 					}
 				}

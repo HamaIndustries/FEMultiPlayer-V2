@@ -8,10 +8,10 @@ import static java.lang.System.out;
 public final class EclipseSix extends CombatTrigger {
 	private static final long serialVersionUID = -6539654970701395612L;
 	public EclipseSix(){
-		super(NO_NAME_MOD, YOUR_TURN_MOD);
+		super(NO_NAME_MOD, YOUR_TURN_MOD | SHOW_IN_PREVIEW);
 	}
 	@Override
-	public boolean attempt(Unit user, int range) {
+	public boolean attempt(Unit user, int range, Unit opponent) {
 		return true;
 	}
 

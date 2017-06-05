@@ -4704,6 +4704,19 @@
 			]
 		},
 		{
+			"name":		"hit_effect_paviseplus",
+			"path":		"res/battle_anim/hit_effect_pavise.png",
+			"width":	100,
+			"height":	100,
+			"offsetX":	50,
+			"offsetY":	68,
+			"frames":	10,
+			"columns":	5,
+			"freeze":	-2,
+			"soundMap":	[
+			]
+		},
+		{
 			"name":		"hit_effect_miracle",
 			"path":		"res/battle_anim/hit_effect_miracle.png",
 			"width":	176,
@@ -5193,11 +5206,11 @@
  			"width":	240,
  			"height":	160,
  			"frames":	262,
- 			"columns":	5,
+ 			"columns":	15,
  			"offsetX":	67,
  			"offsetY":	105,
  			"freeze":	-1,
-			"speed":	0.017,
+			"speed":	0.0166,
  			"hitframes": [229],
  			"shakeIntensity": 2,
  			"soundMap": [
@@ -6367,6 +6380,10 @@
 			"path":		"res/battle_anim/static/desert_bg.png"
 		},
 		{
+			"name":		"fence_bg",
+			"path":		"res/battle_anim/static/fence_bg.png"
+		},
+		{
 			"name":		"floor_bg",
 			"path":		"res/battle_anim/static/floor_bg.png"
 		},
@@ -6421,6 +6438,14 @@
 		{
 			"name":		"platform_desert_far",
 			"path":		"res/battle_anim/static/platform_desert_far.png"
+		},
+		{
+			"name":		"platform_fence",
+			"path":		"res/battle_anim/static/platform_fence.png"
+		},
+		{
+			"name":		"platform_fence_far",
+			"path":		"res/battle_anim/static/platform_fence_far.png"
 		},
 		{
 			"name":		"platform_floor",

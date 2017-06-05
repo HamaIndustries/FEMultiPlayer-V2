@@ -1,12 +1,14 @@
 package net.fe.lobbystage;
 
 import java.util.List;
+import java.util.Set;
 
 import net.fe.FEMultiplayer;
 import net.fe.FEResources;
 import net.fe.Party;
 import net.fe.Player;
 import net.fe.Session;
+import net.fe.ConnectStage;
 import net.fe.modifier.Modifier;
 import net.fe.network.FEServer;
 import net.fe.network.Message;
@@ -173,12 +175,12 @@ public class ClientLobbyStage extends LobbyStage {
 	 * @see net.fe.lobbystage.LobbyStage#beginStep()
 	 */
 	@Override
-	public void beginStep() {
-		super.beginStep();
+	public void beginStep(List<Message> messages) {
+		super.beginStep(messages);
 		for(Entity e : entities) {
 			e.beginStep();
 		}
-		for(Message message : Game.getMessages()) {
+		for(Message message : messages) {
 			if(message instanceof StartPicking) {
 				// Set up global list of players
 				for(Player p : FEMultiplayer.getPlayers().values()) {
@@ -188,9 +190,6 @@ public class ClientLobbyStage extends LobbyStage {
 						p.getParty().clear();
 				}
 				session.getPickMode().setUpClient(session);
-			} else if(message instanceof QuitMessage) {
-				//player has left
-				FEMultiplayer.disconnectGame("Opponent has disconnected. Exiting game.");
 			}
 		}
 		processAddStack();
@@ -281,7 +280,7 @@ public class ClientLobbyStage extends LobbyStage {
 		//Draw chat
 		x = 6;
 		y = 202;
-		List<String> chats = chat.getLast(5);
+		List<String> chats = session.getChatlog().getLast(5);
 		for(int i=0; i<5; i++) {
 			Renderer.drawString("default_med", chats.get(i), x+2, y+2+i*16, 0.8f);
 		}

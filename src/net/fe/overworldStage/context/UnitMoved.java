@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import chu.engine.anim.AudioPlayer;
+import net.fe.network.command.WaitCommand;
+import net.fe.overworldStage.FieldSkill;
 import net.fe.overworldStage.Menu;
 import net.fe.overworldStage.MenuContext;
 import net.fe.overworldStage.Node;
@@ -86,7 +88,7 @@ public class UnitMoved extends MenuContext<String> {
 		// TODO Finish this
 		AudioPlayer.playAudio("select");
 		if (selectedItem.equals("Wait")) {
-			stage.addCmd("WAIT");
+			stage.addCmd(new WaitCommand());
 			stage.send();
 			unit.setMoved(true);
 			stage.reset();	
@@ -108,6 +110,12 @@ public class UnitMoved extends MenuContext<String> {
 			new DropTarget(stage, this, zone, unit).startContext();
 		} else if (selectedItem.equals("Summon")){
 			new Summon(stage, this, zone, unit).startContext();
+		} else {
+			for (FieldSkill f : unit.getTheClass().fieldSkills) {
+				if (selectedItem.equals(f.getName())) {
+					f.onSelect(stage, this, zone, unit).startContext();
+				}
+			}
 		}
 			
 	}
@@ -125,10 +133,13 @@ public class UnitMoved extends MenuContext<String> {
 	 */
 	@Override
 	public void onCancel() {
-		if (fromTrade){
+		if (fromTrade || fromTake){
 			return; // You can't cancel this.
 		}
 		super.onCancel();
+		// clear variables set by starting the context
+		stage.setMovX(0);
+		stage.setMovY(0);
 	}
 
 	/**
@@ -152,6 +163,13 @@ public class UnitMoved extends MenuContext<String> {
 					new Node(unit.getXCoord(), unit.getYCoord()), 1),
 					Zone.MOVE_DARK);
 			stage.addEntity(zone);
+		} else {
+			for (FieldSkill f : unit.getTheClass().fieldSkills) {
+				if (menu.getSelection().equals(f.getName())) {
+					zone = f.getZone(unit, grid);
+					stage.addEntity(zone);
+				}
+			}
 		}
 	}
 
@@ -184,7 +202,7 @@ public class UnitMoved extends MenuContext<String> {
 		for (Node n : range) {
 			Unit p = grid.getUnit(n.x, n.y);
 			if (p != null && stage.getCurrentPlayer().getParty().isAlly(p.getParty())
-					&& p.getHp() != p.get("HP")) {
+					&& p.getHp() != p.getStats().maxHp) {
 				heal = true;
 				break;
 			}
@@ -204,21 +222,29 @@ public class UnitMoved extends MenuContext<String> {
 			Unit p = grid.getUnit(n.x, n.y);
 			if (p != null && stage.getCurrentPlayer().getParty().isAlly(p.getParty())) {
 				trade = true;
-				if(p.rescuedUnit() == null && unit.rescuedUnit() == null && unit.canRescue()){
+				if(p.rescuedUnit() == null && unit.rescuedUnit() == null && unit.canRescue(p)){
 					rescue = true;
-				} else if (p.rescuedUnit() == null && unit.rescuedUnit() != null){
+				} else if (p.rescuedUnit() == null && unit.rescuedUnit() != null && 
+						p.canRescue(unit.rescuedUnit())){
 					give = true;
-				} else if (p.rescuedUnit() != null && unit.rescuedUnit() == null){
+				} else if (p.rescuedUnit() != null && unit.rescuedUnit() == null &&
+						unit.canRescue(p.rescuedUnit())){
 					take = true;
 				}
 			}
 			if(p == null && unit.rescuedUnit() != null && 
 					grid.getTerrain(n.x, n.y).getMoveCost(
 					unit.rescuedUnit().getTheClass()) < unit
-					.rescuedUnit().get("Mov")){
+					.rescuedUnit().getStats().mov){
 				drop = true;
 			}
-			if(p == null && unit.getTheClass().usableWeapon.contains(Weapon.Type.DARK)) {
+			
+			//summon
+			if (p == null
+					&& grid.getTerrain(n.x, n.y).getMoveCost(
+							net.fe.unit.Class.createClass("Phantom")) <
+							unit.getStats().mov && 
+							unit.getTheClass().usableWeapon.contains(Weapon.Type.DARK)) {
 				for (Item i : unit.getInventory()) {
 					if (i instanceof RiseTome)
 						summon = true;
@@ -238,6 +264,12 @@ public class UnitMoved extends MenuContext<String> {
 			list.add("Drop");
 		if (summon)
 			list.add("Summon");
+		
+		for (FieldSkill f : unit.getTheClass().fieldSkills) {
+			if (f.allowed(unit, this.stage.grid)) {
+				list.add(f.getName());
+			}
+		}
 		
 		list.add("Item");
 		list.add("Wait");

@@ -5,28 +5,23 @@ import java.util.Arrays;
 
 import net.fe.fightStage.AttackRecord;
 import net.fe.network.Message;
+import net.fe.network.command.Command;
 import net.fe.unit.UnitIdentifier;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class CommandMessage.
+ * A message indicating actions that a Unit should take
  */
-public class CommandMessage extends Message {
+public final class CommandMessage extends Message {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 8131511231319584473L;
 	
 	/** The unit. */
-	public UnitIdentifier unit;
-	
-	/** The move x. */
-	public int moveX;
-	
-	/** The move y. */
-	public int moveY;
+	public final UnitIdentifier unit;
 	
 	/** The commands. */
-	public Object[] commands;
+	public final Command[] commands;
 	
 	/** The attack records. */
 	public ArrayList<AttackRecord> attackRecords;
@@ -35,17 +30,13 @@ public class CommandMessage extends Message {
 	 * Instantiates a new command message.
 	 *
 	 * @param unit the unit
-	 * @param moveX the move x
-	 * @param moveY the move y
 	 * @param atk the atk
 	 * @param commands the commands
 	 */
 	public CommandMessage(UnitIdentifier unit, 
-			int moveX, int moveY, ArrayList<AttackRecord> atk, Object... commands) {
+			ArrayList<AttackRecord> atk, Command... commands) {
 		this.commands = commands;
 		this.unit = unit;
-		this.moveX = moveX;
-		this.moveY = moveY;
 		this.attackRecords = atk;
 	}
 	
@@ -56,7 +47,7 @@ public class CommandMessage extends Message {
 		if(unit == null){
 			return super.toString() + Arrays.toString(commands);
 		} else {
-			return super.toString() + unit.name + " move (" + moveX + ", " + moveY + "):" + Arrays.toString(commands);
+			return super.toString() + unit.name + Arrays.toString(commands);
 		}
 	}
 

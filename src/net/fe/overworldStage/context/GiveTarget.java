@@ -1,5 +1,6 @@
 package net.fe.overworldStage.context;
 
+import net.fe.network.command.TakeCommand;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.OverworldContext;
 import net.fe.overworldStage.SelectTargetContext;
@@ -13,6 +14,8 @@ import net.fe.unit.UnitIdentifier;
  */
 public class GiveTarget extends SelectTargetContext {
 
+	private Unit unit;
+	
 	/**
 	 * Instantiates a new give target.
 	 *
@@ -24,13 +27,14 @@ public class GiveTarget extends SelectTargetContext {
 	public GiveTarget(ClientOverworldStage stage, OverworldContext context, Zone z,
 			Unit u) {
 		super(stage, context, z, u, true);
+		unit = u;
 	}
 	
 	/* (non-Javadoc)
 	 * @see net.fe.overworldStage.SelectTargetContext#validTarget(net.fe.unit.Unit)
 	 */
 	public boolean validTarget(Unit u){
-		return super.validTarget(u) && u.rescuedUnit() == null;
+		return super.validTarget(u) && u.rescuedUnit() == null && u.canRescue(unit.rescuedUnit());
 	}
 
 	/* (non-Javadoc)
@@ -38,8 +42,7 @@ public class GiveTarget extends SelectTargetContext {
 	 */
 	@Override
 	public void unitSelected(Unit u) {
-		stage.addCmd("GIVE");
-		stage.addCmd(new UnitIdentifier(u));
+		stage.addCmd(new TakeCommand(new UnitIdentifier(u)));
 		stage.send();
 		unit.setMoved(true);
 		unit.give(u);

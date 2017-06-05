@@ -17,6 +17,11 @@ public class Astra extends CombatTrigger {
 	
 	/**
 	 * Instantiates a new astra.
+	 * 
+	 * Info: Makes the user attack 5 times at half damage.
+	 * 
+	 * Chance: Skl/2
+	 * 
 	 */
 	public Astra(){
 		super(REPLACE_NAME_AFTER_PRE, YOUR_TURN_PRE + YOUR_TURN_MOD + YOUR_TURN_POST, 
@@ -27,9 +32,9 @@ public class Astra extends CombatTrigger {
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
-	public boolean attempt(Unit user, int range) {
+	public boolean attempt(Unit user, int range, Unit opponent) {
 		//return true;
-		return range == 1 && (RNG.get() < user.get("Skl")/2 || counter!=0);
+		return range == 1 && (RNG.get() < user.getStats().skl/2 || counter!=0);
 	}
 	
 	/* (non-Javadoc)

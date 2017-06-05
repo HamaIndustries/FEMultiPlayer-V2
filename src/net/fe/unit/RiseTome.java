@@ -13,10 +13,7 @@ public class RiseTome extends Item{
 	 * Instantiates a new rise tome.
 	 */
 	public RiseTome(){
-		super("Rise");
-		this.setMaxUses(4);
-		this.id = 73;
-		this.setCost(8000);
+		super("Rise", 1, 3, 5000);
 	}
 	
 	/* (non-Javadoc)
@@ -34,6 +31,30 @@ public class RiseTome extends Item{
 			return 0;
 		} else {
 			return 1;
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+	
+	@Override
+	protected boolean canEquals(Object other) {
+		return other instanceof RiseTome;
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (other != null && other instanceof RiseTome) {
+			RiseTome o2 = (RiseTome) other;
+			if (o2.canEquals(this)) {
+				return super.equals(o2);
+			} else {
+				return false;
+			}
+		} else {
+			return false;
 		}
 	}
 }

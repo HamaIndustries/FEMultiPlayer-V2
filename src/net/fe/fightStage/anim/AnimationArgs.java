@@ -9,32 +9,32 @@ import static java.lang.System.out;
 /**
  * The Class AnimationArgs.
  */
-public class AnimationArgs {
+public final class AnimationArgs {
 	
 	/** The userclass. */
-	public String userclass;
+	public final String userclass;
 	
 	/** The wep anim name. */
-	public String wepAnimName;
+	public final String wepAnimName;
 	
 	/** The classification. */
-	public String classification;
+	public final String classification;
 	
 	/** The left. */
-	public boolean left;
+	public final boolean left;
 	
 	/** The unit. */
-	public Unit unit;
+	public final Unit unit;
 	
 	/** The range. */
-	public int range;
+	public final int range;
 	
 	/**
 	 * Instantiates a new animation args.
 	 *
-	 * @param u the u
-	 * @param left the left
-	 * @param range the range
+	 * @param u the attacking unit
+	 * @param left whether the unit is on the left size
+	 * @param range the distance between the attacker and defender
 	 */
 	public AnimationArgs(Unit u, boolean left, int range){
 		userclass = u.functionalClassName();
@@ -47,6 +47,9 @@ public class AnimationArgs {
 			if(wType.isMagic()){
 				wepAnimName = "magic";
 				classification = "magic";
+			} else if (wType == Weapon.Type.CROSSBOW) {
+				wepAnimName = "bow";
+				classification = "normal";
 			} else {
 				wepAnimName = wType.toString().toLowerCase();
 				classification = "normal";
@@ -55,24 +58,25 @@ public class AnimationArgs {
 			wepAnimName = "magic";
 			classification = "magic";
 		} else {
-			wepAnimName = w.type.toString().toLowerCase();
-			classification = "normal";
-			if(w.range.contains(range) && range > 1){
-				if(w.type == Weapon.Type.AXE){
+			if (w.range.apply(u.getStats()).contains(range) && range > 1) {
+				classification = "ranged";
+				switch (w.type) {
+					case AXE: wepAnimName = "handaxe"; break;
+					case LANCE: wepAnimName = "javelin"; break;
+					case SWORD: wepAnimName = "rangedsword"; break;
+					case BOW: wepAnimName = "bow"; break;
+					case CROSSBOW: wepAnimName = "bow"; break;
+					default: wepAnimName = "magic"; break;
+				}
+			} else {
+				classification = "normal";
+				if (w.type == Weapon.Type.CROSSBOW) {
+					wepAnimName = "bow";
+				} else if (w.type == Weapon.Type.AXE && w.range.apply(u.getStats()).contains(2)) {
 					wepAnimName = "handaxe";
-					classification = "ranged";
+				} else {
+					wepAnimName = w.type.toString().toLowerCase();
 				}
-				if (w.type == Weapon.Type.LANCE){
-					wepAnimName = "javelin";
-					classification = "ranged";
-				} 
-				if (w.type == Weapon.Type.SWORD){
-					wepAnimName = "rangedsword";
-					classification = "ranged";
-				}
-			}
-			if (w.type == Weapon.Type.BOW){
-				this.classification = "ranged";
 			}
 		}
 	}

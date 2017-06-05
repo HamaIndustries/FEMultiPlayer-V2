@@ -1,7 +1,6 @@
 package net.fe.overworldStage.context;
 
 import chu.engine.anim.AudioPlayer;
-import net.fe.Command;
 import net.fe.overworldStage.*;
 import net.fe.unit.Unit;
 
@@ -73,9 +72,9 @@ public class UnitSelected extends CursorContext {
 			grid.move(selected, cursor.getXCoord(),	cursor.getYCoord(), true);
 			stage.setControl(false);
 			AudioPlayer.playAudio("select");
-			selected.move(path, new Command() {
+			selected.move(path, new Runnable() {
 				@Override
-				public void execute() {
+				public void run() {
 					stage.setControl(true);
 					new UnitMoved(stage, UnitSelected.this,
 							selected, false, false).startContext();
@@ -101,6 +100,8 @@ public class UnitSelected extends CursorContext {
 	public void onCancel() {
 		cursor.setXCoord(selected.getOrigX());
 		cursor.setYCoord(selected.getOrigY());
+		// clear variables set by starting the context
+		stage.setSelectedUnit(null);
 		super.onCancel();
 	}
 	

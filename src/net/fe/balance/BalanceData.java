@@ -34,8 +34,8 @@ public class BalanceData {
 	public BalanceData(Unit u){
 		unit = u;
 		name = u.name;
-		bases = new HashMap<String, Integer>(u.bases);
-		growths = new HashMap<String, Integer>(u.growths);
+		bases = new HashMap<String, Integer>(u.bases.toMap());
+		growths = new HashMap<String, Integer>(u.growths.toMap());
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public class BalanceData {
 		for(String stat: ORDER){
 			ans += bases.get(stat) + "\t";
 		}
-		ans += unit.get("Con") + "\t" + unit.get("Mov") + "\t\t";
+		ans += unit.getStats().con + "\t" + unit.getStats().mov + "\t\t";
 		for(String stat: ORDER){
 			ans += growths.get(stat) + "\t";
 		}

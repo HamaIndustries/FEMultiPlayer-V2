@@ -18,6 +18,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.time.*;
 
 import net.fe.builderStage.TeamDraftStage;
 import net.fe.fightStage.AttackRecord;
@@ -27,6 +28,7 @@ import net.fe.lobbystage.ClientLobbyStage;
 import net.fe.network.Client;
 import net.fe.network.FEServer;
 import net.fe.network.Message;
+import net.fe.network.command.Command;
 import net.fe.network.message.CommandMessage;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.Grid;
@@ -68,12 +70,6 @@ public class FEMultiplayer extends Game{
 	/** The local player. */
 	private static Player localPlayer;
 	
-	/** The turn. */
-	public static Player turn;
-	
-	/** The map. */
-	public static ClientOverworldStage map;
-	
 	/** The lobby. */
 	public static ClientLobbyStage lobby;
 	
@@ -103,7 +99,7 @@ public class FEMultiplayer extends Game{
 			System.err.println("Exception occurred, writing to logs...");
 			e.printStackTrace();
 			try{
-				File errLog = new File("error_log_client" + System.currentTimeMillis()%100000000 + ".log");
+				File errLog = new File("error_log_client" + LocalDateTime.now().toString().replace("T", "@").replace(":", "-") + ".log");
 				PrintWriter pw = new PrintWriter(errLog);
 				e.printStackTrace(pw);
 				pw.close();
@@ -144,7 +140,6 @@ public class FEMultiplayer extends Game{
 		UnitFactory.getUnit("Lyn");
 		connect = new ConnectStage();
 		setCurrentStage(new TitleStage());
-		messages = new CopyOnWriteArrayList<Message>();
 		SoundTrack.loop("main");
 		
 	}
@@ -154,8 +149,7 @@ public class FEMultiplayer extends Game{
 	 */
 	public void testDraftStage() {
 		Player p1 = localPlayer;
-		testSession = new Session();
-		testSession.setMaxUnits(6);
+		testSession = new Session(new net.fe.overworldStage.objective.Rout(), "test", 6, new java.util.HashSet<>(), new net.fe.pick.Draft());
 		Player p2 = new Player("p2", (byte) 1);
 		Player p3 = new Player("p3", (byte) 2);
 		p2.getParty().setColor(Party.TEAM_RED);
@@ -183,9 +177,7 @@ public class FEMultiplayer extends Game{
 	 */
 	public void testFightStage(){
 		Player p1 = localPlayer;
-		testSession = new Session();
-		testSession.setMap("test");
-		testSession.setObjective(new Seize());
+		testSession = new Session(new Seize(), "test", 8, new java.util.HashSet<>(), new net.fe.pick.Draft());
 		Player p2 = new Player("p2", (byte) 1);
 		p2.getParty().setColor(Party.TEAM_RED);
 		p1.getParty().setColor(Party.TEAM_BLUE);
@@ -195,9 +187,9 @@ public class FEMultiplayer extends Game{
 		testSession.addPlayer(p1);
 		testSession.addPlayer(p2);
 		
-		map = new ClientOverworldStage(testSession);
-		Unit u1 = UnitFactory.getUnit("Canas");
-		u1.getInventory().add(WeaponFactory.getWeapon("Eclipse"));
+		final ClientOverworldStage map = new ClientOverworldStage(testSession);
+		Unit u1 = UnitFactory.getUnit("Eirika");
+		u1.getInventory().add(WeaponFactory.getWeapon("Silver Sword"));
 		u1.equip(0);
 		map.addUnit(u1, 0, 0);
 		u1.setLevel(20);
@@ -206,21 +198,21 @@ public class FEMultiplayer extends Game{
 		
 		Unit u2 = UnitFactory.getUnit("Dart");
 		u2.getInventory().add(WeaponFactory.getWeapon("Tomahawk"));
-		map.addUnit(u2, 5, 0);
+		map.addUnit(u2, 1, 0);
 		u2.equip(0);
-		u2.setLevel(20);
+		u2.setLevel(1);
 		u2.loadMapSprites();
 		p2.getParty().addUnit(u2);
 		
 		map.processAddStack();
 		int u2Uses = u2.getWeapon().getMaxUses();
 
-		u1.debugStat("Skl");
-		//u1.debugStat("Str", -999);
+		//u1.debugStat("Skl");
+		//u1.debugStat("Str");
 		
 		// ^------- put all pre-calc stuff here
 		
-		CombatCalculator calc = new CombatCalculator(new UnitIdentifier(u1), new UnitIdentifier(u2), true);
+		CombatCalculator calc = new CombatCalculator(new UnitIdentifier(u1), new UnitIdentifier(u2), FEMultiplayer::getUnit);
 		System.out.println(calc.getAttackQueue());
 		
 		
@@ -229,16 +221,14 @@ public class FEMultiplayer extends Game{
 		u2.fillHp();
 		
 		
-		setCurrentStage(new FightStage(new UnitIdentifier(u1), new UnitIdentifier(u2), calc.getAttackQueue()));
+		setCurrentStage(new FightStage(new UnitIdentifier(u1), new UnitIdentifier(u2), calc.getAttackQueue(), map, new EmptyRunnable()));
 	}
 	
 	/**
 	 * Test overworld stage.
 	 */
 	public void testOverworldStage() {
-		testSession = new Session();
-		testSession.setMap("test");
-		testSession.setObjective(new Seize());
+		testSession = new Session(new Seize(), "test", 8, new java.util.HashSet<>(), new net.fe.pick.Draft());
 		testSession.addPlayer(localPlayer);
 		
 		Player p2 = new Player("P2", (byte)1);
@@ -248,8 +238,8 @@ public class FEMultiplayer extends Game{
 		p2.setTeam(2);
 		localPlayer.setTeam(1);
 		
-		Unit u1 = UnitFactory.getUnit("Eirika");
-		u1.addToInventory(WeaponFactory.getWeapon("Silver Sword"));
+		Unit u1 = UnitFactory.getUnit("Natasha");
+		u1.addToInventory(WeaponFactory.getWeapon("Physic"));
 		u1.setHp(1);
 		localPlayer.getParty().addUnit(u1);
 		
@@ -259,12 +249,27 @@ public class FEMultiplayer extends Game{
 		u3.setHp(1);
 		p2.getParty().addUnit(u3);
 		
+		Unit u4 = UnitFactory.getUnit("Eirika");
+		u4.addToInventory(WeaponFactory.getWeapon("Silver Sword"));
+		u4.equip(0);
+		u4.setHp(1);
+		p2.getParty().addUnit(u4);
+		
 		Unit u2 = UnitFactory.getUnit("Lute");
 		u2.addToInventory(WeaponFactory.getWeapon("Physic"));
+		u2.setHp(1);
 		localPlayer.getParty().addUnit(u2);
 		
 		currentStage = new ClientOverworldStage(testSession);
 
+		this.client = new Client("nope", 12345) {
+			@Override
+			public void sendMessage(Message message) {
+				if (message instanceof CommandMessage) {
+					((ClientOverworldStage) currentStage).processCommands((CommandMessage) message);
+				}
+			}
+		};
 	}
 	
 	/**
@@ -307,24 +312,25 @@ public class FEMultiplayer extends Game{
 	@Override
 	public void loop() {
 		while(!Display.isCloseRequested()) {
-			time = System.nanoTime();
+			final long time = System.nanoTime();
 			glClear(GL_COLOR_BUFFER_BIT |
 			        GL_DEPTH_BUFFER_BIT |
 			        GL_STENCIL_BUFFER_BIT);
 			glClearDepth(1.0f);
 			getInput();
-			messages.clear();
+			final ArrayList<Message> messages = new ArrayList<>();
 			if(client != null){
-				messages.addAll(client.getMessages());
-				for(Message m : messages)
-					client.messages.remove(m);
+				synchronized (client.messagesLock) {
+					messages.addAll(client.messages);
+					for(Message m : messages)
+						client.messages.remove(m);
+				}
 			}
 			SoundStore.get().poll(0);
 			glPushMatrix();
 			//Global resolution scale
 //			Renderer.scale(scaleX, scaleY);
-			if(!paused) {
-				currentStage.beginStep();
+				currentStage.beginStep(messages);
 				currentStage.onStep();
 				currentStage.processAddStack();
 				currentStage.processRemoveStack();
@@ -332,7 +338,6 @@ public class FEMultiplayer extends Game{
 //				FEResources.getBitmapFont("stat_numbers").render(
 //						(int)(1.0f/getDeltaSeconds())+"", 440f, 0f, 0f);
 				currentStage.endStep();
-			}
 			glPopMatrix();
 			Display.update();
 			timeDelta = System.nanoTime()-time;
@@ -343,15 +348,6 @@ public class FEMultiplayer extends Game{
 	}
 	
 	/**
-	 * Report fight results.
-	 *
-	 * @param stage the Fightstage the results come from
-	 */
-	public static void reportFightResults(FightStage stage){ 
-		
-	}
-	
-	/**
 	 * Send. Used by the game to tell the unit on either client to attempt an action.
 	 *
 	 * @param u the unit Identifier
@@ -359,26 +355,12 @@ public class FEMultiplayer extends Game{
 	 * @param moveY the y-wards movement
 	 * @param cmds the commands for the unit
 	 */
-	public static void send(UnitIdentifier u, int moveX, int moveY, Object... cmds){
+	public static void send(UnitIdentifier u, Command... cmds){
 		for(Object o: cmds){
 			System.out.print(o + " ");
 		}
 		System.out.println();
-		client.sendMessage(new CommandMessage(u, moveX, moveY, null, cmds));
-	}
-	
-	/**
-	 * Go to fight stage. Calls the fightstage to animate the battle calculations
-	 * which have already occurred.
-	 *
-	 * @param u the Unit Identifier
-	 * @param other the other Unit's Identifier
-	 * @param queue the attack record
-	 */
-	public static void goToFightStage(UnitIdentifier u, UnitIdentifier other, 
-			ArrayList<AttackRecord> queue) {
-			FightStage to = new FightStage(u, other, queue);
-			currentStage.addEntity(new OverworldFightTransition((ClientOverworldStage)currentStage, to, u, other));
+		client.sendMessage(new CommandMessage(u, null, cmds));
 	}
 	
 	/**
@@ -391,15 +373,6 @@ public class FEMultiplayer extends Game{
 		if(stage.soundTrack != null){
 			SoundTrack.loop(stage.soundTrack);
 		}
-	}
-
-	/**
-	 * Gets the overworld stage.
-	 *
-	 * @return the overworld stage
-	 */
-	public static Stage getOverworldStage() {
-		return map;
 	}
 	
 	/**
@@ -490,4 +463,7 @@ public class FEMultiplayer extends Game{
 		}
 	}
 
+	private static final class EmptyRunnable implements Runnable {
+		@Override public void run() {}
+	}
 }
