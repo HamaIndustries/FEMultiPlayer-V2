@@ -3,6 +3,7 @@ package net.fe;
 import java.util.List;
 
 import net.fe.builderStage.TeamBuilderStage;
+import net.fe.network.FEServer;
 import net.fe.network.Message;
 
 import org.lwjgl.input.Mouse;
@@ -40,7 +41,7 @@ public final class ConnectStage extends Stage {
 	private final ConnectInputBox name;
 	
 	/** The ip. */
-	private final ConnectInputBox ip;
+	private final ConnectInputBox ipPort;
 	
 	/**
 	 * Instantiates a new connect stage.
@@ -48,11 +49,11 @@ public final class ConnectStage extends Stage {
 	public ConnectStage() {
 		super("main");
 		name = new ConnectInputBox(180,136,153,20);
-		ip = new ConnectInputBox(180,166,100,20);
+		ipPort = new ConnectInputBox(180,166,153,20);
 		addEntity(name);
-		addEntity(ip);
+		addEntity(ipPort);
 		addEntity(new RunesBg(Color.gray));
-		addEntity(new ConnectButton(286,166,47,20));
+		addEntity(new ConnectButton(339,166,47,20));
 		addEntity(new MenuButton(180,196,128,32) {
 			{
 				sprite.addAnimation("default", FEResources.getTexture("team_builder_button"));
@@ -109,7 +110,7 @@ public final class ConnectStage extends Stage {
 	public void render() {
 		// Draw and label boxes
 		Renderer.drawString("default_med", "Name:", 150, 140, 0.0f);
-		Renderer.drawString("default_med", "Server IP:", 133, 170, 0.0f);
+		Renderer.drawString("default_med", "Server address:", 105, 170, 0.0f);
 		
 		super.render();
 	}
@@ -189,7 +190,19 @@ public final class ConnectStage extends Stage {
 		@Override
 		public void onClick() {
 			AudioPlayer.playAudio("select");
-			FEMultiplayer.connect(name.getInput(), ip.getInput());
+			String[] split = ipPort.getInput().split(":");
+			String ip = split[0];
+			int port;
+			if(split.length == 1)
+				port = FEServer.DEFAULT_PORT;
+			else {
+				try {
+					port = Integer.parseInt(split[1]);
+				} catch (NumberFormatException e) {
+					port = FEServer.DEFAULT_PORT;
+				}
+			}
+			FEMultiplayer.connect(name.getInput(), ip, port);
 		}
 		
 		/* (non-Javadoc)
