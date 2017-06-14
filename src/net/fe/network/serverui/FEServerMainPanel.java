@@ -39,6 +39,8 @@ import net.fe.overworldStage.objective.Seize;
 import net.fe.pick.AllPick;
 import net.fe.pick.Draft;
 import net.fe.pick.PickMode;
+import net.fe.rng.GuaranteedRNG;
+import net.fe.rng.NullRNG;
 import net.fe.rng.RNG;
 import net.fe.rng.SimpleRNG;
 import net.fe.rng.TrueHitRNG;
@@ -81,10 +83,10 @@ public class FEServerMainPanel extends JPanel {
 	private JPanel pnlRNG;
 	private JLabel lblHitRng;
 	private JComboBox<RNG> cbbHitRNG;
-//	private JLabel lblCritRng;
-//	private JComboBox<RNG> cbbCritRNG;
-//	private JLabel lblSkillRng;
-//	private JComboBox<RNG> cbbSkillRNG;
+	private JLabel lblCritRng;
+	private JComboBox<RNG> cbbCritRNG;
+	private JLabel lblSkillRng;
+	private JComboBox<RNG> cbbSkillRNG;
 
 	/**
 	 * Initializes the panel
@@ -235,24 +237,24 @@ public class FEServerMainPanel extends JPanel {
 		
 		
 		cbbHitRNG = new JComboBox<>();
-		cbbHitRNG.setModel(new DefaultComboBoxModel<RNG>(new RNG[] {new SimpleRNG(), new TrueHitRNG()}));
+		cbbHitRNG.setModel(new DefaultComboBoxModel<RNG>(new RNG[] {new SimpleRNG(), new TrueHitRNG(), new GuaranteedRNG()}));
 		cbbHitRNG.setSelectedIndex(1);
 		pnlRNG.add(cbbHitRNG);
 		
 		//Secret settings :o
-//		lblCritRng = new JLabel("Crit RNG");
-//		pnlRNG.add(lblCritRng);
-//		
-//		cbbCritRNG = new JComboBox<>();
-//		cbbCritRNG.setModel(new DefaultComboBoxModel<RNG>(new RNG[] {new SimpleRNG(), new TrueHitRNG()}));
-//		pnlRNG.add(cbbCritRNG);
-//		
-//		lblSkillRng = new JLabel("Skill RNG");
-//		pnlRNG.add(lblSkillRng);
-//		
-//		cbbSkillRNG = new JComboBox<>();
-//		cbbSkillRNG.setModel(new DefaultComboBoxModel<RNG>(new RNG[] {new SimpleRNG(), new TrueHitRNG()}));
-//		pnlRNG.add(cbbSkillRNG);
+		lblCritRng = new JLabel("Crit RNG");
+		pnlRNG.add(lblCritRng);
+		
+		cbbCritRNG = new JComboBox<>();
+		cbbCritRNG.setModel(new DefaultComboBoxModel<RNG>(new RNG[] {new SimpleRNG(), new NullRNG()}));
+		pnlRNG.add(cbbCritRNG);
+		
+		lblSkillRng = new JLabel("Skill RNG");
+		pnlRNG.add(lblSkillRng);
+		
+		cbbSkillRNG = new JComboBox<>();
+		cbbSkillRNG.setModel(new DefaultComboBoxModel<RNG>(new RNG[] {new SimpleRNG(), new NullRNG()}));
+		pnlRNG.add(cbbSkillRNG);
 
 		startServer = new JButton("Start server");
 		startServer.addActionListener(e -> {
