@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -87,9 +89,9 @@ public class FEServerMainPanel extends JPanel {
 	private JComboBox<RNG> cbbCritRNG;
 	private JLabel lblSkillRng;
 	private JComboBox<RNG> cbbSkillRNG;
-
+	
 	/**
-	 * Initializes the panel
+	 * Initializes the panel.
 	 */
 	public FEServerMainPanel() {
 		final Map<String, Objective[]> maps = new HashMap<String, Objective[]>();
@@ -107,9 +109,9 @@ public class FEServerMainPanel extends JPanel {
 		}
 
 		setLayout(new BorderLayout(0, 0));
-		DefaultListModel<Modifier> selectedModifiersModel = new DefaultListModel<Modifier>();
+		selectedModifiersModel = new DefaultListModel<Modifier>();
 		// Modifiers
-		DefaultListModel<Modifier> unselectedModifiersModel = new DefaultListModel<Modifier>();
+		unselectedModifiersModel = new DefaultListModel<Modifier>();
 		unselectedModifiersModel.addElement(new MadeInChina());
 		unselectedModifiersModel.addElement(new Treasury());
 		unselectedModifiersModel.addElement(new Veterans());
@@ -117,6 +119,8 @@ public class FEServerMainPanel extends JPanel {
 		unselectedModifiersModel.addElement(new SuddenDeath());
 		unselectedModifiersModel.addElement(new Vegas());
 		unselectedModifiersModel.addElement(new ProTactics());
+		
+		sortListModels();
 
 		mainPanel = new JPanel();
 		add(mainPanel, BorderLayout.CENTER);
@@ -203,6 +207,7 @@ public class FEServerMainPanel extends JPanel {
 			int index = -1;
 			while((index = unselectedModifiersList.getSelectedIndex()) != -1)
 				selectedModifiersModel.add(0, unselectedModifiersModel.remove(index));
+			sortListModels();
 		});
 		buttonsPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		buttonsPanel.add(addModifierBtn);
@@ -212,6 +217,7 @@ public class FEServerMainPanel extends JPanel {
 			int index = -1;
 			while((index = selectedModifiersList.getSelectedIndex()) != -1)
 				unselectedModifiersModel.add(0, selectedModifiersModel.remove(index));
+			sortListModels();
 		});
 		buttonsPanel.add(removeModifierBtn);
 
@@ -263,6 +269,19 @@ public class FEServerMainPanel extends JPanel {
 		});
 		add(startServer, BorderLayout.SOUTH);
 	}
+	
+	private void sortListModels() {
+		Modifier[] temp = new Modifier[unselectedModifiersModel.size()];
+		unselectedModifiersModel.copyInto(temp);
+		Arrays.sort(temp, (a, b) -> a.toString().compareTo(b.toString()));
+		for(int i = 0; i < temp.length; i++) 
+			unselectedModifiersModel.set(i, temp[i]);
+		temp = new Modifier[selectedModifiersModel.size()];
+		selectedModifiersModel.copyInto(temp);
+		Arrays.sort(temp, (a, b) -> a.toString().compareTo(b.toString()));
+		for(int i = 0; i < temp.length; i++) 
+			selectedModifiersModel.set(i, temp[i]);
+	}
 
 	/**
 	 * Sets the runnable that should be executed when the "Start server" button is pressed.<BR>
@@ -274,14 +293,17 @@ public class FEServerMainPanel extends JPanel {
 	}
 
 	/**
-	 * Returns the session described by the current values set in the different components of the frame.
-	 * @return the session described by the current values set in the different components of the frame.
+	 * Returns the port selected.
+	 * @return The port.
 	 */
-
 	public int getPort() {
 		return (Integer) spnPort.getValue();
 	}
 
+	/**
+	 * Returns the session described by the current values set in the different components of the frame.
+	 * @return the session described by the current values set in the different components of the frame.
+	 */
 	public Session getSession() {
 		HashSet<Modifier> mods = new HashSet<Modifier>();
 		for (int i = 0; i < selectedModifiersList.getModel().getSize(); i++)

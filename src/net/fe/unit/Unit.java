@@ -983,7 +983,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 * @param val the val
 	 */
 	public void setTempMod(String stat, int val) {
-		tempMods.put(stat, val);
+		tempMods.put(stat, (tempMods.containsKey(stat) ? tempMods.get(stat) : 0) + val);
 	}
 	
 	/**

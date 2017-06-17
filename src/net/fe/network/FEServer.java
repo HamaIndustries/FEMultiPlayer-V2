@@ -25,8 +25,8 @@ import net.fe.unit.WeaponFactory;
  */
 public class FEServer extends Game {
 
-	public static final short DEFAULT_PORT = 25525;
-	private int port = 25555;
+	public static final int DEFAULT_PORT = 21255;
+	private int port = DEFAULT_PORT;
 
 	/** The server. */
 	private static Server server;
