@@ -6,7 +6,8 @@ package net.fe.rng;
  * @author wellme
  */
 public class UnluckyRNG extends RNG {
-	
+
+	private static final long serialVersionUID = -3616861686356911578L;
 	
 	private static final RNG RNG_PROVIDER = new SimpleRNG();
 
