@@ -90,6 +90,9 @@ public class FEServerMainPanel extends JPanel {
 	private JLabel lblSkillRng;
 	private JComboBox<RNG> cbbSkillRNG;
 	
+	private DefaultListModel<Modifier> selectedModifiersModel;
+	private DefaultListModel<Modifier> unselectedModifiersModel;
+	
 	/**
 	 * Initializes the panel.
 	 */
