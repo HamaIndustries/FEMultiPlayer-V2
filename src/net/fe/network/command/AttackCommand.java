@@ -1,22 +1,15 @@
 package net.fe.network.command;
 
-import java.io.Serializable;
-import java.util.List;
 import java.util.ArrayList;
+
 import net.fe.fightStage.AttackRecord;
 import net.fe.fightStage.CombatCalculator;
 import net.fe.fightStage.FightStage;
-import net.fe.transition.OverworldFightTransition;
-import net.fe.overworldStage.OverworldStage;
 import net.fe.overworldStage.ClientOverworldStage;
-import net.fe.overworldStage.Path;
-import net.fe.overworldStage.Node;
-import net.fe.overworldStage.Healthbar;
-import net.fe.unit.UnitIdentifier;
+import net.fe.overworldStage.OverworldStage;
+import net.fe.transition.OverworldFightTransition;
 import net.fe.unit.Unit;
-import net.fe.unit.Item;
-import net.fe.unit.RiseTome;
-import java.util.Optional;
+import net.fe.unit.UnitIdentifier;
 
 public final class AttackCommand extends Command {
 	
@@ -33,7 +26,7 @@ public final class AttackCommand extends Command {
 		
 		//This updates HP so we're ok
 		final UnitIdentifier unitId = new UnitIdentifier(unit);
-		CombatCalculator calc = new CombatCalculator(unitId, otherId, (ui) -> stage.getUnit(ui));
+		CombatCalculator calc = new CombatCalculator(unitId, otherId, (ui) -> stage.getUnit(ui), stage.getHitRNG(), stage.getCritRNG(), stage.getSkillRNG());
 		return calc.getAttackQueue();
 	}
 	

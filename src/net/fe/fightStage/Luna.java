@@ -1,6 +1,6 @@
 package net.fe.fightStage;
 
-import net.fe.RNG;
+import net.fe.rng.RNG;
 import net.fe.unit.Unit;
 
 // TODO: Auto-generated Javadoc
@@ -33,9 +33,9 @@ public final class Luna extends CombatTrigger {
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
-	public boolean attempt(Unit user, int range, Unit opponent) {
+	public boolean attempt(Unit user, int range, Unit opponent, RNG rng) {
 
-		return (ranged || range == 1) && RNG.get() < user.getStats().skl/2;
+		return (ranged || range == 1) && rng.test(user.getStats().skl/2);
 	}
 
 	/* (non-Javadoc)

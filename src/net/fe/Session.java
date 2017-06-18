@@ -18,6 +18,9 @@ import net.fe.overworldStage.objective.Objective;
 import net.fe.overworldStage.objective.Rout;
 import net.fe.pick.Draft;
 import net.fe.pick.PickMode;
+import net.fe.rng.RNG;
+import net.fe.rng.SimpleRNG;
+import net.fe.rng.TrueHitRNG;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -51,17 +54,26 @@ public final class Session implements Serializable {
 	/** The pick mode. */
 	private final PickMode pickMode;
 	
+	private final RNG hitRNG;
+	private final RNG critRNG;
+	private final RNG skillRNG;
+	
 	/**
 	 * Instantiates a new session with default values.
 	 */
 	public Session() {
-		this(new Rout(), "test", 8, new HashSet<>(), new Draft());
+		this(new Rout(), "test", 8, new HashSet<>(), new Draft(), new TrueHitRNG(), new SimpleRNG(), new SimpleRNG());
 	}
 	
 	/**
 	 * Instantiates a new session with the specified values
 	 */
-	public Session(Objective objective, String map, int maxUnits, Set<Modifier> modifiers, PickMode pickMode) {
+	public Session(Objective objective, String map, int maxUnits, Set<Modifier> modifiers, PickMode pickMode, RNG hitRNG, RNG critRNG, RNG skillRNG) {
+
+		this.hitRNG = hitRNG;
+		this.critRNG = critRNG;
+		this.skillRNG = skillRNG;
+		
 		players = new HashMap<Byte, Player>();
 		this.chatlog = new Chat();
 		this.objective = objective;
@@ -245,6 +257,18 @@ public final class Session implements Serializable {
 			ChatMessage chatMsg = (ChatMessage)message;
 			this.getChatlog().add(this.getPlayer(chatMsg.origin), chatMsg.text);
 		}
+	}
+
+	public RNG getHitRNG() {
+		return hitRNG;
+	}
+
+	public RNG getCritRNG() {
+		return critRNG;
+	}
+
+	public RNG getSkillRNG() {
+		return skillRNG;
 	}
 	
 }
