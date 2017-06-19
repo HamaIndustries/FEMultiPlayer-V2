@@ -4,7 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.UnknownHostException;
 
 import javax.swing.JButton;
@@ -24,6 +29,7 @@ public class FEServerRunPanel extends JPanel {
 
 	private static final long serialVersionUID = 8683661864175580614L;
 
+	//Null if unknown
 	private String ip;
 	
 
@@ -49,12 +55,13 @@ public class FEServerRunPanel extends JPanel {
 		lblServerAddress.setFont(getFont().deriveFont(20f));
 		
 		try {
-			ip = InetAddress.getLocalHost().getHostAddress();
+			ip = getIP();
 			String text = "Server IP:" + ip;
 			if (port != FEServer.DEFAULT_PORT)
 				text += ":" + port;
 			lblServerAddress.setText(text);
-		} catch (UnknownHostException e) {
+		} catch (IOException e) {
+			ip = null;
 			lblServerAddress.setText("Error occured while getting the IP");
 		}
 
@@ -77,5 +84,15 @@ public class FEServerRunPanel extends JPanel {
 
 		});
 		panel.add(btnCopyToClipboard);
+	}
+	
+	private static String getIP() throws IOException {
+		//Uses third party to get the IP
+		URL url = new URL("http://checkip.amazonaws.com/");
+		String ip;
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
+			ip = reader.readLine();
+		}
+		return ip;
 	}
 }
