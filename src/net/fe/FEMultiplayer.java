@@ -10,36 +10,13 @@ import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 
-import static java.lang.System.out;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.time.*;
-
-import net.fe.builderStage.TeamDraftStage;
-import net.fe.fightStage.AttackRecord;
-import net.fe.fightStage.CombatCalculator;
-import net.fe.fightStage.FightStage;
-import net.fe.lobbystage.ClientLobbyStage;
-import net.fe.network.Client;
-import net.fe.network.FEServer;
-import net.fe.network.Message;
-import net.fe.network.command.Command;
-import net.fe.network.message.CommandMessage;
-import net.fe.overworldStage.ClientOverworldStage;
-import net.fe.overworldStage.Grid;
-import net.fe.overworldStage.Terrain;
-import net.fe.overworldStage.objective.Seize;
-import net.fe.transition.OverworldFightTransition;
-import net.fe.unit.RiseTome;
-import net.fe.unit.Unit;
-import net.fe.unit.UnitFactory;
-import net.fe.unit.UnitIdentifier;
-import net.fe.unit.WeaponFactory;
 
 import org.lwjgl.Sys;
 import org.lwjgl.openal.AL;
@@ -51,8 +28,24 @@ import org.newdawn.slick.util.ResourceLoader;
 
 import chu.engine.Game;
 import chu.engine.Stage;
-import chu.engine.anim.Renderer;
 import chu.engine.menu.Notification;
+import net.fe.builderStage.TeamDraftStage;
+import net.fe.fightStage.CombatCalculator;
+import net.fe.fightStage.FightStage;
+import net.fe.lobbystage.ClientLobbyStage;
+import net.fe.network.Client;
+import net.fe.network.FEServer;
+import net.fe.network.Message;
+import net.fe.network.command.Command;
+import net.fe.network.message.CommandMessage;
+import net.fe.overworldStage.ClientOverworldStage;
+import net.fe.overworldStage.objective.Seize;
+import net.fe.rng.SimpleRNG;
+import net.fe.rng.TrueHitRNG;
+import net.fe.unit.Unit;
+import net.fe.unit.UnitFactory;
+import net.fe.unit.UnitIdentifier;
+import net.fe.unit.WeaponFactory;
 
 /**
  * Main class for the Clientside program.
@@ -78,6 +71,8 @@ public class FEMultiplayer extends Game{
 	
 	/** The test session, for testing fightstage. */
 	private static Session testSession;
+	
+	private static final RunnableList postRenderRunnables = new RunnableList();
 
 	
 	/**
@@ -95,7 +90,7 @@ public class FEMultiplayer extends Game{
 //			game.testOverworldStage();
 //			game.testDraftStage();
 			game.loop();
-		} catch (Exception e){
+		} catch (Throwable e){
 			System.err.println("Exception occurred, writing to logs...");
 			e.printStackTrace();
 			try{
@@ -149,7 +144,7 @@ public class FEMultiplayer extends Game{
 	 */
 	public void testDraftStage() {
 		Player p1 = localPlayer;
-		testSession = new Session(new net.fe.overworldStage.objective.Rout(), "test", 6, new java.util.HashSet<>(), new net.fe.pick.Draft());
+		testSession = new Session(new net.fe.overworldStage.objective.Rout(), "test", 6, new java.util.HashSet<>(), new net.fe.pick.Draft(), new TrueHitRNG(), new SimpleRNG(), new SimpleRNG());
 		Player p2 = new Player("p2", (byte) 1);
 		Player p3 = new Player("p3", (byte) 2);
 		p2.getParty().setColor(Party.TEAM_RED);
@@ -177,7 +172,7 @@ public class FEMultiplayer extends Game{
 	 */
 	public void testFightStage(){
 		Player p1 = localPlayer;
-		testSession = new Session(new Seize(), "test", 8, new java.util.HashSet<>(), new net.fe.pick.Draft());
+		testSession = new Session(new Seize(), "test", 8, new java.util.HashSet<>(), new net.fe.pick.Draft(), new TrueHitRNG(), new SimpleRNG(), new SimpleRNG());
 		Player p2 = new Player("p2", (byte) 1);
 		p2.getParty().setColor(Party.TEAM_RED);
 		p1.getParty().setColor(Party.TEAM_BLUE);
@@ -212,7 +207,7 @@ public class FEMultiplayer extends Game{
 		
 		// ^------- put all pre-calc stuff here
 		
-		CombatCalculator calc = new CombatCalculator(new UnitIdentifier(u1), new UnitIdentifier(u2), FEMultiplayer::getUnit);
+		CombatCalculator calc = new CombatCalculator(new UnitIdentifier(u1), new UnitIdentifier(u2), FEMultiplayer::getUnit, new TrueHitRNG(), new SimpleRNG(), new SimpleRNG());
 		System.out.println(calc.getAttackQueue());
 		
 		
@@ -228,7 +223,7 @@ public class FEMultiplayer extends Game{
 	 * Test overworld stage.
 	 */
 	public void testOverworldStage() {
-		testSession = new Session(new Seize(), "test", 8, new java.util.HashSet<>(), new net.fe.pick.Draft());
+		testSession = new Session(new Seize(), "test", 8, new java.util.HashSet<>(), new net.fe.pick.Draft(), new TrueHitRNG(), new SimpleRNG(), new SimpleRNG());
 		testSession.addPlayer(localPlayer);
 		
 		Player p2 = new Player("P2", (byte)1);
@@ -262,7 +257,7 @@ public class FEMultiplayer extends Game{
 		
 		currentStage = new ClientOverworldStage(testSession);
 
-		this.client = new Client("nope", 12345) {
+		client = new Client("nope", 12345) {
 			@Override
 			public void sendMessage(Message message) {
 				if (message instanceof CommandMessage) {
@@ -292,18 +287,22 @@ public class FEMultiplayer extends Game{
 	 *
 	 * @param nickname player nickname
 	 * @param ip the host ip
+	 * @param port the host port
 	 */
-	public static void connect(String nickname, String ip) {
-		getLocalPlayer().setName(nickname);
-		client = new Client(ip, 21255);
-		if(client.isOpen()) {
-			lobby = new ClientLobbyStage(client.getSession());
-			setCurrentStage(lobby);
-			client.start();
-		} else {
-			currentStage.addEntity(new Notification(
-					180, 120, "default_med", "ERROR: Could not connect to the server!", 5f, new Color(255, 100, 100), 0f));
-		}
+	public static void connect(String nickname, String ip, int port) {
+		new Thread(() -> {
+			getLocalPlayer().setName(nickname);
+			client = new Client(ip, port);
+			if(client.isOpen()) {
+				postRenderRunnables.add(() -> {
+					lobby = new ClientLobbyStage(client.getSession());
+					setCurrentStage(lobby);
+					client.start();
+				});
+			} else {
+				currentStage.addEntity(new Notification(
+						180, 120, "default_med", "ERROR: Could not connect to the server!", 5f, new Color(255, 100, 100), 0f));
+		}}).start();
 	}
 
 	/* (non-Javadoc)
@@ -338,6 +337,7 @@ public class FEMultiplayer extends Game{
 //				FEResources.getBitmapFont("stat_numbers").render(
 //						(int)(1.0f/getDeltaSeconds())+"", 440f, 0f, 0f);
 				currentStage.endStep();
+				postRenderRunnables.runAll();
 			glPopMatrix();
 			Display.update();
 			timeDelta = System.nanoTime()-time;
@@ -465,5 +465,21 @@ public class FEMultiplayer extends Game{
 
 	private static final class EmptyRunnable implements Runnable {
 		@Override public void run() {}
+	}
+	
+	private static class RunnableList {
+		
+		private final ArrayList<Runnable> runnables = new ArrayList<Runnable>();
+		
+		
+		public synchronized void runAll() {
+			runnables.forEach(r -> r.run());
+			runnables.clear();
+		}
+		
+		public synchronized void add(Runnable runnable) {
+			runnables.add(runnable);
+		}
+		
 	}
 }

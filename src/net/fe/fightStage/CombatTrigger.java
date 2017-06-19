@@ -2,6 +2,7 @@ package net.fe.fightStage;
 
 import java.io.Serializable;
 
+import net.fe.rng.RNG;
 import net.fe.unit.Unit;
 
 // TODO: Auto-generated Javadoc
@@ -85,7 +86,7 @@ public abstract class CombatTrigger implements Serializable {
 	 * @param opponent the enemy
 	 * @return true, if successful
 	 */
-	public abstract boolean attempt(Unit user, int range, Unit opponent);
+	public abstract boolean attempt(Unit user, int range, Unit opponent, RNG rng);
 	
 	/**
 	 * Something to do before the attack occurs. Modify statistics, for example.
