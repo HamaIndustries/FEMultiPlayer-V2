@@ -32,6 +32,9 @@ public class FEServerFrame extends JFrame {
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
 			System.err.println("Failed to set look and feel");
 		}
+		
+		setTitle("FE Multiplayer - Server");
+		
 		mainPanel = new FEServerMainPanel();
 		mainPanel.setServerStartRunnable(this::serverStart);
 		getContentPane().add(mainPanel);
