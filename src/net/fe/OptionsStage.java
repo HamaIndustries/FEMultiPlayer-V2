@@ -140,6 +140,13 @@ public final class OptionsStage extends Stage {
 			newProps.put(e.getKey(), e.getValue());
 		}
 		FEResources.writeProperties(newProps);
+		
+		// update things that depend on the set options
+		if (FEResources.getAudioVolume() <= 0) {
+			SoundTrack.stop();
+		} else {
+			SoundTrack.updateVolume();
+		}
 	}
 	
 	private void up() {
