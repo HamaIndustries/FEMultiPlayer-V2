@@ -19,6 +19,7 @@ import net.fe.overworldStage.UnitInfo;
 import net.fe.network.Message;
 import net.fe.unit.HealingItem;
 import net.fe.unit.Item;
+import net.fe.unit.ItemDetailsText;
 import net.fe.unit.MapAnimation;
 import net.fe.unit.RiseTome;
 import net.fe.unit.Unit;
@@ -243,87 +244,9 @@ public class UnitBuilderStage extends Stage {
 	 * @param i the i
 	 */
 	public void renderItem(Item i){
-		Renderer.drawString("default_med", i.name, INFO_X + 2, INFO_Y + 4, 1);
-		if(i instanceof HealingItem){
-			HealingItem potion = (HealingItem) i;
-			Renderer.drawString("default_med", "Heals " + potion.amount + " HP", INFO_X+8, INFO_Y+28, 1);
-		} else if (i instanceof RiseTome){
-			RiseTome rise = (RiseTome) i;
-			Renderer.drawString("default_med", "Summons a phantom warrior", INFO_X+8, INFO_Y+28, 1);
-		} else if (i instanceof Weapon){
-			Weapon wep = (Weapon) i;
-			{	// When might is irrelevant, show "-" instead
-				String s = (wep.getTriggers().contains(new EclipseSix()) ? "-" : "" + wep.mt);
-				Renderer.drawString("default_med", "Mt " + s, INFO_X+8, INFO_Y+20, 1);
-			}
-			Renderer.drawString("default_med", "Hit " + wep.hit, INFO_X+68, INFO_Y+20, 1);
-			Renderer.drawString("default_med", "Crit " + wep.crit, INFO_X+128, INFO_Y+20, 1);
-			Renderer.drawString("default_med", "Rng " + wep.range.toString(), INFO_X+ 188, INFO_Y+20, 1);
-			
-			ArrayList<String> flavor = new ArrayList<String>();
-			if(wep.type == Weapon.Type.CROSSBOW) {
-				flavor.add("A Crossbow");
-			}
-			if(wep.name.contains("Brave")){
-				flavor.add("Allows double attacks");
-			}
-			if(wep.name.contains("reaver")){
-				flavor.add("Reverses the weapon triangle");
-			}
-			if(wep.name.contains("Kill") || wep.name.equals("Wo Dao")){
-				flavor.add("Has a high critical rate");
-			}
-			if(wep.getTriggers().contains(new CrossBow())) {
-				flavor.add("Ignores user's Str");
-			}
-			if(wep.getTriggers().contains(new EclipseSix())) {
-				flavor.add("Reduces enemy HP to 1");
-			}
-			if(wep.getTriggers().contains(new LunaPlus())) {
-				flavor.add("Ignores enemy resistance");
-			}
-			if(wep.getTriggers().contains(new Nosferatu())) {
-				flavor.add("Restores user HP by half of damage dealt");	
-			}
-			if(wep.getCost() == 10000){
-				flavor.add("A legendary weapon");
-			}
-			if(wep.getCost() == 15000){
-				flavor.add("Ultimate magic");
-			}
-			if(wep.pref != null) flavor.add(wep.pref + " only");
-			for(String stat: wep.modifiers.toMap().keySet()){
-				if(wep.modifiers.toMap().get(stat) != 0){
-					flavor.add(stat + "+" + wep.modifiers.toMap().get(stat));
-				}
-			}
-			if(wep.effective.size() != 0){
-				ArrayList<String> eff = new ArrayList<String>();
-				if(wep.effective.contains("General")){
-					eff.add("armored");
-				} 
-				if(wep.effective.contains("Valkyrie")){
-					eff.add("mounted");
-				}
-				if(wep.effective.contains("Falconknight")){
-					eff.add("flying");
-				}
-				String effText = "";
-				for(String s: eff){
-					effText += ", " + s;
-				}
-				if(effText.length() != 0)
-					flavor.add("Effective against " + effText.substring(2) + " units");
-			}
-			
-			if(flavor.size() != 0){
-				String flavorText = "";
-				for(String s: flavor){
-					flavorText += s + ". ";
-				}
-				Renderer.drawString("default_med", flavorText, INFO_X+8, INFO_Y+36, 1);
-			}
-		}
+		ItemDetailsText e = new ItemDetailsText(INFO_X, INFO_Y);
+		e.setItem(i);
+		e.render();
 	}
 	
 	/**

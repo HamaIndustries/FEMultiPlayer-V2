@@ -102,6 +102,15 @@ public class Idle extends CursorContext {
 			cursorChanged();
 		}
 	}
+	
+	@Override
+	public void onInspectInventory() {
+		Unit u = getHoveredUnit();
+		if (u != null && u.getInventory().size() >= 1) {
+			AudioPlayer.playAudio("select");
+			new InspectInventoryContext(stage, this, u).startContext();
+		}
+	}
 
 
 	/* (non-Javadoc)

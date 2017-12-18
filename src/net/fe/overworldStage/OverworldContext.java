@@ -56,6 +56,9 @@ public abstract class OverworldContext {
 	
 	public void onNextUnit() {
 	}
+	
+	public void onInspectInventory() {
+	}
 
 	/**
 	 * On up.

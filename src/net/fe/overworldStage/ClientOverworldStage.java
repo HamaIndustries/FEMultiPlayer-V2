@@ -312,6 +312,8 @@ public class ClientOverworldStage extends OverworldStage {
 						context.onCancel();
 					else if (ke.key == FEResources.getKeyMapped(Keyboard.KEY_C))
 						context.onNextUnit();
+					else if (ke.key == FEResources.getKeyMapped(Keyboard.KEY_D))
+						context.onInspectInventory();
 				}
 			}
 		}
