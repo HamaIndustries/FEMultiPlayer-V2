@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.opengl.Texture;
 
 import chu.engine.Game;
 import chu.engine.Entity;
@@ -30,6 +31,7 @@ public final class OptionsStage extends Stage {
 	
 	private final OptionEntity[] options;
 	private final Button[] buttons;
+	private final Texture icons;
 	/**
 	 * The selected row from the `options` array; -1 if the save/cancel buttons are selected
 	 */
@@ -78,6 +80,7 @@ public final class OptionsStage extends Stage {
 		for (Entity e : buttons) {addEntity(e);}
 		currentOptionIndex = 0;
 		buttonIndex = 0;
+		this.icons = FEResources.getTexture("optionIcon");
 	}
 	
 	
@@ -135,6 +138,7 @@ public final class OptionsStage extends Stage {
 			// dialogue_text (?)
 			Renderer.drawString("default_med", options[currentOptionIndex].getDescription(), 17, 10, 0.2f);
 		}
+		Renderer.render(this.icons, 0, 0, 1, 1, 8, 46, 8 + 30, 46 + 90, 0.0f);
 	}
 	
 	
@@ -197,7 +201,7 @@ public final class OptionsStage extends Stage {
 		 * @param y the y-coordinate to draw this entity at
 		 */
 		public OptionEntity(int y) {
-			super(10, y);
+			super(40, y);
 		}
 		
 		/** increment value */
