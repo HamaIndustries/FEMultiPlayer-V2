@@ -212,24 +212,30 @@ public abstract class Game {
 	 * Update window size for a new {@link FEResources#getWindowScale}
 	 */
 	public static void updateScale() {
-		Game.scale = FEResources.getWindowScale();
-		final int physicalWidth = Math.round(logicalWidth * scale);
-		final int physicalHeight = Math.round(logicalHeight * scale);
-		
-		try {
-			org.lwjgl.opengl.Display.setDisplayMode(
-				new org.lwjgl.opengl.DisplayMode(physicalWidth, physicalHeight)
-			);
+		if (Game.scale != FEResources.getWindowScale()) {
+			// This code will close the current window and open a new one,
+			// even if the window's size doesn't change.
+			// Hence the if; that will make the window reopen only happen when needed.
 			
-			org.lwjgl.opengl.GL11.glViewport(0, 0, physicalWidth, physicalHeight);
+			Game.scale = FEResources.getWindowScale();
+			final int physicalWidth = Math.round(logicalWidth * scale);
+			final int physicalHeight = Math.round(logicalHeight * scale);
 			
-			org.lwjgl.opengl.GL11.glMatrixMode(org.lwjgl.opengl.GL11.GL_PROJECTION);
-			org.lwjgl.opengl.GL11.glLoadIdentity();
-			org.lwjgl.opengl.GL11.glOrtho(0, logicalWidth, logicalHeight, 0, 1, -1);		//It's basically a camera
-			org.lwjgl.opengl.GL11.glMatrixMode(org.lwjgl.opengl.GL11.GL_MODELVIEW);
-		} catch (org.lwjgl.LWJGLException e) {
-			e.printStackTrace();
-			// hope that live-changing the display mode isn't *that* important
+			try {
+				org.lwjgl.opengl.Display.setDisplayMode(
+					new org.lwjgl.opengl.DisplayMode(physicalWidth, physicalHeight)
+				);
+				
+				org.lwjgl.opengl.GL11.glViewport(0, 0, physicalWidth, physicalHeight);
+				
+				org.lwjgl.opengl.GL11.glMatrixMode(org.lwjgl.opengl.GL11.GL_PROJECTION);
+				org.lwjgl.opengl.GL11.glLoadIdentity();
+				org.lwjgl.opengl.GL11.glOrtho(0, logicalWidth, logicalHeight, 0, 1, -1);		//It's basically a camera
+				org.lwjgl.opengl.GL11.glMatrixMode(org.lwjgl.opengl.GL11.GL_MODELVIEW);
+			} catch (org.lwjgl.LWJGLException e) {
+				e.printStackTrace();
+				// hope that live-changing the display mode isn't *that* important
+			}
 		}
 	}
 }

@@ -85,8 +85,9 @@ public final class ConnectStage extends Stage {
 				Color c = Color.blue;
 				if(!hover)
 					c = c.darker();
-				Renderer.drawBorderedRectangle(x, y, x+width, y+height, renderDepth, c, FightStage.BORDER_LIGHT, FightStage.BORDER_DARK);
-				Renderer.drawString("default_med", text, x+width/2-stringWidth/2, y + 4, renderDepth);
+				Renderer.drawBorderedRectangle(x + 2, y + 2, x + width - 4, y + height - 4, renderDepth,
+						c, FightStage.BORDER_LIGHT, FightStage.BORDER_DARK);
+				Renderer.drawString("default_med", text, x+width/2-stringWidth/2, y + 8, renderDepth);
 			}
 		});
 		processAddStack();

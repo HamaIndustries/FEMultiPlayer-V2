@@ -1,5 +1,9 @@
 package net.fe;
 
+import static net.fe.fightStage.FightStage.BORDER_DARK;
+import static net.fe.fightStage.FightStage.BORDER_LIGHT;
+import static net.fe.fightStage.FightStage.NEUTRAL;
+
 import java.util.List;
 
 import org.lwjgl.input.Keyboard;
@@ -14,6 +18,9 @@ import chu.engine.anim.Transform;
 
 import net.fe.network.Message;
 
+/**
+ * A stage which allows a user to modify selected options without directly editing "app.config"
+ */
 public final class OptionsStage extends Stage {
 	
 	public static final int BUTTON_Y = 270;
@@ -115,17 +122,18 @@ public final class OptionsStage extends Stage {
 	@Override
 	public void endStep() {
 		for (Entity e : entities) {
-			e.onStep();
+			e.endStep();
 		}
 	}
 	
 	@Override
 	public void render() {
 		super.render();
-		Renderer.drawRectangle(10, 5, 460, 45, 1.0f, new Color(240, 220, 102));
+		Renderer.drawBorderedRectangle(10 + 2, 5 + 2, 460 - 4, 45 - 4, 1.0f,
+			NEUTRAL, BORDER_LIGHT, BORDER_DARK);
 		if (currentOptionIndex >= 0) {
 			// dialogue_text (?)
-			Renderer.drawString("default_med", options[currentOptionIndex].getDescription(), 15, 8, 0.2f);
+			Renderer.drawString("default_med", options[currentOptionIndex].getDescription(), 17, 10, 0.2f);
 		}
 	}
 	
@@ -185,6 +193,9 @@ public final class OptionsStage extends Stage {
 	
 	
 	private abstract class OptionEntity extends Entity {
+		/**
+		 * @param y the y-coordinate to draw this entity at
+		 */
 		public OptionEntity(int y) {
 			super(10, y);
 		}
@@ -208,7 +219,6 @@ public final class OptionsStage extends Stage {
 					(rowSelected ? new Color(90,200,90) : new Color(67, 150, 67)) :
 					(rowSelected ? Color.white : new Color(192, 192, 192))
 			);
-
 		}
 	}
 	
@@ -225,14 +235,14 @@ public final class OptionsStage extends Stage {
 		}
 	}
 	
-	/** */
+	/** A selector for one of a set of discrete values */
 	private final class OptionGroupEntity extends OptionEntity {
 		public final OptionGroup data;
 		private int selectedValueIndex;
 		
 		/**
 		 * @param y the y-coordinate to draw this entity at
-		 * @param data the 
+		 * @param data the option's data
 		 * @param selectedValueIndex the starting value for selectedValueIndex
 		 */
 		public OptionGroupEntity(int y, OptionGroup data, int selectedValueIndex) {
@@ -292,7 +302,7 @@ public final class OptionsStage extends Stage {
 		public String getValue() { return data.values.get(selectedValueIndex); }
 	}
 	
-	/** A selector for a value between */
+	/** A selector for a numeric value between 0.0 and 1.0 */
 	private final class OptionSliderEntity extends OptionEntity {
 		private final String key;
 		private final String description;
@@ -303,8 +313,11 @@ public final class OptionsStage extends Stage {
 		private final int sliderHeight = 24;
 		
 		/**
+		 * @param y the y-coordinate to draw this entity at
+		 * @param key the name of the option
 		 * @param value the starting value, on a scale from 0.0f to 1.0f
-		 * @param steps resolution of changes
+		 * @param steps count of selectable values
+		 * @param description the options's description
 		 */
 		public OptionSliderEntity(int y, String key, float value, int steps, String description) {
 			super(y);
