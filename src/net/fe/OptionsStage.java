@@ -147,6 +147,7 @@ public final class OptionsStage extends Stage {
 		} else {
 			SoundTrack.updateVolume();
 		}
+		Game.updateScale();
 	}
 	
 	private void up() {
