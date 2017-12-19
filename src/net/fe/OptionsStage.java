@@ -197,11 +197,15 @@ public final class OptionsStage extends Stage {
 	
 	
 	private abstract class OptionEntity extends Entity {
+		protected static final int keyWidth = 140;
+		
 		/**
 		 * @param y the y-coordinate to draw this entity at
 		 */
 		public OptionEntity(int y) {
 			super(40, y);
+			this.height = 30;
+			this.width = 400;
 		}
 		
 		/** increment value */
@@ -270,19 +274,15 @@ public final class OptionsStage extends Stage {
 			t.scaleY = 2;
 			t.setColor(normalColor);
 			
-			float renderX = this.x;
-			{
-				final int keyWidth = FEResources.getBitmapFont("default_med").getStringWidth(data.key + ": ");
-				Renderer.drawString("default_med", data.key + ": ", renderX, y, 0.0f, t);
-				renderX += (keyWidth + spaceWidth) * t.scaleX;
-			}
+			Renderer.drawString("default_med", data.key, this.x, this.y, 0.0f, t);
+			float renderX = this.x + keyWidth;
 			for (int i = 0; i < data.values.size(); i++) {
 				final String str = data.values.get(i);
 				final int strWidth = FEResources.getBitmapFont("default_med").getStringWidth(str);
 				t.setColor((i == selectedValueIndex ? selectedColor : normalColor));
 				Renderer.drawString("default_med", str, renderX, y, 0.0f, t);
 				
-				renderX += (strWidth + spaceWidth) * t.scaleX;
+				renderX += (strWidth + spaceWidth * 3) * t.scaleX;
 			}
 		}
 		
@@ -314,7 +314,7 @@ public final class OptionsStage extends Stage {
 		private int value;
 		private final int max;
 		private final int sliderWidth = 200;
-		private final int sliderHeight = 24;
+		private final int sliderHeight = 22;
 		
 		/**
 		 * @param y the y-coordinate to draw this entity at
@@ -340,16 +340,10 @@ public final class OptionsStage extends Stage {
 			t.scaleY = 2;
 			t.setColor(normalColor);
 			
-			float renderX = this.x;
-			{
-				int keyWidth = FEResources.getBitmapFont("default_med").getStringWidth(key + ": ");
-				Renderer.drawString("default_med", key + ": ", renderX, y, 0.0f, t);
-				renderX += (keyWidth + spaceWidth) * t.scaleX;
-			}
-			{
-				Renderer.drawRectangle(renderX - 1, y - 1, renderX + sliderWidth + 1, y + sliderHeight + 1, 0.0f, normalColor);
-				Renderer.drawRectangle(renderX, y, renderX + (sliderWidth * value / max), y + sliderHeight, 0.0f, selectedColor);
-			}
+			Renderer.drawString("default_med", this.key, this.x, this.y, 0.0f, t);
+			final float renderX = this.x + keyWidth;
+			Renderer.drawRectangle(renderX, y, renderX + sliderWidth, y + sliderHeight, 0.0f, normalColor);
+			Renderer.drawRectangle(renderX + 1, y + 1, renderX + 1 + ((sliderWidth - 2) * value / max), y + sliderHeight - 1, 0.0f, selectedColor);
 		}
 		
 		public void onStep() {
