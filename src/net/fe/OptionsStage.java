@@ -16,6 +16,7 @@ import chu.engine.Stage;
 import chu.engine.KeyboardEvent;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Transform;
+import chu.engine.menu.Notification;
 
 import net.fe.network.Message;
 
@@ -48,8 +49,12 @@ public final class OptionsStage extends Stage {
 		Button[] buttons = {
 			new Button(SAVE_X, BUTTON_Y, "Save", Color.green, 80) {
 				public void execute() {
-					OptionsStage.this.save();
-					OptionsStage.this.backToMenu();
+					final boolean successfullyPersisted = OptionsStage.this.save();
+					if (successfullyPersisted) {
+						OptionsStage.this.backToMenu();
+					} else {
+						OptionsStage.this.backToMenu("WARN: Could not write to disk; changes will not persist");
+					}
 				}
 			},
 			new Button(CANCEL_X, BUTTON_Y, "Cancel", Color.red, 80) {
@@ -146,12 +151,21 @@ public final class OptionsStage extends Stage {
 		FEMultiplayer.setCurrentStage(FEMultiplayer.connect);
 	}
 	
-	private void save() {
+	private void backToMenu(String errorMessage) {
+		FEMultiplayer.setCurrentStage(FEMultiplayer.connect);
+		FEMultiplayer.connect.addEntity(new Notification(180, 120,
+			"default_med", errorMessage, 60f, new Color(255, 255, 100), 0f));
+	}
+	
+	/**
+	 * @return true if the settings were written to disk
+	 */
+	private boolean save() {
 		final java.util.HashMap<String, String> newProps = new java.util.HashMap<>();
 		for (OptionEntity e : options) {
 			newProps.put(e.getKey(), e.getValue());
 		}
-		FEResources.writeProperties(newProps);
+		final boolean successfullyPersisted = FEResources.writeProperties(newProps);
 		
 		// update things that depend on the set options
 		if (FEResources.getAudioVolume() <= 0) {
@@ -160,6 +174,8 @@ public final class OptionsStage extends Stage {
 			SoundTrack.updateVolume();
 		}
 		Game.updateScale();
+		
+		return successfullyPersisted;
 	}
 	
 	private void up() {
