@@ -376,9 +376,28 @@ public class FEResources {
 				}
 			} catch (IOException e){
 				e.printStackTrace();
+				prop = getDefaultProperties();
 			}
 		}
 		return prop;
+	}
+	
+	/**
+	 * Stores a set of properties to disk
+	 *
+	 * @return true if the files were written to disk
+	 */
+	public static boolean writeProperties(java.util.Map<String, String> newProperties) {
+		Properties p = FEResources.getProperties();
+		p.putAll(newProperties);
+		
+		final File path = new File("app.config");
+		try(OutputStream out = new FileOutputStream(path, false)) {
+			p.store(out, "---Updated---");
+			return true;
+		} catch (IOException e) {
+			return false;
+		}
 	}
 	
 	/**

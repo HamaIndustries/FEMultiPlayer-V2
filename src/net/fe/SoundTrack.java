@@ -19,44 +19,38 @@ import org.newdawn.slick.util.ResourceLoader;
 /**
  * The Class SoundTrack.
  */
-public class SoundTrack {
+public final class SoundTrack {
 	
-	/** The current. */
-	private static String current;
+	/** The name of the currently-loaded audio. */
+	private static String currentName;
 	
-	/** Whether or not Audio is enabled */
-	public static boolean enabled = true;
-	
-	private static Map<String, ArrayList<String>> songs;
-	
-	private static ArrayList<String> categories;
+	/** The currently-loaded audio */
+	private static Audio current = new org.newdawn.slick.openal.NullAudio();
 	
 	/**
-	 * Loop.
-	 * 
 	 * Loops the given audio according to settings.
 	 * 
 	 * @param name the music category
 	 */
-	
 	public static void loop(String name){
-		if(!enabled || !(FEResources.getAudioVolume()>0)) return;
-		if(name.equals(current)) return;
-		current = name;
-		loadAudioNames();
+		if (FEResources.getAudioVolume() <= 0) return;
+		if (name.equals(currentName) && current.isPlaying()) return;
+		
+		current.stop();
+		currentName = name;
+		Map<String, ArrayList<String>> songs = loadAudioNames();
 		
 		try{
 			String setting = FEResources.getAudioSetting(name.toUpperCase());
-			Audio b;
 			if(setting.equals("random")){
 				Random r = new Random();
 				setting = name + "_" + songs.get(name).get(r.nextInt(songs.get(name).size()));
 				if(setting.split("_").length<2)
 					setting = name;
 			}
-			b = AudioLoader.getAudio("WAV",
+			current = AudioLoader.getAudio("WAV",
 					ResourceLoader.getResourceAsStream("res/music/"+setting+".wav"));
-			b.playAsMusic(1.0f, FEResources.getAudioVolume(), true);
+			current.playAsMusic(1.0f, FEResources.getAudioVolume(), true);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.err.println("Warn: Bad sound configuration: "+name);
@@ -68,9 +62,9 @@ public class SoundTrack {
 		}
 	}
 	
-	private static void loadAudioNames(){
+	private static Map<String, ArrayList<String>> loadAudioNames(){
+		Map<String, ArrayList<String>> songs = new HashMap<>();
 		try{
-			songs = new HashMap<String, ArrayList<String>>();
 			final String musPath = "res/music";
 			final File jarFile = new File(SoundTrack.class.getProtectionDomain().getCodeSource().getLocation().toURI());
 			if(jarFile.isFile()) {  // Run with JAR file
@@ -101,23 +95,34 @@ public class SoundTrack {
 					songs.get(cat).add(sFileName);
 				}
 			}
-			categories = new ArrayList<String>(songs.keySet());
-			categories.trimToSize();
 		}catch(Exception e){throw new RuntimeException(e);}
+		return songs;
 	}
 	
 	/**
-	 * Restart.
+	 * Restart the currently-playing audio loop
 	 */
 	public static void restart(){
-		if(!enabled) return;
-		try {
-			Audio a = AudioLoader.getStreamingAudio("WAV", 
-					ResourceLoader.getResource("res/music/"+current+".wav"));
-			a.playAsMusic(1.0f, FEResources.getAudioVolume(), true);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		current.setPosition(0.0f);
+	}
+	
+	/**
+	 * Stop the currently-playing audio loop
+	 */
+	public static void stop() {
+		current.stop();
+	}
+	
+	/**
+	 * Change the volume of the currently-playing audio loop.
+	 * 
+	 * As usual, the volume is retrieved statically from FEResources's configurations.
+	 * This attempts to have the audio continue from where it left off.
+	 */
+	public static void updateVolume() {
+		final float pos = current.getPosition();
+		current.stop();
+		current.playAsMusic(1.0f, FEResources.getAudioVolume(), true);
+		current.setPosition(pos);
 	}
 }
