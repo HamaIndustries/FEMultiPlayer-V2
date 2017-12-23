@@ -209,7 +209,7 @@ public class CombatCalculator {
 			if (aSuccess.get(t) && (t.turnToRun & CombatTrigger.YOUR_TURN_PRE)!=0) {
 				t.runPreAttack(this, a, d);
 				if (t.nameModification == CombatTrigger.REPLACE_NAME_AFTER_PRE) {
-					animation = t.getName() + "(a)";
+					animation += " " + t.getName() + "(a)";
 				}
 			}
 		}	
@@ -217,7 +217,7 @@ public class CombatCalculator {
 			if (dSuccess.get(t) && (t.turnToRun & CombatTrigger.ENEMY_TURN_PRE)!=0) {
 				t.runPreAttack(this, a, d);
 				if (t.nameModification == CombatTrigger.REPLACE_NAME_AFTER_PRE) {
-					animation = t.getName() + "(d)";
+					animation += " " + t.getName() + "(d)";
 				}
 			}
 		}
