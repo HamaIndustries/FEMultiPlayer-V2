@@ -98,6 +98,10 @@ public class WeaponFactory {
 				w.modifiers = w.modifiers.copy(modArgs[0], Integer.parseInt(modArgs[1]));
 			}
 			
+			if(!args[11].equals("-")){
+				w.itemClass = args[11];
+			}
+			
 			weapons.put(name, w.build());
 		}
 		in.close();
@@ -134,6 +138,7 @@ public class WeaponFactory {
 		public int maxUses, cost;
 		public final ArrayList<String> effective;
 		public String pref;
+		public String itemClass;
 		
 		public WeaponBuilder() {
 			modifiers = new Statistics();
@@ -146,7 +151,7 @@ public class WeaponFactory {
 			return new Weapon(
 				name, maxUses, id, cost,
 				type, mt, hit, crit, range,
-				modifiers, effective, pref
+				modifiers, effective, pref, itemClass
 			);
 		}
 	}

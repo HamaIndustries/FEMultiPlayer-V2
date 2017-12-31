@@ -1,5 +1,7 @@
 package net.fe.modifier;
 
+import java.util.Map;
+
 import net.fe.builderStage.ShopMenu;
 import net.fe.builderStage.TeamBuilderResources;
 import net.fe.builderStage.TeamSelectionStage;
@@ -58,5 +60,17 @@ public class DivineIntervention implements Modifier {
 	@Override
 	public String getDescription() {
 		return "All units have a version of Miracle that is guarenteed to activate.";
+	}
+
+	@Override
+	public void initBuilderUnits(Iterable<Unit> units) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setShopLimits(Map<String, Integer> inventory, Map<String, Integer> classInventory) {
+		// TODO Auto-generated method stub
+		
 	}
 }

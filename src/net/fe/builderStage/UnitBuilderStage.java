@@ -39,38 +39,39 @@ import chu.engine.anim.Renderer;
  * The Class UnitBuilderStage.
  */
 public class UnitBuilderStage extends Stage {
-	
+
 	/** The unit. */
 	private Unit unit;
-	
+
 	/** The shop. */
 	private ShopMenu shop;
-	
+
 	/** The inv. */
 	private InventoryMenu inv;
-	
+
 	/** The repeat timers. */
 	private float[] repeatTimers = new float[4];
-	
+
 	/** The back. */
 	private TeamBuilderStage back;
-	
+
 	/** The state. */
 	private State state;
-	
+
 	/** The level down. */
 	private Button levelUp, levelDown;
-	
+
 	/** The controls. */
 	private ControlsDisplay controls;
 	
+
 	/** The Constant INFO_H. */
 	//CONFIG
 	public static final int
 	INVENTORY_X = 30, INVENTORY_Y = 115, SHOP_X = 335, SHOP_Y = 20, 
 	LEVEL_X = 175, LEVEL_Y = 115,
 	INFO_X = 7, INFO_Y = 236, INFO_W = 316, INFO_H = 56;
-	
+
 	/**
 	 * Instantiates a new unit builder stage.
 	 *
@@ -78,7 +79,7 @@ public class UnitBuilderStage extends Stage {
 	 * @param s the s
 	 * @param session the session
 	 */
-	public UnitBuilderStage(Unit u, TeamBuilderStage s, Session session){
+	public UnitBuilderStage(Unit u, TeamBuilderStage s, Session session, ShopInventory si){
 		super("preparations");
 		addEntity(new RunesBg(new Color(0xd2b48c)));
 		back = s;
@@ -88,30 +89,30 @@ public class UnitBuilderStage extends Stage {
 			setWidth(135);
 		}};
 		addEntity(inv);
-		
+
 		controls = new ControlsDisplay();
 		controls.addControl("Z", "Buy");
 		controls.addControl("X", "Back");
 		addEntity(controls);
-		
+
 		UnitInfo ui = new UnitInfo(5,5);
 		ui.setUnit(u);
 		addEntity(ui);
-		
-		shop = new ShopMenu(SHOP_X, SHOP_Y, (session != null ? session.getModifiers() : java.util.Collections.emptySet()));
+
+		shop = new ShopMenu(SHOP_X, SHOP_Y, (session != null ? session.getModifiers() : java.util.Collections.emptySet()),si);
 		shop.clearSelection();
-		
+
 		addEntity(shop);
-		
+
 		levelUp = new Button(LEVEL_X, LEVEL_Y, "Level Up", Color.green, 135){
 			public void onStep(){
 				String exp =  Unit.getExpCost(unit.getLevel() + 1)+"";
-				if(unit.getLevel() == 20)
+				if(unit.getLevel() == unit.getMaxLv())
 					exp = "--";
 				text = "Level Up: " +exp + " EXP";
 			}
 			public void execute() {
-				if(unit.getLevel() != 20){
+				if(unit.getLevel() != unit.getMaxLv()){
 					int cost = Unit.getExpCost(unit.getLevel() + 1);
 					if(cost <= back.getExp()){
 						unit.setLevel(unit.getLevel() + 1);
@@ -123,25 +124,25 @@ public class UnitBuilderStage extends Stage {
 		levelDown = new Button(LEVEL_X, LEVEL_Y + 24, "Level Down", Color.red, 135){
 			public void onStep(){
 				String exp =  Unit.getExpCost(unit.getLevel())+"";
-				if(unit.getLevel() == 1)
+				if(unit.getLevel() == unit.getMinLv())
 					exp = "--";
 				text = "Level Down: " + exp + " EXP";
 			}
 			public void execute() {
-				if(unit.getLevel() != 1){
+				if(unit.getLevel() != unit.getMinLv()){
 					int cost = Unit.getExpCost(unit.getLevel());
 					unit.setLevel(unit.getLevel()-1);
 					back.setExp(back.getExp() + cost);
 				}
 			}
 		};;
-		
+
 		addEntity(levelUp);
 		addEntity(levelDown);
-		
+
 		state = new Normal();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see chu.engine.Stage#render()
 	 */
@@ -156,7 +157,7 @@ public class UnitBuilderStage extends Stage {
 		Renderer.drawString("default_med", "EXP: " + back.getExp(), LEVEL_X+135-width, LEVEL_Y + 50, 0);
 		state.render();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see chu.engine.Stage#beginStep()
 	 */
@@ -199,17 +200,17 @@ public class UnitBuilderStage extends Stage {
 					state.cancel();
 					state.updateControls();
 				}
-					
+
 			}
 		}
-	
+
 		for(int i=0; i<repeatTimers.length; i++) {
 			if(repeatTimers[i] > 0) {
 				repeatTimers[i] -= Game.getDeltaSeconds();
 				if(repeatTimers[i] < 0) repeatTimers[i] = 0;
 			}
 		}
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -222,7 +223,7 @@ public class UnitBuilderStage extends Stage {
 		}
 		processAddStack();
 		processRemoveStack();
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -236,7 +237,7 @@ public class UnitBuilderStage extends Stage {
 		processAddStack();
 		processRemoveStack();
 	}
-	
+
 	/**
 	 * Render item.
 	 *
@@ -259,7 +260,7 @@ public class UnitBuilderStage extends Stage {
 			Renderer.drawString("default_med", "Hit " + wep.hit, INFO_X+68, INFO_Y+20, 1);
 			Renderer.drawString("default_med", "Crit " + wep.crit, INFO_X+128, INFO_Y+20, 1);
 			Renderer.drawString("default_med", "Rng " + wep.range.toString(), INFO_X+ 188, INFO_Y+20, 1);
-			
+
 			ArrayList<String> flavor = new ArrayList<String>();
 			if(wep.type == Weapon.Type.CROSSBOW) {
 				flavor.add("A Crossbow");
@@ -315,7 +316,7 @@ public class UnitBuilderStage extends Stage {
 				if(effText.length() != 0)
 					flavor.add("Effective against " + effText.substring(2) + " units");
 			}
-			
+
 			if(flavor.size() != 0){
 				String flavorText = "";
 				for(String s: flavor){
@@ -325,58 +326,58 @@ public class UnitBuilderStage extends Stage {
 			}
 		}
 	}
-	
+
 	/**
 	 * The Class State.
 	 */
 	private abstract class State{
-		
+
 		/**
 		 * Up.
 		 */
 		public abstract void up();
-		
+
 		/**
 		 * Down.
 		 */
 		public abstract void down();
-		
+
 		/**
 		 * Left.
 		 */
 		public abstract void left();
-		
+
 		/**
 		 * Right.
 		 */
 		public abstract void right();
-		
+
 		/**
 		 * Select.
 		 */
 		public abstract void select();
-		
+
 		/**
 		 * Cancel.
 		 */
 		public abstract void cancel();
-		
+
 		/**
 		 * Render.
 		 */
 		public abstract void render();
-		
+
 		/**
 		 * Update controls.
 		 */
 		public abstract void updateControls();
 	}
-	
+
 	/**
 	 * The Class Normal.
 	 */
 	private class Normal extends State {
-		
+
 		/* (non-Javadoc)
 		 * @see net.fe.builderStage.UnitBuilderStage.State#up()
 		 */
@@ -460,7 +461,7 @@ public class UnitBuilderStage extends Stage {
 		 */
 		@Override
 		public void select() {
-			
+
 			if(levelUp.hovered()){
 				AudioPlayer.playAudio("select");
 				levelUp.execute();
@@ -472,6 +473,7 @@ public class UnitBuilderStage extends Stage {
 					AudioPlayer.playAudio("cancel");
 					Item i = inv.getSelection().getItem();
 					if(!(i instanceof Weapon && ((Weapon) i).pref != null)){
+						shop.returnItem(i);
 						back.setFunds(back.getFunds() + i.getCost());
 						unit.removeFromInventory(i);
 					}
@@ -492,7 +494,7 @@ public class UnitBuilderStage extends Stage {
 			AudioPlayer.playAudio("cancel");
 			FEMultiplayer.setCurrentStage(back);
 		}
-		
+
 		/* (non-Javadoc)
 		 * @see net.fe.builderStage.UnitBuilderStage.State#render()
 		 */
@@ -524,7 +526,7 @@ public class UnitBuilderStage extends Stage {
 				Renderer.drawString("default_med", "Equips: " + wepText.substring(2), INFO_X+8, INFO_Y+36, 1);
 			}
 		}
-		
+
 		/* (non-Javadoc)
 		 * @see net.fe.builderStage.UnitBuilderStage.State#updateControls()
 		 */
@@ -538,14 +540,14 @@ public class UnitBuilderStage extends Stage {
 				controls.set("Z", "Sell");
 			}
 		}
-		
+
 	}
-	
+
 	/**
 	 * The Class Shop.
 	 */
 	private class Shop extends State{
-		
+
 		/* (non-Javadoc)
 		 * @see net.fe.builderStage.UnitBuilderStage.State#up()
 		 */
@@ -587,11 +589,15 @@ public class UnitBuilderStage extends Stage {
 		 */
 		@Override
 		public void select() {
-			Item i = shop.getItem();
-			if(i.getCost() <= back.getFunds()){
-				back.setFunds(back.getFunds() - i.getCost());
-				unit.addToInventory(i);
-				cancel();
+			if(shop.canGetItem()){
+
+				Item i = shop.getItem();
+				if(i != null && i.getCost() <= back.getFunds()){
+					back.setFunds(back.getFunds() - i.getCost());
+					shop.buyItem();
+					unit.addToInventory(i);
+					cancel();
+				}
 			}
 		}
 
@@ -605,7 +611,7 @@ public class UnitBuilderStage extends Stage {
 			shop.clearSelection();
 			state = new Normal();
 		}
-		
+
 		/* (non-Javadoc)
 		 * @see net.fe.builderStage.UnitBuilderStage.State#render()
 		 */
@@ -614,7 +620,7 @@ public class UnitBuilderStage extends Stage {
 					FightStage.NEUTRAL, FightStage.BORDER_LIGHT, FightStage.BORDER_DARK);
 			renderItem(shop.getItem());
 		}
-		
+
 		/* (non-Javadoc)
 		 * @see net.fe.builderStage.UnitBuilderStage.State#updateControls()
 		 */
@@ -622,6 +628,6 @@ public class UnitBuilderStage extends Stage {
 			controls.set("Z", "Buy");
 			controls.set("X", "Cancel");
 		}
-		
+
 	}
 }

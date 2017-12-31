@@ -13,7 +13,7 @@ public class RiseTome extends Item{
 	 * Instantiates a new rise tome.
 	 */
 	public RiseTome(){
-		super("Rise", 1, 3, 5000);
+		super("Rise", 1, 3, 5000, null);
 	}
 	
 	/* (non-Javadoc)

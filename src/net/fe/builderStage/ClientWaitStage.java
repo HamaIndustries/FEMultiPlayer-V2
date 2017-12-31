@@ -37,6 +37,7 @@ public class ClientWaitStage extends Stage {
 		super("preparations");
 		start = false;
 		session = s;
+		
 	}
 	
 	/* (non-Javadoc)

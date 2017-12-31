@@ -27,17 +27,21 @@ public abstract class Item implements Serializable, Comparable<Item>{
 	/** The id. */
 	public final int id;
 	
+	/** The item class.  Used for weapon class limiting/server rules. */
+	private final String itemClass;
+	
 	/**
 	 * Instantiates a new item.
 	 *
 	 * @param name the name
 	 */
-	public Item(String name, int maxUses, int id, int cost){
+	public Item(String name, int maxUses, int id, int cost, String itemClass){
 		this.name = name;
 		this.id = id;
 		this.maxUses = maxUses;
 		this.uses = maxUses;
 		this.cost = cost;
+		this.itemClass = itemClass;
 	}
 	
 	/**
@@ -85,6 +89,15 @@ public abstract class Item implements Serializable, Comparable<Item>{
 	 */
 	public final int getCost(){
 		return cost;
+	}
+	
+	/**
+	 * Gets the item class.
+	 * 
+	 * @return the class
+	 */
+	public final String getItemClass(){
+		return (itemClass == null?"":itemClass);
 	}
 	
 	/**

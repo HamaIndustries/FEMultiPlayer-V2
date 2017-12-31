@@ -1,5 +1,7 @@
 package net.fe.modifier;
 
+import java.util.Map;
+
 import net.fe.builderStage.ShopMenu;
 import net.fe.builderStage.TeamBuilderResources;
 import net.fe.builderStage.TeamSelectionStage;
@@ -64,6 +66,18 @@ public class MadeInChina implements Modifier {
 	@Override
 	public String getDescription() {
 		return "All weapons have greatly reduced durability. Start with extra gold.";
+	}
+
+	@Override
+	public void initBuilderUnits(Iterable<Unit> units) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setShopLimits(Map<String, Integer> inventory, Map<String, Integer> classInventory) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

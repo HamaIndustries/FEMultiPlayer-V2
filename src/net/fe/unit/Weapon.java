@@ -54,8 +54,8 @@ public final class Weapon extends Item {
 			Type type, int mt, int hit, int crit, 
 			Function<Statistics, List<Integer>> range,
 			Statistics modifiers,
-			List<String> effective, String pref) {
-		super(name, maxUses, id, cost);
+			List<String> effective, String pref, String itemClass) {
+		super(name, maxUses, id, cost, itemClass);
 		this.type = type;
 		this.modifiers = modifiers;
 		this.mt = mt;
@@ -192,14 +192,14 @@ public final class Weapon extends Item {
 	public Weapon getCopy(){
 		return new Weapon(name, getMaxUses(), id, getCost(),
 				type, mt, hit, crit, range,
-				modifiers, effective, pref);
+				modifiers, effective, pref, getItemClass());
 	}
 	
 	/** Returns an item identical to this one, with the exception of an updated mt, hit and crit */
 	public Weapon getCopyWithNewMtHitCrit(int newmt, int newhit, int newcrit){
 		return new Weapon(name, getMaxUses(), id, getCost(),
 				type, newmt, newhit, newcrit, range,
-				modifiers, effective, pref);
+				modifiers, effective, pref, getItemClass());
 	}
 
 	/* (non-Javadoc)
