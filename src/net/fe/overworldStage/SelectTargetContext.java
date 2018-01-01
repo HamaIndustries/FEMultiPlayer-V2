@@ -174,6 +174,7 @@ public abstract class SelectTargetContext extends OverworldContext {
 		AudioPlayer.playAudio("cursor");
 		cursor.setXCoord(targets.get(selected).getXCoord());
 		cursor.setYCoord(targets.get(selected).getYCoord());
+		stage.setUnitInfoUnit(targets.get(selected));
 	}
 
 	/* (non-Javadoc)
@@ -186,6 +187,7 @@ public abstract class SelectTargetContext extends OverworldContext {
 		
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
+		stage.setUnitInfoUnit(unit);
 	}
 
 }

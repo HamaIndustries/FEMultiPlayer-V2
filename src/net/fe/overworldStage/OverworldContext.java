@@ -57,6 +57,9 @@ public abstract class OverworldContext {
 	public void onNextUnit() {
 	}
 	
+	/**
+	 * Called when the "inspect inventory" button is pushed
+	 */
 	public void onInspectInventory() {
 	}
 

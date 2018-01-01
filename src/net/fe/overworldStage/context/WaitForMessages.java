@@ -83,6 +83,7 @@ public class WaitForMessages extends CursorContext {
 	public void cursorChanged(){
 		Unit u = getHoveredUnit();
 		AudioPlayer.playAudio("cursor");
+		stage.setUnitInfoUnit(u);
 		if(u!=null && !u.hasMoved()){
 			addZones(u);
 			if(u.getParty() == stage.getCurrentPlayer().getParty()){

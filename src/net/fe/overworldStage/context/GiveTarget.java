@@ -48,6 +48,7 @@ public class GiveTarget extends SelectTargetContext {
 		unit.give(u);
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
+		stage.setUnitInfoUnit(unit);
 		stage.reset();
 	}
 

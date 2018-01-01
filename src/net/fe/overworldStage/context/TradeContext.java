@@ -105,6 +105,7 @@ public class TradeContext extends OverworldContext {
 				AudioPlayer.playAudio("cancel");
 				cursor.setXCoord(u1.getXCoord());
 				cursor.setYCoord(u1.getYCoord());
+				stage.setUnitInfoUnit(u1);
 				new UnitMoved(stage, this, u1, true, false).startContext();
 			}
 		} else {

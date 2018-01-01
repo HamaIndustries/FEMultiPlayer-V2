@@ -436,6 +436,7 @@ public class ClientOverworldStage extends OverworldStage {
 				if (n.length > 0) {
 					cursor.setXCoord(n[0].x);
 					cursor.setYCoord(n[0].y);
+					this.setUnitInfoUnit(this.getHoveredUnit());
 				}
 			}
 		} else {
@@ -454,6 +455,7 @@ public class ClientOverworldStage extends OverworldStage {
 				if (n.length > 0) {
 					cursor.setXCoord(n[0].x);
 					cursor.setYCoord(n[0].y);
+					this.setUnitInfoUnit(this.getHoveredUnit());
 				}
 			}
 		}

@@ -34,8 +34,6 @@ public class Cursor extends GriddedEntity  implements DoNotDestroy{
 	 */
 	public void onStep(){
 		sprite.update();
-		ClientOverworldStage s = ((ClientOverworldStage) stage);
-		s.setUnitInfoUnit(s.getHoveredUnit());
 	}
 	
 	/* (non-Javadoc)

@@ -47,6 +47,7 @@ public class TakeTarget extends SelectTargetContext {
 		c.applyClient(stage, unit, null, new EmptyRunnable()).run();
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
+		stage.setUnitInfoUnit(unit);
 		new UnitMoved(stage, this, unit, false, true).startContext();
 	}
 

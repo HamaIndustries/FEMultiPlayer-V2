@@ -67,6 +67,7 @@ public class UnitMoved extends MenuContext<String> {
 		updateZones();
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
+		stage.setUnitInfoUnit(unit);
 		
 		stage.setMovX(unit.getXCoord() - unit.getOrigX());
 		stage.setMovY(unit.getYCoord() - unit.getOrigY());

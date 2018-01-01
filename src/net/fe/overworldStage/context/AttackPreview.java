@@ -70,6 +70,7 @@ public final class AttackPreview extends OverworldContext{
 		attacker.setMoved(true);
 		cursor.setXCoord(attacker.getXCoord());
 		cursor.setYCoord(attacker.getYCoord());
+		stage.setUnitInfoUnit(attacker);
 		stage.reset();
 	}
 	

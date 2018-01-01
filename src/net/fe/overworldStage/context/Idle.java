@@ -139,6 +139,7 @@ public class Idle extends CursorContext {
 	public void cursorChanged(){
 		Unit u = getHoveredUnit();
 		
+		stage.setUnitInfoUnit(u);
 		if(u!=null && !u.hasMoved()){
 			addZones(u);
 			if(u.getParty() == stage.getCurrentPlayer().getParty()){
