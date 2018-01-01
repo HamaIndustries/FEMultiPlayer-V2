@@ -9,17 +9,17 @@ import chu.engine.anim.Animation;
  */
 public class Cursor extends GriddedEntity  implements DoNotDestroy{
 	
-	/** The on. */
+	/** If true, the cursor is displayed and active */
 	private boolean on;
 	
-	/** The Constant border. */
+	/** The distance to keep between the cursor and the edge of the screen */
 	private static final int border = 64;
 	
 	/**
 	 * Instantiates a new cursor.
 	 *
-	 * @param xx the xx
-	 * @param yy the yy
+	 * @param xx the initial x-coordinate
+	 * @param yy the initial y-coordinate
 	 */
 	public Cursor(int xx, int yy) {
 		super(xx, yy);
@@ -35,7 +35,7 @@ public class Cursor extends GriddedEntity  implements DoNotDestroy{
 	public void onStep(){
 		sprite.update();
 		ClientOverworldStage s = ((ClientOverworldStage) stage);
-		s.unitInfo.setUnit(s.getHoveredUnit());
+		s.setUnitInfoUnit(s.getHoveredUnit());
 	}
 	
 	/* (non-Javadoc)
@@ -89,14 +89,14 @@ public class Cursor extends GriddedEntity  implements DoNotDestroy{
 	}
 	
 	/**
-	 * Off.
+	 * Sets the cursor to not render
 	 */
 	public void off(){
 		on = false;
 	}
 	
 	/**
-	 * On.
+	 * Sets the cursor to render
 	 */
 	public void on(){
 		on = true;

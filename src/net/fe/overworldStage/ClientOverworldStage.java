@@ -61,7 +61,7 @@ public class ClientOverworldStage extends OverworldStage {
 	public final Cursor cursor;
 	
 	/** The unit info. */
-	UnitInfo unitInfo;
+	private final UnitInfo unitInfo;
 	
 	/** The menu. */
 	private Menu<?> menu;
@@ -670,5 +670,12 @@ public class ClientOverworldStage extends OverworldStage {
 		} else {
 			SoundTrack.loop("enemy");
 		}
+	}
+	
+	/**
+	 * Set which unit's details are shown in the unit details pane
+	 */
+	public void setUnitInfoUnit(Unit u) {
+		this.unitInfo.setUnit(u);
 	}
 }
