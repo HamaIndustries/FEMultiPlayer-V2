@@ -43,6 +43,8 @@ public class Zone extends Entity {
 	/** The heal light. */
 	public static Color HEAL_LIGHT = new Color(0xC088FF88);
 	
+	public static Color FOG_LIGHT = new Color(0xC0D6D6D6);
+	
 	/** The frame. */
 	private static int frame;
 	
@@ -88,7 +90,7 @@ public class Zone extends Entity {
 				tiles.renderTransformed(x, y, frame, 0, renderDepth, t);
 			} else if(color == ATTACK_DARK || color == ATTACK_LIGHT) {
 				tiles.renderTransformed(x, y, frame, 1, renderDepth, t);
-			} else if(color == HEAL_DARK || color == HEAL_LIGHT) {
+			} else if(color == HEAL_DARK || color == HEAL_LIGHT || color == FOG_LIGHT) { //FIXME
 				tiles.renderTransformed(x, y, frame, 2, renderDepth, t);
 			}
 		}
