@@ -1,6 +1,6 @@
 package net.fe.fightStage;
 
-import net.fe.RNG;
+import net.fe.rng.RNG;
 import net.fe.unit.Unit;
 
 /** A skill that always negates the users str and mag */
@@ -10,7 +10,7 @@ public final class CrossBow extends CombatTrigger {
 		super(NO_NAME_MOD, YOUR_TURN_PRE | SHOW_IN_PREVIEW);
 	}
 	@Override
-	public boolean attempt(Unit user, int range, Unit other) {
+	public boolean attempt(Unit user, int range, Unit other, RNG rng) {
 		return true;
 	}
 
