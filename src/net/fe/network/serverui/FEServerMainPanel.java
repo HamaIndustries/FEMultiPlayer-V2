@@ -35,6 +35,7 @@ import net.fe.modifier.Treasury;
 import net.fe.modifier.Vegas;
 import net.fe.modifier.Veterans;
 import net.fe.network.FEServer;
+import net.fe.overworldStage.ClientOverworldStage.FogOfWar;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.overworldStage.objective.Rout;
 import net.fe.overworldStage.objective.Seize;
@@ -316,7 +317,8 @@ public class FEServerMainPanel extends JPanel {
 				(String) mapSelectionBox.getSelectedItem(),
 				(Integer) maxUnitsSpinner.getValue(), mods,
 				(PickMode) pickModeBox.getSelectedItem(),
-				(RNG) cbbHitRNG.getSelectedItem(), new SimpleRNG(), new SimpleRNG());
+				(RNG) cbbHitRNG.getSelectedItem(), new SimpleRNG(), new SimpleRNG(),
+				FogOfWar.NONE);
 
 	}
 }

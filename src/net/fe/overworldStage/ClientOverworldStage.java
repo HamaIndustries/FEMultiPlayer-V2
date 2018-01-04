@@ -101,6 +101,8 @@ public class ClientOverworldStage extends OverworldStage {
 	/** Messages that this has recieved but not yet executed */
 	private final Queue<Message> pendingMessages;
 	
+	private FogOfWar fogOfWar = FogOfWar.NONE;
+	
 	/** The Constant TILE_DEPTH. */
 	public static final float TILE_DEPTH = 0.95f;
 	
@@ -127,7 +129,7 @@ public class ClientOverworldStage extends OverworldStage {
 	
 	/** The Constant RIGHT_AXIS. */
 	public static final int RIGHT_AXIS = 480 - ObjectiveInfo.WIDTH/2 -2;
-
+	
 	/**
 	 * Instantiates a new client overworld stage.
 	 *
@@ -668,5 +670,9 @@ public class ClientOverworldStage extends OverworldStage {
 		} else {
 			SoundTrack.loop("enemy");
 		}
+	}
+	
+	public static enum FogOfWar {
+		SNES, GBA, NONE;
 	}
 }

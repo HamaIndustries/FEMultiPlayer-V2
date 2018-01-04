@@ -6,14 +6,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.fe.modifier.Modifier;
 import net.fe.network.Chat;
 import net.fe.network.Message;
 import net.fe.network.message.ChatMessage;
-import net.fe.network.message.JoinTeam;
 import net.fe.network.message.JoinLobby;
+import net.fe.network.message.JoinTeam;
 import net.fe.network.message.KickMessage;
 import net.fe.network.message.QuitMessage;
-import net.fe.modifier.Modifier;
+import net.fe.overworldStage.ClientOverworldStage.FogOfWar;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.overworldStage.objective.Rout;
 import net.fe.pick.Draft;
@@ -58,17 +59,20 @@ public final class Session implements Serializable {
 	private final RNG critRNG;
 	private final RNG skillRNG;
 	
+	private final FogOfWar fogOfWar;
+	
 	/**
 	 * Instantiates a new session with default values.
 	 */
 	public Session() {
-		this(new Rout(), "test", 8, new HashSet<>(), new Draft(), new TrueHitRNG(), new SimpleRNG(), new SimpleRNG());
+		this(new Rout(), "test", 8, new HashSet<>(), new Draft(), new TrueHitRNG(), new SimpleRNG(), new SimpleRNG(), FogOfWar.NONE);
 	}
 	
 	/**
 	 * Instantiates a new session with the specified values
 	 */
-	public Session(Objective objective, String map, int maxUnits, Set<Modifier> modifiers, PickMode pickMode, RNG hitRNG, RNG critRNG, RNG skillRNG) {
+	public Session(Objective objective, String map, int maxUnits, Set<Modifier> modifiers, PickMode pickMode,
+			RNG hitRNG, RNG critRNG, RNG skillRNG, FogOfWar fogOfWar) {
 
 		this.hitRNG = hitRNG;
 		this.critRNG = critRNG;
@@ -81,6 +85,7 @@ public final class Session implements Serializable {
 		this.maxUnits = maxUnits;
 		this.map = map;
 		this.pickMode = pickMode;
+		this.fogOfWar = fogOfWar;
 	}
 	
 	/**
