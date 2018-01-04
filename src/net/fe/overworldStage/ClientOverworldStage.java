@@ -5,39 +5,10 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.Queue;
 import java.util.HashSet;
-import java.util.HashMap;
-
-import net.fe.FEMultiplayer;
-import net.fe.FEResources;
-import net.fe.Party;
-import net.fe.Player;
-import net.fe.RunesBg;
-import net.fe.Session;
-import net.fe.SoundTrack;
-import net.fe.editor.Level;
-import net.fe.editor.SpawnPoint;
-import net.fe.fightStage.FightStage;
-import net.fe.network.Message;
-import net.fe.network.command.Command;
-import net.fe.network.command.AttackCommand;
-import net.fe.network.command.HealCommand;
-import net.fe.network.command.MoveCommand;
-import net.fe.network.message.CommandMessage;
-import net.fe.network.message.EndTurn;
-import net.fe.overworldStage.context.Idle;
-import net.fe.overworldStage.context.TradeContext;
-import net.fe.overworldStage.context.WaitForMessages;
-import net.fe.transition.OverworldFightTransition;
-import net.fe.transition.OverworldEndTransition;
-import net.fe.unit.Item;
-import net.fe.unit.MapAnimation;
-import net.fe.unit.RiseTome;
-import net.fe.unit.Unit;
-import net.fe.unit.UnitIdentifier;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
@@ -47,6 +18,28 @@ import chu.engine.Entity;
 import chu.engine.Game;
 import chu.engine.KeyboardEvent;
 import chu.engine.anim.AudioPlayer;
+import net.fe.FEMultiplayer;
+import net.fe.FEResources;
+import net.fe.Party;
+import net.fe.Player;
+import net.fe.RunesBg;
+import net.fe.Session;
+import net.fe.SoundTrack;
+import net.fe.editor.Level;
+import net.fe.editor.SpawnPoint;
+import net.fe.network.Message;
+import net.fe.network.command.AttackCommand;
+import net.fe.network.command.Command;
+import net.fe.network.command.HealCommand;
+import net.fe.network.command.MoveCommand;
+import net.fe.network.message.CommandMessage;
+import net.fe.network.message.EndTurn;
+import net.fe.overworldStage.context.Idle;
+import net.fe.overworldStage.context.WaitForMessages;
+import net.fe.transition.OverworldEndTransition;
+import net.fe.unit.MapAnimation;
+import net.fe.unit.Unit;
+import net.fe.unit.UnitIdentifier;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -101,7 +94,8 @@ public class ClientOverworldStage extends OverworldStage {
 	/** Messages that this has recieved but not yet executed */
 	private final Queue<Message> pendingMessages;
 	
-	private FogOfWar fogOfWar = FogOfWar.NONE;
+	private FogOption fogOption = FogOption.NONE;
+	private Zone fog = new Zone(new HashSet<Node>(), Zone.FOG_LIGHT);
 	
 	/** The Constant TILE_DEPTH. */
 	public static final float TILE_DEPTH = 0.95f;
@@ -137,6 +131,9 @@ public class ClientOverworldStage extends OverworldStage {
 	 */
 	public ClientOverworldStage(Session s) {
 		super(s);
+		
+		fogOption = s.getFogOption();
+		
 		camX = camY = 0;
 		camMaxX = Math.max(0,grid.width*16-368);
 		camMaxY = Math.max(0,grid.height*16-240);
@@ -672,7 +669,7 @@ public class ClientOverworldStage extends OverworldStage {
 		}
 	}
 	
-	public static enum FogOfWar {
+	public static enum FogOption {
 		NONE, SNES, GBA;
 	}
 }

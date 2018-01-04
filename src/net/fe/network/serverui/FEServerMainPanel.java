@@ -35,7 +35,7 @@ import net.fe.modifier.Treasury;
 import net.fe.modifier.Vegas;
 import net.fe.modifier.Veterans;
 import net.fe.network.FEServer;
-import net.fe.overworldStage.ClientOverworldStage.FogOfWar;
+import net.fe.overworldStage.ClientOverworldStage.FogOption;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.overworldStage.objective.Rout;
 import net.fe.overworldStage.objective.Seize;
@@ -276,7 +276,7 @@ public class FEServerMainPanel extends JPanel {
 		pnlFogOfWar.add(lblFogOfWar);
 		
 		cbbFogOfWar = new JComboBox();
-		cbbFogOfWar.setModel(new DefaultComboBoxModel(FogOfWar.values()));
+		cbbFogOfWar.setModel(new DefaultComboBoxModel(FogOption.values()));
 		pnlFogOfWar.add(cbbFogOfWar);
 
 		startServer = new JButton("Start server");
@@ -331,7 +331,7 @@ public class FEServerMainPanel extends JPanel {
 				(Integer) maxUnitsSpinner.getValue(), mods,
 				(PickMode) pickModeBox.getSelectedItem(),
 				(RNG) cbbHitRNG.getSelectedItem(), new SimpleRNG(), new SimpleRNG(),
-				(FogOfWar) cbbFogOfWar.getSelectedItem());
+				(FogOption) cbbFogOfWar.getSelectedItem());
 
 	}
 }

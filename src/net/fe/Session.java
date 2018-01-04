@@ -14,7 +14,7 @@ import net.fe.network.message.JoinLobby;
 import net.fe.network.message.JoinTeam;
 import net.fe.network.message.KickMessage;
 import net.fe.network.message.QuitMessage;
-import net.fe.overworldStage.ClientOverworldStage.FogOfWar;
+import net.fe.overworldStage.ClientOverworldStage.FogOption;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.overworldStage.objective.Rout;
 import net.fe.pick.Draft;
@@ -59,20 +59,20 @@ public final class Session implements Serializable {
 	private final RNG critRNG;
 	private final RNG skillRNG;
 	
-	private final FogOfWar fogOfWar;
+	private final FogOption fogOption;
 	
 	/**
 	 * Instantiates a new session with default values.
 	 */
 	public Session() {
-		this(new Rout(), "test", 8, new HashSet<>(), new Draft(), new TrueHitRNG(), new SimpleRNG(), new SimpleRNG(), FogOfWar.NONE);
+		this(new Rout(), "test", 8, new HashSet<>(), new Draft(), new TrueHitRNG(), new SimpleRNG(), new SimpleRNG(), FogOption.NONE);
 	}
 	
 	/**
 	 * Instantiates a new session with the specified values
 	 */
 	public Session(Objective objective, String map, int maxUnits, Set<Modifier> modifiers, PickMode pickMode,
-			RNG hitRNG, RNG critRNG, RNG skillRNG, FogOfWar fogOfWar) {
+			RNG hitRNG, RNG critRNG, RNG skillRNG, FogOption fogOption) {
 
 		this.hitRNG = hitRNG;
 		this.critRNG = critRNG;
@@ -85,7 +85,7 @@ public final class Session implements Serializable {
 		this.maxUnits = maxUnits;
 		this.map = map;
 		this.pickMode = pickMode;
-		this.fogOfWar = fogOfWar;
+		this.fogOption = fogOption;
 	}
 	
 	/**
@@ -274,6 +274,10 @@ public final class Session implements Serializable {
 
 	public RNG getSkillRNG() {
 		return skillRNG;
+	}
+
+	public FogOption getFogOption() {
+		return fogOption;
 	}
 	
 }
