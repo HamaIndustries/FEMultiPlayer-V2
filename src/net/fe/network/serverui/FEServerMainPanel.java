@@ -93,6 +93,9 @@ public class FEServerMainPanel extends JPanel {
 	
 	private DefaultListModel<Modifier> selectedModifiersModel;
 	private DefaultListModel<Modifier> unselectedModifiersModel;
+	private JPanel pnlFogOfWar;
+	private JLabel lblFogOfWar;
+	private JComboBox cbbFogOfWar;
 	
 	/**
 	 * Initializes the panel.
@@ -230,7 +233,7 @@ public class FEServerMainPanel extends JPanel {
 		pnlPort = new JPanel();
 		mainPanel.add(pnlPort);
 
-		lblPort = new JLabel("Port :");
+		lblPort = new JLabel("Port:");
 		lblPort.setToolTipText("Don't change this unless you know what you're doing!");
 		pnlPort.add(lblPort);
 
@@ -252,19 +255,29 @@ public class FEServerMainPanel extends JPanel {
 		pnlRNG.add(cbbHitRNG);
 		
 		//Secret settings :o
-		lblCritRng = new JLabel("Crit RNG");
+		lblCritRng = new JLabel("Crit RNG:");
 		pnlRNG.add(lblCritRng);
 		
 		cbbCritRNG = new JComboBox<>();
 		cbbCritRNG.setModel(new DefaultComboBoxModel<RNG>(new RNG[] {new SimpleRNG(), new NullRNG()}));
 		pnlRNG.add(cbbCritRNG);
 		
-		lblSkillRng = new JLabel("Skill RNG");
+		lblSkillRng = new JLabel("Skill RNG:");
 		pnlRNG.add(lblSkillRng);
 		
 		cbbSkillRNG = new JComboBox<>();
 		cbbSkillRNG.setModel(new DefaultComboBoxModel<RNG>(new RNG[] {new SimpleRNG(), new NullRNG()}));
 		pnlRNG.add(cbbSkillRNG);
+		
+		pnlFogOfWar = new JPanel();
+		mainPanel.add(pnlFogOfWar);
+		
+		lblFogOfWar = new JLabel("Fog of war");
+		pnlFogOfWar.add(lblFogOfWar);
+		
+		cbbFogOfWar = new JComboBox();
+		cbbFogOfWar.setModel(new DefaultComboBoxModel(FogOfWar.values()));
+		pnlFogOfWar.add(cbbFogOfWar);
 
 		startServer = new JButton("Start server");
 		startServer.addActionListener(e -> {
@@ -318,7 +331,7 @@ public class FEServerMainPanel extends JPanel {
 				(Integer) maxUnitsSpinner.getValue(), mods,
 				(PickMode) pickModeBox.getSelectedItem(),
 				(RNG) cbbHitRNG.getSelectedItem(), new SimpleRNG(), new SimpleRNG(),
-				FogOfWar.NONE);
+				(FogOfWar) cbbFogOfWar.getSelectedItem());
 
 	}
 }

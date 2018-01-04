@@ -673,6 +673,6 @@ public class ClientOverworldStage extends OverworldStage {
 	}
 	
 	public static enum FogOfWar {
-		SNES, GBA, NONE;
+		NONE, SNES, GBA;
 	}
 }
