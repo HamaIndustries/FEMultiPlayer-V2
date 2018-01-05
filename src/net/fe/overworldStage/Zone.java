@@ -64,30 +64,40 @@ public class Zone extends Entity {
 		Renderer.translate(-cs.camX, -cs.camY);
 		Renderer.addClip(0, 0, 368, 240, true);
 		
-		for(Node n: zone){
-			int x = n.x*16;
-			int y = n.y*16;
-			Color mult;
-			if(type == MOVE_DARK || type == ATTACK_DARK || type == HEAL_DARK)
-				mult = new Color(1f, 1f, 1f, 0.5f);
-			else
-				mult = new Color(1f, 1f, 1f, 0.75f);
-			Transform t = new Transform();
-			t.setColor(mult.multiply(type.color));
-			if(type == MOVE_DARK || type == MOVE_LIGHT) {
-				tiles.renderTransformed(x, y, frame, 0, renderDepth, t);
-			} else if(type == ATTACK_DARK || type == ATTACK_LIGHT) {
-				tiles.renderTransformed(x, y, frame, 1, renderDepth, t);
-			} else if(type == HEAL_DARK || type == HEAL_LIGHT) {
-				tiles.renderTransformed(x, y, frame, 2, renderDepth, t);
-			} else if (type == FOG_LIGHT) {
+		Color mult;
+		if(type == MOVE_DARK || type == ATTACK_DARK || type == HEAL_DARK)
+			mult = new Color(1f, 1f, 1f, 0.5f);
+		else
+			mult = new Color(1f, 1f, 1f, 0.75f);
+		Transform t = new Transform();
+		t.setColor(mult.multiply(type.color));
+		
+		int ty = -1; // This needs to be initialized because Java is very good, it will always be defined as all cases are covered
+		switch (type) {
+			case MOVE_DARK:
+			case MOVE_LIGHT:
+				ty = 0;
+				break;
+
+			case ATTACK_DARK:
+			case ATTACK_LIGHT:
+				ty = 1;
+				break;
+				
+			case HEAL_DARK:
+			case HEAL_LIGHT:
+				ty = 2;
+				break;
+			
+			case FOG_LIGHT:
 				//FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
 				//HACK HACK HACK HACK HACK HACK HACK HACK HACK HACK
 				t.setScale(16f/15, 16f/15);
-				tiles.renderTransformed(x, y, frame, 3, renderDepth, t);
-				
-			}
+				ty = 3;
+				break;
 		}
+		for(Node n: zone)
+			tiles.renderTransformed(n.x * 16, n.y * 16, frame, ty, renderDepth, t);
 		
 		Renderer.removeClip();
 		Renderer.translate(cs.camX, cs.camY);
