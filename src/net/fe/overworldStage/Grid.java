@@ -279,8 +279,7 @@ public class Grid{
 				for(Node o : open) {
 					if(o.equals(n)) n = o;
 				}
-				int g = cur.g
-						+ terrain[n.y][n.x].getMoveCost(unit.getTheClass());
+				int g = cur.g + terrain[n.y][n.x].getMoveCost(unit.getTheClass());
 				if(grid[n.y][n.x] != null && grid[n.y][n.x].getParty() != unit.getParty()) {
 					g += 128;
 				}
@@ -464,4 +463,5 @@ public class Grid{
 	public static int getDistance(Unit a, Unit b) {
 		return getDistance(a.getXCoord(), a.getYCoord(), b.getXCoord(), b.getYCoord());
 	}
+	
 }

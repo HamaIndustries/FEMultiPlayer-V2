@@ -1,12 +1,16 @@
 package net.fe.overworldStage;
 
+import static net.fe.overworldStage.Zone.ZoneType.ATTACK_DARK;
+import static net.fe.overworldStage.Zone.ZoneType.ATTACK_LIGHT;
+import static net.fe.overworldStage.Zone.ZoneType.FOG_LIGHT;
+import static net.fe.overworldStage.Zone.ZoneType.HEAL_DARK;
+import static net.fe.overworldStage.Zone.ZoneType.HEAL_LIGHT;
+import static net.fe.overworldStage.Zone.ZoneType.MOVE_DARK;
+import static net.fe.overworldStage.Zone.ZoneType.MOVE_LIGHT;
+
 import java.util.HashSet;
-import static net.fe.overworldStage.Zone.ZoneType.*;
 import java.util.Set;
 import java.util.function.Predicate;
-
-import net.fe.FEResources;
-import net.fe.Session;
 
 import org.newdawn.slick.Color;
 
@@ -15,6 +19,7 @@ import chu.engine.Game;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Tileset;
 import chu.engine.anim.Transform;
+import net.fe.FEResources;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -48,7 +53,7 @@ public class Zone extends Entity {
 		this.zone = zone;
 		this.type = type;
 		frame = 0;
-		renderDepth = ClientOverworldStage.ZONE_DEPTH;
+		renderDepth = type == FOG_LIGHT ? ClientOverworldStage.FOG_DEPTH : ClientOverworldStage.ZONE_DEPTH;
 	}
 	
 	/* (non-Javadoc)
@@ -109,6 +114,10 @@ public class Zone extends Entity {
 		return zone;
 	}
 	
+	public void setNodes(Set<Node> nodes) {
+		this.zone = nodes;
+	}
+	
 	/**
 	 * Minus.
 	 *
@@ -142,6 +151,21 @@ public class Zone extends Entity {
 			if(predicate.test(node))
 				nodes.remove(node);
 		return new Zone(nodes, type);
+	}
+	
+	public static Set<Node> all(Grid grid) {
+		Set<Node> nodes = new HashSet<Node>();
+		for(int i = 0; i < grid.width; i++)
+			for(int j = 0; j < grid.height; j++)
+				nodes.add(new Node(i, j));
+		return nodes;
+	}
+	
+	public static class Fog extends Zone implements DoNotDestroy {
+
+		public Fog(Set<Node> zone) {
+			super(zone, FOG_LIGHT);
+		}
 	}
 	
 	public static enum ZoneType {

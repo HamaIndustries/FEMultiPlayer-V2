@@ -34,6 +34,8 @@ import net.fe.network.command.HealCommand;
 import net.fe.network.command.MoveCommand;
 import net.fe.network.message.CommandMessage;
 import net.fe.network.message.EndTurn;
+import net.fe.overworldStage.Zone.Fog;
+import net.fe.overworldStage.Zone.ZoneType;
 import net.fe.overworldStage.context.Idle;
 import net.fe.overworldStage.context.WaitForMessages;
 import net.fe.transition.OverworldEndTransition;
@@ -95,30 +97,16 @@ public class ClientOverworldStage extends OverworldStage {
 	private final Queue<Message> pendingMessages;
 	
 	private FogOption fogOption = FogOption.NONE;
-	private Zone fog = new Zone(new HashSet<Node>(), Zone.FOG_LIGHT);
+	private Fog fog;
 	
-	/** The Constant TILE_DEPTH. */
 	public static final float TILE_DEPTH = 0.95f;
-	
-	/** The Constant ZONE_DEPTH. */
 	public static final float ZONE_DEPTH = 0.9f;
-	
-	/** The Constant PATH_DEPTH. */
+	public static final float FOG_DEPTH = 0.91f;
 	public static final float PATH_DEPTH = 0.8f;
-	
-	/** The Constant UNIT_DEPTH. */
 	public static final float UNIT_DEPTH = 0.6f;
-	
-	/** The Constant UNIT_MAX_DEPTH. */
 	public static final float UNIT_MAX_DEPTH = 0.5f;
-	
-	/** The Constant CHAT_DEPTH. */
 	public static final float CHAT_DEPTH = 0.3f;
-	
-	/** The Constant MENU_DEPTH. */
 	public static final float MENU_DEPTH = 0.1f;
-	
-	/** The Constant CURSOR_DEPTH. */
 	public static final float CURSOR_DEPTH = 0.15f;
 	
 	/** The Constant RIGHT_AXIS. */
@@ -132,10 +120,10 @@ public class ClientOverworldStage extends OverworldStage {
 	public ClientOverworldStage(Session s) {
 		super(s);
 		
-		fogOption = s.getFogOption();
-		fog = Zone.all(grid, Zone.FOG_LIGHT);
-		addEntity(fog);
 		
+		fogOption = s.getFogOption();
+		fog = new Fog(new HashSet<Node>());
+		addEntity(fog);
 		
 		camX = camY = 0;
 		camMaxX = Math.max(0,grid.width*16-368);
@@ -277,6 +265,8 @@ public class ClientOverworldStage extends OverworldStage {
 	 */
 	@Override
 	public void beginStep(List<Message> messages) {
+		updateFog();
+		//TODO only update if necessary
 		messages.forEach(pendingMessages::add);
 		while (runningMessagesCount == 0 && pendingMessages.peek() != null) {
 			super.executeMessage(pendingMessages.poll());
@@ -670,6 +660,24 @@ public class ClientOverworldStage extends OverworldStage {
 		} else {
 			SoundTrack.loop("enemy");
 		}
+	}
+	
+	private void updateFog() {
+		Set<Node> nodes = Zone.all(grid);
+		for(Unit unit : getAllUnits())
+			if(FEMultiplayer.getLocalPlayer().getParty().isAlly(unit.getParty()))
+				for(int i = 0; i <= unit.getTheClass().sight; i++)
+					for(int j = 0; j <= unit.getTheClass().sight - i; j++) {
+						nodes.remove(new Node(unit.getOrigX() + i, unit.getOrigY() + j));
+						nodes.remove(new Node(unit.getOrigX() + i, unit.getOrigY() - j));
+						nodes.remove(new Node(unit.getOrigX() - i, unit.getOrigY() + j));
+						nodes.remove(new Node(unit.getOrigX() - i, unit.getOrigY() - j));
+					}
+		fog.setNodes(nodes);
+	}
+	
+	public Zone getFog() {
+		return fog;
 	}
 	
 	public static enum FogOption {

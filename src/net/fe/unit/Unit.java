@@ -4,25 +4,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
-
-import net.fe.FEResources;
-import net.fe.PaletteSwapper;
-import net.fe.Party;
-import net.fe.fightStage.CombatTrigger;
-import net.fe.overworldStage.Corpse;
-import net.fe.overworldStage.DoNotDestroy;
-import net.fe.overworldStage.Grid;
-import net.fe.overworldStage.Node;
-import net.fe.overworldStage.ClientOverworldStage;
-import net.fe.overworldStage.OverworldStage;
-import net.fe.overworldStage.Path;
-import net.fe.overworldStage.Terrain;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
@@ -32,6 +18,19 @@ import chu.engine.GriddedEntity;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.ShaderArgs;
 import chu.engine.anim.Transform;
+import net.fe.FEResources;
+import net.fe.PaletteSwapper;
+import net.fe.Party;
+import net.fe.fightStage.CombatTrigger;
+import net.fe.overworldStage.ClientOverworldStage;
+import net.fe.overworldStage.Corpse;
+import net.fe.overworldStage.DoNotDestroy;
+import net.fe.overworldStage.Grid;
+import net.fe.overworldStage.Node;
+import net.fe.overworldStage.OverworldStage;
+import net.fe.overworldStage.Path;
+import net.fe.overworldStage.Terrain;
+import net.fe.overworldStage.Zone;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -393,7 +392,12 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 * @see chu.engine.Entity#render()
 	 */
 	public void render() {
+		
 		ClientOverworldStage cs = (ClientOverworldStage)stage;
+		
+		if(!isVisible(cs))
+			return;
+
 		Renderer.translate(-cs.camX, -cs.camY);
 		Renderer.addClip(0, 0, 368, 240, true);
 		
@@ -1176,6 +1180,14 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 */
 	public boolean isRescued() {
 		return this.rescued;
+	}
+	
+	public boolean isVisible(Zone fog) {
+		return fog.getNodes().contains(new Node(origX, origY));
+	}
+	
+	public boolean isVisible(ClientOverworldStage stage) {
+		return stage.getVisibleUnits().contains(this);
 	}
 	
 	@Override public int hashCode() {

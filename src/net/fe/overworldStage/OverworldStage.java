@@ -468,6 +468,13 @@ public class OverworldStage extends Stage {
 		}
 		return units;
 	}
+	
+	public List<Unit> getVisibleUnits() {
+		List<Unit> units = getAllUnits();
+		Set<Node> fog = ((ClientOverworldStage) this).getFog().getNodes();
+		units.removeIf(unit -> fog.contains(new Node(unit.getOrigX(), unit.getOrigY())));
+		return units;
+	}
 
 	/**
 	 *  Returns a list of players in the turn order, 
