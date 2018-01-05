@@ -88,7 +88,7 @@ public class FEMultiplayer extends Game{
 			game.init(480, 320, "Fire Emblem Multiplayer");
 			/* Testing code */
 //			game.testFightStage();
-//			game.testOverworldStage();
+			game.testOverworldStage();
 //			game.testDraftStage();
 			game.loop();
 		} catch (Throwable e){
@@ -224,7 +224,7 @@ public class FEMultiplayer extends Game{
 	 * Test overworld stage.
 	 */
 	public void testOverworldStage() {
-		testSession = new Session(new Seize(), "test", 8, new java.util.HashSet<>(), new net.fe.pick.Draft(), new TrueHitRNG(), new SimpleRNG(), new SimpleRNG(), FogOption.NONE);
+		testSession = new Session(new Seize(), "test", 8, new java.util.HashSet<>(), new net.fe.pick.Draft(), new TrueHitRNG(), new SimpleRNG(), new SimpleRNG(), FogOption.GBA);
 		testSession.addPlayer(localPlayer);
 		
 		Player p2 = new Player("P2", (byte)1);

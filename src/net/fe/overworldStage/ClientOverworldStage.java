@@ -133,6 +133,9 @@ public class ClientOverworldStage extends OverworldStage {
 		super(s);
 		
 		fogOption = s.getFogOption();
+		fog = Zone.all(grid, Zone.FOG_LIGHT);
+		addEntity(fog);
+		
 		
 		camX = camY = 0;
 		camMaxX = Math.max(0,grid.width*16-368);

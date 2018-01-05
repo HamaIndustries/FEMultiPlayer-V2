@@ -2,8 +2,10 @@ package net.fe.overworldStage;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import net.fe.FEResources;
+import net.fe.Session;
 
 import org.newdawn.slick.Color;
 
@@ -43,7 +45,7 @@ public class Zone extends Entity {
 	/** The heal light. */
 	public static Color HEAL_LIGHT = new Color(0xC088FF88);
 	
-	public static Color FOG_LIGHT = new Color(0xC0D6D6D6);
+	public static Color FOG_LIGHT = new Color(0x80FFFFFF);
 	
 	/** The frame. */
 	private static int frame;
@@ -83,15 +85,21 @@ public class Zone extends Entity {
 			if(color == MOVE_DARK || color == ATTACK_DARK || color == HEAL_DARK)
 				mult = new Color(1f, 1f, 1f, 0.5f);
 			else
-				mult = new Color(1f, 1f, 1f, .75f);
+				mult = new Color(1f, 1f, 1f, 0.75f);
 			Transform t = new Transform();
 			t.setColor(mult.multiply(color));
 			if(color == MOVE_DARK || color == MOVE_LIGHT) {
 				tiles.renderTransformed(x, y, frame, 0, renderDepth, t);
 			} else if(color == ATTACK_DARK || color == ATTACK_LIGHT) {
 				tiles.renderTransformed(x, y, frame, 1, renderDepth, t);
-			} else if(color == HEAL_DARK || color == HEAL_LIGHT || color == FOG_LIGHT) { //FIXME
+			} else if(color == HEAL_DARK || color == HEAL_LIGHT) {
 				tiles.renderTransformed(x, y, frame, 2, renderDepth, t);
+			} else if (color == FOG_LIGHT) {
+				//FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
+				//HACK HACK HACK HACK HACK HACK HACK HACK HACK HACK
+				t.setScale(16f/15, 16f/15);
+				tiles.renderTransformed(x, y, frame, 3, renderDepth, t);
+				
 			}
 		}
 		
@@ -130,6 +138,28 @@ public class Zone extends Entity {
 	public static Zone minus(Zone a, Zone b){
 		Set<Node> nodes = new HashSet<Node>(a.getNodes());
 		nodes.removeAll(b.getNodes());
+		return new Zone(nodes, a.color);
+	}
+	
+	public static Zone add(Zone a, Zone b) {
+		Set<Node> nodes = new HashSet<Node>(a.getNodes());
+		nodes.addAll(b.getNodes());
+		return new Zone(nodes, a.color);
+	}
+	
+	public static Zone all(Grid grid, Color c) {
+		Set<Node> nodes = new HashSet<Node>();
+		for(int i = 0; i < grid.width; i++)
+			for(int j = 0; j < grid.height; j++)
+				nodes.add(new Node(i, j));
+		return new Zone(nodes, c);
+	}
+	
+	public static Zone filter(Zone a, Predicate<Node> predicate) {
+		Set<Node> nodes = new HashSet<Node>(a.getNodes());
+		for(Node node : nodes)
+			if(predicate.test(node))
+				nodes.remove(node);
 		return new Zone(nodes, a.color);
 	}
 }
