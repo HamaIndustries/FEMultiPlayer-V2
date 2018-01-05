@@ -4,6 +4,7 @@ import net.fe.Player;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.CursorContext;
 import net.fe.overworldStage.Zone;
+import net.fe.overworldStage.Zone.ZoneType;
 import net.fe.unit.Unit;
 import chu.engine.anim.AudioPlayer;
 
@@ -144,9 +145,9 @@ public class Idle extends CursorContext {
 	 * @param u the u
 	 */
 	public void addZones(Unit u){
-		this.move = new Zone(stage.grid.getPossibleMoves(u), Zone.MOVE_LIGHT);
-		this.attack = new Zone(stage.grid.getAttackRange(u),Zone.ATTACK_LIGHT).minus(move);
-		this.heal = new Zone(stage.grid.getHealRange(u),Zone.HEAL_LIGHT).minus(move).minus(attack);
+		this.move = new Zone(stage.grid.getPossibleMoves(u), ZoneType.MOVE_LIGHT);
+		this.attack = new Zone(stage.grid.getAttackRange(u),ZoneType.ATTACK_LIGHT).minus(move);
+		this.heal = new Zone(stage.grid.getHealRange(u),ZoneType.HEAL_LIGHT).minus(move).minus(attack);
 		stage.addEntity(move);
 		stage.addEntity(attack);
 		stage.addEntity(heal);

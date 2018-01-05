@@ -9,6 +9,7 @@ import net.fe.overworldStage.Node;
 import net.fe.overworldStage.OverworldContext;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.Zone;
+import net.fe.overworldStage.Zone.ZoneType;
 import net.fe.overworldStage.Grid;
 import net.fe.overworldStage.Path;
 
@@ -57,7 +58,7 @@ public final class Shove extends FieldSkill {
 	public Zone getZone(Unit unit, Grid grid) {
 		return new Zone(grid.getRange(
 					new Node(unit.getXCoord(), unit.getYCoord()), 1),
-					Zone.MOVE_DARK);
+					ZoneType.MOVE_DARK);
 	}
 	
 	/**

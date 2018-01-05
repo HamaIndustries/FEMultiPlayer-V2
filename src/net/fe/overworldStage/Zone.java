@@ -1,6 +1,7 @@
 package net.fe.overworldStage;
 
 import java.util.HashSet;
+import static net.fe.overworldStage.Zone.ZoneType.*;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -17,7 +18,7 @@ import chu.engine.anim.Transform;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class Zone.
+ * The Class ZoneType.
  */
 public class Zone extends Entity {
 	
@@ -25,27 +26,7 @@ public class Zone extends Entity {
 	private Set<Node> zone;
 	
 	/** The color. */
-	private Color color;
-	
-	/** The move dark. */
-	public static Color MOVE_DARK = new Color(0xC04444FF);
-	
-	/** The attack dark. */
-	public static Color ATTACK_DARK = new Color(0xC0FF4444);
-	
-	/** The heal dark. */
-	public static Color HEAL_DARK = new Color(0xC044FF44);
-	
-	/** The move light. */
-	public static Color MOVE_LIGHT = new Color(0xC08888FF);
-	
-	/** The attack light. */
-	public static Color ATTACK_LIGHT = new Color(0xC0FF8888);
-	
-	/** The heal light. */
-	public static Color HEAL_LIGHT = new Color(0xC088FF88);
-	
-	public static Color FOG_LIGHT = new Color(0x80FFFFFF);
+	private ZoneType type;
 	
 	/** The frame. */
 	private static int frame;
@@ -60,12 +41,12 @@ public class Zone extends Entity {
 	 * Instantiates a new zone.
 	 *
 	 * @param zone the zone
-	 * @param c the c
+	 * @param type the type
 	 */
-	public Zone(Set<Node> zone, Color c) {
+	public Zone(Set<Node> zone, ZoneType type) {
 		super(0,0);
 		this.zone = zone;
-		this.color = c;
+		this.type = type;
 		frame = 0;
 		renderDepth = ClientOverworldStage.ZONE_DEPTH;
 	}
@@ -82,19 +63,19 @@ public class Zone extends Entity {
 			int x = n.x*16;
 			int y = n.y*16;
 			Color mult;
-			if(color == MOVE_DARK || color == ATTACK_DARK || color == HEAL_DARK)
+			if(type == MOVE_DARK || type == ATTACK_DARK || type == HEAL_DARK)
 				mult = new Color(1f, 1f, 1f, 0.5f);
 			else
 				mult = new Color(1f, 1f, 1f, 0.75f);
 			Transform t = new Transform();
-			t.setColor(mult.multiply(color));
-			if(color == MOVE_DARK || color == MOVE_LIGHT) {
+			t.setColor(mult.multiply(type.color));
+			if(type == MOVE_DARK || type == MOVE_LIGHT) {
 				tiles.renderTransformed(x, y, frame, 0, renderDepth, t);
-			} else if(color == ATTACK_DARK || color == ATTACK_LIGHT) {
+			} else if(type == ATTACK_DARK || type == ATTACK_LIGHT) {
 				tiles.renderTransformed(x, y, frame, 1, renderDepth, t);
-			} else if(color == HEAL_DARK || color == HEAL_LIGHT) {
+			} else if(type == HEAL_DARK || type == HEAL_LIGHT) {
 				tiles.renderTransformed(x, y, frame, 2, renderDepth, t);
-			} else if (color == FOG_LIGHT) {
+			} else if (type == FOG_LIGHT) {
 				//FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
 				//HACK HACK HACK HACK HACK HACK HACK HACK HACK HACK
 				t.setScale(16f/15, 16f/15);
@@ -138,21 +119,21 @@ public class Zone extends Entity {
 	public Zone minus(Zone b){
 		Set<Node> nodes = new HashSet<Node>(getNodes());
 		nodes.removeAll(b.getNodes());
-		return new Zone(nodes, color);
+		return new Zone(nodes, type);
 	}
 	
 	public Zone add(Zone b) {
 		Set<Node> nodes = new HashSet<Node>(getNodes());
 		nodes.addAll(b.getNodes());
-		return new Zone(nodes, color);
+		return new Zone(nodes, type);
 	}
 	
-	public static Zone all(Grid grid, Color c) {
+	public static Zone all(Grid grid, ZoneType fogLight) {
 		Set<Node> nodes = new HashSet<Node>();
 		for(int i = 0; i < grid.width; i++)
 			for(int j = 0; j < grid.height; j++)
 				nodes.add(new Node(i, j));
-		return new Zone(nodes, c);
+		return new Zone(nodes, fogLight);
 	}
 	
 	public Zone filter(Predicate<Node> predicate) {
@@ -160,6 +141,22 @@ public class Zone extends Entity {
 		for(Node node : nodes)
 			if(predicate.test(node))
 				nodes.remove(node);
-		return new Zone(nodes, color);
+		return new Zone(nodes, type);
+	}
+	
+	public static enum ZoneType {
+		MOVE_DARK(0xC04444FF),
+		ATTACK_DARK(0xC0FF4444),
+		HEAL_DARK(0xC044FF44),
+		MOVE_LIGHT(0xC08888FF),
+		ATTACK_LIGHT(0xC0FF8888),
+		HEAL_LIGHT(0xC088FF88),
+		FOG_LIGHT(0x80FFFFFF);
+		
+		public final Color color;
+		
+		private ZoneType(int color) {
+			this.color = new Color(color);
+		}
 	}
 }

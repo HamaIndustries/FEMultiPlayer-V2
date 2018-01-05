@@ -2,6 +2,7 @@ package net.fe.overworldStage.context;
 
 import chu.engine.anim.AudioPlayer;
 import net.fe.overworldStage.*;
+import net.fe.overworldStage.Zone.ZoneType;
 import net.fe.unit.Unit;
 
 // TODO: Auto-generated Javadoc
@@ -38,9 +39,9 @@ public class UnitSelected extends CursorContext {
 		super.startContext();
 		selected.sprite.setAnimation("DOWN");
 		grid.move(selected, selected.getOrigX(), selected.getOrigY(), false);
-		this.move = new Zone(grid.getPossibleMoves(selected), Zone.MOVE_DARK);
-		this.attack = new Zone(grid.getAttackRange(selected), Zone.ATTACK_DARK).minus(move);
-		this.heal = new Zone(grid.getHealRange(selected), Zone.HEAL_DARK).minus(move).minus(attack);
+		this.move = new Zone(grid.getPossibleMoves(selected), ZoneType.MOVE_DARK);
+		this.attack = new Zone(grid.getAttackRange(selected), ZoneType.ATTACK_DARK).minus(move);
+		this.heal = new Zone(grid.getHealRange(selected), ZoneType.HEAL_DARK).minus(move).minus(attack);
 		stage.addEntity(move);
 		stage.addEntity(attack);
 		stage.addEntity(heal);
