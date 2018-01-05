@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.newdawn.slick.Color;
 
+import net.fe.FEMultiplayer;
 import net.fe.Party;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
@@ -155,6 +156,12 @@ public class Grid{
 	 */
 	public Unit getUnit(int x, int y) {
 		return grid[y][x];
+	}
+	
+	public Unit getVisibleUnit(int x, int y) {
+		if(grid[y][x] != null && grid[y][x].isVisible((ClientOverworldStage)FEMultiplayer.getCurrentStage()))
+			return grid[y][x];
+		return null;
 	}
 	
 	/**
