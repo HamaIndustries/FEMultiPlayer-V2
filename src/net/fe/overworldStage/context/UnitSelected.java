@@ -39,10 +39,8 @@ public class UnitSelected extends CursorContext {
 		selected.sprite.setAnimation("DOWN");
 		grid.move(selected, selected.getOrigX(), selected.getOrigY(), false);
 		this.move = new Zone(grid.getPossibleMoves(selected), Zone.MOVE_DARK);
-		this.attack = Zone.minus(new Zone(grid.getAttackRange(selected),
-				Zone.ATTACK_DARK), move);
-		this.heal = Zone.minus(Zone.minus(new Zone(grid.getHealRange(selected),
-				Zone.HEAL_DARK), move), attack);
+		this.attack = new Zone(grid.getAttackRange(selected), Zone.ATTACK_DARK).minus(move);
+		this.heal = new Zone(grid.getHealRange(selected), Zone.HEAL_DARK).minus(move).minus(attack);
 		stage.addEntity(move);
 		stage.addEntity(attack);
 		stage.addEntity(heal);

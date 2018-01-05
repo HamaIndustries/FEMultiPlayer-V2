@@ -145,10 +145,8 @@ public class Idle extends CursorContext {
 	 */
 	public void addZones(Unit u){
 		this.move = new Zone(stage.grid.getPossibleMoves(u), Zone.MOVE_LIGHT);
-		this.attack = Zone.minus(
-				new Zone(stage.grid.getAttackRange(u),Zone.ATTACK_LIGHT), move);
-		this.heal = Zone.minus(Zone.minus(
-				new Zone(stage.grid.getHealRange(u),Zone.HEAL_LIGHT), move), attack);
+		this.attack = new Zone(stage.grid.getAttackRange(u),Zone.ATTACK_LIGHT).minus(move);
+		this.heal = new Zone(stage.grid.getHealRange(u),Zone.HEAL_LIGHT).minus(move).minus(attack);
 		stage.addEntity(move);
 		stage.addEntity(attack);
 		stage.addEntity(heal);

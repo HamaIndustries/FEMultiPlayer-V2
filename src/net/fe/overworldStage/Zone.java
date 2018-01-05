@@ -135,16 +135,16 @@ public class Zone extends Entity {
 	 * @param b the b
 	 * @return the zone
 	 */
-	public static Zone minus(Zone a, Zone b){
-		Set<Node> nodes = new HashSet<Node>(a.getNodes());
+	public Zone minus(Zone b){
+		Set<Node> nodes = new HashSet<Node>(getNodes());
 		nodes.removeAll(b.getNodes());
-		return new Zone(nodes, a.color);
+		return new Zone(nodes, color);
 	}
 	
-	public static Zone add(Zone a, Zone b) {
-		Set<Node> nodes = new HashSet<Node>(a.getNodes());
+	public Zone add(Zone b) {
+		Set<Node> nodes = new HashSet<Node>(getNodes());
 		nodes.addAll(b.getNodes());
-		return new Zone(nodes, a.color);
+		return new Zone(nodes, color);
 	}
 	
 	public static Zone all(Grid grid, Color c) {
@@ -155,11 +155,11 @@ public class Zone extends Entity {
 		return new Zone(nodes, c);
 	}
 	
-	public static Zone filter(Zone a, Predicate<Node> predicate) {
-		Set<Node> nodes = new HashSet<Node>(a.getNodes());
+	public Zone filter(Predicate<Node> predicate) {
+		Set<Node> nodes = new HashSet<Node>(getNodes());
 		for(Node node : nodes)
 			if(predicate.test(node))
 				nodes.remove(node);
-		return new Zone(nodes, a.color);
+		return new Zone(nodes, color);
 	}
 }
