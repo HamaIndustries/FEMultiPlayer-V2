@@ -1,5 +1,6 @@
 package net.fe.overworldStage;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,10 +8,13 @@ import java.util.Set;
 /**
  * The Class Node.
  */
-public class Node{
+public class Node implements Serializable {
 	
+	private static final long serialVersionUID = 3999804122044662345L;
+
 	/** The d. */
-	public int x, y, f, g, h, d;
+	public int x, y;
+	public transient int f, g, h, d;
 	
 	/** The parent. */
 	Node parent;

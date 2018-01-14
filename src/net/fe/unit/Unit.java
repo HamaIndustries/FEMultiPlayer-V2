@@ -110,6 +110,8 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 
 	/** The orig y. */
 	private int origX, origY;
+
+	private Node[] move;
 	
 	/** The Constant MAP_ANIM_SPEED. */
 	public static final float MAP_ANIM_SPEED = 0.2f;
@@ -224,6 +226,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 */
 	public void move(Path p, Runnable callback) {
 		this.path = p.getCopy();
+		move = p.getAllNodes();
 		this.callback = callback;
 	}
 	
@@ -1195,5 +1198,9 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 			this.bases.hashCode()) * 31 +
 			this.growths.hashCode()) * 31 +
 			this.clazz.hashCode());
+	}
+	
+	public Node[] getMove() {
+		return move;
 	}
 }

@@ -97,7 +97,7 @@ public class ClientOverworldStage extends OverworldStage {
 	private final Queue<Message> pendingMessages;
 	
 	private FogOption fogOption = FogOption.NONE;
-	private Fog fog;
+	private Fog fog = new Fog(new HashSet<Node>());
 	
 	public static final float TILE_DEPTH = 0.95f;
 	public static final float ZONE_DEPTH = 0.9f;
@@ -555,7 +555,7 @@ public class ClientOverworldStage extends OverworldStage {
 		UnitIdentifier uid = null;
 		if(selectedUnit != null) {
 			uid = new UnitIdentifier(selectedUnit);
-			currentCmdString.add(0, new MoveCommand(movX, movY));
+			currentCmdString.add(0, new MoveCommand(movX, movY, selectedUnit.getMove()));
 		}
 		FEMultiplayer.send(uid, currentCmdString.toArray(new Command[0]));
 		clearCmdString();
@@ -663,9 +663,8 @@ public class ClientOverworldStage extends OverworldStage {
 	}
 	
 	private void updateFog() {
-		Set<Node> nodes;
 		if (fogOption != FogOption.NONE) {
-			nodes = Zone.all(grid);
+			Set<Node> nodes = Zone.all(grid);
 			for(Unit unit : getAllUnits())
 				if(FEMultiplayer.getLocalPlayer().getParty().isAlly(unit.getParty()))
 					for(int i = 0; i <= unit.getTheClass().sight; i++)
@@ -675,9 +674,8 @@ public class ClientOverworldStage extends OverworldStage {
 							nodes.remove(new Node(unit.getOrigX() - i, unit.getOrigY() + j));
 							nodes.remove(new Node(unit.getOrigX() - i, unit.getOrigY() - j));
 						}
-		} else
-			nodes = new HashSet<Node>();
-		fog.setNodes(nodes);
+			fog.setNodes(nodes);
+		}
 	}
 	
 	public Zone getFog() {

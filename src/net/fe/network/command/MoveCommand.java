@@ -1,18 +1,14 @@
 package net.fe.network.command;
 
-import java.io.Serializable;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.LinkedList;
+
 import net.fe.fightStage.AttackRecord;
-import net.fe.overworldStage.OverworldStage;
 import net.fe.overworldStage.ClientOverworldStage;
-import net.fe.overworldStage.Path;
 import net.fe.overworldStage.Node;
-import net.fe.unit.UnitIdentifier;
+import net.fe.overworldStage.OverworldStage;
+import net.fe.overworldStage.Path;
 import net.fe.unit.Unit;
-import net.fe.unit.Item;
-import net.fe.unit.RiseTome;
-import java.util.Optional;
 
 public final class MoveCommand extends Command {
 	
@@ -20,10 +16,12 @@ public final class MoveCommand extends Command {
 	
 	private final int moveX;
 	private final int moveY;
+	private final Node[] path;
 	
-	public MoveCommand(int moveX, int moveY) {
+	public MoveCommand(int moveX, int moveY, Node[] path) {
 		this.moveX = moveX;
 		this.moveY = moveY;
+		this.path = path;
 	}
 	
 	@Override
@@ -39,7 +37,8 @@ public final class MoveCommand extends Command {
 		
 		return new Runnable() {
 			public void run() {
-				Path p = stage.grid.getShortestPath(unit, unit.getXCoord()+moveX, unit.getYCoord()+moveY);
+				Path p = new Path();
+				p.setNodes(path);
 				stage.grid.move(unit, unit.getXCoord()+moveX, unit.getYCoord()+moveY, true);
 				unit.move(p, callback);
 				stage.includeInView(p.getAllNodes());
