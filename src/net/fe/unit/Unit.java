@@ -18,6 +18,7 @@ import chu.engine.GriddedEntity;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.ShaderArgs;
 import chu.engine.anim.Transform;
+import net.fe.FEMultiplayer;
 import net.fe.FEResources;
 import net.fe.PaletteSwapper;
 import net.fe.Party;
@@ -1182,12 +1183,10 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		return this.rescued;
 	}
 	
-	public boolean isVisible(Zone fog) {
-		return fog.getNodes().contains(new Node(origX, origY));
-	}
-	
 	public boolean isVisible(ClientOverworldStage stage) {
-		return stage.getVisibleUnits().contains(this);
+		if(FEMultiplayer.getLocalPlayer().getParty().isAlly(team))
+			return true;
+		return !stage.getFog().getNodes().contains(new Node(xcoord, ycoord));
 	}
 	
 	@Override public int hashCode() {
