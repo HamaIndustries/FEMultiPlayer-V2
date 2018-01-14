@@ -165,6 +165,8 @@ public class Grid{
 	 * @return The unit at the gven point, or null.
 	 */
 	public Unit getVisibleUnit(int x, int y) {
+		if(!(FEMultiplayer.getCurrentStage() instanceof ClientOverworldStage))
+			return grid[y][x];
 		if(grid[y][x] != null && grid[y][x].isVisible((ClientOverworldStage)FEMultiplayer.getCurrentStage()))
 			return grid[y][x];
 		return null;
