@@ -630,7 +630,7 @@ public class ClientOverworldStage extends OverworldStage {
 	 * @return the hovered unit
 	 */
 	public Unit getHoveredUnit() {
-		return getUnit(cursor.getXCoord(), cursor.getYCoord());
+		return getVisibleUnit(cursor.getXCoord(), cursor.getYCoord());
 	}
 	
 	/**

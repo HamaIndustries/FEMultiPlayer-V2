@@ -25,6 +25,10 @@ public abstract class FieldSkill implements Serializable {
 	 */
 	public abstract boolean allowed(Unit actor, Grid grid);
 	
+	public boolean allowedWithFog(Unit actor, Grid grid) {
+		return allowed(actor, grid);
+	}
+	
 	/**
 	 * Returns the context to start when this command is selected
 	 */

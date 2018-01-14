@@ -188,7 +188,7 @@ public class UnitMoved extends MenuContext<String> {
 		Set<Node> range = grid.getRange(new Node(u.getXCoord(), u.getYCoord()),
 				unit.getTotalWepRange(false));
 		for (Node n : range) {
-			Unit p = grid.getUnit(n.x, n.y);
+			Unit p = grid.getVisibleUnit(n.x, n.y);
 			if (p != null && !stage.getCurrentPlayer().getParty().isAlly(p.getParty())) {
 				attack = true;
 				break;
@@ -201,7 +201,7 @@ public class UnitMoved extends MenuContext<String> {
 		range = grid.getRange(new Node(u.getXCoord(), u.getYCoord()),
 				unit.getTotalWepRange(true));
 		for (Node n : range) {
-			Unit p = grid.getUnit(n.x, n.y);
+			Unit p = grid.getVisibleUnit(n.x, n.y);
 			if (p != null && stage.getCurrentPlayer().getParty().isAlly(p.getParty())
 					&& p.getHp() != p.getStats().maxHp) {
 				heal = true;
@@ -220,7 +220,7 @@ public class UnitMoved extends MenuContext<String> {
 		boolean summon = false;
 		range = grid.getRange(new Node(u.getXCoord(), u.getYCoord()), 1);
 		for (Node n : range) {
-			Unit p = grid.getUnit(n.x, n.y);
+			Unit p = grid.getVisibleUnit(n.x, n.y);
 			if (p != null && stage.getCurrentPlayer().getParty().isAlly(p.getParty())) {
 				trade = true;
 				if(p.rescuedUnit() == null && unit.rescuedUnit() == null && unit.canRescue(p)){
@@ -267,7 +267,7 @@ public class UnitMoved extends MenuContext<String> {
 			list.add("Summon");
 		
 		for (FieldSkill f : unit.getTheClass().fieldSkills) {
-			if (f.allowed(unit, this.stage.grid)) {
+			if (f.allowedWithFog(unit, this.stage.grid)) {
 				list.add(f.getName());
 			}
 		}

@@ -70,7 +70,7 @@ public class DropTarget extends OverworldContext {
 	private void findTargets(Unit unit) {
 		targets.clear();
 		for (Node n : zone.getNodes()) {
-			Unit u = grid.getUnit(n.x, n.y);
+			Unit u = grid.getVisibleUnit(n.x, n.y);
 			if (u == null
 					&& grid.getTerrain(n.x, n.y).getMoveCost(
 							unit.rescuedUnit().getTheClass()) < unit
@@ -86,6 +86,10 @@ public class DropTarget extends OverworldContext {
 	@Override
 	public void onSelect() {
 		AudioPlayer.playAudio("select");
+		//If there's a unit in the fog
+		//This is guaranteed to succeed as long as the vision range of the unit is greater than one.
+		while (grid.getUnit(getCurrentTarget().x, getCurrentTarget().y) != null)
+			nextTarget();
 		DropCommand c = new DropCommand(getCurrentTarget().x, getCurrentTarget().y);
 		c.applyClient(stage, unit, null, new EmptyRunnable()).run();
 		stage.addCmd(c);

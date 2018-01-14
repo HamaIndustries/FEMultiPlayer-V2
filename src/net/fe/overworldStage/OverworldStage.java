@@ -145,6 +145,10 @@ public class OverworldStage extends Stage {
 	public final Unit getUnit(int x, int y) {
 		return grid.getUnit(x, y);
 	}
+	
+	public final Unit getVisibleUnit(int x, int y) {
+		return grid.getVisibleUnit(x, y);
+	}
 
 	/**
 	 * Adds the unit.

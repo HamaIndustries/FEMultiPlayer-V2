@@ -158,6 +158,12 @@ public class Grid{
 		return grid[y][x];
 	}
 	
+	/**
+	 * Returns the unit at the given position. If the unit is not visible, returns null instead (as if there was nothing there).
+	 * @param x The x coordinate of the position.
+	 * @param y The y coordinate of the position.
+	 * @return The unit at the gven point, or null.
+	 */
 	public Unit getVisibleUnit(int x, int y) {
 		if(grid[y][x] != null && grid[y][x].isVisible((ClientOverworldStage)FEMultiplayer.getCurrentStage()))
 			return grid[y][x];
