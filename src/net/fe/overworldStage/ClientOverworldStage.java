@@ -683,6 +683,20 @@ public class ClientOverworldStage extends OverworldStage {
 	}
 	
 	public static enum FogOption {
-		NONE, SNES, GBA;
+		NONE("Disabled"), GBA("FE 6-12"); //TODO FE7
+		
+		private String representation;
+		
+		private FogOption() {
+			representation = name();
+		}
+		private FogOption(String representation) {
+			this.representation = representation;
+		}
+		
+		@Override
+		public String toString() {
+			return representation;
+		}
 	}
 }
