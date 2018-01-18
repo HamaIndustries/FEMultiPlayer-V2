@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 import chu.engine.Entity;
 import chu.engine.Game;
@@ -186,5 +187,17 @@ public class Path extends Entity{
 		List<Node> temp = Arrays.asList(nodes);
 		path = new LinkedList<Node>();
 		path.addAll(temp);
+	}
+	
+	public void truncate(int n) {
+		ListIterator<Node> iterator = path.listIterator(n);
+		do {
+			iterator.next();
+			iterator.remove();
+		} while (iterator.hasNext());
+	}
+	
+	public Node destination() {
+		return path.getLast();
 	}
 }

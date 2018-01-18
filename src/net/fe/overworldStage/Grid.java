@@ -222,7 +222,7 @@ public class Grid{
 	}
 	
 	public Path improvePath(Unit unit, int x, int y, Path p) {
-		if (grid[y][x] != null && grid[y][x] != unit)
+		if (getVisibleUnit(x, y) != null && getVisibleUnit(x, y) != unit)
 			return null;
 		
 		if (p == null)
@@ -265,7 +265,7 @@ public class Grid{
 	 * @return the shortest path
 	 */
 	public Path getShortestPath(Unit unit, int x, int y) {
-		if(grid[y][x] != null && grid[y][x] != unit) return null;
+		if(getVisibleUnit(x, y) != null && !getVisibleUnit(x, y).equals(unit)) return null;
 		int move = unit.getStats().mov;
 		Set<Node> closed = new HashSet<Node>();
 		Set<Node> open = new HashSet<Node>();
@@ -295,7 +295,7 @@ public class Grid{
 					if(o.equals(n)) n = o;
 				}
 				int g = cur.g + terrain[n.y][n.x].getMoveCost(unit.getTheClass());
-				if(grid[n.y][n.x] != null && grid[n.y][n.x].getParty() != unit.getParty()) {
+				if(getVisibleUnit(n.x, n.y) != null && !getVisibleUnit(n.x, n.y).getParty().isAlly(unit.getParty())) {
 					g += 128;
 				}
 				int f = g + heuristic(n, goal);
@@ -338,7 +338,7 @@ public class Grid{
 			for(Node n: curr.getNeighbors(this)){
 				if(!set.contains(n)){
 					n.d = curr.d + terrain[n.y][n.x].getMoveCost(u.getTheClass());
-					if(grid[n.y][n.x] != null && grid[n.y][n.x].getParty() != u.getParty()) {
+					if(getVisibleUnit(n.x, n.y) != null && !getVisibleUnit(n.x, n.y).getParty().isAlly(u.getParty())) {
 						n.d += 128;
 					}
 					if(n.d <= u.getStats().mov){

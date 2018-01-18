@@ -88,37 +88,40 @@ public class UnitMoved extends MenuContext<String> {
 	public void onSelect(String selectedItem) {
 		// TODO Finish this
 		AudioPlayer.playAudio("select");
-		if (selectedItem.equals("Wait")) {
+		performAction(selectedItem);
+	}
+	
+	public void performAction(String action) {
+		if (action.equals("Wait")) {
 			stage.addCmd(new WaitCommand());
 			stage.send();
 			unit.setMoved(true);
 			stage.reset();	
-		} else if (selectedItem.equals("Attack")) {
+		} else if (action.equals("Attack")) {
 			new AttackTarget(stage, this, zone, unit).startContext();
-		} else if (selectedItem.equals("Heal")){
+		} else if (action.equals("Heal")){
 			new HealTarget(stage, this, zone, unit).startContext();
-		} else if (selectedItem.equals("Item")){	
+		} else if (action.equals("Item")){	
 			new ItemCmd(stage, this, unit).startContext();
-		} else if (selectedItem.equals("Trade")){
+		} else if (action.equals("Trade")){
 			new TradeTarget(stage, this, zone, unit).startContext();
-		} else if (selectedItem.equals("Rescue")){
+		} else if (action.equals("Rescue")){
 			new RescueTarget(stage, this, zone, unit).startContext();
-		} else if (selectedItem.equals("Give")){
+		} else if (action.equals("Give")){
 			new GiveTarget(stage, this, zone, unit).startContext();
-		} else if (selectedItem.equals("Take")){
+		} else if (action.equals("Take")){
 			new TakeTarget(stage, this, zone, unit).startContext();
-		} else if (selectedItem.equals("Drop")){
+		} else if (action.equals("Drop")){
 			new DropTarget(stage, this, zone, unit).startContext();
-		} else if (selectedItem.equals("Summon")){
+		} else if (action.equals("Summon")){
 			new Summon(stage, this, zone, unit).startContext();
 		} else {
 			for (FieldSkill f : unit.getTheClass().fieldSkills) {
-				if (selectedItem.equals(f.getName())) {
+				if (action.equals(f.getName())) {
 					f.onSelect(stage, this, zone, unit).startContext();
 				}
 			}
 		}
-			
 	}
 
 	/* (non-Javadoc)
