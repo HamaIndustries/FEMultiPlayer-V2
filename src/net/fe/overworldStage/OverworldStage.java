@@ -6,11 +6,14 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.HashSet;
-import java.util.HashMap;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.util.ResourceLoader;
+
+import chu.engine.Stage;
 import net.fe.FEMultiplayer;
 import net.fe.Party;
 import net.fe.Player;
@@ -18,30 +21,17 @@ import net.fe.Session;
 import net.fe.editor.Level;
 import net.fe.editor.SpawnPoint;
 import net.fe.fightStage.AttackRecord;
-import net.fe.fightStage.CombatCalculator;
-import net.fe.fightStage.HealCalculator;
 import net.fe.modifier.Modifier;
-import net.fe.network.Chat;
 import net.fe.network.FEServer;
 import net.fe.network.Message;
-import net.fe.network.command.Command;
-import net.fe.network.message.ChatMessage;
 import net.fe.network.message.CommandMessage;
 import net.fe.network.message.EndGame;
 import net.fe.network.message.EndTurn;
 import net.fe.network.message.QuitMessage;
-import net.fe.overworldStage.context.TradeContext;
 import net.fe.overworldStage.objective.Objective;
-import net.fe.unit.Item;
-import net.fe.unit.RiseTome;
+import net.fe.rng.RNG;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
-
-import org.newdawn.slick.Color;
-import org.newdawn.slick.util.ResourceLoader;
-
-import chu.engine.Game;
-import chu.engine.Stage;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -63,6 +53,10 @@ public class OverworldStage extends Stage {
 	
 	/** The turn count. */
 	private int turnCount;
+	
+	private RNG hitRNG;
+	private RNG critRNG;
+	private RNG skillRNG;
 
 	/**
 	 * Instantiates a new overworld stage.
@@ -72,6 +66,9 @@ public class OverworldStage extends Stage {
 	public OverworldStage(Session s) {
 		super(null);
 		this.session = s;
+		hitRNG = s.getHitRNG();
+		critRNG = s.getCritRNG();
+		skillRNG = s.getSkillRNG();
 		System.out.println(session.getObjective().getDescription());
 		turnOrder = new ArrayList<Player>();
 		for(Player p : session.getNonSpectators()) {
@@ -484,6 +481,18 @@ public class OverworldStage extends Stage {
 			t[i] = turnOrder.get((currentPlayer+ i) % t.length);
 		}
 		return t;
+	}
+
+	public RNG getHitRNG() {
+		return hitRNG;
+	}
+
+	public RNG getCritRNG() {
+		return critRNG;
+	}
+
+	public RNG getSkillRNG() {
+		return skillRNG;
 	}
 
 }

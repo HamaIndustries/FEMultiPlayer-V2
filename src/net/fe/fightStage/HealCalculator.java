@@ -1,6 +1,8 @@
 package net.fe.fightStage;
 
 import java.util.function.Function;
+
+import net.fe.rng.SimpleRNG;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
 
@@ -18,7 +20,7 @@ public class HealCalculator extends CombatCalculator {
 	 * @param dereference A function that converts a UnitIdentifier into a Unit
 	 */
 	public HealCalculator(UnitIdentifier u1, UnitIdentifier u2, Function<UnitIdentifier, Unit> dereference) {
-		super(u1, u2, dereference);
+		super(u1, u2, dereference, new SimpleRNG(), new SimpleRNG(), new SimpleRNG());
 	}
 	
 	/* (non-Javadoc)

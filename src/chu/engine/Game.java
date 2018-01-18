@@ -120,11 +120,8 @@ public abstract class Game {
 		Keyboard.poll();
 		keys.clear();
 		while(Keyboard.next()) {
-			KeyboardEvent ke = new KeyboardEvent(
-					Keyboard.getEventKey(),
-					Keyboard.getEventCharacter(),
-					Keyboard.isRepeatEvent(),
-					Keyboard.getEventKeyState());
+			KeyboardEvent ke = new KeyboardEvent(Keyboard.getEventKey(), Keyboard.getEventCharacter(),
+	        Keyboard.isRepeatEvent(), Keyboard.getEventKeyState(), KeyboardEvent.generateModifiers());
 			keys.add(ke);
 		}
 		Mouse.poll();

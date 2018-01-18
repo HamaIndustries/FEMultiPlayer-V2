@@ -1,6 +1,6 @@
 package net.fe.fightStage;
 
-import net.fe.RNG;
+import net.fe.rng.RNG;
 import net.fe.unit.Unit;
 
 // TODO: Auto-generated Javadoc
@@ -37,8 +37,8 @@ public class Deadeye extends CombatTrigger {
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
-	public boolean attempt(Unit user, int range, Unit opponent) {
-		return RNG.get() < user.getStats().skl;
+	public boolean attempt(Unit user, int range, Unit opponent, RNG rng) {
+		return rng.test(user.getStats().skl);
 	}
 
 	/* (non-Javadoc)

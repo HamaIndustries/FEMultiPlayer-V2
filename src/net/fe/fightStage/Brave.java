@@ -1,5 +1,6 @@
 package net.fe.fightStage;
 
+import net.fe.rng.RNG;
 import net.fe.unit.Unit;
 
 // TODO: Auto-generated Javadoc
@@ -22,7 +23,7 @@ public class Brave extends CombatTrigger{
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
-	public boolean attempt(Unit user, int range, Unit opponent) {
+	public boolean attempt(Unit user, int range, Unit opponent, RNG rng) {
 		return true;
 	}
 

@@ -1,6 +1,6 @@
 package net.fe.fightStage;
 
-import net.fe.RNG;
+import net.fe.rng.RNG;
 import net.fe.unit.Unit;
 
 // TODO: Auto-generated Javadoc
@@ -29,9 +29,9 @@ public class Lethality extends CombatTrigger {
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
-	public boolean attempt(Unit user, int range, Unit opponent) {
+	public boolean attempt(Unit user, int range, Unit opponent, RNG rng) {
 		return (!opponent.getTheClass().name.equals("Lord")) &&
-				RNG.get() < user.getStats().skl / 3;
+				rng.test(user.getStats().skl / 3);
 	}
 
 	/* (non-Javadoc)
