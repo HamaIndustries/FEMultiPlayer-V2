@@ -340,6 +340,7 @@ public class FEMultiplayer extends Game{
 				currentStage.endStep();
 			glPopMatrix();
 			Display.update();
+			Display.sync(FEResources.getTargetFPS());
 			timeDelta = System.nanoTime()-time;
 		}
 		AL.destroy();
