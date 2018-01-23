@@ -325,6 +325,7 @@ public class FEResources {
 		defaultProps.setProperty("VOLUME","1.0");
 		defaultProps.setProperty("SCALE","1.0");
 		defaultProps.setProperty("AUTOCURSOR", "START");
+		defaultProps.setProperty("TARGETFPS", "60");
 		
 		// music
 		defaultProps.setProperty("CURING","curing");
@@ -455,6 +456,10 @@ public class FEResources {
 		String scaleStr = getProperties().getProperty("SCALE"); 
 		float scale = Float.parseFloat(scaleStr);
 		return scale;
+	}
+	
+	public static int getTargetFPS() {
+		return Integer.parseInt(getProperties().getProperty("TARGETFPS"));
 	}
 	
 	/**
