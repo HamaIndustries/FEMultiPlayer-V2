@@ -97,7 +97,7 @@ public class ClientOverworldStage extends OverworldStage {
 	private final Queue<Message> pendingMessages;
 	
 	private FogOption fogOption = FogOption.NONE;
-	private Fog fog = new Fog(new HashSet<Node>());
+	private Fog fog;
 	
 	public static final float TILE_DEPTH = 0.95f;
 	public static final float ZONE_DEPTH = 0.9f;
@@ -265,8 +265,10 @@ public class ClientOverworldStage extends OverworldStage {
 	 */
 	@Override
 	public void beginStep(List<Message> messages) {
-		updateFog();
+		
 		//TODO only update if necessary
+		updateFog();
+		
 		messages.forEach(pendingMessages::add);
 		while (runningMessagesCount == 0 && pendingMessages.peek() != null) {
 			super.executeMessage(pendingMessages.poll());
@@ -666,7 +668,7 @@ public class ClientOverworldStage extends OverworldStage {
 		if (fogOption != FogOption.NONE) {
 			Set<Node> nodes = Zone.all(grid);
 			for(Unit unit : getAllUnits())
-				if(FEMultiplayer.getLocalPlayer().getParty().isAlly(unit.getParty()))
+				if(FEMultiplayer.getLocalPlayer().getParty().isAlly(unit.getParty()) && unit.getHp() > 0)
 					for(int i = 0; i <= unit.getTheClass().sight; i++)
 						for(int j = 0; j <= unit.getTheClass().sight - i; j++) {
 							nodes.remove(new Node(unit.getOrigX() + i, unit.getOrigY() + j));
@@ -683,7 +685,7 @@ public class ClientOverworldStage extends OverworldStage {
 	}
 	
 	public static enum FogOption {
-		NONE("Disabled"), GBA("FE 6-12"); //TODO FE7
+		NONE("Disabled"), GBA("FE 6-12"); //TODO FE5
 		
 		private String representation;
 		
