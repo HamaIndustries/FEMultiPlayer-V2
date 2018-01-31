@@ -35,7 +35,6 @@ import net.fe.network.command.MoveCommand;
 import net.fe.network.message.CommandMessage;
 import net.fe.network.message.EndTurn;
 import net.fe.overworldStage.Zone.Fog;
-import net.fe.overworldStage.Zone.ZoneType;
 import net.fe.overworldStage.context.Idle;
 import net.fe.overworldStage.context.WaitForMessages;
 import net.fe.transition.OverworldEndTransition;
@@ -66,9 +65,6 @@ public class ClientOverworldStage extends OverworldStage {
 	
 	/** The repeat timers. */
 	private float[] repeatTimers;
-	
-	/** The mov y. */
-	private int movX, movY;
 	
 	/** The selected unit. */
 	private Unit selectedUnit;
@@ -463,8 +459,6 @@ public class ClientOverworldStage extends OverworldStage {
 	 */
 	private void clearCmdString(){
 		selectedUnit = null;
-		movX = 0;
-		movY = 0;
 		currentCmdString.clear();
 	}
 	
@@ -512,24 +506,6 @@ public class ClientOverworldStage extends OverworldStage {
 		}
 	}
 	
-	/**
-	 * Sets the mov x.
-	 *
-	 * @param x the new mov x
-	 */
-	public void setMovX(int x){
-		movX = x;
-	}
-	
-	/**
-	 * Sets the mov y.
-	 *
-	 * @param y the new mov y
-	 */
-	public void setMovY(int y){
-		movY = y;
-	}
-	
 	/* (non-Javadoc)
 	 * @see net.fe.overworldStage.OverworldStage#checkEndGame()
 	 */
@@ -557,7 +533,7 @@ public class ClientOverworldStage extends OverworldStage {
 		UnitIdentifier uid = null;
 		if(selectedUnit != null) {
 			uid = new UnitIdentifier(selectedUnit);
-			currentCmdString.add(0, new MoveCommand(movX, movY, selectedUnit.getMove()));
+			currentCmdString.add(0, new MoveCommand(selectedUnit.getMove()));
 		}
 		FEMultiplayer.send(uid, currentCmdString.toArray(new Command[0]));
 		clearCmdString();

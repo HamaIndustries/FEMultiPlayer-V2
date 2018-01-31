@@ -14,13 +14,9 @@ public final class MoveCommand extends Command {
 	
 	private static final long serialVersionUID = 6468268282716381357L;
 	
-	private final int moveX;
-	private final int moveY;
 	private final Node[] path;
 	
-	public MoveCommand(int moveX, int moveY, Node[] path) {
-		this.moveX = moveX;
-		this.moveY = moveY;
+	public MoveCommand(Node[] path) {
 		this.path = path;
 	}
 	
@@ -28,7 +24,7 @@ public final class MoveCommand extends Command {
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit unit) {
 		
 		//TODO: validate
-		stage.grid.move(unit, unit.getXCoord() + moveX, unit.getYCoord() + moveY, false);
+		stage.grid.move(unit, unit.getXCoord() + path[path.length - 1].x, unit.getYCoord() + path[path.length - 1].y, false);
 		return null;
 	}
 	
@@ -39,7 +35,7 @@ public final class MoveCommand extends Command {
 			public void run() {
 				Path p = new Path();
 				p.setNodes(path);
-				stage.grid.move(unit, unit.getXCoord()+moveX, unit.getYCoord()+moveY, true);
+				stage.grid.move(unit, unit.getXCoord()+path[path.length - 1].x, unit.getYCoord()+path[path.length - 1].y, true);
 				unit.move(p, callback);
 				stage.includeInView(p.getAllNodes());
 			}
@@ -48,6 +44,6 @@ public final class MoveCommand extends Command {
 	
 	@Override
 	public String toString() {
-		return "Move[" + moveX + "," + moveY + "]";
+		return "Move[" + path[path.length - 1].x + "," + path[path.length - 1].y + "]";
 	}
 }

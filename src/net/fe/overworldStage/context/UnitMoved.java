@@ -69,8 +69,6 @@ public class UnitMoved extends MenuContext<String> {
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
 		
-		stage.setMovX(unit.getXCoord() - unit.getOrigX());
-		stage.setMovY(unit.getYCoord() - unit.getOrigY());
 	}
 	
 	/* (non-Javadoc)
@@ -141,9 +139,6 @@ public class UnitMoved extends MenuContext<String> {
 			return; // You can't cancel this.
 		}
 		super.onCancel();
-		// clear variables set by starting the context
-		stage.setMovX(0);
-		stage.setMovY(0);
 	}
 
 	/**
