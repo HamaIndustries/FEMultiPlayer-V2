@@ -1,18 +1,16 @@
 package net.fe.fightStage;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.logging.Logger;
 import java.util.function.Function;
-import java.time.LocalDateTime;
+import java.util.logging.Logger;
 
-import net.fe.FEMultiplayer;
-import net.fe.RNG;
-import net.fe.network.FEServer;
 import net.fe.overworldStage.Grid;
+import net.fe.rng.RNG;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
 import net.fe.unit.Weapon;
@@ -53,6 +51,10 @@ public class CombatCalculator {
 	/** The attack triggers, weapon and unit skills */
 	private ArrayList<CombatTrigger> leftTriggers, rightTriggers;
 	
+	private RNG hitRNG;
+	private RNG critRNG;
+	private RNG skillRNG;
+	
 	/**
 	 * Instantiates a new combat calculator.
 	 *
@@ -60,7 +62,11 @@ public class CombatCalculator {
 	 * @param u2 the unit id of fighter 2
 	 * @param dereference A function that converts a UnitIdentifier into a Unit
 	 */
-	public CombatCalculator(UnitIdentifier u1, UnitIdentifier u2, Function<UnitIdentifier, Unit> dereference){
+	public CombatCalculator(UnitIdentifier u1, UnitIdentifier u2, Function<UnitIdentifier, Unit> dereference, RNG hitRNG, RNG critRNG, RNG skillRNG){
+		
+		this.hitRNG = hitRNG;
+		this.critRNG = critRNG;
+		this.skillRNG = skillRNG;
 		
 		left = dereference.apply(u1);
 		right = dereference.apply(u2);
@@ -174,12 +180,17 @@ public class CombatCalculator {
 	 * @param currentEffect the current effect
 	 */
 	private void attack(boolean leftAttacking, String currentEffect, Weapon leftWeap, Weapon rightWeap) {
-		Unit a = leftAttacking?left: right;
-		Unit d = leftAttacking?right: left;
+		Unit a = leftAttacking ? left: right;
+		Unit d = leftAttacking ? right: left;
+		
 		Weapon aWeap = leftAttacking ? leftWeap : rightWeap;
-		List<CombatTrigger> aTriggers = leftAttacking?leftTriggers: rightTriggers;
-		List<CombatTrigger> dTriggers = leftAttacking?rightTriggers: leftTriggers;
-		if(!shouldAttack(a, d, aWeap, range)) return;
+		
+		List<CombatTrigger> aTriggers = leftAttacking ? leftTriggers: rightTriggers;
+		List<CombatTrigger> dTriggers = leftAttacking ? rightTriggers: leftTriggers;
+		
+		if(!shouldAttack(a, d, aWeap, range))
+			return;
+		
 		int damage = 0;
 		int drain = 0;
 		String animation = "Attack";
@@ -187,21 +198,16 @@ public class CombatCalculator {
 		boolean use = false;
 		int crit = 1;
 
-		if (a.getHp() == 0 || d.getHp() == 0) {
+		if (a.getHp() == 0 || d.getHp() == 0)
 			return;
-		}
 
-		LinkedHashMap<CombatTrigger, Boolean> aSuccess = 
-				new LinkedHashMap<CombatTrigger, Boolean>();
-		LinkedHashMap<CombatTrigger, Boolean> dSuccess = 
-				new LinkedHashMap<CombatTrigger, Boolean>();
+		LinkedHashMap<CombatTrigger, Boolean> aSuccess = new LinkedHashMap<CombatTrigger, Boolean>();
+		LinkedHashMap<CombatTrigger, Boolean> dSuccess = new LinkedHashMap<CombatTrigger, Boolean>();
 		
-		for (CombatTrigger t : aTriggers) {
-			aSuccess.put(t,t.attempt(a, range, d));
-		}
-		for (CombatTrigger t : dTriggers) {
-			dSuccess.put(t,t.attempt(d, range, a));
-		}
+		for (CombatTrigger t : aTriggers)
+			aSuccess.put(t, t.attempt(a, range, d, skillRNG));
+		for (CombatTrigger t : dTriggers)
+			dSuccess.put(t, t.attempt(d, range, a, skillRNG));
 		
 		
 
@@ -209,7 +215,7 @@ public class CombatCalculator {
 			if (aSuccess.get(t) && (t.turnToRun & CombatTrigger.YOUR_TURN_PRE)!=0) {
 				t.runPreAttack(this, a, d);
 				if (t.nameModification == CombatTrigger.REPLACE_NAME_AFTER_PRE) {
-					animation = t.getName() + "(a)";
+					animation += " " + t.getName() + "(a)";
 				}
 			}
 		}	
@@ -217,13 +223,13 @@ public class CombatCalculator {
 			if (dSuccess.get(t) && (t.turnToRun & CombatTrigger.ENEMY_TURN_PRE)!=0) {
 				t.runPreAttack(this, a, d);
 				if (t.nameModification == CombatTrigger.REPLACE_NAME_AFTER_PRE) {
-					animation = t.getName() + "(d)";
+					animation += " " + t.getName() + "(d)";
 				}
 			}
 		}
 		
 		
-		if (!((RNG.get()+RNG.get())/2 < hitRate(a, d))) {
+		if (!hitRNG.test(hitRate(a, d))) {
 			miss = true;
 			if (a.getWeapon().isMagic())
 				use = true;
@@ -231,7 +237,7 @@ public class CombatCalculator {
 			use = true;
 		}
 		
-		if (RNG.get() < a.crit() - d.dodge() && !miss) {
+		if (critRNG.test(a.crit() - d.dodge()) && !miss) {
 			crit = 3;
 			animation += " Critical(a)";
 		}

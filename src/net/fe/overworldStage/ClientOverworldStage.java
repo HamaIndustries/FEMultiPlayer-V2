@@ -5,39 +5,10 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.Queue;
 import java.util.HashSet;
-import java.util.HashMap;
-
-import net.fe.FEMultiplayer;
-import net.fe.FEResources;
-import net.fe.Party;
-import net.fe.Player;
-import net.fe.RunesBg;
-import net.fe.Session;
-import net.fe.SoundTrack;
-import net.fe.editor.Level;
-import net.fe.editor.SpawnPoint;
-import net.fe.fightStage.FightStage;
-import net.fe.network.Message;
-import net.fe.network.command.Command;
-import net.fe.network.command.AttackCommand;
-import net.fe.network.command.HealCommand;
-import net.fe.network.command.MoveCommand;
-import net.fe.network.message.CommandMessage;
-import net.fe.network.message.EndTurn;
-import net.fe.overworldStage.context.Idle;
-import net.fe.overworldStage.context.TradeContext;
-import net.fe.overworldStage.context.WaitForMessages;
-import net.fe.transition.OverworldFightTransition;
-import net.fe.transition.OverworldEndTransition;
-import net.fe.unit.Item;
-import net.fe.unit.MapAnimation;
-import net.fe.unit.RiseTome;
-import net.fe.unit.Unit;
-import net.fe.unit.UnitIdentifier;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
@@ -47,6 +18,29 @@ import chu.engine.Entity;
 import chu.engine.Game;
 import chu.engine.KeyboardEvent;
 import chu.engine.anim.AudioPlayer;
+import net.fe.FEMultiplayer;
+import net.fe.FEResources;
+import net.fe.Party;
+import net.fe.Player;
+import net.fe.RunesBg;
+import net.fe.Session;
+import net.fe.SoundTrack;
+import net.fe.editor.Level;
+import net.fe.editor.SpawnPoint;
+import net.fe.network.Message;
+import net.fe.network.command.AttackCommand;
+import net.fe.network.command.Command;
+import net.fe.network.command.HealCommand;
+import net.fe.network.command.MoveCommand;
+import net.fe.network.message.CommandMessage;
+import net.fe.network.message.EndTurn;
+import net.fe.overworldStage.Zone.Fog;
+import net.fe.overworldStage.context.Idle;
+import net.fe.overworldStage.context.WaitForMessages;
+import net.fe.transition.OverworldEndTransition;
+import net.fe.unit.MapAnimation;
+import net.fe.unit.Unit;
+import net.fe.unit.UnitIdentifier;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -71,9 +65,6 @@ public class ClientOverworldStage extends OverworldStage {
 	
 	/** The repeat timers. */
 	private float[] repeatTimers;
-	
-	/** The mov y. */
-	private int movX, movY;
 	
 	/** The selected unit. */
 	private Unit selectedUnit;
@@ -101,33 +92,22 @@ public class ClientOverworldStage extends OverworldStage {
 	/** Messages that this has recieved but not yet executed */
 	private final Queue<Message> pendingMessages;
 	
-	/** The Constant TILE_DEPTH. */
+	private FogOption fogOption = FogOption.NONE;
+	private Fog fog;
+	
 	public static final float TILE_DEPTH = 0.95f;
-	
-	/** The Constant ZONE_DEPTH. */
 	public static final float ZONE_DEPTH = 0.9f;
-	
-	/** The Constant PATH_DEPTH. */
+	public static final float FOG_DEPTH = 0.91f;
 	public static final float PATH_DEPTH = 0.8f;
-	
-	/** The Constant UNIT_DEPTH. */
 	public static final float UNIT_DEPTH = 0.6f;
-	
-	/** The Constant UNIT_MAX_DEPTH. */
 	public static final float UNIT_MAX_DEPTH = 0.5f;
-	
-	/** The Constant CHAT_DEPTH. */
 	public static final float CHAT_DEPTH = 0.3f;
-	
-	/** The Constant MENU_DEPTH. */
-	public static final float MENU_DEPTH = 0.2f;
-	
-	/** The Constant CURSOR_DEPTH. */
+	public static final float MENU_DEPTH = 0.1f;
 	public static final float CURSOR_DEPTH = 0.15f;
 	
 	/** The Constant RIGHT_AXIS. */
 	public static final int RIGHT_AXIS = 480 - ObjectiveInfo.WIDTH/2 -2;
-
+	
 	/**
 	 * Instantiates a new client overworld stage.
 	 *
@@ -135,6 +115,12 @@ public class ClientOverworldStage extends OverworldStage {
 	 */
 	public ClientOverworldStage(Session s) {
 		super(s);
+		
+		
+		fogOption = s.getFogOption();
+		fog = new Fog(new HashSet<Node>());
+		addEntity(fog);
+		
 		camX = camY = 0;
 		camMaxX = Math.max(0,grid.width*16-368);
 		camMaxY = Math.max(0,grid.height*16-240);
@@ -275,6 +261,10 @@ public class ClientOverworldStage extends OverworldStage {
 	 */
 	@Override
 	public void beginStep(List<Message> messages) {
+		
+		//TODO only update if necessary
+		updateFog();
+		
 		messages.forEach(pendingMessages::add);
 		while (runningMessagesCount == 0 && pendingMessages.peek() != null) {
 			super.executeMessage(pendingMessages.poll());
@@ -430,7 +420,7 @@ public class ClientOverworldStage extends OverworldStage {
 			if (FEResources.getAutoCursor().applyAtStartOfLocalTurn) {
 				List<Unit> units = FEMultiplayer.getLocalPlayer().getParty().getUnits();
 				Node[] n = units.stream()
-						.filter((Unit u) -> u.getHp() > 0 && !u.isRescued())
+						.filter((Unit u) -> u.getHp() > 0 && !u.isRescued() && u.isVisible(this))
 						.map((Unit u) -> new Node(u.getXCoord(), u.getYCoord()))
 						.toArray(Node[]::new);
 				if (n.length > 0) {
@@ -449,7 +439,7 @@ public class ClientOverworldStage extends OverworldStage {
 			if (FEResources.getAutoCursor().applyAtStartOfOtherTurn) {
 				List<Unit> units = this.getCurrentPlayer().getParty().getUnits();
 				Node[] n = units.stream()
-						.filter((Unit u) -> u.getHp() > 0 && !u.isRescued())
+						.filter((Unit u) -> u.getHp() > 0 && !u.isRescued() && u.isVisible(this))
 						.map((Unit u) -> new Node(u.getXCoord(), u.getYCoord()))
 						.toArray(Node[]::new);
 				if (n.length > 0) {
@@ -473,8 +463,6 @@ public class ClientOverworldStage extends OverworldStage {
 	 */
 	private void clearCmdString(){
 		selectedUnit = null;
-		movX = 0;
-		movY = 0;
 		currentCmdString.clear();
 	}
 	
@@ -522,24 +510,6 @@ public class ClientOverworldStage extends OverworldStage {
 		}
 	}
 	
-	/**
-	 * Sets the mov x.
-	 *
-	 * @param x the new mov x
-	 */
-	public void setMovX(int x){
-		movX = x;
-	}
-	
-	/**
-	 * Sets the mov y.
-	 *
-	 * @param y the new mov y
-	 */
-	public void setMovY(int y){
-		movY = y;
-	}
-	
 	/* (non-Javadoc)
 	 * @see net.fe.overworldStage.OverworldStage#checkEndGame()
 	 */
@@ -567,7 +537,7 @@ public class ClientOverworldStage extends OverworldStage {
 		UnitIdentifier uid = null;
 		if(selectedUnit != null) {
 			uid = new UnitIdentifier(selectedUnit);
-			currentCmdString.add(0, new MoveCommand(movX, movY));
+			currentCmdString.add(0, new MoveCommand(selectedUnit.getMove()));
 		}
 		FEMultiplayer.send(uid, currentCmdString.toArray(new Command[0]));
 		clearCmdString();
@@ -642,7 +612,7 @@ public class ClientOverworldStage extends OverworldStage {
 	 * @return the hovered unit
 	 */
 	public Unit getHoveredUnit() {
-		return getUnit(cursor.getXCoord(), cursor.getYCoord());
+		return getVisibleUnit(cursor.getXCoord(), cursor.getYCoord());
 	}
 	
 	/**
@@ -679,5 +649,43 @@ public class ClientOverworldStage extends OverworldStage {
 	 */
 	public void setUnitInfoUnit(Unit u) {
 		this.unitInfo.setUnit(u);
+	}
+	
+	private void updateFog() {
+		if (fogOption != FogOption.NONE) {
+			Set<Node> nodes = Zone.all(grid);
+			for(Unit unit : getAllUnits())
+				if(FEMultiplayer.getLocalPlayer().getParty().isAlly(unit.getParty()) && unit.getHp() > 0)
+					for(int i = 0; i <= unit.getTheClass().sight; i++)
+						for(int j = 0; j <= unit.getTheClass().sight - i; j++) {
+							nodes.remove(new Node(unit.getOrigX() + i, unit.getOrigY() + j));
+							nodes.remove(new Node(unit.getOrigX() + i, unit.getOrigY() - j));
+							nodes.remove(new Node(unit.getOrigX() - i, unit.getOrigY() + j));
+							nodes.remove(new Node(unit.getOrigX() - i, unit.getOrigY() - j));
+						}
+			fog.setNodes(nodes);
+		}
+	}
+	
+	public Zone getFog() {
+		return fog;
+	}
+	
+	public static enum FogOption {
+		NONE("Disabled"), GBA("FE 6-12"); //TODO FE5
+		
+		private String representation;
+		
+		private FogOption() {
+			representation = name();
+		}
+		private FogOption(String representation) {
+			this.representation = representation;
+		}
+		
+		@Override
+		public String toString() {
+			return representation;
+		}
 	}
 }

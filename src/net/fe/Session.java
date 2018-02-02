@@ -6,18 +6,22 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.fe.modifier.Modifier;
 import net.fe.network.Chat;
 import net.fe.network.Message;
 import net.fe.network.message.ChatMessage;
-import net.fe.network.message.JoinTeam;
 import net.fe.network.message.JoinLobby;
+import net.fe.network.message.JoinTeam;
 import net.fe.network.message.KickMessage;
 import net.fe.network.message.QuitMessage;
-import net.fe.modifier.Modifier;
+import net.fe.overworldStage.ClientOverworldStage.FogOption;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.overworldStage.objective.Rout;
 import net.fe.pick.Draft;
 import net.fe.pick.PickMode;
+import net.fe.rng.RNG;
+import net.fe.rng.SimpleRNG;
+import net.fe.rng.TrueHitRNG;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -51,17 +55,29 @@ public final class Session implements Serializable {
 	/** The pick mode. */
 	private final PickMode pickMode;
 	
+	private final RNG hitRNG;
+	private final RNG critRNG;
+	private final RNG skillRNG;
+	
+	private final FogOption fogOption;
+	
 	/**
 	 * Instantiates a new session with default values.
 	 */
 	public Session() {
-		this(new Rout(), "test", 8, new HashSet<>(), new Draft());
+		this(new Rout(), "test", 8, new HashSet<>(), new Draft(), new TrueHitRNG(), new SimpleRNG(), new SimpleRNG(), FogOption.NONE);
 	}
 	
 	/**
 	 * Instantiates a new session with the specified values
 	 */
-	public Session(Objective objective, String map, int maxUnits, Set<Modifier> modifiers, PickMode pickMode) {
+	public Session(Objective objective, String map, int maxUnits, Set<Modifier> modifiers, PickMode pickMode,
+			RNG hitRNG, RNG critRNG, RNG skillRNG, FogOption fogOption) {
+
+		this.hitRNG = hitRNG;
+		this.critRNG = critRNG;
+		this.skillRNG = skillRNG;
+		
 		players = new HashMap<Byte, Player>();
 		this.chatlog = new Chat();
 		this.objective = objective;
@@ -69,6 +85,7 @@ public final class Session implements Serializable {
 		this.maxUnits = maxUnits;
 		this.map = map;
 		this.pickMode = pickMode;
+		this.fogOption = fogOption;
 	}
 	
 	/**
@@ -245,6 +262,22 @@ public final class Session implements Serializable {
 			ChatMessage chatMsg = (ChatMessage)message;
 			this.getChatlog().add(this.getPlayer(chatMsg.origin), chatMsg.text);
 		}
+	}
+
+	public RNG getHitRNG() {
+		return hitRNG;
+	}
+
+	public RNG getCritRNG() {
+		return critRNG;
+	}
+
+	public RNG getSkillRNG() {
+		return skillRNG;
+	}
+
+	public FogOption getFogOption() {
+		return fogOption;
 	}
 	
 }

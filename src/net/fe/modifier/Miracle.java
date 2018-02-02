@@ -1,6 +1,7 @@
 package net.fe.modifier;
 
 import net.fe.fightStage.CombatTrigger;
+import net.fe.rng.RNG;
 import net.fe.unit.Unit;
 
 // TODO: Auto-generated Javadoc
@@ -23,7 +24,7 @@ public class Miracle extends CombatTrigger {
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
-	public boolean attempt(Unit user, int range, Unit opponent) {
+	public boolean attempt(Unit user, int range, Unit opponent, RNG rng) {
 		if(user.getHp() == 1) return false;
 		return true;
 	}

@@ -5517,6 +5517,10 @@
 			"path":		"res/gui/move_arrows.png"
 		},
 		{
+			"name":		"optionIcon",
+			"path":		"res/gui/optionIcon.png"
+		},
+		{
 			"name":		"player_phase",
 			"path":		"res/gui/player_phase.png"
 		},

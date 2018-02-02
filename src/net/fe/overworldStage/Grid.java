@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.newdawn.slick.Color;
 
+import net.fe.FEMultiplayer;
 import net.fe.Party;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
@@ -158,6 +159,20 @@ public class Grid{
 	}
 	
 	/**
+	 * Returns the unit at the given position. If the unit is not visible, returns null instead (as if there was nothing there).
+	 * @param x The x coordinate of the position.
+	 * @param y The y coordinate of the position.
+	 * @return The unit at the gven point, or null.
+	 */
+	public Unit getVisibleUnit(int x, int y) {
+		if(!(FEMultiplayer.getCurrentStage() instanceof ClientOverworldStage))
+			return grid[y][x];
+		if(grid[y][x] != null && grid[y][x].isVisible((ClientOverworldStage)FEMultiplayer.getCurrentStage()))
+			return grid[y][x];
+		return null;
+	}
+	
+	/**
 	 * Returns true if the grid contains a space at (x,y).
 	 */
 	public boolean contains(int x, int y) {
@@ -207,7 +222,7 @@ public class Grid{
 	}
 	
 	public Path improvePath(Unit unit, int x, int y, Path p) {
-		if (grid[y][x] != null && grid[y][x] != unit)
+		if (getVisibleUnit(x, y) != null && getVisibleUnit(x, y) != unit)
 			return null;
 		
 		if (p == null)
@@ -250,7 +265,7 @@ public class Grid{
 	 * @return the shortest path
 	 */
 	public Path getShortestPath(Unit unit, int x, int y) {
-		if(grid[y][x] != null && grid[y][x] != unit) return null;
+		if(getVisibleUnit(x, y) != null && !getVisibleUnit(x, y).equals(unit)) return null;
 		int move = unit.getStats().mov;
 		Set<Node> closed = new HashSet<Node>();
 		Set<Node> open = new HashSet<Node>();
@@ -279,9 +294,8 @@ public class Grid{
 				for(Node o : open) {
 					if(o.equals(n)) n = o;
 				}
-				int g = cur.g
-						+ terrain[n.y][n.x].getMoveCost(unit.getTheClass());
-				if(grid[n.y][n.x] != null && grid[n.y][n.x].getParty() != unit.getParty()) {
+				int g = cur.g + terrain[n.y][n.x].getMoveCost(unit.getTheClass());
+				if(getVisibleUnit(n.x, n.y) != null && !getVisibleUnit(n.x, n.y).getParty().isAlly(unit.getParty())) {
 					g += 128;
 				}
 				int f = g + heuristic(n, goal);
@@ -324,7 +338,7 @@ public class Grid{
 			for(Node n: curr.getNeighbors(this)){
 				if(!set.contains(n)){
 					n.d = curr.d + terrain[n.y][n.x].getMoveCost(u.getTheClass());
-					if(grid[n.y][n.x] != null && grid[n.y][n.x].getParty() != u.getParty()) {
+					if(getVisibleUnit(n.x, n.y) != null && !getVisibleUnit(n.x, n.y).getParty().isAlly(u.getParty())) {
 						n.d += 128;
 					}
 					if(n.d <= u.getStats().mov){
@@ -464,4 +478,5 @@ public class Grid{
 	public static int getDistance(Unit a, Unit b) {
 		return getDistance(a.getXCoord(), a.getYCoord(), b.getXCoord(), b.getYCoord());
 	}
+	
 }

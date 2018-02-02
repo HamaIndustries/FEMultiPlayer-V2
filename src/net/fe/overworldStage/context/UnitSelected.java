@@ -1,7 +1,9 @@
 package net.fe.overworldStage.context;
 
 import chu.engine.anim.AudioPlayer;
+import net.fe.network.command.WaitCommand;
 import net.fe.overworldStage.*;
+import net.fe.overworldStage.Zone.ZoneType;
 import net.fe.unit.Unit;
 
 // TODO: Auto-generated Javadoc
@@ -38,11 +40,9 @@ public class UnitSelected extends CursorContext {
 		super.startContext();
 		selected.sprite.setAnimation("DOWN");
 		grid.move(selected, selected.getOrigX(), selected.getOrigY(), false);
-		this.move = new Zone(grid.getPossibleMoves(selected), Zone.MOVE_DARK);
-		this.attack = Zone.minus(new Zone(grid.getAttackRange(selected),
-				Zone.ATTACK_DARK), move);
-		this.heal = Zone.minus(Zone.minus(new Zone(grid.getHealRange(selected),
-				Zone.HEAL_DARK), move), attack);
+		this.move = new Zone(grid.getPossibleMoves(selected), ZoneType.MOVE_DARK);
+		this.attack = new Zone(grid.getAttackRange(selected), ZoneType.ATTACK_DARK).minus(move);
+		this.heal = new Zone(grid.getHealRange(selected), ZoneType.HEAL_DARK).minus(move).minus(attack);
 		stage.addEntity(move);
 		stage.addEntity(attack);
 		stage.addEntity(heal);
@@ -69,17 +69,35 @@ public class UnitSelected extends CursorContext {
 	public void onSelect() {
 		if (path == null) return;
 		if (move.getNodes().contains(new Node(cursor.getXCoord(), cursor.getYCoord()))) {
-			grid.move(selected, cursor.getXCoord(),	cursor.getYCoord(), true);
+			
+			int invalidIndex = -1;
+			Node[] nodes = path.getAllNodes();
+			for(int i = 0; i < nodes.length; i++) {
+				System.out.println(grid.getUnit(nodes[i].x, nodes[i].y));
+				if (grid.getUnit(nodes[i].x, nodes[i].y) != null && !grid.getUnit(nodes[i].x, nodes[i].y).getParty().isAlly(selected.getParty())) {
+					//Bump
+					invalidIndex = i;
+					break;
+				}
+			}
+			
+			if(invalidIndex != -1)
+				path.truncate(invalidIndex);
+			
+			grid.move(selected, path.destination().x, path.destination().y, true);
 			stage.setControl(false);
 			AudioPlayer.playAudio("select");
-			selected.move(path, new Runnable() {
-				@Override
-				public void run() {
-					stage.setControl(true);
-					new UnitMoved(stage, UnitSelected.this,
-							selected, false, false).startContext();
-				}
+
+			final int localVariableInvalidIndexDefinedInAnEnclosingScopeMustBeFinalOrEffectivelyFinal = invalidIndex;
+			
+			selected.move(path, () -> {
+				stage.setControl(true);
+				UnitMoved context = new UnitMoved(stage, UnitSelected.this, selected, false, false);
+				context.startContext();
+				if(localVariableInvalidIndexDefinedInAnEnclosingScopeMustBeFinalOrEffectivelyFinal != -1)
+					context.performAction("Wait");
 			});
+
 			// We don't want to display the path/range while moving.
 			cleanUp();
 		}

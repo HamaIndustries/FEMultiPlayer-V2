@@ -32,6 +32,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
+import net.fe.FEResources;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -39,13 +40,12 @@ import org.lwjgl.opengl.DisplayMode;
  */
 public abstract class Game {
 	
-	/** The window width. */
-	protected static int windowWidth = 640;
+	/** The logical size of the game window */
+	private static int logicalWidth, logicalHeight;
+	/** The game window's scale */
+	private static float scale;
 	
-	/** The window height. */
-	protected static int windowHeight = 480;
-	
-	/** The keys. */
+	/** The keyboard events. */
 	private static List<KeyboardEvent> keys;
 	
 	/** The mouse events. */
@@ -65,8 +65,11 @@ public abstract class Game {
 	 * @param name the name
 	 */
 	public void init(int width, int height, String name) {
-		windowWidth = Math.round(width*net.fe.FEResources.getWindowScale());
-		windowHeight = Math.round(height*net.fe.FEResources.getWindowScale());
+		Game.logicalWidth = width;
+		Game.logicalHeight = height;
+		Game.scale = FEResources.getWindowScale();
+		final int windowWidth = Math.round(logicalWidth * scale);
+		final int windowHeight = Math.round(logicalHeight * scale);
 
 		try {
 			Display.setDisplayMode(new DisplayMode(windowWidth, windowHeight));
@@ -95,7 +98,7 @@ public abstract class Game {
 		glViewport(0, 0, windowWidth, windowHeight);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, windowWidth/net.fe.FEResources.getWindowScale(), windowHeight/net.fe.FEResources.getWindowScale(), 0, 1, -1);		//It's basically a camera
+		glOrtho(0, width, height, 0, 1, -1);		//It's basically a camera
 		glMatrixMode(GL_MODELVIEW);
 		
 		keys = new ArrayList<KeyboardEvent>();
@@ -117,11 +120,8 @@ public abstract class Game {
 		Keyboard.poll();
 		keys.clear();
 		while(Keyboard.next()) {
-			KeyboardEvent ke = new KeyboardEvent(
-					Keyboard.getEventKey(),
-					Keyboard.getEventCharacter(),
-					Keyboard.isRepeatEvent(),
-					Keyboard.getEventKeyState());
+			KeyboardEvent ke = new KeyboardEvent(Keyboard.getEventKey(), Keyboard.getEventCharacter(),
+	        Keyboard.isRepeatEvent(), Keyboard.getEventKeyState(), KeyboardEvent.generateModifiers());
 			keys.add(ke);
 		}
 		Mouse.poll();
@@ -165,21 +165,17 @@ public abstract class Game {
 	}
 	
 	/**
-	 * Gets the window width.
-	 *
-	 * @return the window width
+	 * Returns the physical width of the window on-screen
 	 */
 	public static int getWindowWidth() {
-		return windowWidth;
+		return Math.round(logicalWidth * scale);
 	}
 	
 	/**
-	 * Gets the window height.
-	 *
-	 * @return the window height
+	 * Returns the physical height of the window on-screen
 	 */
 	public static int getWindowHeight() {
-		return windowHeight;
+		return Math.round(logicalHeight * scale);
 	}
 
 	/**
@@ -197,7 +193,7 @@ public abstract class Game {
 	 * @return the scale x
 	 */
 	public static float getScaleX() {
-		return net.fe.FEResources.getWindowScale();
+		return scale;
 	}
 	
 	/**
@@ -206,6 +202,37 @@ public abstract class Game {
 	 * @return the scale y
 	 */
 	public static float getScaleY() {
-		return net.fe.FEResources.getWindowScale();
+		return scale;
+	}
+	
+	/**
+	 * Update window size for a new {@link FEResources#getWindowScale}
+	 */
+	public static void updateScale() {
+		if (Game.scale != FEResources.getWindowScale()) {
+			// This code will close the current window and open a new one,
+			// even if the window's size doesn't change.
+			// Hence the if; that will make the window reopen only happen when needed.
+			
+			Game.scale = FEResources.getWindowScale();
+			final int physicalWidth = Math.round(logicalWidth * scale);
+			final int physicalHeight = Math.round(logicalHeight * scale);
+			
+			try {
+				org.lwjgl.opengl.Display.setDisplayMode(
+					new org.lwjgl.opengl.DisplayMode(physicalWidth, physicalHeight)
+				);
+				
+				org.lwjgl.opengl.GL11.glViewport(0, 0, physicalWidth, physicalHeight);
+				
+				org.lwjgl.opengl.GL11.glMatrixMode(org.lwjgl.opengl.GL11.GL_PROJECTION);
+				org.lwjgl.opengl.GL11.glLoadIdentity();
+				org.lwjgl.opengl.GL11.glOrtho(0, logicalWidth, logicalHeight, 0, 1, -1);		//It's basically a camera
+				org.lwjgl.opengl.GL11.glMatrixMode(org.lwjgl.opengl.GL11.GL_MODELVIEW);
+			} catch (org.lwjgl.LWJGLException e) {
+				e.printStackTrace();
+				// hope that live-changing the display mode isn't *that* important
+			}
+		}
 	}
 }

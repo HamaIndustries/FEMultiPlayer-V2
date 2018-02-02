@@ -328,6 +328,7 @@ public class FEResources {
 		defaultProps.setProperty("VOLUME","1.0");
 		defaultProps.setProperty("SCALE","1.0");
 		defaultProps.setProperty("AUTOCURSOR", "START");
+		defaultProps.setProperty("TARGETFPS", "60");
 		
 		// music
 		defaultProps.setProperty("CURING","curing");
@@ -379,9 +380,28 @@ public class FEResources {
 				}
 			} catch (IOException e){
 				e.printStackTrace();
+				prop = getDefaultProperties();
 			}
 		}
 		return prop;
+	}
+	
+	/**
+	 * Stores a set of properties to disk
+	 *
+	 * @return true if the files were written to disk
+	 */
+	public static boolean writeProperties(java.util.Map<String, String> newProperties) {
+		Properties p = FEResources.getProperties();
+		p.putAll(newProperties);
+		
+		final File path = new File("app.config");
+		try(OutputStream out = new FileOutputStream(path, false)) {
+			p.store(out, "---Updated---");
+			return true;
+		} catch (IOException e) {
+			return false;
+		}
 	}
 	
 	/**
@@ -439,6 +459,10 @@ public class FEResources {
 		String scaleStr = getProperties().getProperty("SCALE"); 
 		float scale = Float.parseFloat(scaleStr);
 		return scale;
+	}
+	
+	public static int getTargetFPS() {
+		return Integer.parseInt(getProperties().getProperty("TARGETFPS"));
 	}
 	
 	/**

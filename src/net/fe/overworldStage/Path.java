@@ -1,13 +1,16 @@
 package net.fe.overworldStage;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
-import net.fe.FEResources;
 import chu.engine.Entity;
 import chu.engine.Game;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Tileset;
+import net.fe.FEResources;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -178,5 +181,23 @@ public class Path extends Entity{
 		Node[] nodes = new Node[path.size()];
 		path.toArray(nodes);
 		return nodes;
+	}
+	
+	public void setNodes(Node[] nodes) {
+		List<Node> temp = Arrays.asList(nodes);
+		path = new LinkedList<Node>();
+		path.addAll(temp);
+	}
+	
+	public void truncate(int n) {
+		ListIterator<Node> iterator = path.listIterator(n);
+		do {
+			iterator.next();
+			iterator.remove();
+		} while (iterator.hasNext());
+	}
+	
+	public Node destination() {
+		return path.getLast();
 	}
 }

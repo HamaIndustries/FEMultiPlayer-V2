@@ -4,25 +4,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
-
-import net.fe.FEResources;
-import net.fe.PaletteSwapper;
-import net.fe.Party;
-import net.fe.fightStage.CombatTrigger;
-import net.fe.overworldStage.Corpse;
-import net.fe.overworldStage.DoNotDestroy;
-import net.fe.overworldStage.Grid;
-import net.fe.overworldStage.Node;
-import net.fe.overworldStage.ClientOverworldStage;
-import net.fe.overworldStage.OverworldStage;
-import net.fe.overworldStage.Path;
-import net.fe.overworldStage.Terrain;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
@@ -32,6 +18,20 @@ import chu.engine.GriddedEntity;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.ShaderArgs;
 import chu.engine.anim.Transform;
+import net.fe.FEMultiplayer;
+import net.fe.FEResources;
+import net.fe.PaletteSwapper;
+import net.fe.Party;
+import net.fe.fightStage.CombatTrigger;
+import net.fe.overworldStage.ClientOverworldStage;
+import net.fe.overworldStage.Corpse;
+import net.fe.overworldStage.DoNotDestroy;
+import net.fe.overworldStage.Grid;
+import net.fe.overworldStage.Node;
+import net.fe.overworldStage.OverworldStage;
+import net.fe.overworldStage.Path;
+import net.fe.overworldStage.Terrain;
+import net.fe.overworldStage.Zone;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -110,6 +110,8 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 
 	/** The orig y. */
 	private int origX, origY;
+
+	private Node[] move;
 	
 	/** The Constant MAP_ANIM_SPEED. */
 	public static final float MAP_ANIM_SPEED = 0.2f;
@@ -224,6 +226,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 */
 	public void move(Path p, Runnable callback) {
 		this.path = p.getCopy();
+		move = p.getAllNodes();
 		this.callback = callback;
 	}
 	
@@ -393,7 +396,12 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 * @see chu.engine.Entity#render()
 	 */
 	public void render() {
+		
 		ClientOverworldStage cs = (ClientOverworldStage)stage;
+		
+		if(!isVisible(cs))
+			return;
+
 		Renderer.translate(-cs.camX, -cs.camY);
 		Renderer.addClip(0, 0, 368, 240, true);
 		
@@ -983,7 +991,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 * @param val the val
 	 */
 	public void setTempMod(String stat, int val) {
-		tempMods.put(stat, val);
+		tempMods.put(stat, (tempMods.containsKey(stat) ? tempMods.get(stat) : 0) + val);
 	}
 	
 	/**
@@ -1178,11 +1186,21 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		return this.rescued;
 	}
 	
+	public boolean isVisible(ClientOverworldStage stage) {
+		if(FEMultiplayer.getLocalPlayer().getParty().isAlly(team))
+			return true;
+		return !stage.getFog().getNodes().contains(new Node(xcoord, ycoord));
+	}
+	
 	@Override public int hashCode() {
 		return ((((
 			this.name.hashCode()) * 31 +
 			this.bases.hashCode()) * 31 +
 			this.growths.hashCode()) * 31 +
 			this.clazz.hashCode());
+	}
+	
+	public Node[] getMove() {
+		return move;
 	}
 }
