@@ -1,12 +1,17 @@
 package net.fe.overworldStage.context;
 
-import net.fe.overworldStage.OverworldContext;
+import net.fe.network.command.Command;
+import net.fe.network.command.ShoveCommand;
+import net.fe.network.command.SmiteCommand;
+import net.fe.network.command.WaitCommand;
 import net.fe.overworldStage.ClientOverworldStage;
+import net.fe.overworldStage.OverworldContext;
 import net.fe.overworldStage.SelectTargetContext;
 import net.fe.overworldStage.Zone;
+import net.fe.overworldStage.fieldskill.Shove;
+import net.fe.overworldStage.fieldskill.Smite;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
-import net.fe.network.command.SmiteCommand;
 
 /**
  * An overworld context in which a target for the Shove action is selected
@@ -29,12 +34,18 @@ public final class SmiteTarget extends SelectTargetContext {
 	@Override
 	public boolean validTarget(Unit u){
 		// can shove either allies or enemies, as long as the con is sufficiently high
-		return net.fe.overworldStage.fieldskill.Smite.canSmite(this.stage.grid, this.unit, u);
+		return Smite.canSmiteWithFog(this.stage.grid, this.unit, u);
 	}
 	
 	@Override
 	public void unitSelected(Unit u) {
-		SmiteCommand c = new SmiteCommand(new UnitIdentifier(u));
+		Command c;
+		if(Smite.canSmite(this.stage.grid, this.unit, u))
+			c = new SmiteCommand(new UnitIdentifier(u));
+		else if(Shove.canShove(this.stage.grid, this.unit, u))
+			c = new ShoveCommand(new UnitIdentifier(u));
+		else
+			c = new WaitCommand();
 		stage.addCmd(c);
 		c.applyClient(stage, unit, null, new EmptyRunnable()).run();
 		stage.send();

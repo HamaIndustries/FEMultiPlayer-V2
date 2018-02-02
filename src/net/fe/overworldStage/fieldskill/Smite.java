@@ -9,6 +9,7 @@ import net.fe.overworldStage.Node;
 import net.fe.overworldStage.OverworldContext;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.Zone;
+import net.fe.overworldStage.Zone.ZoneType;
 import net.fe.overworldStage.Grid;
 import net.fe.overworldStage.Path;
 
@@ -45,6 +46,20 @@ public final class Smite extends FieldSkill {
 		return false;
 	}
 	
+	@Override
+	public boolean allowedWithFog(Unit unit, Grid grid) {
+		Set<Node> range = grid.getRange(new Node(unit.getXCoord(), unit.getYCoord()), 1);
+		for (Node n : range) {
+			Unit shovee = grid.getUnit(n.x, n.y);
+			if (shovee != null) {
+				if (canSmiteWithFog(grid, unit, shovee)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Returns the context to start when this command is selected
 	 */
@@ -57,7 +72,7 @@ public final class Smite extends FieldSkill {
 	public Zone getZone(Unit unit, Grid grid) {
 		return new Zone(grid.getRange(
 					new Node(unit.getXCoord(), unit.getYCoord()), 1),
-					Zone.MOVE_DARK);
+					ZoneType.MOVE_DARK);
 	}
 	
 	/**
@@ -80,6 +95,27 @@ public final class Smite extends FieldSkill {
 			grid.getTerrain(shoveToX, shoveToY).getMoveCost(shovee.getTheClass()) < shovee.getStats().mov &&
 			null == grid.getUnit(betweenX, betweenY) &&
 			null == grid.getUnit(shoveToX, shoveToY) &&
+			shovee.getStats().con - 2 <= shover.getStats().con
+		);
+	}
+	
+	public static boolean canSmiteWithFog(Grid grid, Unit shover, Unit shovee) {
+		int deltaX = shovee.getXCoord() - shover.getXCoord();
+		int deltaY = shovee.getYCoord() - shover.getYCoord();
+		
+		int betweenX = shover.getXCoord() + 2 * deltaX;
+		int betweenY = shover.getYCoord() + 2 * deltaY;
+		
+		int shoveToX = shover.getXCoord() + 3 * deltaX;
+		int shoveToY = shover.getYCoord() + 3 * deltaY;
+		
+		return (
+			(Math.abs(deltaX) + Math.abs(deltaY)) == 1 && 
+			grid.contains(shoveToX, shoveToY) &&
+			grid.getTerrain(betweenX, betweenY).getMoveCost(shovee.getTheClass()) < shovee.getStats().mov &&
+			grid.getTerrain(shoveToX, shoveToY).getMoveCost(shovee.getTheClass()) < shovee.getStats().mov &&
+			null == grid.getVisibleUnit(betweenX, betweenY) &&
+			null == grid.getVisibleUnit(shoveToX, shoveToY) &&
 			shovee.getStats().con - 2 <= shover.getStats().con
 		);
 	}

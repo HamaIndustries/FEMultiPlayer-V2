@@ -145,6 +145,10 @@ public class OverworldStage extends Stage {
 	public final Unit getUnit(int x, int y) {
 		return grid.getUnit(x, y);
 	}
+	
+	public final Unit getVisibleUnit(int x, int y) {
+		return grid.getVisibleUnit(x, y);
+	}
 
 	/**
 	 * Adds the unit.
@@ -466,6 +470,13 @@ public class OverworldStage extends Stage {
 				units.add(p.getParty().getUnit(i));
 			}
 		}
+		return units;
+	}
+	
+	public List<Unit> getVisibleUnits() {
+		List<Unit> units = getAllUnits();
+		Set<Node> fog = ((ClientOverworldStage) this).getFog().getNodes();
+		units.removeIf(unit -> fog.contains(new Node(unit.getOrigX(), unit.getOrigY())));
 		return units;
 	}
 

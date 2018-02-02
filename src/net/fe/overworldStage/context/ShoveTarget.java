@@ -1,12 +1,15 @@
 package net.fe.overworldStage.context;
 
-import net.fe.overworldStage.OverworldContext;
+import net.fe.network.command.Command;
+import net.fe.network.command.ShoveCommand;
+import net.fe.network.command.WaitCommand;
 import net.fe.overworldStage.ClientOverworldStage;
+import net.fe.overworldStage.OverworldContext;
 import net.fe.overworldStage.SelectTargetContext;
 import net.fe.overworldStage.Zone;
+import net.fe.overworldStage.fieldskill.Shove;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
-import net.fe.network.command.ShoveCommand;
 
 /**
  * An overworld context in which a target for the Shove action is selected
@@ -29,12 +32,17 @@ public final class ShoveTarget extends SelectTargetContext {
 	@Override
 	public boolean validTarget(Unit u){
 		// can shove either allies or enemies, as long as the con is sufficiently high
-		return net.fe.overworldStage.fieldskill.Shove.canShove(this.stage.grid, this.unit, u);
+		return Shove.canShoveWithFog(this.stage.grid, this.unit, u);
 	}
 	
 	@Override
 	public void unitSelected(Unit u) {
-		ShoveCommand c = new ShoveCommand(new UnitIdentifier(u));
+		Command c;
+		if (!Shove.canShove(this.stage.grid, this.unit, u))
+			//Shove fails
+			c = new WaitCommand();
+		else
+			c = new ShoveCommand(new UnitIdentifier(u));
 		c.applyClient(stage, unit, null, new EmptyRunnable()).run();
 		stage.addCmd(c);
 		stage.send();
