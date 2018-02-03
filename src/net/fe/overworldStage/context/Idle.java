@@ -64,7 +64,7 @@ public class Idle extends CursorContext {
 		if(u!=null && u.getParty() == player.getParty() && !u.hasMoved()){
 			new UnitSelected(stage, this, u).startContext();
 		} else {
-			new EndMenu(stage, this).startContext();
+			new EndMenu(stage, this, u).startContext();
 		}
 
 	}

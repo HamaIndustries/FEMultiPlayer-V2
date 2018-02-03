@@ -15,6 +15,7 @@ import net.fe.overworldStage.ClientOverworldStage;
 public final class EndMenu extends MenuContext<String> {
 	
 	private final static String next = "Next Unit";
+	private final static String inspect = "Inspect";
 	private final static String end = "End";
 	
 	/**
@@ -23,11 +24,15 @@ public final class EndMenu extends MenuContext<String> {
 	 * @param stage the stage
 	 * @param prev the previous context. This expects the previous
 	 *      stage to be an Idle for the "Next Unit" button to work.
+	 * @param unit the unit that the cursor is currently over. Nullable.
 	 */
-	public EndMenu(ClientOverworldStage stage, OverworldContext prev) {
+	public EndMenu(ClientOverworldStage stage, OverworldContext prev, Unit unit) {
 		super(stage, prev, new Menu<String>());
 		if (hasActionableUnits(stage.getCurrentPlayer())) {
 			menu.addItem(next);
+		}
+		if (unit != null && unit.getInventory().size() >= 1) {
+			menu.addItem(inspect);
 		}
 		menu.addItem(end);
 	}
@@ -42,6 +47,11 @@ public final class EndMenu extends MenuContext<String> {
 			case next: {
 				prev.startContext();
 				prev.onNextUnit();
+				break;
+			}
+			case inspect: {
+				prev.startContext();
+				prev.onInspectInventory();
 				break;
 			}
 			case end: {
