@@ -655,7 +655,7 @@ public class ClientOverworldStage extends OverworldStage {
 		if (fogOption != FogOption.NONE) {
 			Set<Node> nodes = Zone.all(grid);
 			for(Unit unit : getAllUnits())
-				if(FEMultiplayer.getLocalPlayer().getParty().isAlly(unit.getParty()) && unit.getHp() > 0)
+				if(FEMultiplayer.getLocalPlayer().getParty().isAlly(unit.getParty()) && unit.getHp() > 0 && !unit.isRescued())
 					for(int i = 0; i <= unit.getTheClass().sight; i++)
 						for(int j = 0; j <= unit.getTheClass().sight - i; j++) {
 							nodes.remove(new Node(unit.getOrigX() + i, unit.getOrigY() + j));
