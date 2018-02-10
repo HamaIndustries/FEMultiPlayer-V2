@@ -48,6 +48,7 @@ public final class ShoveTarget extends SelectTargetContext {
 		stage.send();
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
+		stage.setUnitInfoUnit(unit);
 		stage.reset();
 	}
 

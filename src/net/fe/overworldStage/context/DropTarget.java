@@ -96,6 +96,7 @@ public class DropTarget extends OverworldContext {
 		stage.send();
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
+		stage.setUnitInfoUnit(unit);
 		stage.reset();
 	}
 
@@ -163,6 +164,7 @@ public class DropTarget extends OverworldContext {
 		AudioPlayer.playAudio("cursor");
 		cursor.setXCoord(targets.get(selected).x);
 		cursor.setYCoord(targets.get(selected).y);
+		stage.setUnitInfoUnit(stage.getHoveredUnit());
 	}
 
 	/* (non-Javadoc)
@@ -175,6 +177,7 @@ public class DropTarget extends OverworldContext {
 
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
+		stage.setUnitInfoUnit(unit);
 	}
 
 	private static final class EmptyRunnable implements Runnable {

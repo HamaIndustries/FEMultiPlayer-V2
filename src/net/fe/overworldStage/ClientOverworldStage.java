@@ -55,7 +55,7 @@ public class ClientOverworldStage extends OverworldStage {
 	public final Cursor cursor;
 	
 	/** The unit info. */
-	UnitInfo unitInfo;
+	private final UnitInfo unitInfo;
 	
 	/** The menu. */
 	private Menu<?> menu;
@@ -302,6 +302,8 @@ public class ClientOverworldStage extends OverworldStage {
 						context.onCancel();
 					else if (ke.key == FEResources.getKeyMapped(Keyboard.KEY_C))
 						context.onNextUnit();
+					else if (ke.key == FEResources.getKeyMapped(Keyboard.KEY_D))
+						context.onInspectInventory();
 				}
 			}
 		}
@@ -424,6 +426,7 @@ public class ClientOverworldStage extends OverworldStage {
 				if (n.length > 0) {
 					cursor.setXCoord(n[0].x);
 					cursor.setYCoord(n[0].y);
+					this.setUnitInfoUnit(this.getHoveredUnit());
 				}
 			}
 		} else {
@@ -442,6 +445,7 @@ public class ClientOverworldStage extends OverworldStage {
 				if (n.length > 0) {
 					cursor.setXCoord(n[0].x);
 					cursor.setYCoord(n[0].y);
+					this.setUnitInfoUnit(this.getHoveredUnit());
 				}
 			}
 		}
@@ -638,6 +642,13 @@ public class ClientOverworldStage extends OverworldStage {
 		} else {
 			SoundTrack.loop("enemy");
 		}
+	}
+	
+	/**
+	 * Set which unit's details are shown in the unit details pane
+	 */
+	public void setUnitInfoUnit(Unit u) {
+		this.unitInfo.setUnit(u);
 	}
 	
 	private void updateFog() {

@@ -58,6 +58,15 @@ public class WaitForMessages extends CursorContext {
 		//Nothing
 	}
 	
+	@Override
+	public void onInspectInventory() {
+		Unit u = getHoveredUnit();
+		if (u != null && u.getInventory().size() >= 1) {
+			AudioPlayer.playAudio("select");
+			new InspectInventoryContext(stage, this, u).startContext();
+		}
+	}
+	
 	/* (non-Javadoc)
 	 * @see net.fe.overworldStage.CursorContext#cursorWillChange()
 	 */
@@ -75,6 +84,7 @@ public class WaitForMessages extends CursorContext {
 	public void cursorChanged(){
 		Unit u = getHoveredUnit();
 		AudioPlayer.playAudio("cursor");
+		stage.setUnitInfoUnit(u);
 		if(u!=null && !u.hasMoved()){
 			addZones(u);
 			if(u.getParty() == stage.getCurrentPlayer().getParty()){

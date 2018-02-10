@@ -64,7 +64,7 @@ public class Idle extends CursorContext {
 		if(u!=null && u.getParty() == player.getParty() && !u.hasMoved()){
 			new UnitSelected(stage, this, u).startContext();
 		} else {
-			new EndMenu(stage, this).startContext();
+			new EndMenu(stage, this, u).startContext();
 		}
 
 	}
@@ -103,6 +103,15 @@ public class Idle extends CursorContext {
 			cursorChanged();
 		}
 	}
+	
+	@Override
+	public void onInspectInventory() {
+		Unit u = getHoveredUnit();
+		if (u != null && u.getInventory().size() >= 1) {
+			AudioPlayer.playAudio("select");
+			new InspectInventoryContext(stage, this, u).startContext();
+		}
+	}
 
 
 	/* (non-Javadoc)
@@ -131,6 +140,7 @@ public class Idle extends CursorContext {
 	public void cursorChanged(){
 		Unit u = getHoveredUnit();
 		
+		stage.setUnitInfoUnit(u);
 		if(u!=null && !u.hasMoved()){
 			addZones(u);
 			if(u.getParty() == stage.getCurrentPlayer().getParty()){

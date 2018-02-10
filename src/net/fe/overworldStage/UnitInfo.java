@@ -60,15 +60,6 @@ public class UnitInfo extends Entity implements DoNotDestroy{
 	}
 	
 	/**
-	 * Gets the unit.
-	 *
-	 * @return the unit
-	 */
-	public Unit getUnit(){
-		return unit;
-	}
-	
-	/**
 	 * Sets the unit.
 	 *
 	 * @param u the new unit
@@ -154,7 +145,7 @@ public class UnitInfo extends Entity implements DoNotDestroy{
 				items[i].render();
 				String uses = items[i].getItem().getUses() + "";
 				width = FEResources.getBitmapFont("default_med").getStringWidth(uses);
-				Renderer.drawString("default_med", uses, x+314-width, y+y0, renderDepth);
+				Renderer.drawString("default_med", uses, x+314-width, y+y0, items[i].renderDepth);
 			}
 			y0+=14;
 		}

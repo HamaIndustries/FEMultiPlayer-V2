@@ -107,6 +107,7 @@ public class UnitSelected extends CursorContext {
 	public void onNextUnit() {
 		cursor.setXCoord(selected.getXCoord());
 		cursor.setYCoord(selected.getYCoord());
+		stage.setUnitInfoUnit(selected);
 		updatePath();
 		AudioPlayer.playAudio("cancel");
 	}
@@ -118,6 +119,7 @@ public class UnitSelected extends CursorContext {
 	public void onCancel() {
 		cursor.setXCoord(selected.getOrigX());
 		cursor.setYCoord(selected.getOrigY());
+		stage.setUnitInfoUnit(selected);
 		// clear variables set by starting the context
 		stage.setSelectedUnit(null);
 		super.onCancel();

@@ -316,11 +316,14 @@ public class FEResources {
 		// keybindings
 		defaultProps.setProperty("Z", "Z");
 		defaultProps.setProperty("X", "X");
+		defaultProps.setProperty("C", "C");
+		defaultProps.setProperty("D", "D");
 		defaultProps.setProperty("RETURN", "RETURN");
 		defaultProps.setProperty("LEFT", "LEFT");
 		defaultProps.setProperty("RIGHT", "RIGHT");
 		defaultProps.setProperty("UP", "UP");
 		defaultProps.setProperty("DOWN", "DOWN");
+		
 		// other
 		defaultProps.setProperty("VOLUME","1.0");
 		defaultProps.setProperty("SCALE","1.0");

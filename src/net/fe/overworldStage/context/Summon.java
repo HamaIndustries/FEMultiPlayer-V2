@@ -97,6 +97,7 @@ public class Summon extends OverworldContext {
 		stage.send();
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
+		stage.setUnitInfoUnit(unit);
 		stage.reset();
 	}
 
@@ -164,6 +165,7 @@ public class Summon extends OverworldContext {
 		AudioPlayer.playAudio("cursor");
 		cursor.setXCoord(targets.get(selected).x);
 		cursor.setYCoord(targets.get(selected).y);
+		stage.setUnitInfoUnit(stage.getHoveredUnit());
 	}
 
 	/* (non-Javadoc)
@@ -175,6 +177,7 @@ public class Summon extends OverworldContext {
 		// Reset the position of the cursor on cancels
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
+		stage.setUnitInfoUnit(unit);
 	}
 	
 	/** The summon count. */
