@@ -19,7 +19,11 @@ import chu.engine.Game;
 import chu.engine.anim.Renderer;
 import chu.engine.anim.Tileset;
 import chu.engine.anim.Transform;
+import net.fe.FEMultiplayer;
 import net.fe.FEResources;
+import net.fe.Party;
+import net.fe.overworldStage.ClientOverworldStage.FogOption;
+import net.fe.unit.Unit;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -176,6 +180,48 @@ public class Zone extends Entity {
 		public Fog(Set<Node> zone) {
 			super(zone, FOG_LIGHT);
 		}
+		
+		public static Set<Node> getUnitsPerception(Set<Unit> units) {
+			Set<Node> nodes = new HashSet<Node>();
+			units.forEach(unit -> nodes.addAll(getUnitPerception(unit)));
+			return nodes;
+		}
+		
+		public static Set<Node> getPartyPerception(Party party) {
+			return getPartyPerception(party, new HashSet<Party>());
+		}
+		
+		//This is massively overkill because the party functionality is not even used currently
+		private static Set<Node> getPartyPerception(Party party, Set<Party> visitedParties) {
+			Set<Node> nodes = new HashSet<Node>();
+			visitedParties.add(party);
+			
+			//Add the perception of the units of the party
+			party.getUnits().forEach(unit -> nodes.addAll(getUnitPerception(unit)));
+			
+			//Add the perception of the allies of the party
+			party.getAllies().forEach(ally -> {
+				if(!visitedParties.contains(ally))
+					nodes.addAll(getPartyPerception(ally, visitedParties));
+			});
+			
+			return nodes;
+		}
+		
+		public static Set<Node> getUnitPerception(Unit unit) {
+			Set<Node> nodes = new HashSet<Node>();
+			if(unit.getHp() > 0 && !unit.isRescued())
+				for(int i = 0; i <= unit.getTheClass().sight; i++)
+					for(int j = 0; j <= unit.getTheClass().sight - i; j++) {
+						nodes.add(new Node(unit.getOrigX() + i, unit.getOrigY() + j));
+						nodes.add(new Node(unit.getOrigX() + i, unit.getOrigY() - j));
+						nodes.add(new Node(unit.getOrigX() - i, unit.getOrigY() + j));
+						nodes.add(new Node(unit.getOrigX() - i, unit.getOrigY() - j));
+					}
+			return nodes;
+		}
+
+		
 	}
 	
 	public static enum ZoneType {

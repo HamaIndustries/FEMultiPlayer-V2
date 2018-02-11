@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
@@ -653,22 +654,98 @@ public class ClientOverworldStage extends OverworldStage {
 	
 	private void updateFog() {
 		if (fogOption != FogOption.NONE) {
-			Set<Node> nodes = Zone.all(grid);
-			for(Unit unit : getAllUnits())
-				if(FEMultiplayer.getLocalPlayer().getParty().isAlly(unit.getParty()) && unit.getHp() > 0 && !unit.isRescued())
-					for(int i = 0; i <= unit.getTheClass().sight; i++)
-						for(int j = 0; j <= unit.getTheClass().sight - i; j++) {
-							nodes.remove(new Node(unit.getOrigX() + i, unit.getOrigY() + j));
-							nodes.remove(new Node(unit.getOrigX() + i, unit.getOrigY() - j));
-							nodes.remove(new Node(unit.getOrigX() - i, unit.getOrigY() + j));
-							nodes.remove(new Node(unit.getOrigX() - i, unit.getOrigY() - j));
-						}
+			Set<Node> nodes = new HashSet<>();
+			if(FEMultiplayer.getLocalPlayer().isSpectator()) {
+				switch(session.getSpectatorFogOption()) {
+					case REVEAL_ALL:
+						//Nothing to do here
+						//nodes is already the empty set
+						break;
+					case MUTUALLY_VISIBLE_UNITS:
+						nodes = calcSpectatorFog();
+						break;
+				}
+			} else {
+				nodes = Zone.all(grid);
+				nodes.removeAll(Fog.getPartyPerception(FEMultiplayer.getLocalPlayer().getParty()));
+			}
 			fog.setNodes(nodes);
 		}
 	}
 	
+	/**
+	 * Çhanges the nodes parameter in order to match the mutual perception of each player's mutual perception (?)
+	 * Basically, spectators can only see the grid where all players know that all the others can see.
+	 * @param nodes The set of nodes to change
+	 */
+	private Set<Node> calcSpectatorFog() {
+		Set<Node> nodes = Zone.all(grid);
+		//This is not what God intended
+		//This would be so much simpler if I didn't care that technically, there could be more than 2 parties
+		Set<Set<Node>> partyPerceptions = new HashSet<>();
+		for(Player player : FEMultiplayer.getPlayers().values())
+			if(!player.isSpectator())
+				partyPerceptions.add(Fog.getPartyPerception(player.getParty()));
+		
+		Set<Set<Unit>> mutuallyVisibleUnits = new HashSet<>();
+		for(Player player : FEMultiplayer.getPlayers().values()) {
+			if(player.isSpectator())
+				continue;
+			HashSet<Unit> units = new HashSet<Unit>();
+			mutuallyVisibleUnits.add(units);
+			for(Unit unit : player.getParty().getUnits()) {
+				if(unit.getHp() < 0 || unit.isRescued())
+					continue;
+				boolean unitVisible = true;
+				Node unitNode = new Node(unit.getXCoord(), unit.getYCoord());
+				for(Set<Node> perception : partyPerceptions) {
+					if(!perception.contains(unitNode)) {
+						unitVisible = false;
+						break;
+					}
+				}
+				if(unitVisible)
+					units.add(unit);
+			}
+		}
+		
+		Set<Set<Node>> mutuallyVisibleUnitsPerceptions = new HashSet<>();
+		mutuallyVisibleUnits.forEach(units -> mutuallyVisibleUnitsPerceptions.add(Fog.getUnitsPerception(units)));
+		
+		Set<Node> spectatorVision = new HashSet<>();
+		Iterator<Set<Node>> iterator = mutuallyVisibleUnitsPerceptions.iterator();
+		if(iterator.hasNext()) {
+			spectatorVision.addAll(iterator.next());
+			while(iterator.hasNext())
+				spectatorVision.retainAll(iterator.next());
+		}
+		
+		nodes.removeAll(spectatorVision);
+		return nodes;
+	}
+		
 	public Zone getFog() {
 		return fog;
+	}
+	
+	public static enum SpectatorFogOption {
+		REVEAL_ALL("Reveal all"), 
+		MUTUALLY_VISIBLE_UNITS("Reveal mutually visible units");
+		
+		private final String representation;
+		
+		private SpectatorFogOption() {
+			representation = name();
+		}
+		
+		private SpectatorFogOption(String name) {
+			this.representation = name;
+		}
+		
+		@Override
+		public String toString() {
+			return representation;
+		}
 	}
 	
 	public static enum FogOption {

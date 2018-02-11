@@ -47,6 +47,9 @@ import net.fe.rng.NullRNG;
 import net.fe.rng.RNG;
 import net.fe.rng.SimpleRNG;
 import net.fe.rng.TrueHitRNG;
+import net.fe.overworldStage.ClientOverworldStage.SpectatorFogOption;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * The initial panel displayed to the server's host.
@@ -95,7 +98,9 @@ public class FEServerMainPanel extends JPanel {
 	private DefaultListModel<Modifier> unselectedModifiersModel;
 	private JPanel pnlFogOfWar;
 	private JLabel lblFogOfWar;
-	private JComboBox cbbFogOfWar;
+	private JComboBox<FogOption> cbbFogOfWar;
+	private JLabel lblSpectatorFog;
+	private JComboBox<SpectatorFogOption> cbbSpectatorFog;
 	
 	/**
 	 * Initializes the panel.
@@ -272,12 +277,25 @@ public class FEServerMainPanel extends JPanel {
 		pnlFogOfWar = new JPanel();
 		mainPanel.add(pnlFogOfWar);
 		
-		lblFogOfWar = new JLabel("Fog of war");
+		lblFogOfWar = new JLabel("Fog of war:");
 		pnlFogOfWar.add(lblFogOfWar);
 		
-		cbbFogOfWar = new JComboBox();
-		cbbFogOfWar.setModel(new DefaultComboBoxModel(FogOption.values()));
+		cbbFogOfWar = new JComboBox<FogOption>();
+		cbbFogOfWar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cbbSpectatorFog.setEnabled(cbbFogOfWar.getSelectedItem() != FogOption.NONE);
+			}
+		});
+		cbbFogOfWar.setModel(new DefaultComboBoxModel<FogOption>(FogOption.values()));
 		pnlFogOfWar.add(cbbFogOfWar);
+		
+		lblSpectatorFog = new JLabel("Spectator fog:");
+		pnlFogOfWar.add(lblSpectatorFog);
+		
+		cbbSpectatorFog = new JComboBox<SpectatorFogOption>();
+		cbbSpectatorFog.setEnabled(false);
+		cbbSpectatorFog.setModel(new DefaultComboBoxModel<SpectatorFogOption>(SpectatorFogOption.values()));
+		pnlFogOfWar.add(cbbSpectatorFog);
 
 		startServer = new JButton("Start server");
 		startServer.addActionListener(e -> {
@@ -330,8 +348,12 @@ public class FEServerMainPanel extends JPanel {
 				(String) mapSelectionBox.getSelectedItem(),
 				(Integer) maxUnitsSpinner.getValue(), mods,
 				(PickMode) pickModeBox.getSelectedItem(),
-				(RNG) cbbHitRNG.getSelectedItem(), new SimpleRNG(), new SimpleRNG(),
-				(FogOption) cbbFogOfWar.getSelectedItem());
+				(RNG) cbbHitRNG.getSelectedItem(),
+				(RNG) cbbCritRNG.getSelectedItem(),
+				(RNG) cbbSkillRNG.getSelectedItem(),
+				(FogOption) cbbFogOfWar.getSelectedItem(),
+				(SpectatorFogOption) cbbSpectatorFog.getSelectedItem()
+			);
 
 	}
 }
