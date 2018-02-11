@@ -664,6 +664,32 @@ public class ClientOverworldStage extends OverworldStage {
 					case MUTUALLY_VISIBLE_UNITS:
 						nodes = calcSpectatorFog();
 						break;
+					case SPECTATE_RED: {
+						nodes = Zone.all(grid);
+						Player player = null;
+						for(Player p : FEMultiplayer.getPlayers().values()) {
+							if(p.getParty().getColor().equals(Party.TEAM_RED)) {
+								player = p;
+								break;
+							}
+						}
+						if(player != null)
+							nodes.removeAll(Fog.getPartyPerception(player.getParty()));
+						break;
+					}
+					case SPECTATE_BLUE: {
+						nodes = Zone.all(grid);
+						Player player = null;
+						for(Player p : FEMultiplayer.getPlayers().values()) {
+							if(p.getParty().getColor().equals(Party.TEAM_BLUE)) {
+								player = p;
+								break;
+							}
+						}
+						if(player != null)
+							nodes.removeAll(Fog.getPartyPerception(player.getParty()));
+						break;
+					}
 				}
 			} else {
 				nodes = Zone.all(grid);
@@ -730,7 +756,9 @@ public class ClientOverworldStage extends OverworldStage {
 	
 	public static enum SpectatorFogOption {
 		REVEAL_ALL("Reveal all"), 
-		MUTUALLY_VISIBLE_UNITS("Reveal mutually visible units");
+		MUTUALLY_VISIBLE_UNITS("Reveal mutually visible units"),
+		SPECTATE_RED("Spectate red team"),
+		SPECTATE_BLUE("Spectate blue team");
 		
 		private final String representation;
 		
