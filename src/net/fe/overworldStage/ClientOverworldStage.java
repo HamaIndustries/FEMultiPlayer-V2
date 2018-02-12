@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
 
@@ -415,40 +416,27 @@ public class ClientOverworldStage extends OverworldStage {
 	 */
 	protected void doStartTurn(int playerID){
 		super.doStartTurn(playerID);
-		System.out.println(getCurrentPlayer().getParty().getColor());
 		if(FEMultiplayer.getLocalPlayer().getID() == getCurrentPlayer().getID()){
 			context = new Idle(this, FEMultiplayer.getLocalPlayer());
 			addEntity(new TurnDisplay(true, Party.TEAM_BLUE, false));
-			if (FEResources.getAutoCursor().applyAtStartOfLocalTurn) {
-				List<Unit> units = FEMultiplayer.getLocalPlayer().getParty().getUnits();
-				Node[] n = units.stream()
-						.filter((Unit u) -> u.getHp() > 0 && !u.isRescued() && u.isVisible(this))
-						.map((Unit u) -> new Node(u.getXCoord(), u.getYCoord()))
-						.toArray(Node[]::new);
-				if (n.length > 0) {
-					cursor.setXCoord(n[0].x);
-					cursor.setYCoord(n[0].y);
-					this.setUnitInfoUnit(this.getHoveredUnit());
-				}
-			}
 		} else {
 			context = new WaitForMessages(this);
 			if(FEMultiplayer.getLocalPlayer().isSpectator())
 				addEntity(new TurnDisplay(false, getCurrentPlayer().getParty().getColor(), true));
 			else
 				addEntity(new TurnDisplay(false, Party.TEAM_RED, false));
-			
-			if (FEResources.getAutoCursor().applyAtStartOfOtherTurn) {
-				List<Unit> units = this.getCurrentPlayer().getParty().getUnits();
-				Node[] n = units.stream()
-						.filter((Unit u) -> u.getHp() > 0 && !u.isRescued() && u.isVisible(this))
-						.map((Unit u) -> new Node(u.getXCoord(), u.getYCoord()))
-						.toArray(Node[]::new);
-				if (n.length > 0) {
-					cursor.setXCoord(n[0].x);
-					cursor.setYCoord(n[0].y);
-					this.setUnitInfoUnit(this.getHoveredUnit());
-				}
+		}
+		
+		if (FEResources.getAutoCursor().applyAtStartOfLocalTurn) {
+			List<Unit> units = FEMultiplayer.getLocalPlayer().getParty().getUnits();
+			Optional<Node> n = units.stream()
+					.filter((Unit u) -> u.getHp() > 0 && !u.isRescued() && u.isVisible(this))
+					.map((Unit u) -> new Node(u.getXCoord(), u.getYCoord()))
+					.findFirst();
+			if (n.isPresent()) {
+				cursor.setXCoord(n.get().x);
+				cursor.setYCoord(n.get().y);
+				this.setUnitInfoUnit(this.getHoveredUnit());
 			}
 		}
 	}
