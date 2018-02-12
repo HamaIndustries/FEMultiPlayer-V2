@@ -666,27 +666,27 @@ public class ClientOverworldStage extends OverworldStage {
 						break;
 					case SPECTATE_RED: {
 						nodes = Zone.all(grid);
-						Player player = null;
-						for(Player p : FEMultiplayer.getPlayers().values()) {
-							if(p.getParty().getColor().equals(Party.TEAM_RED)) {
-								player = p;
+						Set<Player> players = new HashSet<Player>();
+						for(Player player : FEMultiplayer.getPlayers().values()) {
+							if(player.getParty().getColor().equals(Party.TEAM_RED)) {
+								players.add(player);
 								break;
 							}
 						}
-						if(player != null)
+						for(Player player : players)
 							nodes.removeAll(Fog.getPartyPerception(player.getParty()));
 						break;
 					}
 					case SPECTATE_BLUE: {
 						nodes = Zone.all(grid);
-						Player player = null;
-						for(Player p : FEMultiplayer.getPlayers().values()) {
-							if(p.getParty().getColor().equals(Party.TEAM_BLUE)) {
-								player = p;
+						Set<Player> players = new HashSet<Player>();
+						for(Player player : FEMultiplayer.getPlayers().values()) {
+							if(player.getParty().getColor().equals(Party.TEAM_BLUE)) {
+								players.add(player);
 								break;
 							}
 						}
-						if(player != null)
+						for(Player player : players)
 							nodes.removeAll(Fog.getPartyPerception(player.getParty()));
 						break;
 					}
