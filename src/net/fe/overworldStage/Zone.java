@@ -132,6 +132,10 @@ public class Zone extends Entity {
 		this.zone = nodes;
 	}
 	
+	public boolean contains(Node node) {
+		return zone.contains(node);
+	}
+	
 	/**
 	 * Minus.
 	 *

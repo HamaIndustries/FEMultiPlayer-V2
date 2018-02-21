@@ -31,14 +31,17 @@ public final class MoveCommand extends Command {
 	@Override
 	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords, Runnable callback) {
 		
-		return new Runnable() {
-			public void run() {
-				Path p = new Path();
-				p.setNodes(path);
-				stage.grid.move(unit, path[path.length - 1].x, path[path.length - 1].y, true);
-				unit.move(p, callback);
-				stage.includeInView(p.getAllNodes());
-			}
+		return () -> {
+			Path p = new Path();
+			p.setNodes(path);
+			stage.grid.move(unit, path[path.length - 1].x, path[path.length - 1].y, true);
+			unit.move(p, callback);
+			Node[] nodes = p.getAllNodes();
+			ArrayList<Node> visibleNodes = new ArrayList<Node>();
+			for(int i = 0; i < nodes.length; i++)
+				if(!stage.getFog().contains(nodes[i]))
+					visibleNodes.add(nodes[i]);
+			stage.includeInView(visibleNodes.toArray(new Node[0]));
 		};
 	}
 	
