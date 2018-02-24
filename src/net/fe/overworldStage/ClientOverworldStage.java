@@ -427,8 +427,11 @@ public class ClientOverworldStage extends OverworldStage {
 				addEntity(new TurnDisplay(false, Party.TEAM_RED, false));
 		}
 		
-		if (FEResources.getAutoCursor().applyAtStartOfLocalTurn) {
-			List<Unit> units = FEMultiplayer.getLocalPlayer().getParty().getUnits();
+		boolean autocursor = FEMultiplayer.getLocalPlayer().getID() == getCurrentPlayer().getID() ? 
+				FEResources.getAutoCursor().applyAtStartOfLocalTurn : FEResources.getAutoCursor().applyAtStartOfOtherTurn;
+		
+		if (autocursor) {
+			List<Unit> units = getCurrentPlayer().getParty().getUnits();
 			Optional<Node> n = units.stream()
 					.filter((Unit u) -> u.getHp() > 0 && !u.isRescued() && u.isVisible(this))
 					.map((Unit u) -> new Node(u.getXCoord(), u.getYCoord()))
