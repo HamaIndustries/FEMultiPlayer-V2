@@ -22,6 +22,7 @@ import chu.engine.Stage;
 import chu.engine.anim.Renderer;
 
 import net.fe.network.Message;
+import net.fe.network.message.ReadyMessage;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -63,6 +64,9 @@ public class EndGameStage extends Stage {
 				addEntity(new UnitIcon(p.getParty().getUnit(i), X0+x*X_SPACING, Y0+i*Y_SPACING, 0.5f));
 			}
 		}
+		for(Player p : session.getPlayers()) {
+			p.ready = false;
+		}
 		processAddStack();
 	}
 
@@ -74,11 +78,18 @@ public class EndGameStage extends Stage {
 		for(Entity e : entities) {
 			e.beginStep();
 		}
+		for(Message message : messages) {
+			if(message instanceof ReadyMessage) { //If a player goes back to the lobby before 
+				boolean ready = !session.getPlayer(message.origin).ready;
+				session.getPlayer(message.origin).ready = ready;
+				if(ready)
+					session.getChatlog().add(session.getPlayer(message.origin), "Ready!");
+				else
+					session.getChatlog().add(session.getPlayer(message.origin), "Not ready!");
+			}
+		}
 		for(KeyboardEvent key : Game.getKeys()) {
 			if(key.state && key.key == FEResources.getKeyMapped(Keyboard.KEY_RETURN)) {
-				for(Player p : session.getPlayers()) {
-					p.ready = false;
-				}
 				FEMultiplayer.setCurrentStage(FEMultiplayer.lobby);
 			}
 		}
