@@ -614,7 +614,7 @@ public class ClientOverworldStage extends OverworldStage {
 	 * @return the hovered terrain
 	 */
 	public Terrain getHoveredTerrain() {
-		return grid.getTerrain(cursor.getXCoord(), cursor.getYCoord());
+		return grid.getVisibleTerrain(cursor.getXCoord(), cursor.getYCoord());
 	}
 
 	/**
