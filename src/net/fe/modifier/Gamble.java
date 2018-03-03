@@ -18,7 +18,7 @@ public class Gamble extends CombatTrigger {
 	 * Instantiates a new gamble.
 	 */
 	public Gamble(){
-		super(REPLACE_NAME_AFTER_PRE, YOUR_TURN_PRE, "gamble");
+		super(REPLACE_NAME_AFTER_PRE, YOUR_TURN_PRE | SHOW_IN_PREVIEW, "gamble");
 	}
 	
 	/* (non-Javadoc)
