@@ -14,6 +14,7 @@ import net.fe.overworldStage.Node;
 import net.fe.overworldStage.OverworldContext;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.Zone;
+import net.fe.overworldStage.Zone.RangeIndicator;
 import net.fe.overworldStage.Zone.ZoneType;
 import net.fe.unit.Item;
 import net.fe.unit.RiseTome;
@@ -148,18 +149,18 @@ public class UnitMoved extends MenuContext<String> {
 	public void updateZones() {
 		stage.removeEntity(zone);
 		if (menu.getSelection().equals("Attack")) {
-			zone = new Zone(grid.getRange(
+			zone = new RangeIndicator(grid.getRange(
 					new Node(unit.getXCoord(), unit.getYCoord()),
 					unit.getTotalWepRange(false)), ZoneType.ATTACK_DARK);
 			stage.addEntity(zone);
 		} else if (menu.getSelection().equals("Heal")) {
-			zone = new Zone(grid.getRange(
+			zone = new RangeIndicator(grid.getRange(
 					new Node(unit.getXCoord(), unit.getYCoord()),
 					unit.getTotalWepRange(true)), ZoneType.HEAL_DARK);
 			stage.addEntity(zone);
 		} else if (Arrays.asList("Trade", "Give", "Take", "Drop", "Rescue", "Summon")
 				.contains(menu.getSelection())) {
-			zone = new Zone(grid.getRange(
+			zone = new RangeIndicator(grid.getRange(
 					new Node(unit.getXCoord(), unit.getYCoord()), 1),
 					ZoneType.MOVE_DARK);
 			stage.addEntity(zone);
