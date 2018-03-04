@@ -328,7 +328,7 @@ public class FEResources {
 		defaultProps.setProperty("VOLUME","1.0");
 		defaultProps.setProperty("SCALE","1.0");
 		defaultProps.setProperty("AUTOCURSOR", "START");
-		defaultProps.setProperty("DISPLAY_ACTUAL_ODDS", "TRUE");
+		defaultProps.setProperty("DISPLAY_ACTUAL_ODDS", "FALSE");
 		defaultProps.setProperty("TARGETFPS", "60");
 		
 		// music
