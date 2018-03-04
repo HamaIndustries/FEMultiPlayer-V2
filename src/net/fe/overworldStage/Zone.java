@@ -162,7 +162,7 @@ public abstract class Zone extends Entity {
 			Renderer.translate(-cs.camX, -cs.camY);
 			Renderer.addClip(0, 0, 368, 240, true);
 			
-			Color color = new Color(1f,1f,1f, 0.5f);
+			Color color = FEResources.getFogColor().color;
 			
 			for(Node n: this.getNodes()) {
 				Renderer.drawRectangle(n.x * 16, n.y * 16, (1 + n.x) * 16, (1 + n.y) * 16, renderDepth, color);
