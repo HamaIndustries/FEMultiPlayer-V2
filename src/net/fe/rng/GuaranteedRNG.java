@@ -14,6 +14,11 @@ public class GuaranteedRNG extends RNG {
 	}
 
 	@Override
+	public int actualSuccessRate(int successRate) {
+		return 100;
+	}
+
+	@Override
 	public String getName() {
 		return "Guaranteed";
 	}

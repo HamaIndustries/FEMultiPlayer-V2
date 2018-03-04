@@ -16,6 +16,11 @@ public abstract class RNG implements Serializable {
 	
 	protected final static Random RNG = new Random();
 
+	//Prevents external initialization
+	protected RNG() {
+		
+	}
+	
 	/**
 	 * Returns a random integer uniformly distributed between 0 and 100.
 	 * @return a random integer uniformly distributed between 0 and 100.
@@ -31,6 +36,13 @@ public abstract class RNG implements Serializable {
 	 * @return True if the event succeeded, false otherwise.
 	 */
 	public abstract boolean test(int successRate);
+	
+	/**
+	 * Returns the actual success rate of a given event happening given a success rate.
+	 * @param successRate The success rate of the event.
+	 * @return The actual odds of the event happening, as a percentage.
+	 */
+	public abstract int actualSuccessRate(int successRate);
 
 	/**
 	 * Returns the name of the random number generator.
