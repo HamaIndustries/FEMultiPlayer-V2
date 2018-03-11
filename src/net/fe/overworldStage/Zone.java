@@ -1,11 +1,11 @@
 package net.fe.overworldStage;
 
-import static net.fe.overworldStage.Zone.ZoneType.ATTACK_DARK;
-import static net.fe.overworldStage.Zone.ZoneType.ATTACK_LIGHT;
-import static net.fe.overworldStage.Zone.ZoneType.HEAL_DARK;
-import static net.fe.overworldStage.Zone.ZoneType.HEAL_LIGHT;
-import static net.fe.overworldStage.Zone.ZoneType.MOVE_DARK;
-import static net.fe.overworldStage.Zone.ZoneType.MOVE_LIGHT;
+import static net.fe.overworldStage.Zone.RangeIndicator.RangeType.ATTACK_DARK;
+import static net.fe.overworldStage.Zone.RangeIndicator.RangeType.ATTACK_LIGHT;
+import static net.fe.overworldStage.Zone.RangeIndicator.RangeType.HEAL_DARK;
+import static net.fe.overworldStage.Zone.RangeIndicator.RangeType.HEAL_LIGHT;
+import static net.fe.overworldStage.Zone.RangeIndicator.RangeType.MOVE_DARK;
+import static net.fe.overworldStage.Zone.RangeIndicator.RangeType.MOVE_LIGHT;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -77,14 +77,14 @@ public abstract class Zone extends Entity {
 	}
 	
 	public static final class RangeIndicator extends Zone {
-		private final ZoneType type;
+		private final RangeType type;
 		private static int frame;
 		private static float timer;
 	
 		/** The texture that holds the appearance of a range indicator */
 		private static Tileset tiles = new Tileset(FEResources.getTexture("zone_colors"), 15, 15);
 		
-		public RangeIndicator(Set<Node> zone, ZoneType type) {
+		public RangeIndicator(Set<Node> zone, RangeType type) {
 			super(zone);
 			this.type = type;
 			frame = 0;
@@ -139,7 +139,7 @@ public abstract class Zone extends Entity {
 		}
 		
 		/**
-		 * Return a new RangeIndicator with the same ZoneType as `this`, but
+		 * Return a new RangeIndicator with the same RangeType as `this`, but
 		 * with a set of nodes which includes the nodes that `this` contains and
 		 * which `b` does not contain
 		 */
@@ -147,6 +147,21 @@ public abstract class Zone extends Entity {
 			Set<Node> nodes = new HashSet<Node>(getNodes());
 			nodes.removeAll(b.getNodes());
 			return new RangeIndicator(nodes, type);
+		}
+		
+		public static enum RangeType {
+			MOVE_DARK(0xC04444FF),
+			ATTACK_DARK(0xC0FF4444),
+			HEAL_DARK(0xC044FF44),
+			MOVE_LIGHT(0xC08888FF),
+			ATTACK_LIGHT(0xC0FF8888),
+			HEAL_LIGHT(0xC088FF88);
+			
+			public final Color color;
+			
+			private RangeType(int color) {
+				this.color = new Color(color);
+			}
 		}
 	}
 	
@@ -213,20 +228,5 @@ public abstract class Zone extends Entity {
 		}
 
 		
-	}
-	
-	public static enum ZoneType {
-		MOVE_DARK(0xC04444FF),
-		ATTACK_DARK(0xC0FF4444),
-		HEAL_DARK(0xC044FF44),
-		MOVE_LIGHT(0xC08888FF),
-		ATTACK_LIGHT(0xC0FF8888),
-		HEAL_LIGHT(0xC088FF88);
-		
-		public final Color color;
-		
-		private ZoneType(int color) {
-			this.color = new Color(color);
-		}
 	}
 }

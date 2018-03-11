@@ -15,7 +15,7 @@ import net.fe.overworldStage.OverworldContext;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.Zone;
 import net.fe.overworldStage.Zone.RangeIndicator;
-import net.fe.overworldStage.Zone.ZoneType;
+import net.fe.overworldStage.Zone.RangeIndicator.RangeType;
 import net.fe.unit.Item;
 import net.fe.unit.RiseTome;
 import net.fe.unit.Unit;
@@ -151,18 +151,18 @@ public class UnitMoved extends MenuContext<String> {
 		if (menu.getSelection().equals("Attack")) {
 			zone = new RangeIndicator(grid.getRange(
 					new Node(unit.getXCoord(), unit.getYCoord()),
-					unit.getTotalWepRange(false)), ZoneType.ATTACK_DARK);
+					unit.getTotalWepRange(false)), RangeType.ATTACK_DARK);
 			stage.addEntity(zone);
 		} else if (menu.getSelection().equals("Heal")) {
 			zone = new RangeIndicator(grid.getRange(
 					new Node(unit.getXCoord(), unit.getYCoord()),
-					unit.getTotalWepRange(true)), ZoneType.HEAL_DARK);
+					unit.getTotalWepRange(true)), RangeType.HEAL_DARK);
 			stage.addEntity(zone);
 		} else if (Arrays.asList("Trade", "Give", "Take", "Drop", "Rescue", "Summon")
 				.contains(menu.getSelection())) {
 			zone = new RangeIndicator(grid.getRange(
 					new Node(unit.getXCoord(), unit.getYCoord()), 1),
-					ZoneType.MOVE_DARK);
+					RangeType.MOVE_DARK);
 			stage.addEntity(zone);
 		} else {
 			for (FieldSkill f : unit.getTheClass().fieldSkills) {
