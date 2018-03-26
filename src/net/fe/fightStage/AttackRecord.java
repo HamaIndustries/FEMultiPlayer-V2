@@ -25,13 +25,18 @@ public class AttackRecord implements Serializable {
 	/** The drain. */
 	public int drain;
 	
-	public int defenderSkillCharge;
+	/** The skillCharge gained by the defender */
+	public int skillCharge;
+	
+	/** The skillCharge used by the attacker */
+	public int skillSpend;
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString(){
 		return animation + ": " + attacker.name + ", " + defender.name + ", "
-				+ damage + ", " + drain + " (drain)" + ", " + defenderSkillCharge + " (rage)";
+				+ damage + ", " + drain + " (drain), "
+				+ skillSpend + " (skillSpend), " + skillCharge + " (skillCharge), ";
 	}
 }

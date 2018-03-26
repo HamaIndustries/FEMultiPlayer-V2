@@ -33,7 +33,7 @@ public class HealCalculator extends CombatCalculator {
 		
 		left.use(left.getWeapon());
 		right.setHp(right.getHp() + heal);
-		addToAttackQueue(left, right, "Heal", -heal, 0, 0);
+		addToAttackQueue(left, right, "Heal", -heal, 0, 0, 0);
 	}
 	
 }
