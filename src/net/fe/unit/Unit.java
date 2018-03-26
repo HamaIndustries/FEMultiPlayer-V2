@@ -60,6 +60,9 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	/** The hp. */
 	private int hp;
 	
+	/** A resource that is expended to use trigger skills */
+	private int skillCharge;
+	
 	/** The clazz. */
 	private final Class clazz;
 	
@@ -118,6 +121,8 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	
 	/** The Constant MOVE_SPEED. */
 	public static final int MOVE_SPEED = 250;
+	
+	private static final int MAX_SKILL_CHARGE = 9;
 	
 	/** The rescue. */
 	public static Texture rescue;
@@ -1202,5 +1207,19 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	
 	public Node[] getMove() {
 		return move;
+	}
+	
+	public int getSkillCharge() {
+		return this.skillCharge;
+	}
+	public void incrementSkillCharge() {
+		if (this.skillCharge < MAX_SKILL_CHARGE) {
+			this.skillCharge++;
+		}
+	}
+	public void spendSkillCharge(int amount) {
+		// assert (amount >= 0);
+		// assert (amound >= skillCharge);
+		this.skillCharge -= amount;
 	}
 }
