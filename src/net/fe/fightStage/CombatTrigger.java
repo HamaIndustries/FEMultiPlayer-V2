@@ -82,11 +82,12 @@ public abstract class CombatTrigger implements Serializable {
 	 * Determine whether this trigger should take effect this combat
 	 *
 	 * @param user the user
+	 * @param initiator true if the user is initiating the attack (or, it is the unit's player's phase)
 	 * @param range the range
 	 * @param opponent the enemy
 	 * @return true, if successful
 	 */
-	public abstract boolean attempt(Unit user, int range, Unit opponent, RNG rng);
+	public abstract boolean attempt(Unit user, boolean initiator, int range, Unit opponent, RNG rng);
 	
 	/**
 	 * Something to do before the attack occurs. Modify statistics, for example.

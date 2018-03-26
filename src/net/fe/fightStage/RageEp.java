@@ -7,20 +7,20 @@ import net.fe.unit.Unit;
  * 
  * 
  * Effect: Triple damage by spending 3 skill charge. <br/>
- * Trigger: skillCharge > 3
+ * Trigger: enemy phase and skillCharge > 3
  */
-public final class Rage extends CombatTrigger {
+public final class RageEp extends CombatTrigger {
 	private static final long serialVersionUID = 1L;
 	
 	/**
 	 */
-	public Rage(){
+	public RageEp(){
 		super(APPEND_NAME_AFTER_MOD, YOUR_TURN_MOD);
 	}
 	
 	@Override
-	public boolean attempt(Unit user, int range, Unit opponent, RNG rng) {
-		return user.getSkillCharge() >= 3;
+	public boolean attempt(Unit user, boolean initiator, int range, Unit opponent, RNG rng) {
+		return !initiator && user.getSkillCharge() >= 3;
 	}
 
 	@Override
@@ -34,18 +34,18 @@ public final class Rage extends CombatTrigger {
 	}
 	
 	public CombatTrigger getCopy(){
-		return new Rage();
+		return new RageEp();
 	}
 	
 	protected boolean canEquals(Object other) {
-		return other instanceof Rage;
+		return other instanceof RageEp;
 	}
 	@Override
 	public boolean equals(Object other) {
 		return super.equals(other) &&
-			other instanceof Rage &&
-			((Rage) other).canEquals(this);
+			other instanceof RageEp &&
+			((RageEp) other).canEquals(this);
 	}
-	@Override public int hashCode() { return "Rage".hashCode(); }
-	@Override public String toString() { return "Rage[]"; }
+	@Override public int hashCode() { return "RageEp".hashCode(); }
+	@Override public String toString() { return "RageEp[]"; }
 }

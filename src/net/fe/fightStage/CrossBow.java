@@ -10,7 +10,7 @@ public final class CrossBow extends CombatTrigger {
 		super(NO_NAME_MOD, YOUR_TURN_PRE | SHOW_IN_PREVIEW);
 	}
 	@Override
-	public boolean attempt(Unit user, int range, Unit other, RNG rng) {
+	public boolean attempt(Unit user, boolean initiator, int range, Unit other, RNG rng) {
 		return true;
 	}
 

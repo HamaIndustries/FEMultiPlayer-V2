@@ -207,9 +207,9 @@ public class CombatCalculator {
 		LinkedHashMap<CombatTrigger, Boolean> dSuccess = new LinkedHashMap<CombatTrigger, Boolean>();
 		
 		for (CombatTrigger t : aTriggers)
-			aSuccess.put(t, t.attempt(a, range, d, skillRNG));
+			aSuccess.put(t, t.attempt(a, leftAttacking, range, d, skillRNG));
 		for (CombatTrigger t : dTriggers)
-			dSuccess.put(t, t.attempt(d, range, a, skillRNG));
+			dSuccess.put(t, t.attempt(d, !leftAttacking, range, a, skillRNG));
 		
 		
 

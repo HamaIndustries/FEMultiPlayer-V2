@@ -100,15 +100,15 @@ public final class Class implements Serializable {
 			return new Class("Lord", 
 					"A noble youth who commands armies.",
 					0,
-					Arrays.asList(new Aether(), new ChargeSkillDefend(1, 0), new Rage()),
+					Arrays.asList(new Aether(), new ChargeSkillDefend(1, 0), new RageEp()),
 					Arrays.asList(new Shove()),
 					3,
 					Weapon.Type.SWORD);
 		if(name.equals("Eliwood"))
 			return new Class("Lord", 
-					"A courageous royal who commands armies.",
+					"A couRageEpous royal who commands armies.",
 					 0,
-					 Arrays.asList(new Sol(false), new ChargeSkillDefend(1, 0), new Rage()),
+					 Arrays.asList(new Sol(false), new ChargeSkillDefend(1, 0), new RageEp()),
 					 emptyFieldSkillList,
 					 3,
 					 Weapon.Type.SWORD, Weapon.Type.LANCE);
@@ -116,7 +116,7 @@ public final class Class implements Serializable {
 			return new Class("Lord", 
 					"A serene youth who commands armies.",
 					 0,
-					 Arrays.asList(new Astra(), new ChargeSkillDefend(1, 0), new Rage()),
+					 Arrays.asList(new Astra(), new ChargeSkillDefend(1, 0), new RageEp()),
 					 Arrays.asList(new Shove()),
 					 3,
 					 Weapon.Type.SWORD, Weapon.Type.BOW, Weapon.Type.CROSSBOW);
@@ -124,7 +124,7 @@ public final class Class implements Serializable {
 			return new Class("Lord", 
 					"A mighty noble who commands armies.",
 					 0,
-					 Arrays.asList(new Luna(false), new ChargeSkillDefend(1, 0), new Rage()),
+					 Arrays.asList(new Luna(false), new ChargeSkillDefend(1, 0), new RageEp()),
 					 Arrays.asList(new Shove(), new Smite()),
 					 3, 
 					 Weapon.Type.AXE, Weapon.Type.SWORD);
@@ -132,7 +132,7 @@ public final class Class implements Serializable {
 			return new Class("Lord", 
 					"A brave princess who commands armies.",
 					 0,
-					 Arrays.asList(new Luna(false), new ChargeSkillDefend(1, 0), new Rage()),
+					 Arrays.asList(new Luna(false), new ChargeSkillDefend(1, 0), new RageEp()),
 					 emptyFieldSkillList,
 					 3,
 					 Weapon.Type.SWORD);
@@ -140,7 +140,7 @@ public final class Class implements Serializable {
 			return new Class("Lord", 
 					"A skilled prince who commands armies.",
 					 0,
-					 Arrays.asList(new Sol(false), new ChargeSkillDefend(1, 0), new Rage()),
+					 Arrays.asList(new Sol(false), new ChargeSkillDefend(1, 0), new RageEp()),
 					 emptyFieldSkillList,
 					 3,
 					 Weapon.Type.LANCE);
@@ -148,7 +148,7 @@ public final class Class implements Serializable {
 			return new Class("Lord", 
 					"A legendary prince who commands armies.",
 					 0,
-					 Arrays.asList(new Aether(), new ChargeSkillDefend(1, 0), new Rage()),
+					 Arrays.asList(new Aether(), new ChargeSkillDefend(1, 0), new RageEp()),
 					 Arrays.asList(new Shove()),
 					 3,
 					 Weapon.Type.SWORD);
@@ -156,7 +156,7 @@ public final class Class implements Serializable {
 			return new Class("Lord", 
 					"A radiant hero who commands armies.",
 					 0,
-					 Arrays.asList(new Aether(), new ChargeSkillDefend(1, 0), new Rage()),
+					 Arrays.asList(new Aether(), new ChargeSkillDefend(1, 0), new RageEp()),
 					 Arrays.asList(new Shove(), new Smite()),
 					 3,
 					 Weapon.Type.SWORD, Weapon.Type.AXE);
@@ -166,7 +166,7 @@ public final class Class implements Serializable {
 			return new Class("Sniper", 
 					"An expert archer who has mastered the bow.",
 					10,
-					Arrays.asList(new Deadeye(), new ChargeSkillDefend(2, 0), new Rage()),
+					Arrays.asList(new Deadeye(), new ChargeSkillDefend(2, 0), new RageEp()),
 					Arrays.asList(new Shove()),
 					3,
 					Weapon.Type.BOW, Weapon.Type.CROSSBOW);
@@ -174,7 +174,7 @@ public final class Class implements Serializable {
 			return new Class("Hero", 
 					"Battle-hardened warriors who possess exceptional skill.",
 					0,
-					Arrays.asList(new Luna(false), new ChargeSkillDefend(1, 0), new Rage()),
+					Arrays.asList(new Luna(false), new ChargeSkillDefend(1, 0), new RageEp()),
 					Arrays.asList(new Shove()),
 					3,
 					Weapon.Type.SWORD, Weapon.Type.AXE);
@@ -182,7 +182,7 @@ public final class Class implements Serializable {
 			return new Class("Berserker",
 					"A master pirate who deals devastating attacks.",
 					10,
-					Arrays.asList(new Colossus(), new ChargeSkillDefend(2, 0), new Rage()),
+					Arrays.asList(new Colossus(), new ChargeSkillDefend(2, 0), new RageEp()),
 					Arrays.asList(new Shove(), new Smite()),
 					3,
 					Weapon.Type.AXE);
@@ -190,7 +190,7 @@ public final class Class implements Serializable {
 			return new Class("Warrior", 
 					"An experienced fighter whose might is second to none.",
 					0,
-					Arrays.asList(new Colossus(), new ChargeSkillDefend(1, 0), new Rage()),
+					Arrays.asList(new Colossus(), new ChargeSkillDefend(1, 0), new RageEp()),
 					Arrays.asList(new Shove(), new Smite()),
 					3,
 					Weapon.Type.AXE, Weapon.Type.CROSSBOW);
@@ -198,7 +198,7 @@ public final class Class implements Serializable {
 			return new Class("Assassin", 
 					"A deadly killer who lives in the shadows.",
 					10,
-					Arrays.asList(new Lethality(), new ChargeSkillDefend(2, 0), new Rage()),
+					Arrays.asList(new Lethality(), new ChargeSkillDefend(2, 0), new RageEp()),
 					Arrays.asList(new Shove()),
 					8,
 					Weapon.Type.SWORD);
@@ -206,7 +206,7 @@ public final class Class implements Serializable {
 			return new Class("Paladin", 
 					"An experienced and dignified knight, possessing high mobility.",
 					0,
-					Arrays.asList(new Sol(false), new ChargeSkillDefend(1, 0), new Rage()),
+					Arrays.asList(new Sol(false), new ChargeSkillDefend(1, 0), new RageEp()),
 					emptyFieldSkillList,
 					3,
 					Weapon.Type.LANCE, Weapon.Type.SWORD, Weapon.Type.AXE);
@@ -214,7 +214,7 @@ public final class Class implements Serializable {
 			return new Class("Sage", 
 					"A powerful magic user who wields mighty tomes.",
 					0,
-					Arrays.asList(new Sol(true), new ChargeSkillDefend(1, 0), new Rage()),
+					Arrays.asList(new Sol(true), new ChargeSkillDefend(1, 0), new RageEp()),
 					Arrays.asList(new Shove()),
 					3,
 					Weapon.Type.ANIMA, Weapon.Type.LIGHT, Weapon.Type.STAFF);
@@ -222,7 +222,7 @@ public final class Class implements Serializable {
 			return new Class("General", 
 					"Armoured knights who possess overpowering strength and defense.",
 					0,
-					Arrays.asList(new Pavise(), new ChargeSkillDefend(1, 0), new Rage()),
+					Arrays.asList(new Pavise(), new ChargeSkillDefend(1, 0), new RageEp()),
 					Arrays.asList(new Shove(), new Smite()),
 					3,
 					Weapon.Type.AXE, Weapon.Type.LANCE);
@@ -230,7 +230,7 @@ public final class Class implements Serializable {
 			return new Class("Valkyrie", 
 					"A cleric who rides a horse into combat.",
 					0,
-					Arrays.asList(new Miracle(), new ChargeSkillDefend(1, 0), new Rage()),
+					Arrays.asList(new Miracle(), new ChargeSkillDefend(1, 0), new RageEp()),
 					emptyFieldSkillList,
 					3,
 					Weapon.Type.STAFF, Weapon.Type.LIGHT);
@@ -238,7 +238,7 @@ public final class Class implements Serializable {
 			return new Class("Swordmaster",
 					"A seasoned myrmidon who has reached the pinnacle of swordsmanship.",
 					20,
-					Arrays.asList(new Astra(), new ChargeSkillDefend(3, 0), new Rage()),
+					Arrays.asList(new Astra(), new ChargeSkillDefend(3, 0), new RageEp()),
 					Arrays.asList(new Shove()),
 					3,
 					Weapon.Type.SWORD);
@@ -246,7 +246,7 @@ public final class Class implements Serializable {
 			return new Class("Sorcerer",
 					"A sinister warlock who wields potent dark magic.",
 					0,
-					Arrays.asList(new Luna(true), new ChargeSkillDefend(1, 0), new Rage()),
+					Arrays.asList(new Luna(true), new ChargeSkillDefend(1, 0), new RageEp()),
 					Arrays.asList(new Shove()),
 					3,
 					Weapon.Type.DARK, Weapon.Type.ANIMA);
@@ -254,7 +254,7 @@ public final class Class implements Serializable {
 			return new Class("Falconknight", 
 					"Knights who control pegasi with great mastery.",
 					0,
-					Arrays.asList(new Crisis(), new ChargeSkillDefend(1, 0), new Rage()),
+					Arrays.asList(new Crisis(), new ChargeSkillDefend(1, 0), new RageEp()),
 					emptyFieldSkillList,
 					3,
 					Weapon.Type.LANCE, Weapon.Type.SWORD);
