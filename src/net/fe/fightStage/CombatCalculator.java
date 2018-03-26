@@ -193,6 +193,7 @@ public class CombatCalculator {
 		
 		int damage = 0;
 		int drain = 0;
+		int defenderSkillCharge = 0;
 		String animation = "Attack";
 		boolean miss = false;
 		boolean use = false;
@@ -277,6 +278,12 @@ public class CombatCalculator {
 			}
 		}
 		
+		for (CombatTrigger t : dSuccess.keySet()) {
+			if(dSuccess.get(t)){
+				defenderSkillCharge += t.runEnemyTurnSkillCharge(damage);
+			}
+		}
+		
 		if(miss){
 			damage = 0;
 			drain = 0;
@@ -284,9 +291,10 @@ public class CombatCalculator {
 		}
 		
 		damage = Math.max(0, Math.min(damage, d.getHp()));
-		addToAttackQueue(a, d, animation, damage, drain);
+		addToAttackQueue(a, d, animation, damage, drain, defenderSkillCharge);
 		d.setHp(d.getHp() - damage);
 		a.setHp(a.getHp() + drain);
+		d.incrementSkillCharge(defenderSkillCharge);
 		if(use)
 			a.use(a.getWeapon());
 		a.clearTempMods();
@@ -312,14 +320,16 @@ public class CombatCalculator {
 	 * @param animation the animation
 	 * @param damage the damage
 	 * @param drain the damage healed
+	 * @param defenderSkillCharge the amount the defender's skillCharge increases by
 	 */
-	public void addToAttackQueue(Unit a, Unit d, String animation, int damage, int drain) {
+	public void addToAttackQueue(Unit a, Unit d, String animation, int damage, int drain, int defenderSkillCharge) {
 		AttackRecord rec = new AttackRecord();
 		rec.attacker = new UnitIdentifier(a);
 		rec.defender = new UnitIdentifier(d);
 		rec.animation = animation;
 		rec.damage = damage;
 		rec.drain = drain;
+		rec.defenderSkillCharge = defenderSkillCharge;
 		attackQueue.add(rec);
 
 		logger.fine(rec.toString());

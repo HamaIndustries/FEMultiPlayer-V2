@@ -729,8 +729,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	public ArrayList<CombatTrigger> getTriggers() {
 		ArrayList<CombatTrigger> triggers = new ArrayList<CombatTrigger>();
 		triggers.addAll(skills);
-		if (clazz.masterSkill != null)
-			triggers.add(clazz.masterSkill);
+		triggers.addAll(clazz.combatSkills);
 		if(getWeapon() != null)
 			triggers.addAll(getWeapon().getTriggers());
 		return triggers;
@@ -1212,10 +1211,9 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	public int getSkillCharge() {
 		return this.skillCharge;
 	}
-	public void incrementSkillCharge() {
-		if (this.skillCharge < MAX_SKILL_CHARGE) {
-			this.skillCharge++;
-		}
+	public void incrementSkillCharge(int amount) {
+		// assert (amount >= 0);
+		this.skillCharge = Math.min(MAX_SKILL_CHARGE, this.skillCharge + amount);
 	}
 	public void spendSkillCharge(int amount) {
 		// assert (amount >= 0);

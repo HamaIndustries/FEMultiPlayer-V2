@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.function.Function;
 
 import net.fe.fightStage.Brave;
+import net.fe.fightStage.ChargeSkillDefend;
 import net.fe.fightStage.CombatTrigger;
 import net.fe.fightStage.EclipseSix;
 import net.fe.fightStage.LunaPlus;
@@ -173,6 +174,8 @@ public final class Weapon extends Item {
 		ArrayList<CombatTrigger> triggers = new ArrayList<CombatTrigger>();
 		if(name.contains("Brave")){
 			triggers.add(new Brave());
+		} else if (name.contains("Kill") || name.equals("Wo Dao")) {
+			triggers.add(new ChargeSkillDefend(1, 1));
 		} else if (name.equals("Nosferatu")){
 			triggers.add(new Nosferatu());
 		} else if (name.equals("Lunase")){

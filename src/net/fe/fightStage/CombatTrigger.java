@@ -139,6 +139,14 @@ public abstract class CombatTrigger implements Serializable {
 	}
 	
 	/**
+	 * Returns the amount to increment this unit's skillCharge by when this unit is defending
+	 * @param damage the amount of damage inflicted on the defender (aka this unit)
+	 */
+	public int runEnemyTurnSkillCharge(int damage) {
+		return 0;
+	}
+	
+	/**
 	 * Gets the name.
 	 *
 	 * @return the name

@@ -413,6 +413,7 @@ public class FightStage extends Stage {
 				// + " took " + rec.damage + " damage!");
 				defender.setHp(defender.getHp() - rec.damage);
 				attacker.setHp(attacker.getHp() + rec.drain);
+				defender.incrementSkillCharge(rec.defenderSkillCharge);
 				dhp.setHp(dhp.getHp() - rec.damage);
 				ahp.setHp(ahp.getHp() + rec.drain, false);
 				attacker.use(attacker.getWeapon());
