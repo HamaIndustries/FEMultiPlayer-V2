@@ -101,9 +101,10 @@ public class UnitInfo extends Entity implements DoNotDestroy{
 		Renderer.drawRectangle(x+2, y+2, x+318, y+18, renderDepth, u.getPartyColor());
 		Renderer.drawString("default_med", u.name + "   Lv" + u.getLevel(), 
 				x+92, y+4, renderDepth);
+		String rage = "Rage " + u.getSkillCharge() + " | ";
 		String hp = "HP " + u.getHp() + "/" + u.getStats().maxHp;
-		int width = FEResources.getBitmapFont("default_med").getStringWidth(hp);
-		Renderer.drawString("default_med", hp, x+316-width, y+4, renderDepth);
+		int width = FEResources.getBitmapFont("default_med").getStringWidth(rage + hp);
+		Renderer.drawString("default_med", rage + hp, x+316-width, y+4, renderDepth);
 		
 		//Mugshot
 		Renderer.drawRectangle(x+4, y+4, x+88, y+78, renderDepth, BORDER_DARK);
