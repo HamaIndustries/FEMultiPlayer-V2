@@ -413,8 +413,6 @@ public class FightStage extends Stage {
 				// + " took " + rec.damage + " damage!");
 				defender.setHp(defender.getHp() - rec.damage);
 				attacker.setHp(attacker.getHp() + rec.drain);
-				defender.incrementSkillCharge(rec.skillCharge);
-				attacker.spendSkillCharge(rec.skillSpend);
 				dhp.setHp(dhp.getHp() - rec.damage);
 				ahp.setHp(ahp.getHp() + rec.drain, false);
 				attacker.use(attacker.getWeapon());
@@ -443,6 +441,8 @@ public class FightStage extends Stage {
 				
 				setCurrentEvent(HURTING);
 			}
+			defender.incrementSkillCharge(rec.skillCharge);
+			attacker.spendSkillCharge(rec.skillSpend);
 
 			ArrayList<String> messages = analyzeAnimation(rec.animation, "(d)", true);
 			for (int i = 0; i < messages.size(); i++) {

@@ -297,16 +297,17 @@ public class CombatCalculator {
 				skillSpend += t.runYourTurnSkillSpend();
 			}
 		}
-		for (CombatTrigger t : dSuccess.keySet()) {
-			if(dSuccess.get(t)){
-				skillCharge += t.runEnemyTurnSkillCharge(damage);
-			}
-		}
 		
 		if(miss){
 			damage = 0;
 			drain = 0;
 			animation += " Miss";
+		}
+		
+		for (CombatTrigger t : dSuccess.keySet()) {
+			if(dSuccess.get(t)){
+				skillCharge += t.runEnemyTurnSkillCharge(damage);
+			}
 		}
 		
 		damage = Math.max(0, Math.min(damage, d.getHp()));
