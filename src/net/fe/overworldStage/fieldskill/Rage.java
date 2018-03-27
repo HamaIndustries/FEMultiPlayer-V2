@@ -70,5 +70,5 @@ public final class Rage extends FieldSkill {
 	@Override
 	public int hashCode() { return (int) serialVersionUID; }
 	@Override
-	public boolean equals(Object other) { return other instanceof Smite; }
+	public boolean equals(Object other) { return other instanceof Rage; }
 }
