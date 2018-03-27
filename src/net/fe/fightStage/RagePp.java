@@ -15,7 +15,11 @@ public final class RagePp extends CombatTrigger {
 	/**
 	 */
 	public RagePp(){
-		super(APPEND_NAME_AFTER_MOD, YOUR_TURN_MOD);
+		// APPEND_NAME_AFTER_MOD doesn't append the name if runDamageMod
+		// doesn't change the damage, say from 0 to 0. Hence the need to use
+		// REPLACE_NAME_AFTER_PRE, and REPLACE_... is the only reason to have
+		// YOUR_TURN_PRE
+		super(REPLACE_NAME_AFTER_PRE, YOUR_TURN_PRE | YOUR_TURN_MOD);
 	}
 	
 	@Override
