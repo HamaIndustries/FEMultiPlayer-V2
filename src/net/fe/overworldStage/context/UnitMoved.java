@@ -97,7 +97,7 @@ public class UnitMoved extends MenuContext<String> {
 			unit.setMoved(true);
 			stage.reset();	
 		} else if (action.equals("Attack")) {
-			new AttackTarget(stage, this, zone, unit).startContext();
+			new AttackTarget(stage, this, zone, unit, java.util.Collections.emptyList()).startContext();
 		} else if (action.equals("Heal")){
 			new HealTarget(stage, this, zone, unit).startContext();
 		} else if (action.equals("Item")){	

@@ -51,6 +51,9 @@ public class CombatCalculator {
 	/** The attack triggers, weapon and unit skills */
 	private ArrayList<CombatTrigger> leftTriggers, rightTriggers;
 	
+	/** the combat triggers added to left temporarily by a field skill activation */
+	private final Iterable<CombatTrigger> leftManualTriggers;
+	
 	private RNG hitRNG;
 	private RNG critRNG;
 	private RNG skillRNG;
@@ -61,12 +64,19 @@ public class CombatCalculator {
 	 * @param u1 the unit id of fighter 1
 	 * @param u2 the unit id of fighter 2
 	 * @param dereference A function that converts a UnitIdentifier into a Unit
+	 * @param u1ManualTriggers the combat triggers added to u1 temporarily by a field skill activation
 	 */
-	public CombatCalculator(UnitIdentifier u1, UnitIdentifier u2, Function<UnitIdentifier, Unit> dereference, RNG hitRNG, RNG critRNG, RNG skillRNG){
+	public CombatCalculator(
+		UnitIdentifier u1, UnitIdentifier u2,
+		Iterable<CombatTrigger> u1ManualTriggers,
+		Function<UnitIdentifier, Unit> dereference,
+		RNG hitRNG, RNG critRNG, RNG skillRNG
+	){
 		
 		this.hitRNG = hitRNG;
 		this.critRNG = critRNG;
 		this.skillRNG = skillRNG;
+		this.leftManualTriggers = u1ManualTriggers;
 		
 		left = dereference.apply(u1);
 		right = dereference.apply(u2);
@@ -114,6 +124,9 @@ public class CombatCalculator {
 		}
 		leftTriggers = new ArrayList<CombatTrigger>();
 		for(CombatTrigger t: left.getTriggers()){
+			leftTriggers.add(t.getCopy());
+		}
+		for (CombatTrigger t: leftManualTriggers) {
 			leftTriggers.add(t.getCopy());
 		}
 		

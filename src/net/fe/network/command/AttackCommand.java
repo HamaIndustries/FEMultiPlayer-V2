@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.fe.fightStage.AttackRecord;
 import net.fe.fightStage.CombatCalculator;
+import net.fe.fightStage.CombatTrigger;
 import net.fe.fightStage.FightStage;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.OverworldStage;
@@ -13,12 +14,16 @@ import net.fe.unit.UnitIdentifier;
 
 public final class AttackCommand extends Command {
 	
-	private static final long serialVersionUID = 6468268282716381357L;
+	private static final long serialVersionUID = -5968025039862780623L;
 	
 	private final UnitIdentifier otherId;
+	private final ArrayList<CombatTrigger> unitManualTriggers;
 	
-	public AttackCommand(UnitIdentifier otherId) {
+	public AttackCommand(UnitIdentifier otherId, Iterable<CombatTrigger> unitManualTriggers) {
 		this.otherId = otherId;
+		this.unitManualTriggers = new ArrayList<CombatTrigger>();
+		unitManualTriggers.forEach(x -> this.unitManualTriggers.add(x));
+		this.unitManualTriggers.trimToSize();
 	} 
 	
 	@Override
@@ -26,7 +31,7 @@ public final class AttackCommand extends Command {
 		
 		//This updates HP so we're ok
 		final UnitIdentifier unitId = new UnitIdentifier(unit);
-		CombatCalculator calc = new CombatCalculator(unitId, otherId, (ui) -> stage.getUnit(ui), stage.getHitRNG(), stage.getCritRNG(), stage.getSkillRNG());
+		CombatCalculator calc = new CombatCalculator(unitId, otherId, this.unitManualTriggers, (ui) -> stage.getUnit(ui), stage.getHitRNG(), stage.getCritRNG(), stage.getSkillRNG());
 		return calc.getAttackQueue();
 	}
 	

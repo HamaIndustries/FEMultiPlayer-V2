@@ -3,6 +3,7 @@ package net.fe.overworldStage.context;
 import java.util.ArrayList;
 
 import chu.engine.anim.AudioPlayer;
+import net.fe.fightStage.CombatTrigger;
 import net.fe.network.command.EquipCommand;
 import net.fe.network.command.AttackCommand;
 import net.fe.overworldStage.*;
@@ -26,6 +27,9 @@ public final class AttackPreview extends OverworldContext{
 	/** The weapons. */
 	private ArrayList<Weapon> weapons;
 	
+	/** The Combat Triggers added by the attacker based on a field skill selection */
+	private final Iterable<CombatTrigger> manualTriggers;
+	
 	/** The index. */
 	private int index;
 	
@@ -37,10 +41,11 @@ public final class AttackPreview extends OverworldContext{
 	 * @param a the a
 	 * @param d the d
 	 */
-	public AttackPreview(ClientOverworldStage s, OverworldContext prevContext, Unit a, Unit d) {
+	public AttackPreview(ClientOverworldStage s, OverworldContext prevContext, Unit a, Unit d, Iterable<CombatTrigger> ts) {
 		super(s, prevContext);
 		attacker = a;
 		defender = d;
+		manualTriggers = ts;
 		preview = new BattlePreview(ClientOverworldStage.RIGHT_AXIS - 44,
 				76, a, d, Grid.getDistance(a, d));
 		
@@ -64,7 +69,7 @@ public final class AttackPreview extends OverworldContext{
 	@Override
 	public void onSelect() {
 		AudioPlayer.playAudio("select");
-		stage.addCmd(new AttackCommand(new UnitIdentifier(defender)));
+		stage.addCmd(new AttackCommand(new UnitIdentifier(defender), manualTriggers));
 		stage.setControl(false);
 		stage.send();
 		attacker.setMoved(true);

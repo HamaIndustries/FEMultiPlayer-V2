@@ -208,7 +208,7 @@ public class FEMultiplayer extends Game{
 		
 		// ^------- put all pre-calc stuff here
 		
-		CombatCalculator calc = new CombatCalculator(new UnitIdentifier(u1), new UnitIdentifier(u2), FEMultiplayer::getUnit, new TrueHitRNG(), new SimpleRNG(), new SimpleRNG());
+		CombatCalculator calc = new CombatCalculator(new UnitIdentifier(u1), new UnitIdentifier(u2), java.util.Collections.emptyList(), FEMultiplayer::getUnit, new TrueHitRNG(), new SimpleRNG(), new SimpleRNG());
 		System.out.println(calc.getAttackQueue());
 		
 		

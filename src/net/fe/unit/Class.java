@@ -93,15 +93,13 @@ public final class Class implements Serializable {
 	 * @return the class
 	 */
 	public static Class createClass(String name){
-		List<FieldSkill> emptyFieldSkillList = emptyList();
-		
 		//Lords
 		if(name.equals("Roy"))
 			return new Class("Lord", 
 					"A noble youth who commands armies.",
 					0,
 					Arrays.asList(new Aether(), new ChargeSkillDefend(1, 0), new RageEp()),
-					Arrays.asList(new Shove()),
+					Arrays.asList(new Shove(), new Rage()),
 					3,
 					Weapon.Type.SWORD);
 		if(name.equals("Eliwood"))
@@ -109,7 +107,7 @@ public final class Class implements Serializable {
 					"A couRageEpous royal who commands armies.",
 					 0,
 					 Arrays.asList(new Sol(false), new ChargeSkillDefend(1, 0), new RageEp()),
-					 emptyFieldSkillList,
+					 Arrays.asList(new Rage()),
 					 3,
 					 Weapon.Type.SWORD, Weapon.Type.LANCE);
 		if(name.equals("Lyn"))
@@ -117,7 +115,7 @@ public final class Class implements Serializable {
 					"A serene youth who commands armies.",
 					 0,
 					 Arrays.asList(new Astra(), new ChargeSkillDefend(1, 0), new RageEp()),
-					 Arrays.asList(new Shove()),
+					 Arrays.asList(new Shove(), new Rage()),
 					 3,
 					 Weapon.Type.SWORD, Weapon.Type.BOW, Weapon.Type.CROSSBOW);
 		if(name.equals("Hector"))
@@ -125,7 +123,7 @@ public final class Class implements Serializable {
 					"A mighty noble who commands armies.",
 					 0,
 					 Arrays.asList(new Luna(false), new ChargeSkillDefend(1, 0), new RageEp()),
-					 Arrays.asList(new Shove(), new Smite()),
+					 Arrays.asList(new Shove(), new Smite(), new Rage()),
 					 3, 
 					 Weapon.Type.AXE, Weapon.Type.SWORD);
 		if(name.equals("Eirika"))
@@ -133,7 +131,7 @@ public final class Class implements Serializable {
 					"A brave princess who commands armies.",
 					 0,
 					 Arrays.asList(new Luna(false), new ChargeSkillDefend(1, 0), new RageEp()),
-					 emptyFieldSkillList,
+					 Arrays.asList(new Rage()),
 					 3,
 					 Weapon.Type.SWORD);
 		if(name.equals("Ephraim"))
@@ -141,7 +139,7 @@ public final class Class implements Serializable {
 					"A skilled prince who commands armies.",
 					 0,
 					 Arrays.asList(new Sol(false), new ChargeSkillDefend(1, 0), new RageEp()),
-					 emptyFieldSkillList,
+					 Arrays.asList(new Rage()),
 					 3,
 					 Weapon.Type.LANCE);
 		if(name.equals("Marth"))
@@ -149,7 +147,7 @@ public final class Class implements Serializable {
 					"A legendary prince who commands armies.",
 					 0,
 					 Arrays.asList(new Aether(), new ChargeSkillDefend(1, 0), new RageEp()),
-					 Arrays.asList(new Shove()),
+					 Arrays.asList(new Shove(), new Rage()),
 					 3,
 					 Weapon.Type.SWORD);
 		if(name.equals("Ike"))
@@ -157,7 +155,7 @@ public final class Class implements Serializable {
 					"A radiant hero who commands armies.",
 					 0,
 					 Arrays.asList(new Aether(), new ChargeSkillDefend(1, 0), new RageEp()),
-					 Arrays.asList(new Shove(), new Smite()),
+					 Arrays.asList(new Shove(), new Smite(), new Rage()),
 					 3,
 					 Weapon.Type.SWORD, Weapon.Type.AXE);
 		
@@ -167,7 +165,7 @@ public final class Class implements Serializable {
 					"An expert archer who has mastered the bow.",
 					10,
 					Arrays.asList(new Deadeye(), new ChargeSkillDefend(2, 0), new RageEp()),
-					Arrays.asList(new Shove()),
+					Arrays.asList(new Shove(), new Rage()),
 					3,
 					Weapon.Type.BOW, Weapon.Type.CROSSBOW);
 		if(name.equals("Hero"))
@@ -175,7 +173,7 @@ public final class Class implements Serializable {
 					"Battle-hardened warriors who possess exceptional skill.",
 					0,
 					Arrays.asList(new Luna(false), new ChargeSkillDefend(1, 0), new RageEp()),
-					Arrays.asList(new Shove()),
+					Arrays.asList(new Shove(), new Rage()),
 					3,
 					Weapon.Type.SWORD, Weapon.Type.AXE);
 		if(name.equals("Berserker"))
@@ -183,7 +181,7 @@ public final class Class implements Serializable {
 					"A master pirate who deals devastating attacks.",
 					10,
 					Arrays.asList(new Colossus(), new ChargeSkillDefend(2, 0), new RageEp()),
-					Arrays.asList(new Shove(), new Smite()),
+					Arrays.asList(new Shove(), new Smite(), new Rage()),
 					3,
 					Weapon.Type.AXE);
 		if(name.equals("Warrior"))
@@ -191,7 +189,7 @@ public final class Class implements Serializable {
 					"An experienced fighter whose might is second to none.",
 					0,
 					Arrays.asList(new Colossus(), new ChargeSkillDefend(1, 0), new RageEp()),
-					Arrays.asList(new Shove(), new Smite()),
+					Arrays.asList(new Shove(), new Smite(), new Rage()),
 					3,
 					Weapon.Type.AXE, Weapon.Type.CROSSBOW);
 		if(name.equals("Assassin"))
@@ -199,7 +197,7 @@ public final class Class implements Serializable {
 					"A deadly killer who lives in the shadows.",
 					10,
 					Arrays.asList(new Lethality(), new ChargeSkillDefend(2, 0), new RageEp()),
-					Arrays.asList(new Shove()),
+					Arrays.asList(new Shove(), new Rage()),
 					8,
 					Weapon.Type.SWORD);
 		if(name.equals("Paladin"))
@@ -207,7 +205,7 @@ public final class Class implements Serializable {
 					"An experienced and dignified knight, possessing high mobility.",
 					0,
 					Arrays.asList(new Sol(false), new ChargeSkillDefend(1, 0), new RageEp()),
-					emptyFieldSkillList,
+					Arrays.asList(new Rage()),
 					3,
 					Weapon.Type.LANCE, Weapon.Type.SWORD, Weapon.Type.AXE);
 		if(name.equals("Sage"))
@@ -215,7 +213,7 @@ public final class Class implements Serializable {
 					"A powerful magic user who wields mighty tomes.",
 					0,
 					Arrays.asList(new Sol(true), new ChargeSkillDefend(1, 0), new RageEp()),
-					Arrays.asList(new Shove()),
+					Arrays.asList(new Shove(), new Rage()),
 					3,
 					Weapon.Type.ANIMA, Weapon.Type.LIGHT, Weapon.Type.STAFF);
 		if(name.equals("General"))
@@ -223,7 +221,7 @@ public final class Class implements Serializable {
 					"Armoured knights who possess overpowering strength and defense.",
 					0,
 					Arrays.asList(new Pavise(), new ChargeSkillDefend(1, 0), new RageEp()),
-					Arrays.asList(new Shove(), new Smite()),
+					Arrays.asList(new Shove(), new Smite(), new Rage()),
 					3,
 					Weapon.Type.AXE, Weapon.Type.LANCE);
 		if(name.equals("Valkyrie"))
@@ -231,7 +229,7 @@ public final class Class implements Serializable {
 					"A cleric who rides a horse into combat.",
 					0,
 					Arrays.asList(new Miracle(), new ChargeSkillDefend(1, 0), new RageEp()),
-					emptyFieldSkillList,
+					Arrays.asList(new Rage()),
 					3,
 					Weapon.Type.STAFF, Weapon.Type.LIGHT);
 		if(name.equals("Swordmaster"))
@@ -239,7 +237,7 @@ public final class Class implements Serializable {
 					"A seasoned myrmidon who has reached the pinnacle of swordsmanship.",
 					20,
 					Arrays.asList(new Astra(), new ChargeSkillDefend(3, 0), new RageEp()),
-					Arrays.asList(new Shove()),
+					Arrays.asList(new Shove(), new Rage()),
 					3,
 					Weapon.Type.SWORD);
 		if(name.equals("Sorcerer"))
@@ -247,7 +245,7 @@ public final class Class implements Serializable {
 					"A sinister warlock who wields potent dark magic.",
 					0,
 					Arrays.asList(new Luna(true), new ChargeSkillDefend(1, 0), new RageEp()),
-					Arrays.asList(new Shove()),
+					Arrays.asList(new Shove(), new Rage()),
 					3,
 					Weapon.Type.DARK, Weapon.Type.ANIMA);
 		if(name.equals("Falconknight"))
@@ -255,7 +253,7 @@ public final class Class implements Serializable {
 					"Knights who control pegasi with great mastery.",
 					0,
 					Arrays.asList(new Crisis(), new ChargeSkillDefend(1, 0), new RageEp()),
-					emptyFieldSkillList,
+					Arrays.asList(new Rage()),
 					3,
 					Weapon.Type.LANCE, Weapon.Type.SWORD);
 		if(name.equals("Phantom"))
