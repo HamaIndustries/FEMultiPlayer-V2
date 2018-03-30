@@ -483,5 +483,9 @@ public class CombatCalculator {
 				return String.format("%3d", FEMultiplayer.getSession().getCritRNG().actualSuccessRate(crit));
 			return String.format("%3d", crit);
 		}
+		
+		public boolean canAttack() {
+			return crit < 0;
+		}
 	}
 }

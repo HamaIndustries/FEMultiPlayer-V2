@@ -94,6 +94,7 @@ public class BattlePreview extends Entity {
 	 */
 	public void render() {
 		String aHit = " - ", aAtk = " - ", aCrit = " - ", dHit = " - ", dAtk = " - ", dCrit = " - ";
+		boolean dCanCounter;
 		int aMult = 1;
 		int dMult = 1;
 		String aHp = String.format("%d", attacker.getHp());
@@ -126,6 +127,7 @@ public class BattlePreview extends Entity {
 		dHit = stats.formattedHit();
 		dAtk = stats.formattedDamage();
 		dCrit = stats.formattedCrit();
+		dCanCounter = stats.canAttack();
 		
 		if(defender.getStats().spd >= attacker.getStats().spd + 4)
 			dMult*=2;
@@ -191,10 +193,12 @@ public class BattlePreview extends Entity {
 		Renderer.drawString("default_med", dAtk, x + 4, y + 51, renderDepth);
 		Renderer.drawString("default_med", dHit, x + 4, y + 66, renderDepth);
 		Renderer.drawString("default_med", dCrit, x + 4, y + 81, renderDepth);
-		if(dMult == 2){
-			x2.render(x+19, y+49, renderDepth);
-		} else if (dMult == 4){
-			x4.render(x+19, y+49, renderDepth);
+		if(dCanCounter) {
+			if(dMult == 2){
+				x2.render(x+19, y+49, renderDepth);
+			} else if (dMult == 4){
+				x4.render(x+19, y+49, renderDepth);
+			}
 		}
 
 		// Bottom item and name
