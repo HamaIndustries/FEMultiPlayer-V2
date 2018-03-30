@@ -131,10 +131,14 @@ public class BattlePreview extends Entity {
 		
 		if(defender.getStats().spd >= attacker.getStats().spd + 4)
 			dMult*=2;
-		if(defender.getWeapon().name.contains("Brave"))
-			dMult*=2;
 		
-		dEffective = defender.getWeapon().effective.contains(attacker.noGenderName());
+		if(defender.getWeapon() != null) {
+			
+			if(defender.getWeapon().name.contains("Brave"))
+				dMult*=2;
+			
+			dEffective = defender.getWeapon().effective.contains(attacker.noGenderName());
+		}
 		
 		// Borders
 		Renderer.drawRectangle(x - 1, y - 1, x + 91, y + 132, renderDepth,
