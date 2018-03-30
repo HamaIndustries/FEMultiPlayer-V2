@@ -9,7 +9,8 @@ import net.fe.overworldStage.Node;
 import net.fe.overworldStage.OverworldContext;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.Zone;
-import net.fe.overworldStage.Zone.ZoneType;
+import net.fe.overworldStage.Zone.RangeIndicator;
+import net.fe.overworldStage.Zone.RangeIndicator.RangeType;
 import net.fe.overworldStage.Grid;
 import net.fe.overworldStage.Path;
 
@@ -51,9 +52,9 @@ public final class Smite extends FieldSkill {
 	
 	@Override
 	public Zone getZone(Unit unit, Grid grid) {
-		return new Zone(grid.getRange(
+		return new RangeIndicator(grid.getRange(
 					new Node(unit.getXCoord(), unit.getYCoord()), 1),
-					ZoneType.MOVE_DARK);
+					RangeType.MOVE_DARK);
 	}
 	
 	/**
