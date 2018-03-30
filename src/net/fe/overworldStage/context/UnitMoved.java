@@ -266,7 +266,7 @@ public class UnitMoved extends MenuContext<String> {
 			list.add("Summon");
 		
 		for (FieldSkill f : unit.getTheClass().fieldSkills) {
-			if (f.allowedWithFog(unit, this.stage.grid)) {
+			if (f.allowed(unit, this.stage.grid)) {
 				list.add(f.getName());
 			}
 		}

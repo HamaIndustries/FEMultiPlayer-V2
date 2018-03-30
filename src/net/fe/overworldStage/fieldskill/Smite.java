@@ -27,27 +27,8 @@ public final class Smite extends FieldSkill {
 	public Smite() {
 	}
 	
-	/**
-	 * Checks whether the unit is capable of shiving anyone
-	 * @param unit the unit to check
-	 * @param grid the grid containing the unit
-	 */
 	@Override
 	public boolean allowed(Unit unit, Grid grid) {
-		Set<Node> range = grid.getRange(new Node(unit.getXCoord(), unit.getYCoord()), 1);
-		for (Node n : range) {
-			Unit shovee = grid.getUnit(n.x, n.y);
-			if (shovee != null) {
-				if (canSmite(grid, unit, shovee)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
-	@Override
-	public boolean allowedWithFog(Unit unit, Grid grid) {
 		Set<Node> range = grid.getRange(new Node(unit.getXCoord(), unit.getYCoord()), 1);
 		for (Node n : range) {
 			Unit shovee = grid.getUnit(n.x, n.y);
