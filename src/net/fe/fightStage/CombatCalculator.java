@@ -485,7 +485,7 @@ public class CombatCalculator {
 		}
 		
 		public boolean canAttack() {
-			return crit < 0;
+			return crit >= 0;
 		}
 	}
 }
