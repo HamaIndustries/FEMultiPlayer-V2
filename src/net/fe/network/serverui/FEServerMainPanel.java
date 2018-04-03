@@ -354,6 +354,5 @@ public class FEServerMainPanel extends JPanel {
 				(FogOption) cbbFogOfWar.getSelectedItem(),
 				(SpectatorFogOption) cbbSpectatorFog.getSelectedItem()
 			);
-
 	}
 }
