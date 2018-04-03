@@ -330,7 +330,9 @@ public class FEServerMainPanel extends JPanel {
 				(String) mapSelectionBox.getSelectedItem(),
 				(Integer) maxUnitsSpinner.getValue(), mods,
 				(PickMode) pickModeBox.getSelectedItem(),
-				(RNG) cbbHitRNG.getSelectedItem(), new SimpleRNG(), new SimpleRNG(),
+				(RNG) cbbHitRNG.getSelectedItem(),
+				(RNG) cbbCritRNG.getSelectedItem(),
+				(RNG) cbbSkillRNG.getSelectedItem(),
 				(FogOption) cbbFogOfWar.getSelectedItem());
 
 	}
