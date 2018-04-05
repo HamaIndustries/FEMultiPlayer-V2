@@ -388,13 +388,10 @@ public class ClientOverworldStage extends OverworldStage {
 		super.beginStep(java.util.Collections.singletonList(message));
 	}
 	
-	/* (non-Javadoc)
-	 * @see net.fe.overworldStage.OverworldStage#doEndTurn(int)
-	 */
 	@Override
-	protected void doEndTurn(int playerID) {
+	protected void doEndTurn() {
 		removeExtraneousEntities();
-		super.doEndTurn(playerID);
+		super.doEndTurn();
 		context.cleanUp();
 		// reset assists
 		for(Player p : session.getPlayers()) {
@@ -409,11 +406,9 @@ public class ClientOverworldStage extends OverworldStage {
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see net.fe.overworldStage.OverworldStage#doStartTurn(int)
-	 */
-	protected void doStartTurn(int playerID){
-		super.doStartTurn(playerID);
+	@Override
+	protected void doStartTurn(){
+		super.doStartTurn();
 		if(FEMultiplayer.getLocalPlayer().getID() == getCurrentPlayer().getID()){
 			context = new Idle(this, FEMultiplayer.getLocalPlayer());
 			addEntity(new TurnDisplay(true, Party.TEAM_BLUE));
