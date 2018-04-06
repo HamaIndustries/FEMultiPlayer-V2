@@ -5,8 +5,9 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -36,6 +37,7 @@ import net.fe.modifier.Vegas;
 import net.fe.modifier.Veterans;
 import net.fe.network.FEServer;
 import net.fe.overworldStage.ClientOverworldStage.FogOption;
+import net.fe.overworldStage.ClientOverworldStage.SpectatorFogOption;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.overworldStage.objective.Rout;
 import net.fe.overworldStage.objective.Seize;
@@ -47,9 +49,6 @@ import net.fe.rng.NullRNG;
 import net.fe.rng.RNG;
 import net.fe.rng.SimpleRNG;
 import net.fe.rng.TrueHitRNG;
-import net.fe.overworldStage.ClientOverworldStage.SpectatorFogOption;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 /**
  * The initial panel displayed to the server's host.
@@ -101,6 +100,10 @@ public class FEServerMainPanel extends JPanel {
 	private JComboBox<FogOption> cbbFogOfWar;
 	private JLabel lblSpectatorFog;
 	private JComboBox<SpectatorFogOption> cbbSpectatorFog;
+	private JLabel lblThiefsight;
+	private JComboBox cbbThiefSight;
+	private JPanel pnlToggleFog;
+	private JPanel panel;
 	
 	/**
 	 * Initializes the panel.
@@ -276,26 +279,40 @@ public class FEServerMainPanel extends JPanel {
 		
 		pnlFogOfWar = new JPanel();
 		mainPanel.add(pnlFogOfWar);
+		pnlFogOfWar.setLayout(new BorderLayout(0, 0));
+		
+		pnlToggleFog = new JPanel();
+		pnlFogOfWar.add(pnlToggleFog, BorderLayout.NORTH);
 		
 		lblFogOfWar = new JLabel("Fog of war:");
-		pnlFogOfWar.add(lblFogOfWar);
+		pnlToggleFog.add(lblFogOfWar);
 		
 		cbbFogOfWar = new JComboBox<FogOption>();
+		pnlToggleFog.add(cbbFogOfWar);
 		cbbFogOfWar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cbbSpectatorFog.setEnabled(cbbFogOfWar.getSelectedItem() != FogOption.NONE);
 			}
 		});
 		cbbFogOfWar.setModel(new DefaultComboBoxModel<FogOption>(FogOption.values()));
-		pnlFogOfWar.add(cbbFogOfWar);
+		
+		panel = new JPanel();
+		pnlFogOfWar.add(panel, BorderLayout.SOUTH);
 		
 		lblSpectatorFog = new JLabel("Spectator fog:");
-		pnlFogOfWar.add(lblSpectatorFog);
+		panel.add(lblSpectatorFog);
 		
 		cbbSpectatorFog = new JComboBox<SpectatorFogOption>();
+		panel.add(cbbSpectatorFog);
 		cbbSpectatorFog.setEnabled(false);
 		cbbSpectatorFog.setModel(new DefaultComboBoxModel<SpectatorFogOption>(SpectatorFogOption.values()));
-		pnlFogOfWar.add(cbbSpectatorFog);
+		
+		lblThiefsight = new JLabel("Thief sight:");
+		panel.add(lblThiefsight);
+		
+		cbbThiefSight = new JComboBox();
+		panel.add(cbbThiefSight);
+		cbbThiefSight.setModel(new DefaultComboBoxModel(ThiefSight.values()));
 
 		startServer = new JButton("Start server");
 		startServer.addActionListener(e -> {
@@ -354,5 +371,22 @@ public class FEServerMainPanel extends JPanel {
 				(FogOption) cbbFogOfWar.getSelectedItem(),
 				(SpectatorFogOption) cbbSpectatorFog.getSelectedItem()
 			);
+	}
+	
+	private static enum ThiefSight {
+		THRACIA(3, "Thracia"), TELLIUS(5, "Tellius"), GBA(8, "GBA");
+		
+		private String name;
+		private int sight;
+		
+		private ThiefSight(int sight, String name) {
+			this.name = name;
+			this.sight = sight;
+		}
+		
+		@Override
+		public String toString() {
+			return name;
+		}
 	}
 }
