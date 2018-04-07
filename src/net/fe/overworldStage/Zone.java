@@ -216,9 +216,10 @@ public abstract class Zone extends Entity {
 		
 		public static Set<Node> getUnitPerception(Unit unit) {
 			Set<Node> nodes = new HashSet<Node>();
+			int sight = FEMultiplayer.getSession().getSight(unit);
 			if(unit.getHp() > 0 && !unit.isRescued())
-				for(int i = 0; i <= unit.getTheClass().sight; i++)
-					for(int j = 0; j <= unit.getTheClass().sight - i; j++) {
+				for(int i = 0; i <= sight; i++)
+					for(int j = 0; j <= sight - i; j++) {
 						nodes.add(new Node(unit.getOrigX() + i, unit.getOrigY() + j));
 						nodes.add(new Node(unit.getOrigX() + i, unit.getOrigY() - j));
 						nodes.add(new Node(unit.getOrigX() - i, unit.getOrigY() + j));

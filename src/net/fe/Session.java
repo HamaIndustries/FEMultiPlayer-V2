@@ -23,6 +23,7 @@ import net.fe.pick.PickMode;
 import net.fe.rng.RNG;
 import net.fe.rng.SimpleRNG;
 import net.fe.rng.TrueHitRNG;
+import net.fe.unit.Unit;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -267,6 +268,10 @@ public final class Session implements Serializable {
 			ChatMessage chatMsg = (ChatMessage)message;
 			this.getChatlog().add(this.getPlayer(chatMsg.origin), chatMsg.text);
 		}
+	}
+	
+	public int getSight(Unit u) {
+		return u.getTheClass().name.equals("Assassin") ? 8 : 3;
 	}
 
 	public RNG getHitRNG() {
