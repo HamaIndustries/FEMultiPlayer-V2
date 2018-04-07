@@ -23,12 +23,14 @@ public final class Rage extends FieldSkill {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	private static final RagePp skill = new RagePp();
+	
 	public Rage() {
 	}
 	
 	@Override
 	public boolean allowed(Unit unit, Grid grid) {
-		if (unit.getSkillCharge() < 3) return false;
+		if (! skill.attempt(unit, true, 1, null, null)) return false;
 		
 		Set<Node> range = grid.getRange(
 			new Node(unit.getXCoord(), unit.getYCoord()),
@@ -53,7 +55,7 @@ public final class Rage extends FieldSkill {
 	 */
 	@Override
 	public OverworldContext onSelect(ClientOverworldStage stage, OverworldContext context, Zone z, Unit unit) {
-		return new AttackTarget(stage, context, z, unit, java.util.Collections.singletonList(new RagePp()));
+		return new AttackTarget(stage, context, z, unit, java.util.Collections.singletonList(skill));
 	}
 	
 	@Override

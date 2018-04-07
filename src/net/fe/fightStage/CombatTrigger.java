@@ -148,9 +148,9 @@ public abstract class CombatTrigger implements Serializable {
 	}
 	
 	/**
-	 * Returns the amount to decrement this unit's skillCharge by when this unit is attacking
+	 * Returns the amount to increment this unit's skillCharge by when this unit is attacking
 	 */
-	public int runYourTurnSkillSpend() {
+	public int runYourTurnSkillCharge() {
 		return 0;
 	}
 	

@@ -122,7 +122,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	/** The Constant MOVE_SPEED. */
 	public static final int MOVE_SPEED = 250;
 	
-	private static final int MAX_SKILL_CHARGE = 9;
+	public static final int MAX_SKILL_CHARGE = 50;
 	
 	/** The rescue. */
 	public static Texture rescue;
@@ -1212,12 +1212,9 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		return this.skillCharge;
 	}
 	public void incrementSkillCharge(int amount) {
-		// assert (amount >= 0);
-		this.skillCharge = Math.min(MAX_SKILL_CHARGE, this.skillCharge + amount);
+		this.skillCharge = Math.max(0, Math.min(MAX_SKILL_CHARGE, this.skillCharge + amount));
 	}
-	public void spendSkillCharge(int amount) {
-		// assert (amount >= 0);
-		// assert (amound >= skillCharge);
-		this.skillCharge -= amount;
+	public void emptySkillCharge() {
+		this.skillCharge = 0;
 	}
 }

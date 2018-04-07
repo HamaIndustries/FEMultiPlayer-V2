@@ -6,11 +6,13 @@ import net.fe.unit.Unit;
 /**
  * 
  * 
- * Effect: Triple damage by spending 3 skill charge. <br/>
- * Trigger: enemy phase and skillCharge > 3
+ * Effect: Triple damage by spending a full skill charge. <br/>
+ * Trigger: enemy phase and skillCharge is full
  */
 public final class RageEp extends CombatTrigger {
 	private static final long serialVersionUID = 1L;
+	
+	private static final int COST = Unit.MAX_SKILL_CHARGE;
 	
 	/**
 	 */
@@ -24,7 +26,7 @@ public final class RageEp extends CombatTrigger {
 	
 	@Override
 	public boolean attempt(Unit user, boolean initiator, int range, Unit opponent, RNG rng) {
-		return !initiator && user.getSkillCharge() >= 3;
+		return !initiator && user.getSkillCharge() >= COST;
 	}
 
 	@Override
@@ -33,8 +35,8 @@ public final class RageEp extends CombatTrigger {
 	}
 	
 	@Override
-	public int runYourTurnSkillSpend() {
-		return 3;
+	public int runYourTurnSkillCharge() {
+		return -COST;
 	}
 	
 	public CombatTrigger getCopy(){

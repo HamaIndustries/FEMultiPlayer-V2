@@ -206,8 +206,8 @@ public class CombatCalculator {
 		
 		int damage = 0;
 		int drain = 0;
-		int skillCharge = 0;
-		int skillSpend = 0;
+		int defenderSkillCharge = 0;
+		int attackerSkillCharge = 0;
 		String animation = "Attack";
 		boolean miss = false;
 		boolean use = false;
@@ -294,7 +294,7 @@ public class CombatCalculator {
 		
 		for (CombatTrigger t : aSuccess.keySet()) {
 			if(aSuccess.get(t)){
-				skillSpend += t.runYourTurnSkillSpend();
+				attackerSkillCharge += t.runYourTurnSkillCharge();
 			}
 		}
 		
@@ -306,16 +306,16 @@ public class CombatCalculator {
 		
 		for (CombatTrigger t : dSuccess.keySet()) {
 			if(dSuccess.get(t)){
-				skillCharge += t.runEnemyTurnSkillCharge(damage);
+				defenderSkillCharge += t.runEnemyTurnSkillCharge(damage);
 			}
 		}
 		
 		damage = Math.max(0, Math.min(damage, d.getHp()));
-		addToAttackQueue(a, d, animation, damage, drain, skillCharge, skillSpend);
+		addToAttackQueue(a, d, animation, damage, drain, defenderSkillCharge, attackerSkillCharge);
 		d.setHp(d.getHp() - damage);
 		a.setHp(a.getHp() + drain);
-		d.incrementSkillCharge(skillCharge);
-		a.spendSkillCharge(skillSpend);
+		d.incrementSkillCharge(defenderSkillCharge);
+		a.incrementSkillCharge(attackerSkillCharge);
 		if(use)
 			a.use(a.getWeapon());
 		a.clearTempMods();
@@ -341,18 +341,18 @@ public class CombatCalculator {
 	 * @param animation the animation
 	 * @param damage the damage
 	 * @param drain the damage healed
-	 * @param skillCharge the amount the defender's skillCharge increases by
-	 * @param skillSpend the amount the attacker's skillCharge decreases by
+	 * @param defenderSkillCharge the amount the defender's skillCharge increases by
+	 * @param attackerSkillCharge the amount the attacker's skillCharge decreases by
 	 */
-	public void addToAttackQueue(Unit a, Unit d, String animation, int damage, int drain, int skillCharge, int skillSpend) {
+	public void addToAttackQueue(Unit a, Unit d, String animation, int damage, int drain, int defenderSkillCharge, int attackerSkillCharge) {
 		AttackRecord rec = new AttackRecord();
 		rec.attacker = new UnitIdentifier(a);
 		rec.defender = new UnitIdentifier(d);
 		rec.animation = animation;
 		rec.damage = damage;
 		rec.drain = drain;
-		rec.skillCharge = skillCharge;
-		rec.skillSpend = skillSpend;
+		rec.defenderSkillCharge = defenderSkillCharge;
+		rec.attackerSkillCharge = attackerSkillCharge;
 		attackQueue.add(rec);
 
 		logger.fine(rec.toString());

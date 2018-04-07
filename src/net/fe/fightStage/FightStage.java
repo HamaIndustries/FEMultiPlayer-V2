@@ -441,8 +441,8 @@ public class FightStage extends Stage {
 				
 				setCurrentEvent(HURTING);
 			}
-			defender.incrementSkillCharge(rec.skillCharge);
-			attacker.spendSkillCharge(rec.skillSpend);
+			defender.incrementSkillCharge(rec.defenderSkillCharge);
+			attacker.incrementSkillCharge(rec.attackerSkillCharge);
 
 			ArrayList<String> messages = analyzeAnimation(rec.animation, "(d)", true);
 			for (int i = 0; i < messages.size(); i++) {
