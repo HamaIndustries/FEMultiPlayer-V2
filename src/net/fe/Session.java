@@ -63,6 +63,7 @@ public final class Session implements Serializable {
 	
 	private final FogOption fogOption;
 	private final SpectatorFogOption spectatorFogOption;
+	private final int regularSight;
 	private final int thiefSight;
 	
 	/**
@@ -71,7 +72,7 @@ public final class Session implements Serializable {
 	public Session() {
 		this(new Rout(), "test", 8, new HashSet<>(), new Draft(),
 				new TrueHitRNG(), new SimpleRNG(), new SimpleRNG(),
-				FogOption.NONE, SpectatorFogOption.REVEAL_ALL, 8);
+				FogOption.NONE, SpectatorFogOption.REVEAL_ALL, 3, 8);
 	}
 	
 	/**
@@ -79,7 +80,7 @@ public final class Session implements Serializable {
 	 */
 	public Session(Objective objective, String map, int maxUnits, Set<Modifier> modifiers, PickMode pickMode,
 			RNG hitRNG, RNG critRNG, RNG skillRNG, FogOption fogOption, SpectatorFogOption spectatorFogOption,
-			int thiefSight) {
+			int regularSight, int thiefSight) {
 
 		this.hitRNG = hitRNG;
 		this.critRNG = critRNG;
@@ -95,6 +96,7 @@ public final class Session implements Serializable {
 		this.fogOption = fogOption;
 		this.spectatorFogOption = spectatorFogOption;
 		this.thiefSight = thiefSight;
+		this.regularSight = regularSight;
 	}
 	
 	/**
@@ -274,7 +276,7 @@ public final class Session implements Serializable {
 	}
 	
 	public int getSight(Unit u) {
-		return u.getTheClass().name.equals("Assassin") ? thiefSight : 3;
+		return u.getTheClass().name.equals("Assassin") ? thiefSight : regularSight;
 	}
 
 	public RNG getHitRNG() {

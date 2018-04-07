@@ -101,7 +101,7 @@ public class FEServerMainPanel extends JPanel {
 	private JLabel lblSpectatorFog;
 	private JComboBox<SpectatorFogOption> cbbSpectatorFog;
 	private JLabel lblThiefsight;
-	private JComboBox cbbThiefSight;
+	private JComboBox<SightOption> cbbThiefSight;
 	private JPanel pnlToggleFog;
 	private JPanel panel;
 	
@@ -292,6 +292,7 @@ public class FEServerMainPanel extends JPanel {
 		cbbFogOfWar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cbbSpectatorFog.setEnabled(cbbFogOfWar.getSelectedItem() != FogOption.NONE);
+				cbbThiefSight.setEnabled(cbbFogOfWar.getSelectedItem() != FogOption.NONE);
 			}
 		});
 		cbbFogOfWar.setModel(new DefaultComboBoxModel<FogOption>(FogOption.values()));
@@ -310,9 +311,10 @@ public class FEServerMainPanel extends JPanel {
 		lblThiefsight = new JLabel("Thief sight:");
 		panel.add(lblThiefsight);
 		
-		cbbThiefSight = new JComboBox();
+		cbbThiefSight = new JComboBox<>();
 		panel.add(cbbThiefSight);
-		cbbThiefSight.setModel(new DefaultComboBoxModel(ThiefSight.values()));
+		cbbThiefSight.setEnabled(false);
+		cbbThiefSight.setModel(new DefaultComboBoxModel<>(SightOption.values()));
 
 		startServer = new JButton("Start server");
 		startServer.addActionListener(e -> {
@@ -370,19 +372,26 @@ public class FEServerMainPanel extends JPanel {
 				(RNG) cbbSkillRNG.getSelectedItem(),
 				(FogOption) cbbFogOfWar.getSelectedItem(),
 				(SpectatorFogOption) cbbSpectatorFog.getSelectedItem(),
-				((ThiefSight) cbbThiefSight.getSelectedItem()).sight
+				((SightOption) cbbThiefSight.getSelectedItem()).regularSight,
+				((SightOption) cbbThiefSight.getSelectedItem()).thiefSight
 			);
 	}
 	
-	private static enum ThiefSight {
-		THRACIA(3, "Thracia"), TELLIUS(5, "Tellius"), GBA(8, "GBA");
+	private static enum SightOption {
+		FE7_8(3, 8, "Blazing Sword/Sacred Stones"),
+		FE5(3, 3, "Thracia"),
+		FE9_10(3, 5, "Tellius"),
+		FE6(5, 10, "Binding Blade"),
+		FE11_12(2, 3, "SNES remake");
 		
 		private String name;
-		private int sight;
+		private int regularSight;
+		private int thiefSight;
 		
-		private ThiefSight(int sight, String name) {
+		private SightOption(int regularSight, int thiefSight, String name) {
 			this.name = name;
-			this.sight = sight;
+			this.regularSight = regularSight;
+			this.thiefSight = thiefSight;
 		}
 		
 		@Override
