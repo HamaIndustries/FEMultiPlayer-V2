@@ -189,9 +189,9 @@ public class FightStage extends Stage {
 			ClientOverworldStage returnTo,
 			Runnable returnCallback
 	) {
-		super(u1.partyColor.equals(u2.partyColor) ? "curing" :
-				u1.partyColor.equals(FEMultiplayer.getLocalPlayer().getParty().getColor()) ?
-						"fight" : "defense");
+		super(u1.partyColor.equals(u2.partyColor) ? "curing" : 
+			FEMultiplayer.getUnit(u1).getTheClass().name.equals("Lord") || FEMultiplayer.getUnit(u2).getTheClass().name.equals("Lord") ? "lord" :
+			u2.partyColor.equals(FEMultiplayer.getLocalPlayer().getParty().getColor()) ? "fight" : "defense");
 		shakeTimer = 0;
 		prevShakeTimer = 0;
 		timer = 0;

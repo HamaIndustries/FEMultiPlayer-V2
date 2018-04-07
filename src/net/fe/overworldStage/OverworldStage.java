@@ -271,12 +271,12 @@ public class OverworldStage extends Stage {
 				System.out.println("" + message.origin + " " + currentPlayer);
 				if(message.origin == getCurrentPlayer().getID() || message.origin == 0){
 					((EndTurn) message).checkHp((ui) -> this.getUnit(ui));
-					doEndTurn(message.origin);
+					doEndTurn();
 					currentPlayer++;
 					if(currentPlayer >= turnOrder.size()) {
 						currentPlayer = 0;
 					}
-					doStartTurn(message.origin);
+					doStartTurn();
 				}
 			}
 			else if(message instanceof QuitMessage) {
@@ -288,11 +288,12 @@ public class OverworldStage extends Stage {
 	}
 	
 	/**
-	 * Do end turn.
-	 *
-	 * @param playerID the player id
+	 * Perform actions that happen at the end of a phase
+	 * <p>
+	 * The phase to end is determined by the class's `getCurrentPlayer()`
 	 */
-	protected void doEndTurn(int playerID) {
+	protected void doEndTurn() {
+		// perform terrain effects
 		for(int x = 0; x < grid.width; x++){
 			for(int y = 0; y < grid.height; y++){
 				for(TerrainTrigger t: grid.getTerrain(x, y).getTriggers()){
@@ -304,21 +305,28 @@ public class OverworldStage extends Stage {
 			}
 		}
 		
+		// Refresh unit's `moved` status
 		for(Player p : session.getPlayers()) {
 			for(Unit u : p.getParty()) {
 				u.setMoved(false);
 			}
 		}
-		turnCount++;
+		
 		checkEndGame();
 	}
 	
 	/**
-	 * Do start turn.
-	 *
-	 * @param playerID the player id
+	 * Perform actions that happen at the start of a phase.
+	 * <p>
+	 * The phase to start is determined by the class's `getCurrentPlayer()`
 	 */
-	protected void doStartTurn(int playerID) {
+	protected void doStartTurn() {
+		// increment turn count if the starting phase is the first phase of a turn
+		if (currentPlayer == 0) {
+			turnCount++;
+		}
+		
+		// perform terrain effects
 		for(int x = 0; x < grid.width; x++){
 			for(int y = 0; y < grid.height; y++){
 				for(TerrainTrigger t: grid.getTerrain(x, y).getTriggers()){
