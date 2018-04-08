@@ -675,50 +675,45 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	}
 
 	/**
-	 * Use.
+	 * Use an item
 	 *
-	 * @param index the index
-	 * @return the int
+	 * @param index the index of the item in this unit's inventory
 	 */
-	public int use(int index) {
-		return use(inventory.get(index), true);
+	public void use(int index) {
+		use(inventory.get(index), true);
 	}
 	
 	/**
-	 * Use.
+	 * Use an item
 	 *
-	 * @param index the index
+	 * @param index the index of the item in this unit's inventory
 	 * @param destroy the destroy
-	 * @return the int
 	 */
-	public int use(int index, boolean destroy){
-		return use(inventory.get(index), destroy);
+	public void use(int index, boolean destroy){
+		use(inventory.get(index), destroy);
 	}
 	
 	/**
-	 * Use.
+	 * Use an item
 	 *
-	 * @param i the i
-	 * @return the int
+	 * @param i the item
 	 */
-	public int use(Item i){
-		return use(i, true);
+	public void use(Item i){
+		use(i, true);
 	}
 
 	/**
-	 * Use.
+	 * Use an item
 	 *
-	 * @param i the i
+	 * @param i the item
 	 * @param destroy the destroy
-	 * @return the int
 	 */
-	public int use(Item i, boolean destroy) {
-		int ans = i.use(this);
+	public void use(Item i, boolean destroy) {
+		i.use(this);
 		if(i.getUses() <= 0 && destroy){
 			inventory.remove(i);
 			reEquip();
 		}
-		return ans;
 	}
 
 	/**

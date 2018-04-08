@@ -41,14 +41,12 @@ public abstract class Item implements Serializable, Comparable<Item>{
 	}
 	
 	/**
-	 * Use.
-	 *
-	 * @param user the user
-	 * @return the int
+	 * Use the item
+	 * 
+	 * @param user the unit which used this item
 	 */
-	int use(Unit user){
+	void use(Unit user){
 		uses--;
-		return 0;
 	}
 	
 	/**

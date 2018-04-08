@@ -35,14 +35,11 @@ public final class HealingItem extends Item {
 		this.amount = amount;
 	}
 	
-	/* (non-Javadoc)
-	 * @see net.fe.unit.Item#use(net.fe.unit.Unit)
-	 */
-	public int use(Unit user){
+	@Override
+	public void use(Unit user){
 		super.use(user);
 		int maxHeal = user.getStats().maxHp - user.getHp();
 		user.setHp(user.getHp() + Math.min(amount, maxHeal));
-		return amount;
 	}
 	
 	/* (non-Javadoc)
