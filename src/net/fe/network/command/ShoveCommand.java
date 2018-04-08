@@ -7,6 +7,7 @@ import net.fe.overworldStage.OverworldStage;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.Path;
 import net.fe.overworldStage.Node;
+import net.fe.overworldStage.SkillChargeBar;
 import net.fe.unit.UnitIdentifier;
 import net.fe.unit.Unit;
 import java.util.Optional;
@@ -14,6 +15,7 @@ import java.util.Optional;
 public final class ShoveCommand extends Command {
 	
 	private static final long serialVersionUID = 6468268282716381357L;
+	private static final int RAGE_AMOUNT = 5;
 	
 	private final UnitIdentifier shoveeId;
 	
@@ -30,6 +32,9 @@ public final class ShoveCommand extends Command {
 		if (! net.fe.overworldStage.fieldskill.Shove.canShove(stage.grid, unit, shovee)) {
 			throw new IllegalStateException("SHOVE: Shover is not allowed to shove shovee");
 		} else {
+			if (! unit.getParty().isAlly(shovee.getParty())) {
+				shovee.incrementSkillCharge(RAGE_AMOUNT);
+			}
 			stage.grid.move(shovee, shovee.getXCoord() + deltaX, shovee.getYCoord() + deltaY, false);
 			return null;
 		}
@@ -47,18 +52,38 @@ public final class ShoveCommand extends Command {
 				int newX = shovee.getXCoord() + deltaX;
 				int newY = shovee.getYCoord() + deltaY;
 				
+				final int initialSkillCharge = shovee.getSkillCharge();
+				if (! unit.getParty().isAlly(shovee.getParty())) {
+					shovee.incrementSkillCharge(RAGE_AMOUNT);
+				}
+				final int finalSkillCharge = shovee.getSkillCharge();
+				
 				shovee.setOrigX(newX); // Otherwise, shovee will jump back to it's inital space on select 
 				shovee.setOrigY(newY); // Otherwise, shovee will jump back to it's inital space on select
 				Path p = new Path();
 				p.add(new Node(newX, newY));
 				stage.grid.move(shovee, newX, newY, true);
-				shovee.move(p, new Runnable() {
-					public void run() {
+				
+				Runnable stack = () -> {
+					stage.checkEndGame();
+					callback.run();
+				};
+				
+				if (initialSkillCharge != finalSkillCharge) {
+					final Runnable previousStack = stack;
+					stack = () -> {
+						stage.addEntity(new SkillChargeBar(shovee, initialSkillCharge,
+								finalSkillCharge, stage, previousStack));
+					};
+				}
+				
+				{
+					final Runnable previousStack = stack;
+					shovee.move(p, () -> {
 						shovee.sprite.setAnimation("IDLE");
-						stage.checkEndGame();
-						callback.run();
-					}
-				});
+						previousStack.run();
+					});
+				}
 			}
 		};
 	}
