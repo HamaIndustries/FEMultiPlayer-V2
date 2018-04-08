@@ -103,6 +103,7 @@ public abstract class Item implements Serializable, Comparable<Item>{
 		if(name.equals("Concoction")) return HealingItem.CONCOCTION.getCopy();
 		if(name.equals("Elixir")) return HealingItem.ELIXIR.getCopy();
 		if(name.equals("Rise")) return new RiseTome();
+		if(name.equals(SkillChargingItem.INC10.name)) return SkillChargingItem.INC10.getCopy();
 		return WeaponFactory.getWeapon(name);
 	}
 	
@@ -112,6 +113,7 @@ public abstract class Item implements Serializable, Comparable<Item>{
 		retVal.add(HealingItem.VULNERARY.getCopy());
 		retVal.add(HealingItem.CONCOCTION.getCopy());
 		retVal.add(HealingItem.ELIXIR.getCopy());
+		retVal.add(SkillChargingItem.INC10.getCopy());
 		retVal.add(new RiseTome());
 		return retVal;
 	}

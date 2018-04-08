@@ -19,6 +19,7 @@ import net.fe.unit.HealingItem;
 import net.fe.unit.Item;
 import net.fe.unit.ItemDisplay;
 import net.fe.unit.ItemDetailsText;
+import net.fe.unit.SkillChargingItem;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
 import net.fe.unit.Weapon;
@@ -65,26 +66,23 @@ public class ItemCmd extends MenuContext<ItemDisplay>{
 				unit.equip((Weapon)i);
 				menu.setSelection(0);
 			}
-		} else if (i instanceof HealingItem){
-			if(unit.getHp() == unit.getStats().maxHp) return;
+		} else if (
+				(i instanceof SkillChargingItem && unit.getSkillCharge() != Unit.MAX_SKILL_CHARGE) ||
+				(i instanceof HealingItem && unit.getHp() != unit.getStats().maxHp)){
+			final UseCommand command = new UseCommand(unit.findItem(i));
 			stage.setControl(false);
-			stage.addCmd(new UseCommand(unit.findItem(i)));
+			stage.removeEntity(this.bubble);
+			stage.removeEntity(this.text);
+			stage.addCmd(command);
 			stage.send();
 			
 			stage.setMenu(null);
 			
-			int oHp = unit.getHp();
-			unit.use(i);
-			//TODO Positioning
-			stage.addEntity(new Healthbar(unit, oHp, unit.getHp(), stage){
-				@Override
-				public void done() {
-					destroy();
-					unit.setMoved(true);
-					ItemCmd.this.stage.reset();
-					ItemCmd.this.stage.setControl(true);
-				}
-			});
+			command.applyClient(stage, unit, null, () -> {
+				unit.setMoved(true);
+				ItemCmd.this.stage.reset();
+				ItemCmd.this.stage.setControl(true);
+			}).run();
 		}
 	}
 

@@ -43,6 +43,9 @@ public final class ItemDetailsText extends Entity{
 			if (item instanceof HealingItem) {
 				HealingItem potion = (HealingItem) item;
 				Renderer.drawString("default_med", "Heals " + potion.amount + " HP", this.x + 8, this.y + 28, this.renderDepth);
+			} if (item instanceof SkillChargingItem) {
+				SkillChargingItem potion = (SkillChargingItem) item;
+				Renderer.drawString("default_med", "Increases Rage by " + potion.amount, this.x + 8, this.y + 28, this.renderDepth);
 			} else if (item instanceof RiseTome){
 				RiseTome rise = (RiseTome) item;
 				Renderer.drawString("default_med", "Summons a phantom warrior", this.x + 8, this.y + 28, this.renderDepth);

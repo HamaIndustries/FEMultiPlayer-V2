@@ -43,6 +43,8 @@ import net.fe.overworldStage.ClientOverworldStage.FogOption;
 import net.fe.overworldStage.objective.Seize;
 import net.fe.rng.SimpleRNG;
 import net.fe.rng.TrueHitRNG;
+import net.fe.unit.HealingItem;
+import net.fe.unit.SkillChargingItem;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitFactory;
 import net.fe.unit.UnitIdentifier;
@@ -236,6 +238,8 @@ public class FEMultiplayer extends Game{
 		
 		Unit u1 = UnitFactory.getUnit("Natasha");
 		u1.addToInventory(WeaponFactory.getWeapon("Physic"));
+		u1.addToInventory(SkillChargingItem.INC10);
+		u1.addToInventory(HealingItem.VULNERARY);
 		u1.setHp(1);
 		localPlayer.getParty().addUnit(u1);
 		
