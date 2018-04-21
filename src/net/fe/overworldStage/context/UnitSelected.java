@@ -92,11 +92,14 @@ public class UnitSelected extends CursorContext {
 			final int localVariableInvalidIndexDefinedInAnEnclosingScopeMustBeFinalOrEffectivelyFinal = invalidIndex;
 			
 			selected.move(path, () -> {
-				stage.setControl(true);
 				UnitMoved context = new UnitMoved(stage, UnitSelected.this, selected, false, false);
 				context.startContext();
-				if(localVariableInvalidIndexDefinedInAnEnclosingScopeMustBeFinalOrEffectivelyFinal != -1)
+				if(localVariableInvalidIndexDefinedInAnEnclosingScopeMustBeFinalOrEffectivelyFinal != -1) {
+					stage.addEntity(new ExclamationEmote(selected, stage, () -> stage.setControl(true)));
 					context.performAction("Wait");
+				} else {
+					stage.setControl(true);
+				}
 			});
 
 			// We don't want to display the path/range while moving.
