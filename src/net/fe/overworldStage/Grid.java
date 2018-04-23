@@ -136,6 +136,15 @@ public class Grid{
 		return terrain[y][x];
 	}
 	
+	public Terrain getVisibleTerrain(int x, int y) {
+		if(!(FEMultiplayer.getCurrentStage() instanceof ClientOverworldStage))
+			return terrain[y][x];
+		ClientOverworldStage stage = (ClientOverworldStage) FEMultiplayer.getCurrentStage();
+		if(stage.getFogOption().canSeeTerrain() || !stage.getFog().contains(new Node(x, y)))
+			return terrain[y][x];
+		return Terrain.UNKNOWN;
+	}
+	
 	/**
 	 * Sets the terrain.
 	 *
