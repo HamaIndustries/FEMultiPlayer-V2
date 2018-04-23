@@ -72,10 +72,21 @@ public class UnitSelected extends CursorContext {
 		if (move.getNodes().contains(new Node(cursor.getXCoord(), cursor.getYCoord()))) {
 			
 			int invalidIndex = -1;
+			int movement = selected.getStats().mov;
+			int remainingMovement = movement;
 			Node[] nodes = path.getAllNodes();
 			for(int i = 0; i < nodes.length; i++) {
-				if (grid.getUnit(nodes[i].x, nodes[i].y) != null && !grid.getUnit(nodes[i].x, nodes[i].y).getParty().isAlly(selected.getParty())) {
-					//Bump
+				boolean fail = false;
+				int cost = grid.getTerrain(nodes[i].x, nodes[i].y).getMoveCost(selected.getTheClass());
+				remainingMovement -= cost;
+				if(movement < cost)
+					fail = true; //Bump
+				else if(remainingMovement < 0 && i != nodes.length - 1)
+					fail = true; //Exhaustion
+				else if (grid.getUnit(nodes[i].x, nodes[i].y) != null && !grid.getUnit(nodes[i].x, nodes[i].y).getParty().isAlly(selected.getParty()))
+					fail = true; //Bump
+				
+				if(fail) {
 					invalidIndex = i;
 					break;
 				}
