@@ -86,7 +86,7 @@ public final class Shove extends FieldSkill {
 		return (
 			(Math.abs(deltaX) + Math.abs(deltaY)) == 1 && 
 			grid.contains(shoveToX, shoveToY) &&
-			grid.getTerrain(shoveToX, shoveToY).getMoveCost(shovee.getTheClass()) < shovee.getStats().mov &&
+			grid.getVisibleTerrain(shoveToX, shoveToY).getMoveCost(shovee.getTheClass()) < shovee.getStats().mov &&
 			null == grid.getVisibleUnit(shoveToX, shoveToY) &&
 			shovee.getStats().con - 2 <= shover.getStats().con
 		);

@@ -614,7 +614,7 @@ public class ClientOverworldStage extends OverworldStage {
 	 * @return the hovered terrain
 	 */
 	public Terrain getHoveredTerrain() {
-		return grid.getTerrain(cursor.getXCoord(), cursor.getYCoord());
+		return grid.getVisibleTerrain(cursor.getXCoord(), cursor.getYCoord());
 	}
 
 	/**
@@ -746,6 +746,10 @@ public class ClientOverworldStage extends OverworldStage {
 		return fog;
 	}
 	
+	public FogOption getFogOption() {
+		return fogOption;
+	}
+	
 	public static enum SpectatorFogOption {
 		REVEAL_ALL("Reveal all"), 
 		MUTUALLY_VISIBLE_UNITS("Reveal mutually visible units"),
@@ -769,7 +773,7 @@ public class ClientOverworldStage extends OverworldStage {
 	}
 	
 	public static enum FogOption {
-		NONE("Disabled"), GBA("FE 6-12"); //TODO FE5
+		NONE("Disabled"), GBA("FE 6-12"), SNES("FE 5");
 		
 		private String representation;
 		
@@ -784,5 +788,14 @@ public class ClientOverworldStage extends OverworldStage {
 		public String toString() {
 			return representation;
 		}
+		
+		public boolean canSeeEnemies() {
+			return this == NONE;
+		}
+		
+		public boolean canSeeTerrain() {
+			return this != SNES;
+		}
 	}
+
 }

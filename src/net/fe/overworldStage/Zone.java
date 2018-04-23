@@ -176,8 +176,11 @@ public abstract class Zone extends Entity {
 			ClientOverworldStage cs = (ClientOverworldStage)stage;
 			Renderer.translate(-cs.camX, -cs.camY);
 			Renderer.addClip(0, 0, 368, 240, true);
-			
-			Color color = FEResources.getFogColor().color;
+			Color color;
+			if(((ClientOverworldStage)FEMultiplayer.getCurrentStage()).getFogOption().canSeeTerrain())
+				color = FEResources.getFogColor().color;
+			else
+				color = new Color(0x00000000);
 			
 			for(Node n: this.getNodes()) {
 				Renderer.drawRectangle(n.x * 16, n.y * 16, (1 + n.x) * 16, (1 + n.y) * 16, renderDepth, color);

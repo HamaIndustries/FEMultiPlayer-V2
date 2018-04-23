@@ -191,10 +191,10 @@ public class Path extends Entity{
 	
 	public void truncate(int n) {
 		ListIterator<Node> iterator = path.listIterator(n);
-		do {
+		while (iterator.hasNext()) {
 			iterator.next();
 			iterator.remove();
-		} while (iterator.hasNext());
+		}
 	}
 	
 	public Node destination() {
