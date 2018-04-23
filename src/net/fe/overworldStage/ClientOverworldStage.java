@@ -453,6 +453,14 @@ public class ClientOverworldStage extends OverworldStage {
 		addEntity(t.getAnimation(this, x, y));
 	}
 	
+	@Override protected void beforeStartOfPhaseEffect(StartOfPhaseEffect e, Unit u) {
+		super.beforeStartOfPhaseEffect(e, u);
+		// if unit is visible
+		if (! this.fog.getNodes().contains(new Node(u.getOrigX(), u.getOrigY()))) {
+			e.animation(u, this);
+		}
+	}
+	
 	/**
 	 * Clear cmd string.
 	 */

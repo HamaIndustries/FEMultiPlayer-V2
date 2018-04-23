@@ -339,6 +339,7 @@ public class FEResources {
 		defaultProps.setProperty("MAIN","main");
 		defaultProps.setProperty("OVERWORLD","overworld");
 		defaultProps.setProperty("PREPARATIONS","preparations");
+		defaultProps.setProperty("LORD","lord");
 		return defaultProps;
 	}
 

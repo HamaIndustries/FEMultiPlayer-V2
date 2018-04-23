@@ -30,6 +30,7 @@ import net.fe.overworldStage.Grid;
 import net.fe.overworldStage.Node;
 import net.fe.overworldStage.OverworldStage;
 import net.fe.overworldStage.Path;
+import net.fe.overworldStage.StartOfPhaseEffect;
 import net.fe.overworldStage.Terrain;
 import net.fe.overworldStage.Zone;
 
@@ -708,6 +709,16 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		if(getWeapon() != null)
 			triggers.addAll(getWeapon().getTriggers());
 		return triggers;
+	}
+
+	/**
+	 * Return start-of-phase effects that apply to this unit
+	 */
+	public ArrayList<StartOfPhaseEffect> getStartOfPhaseEffects() {
+		ArrayList<StartOfPhaseEffect> retval = new ArrayList<>();
+		if(getWeapon() != null)
+			retval.addAll(getWeapon().getStartOfPhaseEffects());
+		return retval;
 	}
 	
 	//Development
