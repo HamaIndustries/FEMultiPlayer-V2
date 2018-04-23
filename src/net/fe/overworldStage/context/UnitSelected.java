@@ -74,7 +74,6 @@ public class UnitSelected extends CursorContext {
 			int invalidIndex = -1;
 			Node[] nodes = path.getAllNodes();
 			for(int i = 0; i < nodes.length; i++) {
-				System.out.println(grid.getUnit(nodes[i].x, nodes[i].y));
 				if (grid.getUnit(nodes[i].x, nodes[i].y) != null && !grid.getUnit(nodes[i].x, nodes[i].y).getParty().isAlly(selected.getParty())) {
 					//Bump
 					invalidIndex = i;
@@ -89,14 +88,14 @@ public class UnitSelected extends CursorContext {
 			stage.setControl(false);
 			AudioPlayer.playAudio("select");
 
-			final int localVariableInvalidIndexDefinedInAnEnclosingScopeMustBeFinalOrEffectivelyFinal = invalidIndex;
+			final int invalidIndexFinal = invalidIndex;
 			
 			selected.move(path, () -> {
 				UnitMoved context = new UnitMoved(stage, UnitSelected.this, selected, false, false);
 				context.startContext();
-				if(localVariableInvalidIndexDefinedInAnEnclosingScopeMustBeFinalOrEffectivelyFinal != -1) {
+				if(invalidIndexFinal != -1) {
 					stage.addEntity(new ExclamationEmote(selected, stage, () -> {selected.setMoved(true); stage.setControl(true);}));
-					stage.addCmd(new InterruptedCommand(nodes[localVariableInvalidIndexDefinedInAnEnclosingScopeMustBeFinalOrEffectivelyFinal]));
+					stage.addCmd(new InterruptedCommand(nodes[invalidIndexFinal]));
 					stage.send();
 					stage.reset();
 				} else {
