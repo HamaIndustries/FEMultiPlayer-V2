@@ -340,9 +340,11 @@ public class OverworldStage extends Stage {
 		
 		// perform unit start-of-phase effects
 		for (Unit u : getCurrentPlayer().getParty().getUnits()) {
-			for (StartOfPhaseEffect e : u.getStartOfPhaseEffects()) {
-				beforeStartOfPhaseEffect(e, u);
-				e.apply(u);
+			if (u.getHp() > 0 && !u.isRescued()) {
+				for (StartOfPhaseEffect e : u.getStartOfPhaseEffects()) {
+					beforeStartOfPhaseEffect(e, u);
+					e.apply(u);
+				}
 			}
 		}
 	}
