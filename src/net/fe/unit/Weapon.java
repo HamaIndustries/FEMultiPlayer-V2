@@ -12,6 +12,7 @@ import net.fe.fightStage.Nosferatu;
 import net.fe.fightStage.CrossBow;
 import net.fe.overworldStage.StartOfPhaseEffect;
 import net.fe.overworldStage.startOfPhaseEffect.ChangeHp;
+import net.fe.overworldStage.startOfPhaseEffect.ChangeSkillCharge;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -198,6 +199,8 @@ public final class Weapon extends Item {
 		ArrayList<StartOfPhaseEffect> retval = new ArrayList<>();
 		if (name.contains("Blessed")) {
 			retval.add(new ChangeHp(5, 0));
+		} else if (name.contains("Kill") || name.equals("Wo Dao")) {
+			retval.add(new ChangeSkillCharge(2));
 		}
 		return retval;
 	}
