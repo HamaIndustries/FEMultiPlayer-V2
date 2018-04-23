@@ -337,6 +337,14 @@ public class OverworldStage extends Stage {
 				}
 			}
 		}
+		
+		// perform unit start-of-phase effects
+		for (Unit u : getCurrentPlayer().getParty().getUnits()) {
+			for (StartOfPhaseEffect e : u.getStartOfPhaseEffects()) {
+				beforeStartOfPhaseEffect(e, u);
+				e.apply(u);
+			}
+		}
 	}
 	
 	/**
@@ -347,7 +355,13 @@ public class OverworldStage extends Stage {
 	 * @param y the y
 	 */
 	protected void beforeTriggerHook(TerrainTrigger t, int x, int y){
-		
+	}
+	
+	/**
+	 * @param e the effect to animate
+	 * @param u the unit to animate
+	 */
+	protected void beforeStartOfPhaseEffect(StartOfPhaseEffect e, Unit u) {
 	}
 
 	/**

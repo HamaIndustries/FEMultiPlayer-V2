@@ -9,6 +9,8 @@ import net.fe.fightStage.EclipseSix;
 import net.fe.fightStage.LunaPlus;
 import net.fe.fightStage.Nosferatu;
 import net.fe.fightStage.CrossBow;
+import net.fe.overworldStage.StartOfPhaseEffect;
+import net.fe.overworldStage.startOfPhaseEffect.ChangeHp;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -183,6 +185,18 @@ public final class Weapon extends Item {
 			triggers.add(new CrossBow());
 		}
 		return triggers;
+	}
+	
+	/**
+	 * Returns effects that should apply to the wielder at the start of
+	 * that unit's turn, if this item is equipped
+	 */
+	public List<StartOfPhaseEffect> getStartOfPhaseEffects() {
+		ArrayList<StartOfPhaseEffect> retval = new ArrayList<>();
+		if (name.contains("Blessed")) {
+			retval.add(new ChangeHp(5, 0));
+		}
+		return retval;
 	}
 	
 	
