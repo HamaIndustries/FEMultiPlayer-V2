@@ -1,7 +1,7 @@
 package net.fe.overworldStage.context;
 
 import chu.engine.anim.AudioPlayer;
-import net.fe.network.command.WaitCommand;
+import net.fe.network.command.InterruptedCommand;
 import net.fe.overworldStage.*;
 import net.fe.overworldStage.Zone.RangeIndicator;
 import net.fe.overworldStage.Zone.RangeIndicator.RangeType;
@@ -95,8 +95,10 @@ public class UnitSelected extends CursorContext {
 				UnitMoved context = new UnitMoved(stage, UnitSelected.this, selected, false, false);
 				context.startContext();
 				if(localVariableInvalidIndexDefinedInAnEnclosingScopeMustBeFinalOrEffectivelyFinal != -1) {
-					stage.addEntity(new ExclamationEmote(selected, stage, () -> stage.setControl(true)));
-					context.performAction("Wait");
+					stage.addEntity(new ExclamationEmote(selected, stage, () -> {selected.setMoved(true); stage.setControl(true);}));
+					stage.addCmd(new InterruptedCommand(nodes[localVariableInvalidIndexDefinedInAnEnclosingScopeMustBeFinalOrEffectivelyFinal]));
+					stage.send();
+					stage.reset();
 				} else {
 					stage.setControl(true);
 				}
