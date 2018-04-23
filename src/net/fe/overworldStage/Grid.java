@@ -136,6 +136,12 @@ public class Grid{
 		return terrain[y][x];
 	}
 	
+	/**
+	 * Returns the terrain at a given point as seen by the local player
+	 * @param x The x coordinate of the point
+	 * @param y The y coordinate of the point
+	 * @return The terrain at the point
+	 */
 	public Terrain getVisibleTerrain(int x, int y) {
 		if(!(FEMultiplayer.getCurrentStage() instanceof ClientOverworldStage))
 			return terrain[y][x];
@@ -171,7 +177,7 @@ public class Grid{
 	 * Returns the unit at the given position. If the unit is not visible, returns null instead (as if there was nothing there).
 	 * @param x The x coordinate of the position.
 	 * @param y The y coordinate of the position.
-	 * @return The unit at the gven point, or null.
+	 * @return The unit at the given point, or null.
 	 */
 	public Unit getVisibleUnit(int x, int y) {
 		if(!(FEMultiplayer.getCurrentStage() instanceof ClientOverworldStage))
@@ -245,7 +251,7 @@ public class Grid{
 		for (Node node : p.getAllNodes()) {
 			improved.add(node);
 			if (last != null) // The first node is the unit's current position
-				move -= terrain[node.y][node.x].getMoveCost(unit.getTheClass());
+				move -= getVisibleTerrain(node.x, node.y).getMoveCost(unit.getTheClass());
 			last = node;
 			
 			// If we go somewhere that is already on the path, just cut the path.
@@ -258,7 +264,7 @@ public class Grid{
 			return getShortestPath(unit, x, y);
 
 		// Check that we can actually extend the path
-		if (move < terrain[y][x].getMoveCost(unit.getTheClass()))
+		if (move < getVisibleTerrain(x, y).getMoveCost(unit.getTheClass()))
 			return getShortestPath(unit, x, y);
 		
 		improved.add(new Node(x, y));
@@ -303,7 +309,7 @@ public class Grid{
 				for(Node o : open) {
 					if(o.equals(n)) n = o;
 				}
-				int g = cur.g + terrain[n.y][n.x].getMoveCost(unit.getTheClass());
+				int g = cur.g + getVisibleTerrain(n.x, n.y).getMoveCost(unit.getTheClass());
 				if(getVisibleUnit(n.x, n.y) != null && !getVisibleUnit(n.x, n.y).getParty().isAlly(unit.getParty())) {
 					g += 128;
 				}
@@ -346,7 +352,7 @@ public class Grid{
 			set.add(curr);
 			for(Node n: curr.getNeighbors(this)){
 				if(!set.contains(n)){
-					n.d = curr.d + terrain[n.y][n.x].getMoveCost(u.getTheClass());
+					n.d = curr.d + getVisibleTerrain(n.x, n.y).getMoveCost(u.getTheClass());
 					if(getVisibleUnit(n.x, n.y) != null && !getVisibleUnit(n.x, n.y).getParty().isAlly(u.getParty())) {
 						n.d += 128;
 					}

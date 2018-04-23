@@ -74,7 +74,7 @@ public class DropTarget extends OverworldContext {
 		for (Node n : zone.getNodes()) {
 			Unit u = grid.getVisibleUnit(n.x, n.y);
 			if (u == null
-					&& grid.getTerrain(n.x, n.y).getMoveCost(
+					&& grid.getVisibleTerrain(n.x, n.y).getMoveCost(
 							unit.rescuedUnit().getTheClass()) < unit
 							.rescuedUnit().getStats().mov) {
 				targets.add(n);

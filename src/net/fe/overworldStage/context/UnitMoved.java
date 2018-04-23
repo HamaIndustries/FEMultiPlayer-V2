@@ -234,7 +234,7 @@ public class UnitMoved extends MenuContext<String> {
 				}
 			}
 			if(p == null && unit.rescuedUnit() != null && 
-					grid.getTerrain(n.x, n.y).getMoveCost(
+					grid.getVisibleTerrain(n.x, n.y).getMoveCost(
 					unit.rescuedUnit().getTheClass()) < unit
 					.rescuedUnit().getStats().mov){
 				drop = true;
@@ -242,7 +242,7 @@ public class UnitMoved extends MenuContext<String> {
 			
 			//summon
 			if (p == null
-					&& grid.getTerrain(n.x, n.y).getMoveCost(
+					&& grid.getVisibleTerrain(n.x, n.y).getMoveCost(
 							net.fe.unit.Class.createClass("Phantom")) <
 							unit.getStats().mov && 
 							unit.getTheClass().usableWeapon.contains(Weapon.Type.DARK)) {
