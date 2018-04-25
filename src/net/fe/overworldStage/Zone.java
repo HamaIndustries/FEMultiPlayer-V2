@@ -177,7 +177,7 @@ public abstract class Zone extends Entity {
 			Renderer.translate(-cs.camX, -cs.camY);
 			Renderer.addClip(0, 0, 368, 240, true);
 			Color color;
-			if(((ClientOverworldStage)FEMultiplayer.getCurrentStage()).getFogOption().canSeeTerrain())
+			if(FEMultiplayer.getSession().getFogOption().canSeeTerrain())
 				color = FEResources.getFogColor().color;
 			else
 				color = new Color(0x00000000);
