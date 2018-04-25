@@ -55,6 +55,7 @@ import net.fe.rng.SimpleRNG;
 import net.fe.rng.TrueHitRNG;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.JCheckBox;
 
 /**
  * The initial panel displayed to the server's host.
@@ -122,6 +123,8 @@ public class FEServerMainPanel extends JPanel {
 			cbbSight.setSelectedItem(cbbSight.getItemAt(0));
 		}
 	};
+	private JCheckBox chckbxShowOutOf;
+	private JPanel panel;
 	
 	/**
 	 * Initializes the panel.
@@ -296,6 +299,7 @@ public class FEServerMainPanel extends JPanel {
 		pnlRNG.add(cbbSkillRNG);
 		
 		pnlFogOfWar = new JPanel();
+		pnlFogOfWar.setAlignmentY(Component.TOP_ALIGNMENT);
 		mainPanel.add(pnlFogOfWar);
 		pnlFogOfWar.setLayout(new BorderLayout(0, 0));
 		
@@ -314,6 +318,7 @@ public class FEServerMainPanel extends JPanel {
 				cbbSight.setEnabled(enabled);
 				spnRegularSight.setEnabled(enabled);
 				spnThiefSight.setEnabled(enabled);
+				chckbxShowOutOf.setEnabled(enabled);
 				
 			}
 		});
@@ -321,20 +326,10 @@ public class FEServerMainPanel extends JPanel {
 		
 		panel_1 = new JPanel();
 		pnlFogOfWar.add(panel_1, BorderLayout.SOUTH);
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{0, 0};
-		gbl_panel_1.rowHeights = new int[]{0, 0, 0};
-		gbl_panel_1.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-		panel_1.setLayout(gbl_panel_1);
+		panel_1.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		panel_2 = new JPanel();
-		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-		gbc_panel_2.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_2.fill = GridBagConstraints.BOTH;
-		gbc_panel_2.gridx = 0;
-		gbc_panel_2.gridy = 0;
-		panel_1.add(panel_2, gbc_panel_2);
+		panel_1.add(panel_2);
 		
 		lblSpectatorFog = new JLabel("Spectator fog:");
 		panel_2.add(lblSpectatorFog);
@@ -385,11 +380,7 @@ public class FEServerMainPanel extends JPanel {
 		cbbSight.setModel(new DefaultComboBoxModel<>(vector));
 		
 		panel_3 = new JPanel();
-		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
-		gbc_panel_3.fill = GridBagConstraints.BOTH;
-		gbc_panel_3.gridx = 0;
-		gbc_panel_3.gridy = 1;
-		panel_1.add(panel_3, gbc_panel_3);
+		panel_1.add(panel_3);
 		
 		lblRegularSight = new JLabel("Regular sight:");
 		panel_3.add(lblRegularSight);
@@ -418,6 +409,14 @@ public class FEServerMainPanel extends JPanel {
 		
 
 		cbbSight.setSelectedItem(FESightOption.FE7_8);
+		
+		panel = new JPanel();
+		panel_1.add(panel);
+		
+		chckbxShowOutOf = new JCheckBox("Show out of sight interruptions:");
+		chckbxShowOutOf.setToolTipText("If this is selected, players will be able to see when a unit fails to complete an action due to the fog even when they're not in sight");
+		chckbxShowOutOf.setEnabled(false);
+		panel.add(chckbxShowOutOf);
 	}
 	
 	private void sortListModels() {
@@ -470,7 +469,7 @@ public class FEServerMainPanel extends JPanel {
 				(SpectatorFogOption) cbbSpectatorFog.getSelectedItem(),
 				((FESightOption) cbbSight.getSelectedItem()).getRegularSight(),
 				((FESightOption) cbbSight.getSelectedItem()).getThiefSight(),
-				false
+				chckbxShowOutOf.isSelected()
 			);
 	}
 	
