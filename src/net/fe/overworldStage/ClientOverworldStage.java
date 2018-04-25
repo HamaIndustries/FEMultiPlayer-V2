@@ -94,7 +94,7 @@ public class ClientOverworldStage extends OverworldStage {
 	/** Messages that this has recieved but not yet executed */
 	private final Queue<Message> pendingMessages;
 	
-	private FogOption fogOption = FogOption.NONE;
+	private FogType fogOption = FogType.NONE;
 	private Fog fog;
 	
 	public static final float TILE_DEPTH = 0.95f;
@@ -645,7 +645,7 @@ public class ClientOverworldStage extends OverworldStage {
 	}
 	
 	private void updateFog() {
-		if (fogOption != FogOption.NONE) {
+		if (fogOption != FogType.NONE) {
 			Set<Node> nodes = new HashSet<>();
 			if(FEMultiplayer.getLocalPlayer().isSpectator()) {
 				switch(session.getSpectatorFogOption()) {
@@ -746,7 +746,7 @@ public class ClientOverworldStage extends OverworldStage {
 		return fog;
 	}
 	
-	public FogOption getFogOption() {
+	public FogType getFogOption() {
 		return fogOption;
 	}
 	
@@ -772,15 +772,15 @@ public class ClientOverworldStage extends OverworldStage {
 		}
 	}
 	
-	public static enum FogOption {
+	public static enum FogType {
 		NONE("Disabled"), GBA("FE 6-12"), SNES("FE 5");
 		
 		private String representation;
 		
-		private FogOption() {
+		private FogType() {
 			representation = name();
 		}
-		private FogOption(String representation) {
+		private FogType(String representation) {
 			this.representation = representation;
 		}
 		

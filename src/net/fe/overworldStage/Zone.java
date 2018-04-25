@@ -21,7 +21,7 @@ import chu.engine.anim.Transform;
 import net.fe.FEMultiplayer;
 import net.fe.FEResources;
 import net.fe.Party;
-import net.fe.overworldStage.ClientOverworldStage.FogOption;
+import net.fe.overworldStage.ClientOverworldStage.FogType;
 import net.fe.unit.Unit;
 
 // TODO: Auto-generated Javadoc

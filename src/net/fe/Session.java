@@ -14,7 +14,7 @@ import net.fe.network.message.JoinLobby;
 import net.fe.network.message.JoinTeam;
 import net.fe.network.message.KickMessage;
 import net.fe.network.message.QuitMessage;
-import net.fe.overworldStage.ClientOverworldStage.FogOption;
+import net.fe.overworldStage.ClientOverworldStage.FogType;
 import net.fe.overworldStage.ClientOverworldStage.SpectatorFogOption;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.overworldStage.objective.Rout;
@@ -61,7 +61,7 @@ public final class Session implements Serializable {
 	private final RNG critRNG;
 	private final RNG skillRNG;
 	
-	private final FogOption fogOption;
+	private final FogType fogOption;
 	private final SpectatorFogOption spectatorFogOption;
 	private final int regularSight;
 	private final int thiefSight;
@@ -74,14 +74,14 @@ public final class Session implements Serializable {
 	public Session() {
 		this(new Rout(), "test", 8, new HashSet<>(), new Draft(),
 				new TrueHitRNG(), new SimpleRNG(), new SimpleRNG(),
-				FogOption.NONE, SpectatorFogOption.REVEAL_ALL, 3, 8, false);
+				FogType.NONE, SpectatorFogOption.REVEAL_ALL, 3, 8, false);
 	}
 	
 	/**
 	 * Instantiates a new session with the specified values
 	 */
 	public Session(Objective objective, String map, int maxUnits, Set<Modifier> modifiers, PickMode pickMode,
-			RNG hitRNG, RNG critRNG, RNG skillRNG, FogOption fogOption, SpectatorFogOption spectatorFogOption,
+			RNG hitRNG, RNG critRNG, RNG skillRNG, FogType fogOption, SpectatorFogOption spectatorFogOption,
 			int regularSight, int thiefSight, boolean alwaysShowInterruptions) {
 
 		this.hitRNG = hitRNG;
@@ -294,7 +294,7 @@ public final class Session implements Serializable {
 		return skillRNG;
 	}
 
-	public FogOption getFogOption() {
+	public FogType getFogOption() {
 		return fogOption;
 	}
 

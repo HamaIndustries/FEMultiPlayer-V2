@@ -40,7 +40,7 @@ import net.fe.modifier.Treasury;
 import net.fe.modifier.Vegas;
 import net.fe.modifier.Veterans;
 import net.fe.network.FEServer;
-import net.fe.overworldStage.ClientOverworldStage.FogOption;
+import net.fe.overworldStage.ClientOverworldStage.FogType;
 import net.fe.overworldStage.ClientOverworldStage.SpectatorFogOption;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.overworldStage.objective.Rout;
@@ -103,7 +103,7 @@ public class FEServerMainPanel extends JPanel {
 	private DefaultListModel<Modifier> unselectedModifiersModel;
 	private JPanel pnlFogOfWar;
 	private JLabel lblFogOfWar;
-	private JComboBox<FogOption> cbbFogOfWar;
+	private JComboBox<FogType> cbbFogOfWar;
 	private JLabel lblSpectatorFog;
 	private JComboBox<SpectatorFogOption> cbbSpectatorFog;
 	private JLabel lblSight;
@@ -305,11 +305,11 @@ public class FEServerMainPanel extends JPanel {
 		lblFogOfWar = new JLabel("Fog of war:");
 		pnlToggleFog.add(lblFogOfWar);
 		
-		cbbFogOfWar = new JComboBox<FogOption>();
+		cbbFogOfWar = new JComboBox<FogType>();
 		pnlToggleFog.add(cbbFogOfWar);
 		cbbFogOfWar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				boolean enabled = cbbFogOfWar.getSelectedItem() != FogOption.NONE;
+				boolean enabled = cbbFogOfWar.getSelectedItem() != FogType.NONE;
 				cbbSpectatorFog.setEnabled(enabled);
 				cbbSight.setEnabled(enabled);
 				spnRegularSight.setEnabled(enabled);
@@ -317,7 +317,7 @@ public class FEServerMainPanel extends JPanel {
 				
 			}
 		});
-		cbbFogOfWar.setModel(new DefaultComboBoxModel<FogOption>(FogOption.values()));
+		cbbFogOfWar.setModel(new DefaultComboBoxModel<FogType>(FogType.values()));
 		
 		panel_1 = new JPanel();
 		pnlFogOfWar.add(panel_1, BorderLayout.SOUTH);
@@ -466,7 +466,7 @@ public class FEServerMainPanel extends JPanel {
 				(RNG) cbbHitRNG.getSelectedItem(),
 				(RNG) cbbCritRNG.getSelectedItem(),
 				(RNG) cbbSkillRNG.getSelectedItem(),
-				(FogOption) cbbFogOfWar.getSelectedItem(),
+				(FogType) cbbFogOfWar.getSelectedItem(),
 				(SpectatorFogOption) cbbSpectatorFog.getSelectedItem(),
 				((FESightOption) cbbSight.getSelectedItem()).getRegularSight(),
 				((FESightOption) cbbSight.getSelectedItem()).getThiefSight(),
