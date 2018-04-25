@@ -4,13 +4,17 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Vector;
 
 import javax.swing.BoxLayout;
 import javax.swing.ComboBoxModel;
@@ -49,6 +53,8 @@ import net.fe.rng.NullRNG;
 import net.fe.rng.RNG;
 import net.fe.rng.SimpleRNG;
 import net.fe.rng.TrueHitRNG;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 /**
  * The initial panel displayed to the server's host.
@@ -100,10 +106,22 @@ public class FEServerMainPanel extends JPanel {
 	private JComboBox<FogOption> cbbFogOfWar;
 	private JLabel lblSpectatorFog;
 	private JComboBox<SpectatorFogOption> cbbSpectatorFog;
-	private JLabel lblThiefsight;
-	private JComboBox<SightOption> cbbThiefSight;
+	private JLabel lblSight;
+	private JComboBox<SightOption> cbbSight;
 	private JPanel pnlToggleFog;
-	private JPanel panel;
+	private JPanel panel_1;
+	private JPanel panel_2;
+	private JPanel panel_3;
+	private JLabel lblRegularSight;
+	private JSpinner spnRegularSight;
+	private JLabel lblThiefSight;
+	private JSpinner spnThiefSight;
+	
+	private ChangeListener spnSightChanged = new ChangeListener() {
+		public void stateChanged(ChangeEvent e) {
+			cbbSight.setSelectedItem(cbbSight.getItemAt(0));
+		}
+	};
 	
 	/**
 	 * Initializes the panel.
@@ -291,30 +309,105 @@ public class FEServerMainPanel extends JPanel {
 		pnlToggleFog.add(cbbFogOfWar);
 		cbbFogOfWar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cbbSpectatorFog.setEnabled(cbbFogOfWar.getSelectedItem() != FogOption.NONE);
-				cbbThiefSight.setEnabled(cbbFogOfWar.getSelectedItem() != FogOption.NONE);
+				boolean enabled = cbbFogOfWar.getSelectedItem() != FogOption.NONE;
+				cbbSpectatorFog.setEnabled(enabled);
+				cbbSight.setEnabled(enabled);
+				spnRegularSight.setEnabled(enabled);
+				spnThiefSight.setEnabled(enabled);
+				
 			}
 		});
 		cbbFogOfWar.setModel(new DefaultComboBoxModel<FogOption>(FogOption.values()));
 		
-		panel = new JPanel();
-		pnlFogOfWar.add(panel, BorderLayout.SOUTH);
+		panel_1 = new JPanel();
+		pnlFogOfWar.add(panel_1, BorderLayout.SOUTH);
+		GridBagLayout gbl_panel_1 = new GridBagLayout();
+		gbl_panel_1.columnWidths = new int[]{0, 0};
+		gbl_panel_1.rowHeights = new int[]{0, 0, 0};
+		gbl_panel_1.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panel_1.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		panel_1.setLayout(gbl_panel_1);
+		
+		panel_2 = new JPanel();
+		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
+		gbc_panel_2.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_2.fill = GridBagConstraints.BOTH;
+		gbc_panel_2.gridx = 0;
+		gbc_panel_2.gridy = 0;
+		panel_1.add(panel_2, gbc_panel_2);
 		
 		lblSpectatorFog = new JLabel("Spectator fog:");
-		panel.add(lblSpectatorFog);
+		panel_2.add(lblSpectatorFog);
 		
 		cbbSpectatorFog = new JComboBox<SpectatorFogOption>();
-		panel.add(cbbSpectatorFog);
+		panel_2.add(cbbSpectatorFog);
 		cbbSpectatorFog.setEnabled(false);
 		cbbSpectatorFog.setModel(new DefaultComboBoxModel<SpectatorFogOption>(SpectatorFogOption.values()));
 		
-		lblThiefsight = new JLabel("Thief sight:");
-		panel.add(lblThiefsight);
+		lblSight = new JLabel("Sight:");
+		panel_2.add(lblSight);
 		
-		cbbThiefSight = new JComboBox<>();
-		panel.add(cbbThiefSight);
-		cbbThiefSight.setEnabled(false);
-		cbbThiefSight.setModel(new DefaultComboBoxModel<>(SightOption.values()));
+		cbbSight = new JComboBox<>();
+		cbbSight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SightOption option = (SightOption) cbbSight.getSelectedItem();
+				spnRegularSight.removeChangeListener(spnSightChanged);
+				spnThiefSight.removeChangeListener(spnSightChanged);
+				
+				spnRegularSight.setValue(option.getRegularSight());
+				spnThiefSight.setValue(option.getThiefSight());
+				
+				spnRegularSight.addChangeListener(spnSightChanged);;
+				spnThiefSight.addChangeListener(spnSightChanged);
+			}
+		});
+		panel_2.add(cbbSight);
+		cbbSight.setEnabled(false);
+		Vector<SightOption> vector = new Vector<>();
+		vector.add(new SightOption() {
+			
+			@Override
+			public int getThiefSight() {
+				return (Integer) spnThiefSight.getValue();
+			}
+			
+			@Override
+			public int getRegularSight() {
+				return (Integer) spnRegularSight.getValue();
+			}
+			
+			@Override
+			public String toString() {
+				return "Custom";
+			}
+		});
+		vector.addAll(Arrays.asList(FESightOption.values()));
+		cbbSight.setModel(new DefaultComboBoxModel<>(vector));
+		
+		panel_3 = new JPanel();
+		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
+		gbc_panel_3.fill = GridBagConstraints.BOTH;
+		gbc_panel_3.gridx = 0;
+		gbc_panel_3.gridy = 1;
+		panel_1.add(panel_3, gbc_panel_3);
+		
+		lblRegularSight = new JLabel("Regular sight:");
+		panel_3.add(lblRegularSight);
+		
+		spnRegularSight = new JSpinner();
+		spnRegularSight.addChangeListener(spnSightChanged);
+		spnRegularSight.setEnabled(false);
+		spnRegularSight.setModel(new SpinnerNumberModel(0, 0, 255, 1));
+		panel_3.add(spnRegularSight);
+		
+		lblThiefSight = new JLabel("Thief sight:");
+		panel_3.add(lblThiefSight);
+		
+		spnThiefSight = new JSpinner();
+		spnThiefSight.addChangeListener(spnSightChanged);
+		spnThiefSight.setEnabled(false);
+		spnThiefSight.setModel(new SpinnerNumberModel(0, 0, 255, 1));
+		panel_3.add(spnThiefSight);
 
 		startServer = new JButton("Start server");
 		startServer.addActionListener(e -> {
@@ -322,6 +415,9 @@ public class FEServerMainPanel extends JPanel {
 				serverStart.run();
 		});
 		add(startServer, BorderLayout.SOUTH);
+		
+
+		cbbSight.setSelectedItem(FESightOption.FE7_8);
 	}
 	
 	private void sortListModels() {
@@ -372,12 +468,18 @@ public class FEServerMainPanel extends JPanel {
 				(RNG) cbbSkillRNG.getSelectedItem(),
 				(FogOption) cbbFogOfWar.getSelectedItem(),
 				(SpectatorFogOption) cbbSpectatorFog.getSelectedItem(),
-				((SightOption) cbbThiefSight.getSelectedItem()).regularSight,
-				((SightOption) cbbThiefSight.getSelectedItem()).thiefSight
+				((FESightOption) cbbSight.getSelectedItem()).getRegularSight(),
+				((FESightOption) cbbSight.getSelectedItem()).getThiefSight()
 			);
 	}
 	
-	private static enum SightOption {
+	public static interface SightOption {
+		public int getRegularSight();
+		public int getThiefSight();
+		public String toString();
+	}
+	
+	private enum FESightOption implements SightOption {
 		FE7_8(3, 8, "Blazing Sword/Sacred Stones"),
 		FE5(3, 3, "Thracia"),
 		FE9_10(3, 5, "Tellius"),
@@ -385,18 +487,31 @@ public class FEServerMainPanel extends JPanel {
 		FE11_12(2, 3, "SNES remake");
 		
 		private String name;
-		private int regularSight;
-		private int thiefSight;
+		private voidToIntFunction regularSight;
+		private voidToIntFunction thiefSight;
 		
-		private SightOption(int regularSight, int thiefSight, String name) {
+		private FESightOption(int regularSight, int thiefSight, String name) {
 			this.name = name;
-			this.regularSight = regularSight;
-			this.thiefSight = thiefSight;
+			this.regularSight = () -> regularSight;
+			this.thiefSight = () -> thiefSight;
 		}
 		
+
 		@Override
 		public String toString() {
 			return name;
+		}
+		
+		public int getRegularSight() {
+			return regularSight.eval();
+		}
+		
+		public int getThiefSight() {
+			return thiefSight.eval();
+		}
+		
+		private static interface voidToIntFunction {
+			int eval();
 		}
 	}
 }
