@@ -469,7 +469,8 @@ public class FEServerMainPanel extends JPanel {
 				(FogOption) cbbFogOfWar.getSelectedItem(),
 				(SpectatorFogOption) cbbSpectatorFog.getSelectedItem(),
 				((FESightOption) cbbSight.getSelectedItem()).getRegularSight(),
-				((FESightOption) cbbSight.getSelectedItem()).getThiefSight()
+				((FESightOption) cbbSight.getSelectedItem()).getThiefSight(),
+				false
 			);
 	}
 	

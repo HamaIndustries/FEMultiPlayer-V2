@@ -1,6 +1,8 @@
 package net.fe.network.command;
 
 import java.util.ArrayList;
+
+import net.fe.FEMultiplayer;
 import net.fe.fightStage.AttackRecord;
 import net.fe.overworldStage.OverworldStage;
 import net.fe.overworldStage.ClientOverworldStage;
@@ -35,8 +37,10 @@ public final class InterruptedCommand extends Command {
 	@Override
 	public Runnable applyClient(ClientOverworldStage stage, Unit primaryUnit, ArrayList<AttackRecord> attackRecords, Runnable callback) {
 		return () -> {
-			stage.includeInView(blockedLocation);
-			stage.addEntity(new ExclamationEmote(primaryUnit, stage, callback));
+			if(!stage.getFog().contains(blockedLocation) || FEMultiplayer.getSession().alwaysShowInterruptions()) {
+				stage.includeInView(blockedLocation);
+				stage.addEntity(new ExclamationEmote(primaryUnit, stage, callback));
+			}
 		};
 	}
 	

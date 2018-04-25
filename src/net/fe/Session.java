@@ -66,13 +66,15 @@ public final class Session implements Serializable {
 	private final int regularSight;
 	private final int thiefSight;
 	
+	private final boolean alwaysShowInterruptions;
+	
 	/**
 	 * Instantiates a new session with default values.
 	 */
 	public Session() {
 		this(new Rout(), "test", 8, new HashSet<>(), new Draft(),
 				new TrueHitRNG(), new SimpleRNG(), new SimpleRNG(),
-				FogOption.NONE, SpectatorFogOption.REVEAL_ALL, 3, 8);
+				FogOption.NONE, SpectatorFogOption.REVEAL_ALL, 3, 8, false);
 	}
 	
 	/**
@@ -80,7 +82,7 @@ public final class Session implements Serializable {
 	 */
 	public Session(Objective objective, String map, int maxUnits, Set<Modifier> modifiers, PickMode pickMode,
 			RNG hitRNG, RNG critRNG, RNG skillRNG, FogOption fogOption, SpectatorFogOption spectatorFogOption,
-			int regularSight, int thiefSight) {
+			int regularSight, int thiefSight, boolean alwaysShowInterruptions) {
 
 		this.hitRNG = hitRNG;
 		this.critRNG = critRNG;
@@ -97,6 +99,7 @@ public final class Session implements Serializable {
 		this.spectatorFogOption = spectatorFogOption;
 		this.thiefSight = thiefSight;
 		this.regularSight = regularSight;
+		this.alwaysShowInterruptions = alwaysShowInterruptions;
 	}
 	
 	/**
@@ -297,6 +300,10 @@ public final class Session implements Serializable {
 
 	public SpectatorFogOption getSpectatorFogOption() {
 		return spectatorFogOption;
+	}
+
+	public boolean alwaysShowInterruptions() {
+		return alwaysShowInterruptions;
 	}
 	
 }
