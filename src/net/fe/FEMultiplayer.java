@@ -225,7 +225,9 @@ public class FEMultiplayer extends Game{
 	 * Test overworld stage.
 	 */
 	public void testOverworldStage() {
-		testSession = new Session(new Seize(), "test", 8, new java.util.HashSet<>(), new net.fe.pick.Draft(), new TrueHitRNG(), new SimpleRNG(), new SimpleRNG(), FogType.GBA, SpectatorFogOption.REVEAL_ALL, 3, 8, false);
+		testSession = new Session(new Seize(), "test", 8, new java.util.HashSet<>(), new net.fe.pick.Draft(),
+				new TrueHitRNG(), new SimpleRNG(), new SimpleRNG(),
+				FogType.SNES, SpectatorFogOption.REVEAL_ALL, 3, 8, false);
 		testSession.addPlayer(localPlayer);
 		
 		Player p2 = new Player("P2", (byte)1);
@@ -429,7 +431,7 @@ public class FEMultiplayer extends Game{
 	 * @return the session
 	 */
 	public static Session getSession() {
-		if(client == null)
+		if(testSession != null) //Test session is only set by test stages.
 			return testSession;
 		return client.getSession();
 	}
