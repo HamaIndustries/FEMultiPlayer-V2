@@ -38,6 +38,8 @@ public class UnitMoved extends MenuContext<String> {
 	
 	/** The from take. */
 	private boolean fromTake;
+	
+	private boolean movedThroughFog;
 
 	/**
 	 * Instantiates a new unit moved.
@@ -49,11 +51,12 @@ public class UnitMoved extends MenuContext<String> {
 	 * @param fromTake the from take
 	 */
 	public UnitMoved(ClientOverworldStage stage, OverworldContext prev, Unit u,
-			boolean fromTrade, boolean fromTake) {
+			boolean fromTrade, boolean fromTake, boolean movedThroughFog) {
 		super(stage, prev, new Menu<String>(0, 0));
 		unit = u;
 		this.fromTrade = fromTrade;
 		this.fromTake = fromTake;
+		this.movedThroughFog = movedThroughFog;
 		for (String cmd : getCommands(unit)) {
 			menu.addItem(cmd);
 		}
@@ -137,7 +140,7 @@ public class UnitMoved extends MenuContext<String> {
 	 */
 	@Override
 	public void onCancel() {
-		if (fromTrade || fromTake){
+		if (fromTrade || fromTake || (movedThroughFog && !stage.getSession().canUndoMovement())){
 			return; // You can't cancel this.
 		}
 		super.onCancel();

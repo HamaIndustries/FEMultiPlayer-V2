@@ -798,4 +798,8 @@ public class ClientOverworldStage extends OverworldStage {
 		}
 	}
 
+	public Session getSession() {
+		return session;
+	}
+
 }

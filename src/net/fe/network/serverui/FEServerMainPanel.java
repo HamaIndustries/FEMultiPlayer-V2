@@ -125,6 +125,7 @@ public class FEServerMainPanel extends JPanel {
 	};
 	private JCheckBox chckbxShowOutOf;
 	private JPanel panel;
+	private JCheckBox chckbxAllowRedoingMovement;
 	
 	/**
 	 * Initializes the panel.
@@ -319,7 +320,7 @@ public class FEServerMainPanel extends JPanel {
 				spnRegularSight.setEnabled(enabled);
 				spnThiefSight.setEnabled(enabled);
 				chckbxShowOutOf.setEnabled(enabled);
-				
+				chckbxAllowRedoingMovement.setEnabled(enabled);
 			}
 		});
 		cbbFogOfWar.setModel(new DefaultComboBoxModel<FogType>(FogType.values()));
@@ -417,6 +418,12 @@ public class FEServerMainPanel extends JPanel {
 		chckbxShowOutOf.setToolTipText("If this is selected, players will be able to see when a unit fails to complete an action due to the fog even when they're not in sight");
 		chckbxShowOutOf.setEnabled(false);
 		panel.add(chckbxShowOutOf);
+		
+		chckbxAllowRedoingMovement = new JCheckBox("Allow redoing movement");
+		chckbxAllowRedoingMovement.setToolTipText("Uncheck this to prevent players from backing out of their movements to prevent \"scouting\". \r\nThis only affects moves that pass through a fogged tile.");
+		chckbxAllowRedoingMovement.setSelected(true);
+		chckbxAllowRedoingMovement.setEnabled(false);
+		panel.add(chckbxAllowRedoingMovement);
 	}
 	
 	private void sortListModels() {
@@ -469,7 +476,8 @@ public class FEServerMainPanel extends JPanel {
 				(SpectatorFogOption) cbbSpectatorFog.getSelectedItem(),
 				((FESightOption) cbbSight.getSelectedItem()).getRegularSight(),
 				((FESightOption) cbbSight.getSelectedItem()).getThiefSight(),
-				chckbxShowOutOf.isSelected()
+				chckbxShowOutOf.isSelected(),
+				chckbxAllowRedoingMovement.isSelected()
 			);
 	}
 	

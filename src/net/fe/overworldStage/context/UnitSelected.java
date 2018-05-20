@@ -74,11 +74,14 @@ public class UnitSelected extends CursorContext {
 			int invalidIndex = -1;
 			int movement = selected.getStats().mov;
 			int remainingMovement = movement;
+			boolean movedThroughFog = false;
 			Node[] nodes = path.getAllNodes();
 			for(int i = 0; i < nodes.length; i++) {
 				boolean fail = false;
 				int cost = grid.getTerrain(nodes[i].x, nodes[i].y).getMoveCost(selected.getTheClass());
 				remainingMovement -= cost;
+				if(grid.isFogged(nodes[i].x, nodes[i].y))
+					movedThroughFog = true;
 				if(movement < cost)
 					fail = true; //Bump
 				else if(remainingMovement < 0 && i != nodes.length - 1)
@@ -100,9 +103,10 @@ public class UnitSelected extends CursorContext {
 			AudioPlayer.playAudio("select");
 
 			final int invalidIndexFinal = invalidIndex;
+			final boolean movedThroughFogFinal = movedThroughFog;
 			
 			selected.move(path, () -> {
-				UnitMoved context = new UnitMoved(stage, UnitSelected.this, selected, false, false);
+				UnitMoved context = new UnitMoved(stage, UnitSelected.this, selected, false, false, movedThroughFogFinal);
 				context.startContext();
 				if(invalidIndexFinal != -1) {
 					stage.addEntity(new ExclamationEmote(selected, stage, () -> {selected.setMoved(true); stage.setControl(true);}));

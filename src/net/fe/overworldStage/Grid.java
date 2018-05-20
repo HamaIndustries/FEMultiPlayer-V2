@@ -151,6 +151,11 @@ public class Grid{
 		return Terrain.UNKNOWN;
 	}
 	
+	public boolean isFogged(int x, int y) {
+		ClientOverworldStage stage = (ClientOverworldStage) FEMultiplayer.getCurrentStage();
+		return stage.getFog().contains(new Node(x, y));
+	}
+	
 	/**
 	 * Sets the terrain.
 	 *
