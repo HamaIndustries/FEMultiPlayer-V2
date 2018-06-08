@@ -42,6 +42,8 @@ public final class InterruptedCommand extends Command {
 					FEMultiplayer.getSession().alwaysShowInterruptions()) {
 				stage.includeInView(blockedLocation);
 				stage.addEntity(new ExclamationEmote(primaryUnit, stage, callback));
+			} else {
+				callback.run();
 			}
 		};
 	}
