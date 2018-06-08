@@ -76,7 +76,7 @@ public class UnitSelected extends CursorContext {
 			int remainingMovement = movement;
 			boolean movedThroughFog = false;
 			Node[] nodes = path.getAllNodes();
-			for(int i = 0; i < nodes.length; i++) {
+			for(int i = 1; i < nodes.length; i++) {
 				boolean fail = false;
 				int cost = grid.getTerrain(nodes[i].x, nodes[i].y).getMoveCost(selected.getTheClass());
 				remainingMovement -= cost;
@@ -84,7 +84,7 @@ public class UnitSelected extends CursorContext {
 					movedThroughFog = true;
 				if(movement < cost)
 					fail = true; //Bump
-				else if(remainingMovement < 0 && i != nodes.length - 1)
+				else if(remainingMovement < 0)
 					fail = true; //Exhaustion
 				else if (grid.getUnit(nodes[i].x, nodes[i].y) != null && !grid.getUnit(nodes[i].x, nodes[i].y).getParty().isAlly(selected.getParty()))
 					fail = true; //Bump
