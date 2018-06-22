@@ -1,9 +1,10 @@
 package net.fe.overworldStage.context;
 
 import net.fe.network.command.Command;
+import net.fe.network.command.InterruptedCommand;
 import net.fe.network.command.ShoveCommand;
-import net.fe.network.command.WaitCommand;
 import net.fe.overworldStage.ClientOverworldStage;
+import net.fe.overworldStage.Node;
 import net.fe.overworldStage.OverworldContext;
 import net.fe.overworldStage.SelectTargetContext;
 import net.fe.overworldStage.Zone;
@@ -40,7 +41,7 @@ public final class ShoveTarget extends SelectTargetContext {
 		Command c;
 		if (!Shove.canShove(this.stage.grid, this.unit, u))
 			//Shove fails
-			c = new WaitCommand();
+			c = new InterruptedCommand(new Node(u.getXCoord() * 2 - unit.getXCoord(), u.getYCoord() * 2 - unit.getYCoord()));
 		else
 			c = new ShoveCommand(new UnitIdentifier(u));
 		c.applyClient(stage, unit, null, new EmptyRunnable()).run();
