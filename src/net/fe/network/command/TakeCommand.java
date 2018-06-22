@@ -18,17 +18,17 @@ public final class TakeCommand extends Command {
 	
 	private static final long serialVersionUID = 6468268282716381357L;
 	
-	private final UnitIdentifier otherId;
+	private final UnitIdentifier destinationId;
 	
-	public TakeCommand(UnitIdentifier otherId) {
-		this.otherId = otherId;
+	public TakeCommand(UnitIdentifier destinationId) {
+		this.destinationId = destinationId;
 	}
 	
 	@Override
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit unit) {
 		
-		Unit other = stage.getUnit(otherId);
-		unit.give(other); // throws IllegalStateException
+		Unit destination = stage.getUnit(destinationId);
+		unit.give(destination); // throws IllegalStateException
 		return null;
 	}
 	
@@ -37,8 +37,8 @@ public final class TakeCommand extends Command {
 		
 		return new Runnable() {
 			public void run() {
-				Unit other = stage.getUnit(otherId);
-				unit.give(other);
+				Unit destination = stage.getUnit(destinationId);
+				unit.give(destination);
 				stage.checkEndGame();
 				callback.run();
 			}
@@ -47,6 +47,6 @@ public final class TakeCommand extends Command {
 	
 	@Override
 	public String toString() {
-		return "Take[" + otherId + "]";
+		return "Take[" + destinationId + "]";
 	}
 }
