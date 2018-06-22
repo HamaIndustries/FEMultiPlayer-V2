@@ -28,7 +28,7 @@ public final class TakeCommand extends Command {
 	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit unit) {
 		
 		Unit other = stage.getUnit(otherId);
-		other.give(unit); // throws IllegalStateException
+		unit.give(other); // throws IllegalStateException
 		return null;
 	}
 	
@@ -38,7 +38,7 @@ public final class TakeCommand extends Command {
 		return new Runnable() {
 			public void run() {
 				Unit other = stage.getUnit(otherId);
-				other.give(unit);
+				unit.give(other);
 				stage.checkEndGame();
 				callback.run();
 			}
