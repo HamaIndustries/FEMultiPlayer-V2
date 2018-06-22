@@ -94,6 +94,9 @@ public class UnitSelected extends CursorContext {
 					break;
 				}
 			}
+			if(invalidIndex != -1)
+				while(grid.getUnit(nodes[invalidIndex - 1].x, nodes[invalidIndex - 1].y) != null)
+					invalidIndex--;
 			
 			if(invalidIndex != -1)
 				path.truncate(invalidIndex);
