@@ -328,7 +328,7 @@ public class FEResources {
 		defaultProps.setProperty("VOLUME","1.0");
 		defaultProps.setProperty("SCALE","1.0");
 		defaultProps.setProperty("AUTOCURSOR", "START");
-		defaultProps.setProperty("DISPLAY_ACTUAL_ODDS", "FALSE");
+		defaultProps.setProperty("ACTUAL ODDS", "FALSE");
 		defaultProps.setProperty("TARGETFPS", "60");
 		
 		// music
@@ -427,7 +427,7 @@ public class FEResources {
 	}
 	
 	public static boolean getActualOdds() {
-		return ((String) prop.get("DISPLAY_ACTUAL_ODDS")).equalsIgnoreCase("TRUE");
+		return ((String) prop.get("ACTUAL ODDS")).equalsIgnoreCase("TRUE");
 	}
 	
 	public static enum AutoCursor {

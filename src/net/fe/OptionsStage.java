@@ -77,6 +77,10 @@ public final class OptionsStage extends Stage {
 			new OptionGroupEntity(110,
 				new OptionGroup("SCALE", java.util.Arrays.asList("1.0", "2.0", "3.0"), java.util.Arrays.asList("Increase size of game window")),
 				(FEResources.getWindowScale() == 3f ? 2 : (FEResources.getWindowScale() == 2f ? 1 : 0))
+			),
+			new OptionGroupEntity(140,
+				new OptionGroup("ACTUAL ODDS", java.util.Arrays.asList("TRUE", "FALSE"), java.util.Arrays.asList("Display the actual odds of a hit/crit happening ", "Display the numerical result of the hit/crit calculation")),
+				FEResources.getActualOdds() ? 1 : 0
 			)
 		};
 		this.options = options;
@@ -143,7 +147,7 @@ public final class OptionsStage extends Stage {
 			// dialogue_text (?)
 			Renderer.drawString("default_med", options[currentOptionIndex].getDescription(), 17, 10, 0.2f);
 		}
-		Renderer.render(this.icons, 0, 0, 1, 1, 8, 46, 8 + 30, 46 + 90, 0.0f);
+		Renderer.render(this.icons, 0, 0, 1, 1, 8, 46, 8 + 30, 46 + 120, 0.0f);
 	}
 	
 	
