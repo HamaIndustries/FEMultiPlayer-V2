@@ -10,6 +10,7 @@ import org.newdawn.slick.Color;
 
 import net.fe.FEMultiplayer;
 import net.fe.Party;
+import net.fe.editor.SpawnPoint;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
 
@@ -31,6 +32,8 @@ public class Grid{
 	/** The red throne y. */
 	private int redThroneX, redThroneY;
 	
+	private Set<SpawnPoint> spawns;
+	
 	/** The height. */
 	public final int width, height;
 
@@ -41,7 +44,7 @@ public class Grid{
 	 * @param height the height
 	 * @param defaultTerrain the default terrain
 	 */
-	public Grid(int width, int height, Terrain defaultTerrain) {
+	public Grid(int width, int height, Terrain defaultTerrain, Set<SpawnPoint> spawns) {
 		grid = new Unit[height][width];
 		blueThroneX = -1;
 		blueThroneY = -1;
@@ -55,6 +58,7 @@ public class Grid{
 		}
 		this.width = width;
 		this.height = height;
+		this.spawns = spawns;
 	}
 
 	/**
@@ -177,6 +181,10 @@ public class Grid{
 	 */
 	public boolean contains(int x, int y) {
 		return x >= 0 && y >= 0 && x < this.width && y < this.height;
+	}
+	
+	public Set<SpawnPoint> getSpawns() {
+		return spawns;
 	}
 	
 	/**

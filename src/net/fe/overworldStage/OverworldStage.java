@@ -203,7 +203,7 @@ public class OverworldStage extends Stage {
             ObjectInputStream ois = new ObjectInputStream(in);
             Level level = (Level) ois.readObject();
             Set<SpawnPoint> spawns = new HashSet<>(level.spawns);
-            grid = new Grid(level.width, level.height, Terrain.NONE);
+            grid = new Grid(level.width, level.height, Terrain.NONE, spawns);
             for(int i=0; i<level.tiles.length; i++) {
             	for(int j=0; j<level.tiles[0].length; j++) {
             		grid.setTerrain(j, i, Tile.getTerrainFromID(level.tiles[i][j]));

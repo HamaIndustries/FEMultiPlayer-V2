@@ -547,8 +547,8 @@ public class ClientOverworldStage extends OverworldStage {
             InputStream in = ResourceLoader.getResourceAsStream("levels/"+levelName+".lvl");
             ObjectInputStream ois = new ObjectInputStream(in);
             Level level = (Level) ois.readObject();
-            grid = new Grid(level.width, level.height, Terrain.NONE);
             Set<SpawnPoint> spawns = new HashSet<>(level.spawns);
+            grid = new Grid(level.width, level.height, Terrain.NONE, spawns);
             for(int i=0; i<level.tiles.length; i++) {
             	for(int j=0; j<level.tiles[0].length; j++) {
             		Tile tile = new Tile(j, i, level.tiles[i][j]);
