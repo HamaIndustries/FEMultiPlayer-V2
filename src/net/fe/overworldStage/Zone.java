@@ -147,6 +147,10 @@ public class Zone extends Entity {
 		return new Zone(nodes, type);
 	}
 	
+	public void add(Node node) {
+		zone.add(node);
+	}
+	
 	public static Zone all(Grid grid, ZoneType fogLight) {
 		Set<Node> nodes = new HashSet<Node>();
 		for(int i = 0; i < grid.width; i++)

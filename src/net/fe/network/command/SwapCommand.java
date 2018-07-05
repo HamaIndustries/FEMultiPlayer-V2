@@ -30,11 +30,12 @@ public final class SwapCommand extends Command {
 		return () -> {
 			for(int i = 0; i < swaps.size(); i += 2)
 				stage.grid.swap(swaps.get(i), swaps.get(i + 1));
+			callback.run();
 		};
 	}
 	
 	@Override
 	public String toString() {
-		return "Swap[" + swaps + "]";
+		return "Swap[" + swaps.stream().map(unit -> unit.name).toArray(String[]::new) + "]";
 	}
 }

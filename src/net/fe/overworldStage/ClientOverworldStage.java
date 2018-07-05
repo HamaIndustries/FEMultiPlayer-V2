@@ -35,6 +35,7 @@ import net.fe.network.command.MoveCommand;
 import net.fe.network.message.CommandMessage;
 import net.fe.network.message.EndTurn;
 import net.fe.overworldStage.Zone.Fog;
+import net.fe.overworldStage.context.FormationContext;
 import net.fe.overworldStage.context.Idle;
 import net.fe.overworldStage.context.WaitForMessages;
 import net.fe.transition.OverworldEndTransition;
@@ -149,18 +150,8 @@ public class ClientOverworldStage extends OverworldStage {
 		addEntity(new OverworldChat(this.session.getChatlog()));
 		addEntity(new ObjectiveInfo());
 		setControl(true);
-		if(getCurrentPlayer().equals(FEMultiplayer.getLocalPlayer())) {
-			context = new Idle(this, getCurrentPlayer());
-			addEntity(new TurnDisplay(true, Party.TEAM_BLUE));
-			SoundTrack.loop("overworld");
-		} else {
-			context = new WaitForMessages(this);
-			if(FEMultiplayer.getLocalPlayer().isSpectator())
-				addEntity(new TurnDisplay(false, getCurrentPlayer().getParty().getColor()));
-			else
-				addEntity(new TurnDisplay(false, Party.TEAM_RED));
-			SoundTrack.loop("enemy");
-		}
+		context = new FormationContext(this, null);
+		
 		repeatTimers = new float[4];
 		currentCmdString = new ArrayList<Command>();
 		pendingMessages = new java.util.LinkedList<Message>();
@@ -548,7 +539,7 @@ public class ClientOverworldStage extends OverworldStage {
             ObjectInputStream ois = new ObjectInputStream(in);
             Level level = (Level) ois.readObject();
             Set<SpawnPoint> spawns = new HashSet<>(level.spawns);
-            grid = new Grid(level.width, level.height, Terrain.NONE, spawns);
+            grid = new Grid(level.width, level.height, Terrain.NONE, new HashSet<>(spawns));
             for(int i=0; i<level.tiles.length; i++) {
             	for(int j=0; j<level.tiles[0].length; j++) {
             		Tile tile = new Tile(j, i, level.tiles[i][j]);
