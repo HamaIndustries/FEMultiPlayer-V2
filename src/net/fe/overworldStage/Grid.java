@@ -128,6 +128,24 @@ public class Grid{
 			u.gridSetYCoord(y);
 		}
 	}
+	
+	public void swap(Unit u1, Unit u2) {
+		grid[u1.getYCoord()][u1.getXCoord()] = u2;
+		grid[u2.getYCoord()][u2.getXCoord()] = u1;
+
+		int xTemp = u2.getXCoord();
+		int yTemp = u2.getYCoord();
+		
+		u2.gridSetXCoord(u1.getXCoord());
+		u2.gridSetYCoord(u1.getYCoord());
+		u2.setOrigX(u1.getXCoord());
+		u2.setOrigY(u1.getYCoord());
+		
+		u1.gridSetXCoord(xTemp);
+		u1.gridSetYCoord(yTemp);
+		u1.setOrigX(xTemp);
+		u1.setOrigY(yTemp);
+	}
 
 	/**
 	 * Gets the terrain.
