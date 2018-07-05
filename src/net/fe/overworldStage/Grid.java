@@ -129,6 +129,15 @@ public class Grid{
 		}
 	}
 	
+	public void swap(Node n1, Node n2) {
+		if(getUnit(n1) != null && getUnit(n2) != null)
+			swap(getUnit(n1), getUnit(n2));
+		else if(getUnit(n2) != null)
+			swap(n2, n1);
+		else 
+			move(getUnit(n1), n2.x, n2.y, false);
+	}
+	
 	public void swap(Unit u1, Unit u2) {
 		grid[u1.getYCoord()][u1.getXCoord()] = u2;
 		grid[u2.getYCoord()][u2.getXCoord()] = u1;
@@ -178,6 +187,10 @@ public class Grid{
 	 */
 	public Unit getUnit(int x, int y) {
 		return grid[y][x];
+	}
+	
+	public Unit getUnit(Node n) {
+		return getUnit(n.x, n.y);
 	}
 	
 	/**

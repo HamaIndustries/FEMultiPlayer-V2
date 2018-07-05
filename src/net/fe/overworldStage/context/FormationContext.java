@@ -23,12 +23,12 @@ import net.fe.unit.Unit;
 
 public class FormationContext extends CursorContext {
 	
-	private Unit first;
+	private Node first;
 	private Zone move, attack, heal;
 	private Zone allied = new Zone(new HashSet<>(), Zone.ZoneType.MOVE_DARK);
 	private Zone enemy = new Zone(new HashSet<>(), Zone.ZoneType.ATTACK_DARK); //TODO change to fog maybe?
 	
-	private ArrayList<Unit> swaps = new ArrayList<Unit>();
+	private ArrayList<Node> swaps = new ArrayList<Node>();
 
 	public FormationContext(ClientOverworldStage s, OverworldContext prevContext) {
 		super(s, prevContext);
@@ -73,8 +73,8 @@ public class FormationContext extends CursorContext {
 
 	@Override
 	public void onSelect() {
-		Unit selected = stage.getUnit(cursor.getXCoord(), cursor.getYCoord());
-		if(selected == null)
+		Node selected = new Node(cursor.getXCoord(), cursor.getYCoord());
+		if(!allied.getNodes().contains(selected))
 			new EndFormationContext(stage, this).startContext();
 		else {
 			AudioPlayer.playAudio("select");
