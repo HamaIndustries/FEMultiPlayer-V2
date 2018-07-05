@@ -7,6 +7,7 @@ import net.fe.fightStage.AttackRecord;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.Node;
 import net.fe.overworldStage.OverworldStage;
+import net.fe.overworldStage.context.FormationContext;
 import net.fe.unit.Unit;
 
 public final class SwapCommand extends Command {
@@ -15,9 +16,11 @@ public final class SwapCommand extends Command {
 	private static final long serialVersionUID = -3945531642092346657L;
 
 	private Node[] swaps;
+	private byte id;
 	
-	public SwapCommand(ArrayList<Node> swaps) {
+	public SwapCommand(ArrayList<Node> swaps, byte id) {
 		this.swaps = swaps.toArray(new Node[0]);
+		this.id = id;
 	}
 	
 	@Override
@@ -32,6 +35,8 @@ public final class SwapCommand extends Command {
 		return () -> {
 			for(int i = 0; i < swaps.length; i += 2)
 				stage.grid.swap(swaps[i], swaps[i + 1]);
+			if(stage.getContext() instanceof FormationContext)
+				((FormationContext) stage.getContext()).removePlayer(id);
 			callback.run();
 		};
 	}

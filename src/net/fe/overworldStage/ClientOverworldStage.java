@@ -35,7 +35,7 @@ import net.fe.network.command.MoveCommand;
 import net.fe.network.message.CommandMessage;
 import net.fe.network.message.EndTurn;
 import net.fe.overworldStage.Zone.Fog;
-import net.fe.overworldStage.context.FormationContext;
+import net.fe.overworldStage.context.RepositionContext;
 import net.fe.overworldStage.context.Idle;
 import net.fe.overworldStage.context.WaitForMessages;
 import net.fe.transition.OverworldEndTransition;
@@ -150,7 +150,7 @@ public class ClientOverworldStage extends OverworldStage {
 		addEntity(new OverworldChat(this.session.getChatlog()));
 		addEntity(new ObjectiveInfo());
 		setControl(true);
-		context = new FormationContext(this, null);
+		context = new RepositionContext(this, null);
 		
 		repeatTimers = new float[4];
 		currentCmdString = new ArrayList<Command>();
@@ -673,5 +673,9 @@ public class ClientOverworldStage extends OverworldStage {
 		public String toString() {
 			return representation;
 		}
+	}
+
+	public OverworldContext getContext() {
+		return context;
 	}
 }
