@@ -122,19 +122,12 @@ public class Summon extends OverworldContext {
 		// If the selected target was actually invalid (i.e. trying to put down a unit in a fogged tile containing an enemy)
 		// tries to find a new valid tile. If that fails, the unit is forced to wait.
 		Command c = null;
-		for(int i = 0; i < 5; i++) {
-			int x = getCurrentTarget().x;
-			int y = getCurrentTarget().y;
-			if(grid.getUnit(x, y) != null || BASES.mov < grid.getTerrain(x, y).getMoveCost(Class.createClass("Phantom")))
-				nextTarget();
-			else {
-				c = new SummonCommand(getCurrentTarget().x, getCurrentTarget().y);
-				break;
-			}
-		}
-		
-		if(c == null)
-			c = new InterruptedCommand(new Node(getCurrentTarget().x, getCurrentTarget().y));
+		int x = getCurrentTarget().x;
+		int y = getCurrentTarget().y;
+		if(grid.getUnit(x, y) != null || BASES.mov < grid.getTerrain(x, y).getMoveCost(Class.createClass("Phantom")))
+			c = new InterruptedCommand(new Node(x, y));
+		else
+			c = new SummonCommand(x, y);
 		
 		stage.addCmd(c);
 		c.applyClient(stage, unit, null, new EmptyRunnable()).run();
