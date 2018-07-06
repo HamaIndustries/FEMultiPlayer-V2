@@ -94,12 +94,11 @@ public class UnitSelected extends CursorContext {
 					break;
 				}
 			}
-			if(invalidIndex != -1)
-				while(grid.getUnit(nodes[invalidIndex - 1].x, nodes[invalidIndex - 1].y) != null)
+			if(invalidIndex != -1) {
+				while(invalidIndex > 1 && grid.getUnit(nodes[invalidIndex - 1].x, nodes[invalidIndex - 1].y) != null)
 					invalidIndex--;
-			
-			if(invalidIndex != -1)
 				path.truncate(invalidIndex);
+			}
 			
 			grid.move(selected, path.destination().x, path.destination().y, true);
 			stage.setControl(false);
