@@ -37,9 +37,11 @@ public final class InterruptedCommand extends Command {
 	@Override
 	public Runnable applyClient(ClientOverworldStage stage, Unit primaryUnit, ArrayList<AttackRecord> attackRecords, Runnable callback) {
 		return () -> {
-			if(!stage.getFog().contains(blockedLocation) &&
-					!stage.getFog().contains(new Node(primaryUnit.getOrigX(), primaryUnit.getOrigY())) ||
-					FEMultiplayer.getSession().alwaysShowInterruptions()) {
+			boolean show = FEMultiplayer.getSession().alwaysShowInterruptions();
+			show |= !stage.getFog().contains(blockedLocation) && !stage.getFog().contains(new Node(primaryUnit.getOrigX(), primaryUnit.getOrigY()));
+			show |= FEMultiplayer.getLocalPlayer().getParty().isAlly(primaryUnit.getParty());
+			
+			if(show) { // One of the 3 conditions is true
 				stage.includeInView(blockedLocation);
 				stage.addEntity(new ExclamationEmote(primaryUnit, stage, callback));
 			} else {
