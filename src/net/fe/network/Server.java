@@ -57,6 +57,8 @@ public final class Server {
 	/** Contains the next playerId to be used when a player joins the server */
 	private byte nextPlayerId = 1;
 	
+	private ArrayList<Message> broadcastedMessages = new ArrayList<>();
+	
 	/**
 	 * Instantiates a new server.
 	 */
@@ -98,6 +100,8 @@ public final class Server {
 	 */
 	public void broadcastMessage(Message message) {
 		logger.finer("[SEND]" + message);
+		message.setTimestamp(System.currentTimeMillis());
+		broadcastedMessages.add(message);
 		for(ServerListener out : clients) {
 			out.sendMessage(message);
 		}

@@ -13,12 +13,13 @@ public abstract class Message implements Serializable {
 	
 	/** The origin. */
 	public byte origin;
+	private long timestamp;
 	
 	/**
 	 * Instantiates a new message.
 	 */
 	public Message() {
-		
+		this((byte) 0);
 	}
 	
 	/**
@@ -28,6 +29,7 @@ public abstract class Message implements Serializable {
 	 */
 	public Message(byte origin) {
 		this.origin = origin;
+		timestamp = System.currentTimeMillis();
 	}
 	
 	/* (non-Javadoc)
@@ -37,5 +39,13 @@ public abstract class Message implements Serializable {
 		String classname = getClass().getSimpleName().toUpperCase();
 		classname.replaceAll("MESSAGE", "");
 		return origin + " " + getClass().getSimpleName().toUpperCase() + "::";
+	}
+
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
+	
+	public long getTimestamp() {
+		return timestamp;
 	}
 }
