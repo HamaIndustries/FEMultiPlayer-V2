@@ -1,6 +1,6 @@
 package net.fe.overworldStage.context;
 
-import net.fe.network.command.TakeCommand;
+import net.fe.network.command.GiveCommand;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.OverworldContext;
 import net.fe.overworldStage.SelectTargetContext;
@@ -42,7 +42,7 @@ public class GiveTarget extends SelectTargetContext {
 	 */
 	@Override
 	public void unitSelected(Unit u) {
-		stage.addCmd(new TakeCommand(new UnitIdentifier(u)));
+		stage.addCmd(new GiveCommand(new UnitIdentifier(u)));
 		stage.send();
 		unit.setMoved(true);
 		unit.give(u);
