@@ -6,17 +6,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Random;
 import java.util.logging.Logger;
-import java.time.LocalDateTime;
 
-import net.fe.lobbystage.LobbyStage;
 import net.fe.network.message.ClientInit;
-import net.fe.network.message.CommandMessage;
-import net.fe.network.message.JoinTeam;
-import net.fe.network.message.PartyMessage;
 import net.fe.network.message.KickMessage;
 import net.fe.network.message.QuitMessage;
-import net.fe.network.message.ReadyMessage;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -35,6 +30,8 @@ public final class ServerListener extends Thread {
 	/** a logger (theoretically initialized in Server) */
 	private static final Logger logger = Logger.getLogger("net.fe.network.Server");
 	
+	private static final Random rng = new Random();
+	
 	/** The socket. */
 	private final Socket socket;
 	
@@ -52,6 +49,24 @@ public final class ServerListener extends Thread {
 	
 	/** The client that this is linked to. */
 	private final byte clientId;
+	private final long token;
+	
+	public ServerListener(Server main, Socket socket, byte clientId, long token) {
+		super("Listener "+ clientId);
+		this.clientId = clientId;
+		this.socket = socket;
+		this.main = main;
+		this.token = token;
+		try {
+			out = new ObjectOutputStream(socket.getOutputStream());
+			out.flush();
+			in = new ObjectInputStream(socket.getInputStream());
+			logger.fine("LISTENER: I/O streams initialized");
+			sendMessage(new ClientInit((byte) 0, clientId, main.getSession(), token));
+		} catch (IOException e) {
+			logger.throwing("ServerListener", "<init>", e);
+		}
+	}
 	
 	/**
 	 * Instantiates a new server listener.
@@ -60,19 +75,7 @@ public final class ServerListener extends Thread {
 	 * @param socket the socket
 	 */
 	public ServerListener(Server main, Socket socket, byte clientId) {
-		super("Listener "+ clientId);
-		this.clientId = clientId;
-		this.socket = socket;
-		this.main = main;
-		try {
-			out = new ObjectOutputStream(socket.getOutputStream());
-			out.flush();
-			in = new ObjectInputStream(socket.getInputStream());
-			logger.fine("LISTENER: I/O streams initialized");
-			sendMessage(new ClientInit((byte) 0, clientId, main.getSession()));
-		} catch (IOException e) {
-			logger.throwing("ServerListener", "<init>", e);
-		}
+		this(main, socket, clientId, rng.nextLong());
 	}
 	
 	/* (non-Javadoc)

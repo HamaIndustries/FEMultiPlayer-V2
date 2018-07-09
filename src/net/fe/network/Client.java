@@ -69,6 +69,7 @@ public class Client {
 	
 	/** The id. */
 	byte id;
+	private long token;
 	
 	/** The messages. Should only operate on if the monitor to messagesLock is held */
 	public final CopyOnWriteArrayList<Message> messages;
@@ -137,6 +138,7 @@ public class Client {
 			if (message2.hashes.equals(ClientInit.Hashes.pullFromStatics(message2.session.getMap()))) {
 				this.id = message2.clientID;
 				this.session = message2.session;
+				this.token = message2.token;
 				FEMultiplayer.getLocalPlayer().setClientID(message2.clientID);
 				if(id >= 2) {
 					FEMultiplayer.getLocalPlayer().getParty().setColor(Party.TEAM_RED);
