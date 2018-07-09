@@ -1,0 +1,20 @@
+language: java
+
+jdk:
+   - oraclejdk8
+   - oraclejdk9
+   - oraclejdk10
+   - oraclejdk11
+
+script:
+  - mkdir out
+  - mkdir out/classes
+  - find src -type f -print >out/classes.list
+  - javac -Xlint:deprecation -Xlint:unchecked -d "out/classes" -cp "json-simple/json-simple-1.1.1.jar:lwjgl-2.9.0/jar/lwjgl.jar:lwjgl-2.9.0/jar/slick-util.jar" @out/classes.list
+
+  - mkdir out/test_lib
+  - curl -sS -o out/test_lib/junit-platform-console-standalone-1.2.0.jar https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.2.0/junit-platform-console-standalone-1.2.0.jar
+  - mkdir out/test_classes
+  - find test -type f -print >out/test_classes.list
+  - javac -Xlint:deprecation -Xlint:unchecked -d "out/test_classes" -cp "out/test_lib/junit-platform-console-standalone-1.2.0.jar:out/classes:json-simple/json-simple-1.1.1.jar:lwjgl-2.9.0/jar/lwjgl.jar:lwjgl-2.9.0/jar/slick-util.jar" @out/test_classes.list
+  - java -jar out/test_lib/junit-platform-console-standalone-1.2.0.jar --reports-dir "out/test_reports" --classpath "out/test_classes:out/classes:json-simple/json-simple-1.1.1.jar:lwjgl-2.9.0/jar/lwjgl.jar:lwjgl-2.9.0/jar/slick-util.jar" -p net.fe
