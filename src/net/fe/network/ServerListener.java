@@ -25,7 +25,7 @@ import net.fe.network.message.QuitMessage;
  *
  * @see ServerEvent
  */
-public final class ServerListener extends Thread {
+public final class ServerListener {
 	
 	/** a logger (theoretically initialized in Server) */
 	private static final Logger logger = Logger.getLogger("net.fe.network.Server");
@@ -52,7 +52,6 @@ public final class ServerListener extends Thread {
 	private final long token;
 	
 	public ServerListener(Server main, Socket socket, byte clientId, long token) {
-		super("Listener "+ clientId);
 		this.clientId = clientId;
 		this.socket = socket;
 		this.main = main;
@@ -78,38 +77,37 @@ public final class ServerListener extends Thread {
 		this(main, socket, clientId, rng.nextLong());
 	}
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Thread#run()
-	 */
-	public void run() {
-		try {
-			logger.fine("LISTENER: Start");
-			Message message;
-			clientQuit = false;
-			while(!clientQuit) {
-				message = (Message) in.readObject();
-				logger.fine("[RECV]" + message);
-				processInput(message);
+	public void start() {
+		new Thread(() -> {
+			try {
+				logger.fine("LISTENER: Start");
+				Message message;
+				clientQuit = false;
+				while(!clientQuit) {
+					message = (Message) in.readObject();
+					logger.fine("[RECV]" + message);
+					processInput(message);
+				}
+				logger.fine("LISTENER: Exit");
+				main.clients.remove(this);
+				in.close();
+				out.close();
+				socket.close();
+			} catch (Throwable e) {
+				System.err.println("Exception occurred, writing to logs...");
+				e.printStackTrace();
+				try{
+					File errLog = new File("error_log_server_listener" + System.currentTimeMillis()%100000000 + ".log");
+					PrintWriter pw = new PrintWriter(errLog);
+					e.printStackTrace(pw);
+					pw.close();
+				}catch (IOException e2){
+					e2.printStackTrace();
+				}
+			} finally {
+				main.clients.remove(this);
 			}
-			logger.fine("LISTENER: Exit");
-			main.clients.remove(this);
-			in.close();
-			out.close();
-			socket.close();
-		} catch (Exception e) {
-			System.err.println("Exception occurred, writing to logs...");
-			e.printStackTrace();
-			try{
-				File errLog = new File("error_log_server_listener" + System.currentTimeMillis()%100000000 + ".log");
-				PrintWriter pw = new PrintWriter(errLog);
-				e.printStackTrace(pw);
-				pw.close();
-			}catch (IOException e2){
-				e2.printStackTrace();
-			}
-		} finally {
-			main.clients.remove(this);
-		}
+		}, "Listener "+ clientId).start();
 	}
 	
 	/**
