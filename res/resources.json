@@ -4324,12 +4324,12 @@
 		{
 			"name":		"warrior_handaxe_attack",
 			"path":		"res/battle_anim/warrior_handaxe_attack.png",
-			"width":	205,
-			"height":	48,
-			"frames":	33,
-			"columns":	3,
-			"offsetX":	162,
-			"offsetY":	36,
+			"width":	76,
+			"height":	43,
+			"frames":	14,
+			"columns":	4,
+			"offsetX":	33,
+			"offsetY":	38,
 			"freeze":	0,
 			"hitframes":[9],
 			"soundMap": [
@@ -4342,7 +4342,7 @@
 					"sound":"axe_throw"
 				},
 				{
-					"frame": 30,
+					"frame": 11,
 					"sound":"catch"
 				}
 			]
@@ -4350,14 +4350,14 @@
 		{
 			"name":		"warrior_handaxe_critical",
 			"path":		"res/battle_anim/warrior_handaxe_critical.png",
-			"width":	76,
+			"width":	205,
 			"height":	48,
-			"frames":	16,
-			"columns":	4,
-			"offsetX":	36,
-			"offsetY":	44,
+			"frames":	35,
+			"columns":	3,
+			"offsetX":	162,
+			"offsetY":	43,
 			"freeze":	0,
-			"hitframes":[10],
+			"hitframes":[12],
 			"soundMap": [
 				{
 					"frame": 5,
