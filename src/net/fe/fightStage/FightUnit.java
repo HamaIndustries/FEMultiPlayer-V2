@@ -107,7 +107,7 @@ public class FightUnit extends Entity {
 		} else if(state == FADING && alpha > 0) {
 			alpha -= .75*Game.getDeltaSeconds();
 			if(alpha < 0) {
-				((FightStage)stage).setCurrentEvent(FightStage.RETURNING);
+				((FightStage)stage).setCurrentEvent(FightStage.RETURN_EFFECT);
 				alpha = 0;
 			}
 		}

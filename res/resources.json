@@ -217,22 +217,22 @@
 		{
 			"name":		"berserker_handaxe_attack",
 			"path":		"res/battle_anim/berserker_handaxe_attack.png",
-			"width":	192,
-			"height":	44,
-			"frames":	24,
-			"columns":	5,
-			"offsetX":	162,
-			"offsetY":	40,
+			"width":69,
+			"height":45,
+			"frames":5,
+			"columns":3,
+			"offsetX":40,
+			"offsetY":40,
 			"freeze":	0,
 			"speed":	0.06,
-			"hitframes":[4],
+			"hitframes":[2],
 			"soundMap": [
 				{
 					"frame":	1,
 					"sound":	"axe_throw"
 				},
 				{
-					"frame":	22,
+					"frame":	3,
 					"sound":	"catch"
 				},
 			]
@@ -240,14 +240,14 @@
 		{
 			"name":		"berserker_handaxe_critical",
 			"path":		"res/battle_anim/berserker_handaxe_critical.png",
-			"width":	192,
-			"height":	44,
-			"frames":	29,
-			"columns":	3,
-			"offsetX":	162,
-			"offsetY":	40,
+			"width":70,
+			"height":45,
+			"frames":10,
+			"columns":4,
+			"offsetX":40,
+			"offsetY":40,
 			"freeze":	0,
-			"hitframes":[10],
+			"hitframes":[7],
 			"soundMap": [
 				{
 					"frame":	1,
@@ -258,7 +258,7 @@
 					"sound":	"axe_throw"
 				},
 				{
-					"frame":	27,
+					"frame":	8,
 					"sound":	"catch"
 				},
 			]
@@ -1125,13 +1125,13 @@
 		{
 			"name":		"general_handaxe_attack",
 			"path":		"res/battle_anim/general_handaxe_attack.png",
-			"width":	197,
-			"height":	50,
-			"frames":	32,
-			"columns":	6,
-			"offsetX":	152,
-			"offsetY":	43,
-			"freeze":	-1,
+			"width":74,
+			"height":51,
+			"frames":13,
+			"columns":4,
+			"offsetX":29,
+			"offsetY":43,
+			"freeze":	0,
 			"hitframes":[5],
 			"soundMap": [
 				{
@@ -1143,21 +1143,21 @@
 		{
 			"name":		"general_handaxe_critical",
 			"path":		"res/battle_anim/general_handaxe_critical.png",
-			"width":	197,
-			"height":	64,
-			"frames":	44,
-			"columns":	7,
-			"offsetX":	152,
-			"offsetY":	57,
-			"freeze":	-1,
-			"hitframes":[25],
+			"width":82,
+			"height":65,
+			"frames":31,
+			"columns":6,
+			"offsetX":37,
+			"offsetY":57,
+			"freeze":	0,
+			"hitframes":[23],
 			"soundMap": [
 				{
 					"frame": 3,
 					"sound": "spin_short"
 				}
 				{
-					"frame": 9,
+					"frame": 21,
 					"sound": "axe_throw"
 				}
 			]
@@ -1393,21 +1393,21 @@
 		{
 			"name":		"hector_handaxe_attack",
 			"path":		"res/battle_anim/hector_handaxe_attack.png",
-			"width":	190,
-			"height":	44,
-			"frames":	24,
-			"columns":	3,
-			"offsetX":	162,
-			"offsetY":	40,
+			"width":50,
+			"height":40,
+			"frames":5,
+			"columns":3,
+			"offsetX":29,
+			"offsetY":35,
 			"freeze":	0,
-			"hitframes":[4],
+			"hitframes":[2],
 			"soundMap": [
 				{
 					"frame":	1,
 					"sound":	"axe_throw"
 				},
 				{
-					"frame":	22,
+					"frame":	3,
 					"sound":	"catch"
 				},
 			]
@@ -1415,14 +1415,14 @@
 		{
 			"name":		"hector_handaxe_critical",
 			"path":		"res/battle_anim/hector_handaxe_critical.png",
-			"width":	190,
-			"height":	44,
-			"frames":	29,
-			"columns":	3,
-			"offsetX":	162,
-			"offsetY":	40,
+			"width":57,
+			"height":45,
+			"frames":11,
+			"columns":4,
+			"offsetX":29,
+			"offsetY":40,
 			"freeze":	0,
-			"hitframes":[10],
+			"hitframes":[8],
 			"soundMap": [
 				{
 					"frame":	1,
@@ -1433,7 +1433,7 @@
 					"sound":	"axe_throw"
 				},
 				{
-					"frame":	27,
+					"frame":	9,
 					"sound":	"catch"
 				},
 			]
@@ -1672,14 +1672,14 @@
 		{
 			"name":		"hero_handaxe_attack",
 			"path":		"res/battle_anim/hero_handaxe_attack.png",
-			"width":	189,
-			"height":	40,
-			"frames":	29,
-			"columns":	3,
-			"offsetX":	162,
-			"offsetY":	36,
+			"width":46,
+			"height":38,
+			"frames":10,
+			"columns":4,
+			"offsetX":22,
+			"offsetY":33,
 			"freeze":	0,
-			"hitframes":[7],
+			"hitframes":[4],
 			"soundMap": [
 				{
 					"frame":	1,
@@ -1690,7 +1690,7 @@
 					"sound":	"axe_throw"
 				},
 				{
-					"frame":	2,
+					"frame":	6,
 					"sound":	"catch"
 				},
 			]
@@ -1698,14 +1698,14 @@
 		{
 			"name":		"hero_handaxe_critical",
 			"path":		"res/battle_anim/hero_handaxe_critical.png",
-			"width":	189,
-			"height":	40,
-			"frames":	32,
-			"columns":	3,
-			"offsetX":	162,
-			"offsetY":	36,
+			"width":49,
+			"height":38,
+			"frames":13,
+			"columns":4,
+			"offsetX":22,
+			"offsetY":33,
 			"freeze":	0,
-			"hitframes":[10],
+			"hitframes":[8],
 			"soundMap": [
 				{
 					"frame":	1,
@@ -1720,7 +1720,7 @@
 					"sound":	"axe_throw"
 				},
 				{
-					"frame":	28,
+					"frame":	9,
 					"sound":	"catch"
 				},
 			]
@@ -3042,30 +3042,30 @@
 		{
 			"name":		"phantom_handaxe_attack",
 			"path":		"res/battle_anim/phantom_handaxe_attack.png",
-			"width":213,
-			"height":40,
-			"frames":25,
-			"columns":5,
-			"offsetX":150,
-			"offsetY":36,
+			"width":79,
+			"height":37,
+			"frames":9,
+			"columns":3,
+			"offsetX":16,
+			"offsetY":32,
 			"freeze":0,
-			"hitframes":[7],
+			"hitframes":[4],
 			"soundMap": [
 				{	"frame": 1,	"sound": "axe_swipe2"	},
-				{	"frame": 5,	"sound": "axe_throw"	},
+				{	"frame": 4,	"sound": "axe_throw"	},
 			]
 		},
 		{
 			"name":		"phantom_handaxe_critical",
 			"path":		"res/battle_anim/phantom_handaxe_critical.png",
-			"width":215,
-			"height":42,
-			"frames":34,
-			"columns":6,
-			"offsetX":150,
+			"width":81,
+			"height":43,
+			"frames":16,
+			"columns":4,
+			"offsetX":16,
 			"offsetY":38,
 			"freeze":0,
-			"hitframes":[16],
+			"hitframes":[14],
 			"soundMap": [
 				{	"frame": 1,	"sound": "axe_swipe2"	},
 				{	"frame": 3,	"sound": "spin"	},
@@ -4350,14 +4350,14 @@
 		{
 			"name":		"warrior_handaxe_critical",
 			"path":		"res/battle_anim/warrior_handaxe_critical.png",
-			"width":	205,
-			"height":	48,
-			"frames":	35,
-			"columns":	3,
-			"offsetX":	162,
-			"offsetY":	43,
+			"width":75,
+			"height":49,
+			"frames":16,
+			"columns":4,
+			"offsetX":32,
+			"offsetY":43,
 			"freeze":	0,
-			"hitframes":[12],
+			"hitframes":[11],
 			"soundMap": [
 				{
 					"frame": 5,
@@ -4368,7 +4368,7 @@
 					"sound":"axe_throw"
 				},
 				{
-					"frame": 32,
+					"frame": 12,
 					"sound":"catch"
 				}
 			]
@@ -4731,6 +4731,33 @@
 					"frame": 0,
 					"sound": "lightning"
 				}
+			]
+		},
+		{
+			"name":		"handaxe_effect",
+			"path":		"res/battle_anim/handaxe_effect.png",
+			"width":	140,
+			"height":	48,
+			"frames":	4,
+			"columns":	2,
+			"offsetX":	153,
+			"offsetY":	53,
+			"freeze":	-1,
+			"hitframes":[1],
+			"soundMap":[
+			]
+		},
+		{
+			"name":		"handaxe_return",
+			"path":		"res/battle_anim/handaxe_return.png",
+			"width":	140,
+			"height":	48,
+			"frames":	10,
+			"columns":	2,
+			"offsetX":	63,
+			"offsetY":	53,
+			"freeze":	-1,
+			"soundMap":[
 			]
 		},
 		{

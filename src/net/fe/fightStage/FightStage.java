@@ -9,6 +9,7 @@ import static java.lang.System.out;
 import net.fe.FEMultiplayer;
 import net.fe.FEResources;
 import net.fe.fightStage.anim.AnimationArgs;
+import net.fe.fightStage.anim.AnimationArgs.AttackAnimationType;
 import net.fe.fightStage.anim.AttackAnimation;
 import net.fe.fightStage.anim.BackgroundEffect;
 import net.fe.fightStage.anim.DodgeAnimation;
@@ -19,6 +20,7 @@ import net.fe.fightStage.anim.MagicEffect;
 import net.fe.fightStage.anim.MissEffect;
 import net.fe.fightStage.anim.NoDamageEffect;
 import net.fe.fightStage.anim.Platform;
+import net.fe.fightStage.anim.ReturnEffect;
 import net.fe.fightStage.anim.SkillIndicator;
 import net.fe.network.Message;
 import net.fe.overworldStage.Grid;
@@ -163,11 +165,14 @@ public class FightStage extends Stage {
 	/** The Constant DYING. */
 	public static final int DYING = 7;
 	
+	public static final int RETURN_EFFECT = 8;
+	public static final int RETURN_EFFECTED = 9;
+	
 	/** The Constant RETURNING. */
-	public static final int RETURNING = 8;
+	public static final int RETURNING = 10;
 	
 	/** The Constant DONE. */
-	public static final int DONE = 9;
+	public static final int DONE = 11;
 	
 	/** The stage to return to after the Fight Stage plays out */
 	private final ClientOverworldStage returnTo;
@@ -245,16 +250,12 @@ public class FightStage extends Stage {
 	 */
 	public void preload(FightUnit f){
 		AnimationArgs args = f.getAnimArgs();
-		if(args.classification.equals("magic") && args.unit.getWeapon() != null){
-			String name = MagicEffect.getTextureName(args);
+		args.classification.preloads(args).forEach(name -> {
 			if(!PRELOADED_EFFECTS.containsKey(name)){
 				System.out.print("PRE");
 				PRELOADED_EFFECTS.put(name, FEResources.getTexture(name));
-				name = MagicAttack.getBgEffectName(args);
-				System.out.print("PRE");
-				PRELOADED_EFFECTS.put(name, FEResources.getTexture(name));
 			}
-		}
+		});
 		
 		for(AttackRecord rec : attackQ){
 			boolean crit = rec.animation.contains("Critical");
@@ -462,10 +463,22 @@ public class FightStage extends Stage {
 				AudioPlayer.playAudio("die");
 				currentEvent = DYING;//////////TODO: check here for bug, DYING->DONE illegal transition
 			} else {
-				currentEvent = RETURNING;
+				currentEvent = RETURN_EFFECT;
 			}
 		} else if (currentEvent == DYING) {
 			// Let animation for dying guy play
+		} else if (currentEvent == RETURN_EFFECT) {
+			List<ReturnEffect> returnEffects = ReturnEffect.getEffects(a.getAnimArgs());
+			if (returnEffects.size() == 0) {
+				currentEvent = RETURNING;
+			} else {
+				currentEvent = RETURN_EFFECTED;
+				returnEffects.forEach(e -> addEntity(e));
+				processAddStack();
+			}
+			
+		} else if (currentEvent == RETURN_EFFECTED) {
+			//Let anim play
 		} else if (currentEvent == RETURNING) {
 			a.sprite.setSpeed(((AttackAnimation)a.sprite.getCurrentAnimation()).getDefaultSpeed());
 			// Let animation play
