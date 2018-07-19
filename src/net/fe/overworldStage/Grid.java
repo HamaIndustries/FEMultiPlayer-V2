@@ -10,6 +10,7 @@ import org.newdawn.slick.Color;
 
 import net.fe.FEMultiplayer;
 import net.fe.Party;
+import net.fe.editor.SpawnPoint;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitIdentifier;
 
@@ -31,6 +32,8 @@ public class Grid{
 	/** The red throne y. */
 	private int redThroneX, redThroneY;
 	
+	private Set<SpawnPoint> spawns;
+	
 	/** The height. */
 	public final int width, height;
 
@@ -41,7 +44,7 @@ public class Grid{
 	 * @param height the height
 	 * @param defaultTerrain the default terrain
 	 */
-	public Grid(int width, int height, Terrain defaultTerrain) {
+	public Grid(int width, int height, Terrain defaultTerrain, Set<SpawnPoint> spawns) {
 		grid = new Unit[height][width];
 		blueThroneX = -1;
 		blueThroneY = -1;
@@ -55,6 +58,7 @@ public class Grid{
 		}
 		this.width = width;
 		this.height = height;
+		this.spawns = spawns;
 	}
 
 	/**
@@ -124,6 +128,33 @@ public class Grid{
 			u.gridSetYCoord(y);
 		}
 	}
+	
+	public void swap(Node n1, Node n2) {
+		if(getUnit(n1) != null && getUnit(n2) != null)
+			swap(getUnit(n1), getUnit(n2));
+		else if(getUnit(n2) != null)
+			swap(n2, n1);
+		else 
+			move(getUnit(n1), n2.x, n2.y, false);
+	}
+	
+	public void swap(Unit u1, Unit u2) {
+		grid[u1.getYCoord()][u1.getXCoord()] = u2;
+		grid[u2.getYCoord()][u2.getXCoord()] = u1;
+
+		int xTemp = u2.getXCoord();
+		int yTemp = u2.getYCoord();
+		
+		u2.gridSetXCoord(u1.getXCoord());
+		u2.gridSetYCoord(u1.getYCoord());
+		u2.setOrigX(u1.getXCoord());
+		u2.setOrigY(u1.getYCoord());
+		
+		u1.gridSetXCoord(xTemp);
+		u1.gridSetYCoord(yTemp);
+		u1.setOrigX(xTemp);
+		u1.setOrigY(yTemp);
+	}
 
 	/**
 	 * Gets the terrain.
@@ -158,6 +189,10 @@ public class Grid{
 		return grid[y][x];
 	}
 	
+	public Unit getUnit(Node n) {
+		return getUnit(n.x, n.y);
+	}
+	
 	/**
 	 * Returns the unit at the given position. If the unit is not visible, returns null instead (as if there was nothing there).
 	 * @param x The x coordinate of the position.
@@ -177,6 +212,10 @@ public class Grid{
 	 */
 	public boolean contains(int x, int y) {
 		return x >= 0 && y >= 0 && x < this.width && y < this.height;
+	}
+	
+	public Set<SpawnPoint> getSpawns() {
+		return spawns;
 	}
 	
 	/**
