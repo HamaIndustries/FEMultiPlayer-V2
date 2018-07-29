@@ -32,7 +32,7 @@ public final class Smite extends FieldSkill {
 	public boolean allowed(Unit unit, Grid grid) {
 		Set<Node> range = grid.getRange(new Node(unit.getXCoord(), unit.getYCoord()), 1);
 		for (Node n : range) {
-			Unit shovee = grid.getUnit(n.x, n.y);
+			Unit shovee = grid.getVisibleUnit(n.x, n.y);
 			if (shovee != null) {
 				if (canSmiteWithFog(grid, unit, shovee)) {
 					return true;
