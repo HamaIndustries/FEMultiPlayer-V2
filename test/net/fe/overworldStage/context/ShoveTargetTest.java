@@ -21,6 +21,7 @@ import net.fe.overworldStage.Zone;
 import net.fe.unit.Class;
 import net.fe.unit.Unit;
 import net.fe.unit.Statistics;
+import net.fe.overworldStage.Zone.RangeIndicator;
 
 public class ShoveTargetTest {
 	
@@ -66,7 +67,7 @@ public class ShoveTargetTest {
 		stage.grid.addUnit(shovee3, 3,4);
 		stage.grid.addUnit(shovee4, 4,3);
 		
-		Zone zone = new Zone(stage.grid.getRange(new Node(3,3), 1), null);
+		Zone zone = new RangeIndicator(stage.grid.getRange(new Node(3,3), 1), null);
 		Statistics shoverVals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 15, 0);
 		Unit shover = new Unit("test", Class.createClass("Sorcerer"), '-', shoverVals, shoverVals);
 		stage.grid.addUnit(shover, 3, 3);
