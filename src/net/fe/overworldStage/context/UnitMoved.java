@@ -14,7 +14,8 @@ import net.fe.overworldStage.Node;
 import net.fe.overworldStage.OverworldContext;
 import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.Zone;
-import net.fe.overworldStage.Zone.ZoneType;
+import net.fe.overworldStage.Zone.RangeIndicator;
+import net.fe.overworldStage.Zone.RangeIndicator.RangeType;
 import net.fe.unit.Item;
 import net.fe.unit.RiseTome;
 import net.fe.unit.Unit;
@@ -37,6 +38,8 @@ public class UnitMoved extends MenuContext<String> {
 	
 	/** The from take. */
 	private boolean fromTake;
+	
+	private boolean movedThroughFog;
 
 	/**
 	 * Instantiates a new unit moved.
@@ -48,11 +51,12 @@ public class UnitMoved extends MenuContext<String> {
 	 * @param fromTake the from take
 	 */
 	public UnitMoved(ClientOverworldStage stage, OverworldContext prev, Unit u,
-			boolean fromTrade, boolean fromTake) {
+			boolean fromTrade, boolean fromTake, boolean movedThroughFog) {
 		super(stage, prev, new Menu<String>(0, 0));
 		unit = u;
 		this.fromTrade = fromTrade;
 		this.fromTake = fromTake;
+		this.movedThroughFog = movedThroughFog;
 		for (String cmd : getCommands(unit)) {
 			menu.addItem(cmd);
 		}
@@ -136,7 +140,7 @@ public class UnitMoved extends MenuContext<String> {
 	 */
 	@Override
 	public void onCancel() {
-		if (fromTrade || fromTake){
+		if (fromTrade || fromTake || (movedThroughFog && !stage.getSession().canUndoMovement())){
 			return; // You can't cancel this.
 		}
 		super.onCancel();
@@ -148,20 +152,20 @@ public class UnitMoved extends MenuContext<String> {
 	public void updateZones() {
 		stage.removeEntity(zone);
 		if (menu.getSelection().equals("Attack")) {
-			zone = new Zone(grid.getRange(
+			zone = new RangeIndicator(grid.getRange(
 					new Node(unit.getXCoord(), unit.getYCoord()),
-					unit.getTotalWepRange(false)), ZoneType.ATTACK_DARK);
+					unit.getTotalWepRange(false)), RangeType.ATTACK_DARK);
 			stage.addEntity(zone);
 		} else if (menu.getSelection().equals("Heal")) {
-			zone = new Zone(grid.getRange(
+			zone = new RangeIndicator(grid.getRange(
 					new Node(unit.getXCoord(), unit.getYCoord()),
-					unit.getTotalWepRange(true)), ZoneType.HEAL_DARK);
+					unit.getTotalWepRange(true)), RangeType.HEAL_DARK);
 			stage.addEntity(zone);
 		} else if (Arrays.asList("Trade", "Give", "Take", "Drop", "Rescue", "Summon")
 				.contains(menu.getSelection())) {
-			zone = new Zone(grid.getRange(
+			zone = new RangeIndicator(grid.getRange(
 					new Node(unit.getXCoord(), unit.getYCoord()), 1),
-					ZoneType.MOVE_DARK);
+					RangeType.MOVE_DARK);
 			stage.addEntity(zone);
 		} else {
 			for (FieldSkill f : unit.getTheClass().fieldSkills) {
@@ -233,7 +237,7 @@ public class UnitMoved extends MenuContext<String> {
 				}
 			}
 			if(p == null && unit.rescuedUnit() != null && 
-					grid.getTerrain(n.x, n.y).getMoveCost(
+					grid.getVisibleTerrain(n.x, n.y).getMoveCost(
 					unit.rescuedUnit().getTheClass()) < unit
 					.rescuedUnit().getStats().mov){
 				drop = true;
@@ -241,7 +245,7 @@ public class UnitMoved extends MenuContext<String> {
 			
 			//summon
 			if (p == null
-					&& grid.getTerrain(n.x, n.y).getMoveCost(
+					&& grid.getVisibleTerrain(n.x, n.y).getMoveCost(
 							net.fe.unit.Class.createClass("Phantom")) <
 							unit.getStats().mov && 
 							unit.getTheClass().usableWeapon.contains(Weapon.Type.DARK)) {
@@ -266,7 +270,7 @@ public class UnitMoved extends MenuContext<String> {
 			list.add("Summon");
 		
 		for (FieldSkill f : unit.getTheClass().fieldSkills) {
-			if (f.allowedWithFog(unit, this.stage.grid)) {
+			if (f.allowed(unit, this.stage.grid)) {
 				list.add(f.getName());
 			}
 		}

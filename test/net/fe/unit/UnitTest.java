@@ -81,7 +81,7 @@ public final class UnitTest {
 		assertEquals(weap1, dut.getWeapon());
 		assertEquals(2, dut.getInventory().size());
 		
-		dut.use(weap1, true);
+		dut.use(weap1);
 		
 		assertEquals(weap2, dut.getWeapon());
 		assertEquals(1, dut.getInventory().size());
@@ -100,7 +100,7 @@ public final class UnitTest {
 		assertEquals(weap1, dut.getWeapon());
 		assertEquals(1, dut.getInventory().size());
 		
-		dut.use(weap1, true);
+		dut.use(weap1);
 		
 		assertEquals(null, dut.getWeapon());
 		assertEquals(0, dut.getInventory().size());

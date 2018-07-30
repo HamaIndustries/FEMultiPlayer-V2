@@ -7,10 +7,11 @@ import net.fe.fightStage.RagePp;
 import net.fe.unit.Unit;
 import net.fe.overworldStage.FieldSkill;
 import net.fe.overworldStage.Node;
-import net.fe.overworldStage.OverworldContext;
 import net.fe.overworldStage.ClientOverworldStage;
+import net.fe.overworldStage.OverworldContext;
 import net.fe.overworldStage.Zone;
-import net.fe.overworldStage.Zone.ZoneType;
+import net.fe.overworldStage.Zone.RangeIndicator;
+import net.fe.overworldStage.Zone.RangeIndicator.RangeType;
 import net.fe.overworldStage.Grid;
 import net.fe.overworldStage.Path;
 import net.fe.overworldStage.context.AttackTarget;
@@ -45,11 +46,6 @@ public final class Rage extends FieldSkill {
 		return false;
 	}
 	
-	@Override
-	public boolean allowedWithFog(Unit unit, Grid grid) {
-		return this.allowed(unit, grid);
-	}
-	
 	/**
 	 * Returns the context to start when this command is selected
 	 */
@@ -60,12 +56,12 @@ public final class Rage extends FieldSkill {
 	
 	@Override
 	public Zone getZone(Unit unit, Grid grid) {
-		return new Zone(
+		return new RangeIndicator(
 			grid.getRange(
 				new Node(unit.getXCoord(), unit.getYCoord()),
 				unit.getTotalWepRange(false)
 			),
-			ZoneType.ATTACK_DARK
+			RangeType.ATTACK_DARK
 		);
 	}
 	

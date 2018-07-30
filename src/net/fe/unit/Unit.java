@@ -676,20 +676,20 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	}
 
 	/**
-	 * Use an item
+	 * Use an item from this unit's inventory
 	 *
-	 * @param index the index of the item in this unit's inventory
+	 * @param index the index of the item to use
 	 */
 	public void use(int index) {
 		use(inventory.get(index));
 	}
 	
 	/**
-	 * Use an item
+	 * Use an item from this unit's inventory
 	 *
-	 * @param i the item
+	 * @param i the item to use
 	 */
-	public void use(Item i){
+	public void use(Item i) {
 		i.use(this);
 		if(i.getUses() <= 0){
 			inventory.remove(i);

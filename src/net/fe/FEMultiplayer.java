@@ -39,7 +39,8 @@ import net.fe.network.Message;
 import net.fe.network.command.Command;
 import net.fe.network.message.CommandMessage;
 import net.fe.overworldStage.ClientOverworldStage;
-import net.fe.overworldStage.ClientOverworldStage.FogOption;
+import net.fe.overworldStage.ClientOverworldStage.FogType;
+import net.fe.overworldStage.ClientOverworldStage.SpectatorFogOption;
 import net.fe.overworldStage.objective.Seize;
 import net.fe.rng.SimpleRNG;
 import net.fe.rng.TrueHitRNG;
@@ -147,7 +148,7 @@ public class FEMultiplayer extends Game{
 	 */
 	public void testDraftStage() {
 		Player p1 = localPlayer;
-		testSession = new Session(new net.fe.overworldStage.objective.Rout(), "test", 6, new java.util.HashSet<>(), new net.fe.pick.Draft(), new TrueHitRNG(), new SimpleRNG(), new SimpleRNG(), FogOption.NONE);
+		testSession = new Session(new net.fe.overworldStage.objective.Rout(), "test", 6, new java.util.HashSet<>(), new net.fe.pick.Draft(), new TrueHitRNG(), new SimpleRNG(), new SimpleRNG(), FogType.NONE, SpectatorFogOption.REVEAL_ALL, 3, 8, false, true);
 		Player p2 = new Player("p2", (byte) 1);
 		Player p3 = new Player("p3", (byte) 2);
 		p2.getParty().setColor(Party.TEAM_RED);
@@ -175,7 +176,7 @@ public class FEMultiplayer extends Game{
 	 */
 	public void testFightStage(){
 		Player p1 = localPlayer;
-		testSession = new Session(new Seize(), "test", 8, new java.util.HashSet<>(), new net.fe.pick.Draft(), new TrueHitRNG(), new SimpleRNG(), new SimpleRNG(), FogOption.NONE);
+		testSession = new Session(new Seize(), "test", 8, new java.util.HashSet<>(), new net.fe.pick.Draft(), new TrueHitRNG(), new SimpleRNG(), new SimpleRNG(), FogType.NONE, SpectatorFogOption.REVEAL_ALL, 3, 8, false, true);
 		Player p2 = new Player("p2", (byte) 1);
 		p2.getParty().setColor(Party.TEAM_RED);
 		p1.getParty().setColor(Party.TEAM_BLUE);
@@ -226,7 +227,9 @@ public class FEMultiplayer extends Game{
 	 * Test overworld stage.
 	 */
 	public void testOverworldStage() {
-		testSession = new Session(new Seize(), "test", 8, new java.util.HashSet<>(), new net.fe.pick.Draft(), new TrueHitRNG(), new SimpleRNG(), new SimpleRNG(), FogOption.GBA);
+		testSession = new Session(new Seize(), "test", 8, new java.util.HashSet<>(), new net.fe.pick.Draft(),
+				new TrueHitRNG(), new SimpleRNG(), new SimpleRNG(),
+				FogType.SNES, SpectatorFogOption.REVEAL_ALL, 3, 8, false, false);
 		testSession.addPlayer(localPlayer);
 		
 		Player p2 = new Player("P2", (byte)1);
@@ -432,7 +435,7 @@ public class FEMultiplayer extends Game{
 	 * @return the session
 	 */
 	public static Session getSession() {
-		if(client == null)
+		if(testSession != null) //Test session is only set by test stages.
 			return testSession;
 		return client.getSession();
 	}

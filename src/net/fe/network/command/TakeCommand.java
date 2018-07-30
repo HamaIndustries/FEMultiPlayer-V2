@@ -1,44 +1,38 @@
 package net.fe.network.command;
 
-import java.io.Serializable;
-import java.util.List;
 import java.util.ArrayList;
+
 import net.fe.fightStage.AttackRecord;
-import net.fe.overworldStage.OverworldStage;
 import net.fe.overworldStage.ClientOverworldStage;
-import net.fe.overworldStage.Path;
-import net.fe.overworldStage.Node;
-import net.fe.unit.UnitIdentifier;
+import net.fe.overworldStage.OverworldStage;
 import net.fe.unit.Unit;
-import net.fe.unit.Item;
-import net.fe.unit.RiseTome;
-import java.util.Optional;
+import net.fe.unit.UnitIdentifier;
 
 public final class TakeCommand extends Command {
 	
 	private static final long serialVersionUID = 6468268282716381357L;
 	
-	private final UnitIdentifier otherId;
+	private final UnitIdentifier sourceId;
 	
-	public TakeCommand(UnitIdentifier otherId) {
-		this.otherId = otherId;
+	public TakeCommand(UnitIdentifier sourceId) {
+		this.sourceId = sourceId;
 	}
 	
 	@Override
-	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit unit) {
+	public ArrayList<AttackRecord> applyServer(OverworldStage stage, Unit destination) {
 		
-		Unit other = stage.getUnit(otherId);
-		other.give(unit); // throws IllegalStateException
+		Unit source = stage.getUnit(sourceId);
+		source.give(destination); // throws IllegalStateException
 		return null;
 	}
 	
 	@Override
-	public Runnable applyClient(ClientOverworldStage stage, Unit unit, ArrayList<AttackRecord> attackRecords, Runnable callback) {
+	public Runnable applyClient(ClientOverworldStage stage, Unit destination, ArrayList<AttackRecord> attackRecords, Runnable callback) {
 		
 		return new Runnable() {
 			public void run() {
-				Unit other = stage.getUnit(otherId);
-				other.give(unit);
+				Unit source = stage.getUnit(sourceId);
+				source.give(destination);
 				stage.checkEndGame();
 				callback.run();
 			}
@@ -47,6 +41,6 @@ public final class TakeCommand extends Command {
 	
 	@Override
 	public String toString() {
-		return "Take[" + otherId + "]";
+		return "Take[" + sourceId + "]";
 	}
 }

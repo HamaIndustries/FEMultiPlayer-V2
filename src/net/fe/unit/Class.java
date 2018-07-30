@@ -18,12 +18,13 @@ public final class Class implements Serializable {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 9144407404798873761L;
 	
-	/** The crit. */
+	/** The innate crit */
 	public final int crit;
 	
-	/** The master skill. */
+	/** The skills that the unit has in combat */
 	public final List<CombatTrigger> combatSkills;
 	
+	/** The skills that a unit can use in the field */
 	public final List<FieldSkill> fieldSkills;
 	
 	/** The usable weapon. */
@@ -35,8 +36,6 @@ public final class Class implements Serializable {
 	/** The description. */
 	public final String description;
 	
-	public final int sight;
-	
 	/**
 	 * Instantiates a new class.
 	 *
@@ -47,13 +46,12 @@ public final class Class implements Serializable {
 	 * @param fs the class's field abilities
 	 * @param types the types
 	 */
-	private Class(String name, String desc, int c, List<? extends CombatTrigger> cs, List<? extends FieldSkill> fs, int sight, Weapon.Type... types){
+	private Class(String name, String desc, int c, List<? extends CombatTrigger> cs, List<? extends FieldSkill> fs, Weapon.Type... types){
 		this.crit = c;
 		this.combatSkills = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(cs));
 		this.usableWeapon = java.util.Collections.unmodifiableList(Arrays.asList(types));
 		this.name = name;
 		this.description = desc;
-		this.sight = sight;
 		this.fieldSkills = java.util.Collections.unmodifiableList(new java.util.ArrayList<FieldSkill>(fs));
 	}
 	
@@ -100,15 +98,13 @@ public final class Class implements Serializable {
 					0,
 					Arrays.asList(new Aether(), new ChargeSkillFromDamageRecieved(1), new RageEp()),
 					Arrays.asList(new Shove(), new Rage()),
-					3,
 					Weapon.Type.SWORD);
 		if(name.equals("Eliwood"))
 			return new Class("Lord", 
-					"A couRageEpous royal who commands armies.",
+					"A courageous royal who commands armies.",
 					 0,
 					 Arrays.asList(new Sol(false), new ChargeSkillFromDamageRecieved(1), new RageEp()),
 					 Arrays.asList(new Rage()),
-					 3,
 					 Weapon.Type.SWORD, Weapon.Type.LANCE);
 		if(name.equals("Lyn"))
 			return new Class("Lord", 
@@ -116,7 +112,6 @@ public final class Class implements Serializable {
 					 0,
 					 Arrays.asList(new Astra(), new ChargeSkillFromDamageRecieved(1), new RageEp()),
 					 Arrays.asList(new Shove(), new Rage()),
-					 3,
 					 Weapon.Type.SWORD, Weapon.Type.BOW, Weapon.Type.CROSSBOW);
 		if(name.equals("Hector"))
 			return new Class("Lord", 
@@ -124,7 +119,6 @@ public final class Class implements Serializable {
 					 0,
 					 Arrays.asList(new Luna(false), new ChargeSkillFromDamageRecieved(1), new RageEp()),
 					 Arrays.asList(new Shove(), new Smite(), new Rage()),
-					 3, 
 					 Weapon.Type.AXE, Weapon.Type.SWORD);
 		if(name.equals("Eirika"))
 			return new Class("Lord", 
@@ -132,7 +126,6 @@ public final class Class implements Serializable {
 					 0,
 					 Arrays.asList(new Luna(false), new ChargeSkillFromDamageRecieved(1), new RageEp()),
 					 Arrays.asList(new Rage()),
-					 3,
 					 Weapon.Type.SWORD);
 		if(name.equals("Ephraim"))
 			return new Class("Lord", 
@@ -140,7 +133,6 @@ public final class Class implements Serializable {
 					 0,
 					 Arrays.asList(new Sol(false), new ChargeSkillFromDamageRecieved(1), new RageEp()),
 					 Arrays.asList(new Rage()),
-					 3,
 					 Weapon.Type.LANCE);
 		if(name.equals("Marth"))
 			return new Class("Lord", 
@@ -148,7 +140,6 @@ public final class Class implements Serializable {
 					 0,
 					 Arrays.asList(new Aether(), new ChargeSkillFromDamageRecieved(1), new RageEp()),
 					 Arrays.asList(new Shove(), new Rage()),
-					 3,
 					 Weapon.Type.SWORD);
 		if(name.equals("Ike"))
 			return new Class("Lord", 
@@ -156,7 +147,6 @@ public final class Class implements Serializable {
 					 0,
 					 Arrays.asList(new Aether(), new ChargeSkillFromDamageRecieved(1), new RageEp()),
 					 Arrays.asList(new Shove(), new Smite(), new Rage()),
-					 3,
 					 Weapon.Type.SWORD, Weapon.Type.AXE);
 		
 		//Other
@@ -166,7 +156,6 @@ public final class Class implements Serializable {
 					10,
 					Arrays.asList(new Deadeye(), new ChargeSkillFromDamageRecieved(1), new RageEp()),
 					Arrays.asList(new Shove(), new Rage()),
-					3,
 					Weapon.Type.BOW, Weapon.Type.CROSSBOW);
 		if(name.equals("Hero"))
 			return new Class("Hero", 
@@ -174,7 +163,6 @@ public final class Class implements Serializable {
 					0,
 					Arrays.asList(new Luna(false), new ChargeSkillFromDamageRecieved(1), new RageEp()),
 					Arrays.asList(new Shove(), new Rage()),
-					3,
 					Weapon.Type.SWORD, Weapon.Type.AXE);
 		if(name.equals("Berserker"))
 			return new Class("Berserker",
@@ -182,7 +170,6 @@ public final class Class implements Serializable {
 					10,
 					Arrays.asList(new Colossus(), new ChargeSkillFromDamageRecieved(1), new RageEp()),
 					Arrays.asList(new Shove(), new Smite(), new Rage()),
-					3,
 					Weapon.Type.AXE);
 		if(name.equals("Warrior"))
 			return new Class("Warrior", 
@@ -190,7 +177,6 @@ public final class Class implements Serializable {
 					0,
 					Arrays.asList(new Colossus(), new ChargeSkillFromDamageRecieved(1), new RageEp()),
 					Arrays.asList(new Shove(), new Smite(), new Rage()),
-					3,
 					Weapon.Type.AXE, Weapon.Type.CROSSBOW);
 		if(name.equals("Assassin"))
 			return new Class("Assassin", 
@@ -198,7 +184,6 @@ public final class Class implements Serializable {
 					10,
 					Arrays.asList(new Lethality(), new ChargeSkillFromDamageRecieved(2), new RageEp()),
 					Arrays.asList(new Shove(), new Rage()),
-					8,
 					Weapon.Type.SWORD);
 		if(name.equals("Paladin"))
 			return new Class("Paladin", 
@@ -206,7 +191,6 @@ public final class Class implements Serializable {
 					0,
 					Arrays.asList(new Sol(false), new ChargeSkillFromDamageRecieved(1), new RageEp()),
 					Arrays.asList(new Rage()),
-					3,
 					Weapon.Type.LANCE, Weapon.Type.SWORD, Weapon.Type.AXE);
 		if(name.equals("Sage"))
 			return new Class("Sage", 
@@ -214,7 +198,6 @@ public final class Class implements Serializable {
 					0,
 					Arrays.asList(new Sol(true), new ChargeSkillFromDamageRecieved(1), new RageEp()),
 					Arrays.asList(new Shove(), new Rage()),
-					3,
 					Weapon.Type.ANIMA, Weapon.Type.LIGHT, Weapon.Type.STAFF);
 		if(name.equals("General"))
 			return new Class("General", 
@@ -222,7 +205,6 @@ public final class Class implements Serializable {
 					0,
 					Arrays.asList(new Pavise(), new ChargeSkillFromDamageRecieved(1), new RageEp()),
 					Arrays.asList(new Shove(), new Smite(), new Rage()),
-					3,
 					Weapon.Type.AXE, Weapon.Type.LANCE);
 		if(name.equals("Valkyrie"))
 			return new Class("Valkyrie", 
@@ -230,7 +212,6 @@ public final class Class implements Serializable {
 					0,
 					Arrays.asList(new Miracle(), new ChargeSkillFromDamageRecieved(1), new RageEp()),
 					Arrays.asList(new Rage()),
-					3,
 					Weapon.Type.STAFF, Weapon.Type.LIGHT);
 		if(name.equals("Swordmaster"))
 			return new Class("Swordmaster",
@@ -238,7 +219,6 @@ public final class Class implements Serializable {
 					20,
 					Arrays.asList(new Astra(), new ChargeSkillFromDamageRecieved(2), new RageEp()),
 					Arrays.asList(new Shove(), new Rage()),
-					3,
 					Weapon.Type.SWORD);
 		if(name.equals("Sorcerer"))
 			return new Class("Sorcerer",
@@ -246,7 +226,6 @@ public final class Class implements Serializable {
 					0,
 					Arrays.asList(new Luna(true), new ChargeSkillFromDamageRecieved(1), new RageEp()),
 					Arrays.asList(new Shove(), new Rage()),
-					3,
 					Weapon.Type.DARK, Weapon.Type.ANIMA);
 		if(name.equals("Falconknight"))
 			return new Class("Falconknight", 
@@ -254,7 +233,6 @@ public final class Class implements Serializable {
 					0,
 					Arrays.asList(new Crisis(), new ChargeSkillFromDamageRecieved(1), new RageEp()),
 					Arrays.asList(new Rage()),
-					3,
 					Weapon.Type.LANCE, Weapon.Type.SWORD);
 		if(name.equals("Phantom"))
 			return new Class("Phantom", 
@@ -262,7 +240,6 @@ public final class Class implements Serializable {
 					0,
 					Arrays.asList(),
 					Arrays.asList(new Shove()),
-					3,
 					Weapon.Type.AXE);
 		
 		throw new IllegalArgumentException("Unknown Class Name: " + name);
