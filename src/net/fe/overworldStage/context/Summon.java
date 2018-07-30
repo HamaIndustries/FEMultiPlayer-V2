@@ -1,22 +1,54 @@
 package net.fe.overworldStage.context;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import chu.engine.anim.AudioPlayer;
-import net.fe.FEResources;
-import net.fe.overworldStage.*;
+import net.fe.network.command.Command;
+import net.fe.network.command.InterruptedCommand;
+import net.fe.network.command.SummonCommand;
+import net.fe.overworldStage.ClientOverworldStage;
+import net.fe.overworldStage.Node;
+import net.fe.overworldStage.OverworldContext;
+import net.fe.overworldStage.Zone;
+import net.fe.unit.Class;
 import net.fe.unit.Statistics;
 import net.fe.unit.Unit;
 import net.fe.unit.WeaponFactory;
-import net.fe.network.command.SummonCommand;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Summon.
  */
 public class Summon extends OverworldContext {
+	
+	public static final Statistics BASES = new Statistics(
+			/* hp = */ 1,
+			/* str = */ 5,
+			/* mag = */ 0,
+			/* skl = */ 2,
+			/* spd = */ 4,
+			/* def = */ 0,
+			/* res = */ 0,
+			/* lck = */ 0,
+			/* mov = */ 5,
+			/* con = */ 11,
+			/* aid = */ 10
+		);
+
+	public static final Statistics GROWTHS = new Statistics(
+				/* hp = */ 0,
+				/* str = */ 55,
+				/* mag = */ 15,
+				/* skl = */ 35,
+				/* spd = */ 45,
+				/* def = */ 15,
+				/* res = */ 15,
+				/* lck = */ 50,
+				/* mov = */ 0,
+				/* con = */ 0,
+				/* aid = */ 0
+			);
 	
 	/** The zone. */
 	private Zone zone;
@@ -73,7 +105,7 @@ public class Summon extends OverworldContext {
 		for (Node n : zone.getNodes()) {
 			Unit u = grid.getVisibleUnit(n.x, n.y);
 			if (u == null
-					&& grid.getTerrain(n.x, n.y).getMoveCost(
+					&& grid.getVisibleTerrain(n.x, n.y).getMoveCost(
 							net.fe.unit.Class.createClass("Phantom")) <
 							unit.getStats().mov) {
 				targets.add(n);
@@ -87,11 +119,16 @@ public class Summon extends OverworldContext {
 	@Override
 	public void onSelect() {
 		AudioPlayer.playAudio("select");
-		//If there's a unit in the fog
-		//This is guaranteed to succeed as long as the vision range of the unit is greater than one.
-		while (grid.getUnit(getCurrentTarget().x, getCurrentTarget().y) != null)
-			nextTarget();
-		SummonCommand c = new SummonCommand(getCurrentTarget().x, getCurrentTarget().y);
+		// If the selected target was actually invalid (i.e. trying to put down a unit in a fogged tile containing an enemy)
+		// tries to find a new valid tile. If that fails, the unit is forced to wait.
+		Command c = null;
+		int x = getCurrentTarget().x;
+		int y = getCurrentTarget().y;
+		if(grid.getUnit(x, y) != null || BASES.mov < grid.getTerrain(x, y).getMoveCost(Class.createClass("Phantom")))
+			c = new InterruptedCommand(new Node(x, y));
+		else
+			c = new SummonCommand(x, y);
+		
 		stage.addCmd(c);
 		c.applyClient(stage, unit, null, new EmptyRunnable()).run();
 		stage.send();
@@ -192,34 +229,8 @@ public class Summon extends OverworldContext {
 	public static Unit generateSummon(Unit summoner) {
 		WeaponFactory.loadWeapons();
 		
-		Statistics bases = new Statistics(
-			/* hp = */ 1,
-			/* str = */ 5,
-			/* mag = */ 0,
-			/* skl = */ 2,
-			/* spd = */ 4,
-			/* def = */ 0,
-			/* res = */ 0,
-			/* lck = */ 0,
-			/* mov = */ 5,
-			/* con = */ 11,
-			/* aid = */ 10
-		);
-		Statistics growths = new Statistics(
-			/* hp = */ 0,
-			/* str = */ 55,
-			/* mag = */ 15,
-			/* skl = */ 35,
-			/* spd = */ 45,
-			/* def = */ 15,
-			/* res = */ 15,
-			/* lck = */ 50,
-			/* mov = */ 0,
-			/* con = */ 0,
-			/* aid = */ 0
-		);
 		summonCount = summonCount + 1;
-		final Unit summon = new Unit("Phantom " + summonCount, net.fe.unit.Class.createClass("Phantom"), '-', bases, growths);
+		final Unit summon = new Unit("Phantom " + summonCount, net.fe.unit.Class.createClass("Phantom"), '-', BASES, GROWTHS);
 		summon.addToInventory(net.fe.unit.Item.getItem("Iron Axe"));
 		summon.initializeEquipment();
 		summon.setLevel(summoner.getLevel());

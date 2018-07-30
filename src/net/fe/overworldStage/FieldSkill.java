@@ -23,11 +23,8 @@ public abstract class FieldSkill implements Serializable {
 	 * @param actor the unit that wants to use a skill
 	 * @param grid the grid containing the unit
 	 */
-	public abstract boolean allowed(Unit actor, Grid grid);
 	
-	public boolean allowedWithFog(Unit actor, Grid grid) {
-		return allowed(actor, grid);
-	}
+	public abstract boolean allowed(Unit actor, Grid grid);
 	
 	/**
 	 * Returns the context to start when this command is selected

@@ -14,7 +14,8 @@ import net.fe.network.message.JoinLobby;
 import net.fe.network.message.JoinTeam;
 import net.fe.network.message.KickMessage;
 import net.fe.network.message.QuitMessage;
-import net.fe.overworldStage.ClientOverworldStage.FogOption;
+import net.fe.overworldStage.ClientOverworldStage.FogType;
+import net.fe.overworldStage.ClientOverworldStage.SpectatorFogOption;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.overworldStage.objective.Rout;
 import net.fe.pick.Draft;
@@ -22,6 +23,7 @@ import net.fe.pick.PickMode;
 import net.fe.rng.RNG;
 import net.fe.rng.SimpleRNG;
 import net.fe.rng.TrueHitRNG;
+import net.fe.unit.Unit;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -59,20 +61,29 @@ public final class Session implements Serializable {
 	private final RNG critRNG;
 	private final RNG skillRNG;
 	
-	private final FogOption fogOption;
+	private final FogType fogOption;
+	private final SpectatorFogOption spectatorFogOption;
+	private final int regularSight;
+	private final int thiefSight;
+	private final boolean canUndoMovement;
+	
+	private final boolean alwaysShowInterruptions;
 	
 	/**
 	 * Instantiates a new session with default values.
 	 */
 	public Session() {
-		this(new Rout(), "test", 8, new HashSet<>(), new Draft(), new TrueHitRNG(), new SimpleRNG(), new SimpleRNG(), FogOption.NONE);
+		this(new Rout(), "test", 8, new HashSet<>(), new Draft(),
+				new TrueHitRNG(), new SimpleRNG(), new SimpleRNG(),
+				FogType.NONE, SpectatorFogOption.REVEAL_ALL, 3, 8, false, true);
 	}
 	
 	/**
 	 * Instantiates a new session with the specified values
 	 */
 	public Session(Objective objective, String map, int maxUnits, Set<Modifier> modifiers, PickMode pickMode,
-			RNG hitRNG, RNG critRNG, RNG skillRNG, FogOption fogOption) {
+			RNG hitRNG, RNG critRNG, RNG skillRNG, FogType fogOption, SpectatorFogOption spectatorFogOption,
+			int regularSight, int thiefSight, boolean alwaysShowInterruptions, boolean canUndoMovement) {
 
 		this.hitRNG = hitRNG;
 		this.critRNG = critRNG;
@@ -86,6 +97,11 @@ public final class Session implements Serializable {
 		this.map = map;
 		this.pickMode = pickMode;
 		this.fogOption = fogOption;
+		this.spectatorFogOption = spectatorFogOption;
+		this.thiefSight = thiefSight;
+		this.regularSight = regularSight;
+		this.alwaysShowInterruptions = alwaysShowInterruptions;
+		this.canUndoMovement = canUndoMovement;
 	}
 	
 	/**
@@ -263,6 +279,10 @@ public final class Session implements Serializable {
 			this.getChatlog().add(this.getPlayer(chatMsg.origin), chatMsg.text);
 		}
 	}
+	
+	public int getSight(Unit u) {
+		return u.getTheClass().name.equals("Assassin") ? thiefSight : regularSight;
+	}
 
 	public RNG getHitRNG() {
 		return hitRNG;
@@ -276,8 +296,20 @@ public final class Session implements Serializable {
 		return skillRNG;
 	}
 
-	public FogOption getFogOption() {
+	public FogType getFogOption() {
 		return fogOption;
+	}
+
+	public SpectatorFogOption getSpectatorFogOption() {
+		return spectatorFogOption;
+	}
+
+	public boolean alwaysShowInterruptions() {
+		return alwaysShowInterruptions;
+	}
+
+	public boolean canUndoMovement() {
+		return canUndoMovement;
 	}
 	
 }
