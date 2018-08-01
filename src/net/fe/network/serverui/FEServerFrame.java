@@ -56,6 +56,7 @@ public class FEServerFrame extends JFrame {
 				feserver.init();
 				feserver.loop();
 			} catch (Throwable e) {
+				FEServer.kickPlayers("Server crashed");
 				logError(e);
 			}
 		}).start();

@@ -171,12 +171,16 @@ public class FEServer extends Game {
 	 */
 	public static void resetToLobbyAndKickPlayers() {
 		resetToLobby();
+		kickPlayers("Reseting server");
+	}
+	
+	public static void kickPlayers(String reason) {
 		ArrayList<Byte> ids = new ArrayList<>();
 		for (Player p : getPlayers().values())
 			ids.add(p.getID());
 		synchronized (server.messagesLock) {
 			for (byte i : ids) {
-				final KickMessage kick = new KickMessage((byte) 0, i, "Reseting server");
+				final KickMessage kick = new KickMessage((byte) 0, i, reason);
 				server.broadcastMessage(kick);
 				server.messages.add(kick);
 			}
