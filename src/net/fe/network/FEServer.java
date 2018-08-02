@@ -91,6 +91,7 @@ public class FEServer extends Game {
 				} catch (InterruptedException e) {
 					// No, really. Has there ever been a meaningful response to an InterruptedException?
 				}
+				server.timeoutClients();
 				messages.addAll(server.messages);
 				for (Message message : messages) {
 					if (message instanceof JoinTeam || message instanceof ReadyMessage) {
