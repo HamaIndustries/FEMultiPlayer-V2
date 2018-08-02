@@ -169,4 +169,8 @@ public final class Server {
 		}
 		return false;
 	}
+	
+	public Message[] getBroadcastedMessages() {
+		return broadcastedMessages.toArray(new Message[0]);
+	}
 }

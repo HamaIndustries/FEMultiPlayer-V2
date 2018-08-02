@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -117,6 +118,16 @@ public final class ServerListener {
 			if(main.validateRejoinRequest(rejoin)) {
 				this.token = rejoin.getToken();
 				this.clientId = rejoin.origin;
+				synchronized(this) {
+					Message[] messages;
+					synchronized(main.messages) {
+						messages = main.getBroadcastedMessages();
+					}
+					rejoin.setTimestamp(rejoin.getLastTimestamp());
+					int index = Arrays.binarySearch(messages, rejoin, (a, b) -> (int) Math.signum(a.getTimestamp() - b.getTimestamp()));
+					for(int i = index + 1; i < messages.length; i++)
+						sendMessage(messages[i]);
+				}
 			} else {
 				sendMessage(new KickMessage((byte) 0, rejoin.origin, "Reconnection failed: Timed out"));
 				quit(false);
@@ -139,7 +150,7 @@ public final class ServerListener {
 	 *
 	 * @param message the message
 	 */
-	public void sendMessage(Message message) {
+	public synchronized void sendMessage(Message message) {
 		try {
 			out.writeObject(message);
 			out.flush();
