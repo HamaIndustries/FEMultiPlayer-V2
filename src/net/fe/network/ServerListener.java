@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import net.fe.network.message.ClientInit;
 import net.fe.network.message.KickMessage;
 import net.fe.network.message.QuitMessage;
+import net.fe.network.message.RejoinMessage;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -48,8 +49,8 @@ public final class ServerListener {
 	private volatile boolean clientQuit;
 	
 	/** The client that this is linked to. */
-	private final byte clientId;
-	private final long token;
+	private byte clientId;
+	private long token;
 	
 	public ServerListener(Server main, Socket socket, byte clientId, long token) {
 		this.clientId = clientId;
@@ -89,11 +90,8 @@ public final class ServerListener {
 					processInput(message);
 				}
 				logger.fine("LISTENER: Exit");
-				main.clients.remove(this);
-				in.close();
-				out.close();
-				socket.close();
 			} catch (Throwable e) {
+				quit(true);
 				System.err.println("Exception occurred, writing to logs...");
 				e.printStackTrace();
 				try{
@@ -104,8 +102,6 @@ public final class ServerListener {
 				}catch (IOException e2){
 					e2.printStackTrace();
 				}
-			} finally {
-				main.clients.remove(this);
 			}
 		}, "Listener "+ clientId).start();
 	}
@@ -116,13 +112,24 @@ public final class ServerListener {
 	 * @param message the message
 	 */
 	public void processInput(Message message) {
-		synchronized(main.messagesLock) {
-			if (message.origin == clientId) {
-				if (message instanceof QuitMessage) {
-					clientQuit = true;
+		if(message instanceof RejoinMessage) {
+			RejoinMessage rejoin = (RejoinMessage) message;
+			if(main.validateRejoinRequest(rejoin)) {
+				this.token = rejoin.getToken();
+				this.clientId = rejoin.origin;
+			} else {
+				sendMessage(new KickMessage((byte) 0, rejoin.origin, "Reconnection failed: Timed out"));
+				quit(false);
+			}
+		} else {
+			synchronized(main.messagesLock) {
+				if (message.origin == clientId) {
+					if (message instanceof QuitMessage) {
+						quit(false);
+					}
+					main.messages.add(message);
+					main.messagesLock.notifyAll();
 				}
-				main.messages.add(message);
-				main.messagesLock.notifyAll();
 			}
 		}
 	}
@@ -138,12 +145,46 @@ public final class ServerListener {
 			out.flush();
 			logger.fine("SERVER sent message: [" + message.toString() + "]");
 			if (message instanceof KickMessage && ((KickMessage) message).player == clientId) {
-				clientQuit = true;
+				quit(false);
 			}
 		} catch (IOException e) {
 			logger.severe("SERVER Unable to send message!");
 			logger.throwing("ServerListener", "sendMessage", e);
 		}
+	}
+	
+	/**
+	 * Closes the socket and the I/O streams.
+	 */
+	private void close() {
+		try {
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Make the client quit the server. Only takes effect if the client hasn't quit.
+	 * @param allowReconnect If the client is allowed to reconnect to the server
+	 * via a {@link RejoinMessage}.
+	 */
+	private void quit(boolean allowReconnect) {
+		if(!clientQuit) {
+			clientQuit = true;
+			main.clients.remove(this);
+			close();
+			if(allowReconnect)
+				main.pastClients.put(System.currentTimeMillis(), this);
+		}
+	}
+
+	public byte getId() {
+		return clientId;
+	}
+
+	public long getToken() {
+		return token;
 	}
 
 }

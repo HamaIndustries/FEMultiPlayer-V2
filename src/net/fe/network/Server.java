@@ -3,13 +3,17 @@ package net.fe.network;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
-import java.time.LocalDateTime;
 
 import net.fe.Session;
-import net.fe.overworldStage.objective.Seize;
+import net.fe.network.message.KickMessage;
+import net.fe.network.message.RejoinMessage;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -33,6 +37,8 @@ public final class Server {
 		}
 	}
 	
+	private static final long TIMEOUT = 30000; // 30 seconds
+	
 	/** The server socket. */
 	private ServerSocket serverSocket;
 	
@@ -42,10 +48,12 @@ public final class Server {
 	/** The clients. */
 	final CopyOnWriteArrayList<ServerListener> clients;
 	
+	final TreeMap<Long, ServerListener> pastClients;
+	
 	/** The messages. Should only operate on if the monitor to messagesLock is held */
 	public final ArrayList<Message> messages;
 	
-	/** A lock which should be wated upon or notified for changes to messages */
+	/** A lock which should be waited upon or notified for changes to messages */
 	public final Object messagesLock;
 	
 	/** The session. */
@@ -55,7 +63,7 @@ public final class Server {
 	public boolean allowConnections;
 	
 	/** Contains the next playerId to be used when a player joins the server */
-	private byte nextPlayerId = 1;
+	private Byte nextPlayerId = 1;
 	
 	private ArrayList<Message> broadcastedMessages = new ArrayList<>();
 	
@@ -66,6 +74,7 @@ public final class Server {
 		messages = new ArrayList<Message>();
 		messagesLock = new Object();
 		clients = new CopyOnWriteArrayList<ServerListener>();
+		pastClients = new TreeMap<>();
 		session = s;
 		allowConnections = true;
 	}
@@ -114,5 +123,50 @@ public final class Server {
 	 */
 	public Session getSession() {
 		return session;
+	}
+	
+	public ServerListener getClient(byte id) {
+		for(int i = 0; i < clients.size(); i++)
+			if(clients.get(i).getId() == id)
+				return clients.get(i);
+		return null;
+	}
+	
+	/**
+	 * Gets the next player ID and increment the counter. Every call of this
+	 * method will return a different ID.
+	 * @return The next player ID.
+	 */
+	public byte getNextId() {
+		synchronized(nextPlayerId) {
+			return nextPlayerId++;
+		}
+	}
+	
+	public void timeoutClients() {
+		long minTimestamp = System.currentTimeMillis() - TIMEOUT;
+		synchronized(pastClients) {
+			while(!pastClients.isEmpty() && pastClients.firstKey() <= minTimestamp) {
+				ServerListener listener = pastClients.pollFirstEntry().getValue();
+				KickMessage kick = new KickMessage((byte) 0, listener.getId(), "Timed out");
+				broadcastMessage(kick);
+				synchronized(messagesLock) {
+					messages.add(kick);
+				}
+			}
+		}
+	}
+
+	public boolean validateRejoinRequest(RejoinMessage message) {
+		timeoutClients();
+		Iterator<Entry<Long, ServerListener>> iterator = pastClients.entrySet().iterator();
+		while(iterator.hasNext()) {
+			Entry<Long, ServerListener> entry = iterator.next();
+			if(entry.getValue().getId() == message.origin && entry.getValue().getToken() == message.getToken()) {
+				pastClients.remove(entry.getKey());
+				return true;
+			}
+		}
+		return false;
 	}
 }
