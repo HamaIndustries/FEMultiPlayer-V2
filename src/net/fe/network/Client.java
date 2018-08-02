@@ -4,23 +4,22 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
-import java.time.LocalDateTime;
 
+import org.newdawn.slick.Color;
+
+import chu.engine.menu.Notification;
 import net.fe.FEMultiplayer;
 import net.fe.Party;
-import net.fe.Player;
 import net.fe.Session;
 import net.fe.network.message.ClientInit;
 import net.fe.network.message.EndGame;
 import net.fe.network.message.JoinLobby;
 import net.fe.network.message.KickMessage;
 import net.fe.network.message.QuitMessage;
-
-import org.newdawn.slick.Color;
-import chu.engine.menu.Notification;
+import net.fe.network.message.RejoinMessage;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -60,6 +59,7 @@ public class Client {
 	
 	/** The open. */
 	private boolean open = false;
+	private boolean initialized = false;
 	
 	/** The close requested. */
 	private boolean closeRequested = false;
@@ -69,6 +69,9 @@ public class Client {
 	
 	/** The id. */
 	byte id;
+	private long token;
+	private long lastTimestamp = -1;
+	private boolean shouldReconnect = true;
 	
 	/** The messages. Should only operate on if the monitor to messagesLock is held */
 	public final CopyOnWriteArrayList<Message> messages;
@@ -86,37 +89,26 @@ public class Client {
 		messages = new CopyOnWriteArrayList<Message>();
 		session = new Session();
 		messagesLock = new Object();
-		try {
-			logger.info("CLIENT: Connecting to server: "+ip+":"+port);
-			serverSocket = new Socket(ip, port);
-			logger.info("CLIENT: Successfully connected!");
-			out = new ObjectOutputStream(serverSocket.getOutputStream());
-			out.flush();
-			in = new ObjectInputStream(serverSocket.getInputStream());
-			logger.info("CLIENT: I/O streams initialized");
-			open = true;
-			serverIn = new Thread(new Runnable() {
-				public void run() {
-					try {
-						Message message;
-						while((message = (Message)in.readObject()) != null) {
-							logger.info("CLIENT: Read " + message);
-							processInput(message);
-						}
-						in.close();
-						out.close();
-						serverSocket.close();
-					} catch (IOException e) {
-						logger.warning("CLIENT: EXIT");
-						logger.throwing("ClientNetworkingReader", "run", e);
-					} catch (ClassNotFoundException e) {
-						logger.throwing("ClientNetworkingReader", "run", e);
+		connect(ip, port);
+		serverIn = new Thread(() -> {
+			while(open) {
+				try {
+					Message message;
+					while((message = (Message)in.readObject()) != null) {
+						logger.info("CLIENT: Read " + message);
+						processInput(message);
 					}
+					close();
+				} catch (Throwable e) {
+					close(); // Close just to be sure.
+					long time = System.currentTimeMillis();
+					while(shouldReconnect && !open && System.currentTimeMillis() - time <= Server.TIMEOUT)
+						connect(ip, port);
+					logger.throwing("ClientNetworkingReader", "run", e);
 				}
-			}, "ClientNetworkingReader");
-		} catch (IOException e) {
-			logger.throwing("Client", "<init>", e);
-		}
+			}
+			close();
+		}, "ClientNetworkingReader");
 	}
 	
 	/**
@@ -126,6 +118,21 @@ public class Client {
 		serverIn.start();
 	}
 	
+	private void connect(String ip, int port) {
+		try {
+			logger.info("CLIENT: Connecting to server: "+ip+":"+port);
+			serverSocket = new Socket(ip, port);
+			logger.info("CLIENT: Successfully connected!");
+			out = new ObjectOutputStream(serverSocket.getOutputStream());
+			out.flush();
+			in = new ObjectInputStream(serverSocket.getInputStream());
+			logger.info("CLIENT: I/O streams initialized");
+			open = true;
+		} catch (IOException e) {
+			logger.throwing("Client", "<init>", e);
+		}
+	}
+	
 	/**
 	 * Process input.
 	 *
@@ -133,26 +140,31 @@ public class Client {
 	 */
 	private void processInput(Message message) {
 		if(message instanceof ClientInit) {
-			ClientInit message2 = (ClientInit) message;
-			if (message2.hashes.equals(ClientInit.Hashes.pullFromStatics(message2.session.getMap()))) {
-				this.id = message2.clientID;
-				this.session = message2.session;
-				FEMultiplayer.getLocalPlayer().setClientID(message2.clientID);
-				if(id >= 2) {
-					FEMultiplayer.getLocalPlayer().getParty().setColor(Party.TEAM_RED);
-				}
-				logger.info("CLIENT: Recieved ID "+id+" from server");
-				// Send a join lobby request
-				sendMessage(new JoinLobby(id, FEMultiplayer.getLocalPlayer().getName()));
+			if(initialized) {
+				logger.info("CLIENT: Reconnecting to the server");
+				sendMessage(new RejoinMessage(lastTimestamp, token));
 			} else {
-				logger.info("CLIENT: Mismatched hashes:" +
-						"\n\tServer: " + message2.hashes +
-						"\n\tClient: " + ClientInit.Hashes.pullFromStatics(message2.session.getMap()));
-				this.id = message2.clientID;
-				this.quit();
-				FEMultiplayer.setCurrentStage(FEMultiplayer.connect);
-				FEMultiplayer.connect.addEntity(new Notification(
-					180, 120, "default_med", "ERROR: Server and Client versions don't match", 5f, new Color(255, 100, 100), 0f));
+				ClientInit message2 = (ClientInit) message;
+				if (message2.hashes.equals(ClientInit.Hashes.pullFromStatics(message2.session.getMap()))) {
+					this.id = message2.clientID;
+					this.session = message2.session;
+					this.token = message2.token;
+					FEMultiplayer.getLocalPlayer().setClientID(message2.clientID);
+					if(id >= 2) {
+						FEMultiplayer.getLocalPlayer().getParty().setColor(Party.TEAM_RED);
+					}
+					logger.info("CLIENT: Recieved ID "+id+" from server");
+					// Send a join lobby request
+					sendMessage(new JoinLobby(id, FEMultiplayer.getLocalPlayer().getName()));
+					initialized = true;
+				} else {
+					logger.info("CLIENT: Mismatched hashes:" +
+							"\n\tServer: " + message2.hashes +
+							"\n\tClient: " + ClientInit.Hashes.pullFromStatics(message2.session.getMap()));
+					this.id = message2.clientID;
+					this.quit();
+					resetToLobby("ERROR: Server and Client versions don't match");
+				}
 			}
 		} else if (message instanceof QuitMessage) {
 			if(message.origin == id && closeRequested) {
@@ -161,10 +173,9 @@ public class Client {
 		} else if (message instanceof KickMessage) {
 			KickMessage kick = (KickMessage) message;
 			if (kick.player == id) {
+				shouldReconnect = false;
 				close();
-				FEMultiplayer.setCurrentStage(FEMultiplayer.connect);
-				FEMultiplayer.connect.addEntity(new Notification(
-					180, 120, "default_med", "KICKED: " + kick.reason, 5f, new Color(255, 100, 100), 0f));
+				resetToLobby("KICKED: " + kick.reason);
 			}
 		} else if(message instanceof EndGame) {
 			winner = (byte) ((EndGame)message).winner;
@@ -198,6 +209,7 @@ public class Client {
 		sendMessage(new QuitMessage(id));
 		// simple security to prevent clients closing other clients
 		closeRequested = true;
+		shouldReconnect = false;
 	}
 	
 	/**
@@ -214,6 +226,15 @@ public class Client {
 			logger.severe("CLIENT Unable to send message: ["+message.toString()+"]");
 			logger.throwing("Client", "sendMessage", e);
 		}
+	}
+	
+	private void resetToLobby() {
+		FEMultiplayer.setCurrentStage(FEMultiplayer.connect);
+	}
+	
+	private void resetToLobby(String message) {
+		resetToLobby();
+		FEMultiplayer.connect.addEntity(new Notification(180, 120, "default_med", message, 5f, new Color(255, 100, 100), 0f));
 	}
 	
 	/**

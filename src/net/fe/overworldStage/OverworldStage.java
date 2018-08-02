@@ -27,6 +27,7 @@ import net.fe.network.Message;
 import net.fe.network.message.CommandMessage;
 import net.fe.network.message.EndGame;
 import net.fe.network.message.EndTurn;
+import net.fe.network.message.KickMessage;
 import net.fe.network.message.QuitMessage;
 import net.fe.overworldStage.objective.Objective;
 import net.fe.rng.RNG;
@@ -279,7 +280,7 @@ public class OverworldStage extends Stage {
 					doStartTurn();
 				}
 			}
-			else if(message instanceof QuitMessage) {
+			else if(message instanceof QuitMessage || message instanceof KickMessage) {
 				this.checkEndGame();
 			}
 			else if(message instanceof EndGame) {
