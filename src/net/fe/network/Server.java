@@ -37,7 +37,7 @@ public final class Server {
 		}
 	}
 	
-	private static final long TIMEOUT = 30000; // 30 seconds
+	public static final long TIMEOUT = 30000; // 30 seconds
 	
 	/** The server socket. */
 	private ServerSocket serverSocket;
