@@ -68,7 +68,9 @@ public enum Terrain {
 	HILL(4,2,2,30,0),
 	
 	/** The house. */
-	HOUSE(127,0,0,10,0);
+	HOUSE(127,0,0,10,0),
+	
+	UNKNOWN(1, -1, -1, -1, -1);
 
 	/** The base move cost. */
 	private final int baseMoveCost;

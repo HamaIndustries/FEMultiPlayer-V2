@@ -42,18 +42,17 @@ public class TurnDisplay extends Entity {
 	 * @param yourTurn the your turn
 	 * @param teamColor the team color
 	 */
-	public TurnDisplay(boolean yourTurn, Color teamColor) {
+	public TurnDisplay(boolean yourTurn, Color teamColor, boolean spec) {
 		super(0, 0);
 		xpos = -512;
 		renderDepth = 0.0f;
 		Texture t, f;
 		text = new Sprite();
 		flash = new Sprite();
-		boolean spec = false;
 		if(yourTurn) {
 			t = FEResources.getTexture("player_phase");
 		} else {
-			if(FEMultiplayer.getLocalPlayer().isSpectator()){
+			if(spec){
 				if(teamColor == Party.TEAM_BLUE) {
 					t = FEResources.getTexture("blue_phase");
 				} else {

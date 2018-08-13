@@ -4,9 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chu.engine.anim.AudioPlayer;
-import net.fe.overworldStage.*;
-import net.fe.unit.Unit;
+import net.fe.network.command.Command;
 import net.fe.network.command.DropCommand;
+import net.fe.network.command.InterruptedCommand;
+import net.fe.overworldStage.ClientOverworldStage;
+import net.fe.overworldStage.Node;
+import net.fe.overworldStage.OverworldContext;
+import net.fe.overworldStage.Zone;
+import net.fe.unit.Unit;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -72,7 +77,7 @@ public class DropTarget extends OverworldContext {
 		for (Node n : zone.getNodes()) {
 			Unit u = grid.getVisibleUnit(n.x, n.y);
 			if (u == null
-					&& grid.getTerrain(n.x, n.y).getMoveCost(
+					&& grid.getVisibleTerrain(n.x, n.y).getMoveCost(
 							unit.rescuedUnit().getTheClass()) < unit
 							.rescuedUnit().getStats().mov) {
 				targets.add(n);
@@ -86,11 +91,16 @@ public class DropTarget extends OverworldContext {
 	@Override
 	public void onSelect() {
 		AudioPlayer.playAudio("select");
-		//If there's a unit in the fog
-		//This is guaranteed to succeed as long as the vision range of the unit is greater than one.
-		while (grid.getUnit(getCurrentTarget().x, getCurrentTarget().y) != null)
-			nextTarget();
-		DropCommand c = new DropCommand(getCurrentTarget().x, getCurrentTarget().y);
+		// If the selected target was actually invalid (i.e. trying to put down a unit in a fogged tile containing an enemy)
+		// tries to find a new valid tile. If that fails, the unit is forced to wait.
+		Command c = null;
+		int x = getCurrentTarget().x;
+		int y = getCurrentTarget().y;
+		if(grid.getUnit(x, y) != null || unit.rescuedUnit().getStats().mov < grid.getTerrain(x, y).getMoveCost(unit.rescuedUnit().getTheClass()))
+			c = new InterruptedCommand(new Node(x, y));
+		else
+			c = new DropCommand(x, y);
+		
 		c.applyClient(stage, unit, null, new EmptyRunnable()).run();
 		stage.addCmd(c);
 		stage.send();

@@ -48,7 +48,7 @@ public class TakeTarget extends SelectTargetContext {
 		cursor.setXCoord(unit.getXCoord());
 		cursor.setYCoord(unit.getYCoord());
 		stage.setUnitInfoUnit(unit);
-		new UnitMoved(stage, this, unit, false, true).startContext();
+		new UnitMoved(stage, this, unit, false, true, false).startContext();
 	}
 
 	private static final class EmptyRunnable implements Runnable {

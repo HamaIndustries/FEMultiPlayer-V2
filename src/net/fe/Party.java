@@ -161,5 +161,9 @@ public class Party implements Iterable<Unit>, Serializable{
 	public void clear() {
 		units.clear();
 	}
+	
+	public ArrayList<Party> getAllies() {
+		return allies;
+	}
 
 }

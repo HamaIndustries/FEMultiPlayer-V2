@@ -1,9 +1,10 @@
 package net.fe.overworldStage.context;
 
 import chu.engine.anim.AudioPlayer;
-import net.fe.network.command.WaitCommand;
+import net.fe.network.command.InterruptedCommand;
 import net.fe.overworldStage.*;
-import net.fe.overworldStage.Zone.ZoneType;
+import net.fe.overworldStage.Zone.RangeIndicator;
+import net.fe.overworldStage.Zone.RangeIndicator.RangeType;
 import net.fe.unit.Unit;
 
 // TODO: Auto-generated Javadoc
@@ -40,9 +41,9 @@ public class UnitSelected extends CursorContext {
 		super.startContext();
 		selected.sprite.setAnimation("DOWN");
 		grid.move(selected, selected.getOrigX(), selected.getOrigY(), false);
-		this.move = new Zone(grid.getPossibleMoves(selected), ZoneType.MOVE_DARK);
-		this.attack = new Zone(grid.getAttackRange(selected), ZoneType.ATTACK_DARK).minus(move);
-		this.heal = new Zone(grid.getHealRange(selected), ZoneType.HEAL_DARK).minus(move).minus(attack);
+		this.move = new RangeIndicator(grid.getPossibleMoves(selected), RangeType.MOVE_DARK);
+		this.attack = new RangeIndicator(grid.getAttackRange(selected), RangeType.ATTACK_DARK).minus(move);
+		this.heal = new RangeIndicator(grid.getHealRange(selected), RangeType.HEAL_DARK).minus(move).minus(attack);
 		stage.addEntity(move);
 		stage.addEntity(attack);
 		stage.addEntity(heal);
@@ -71,31 +72,52 @@ public class UnitSelected extends CursorContext {
 		if (move.getNodes().contains(new Node(cursor.getXCoord(), cursor.getYCoord()))) {
 			
 			int invalidIndex = -1;
+			int movement = selected.getStats().mov;
+			int remainingMovement = movement;
+			boolean movedThroughFog = false;
 			Node[] nodes = path.getAllNodes();
-			for(int i = 0; i < nodes.length; i++) {
-				System.out.println(grid.getUnit(nodes[i].x, nodes[i].y));
-				if (grid.getUnit(nodes[i].x, nodes[i].y) != null && !grid.getUnit(nodes[i].x, nodes[i].y).getParty().isAlly(selected.getParty())) {
-					//Bump
+			for(int i = 1; i < nodes.length; i++) {
+				boolean fail = false;
+				int cost = grid.getTerrain(nodes[i].x, nodes[i].y).getMoveCost(selected.getTheClass());
+				remainingMovement -= cost;
+				if(grid.isFogged(nodes[i].x, nodes[i].y))
+					movedThroughFog = true;
+				if(movement < cost)
+					fail = true; //Bump
+				else if(remainingMovement < 0)
+					fail = true; //Exhaustion
+				else if (grid.getUnit(nodes[i].x, nodes[i].y) != null && !grid.getUnit(nodes[i].x, nodes[i].y).getParty().isAlly(selected.getParty()))
+					fail = true; //Bump
+				
+				if(fail) {
 					invalidIndex = i;
 					break;
 				}
 			}
-			
-			if(invalidIndex != -1)
+			if(invalidIndex != -1) {
+				while(invalidIndex > 1 && grid.getUnit(nodes[invalidIndex - 1].x, nodes[invalidIndex - 1].y) != null)
+					invalidIndex--;
 				path.truncate(invalidIndex);
+			}
 			
 			grid.move(selected, path.destination().x, path.destination().y, true);
 			stage.setControl(false);
 			AudioPlayer.playAudio("select");
 
-			final int localVariableInvalidIndexDefinedInAnEnclosingScopeMustBeFinalOrEffectivelyFinal = invalidIndex;
+			final int invalidIndexFinal = invalidIndex;
+			final boolean movedThroughFogFinal = movedThroughFog;
 			
 			selected.move(path, () -> {
-				stage.setControl(true);
-				UnitMoved context = new UnitMoved(stage, UnitSelected.this, selected, false, false);
+				UnitMoved context = new UnitMoved(stage, UnitSelected.this, selected, false, false, movedThroughFogFinal);
 				context.startContext();
-				if(localVariableInvalidIndexDefinedInAnEnclosingScopeMustBeFinalOrEffectivelyFinal != -1)
-					context.performAction("Wait");
+				if(invalidIndexFinal != -1) {
+					stage.addEntity(new ExclamationEmote(selected, stage, () -> {selected.setMoved(true); stage.setControl(true);}));
+					stage.addCmd(new InterruptedCommand(nodes[invalidIndexFinal]));
+					stage.send();
+					stage.reset();
+				} else {
+					stage.setControl(true);
+				}
 			});
 
 			// We don't want to display the path/range while moving.
