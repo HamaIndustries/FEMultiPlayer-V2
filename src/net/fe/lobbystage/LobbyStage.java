@@ -77,27 +77,25 @@ public class LobbyStage extends Stage {
 		if(session.numPlayers() <=1 ) return;
 		int activeBlue = 0;
 		int activeRed = 0;
+		boolean allPlayersReady = true;
 		for(Player p : session.getPlayers()) {
-			if(!p.ready) {
-				return;
-			}
+			if(!p.ready && !p.isSpectator())
+				allPlayersReady = false;
 		
 			int team = p.getTeam();
-			if (team == Player.TEAM_BLUE) {
+			if (team == Player.TEAM_BLUE)
 				activeBlue++;
-			} else if (team == Player.TEAM_RED) {
+			else if (team == Player.TEAM_RED)
 				activeRed++;
-			}
 		}
 		
-		// not enough player on either team
-		if (activeBlue != 1 || activeRed != 1) {
-			return;
+		// Teams are valid
+		if (activeBlue == 1 && activeRed == 1 && allPlayersReady) {
+			FEServer.getServer().broadcastMessage(new StartPicking((byte)0));
+			FEServer.getServer().allowConnections = false;
+			session.getPickMode().setUpServer(session);
 		}
 		
-		FEServer.getServer().broadcastMessage(new StartPicking((byte)0));
-		FEServer.getServer().allowConnections = false;
-		session.getPickMode().setUpServer(session);
 	}
 
 }

@@ -184,14 +184,7 @@ public abstract class AttackAnimation extends Animation {
 	 */
 	public static AttackAnimation createAnimation(AnimationData data, 
 			FightStage stage, AnimationArgs args){
-		if(args.classification.equals("normal")){
-			return new NormalAttack(data, stage, args);
-		} else if (args.classification.equals("ranged")){
-			return new ProjectileAttack(data, stage, args);
-		} else if (args.classification.equals("magic")){
-			return new MagicAttack(data, stage, args);
-		}
-		return null;
+		return args.classification.construct(data, stage, args);
 	}
 
 	/**

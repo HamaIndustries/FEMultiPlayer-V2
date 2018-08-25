@@ -15,6 +15,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.ParseException;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.opengl.Texture;
@@ -328,6 +329,7 @@ public class FEResources {
 		defaultProps.setProperty("VOLUME","1.0");
 		defaultProps.setProperty("SCALE","1.0");
 		defaultProps.setProperty("AUTOCURSOR", "START");
+		defaultProps.setProperty("FOG COLOR", "DAY");
 		defaultProps.setProperty("ACTUAL ODDS", "FALSE");
 		defaultProps.setProperty("TARGETFPS", "60");
 		
@@ -465,6 +467,27 @@ public class FEResources {
 		String scaleStr = getProperties().getProperty("SCALE"); 
 		float scale = Float.parseFloat(scaleStr);
 		return scale;
+	}
+	
+	public static enum FogColor {
+		DAY(new Color(1f,1f,1f, 0.5f)),
+		NIGHT(new Color(0f,0f,0.1f, 0.5f));
+		
+		public final Color color;
+		
+		private FogColor(Color color) {
+			this.color = color;
+		}
+	}
+	
+	/**
+	 * Returns the color to use when drawing fog
+	 */
+	public static FogColor getFogColor() {
+		String propStr = getProperties().getProperty("FOG COLOR");
+		if ("day".equalsIgnoreCase(propStr)) { return FogColor.DAY; }
+		else if ("night".equalsIgnoreCase(propStr)) { return FogColor.NIGHT; }
+		else { return FogColor.DAY; }
 	}
 	
 	public static int getTargetFPS() {

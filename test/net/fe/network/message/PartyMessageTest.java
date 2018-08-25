@@ -9,6 +9,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import net.fe.unit.*;
 import net.fe.modifier.*;
 
@@ -22,7 +23,10 @@ public final class PartyMessageTest {
 	
 	@Test
 	public void test_validateTeam_acceptsEmptyParty() {
-		new PartyMessage(new ArrayList<>()).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>());
+		assertEquals(
+			Optional.empty(),
+			new PartyMessage(new ArrayList<>()).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>())
+		);
 	}
 	
 	@Test
@@ -30,7 +34,10 @@ public final class PartyMessageTest {
 		ArrayList<Unit> units = new ArrayList<>(2);
 		units.add(UnitFactory.getUnit("Ike"));
 		
-		new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>());
+		assertEquals(
+			Optional.empty(),
+			new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>())
+		);
 	}
 	
 	@Test
@@ -38,7 +45,10 @@ public final class PartyMessageTest {
 		ArrayList<Unit> units = new ArrayList<>(2);
 		units.add(UnitFactory.getUnit("Lute"));
 		
-		new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>());
+		assertEquals(
+			Optional.empty(),
+			new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>())
+		);
 	}
 	
 	@Test
@@ -50,7 +60,11 @@ public final class PartyMessageTest {
 			u.addToInventory(Item.getItem("Iron Sword"));
 			units.add(u);
 		}
-		new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>());
+		
+		assertEquals(
+			Optional.empty(),
+			new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>())
+		);
 	}
 	
 	@Test
@@ -61,7 +75,11 @@ public final class PartyMessageTest {
 			u.addToInventory(Item.getItem("Rise"));
 			units.add(u);
 		}
-		new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>());
+		
+		assertEquals(
+			Optional.empty(),
+			new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>())
+		);
 	}
 	
 	@Test
@@ -72,10 +90,13 @@ public final class PartyMessageTest {
 			u.addToInventory(Item.getItem("Elixir"));
 			units.add(u);
 		}
-		new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>());
+		assertEquals(
+			Optional.empty(),
+			new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>())
+		);
 	}
 	
-	@Test(expected=IllegalStateException.class)
+	@Test
 	public void test_validateTeam_RejectsUnknownItem() {
 		ArrayList<Unit> units = new ArrayList<>(2);
 		{
@@ -83,10 +104,13 @@ public final class PartyMessageTest {
 			u.addToInventory(new HealingItem("Gaius Confect", 5, 0, 100));
 			units.add(u);
 		}
-		new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>());
+		
+		assertTrue(
+			new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>()).isPresent()
+		);
 	}
 	
-	@Test(expected=IllegalStateException.class)
+	@Test
 	public void test_validateTeam_RejectsUnusualItem() {
 		ArrayList<Unit> units = new ArrayList<>(2);
 		{
@@ -94,10 +118,12 @@ public final class PartyMessageTest {
 			u.addToInventory(new HealingItem("Iron Sword", -5, 0, 100));
 			units.add(u);
 		}
-		new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>());
+		assertTrue(
+			new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>()).isPresent()
+		);
 	}
 	
-	@Test(expected=IllegalStateException.class)
+	@Test
 	public void test_validateTeam_RejectsUnusualUnit_Stats() {
 		ArrayList<Unit> units = new ArrayList<>(2);
 		{
@@ -105,10 +131,12 @@ public final class PartyMessageTest {
 			u.debugStat("Str");
 			units.add(u);
 		}
-		new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>());
+		assertTrue(
+			new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>()).isPresent()
+		);
 	}
 	
-	@Test(expected=IllegalStateException.class)
+	@Test
 	public void test_validateTeam_RejectsUnusualUnit_Triggers() {
 		ArrayList<Unit> units = new ArrayList<>(2);
 		{
@@ -116,10 +144,12 @@ public final class PartyMessageTest {
 			u.addSkill(new net.fe.fightStage.Lethality());
 			units.add(u);
 		}
-		new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>());
+		assertTrue(
+			new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>()).isPresent()
+		);
 	}
 	
-	@Test(expected=IllegalStateException.class)
+	@Test
 	public void test_validateTeam_RejectsTooHighLevelUnits() {
 		ArrayList<Unit> units = new ArrayList<>(2);
 		for (int i = 0; i < 8; i++) {
@@ -127,7 +157,9 @@ public final class PartyMessageTest {
 			u.setLevel(20);
 			units.add(u);
 		}
-		new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>());
+		assertTrue(
+			new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), new ArrayList<>()).isPresent()
+		);
 	}
 	
 	@Test
@@ -140,10 +172,12 @@ public final class PartyMessageTest {
 			u.setLevel(20);
 			units.add(u);
 		}
-		new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), mods);
+		assertFalse(
+			new PartyMessage(units).validateTeam(UnitFactory::getUnit, Item.getAllItems(), mods).isPresent()
+		);
 	}
 	
-	@Test(expected=IllegalStateException.class)
+	@Test
 	public void test_validateTeam_RejectsTooMuchSpent() {
 		Item liquidGold = new HealingItem("Liquid Gold", 1, 0, net.fe.builderStage.TeamBuilderStage.FUNDS + 1);
 		ArrayList<Unit> units = new ArrayList<>(2);
@@ -152,7 +186,9 @@ public final class PartyMessageTest {
 			u.addToInventory(liquidGold);
 			units.add(u);
 		}
-		new PartyMessage(units).validateTeam(UnitFactory::getUnit, java.util.Collections.singleton(liquidGold), new ArrayList<>());
+		assertTrue(
+			new PartyMessage(units).validateTeam(UnitFactory::getUnit, java.util.Collections.singleton(liquidGold), new ArrayList<>()).isPresent()
+		);
 	}
 	
 	@Test
@@ -166,7 +202,9 @@ public final class PartyMessageTest {
 			u.addToInventory(liquidGold);
 			units.add(u);
 		}
-		new PartyMessage(units).validateTeam(UnitFactory::getUnit, java.util.Collections.singleton(liquidGold), mods);
+		assertFalse(
+			new PartyMessage(units).validateTeam(UnitFactory::getUnit, java.util.Collections.singleton(liquidGold), mods).isPresent()
+		);
 	}
 	
 }
