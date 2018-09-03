@@ -13,6 +13,11 @@ public class NullRNG extends RNG {
 	public boolean test(int successRate) {
 		return false;
 	}
+	
+	@Override
+	public int actualSuccessRate(int successRate) {
+		return 0;
+	}
 
 	@Override
 	public String getName() {

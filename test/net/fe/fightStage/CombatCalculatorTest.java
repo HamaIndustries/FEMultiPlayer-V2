@@ -33,7 +33,7 @@ public final class CombatCalculatorTest {
 		rightVals = rightVals.copy("Res", 5);
 		Unit right = new Unit("right", Class.createClass("Phantom"), '-', rightVals, rightVals);
 		
-		assertEquals(13, CombatCalculator.calculateBaseDamage(left, right));
+		assertEquals(13, CombatCalculator.calculatePreviewStats(left, right, true).damage);
 	}
 	
 	@Test
@@ -53,7 +53,7 @@ public final class CombatCalculatorTest {
 		rightVals = rightVals.copy("Def", 5);
 		Unit right = new Unit("right", Class.createClass("Phantom"), '-', rightVals, rightVals);
 		
-		assertEquals(13, CombatCalculator.calculateBaseDamage(left, right));
+		assertEquals(13, CombatCalculator.calculatePreviewStats(left, right, true).damage);
 	}
 	
 	@Test
@@ -73,7 +73,7 @@ public final class CombatCalculatorTest {
 		rightVals = rightVals.copy("Res", 5);
 		Unit right = new Unit("right", Class.createClass("Phantom"), '-', rightVals, rightVals);
 		
-		assertEquals(13, CombatCalculator.calculatePreviewDamage(left, right));
+		assertEquals(13, CombatCalculator.calculatePreviewStats(left, right, true).damage);
 	}
 	
 	@Test
@@ -93,7 +93,7 @@ public final class CombatCalculatorTest {
 		rightVals = rightVals.copy("Def", 5);
 		Unit right = new Unit("right", Class.createClass("Phantom"), '-', rightVals, rightVals);
 		
-		assertEquals(13, CombatCalculator.calculatePreviewDamage(left, right));
+		assertEquals(13, CombatCalculator.calculatePreviewStats(left, right, true).damage);
 	}
 	
 	@Test
@@ -118,7 +118,7 @@ public final class CombatCalculatorTest {
 		rightVals = rightVals.copy("Def", 5);
 		Unit right = new Unit("right", Class.createClass("Phantom"), '-', rightVals, rightVals);
 		
-		assertEquals(2, CombatCalculator.calculatePreviewDamage(left, right));
+		assertEquals(2, CombatCalculator.calculatePreviewStats(left, right, true).damage);
 	}
 	
 	@Test
@@ -143,7 +143,7 @@ public final class CombatCalculatorTest {
 		rightVals = rightVals.copy("Def", 5);
 		Unit right = new Unit("right", Class.createClass("Phantom"), '-', rightVals, rightVals);
 		
-		assertEquals(13, CombatCalculator.calculatePreviewDamage(left, right));
+		assertEquals(13, CombatCalculator.calculatePreviewStats(left, right, true).damage);
 	}
 	
 	

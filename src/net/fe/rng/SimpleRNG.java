@@ -16,6 +16,11 @@ public class SimpleRNG extends RNG {
 	}
 
 	@Override
+	public int actualSuccessRate(int successRate) {
+		return successRate;
+	}
+
+	@Override
 	public String getName() {
 		return "Single roll";
 	}

@@ -9,6 +9,8 @@ import java.util.Queue;
 import java.util.function.Function;
 import java.util.logging.Logger;
 
+import net.fe.FEMultiplayer;
+import net.fe.FEResources;
 import net.fe.overworldStage.Grid;
 import net.fe.rng.RNG;
 import net.fe.unit.Unit;
@@ -359,49 +361,58 @@ public class CombatCalculator {
 	}
 	
 	/**
-	 * Calculates a damage amount that can be shown in a damage preview.
+	 * Calculates the main battle stats of the attacking unit.
 	 * Includes triggers marked as SHOW_IN_PREVIEW
 	 * 
 	 * @param a the attacker
 	 * @param d the defender
-	 * @return the base damage
+	 * @return the main battle stats.
 	 */
-	public static int calculatePreviewDamage(Unit a, Unit d) {
-		// run preAttack triggers that are allowed to be shown in the preview
-		for (CombatTrigger t : a.getTriggers()) {
-			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) &&
-					((t.turnToRun & CombatTrigger.YOUR_TURN_PRE) != 0)) {
-				t.runPreAttack(null, a, d);
-			}
-		}
-		for (CombatTrigger t : d.getTriggers()) {
-			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) &&
-					((t.turnToRun & CombatTrigger.ENEMY_TURN_PRE) != 0)) {
-				t.runPreAttack(null, a, d);
-			}
-		}
+	public static MainBattleStats calculatePreviewStats(Unit a, Unit d, FightStage stage) {
+		return calculatePreviewStats(a, d, CombatCalculator.shouldAttack(a, d, a.getWeapon(), stage.getRange()));
+	}
+	
+	/**
+	 * Calculates the main battle stats of the attacking unit.
+	 * Includes triggers marked as SHOW_IN_PREVIEW
+	 * 
+	 * @param a the attacker
+	 * @param d the defender
+	 * @return the main battle stats.
+	 */
+	public static MainBattleStats calculatePreviewStats(Unit a, Unit d, boolean shouldAttack) {
+		if(!shouldAttack)
+			return new MainBattleStats(-1, -1, -1);
 		
-		int base = CombatCalculator.calculateBaseDamage(a, d);
+		// run preAttack triggers that are allowed to be shown in the preview
+		for (CombatTrigger t : a.getTriggers())
+			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) &&	((t.turnToRun & CombatTrigger.YOUR_TURN_PRE) != 0))
+				t.runPreAttack(null, a, d);
+		
+		for (CombatTrigger t : d.getTriggers())
+			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) &&	((t.turnToRun & CombatTrigger.ENEMY_TURN_PRE) != 0))
+				t.runPreAttack(null, a, d);
+		
+		int damage = CombatCalculator.calculateBaseDamage(a, d);
 
 		// Run combat mods that are allowed to occur in the preview
-		for (CombatTrigger t : a.getTriggers()) {
-			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) &&
-					((t.turnToRun & CombatTrigger.YOUR_TURN_MOD) != 0)) {
-				base = t.runDamageMod(a, d, base);
-			}
-		}
-		for (CombatTrigger t : d.getTriggers()) {
-			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) &&
-					((t.turnToRun & CombatTrigger.ENEMY_TURN_MOD) != 0)) {
-				base = t.runDamageMod(a, d, base);
-			}
-		}
+		for (CombatTrigger t : a.getTriggers())
+			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) && ((t.turnToRun & CombatTrigger.YOUR_TURN_MOD) != 0))
+				damage = t.runDamageMod(a, d, damage);
+		
+		for (CombatTrigger t : d.getTriggers())
+			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) && ((t.turnToRun & CombatTrigger.ENEMY_TURN_MOD) != 0))
+				damage = t.runDamageMod(a, d, damage);
+
+		damage = limit(0, 100, damage);
+		int hit = limit(0, 100, hitRate(a, d));
+		int crit = limit(0, 100, critRate(a, d));
 		
 		// cleanup
 		a.clearTempMods();
 		d.clearTempMods();
 		
-		return Math.max(base, 0);
+		return new MainBattleStats(damage, hit, crit);
 	}
 	
 	/**
@@ -415,8 +426,66 @@ public class CombatCalculator {
 		return a.hit() - d.avoid() + a.getWeapon().triMod(d.getWeapon()) * 15;
 	}
 	
-	public static int hitRate(Unit a, Unit d, Double mod){
-		return ((Double)(a.hit() *  mod)).intValue() - d.avoid() + a.getWeapon().triMod(d.getWeapon()) * 15;
+	public static int critRate(Unit a, Unit d) {
+		return a.crit() - d.dodge();
 	}
 	
+	public static int actualHitRate(RNG rng, Unit a, Unit d) {
+		return rng.actualSuccessRate(hitRate(a, d));
+	}
+	
+	public static int actualCritRate(RNG rng, Unit a, Unit d) {
+		return rng.actualSuccessRate(critRate(a, d));
+	}
+	
+	private static int limit(int min, int max, int val) {
+		if(val < min)
+			return min;
+		if(val > max)
+			return max;
+		return val;
+	}
+	
+	/**
+	 * Immutable class containing the damage, hit and crit of a unit when fighting a specific enemy.
+	 * A value of -1 implies the unit can't attack the enemy.
+	 * @author wellme
+	 */
+	public static class MainBattleStats {
+		public final int damage;
+		public final int hit;
+		public final int crit;
+		
+		public MainBattleStats(int damage, int hit, int crit) {
+			this.damage = damage;
+			this.hit = hit;
+			this.crit = crit;
+		}
+		
+		public String formattedDamage() {
+			if(damage < 0)
+				return " --";
+			return String.format("%3d", damage);
+		}
+		
+		public String formattedHit() {
+			if(hit < 0)
+				return " --";
+			if(FEResources.getActualOdds())
+				return String.format("%3d", FEMultiplayer.getSession().getHitRNG().actualSuccessRate(hit));
+			return String.format("%3d", hit);
+		}
+		
+		public String formattedCrit() {
+			if(crit < 0)
+				return " --";
+			if(FEResources.getActualOdds())
+				return String.format("%3d", FEMultiplayer.getSession().getCritRNG().actualSuccessRate(crit));
+			return String.format("%3d", crit);
+		}
+		
+		public boolean canAttack() {
+			return crit >= 0;
+		}
+	}
 }
