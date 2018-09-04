@@ -458,6 +458,10 @@ public class FEResources {
 		else { return AutoCursor.OFF; }
 	}
 	
+	public static boolean getShowAnimations() {
+		return false;
+	}
+	
 	/**
 	 * Gets the window scale.
 	 *

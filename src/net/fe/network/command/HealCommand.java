@@ -3,6 +3,7 @@ package net.fe.network.command;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
+import net.fe.FEResources;
 import net.fe.fightStage.AttackRecord;
 import net.fe.fightStage.HealCalculator;
 import net.fe.fightStage.FightStage;
@@ -46,13 +47,25 @@ public final class HealCommand extends Command {
 				final UnitIdentifier unitId = new UnitIdentifier(unit);
 				final Unit other = stage.getUnit(otherId);
 				unit.setMoved(true);
-				// play the battle animation
-				stage.addEntity(new OverworldFightTransition(
-					stage,
-					new FightStage(unitId, otherId, attackRecords, stage, callback2),
-					unitId,
-					otherId
-				));
+				if (FEResources.getShowAnimations()) {
+					// play the battle animation
+					stage.addEntity(new OverworldFightTransition(
+						stage,
+						new FightStage(unitId, otherId, attackRecords, stage, callback2),
+						unitId,
+						otherId
+					));
+				} else {
+					//???: show something
+					for (AttackRecord attackRecord : attackRecords) {
+						final Unit attacker = stage.getUnit(attackRecord.attacker);
+						final Unit defender = stage.getUnit(attackRecord.defender);
+						attacker.setHp(attacker.getHp() + attackRecord.drain);
+						defender.setHp(defender.getHp() - attackRecord.damage);
+					}
+					callback2.run();
+					stage.checkEndGame();
+				}
 			}
 		};
 	}
