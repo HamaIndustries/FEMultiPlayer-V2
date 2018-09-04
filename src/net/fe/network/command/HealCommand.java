@@ -13,6 +13,7 @@ import net.fe.overworldStage.ClientOverworldStage;
 import net.fe.overworldStage.Path;
 import net.fe.overworldStage.Node;
 import net.fe.overworldStage.Healthbar;
+import net.fe.unit.BattleStats;
 import net.fe.unit.UnitIdentifier;
 import net.fe.unit.Unit;
 import net.fe.unit.Item;
@@ -56,12 +57,17 @@ public final class HealCommand extends Command {
 						otherId
 					));
 				} else {
-					//???: show something
 					for (AttackRecord attackRecord : attackRecords) {
 						final Unit attacker = stage.getUnit(attackRecord.attacker);
 						final Unit defender = stage.getUnit(attackRecord.defender);
 						attacker.setHp(attacker.getHp() + attackRecord.drain);
 						defender.setHp(defender.getHp() - attackRecord.damage);
+						attacker.addBattleStats(new BattleStats(
+							/* kills = */ 0,
+							/* assists = */ 0,
+							/* damage = */ 0,
+							/* healing = */ -attackRecord.damage
+						));
 					}
 					callback2.run();
 					stage.checkEndGame();
