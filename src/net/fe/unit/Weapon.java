@@ -184,7 +184,8 @@ public final class Weapon extends Item {
 			triggers.add(new CrossBow());
 		}
 		if (this.effective.size() != 0) {
-			triggers.add(new Effective(3, this.effective));
+			final int multiplier = (name.equals("Sol Katti") ? 2 : 3);
+			triggers.add(new Effective(multiplier, this.effective));
 		}
 		return triggers;
 	}
