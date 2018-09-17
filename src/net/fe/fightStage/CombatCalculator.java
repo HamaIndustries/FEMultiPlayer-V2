@@ -344,17 +344,15 @@ public class CombatCalculator {
 	 * @return the base damage
 	 */
 	public static int calculateBaseDamage(Unit a, Unit d){
-		boolean effective = a.getWeapon().effective.contains(d.noGenderName());
-		
 		int base;
 		if (a.getWeapon().isMagic()) {
 			base = a.getStats().mag
 					+ (a.getWeapon().mt + a.getWeapon().triMod(d.getWeapon()))
-					* (effective ? 3: 1) - d.getStats().res;
+					- d.getStats().res;
 		} else {
 			base = a.getStats().str
 					+ (a.getWeapon().mt + a.getWeapon().triMod(d.getWeapon()))
-					* (effective? 3:1) - d.getStats().def;
+					- d.getStats().def;
 		}
 		
 		return Math.max(base, 0);

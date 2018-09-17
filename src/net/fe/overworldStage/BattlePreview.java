@@ -11,6 +11,8 @@ import chu.engine.anim.Transform;
 import net.fe.FEResources;
 import net.fe.fightStage.CombatCalculator;
 import net.fe.fightStage.CombatCalculator.MainBattleStats;
+import net.fe.fightStage.CombatTrigger;
+import net.fe.fightStage.Effective;
 import net.fe.fightStage.FightStage;
 import net.fe.unit.ItemDisplay;
 import net.fe.unit.Unit;
@@ -119,7 +121,12 @@ public class BattlePreview extends Entity {
 		if(attacker.getWeapon().name.contains("Brave"))
 			aMult*=2;
 		
-		aEffective = attacker.getWeapon().effective.contains(defender.noGenderName());
+		for (CombatTrigger t : attacker.getTriggers()) {
+			aEffective = aEffective || (
+				t instanceof Effective &&
+					t.attempt(attacker, range, defender, new net.fe.rng.NullRNG())
+			);
+		}
 		
 		//defender determination
 		stats = CombatCalculator.calculatePreviewStats(defender, attacker, CombatCalculator.shouldAttack(defender, attacker, defender.getWeapon(), range));
@@ -137,7 +144,12 @@ public class BattlePreview extends Entity {
 			if(defender.getWeapon().name.contains("Brave"))
 				dMult*=2;
 			
-			dEffective = defender.getWeapon().effective.contains(attacker.noGenderName());
+			for (CombatTrigger t : defender.getTriggers()) {
+				dEffective = dEffective || (
+					t instanceof Effective &&
+						t.attempt(defender, range, attacker, new net.fe.rng.NullRNG())
+				);
+			}
 		}
 		
 		// Borders
