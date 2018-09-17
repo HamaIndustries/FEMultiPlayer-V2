@@ -385,22 +385,26 @@ public class CombatCalculator {
 		// run preAttack triggers that are allowed to be shown in the preview
 		for (CombatTrigger t : a.getTriggers())
 			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) &&	((t.turnToRun & CombatTrigger.YOUR_TURN_PRE) != 0))
-				t.runPreAttack(null, a, d);
+				if (t.attempt(a, -1, d, new net.fe.rng.NullRNG()))
+					t.runPreAttack(null, a, d);
 		
 		for (CombatTrigger t : d.getTriggers())
 			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) &&	((t.turnToRun & CombatTrigger.ENEMY_TURN_PRE) != 0))
-				t.runPreAttack(null, a, d);
+				if (t.attempt(a, -1, d, new net.fe.rng.NullRNG()))
+					t.runPreAttack(null, a, d);
 		
 		int damage = CombatCalculator.calculateBaseDamage(a, d);
 
 		// Run combat mods that are allowed to occur in the preview
 		for (CombatTrigger t : a.getTriggers())
 			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) && ((t.turnToRun & CombatTrigger.YOUR_TURN_MOD) != 0))
-				damage = t.runDamageMod(a, d, damage);
+				if (t.attempt(a, -1, d, new net.fe.rng.NullRNG()))
+					damage = t.runDamageMod(a, d, damage);
 		
 		for (CombatTrigger t : d.getTriggers())
 			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) && ((t.turnToRun & CombatTrigger.ENEMY_TURN_MOD) != 0))
-				damage = t.runDamageMod(a, d, damage);
+				if (t.attempt(a, -1, d, new net.fe.rng.NullRNG()))
+					damage = t.runDamageMod(a, d, damage);
 
 		damage = limit(0, 100, damage);
 		int hit = limit(0, 100, hitRate(a, d));
