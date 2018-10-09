@@ -6,6 +6,7 @@ import java.util.function.Function;
 import net.fe.fightStage.Brave;
 import net.fe.fightStage.CombatTrigger;
 import net.fe.fightStage.EclipseSix;
+import net.fe.fightStage.Effective;
 import net.fe.fightStage.LunaPlus;
 import net.fe.fightStage.Nosferatu;
 import net.fe.fightStage.CrossBow;
@@ -32,7 +33,7 @@ public final class Weapon extends Item {
 	public final Type type;
 	
 	/** The effective. */
-	public final List<String> effective;
+	private final List<String> effective;
 	
 	/** The pref. */
 	public final String pref;
@@ -181,6 +182,10 @@ public final class Weapon extends Item {
 			triggers.add(new EclipseSix());
 		} else if (type == Type.CROSSBOW) {
 			triggers.add(new CrossBow());
+		}
+		if (this.effective.size() != 0) {
+			final int multiplier = (name.equals("Sol Katti") ? 2 : 3);
+			triggers.add(new Effective(multiplier, this.effective));
 		}
 		return triggers;
 	}
