@@ -48,29 +48,37 @@ public final class HealCommand extends Command {
 				final UnitIdentifier unitId = new UnitIdentifier(unit);
 				final Unit other = stage.getUnit(otherId);
 				unit.setMoved(true);
-				if (FEResources.getShowAnimations()) {
-					// play the battle animation
-					stage.addEntity(new OverworldFightTransition(
-						stage,
-						new FightStage(unitId, otherId, attackRecords, stage, callback2),
-						unitId,
-						otherId
-					));
-				} else {
-					for (AttackRecord attackRecord : attackRecords) {
-						final Unit attacker = stage.getUnit(attackRecord.attacker);
-						final Unit defender = stage.getUnit(attackRecord.defender);
-						attacker.setHp(attacker.getHp() + attackRecord.drain);
-						defender.setHp(defender.getHp() - attackRecord.damage);
-						attacker.addBattleStats(new BattleStats(
-							/* kills = */ 0,
-							/* assists = */ 0,
-							/* damage = */ 0,
-							/* healing = */ -attackRecord.damage
+				switch (FEResources.getShowAnimations()) {
+					case FULL: {
+						// play the battle animation
+						stage.addEntity(new OverworldFightTransition(
+							stage,
+							new FightStage(unitId, otherId, attackRecords, stage, callback2),
+							unitId,
+							otherId
 						));
+					}; break;
+					case ABRIDGED: {
+						stage.addEntity(
+							new net.fe.overworldStage.AbridgedFightScene(unitId, otherId, attackRecords, stage, callback2)
+						);
+					}; break;
+					case OFF: {
+						for (AttackRecord attackRecord : attackRecords) {
+							final Unit attacker = stage.getUnit(attackRecord.attacker);
+							final Unit defender = stage.getUnit(attackRecord.defender);
+							attacker.setHp(attacker.getHp() + attackRecord.drain);
+							defender.setHp(defender.getHp() - attackRecord.damage);
+							attacker.addBattleStats(new BattleStats(
+								/* kills = */ 0,
+								/* assists = */ 0,
+								/* damage = */ 0,
+								/* healing = */ -attackRecord.damage
+							));
+						}
+						callback2.run();
+						stage.checkEndGame();
 					}
-					callback2.run();
-					stage.checkEndGame();
 				}
 			}
 		};

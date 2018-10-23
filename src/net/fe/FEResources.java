@@ -458,8 +458,14 @@ public class FEResources {
 		else { return AutoCursor.OFF; }
 	}
 	
-	public static boolean getShowAnimations() {
-		return false;
+	public static enum ShowAnimations {
+		FULL,
+		ABRIDGED,
+		OFF;
+	}
+	
+	public static ShowAnimations getShowAnimations() {
+		return ShowAnimations.ABRIDGED;
 	}
 	
 	/**

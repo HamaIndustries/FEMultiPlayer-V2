@@ -41,42 +41,50 @@ public final class AttackCommand extends Command {
 				final UnitIdentifier unitId = new UnitIdentifier(unit);
 				final Unit other = stage.getUnit(otherId);
 				unit.setMoved(true);
-				if (FEResources.getShowAnimations()) {
-					// play the battle animation
-					stage.addEntity(new OverworldFightTransition(
-						stage,
-						new FightStage(unitId, otherId, attackRecords, stage, callback2),
-						unitId,
-						otherId
-					));
-				} else {
-					for (AttackRecord attackRecord : attackRecords) {
-						final Unit attacker = stage.getUnit(attackRecord.attacker);
-						final Unit defender = stage.getUnit(attackRecord.defender);
-						attacker.setHp(attacker.getHp() + attackRecord.drain);
-						defender.setHp(defender.getHp() - attackRecord.damage);
-						if (!attackRecord.animation.contains("Miss") || attacker.getWeapon().isMagic()) {
-							attacker.use(attacker.getWeapon());
-						}
-						if(attackRecord.damage > 0) {
-							defender.getAssisters().add(attacker);
-							attacker.addBattleStats(new BattleStats(
-								/* kills = */ 0,
-								/* assists = */ 0,
-								/* damage = */ attackRecord.damage,
-								/* healing = */ attackRecord.drain
-							));
-						}
-						if (defender.getHp() == 0) {
-							attacker.addBattleStats(new BattleStats(/* kills = */ 1, 0, 0, 0));
-							defender.getAssisters().remove(attacker);
-							for(Unit u : defender.getAssisters()) {
-								u.addBattleStats(new BattleStats(0, /* assists = */ 1, 0, 0));
+				switch (FEResources.getShowAnimations()) {
+					case FULL: {
+						// play the battle animation
+						stage.addEntity(new OverworldFightTransition(
+							stage,
+							new FightStage(unitId, otherId, attackRecords, stage, callback2),
+							unitId,
+							otherId
+						));
+					}; break;
+					case ABRIDGED: {
+						stage.addEntity(
+							new net.fe.overworldStage.AbridgedFightScene(unitId, otherId, attackRecords, stage, callback2)
+						);
+					}; break;
+					case OFF: {
+						for (AttackRecord attackRecord : attackRecords) {
+							final Unit attacker = stage.getUnit(attackRecord.attacker);
+							final Unit defender = stage.getUnit(attackRecord.defender);
+							attacker.setHp(attacker.getHp() + attackRecord.drain);
+							defender.setHp(defender.getHp() - attackRecord.damage);
+							if (!attackRecord.animation.contains("Miss") || attacker.getWeapon().isMagic()) {
+								attacker.use(attacker.getWeapon());
+							}
+							if(attackRecord.damage > 0) {
+								defender.getAssisters().add(attacker);
+								attacker.addBattleStats(new BattleStats(
+									/* kills = */ 0,
+									/* assists = */ 0,
+									/* damage = */ attackRecord.damage,
+									/* healing = */ attackRecord.drain
+								));
+							}
+							if (defender.getHp() == 0) {
+								attacker.addBattleStats(new BattleStats(/* kills = */ 1, 0, 0, 0));
+								defender.getAssisters().remove(attacker);
+								for(Unit u : defender.getAssisters()) {
+									u.addBattleStats(new BattleStats(0, /* assists = */ 1, 0, 0));
+								}
 							}
 						}
-					}
-					callback2.run();
-					stage.checkEndGame();
+						callback2.run();
+						stage.checkEndGame();
+					}; break;
 				}
 			}
 		};
