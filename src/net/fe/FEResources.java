@@ -330,6 +330,7 @@ public class FEResources {
 		defaultProps.setProperty("SCALE","1.0");
 		defaultProps.setProperty("AUTOCURSOR", "START");
 		defaultProps.setProperty("FOG COLOR", "DAY");
+		defaultProps.setProperty("ACTUAL ODDS", "FALSE");
 		defaultProps.setProperty("TARGETFPS", "60");
 		
 		// music
@@ -426,6 +427,10 @@ public class FEResources {
 			throw e;
 		}
 		return audioName;
+	}
+	
+	public static boolean getActualOdds() {
+		return ((String) prop.get("ACTUAL ODDS")).equalsIgnoreCase("TRUE");
 	}
 	
 	public static enum AutoCursor {

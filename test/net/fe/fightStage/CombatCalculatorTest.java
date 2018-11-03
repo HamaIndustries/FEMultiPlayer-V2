@@ -33,7 +33,7 @@ public final class CombatCalculatorTest {
 		rightVals = rightVals.copy("Res", 5);
 		Unit right = new Unit("right", Class.createClass("Phantom"), '-', rightVals, rightVals);
 		
-		assertEquals(13, CombatCalculator.calculateBaseDamage(left, right));
+		assertEquals(13, CombatCalculator.calculatePreviewStats(left, right, true).damage);
 	}
 	
 	@Test
@@ -53,7 +53,7 @@ public final class CombatCalculatorTest {
 		rightVals = rightVals.copy("Def", 5);
 		Unit right = new Unit("right", Class.createClass("Phantom"), '-', rightVals, rightVals);
 		
-		assertEquals(13, CombatCalculator.calculateBaseDamage(left, right));
+		assertEquals(13, CombatCalculator.calculatePreviewStats(left, right, true).damage);
 	}
 	
 	@Test
@@ -73,7 +73,7 @@ public final class CombatCalculatorTest {
 		rightVals = rightVals.copy("Res", 5);
 		Unit right = new Unit("right", Class.createClass("Phantom"), '-', rightVals, rightVals);
 		
-		assertEquals(13, CombatCalculator.calculatePreviewDamage(left, right));
+		assertEquals(13, CombatCalculator.calculatePreviewStats(left, right, true).damage);
 	}
 	
 	@Test
@@ -93,7 +93,7 @@ public final class CombatCalculatorTest {
 		rightVals = rightVals.copy("Def", 5);
 		Unit right = new Unit("right", Class.createClass("Phantom"), '-', rightVals, rightVals);
 		
-		assertEquals(13, CombatCalculator.calculatePreviewDamage(left, right));
+		assertEquals(13, CombatCalculator.calculatePreviewStats(left, right, true).damage);
 	}
 	
 	@Test
@@ -118,7 +118,7 @@ public final class CombatCalculatorTest {
 		rightVals = rightVals.copy("Def", 5);
 		Unit right = new Unit("right", Class.createClass("Phantom"), '-', rightVals, rightVals);
 		
-		assertEquals(2, CombatCalculator.calculatePreviewDamage(left, right));
+		assertEquals(2, CombatCalculator.calculatePreviewStats(left, right, true).damage);
 	}
 	
 	@Test
@@ -143,7 +143,83 @@ public final class CombatCalculatorTest {
 		rightVals = rightVals.copy("Def", 5);
 		Unit right = new Unit("right", Class.createClass("Phantom"), '-', rightVals, rightVals);
 		
-		assertEquals(13, CombatCalculator.calculatePreviewDamage(left, right));
+		assertEquals(13, CombatCalculator.calculatePreviewStats(left, right, true).damage);
+	}
+	
+	@Test
+	public void calculatePreviewDamage_EffectiveDamage() {
+		Weapon effectiveWeapon = new Weapon(
+			"fork", 1, 0, 0,
+			Weapon.Type.AXE, 5, 0, 0, (s) -> java.util.Arrays.asList(1),
+			new Statistics(), java.util.Arrays.asList("Phantom"), null
+		);
+		
+		Statistics leftVals = new Statistics();
+		leftVals = leftVals.copy("HP", 20);
+		leftVals = leftVals.copy("Str", 2);
+		Unit left = new Unit("left", Class.createClass("Phantom"), '-', leftVals, leftVals);
+		left.equip(effectiveWeapon);
+		
+		Statistics rightVals = new Statistics();
+		rightVals = rightVals.copy("HP", 20);
+		rightVals = rightVals.copy("Def", 3);
+		Unit right = new Unit("right", Class.createClass("Phantom"), '-', rightVals, rightVals);
+		
+		assertEquals(2 + 5 * 3 - 3, CombatCalculator.calculatePreviewStats(left, right, true).damage);
+	}
+	
+	@Test
+	public void calculatePreviewDamage_NotEffectiveDamage() {
+		Weapon effectiveWeapon = new Weapon(
+			"fork", 1, 0, 0,
+			Weapon.Type.AXE, 5, 0, 0, (s) -> java.util.Arrays.asList(1),
+			new Statistics(), java.util.Arrays.asList("Paladin"), null
+		);
+		
+		Statistics leftVals = new Statistics();
+		leftVals = leftVals.copy("HP", 20);
+		leftVals = leftVals.copy("Str", 2);
+		Unit left = new Unit("left", Class.createClass("Phantom"), '-', leftVals, leftVals);
+		left.equip(effectiveWeapon);
+		
+		Statistics rightVals = new Statistics();
+		rightVals = rightVals.copy("HP", 20);
+		rightVals = rightVals.copy("Def", 3);
+		Unit right = new Unit("right", Class.createClass("Phantom"), '-', rightVals, rightVals);
+		
+		assertEquals(2 + 5 - 3, CombatCalculator.calculatePreviewStats(left, right, true).damage);
+	}
+	
+	@Test
+	public void calculatePreviewDamage_EffectiveTriangleDamage() {
+		Weapon effectiveWeapon = new Weapon(
+			"fork", 1, 0, 0,
+			Weapon.Type.AXE, 5, 0, 0, (s) -> java.util.Arrays.asList(1),
+			new Statistics(), java.util.Arrays.asList("Paladin"), null
+		);
+		
+		Statistics leftVals = new Statistics();
+		leftVals = leftVals.copy("HP", 20);
+		leftVals = leftVals.copy("Str", 2);
+		Unit left = new Unit("left", Class.createClass("Phantom"), '-', leftVals, leftVals);
+		left.equip(effectiveWeapon);
+		
+		Statistics rightVals = new Statistics();
+		rightVals = rightVals.copy("HP", 20);
+		rightVals = rightVals.copy("Def", 3);
+		Unit right = new Unit("right", Class.createClass("Paladin"), '-', rightVals, rightVals);
+		
+		right.equip(createWeapon(Weapon.Type.AXE, 8));
+		int normalDamage = CombatCalculator.calculatePreviewStats(left, right, true).damage;
+		
+		right.equip(createWeapon(Weapon.Type.LANCE, 8));
+		int wtaDamage = CombatCalculator.calculatePreviewStats(left, right, true).damage;
+		
+		right.equip(createWeapon(Weapon.Type.SWORD, 8));
+		int wtdDamage = CombatCalculator.calculatePreviewStats(left, right, true).damage;
+		
+		assertEquals(3, wtaDamage - normalDamage);
+		assertEquals(3, normalDamage - wtdDamage);
 	}
 	
 	

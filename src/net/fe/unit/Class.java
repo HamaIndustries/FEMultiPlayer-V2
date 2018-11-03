@@ -112,7 +112,7 @@ public final class Class implements Serializable {
 					 0,
 					 Arrays.asList(new Astra(), new ChargeSkillFromDamageRecieved(1), new RageEp()),
 					 Arrays.asList(new Shove(), new Rage()),
-					 Weapon.Type.SWORD, Weapon.Type.BOW, Weapon.Type.CROSSBOW);
+					 Weapon.Type.SWORD, Weapon.Type.BOW);
 		if(name.equals("Hector"))
 			return new Class("Lord", 
 					"A mighty noble who commands armies.",
@@ -239,7 +239,7 @@ public final class Class implements Serializable {
 					"A phantom that fights for its summoner.",
 					0,
 					Arrays.asList(),
-					Arrays.asList(new Shove()),
+					Arrays.asList(),
 					Weapon.Type.AXE);
 		
 		throw new IllegalArgumentException("Unknown Class Name: " + name);

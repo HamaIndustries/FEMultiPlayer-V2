@@ -8,6 +8,7 @@ import chu.engine.anim.Renderer;
 import net.fe.fightStage.Brave;
 import net.fe.fightStage.CombatTrigger;
 import net.fe.fightStage.EclipseSix;
+import net.fe.fightStage.Effective;
 import net.fe.fightStage.LunaPlus;
 import net.fe.fightStage.Nosferatu;
 import net.fe.fightStage.CrossBow;
@@ -84,17 +85,43 @@ public final class ItemDetailsText extends Entity{
 		if(wep.name.contains("Kill") || wep.name.equals("Wo Dao")){
 			sb.append("Has a high critical rate. ");
 		}
-		if(wep.getTriggers().contains(new CrossBow())) {
-			sb.append("Ignores user's Str. ");
-		}
-		if(wep.getTriggers().contains(new EclipseSix())) {
-			sb.append("Reduces enemy HP to 1. ");
-		}
-		if(wep.getTriggers().contains(new LunaPlus())) {
-			sb.append("Ignores enemy resistance. ");
-		}
-		if(wep.getTriggers().contains(new Nosferatu())) {
-			sb.append("Restores user HP by half of damage dealt. ");
+		for (CombatTrigger t : wep.getTriggers()) {
+			if (t instanceof CrossBow) {
+				sb.append("Ignores user's Str. ");
+			}
+			if (t instanceof EclipseSix) {
+				sb.append("Reduces enemy HP to 1. ");
+			}
+			if (t instanceof LunaPlus) {
+				sb.append("Ignores enemy resistance. ");
+			}
+			if (t instanceof Nosferatu) {
+				sb.append("Restores user HP by half of damage dealt. ");
+			}
+			if (t instanceof Effective) {
+				java.util.List<String> classes = ((Effective) t).classes;
+				ArrayList<String> eff = new ArrayList<String>();
+				if(classes.contains("General")){
+					eff.add("armored");
+				}
+				if(classes.contains("Valkyrie")){
+					eff.add("mounted");
+				}
+				if(classes.contains("Falconknight")){
+					eff.add("flying");
+				}
+				String effText = "";
+				for(String s: eff){
+					effText += ", " + s;
+				}
+				if (2 == ((Effective) t).multiplier) {
+					sb.append("Somewhat effective against " + effText.substring(2) + " units. ");
+				} else if (3 == ((Effective) t).multiplier) {
+					sb.append("Effective against " + effText.substring(2) + " units. ");
+				} else {
+					sb.append("Effective (x" + ((Effective) t).multiplier + ") against " + effText.substring(2) + " units. ");
+				}
+			}
 		}
 		if(wep.getCost() == 10000){
 			sb.append("A legendary weapon. ");
@@ -108,25 +135,6 @@ public final class ItemDetailsText extends Entity{
 		for(String stat: wep.modifiers.toMap().keySet()){
 			if(wep.modifiers.toMap().get(stat) != 0){
 				sb.append(stat + "+" + wep.modifiers.toMap().get(stat) + ". ");
-			}
-		}
-		if(wep.effective.size() != 0){
-			ArrayList<String> eff = new ArrayList<String>();
-			if(wep.effective.contains("General")){
-				eff.add("armored");
-			}
-			if(wep.effective.contains("Valkyrie")){
-				eff.add("mounted");
-			}
-			if(wep.effective.contains("Falconknight")){
-				eff.add("flying");
-			}
-			String effText = "";
-			for(String s: eff){
-				effText += ", " + s;
-			}
-			if(effText.length() != 0) {
-				sb.append("Effective against " + effText.substring(2) + " units. ");
 			}
 		}
 		

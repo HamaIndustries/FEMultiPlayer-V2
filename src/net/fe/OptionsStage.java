@@ -81,6 +81,10 @@ public final class OptionsStage extends Stage {
 			new OptionGroupEntity(140,
 				new OptionGroup("FOG COLOR", java.util.Arrays.asList("DAY", "NIGHT"), java.util.Arrays.asList("Makes fog-of-war appear white, washing-out the terrain", "Makes fog-of-war appear black, dimming the terrain")),
 				FEResources.getFogColor().ordinal()
+			),
+			new OptionGroupEntity(170,
+				new OptionGroup("ACTUAL ODDS", java.util.Arrays.asList("TRUE", "FALSE"), java.util.Arrays.asList("Display the actual odds of a hit/crit happening ", "Display the numerical result of the hit/crit calculation")),
+				FEResources.getActualOdds() ? 0 : 1
 			)
 		};
 		this.options = options;
@@ -147,7 +151,7 @@ public final class OptionsStage extends Stage {
 			// dialogue_text (?)
 			Renderer.drawString("default_med", options[currentOptionIndex].getDescription(), 17, 10, 0.2f);
 		}
-		Renderer.render(this.icons, 0, 0, 1, 1, 8, 46, 8 + 30, 46 + 120, 0.0f);
+		Renderer.render(this.icons, 0, 0, 1, 1, 8, 46, 8 + 30, 46 + 150, 0.0f);
 	}
 	
 	

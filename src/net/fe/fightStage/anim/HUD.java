@@ -2,9 +2,12 @@ package net.fe.fightStage.anim;
 
 import org.newdawn.slick.opengl.Texture;
 
+import net.fe.FEMultiplayer;
 import net.fe.FEResources;
+import net.fe.Session;
 import net.fe.fightStage.CombatCalculator;
 import net.fe.fightStage.FightStage;
+import net.fe.fightStage.CombatCalculator.MainBattleStats;
 import net.fe.unit.ItemDisplay;
 import net.fe.unit.Unit;
 import chu.engine.Entity;
@@ -43,18 +46,11 @@ public class HUD extends Entity {
 		if(battleStats == null)
 			battleStats = FEResources.getTexture("gui_battleStats");
 		
-		if (!CombatCalculator.shouldAttack(u1, u2, u1.getWeapon(), stage.getRange())) {
-			hit = "  -";
-			crit = "  -";
-			dmg = "  -";
-		} else {
-			hit = String.format("%3d",
-					Math.min(100, Math.max(CombatCalculator.hitRate(u1, u2), 0)));
-			crit = String.format("%3d",
-					Math.min(100, Math.max(u1.crit() - u2.dodge(), 0)));
-			dmg = String.format("%3d", Math.min(100,
-					Math.max(CombatCalculator.calculatePreviewDamage(u1, u2), 0)));
-		}
+		MainBattleStats stats = CombatCalculator.calculatePreviewStats(u1, u2, stage);
+		
+		dmg = stats.formattedDamage();
+		hit = stats.formattedHit();
+		crit = stats.formattedCrit();
 
 		renderDepth = FightStage.HUD_DEPTH;
 

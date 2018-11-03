@@ -292,6 +292,8 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 		rescuedUnit.rescued = false;
 		rescuedUnit.setMoved(true);
 		final OverworldStage grid = (OverworldStage) stage;
+		if(!grid.getCurrentPlayer().getParty().getUnits().contains(this))
+			rescuedUnit.setMoved(false);
 		grid.addUnit(rescuedUnit, x, y);
 		rescuedUnit.rX = this.x - x * 16;
 		rescuedUnit.rY = this.y - y * 16;
