@@ -85,6 +85,14 @@ public final class OptionsStage extends Stage {
 			new OptionGroupEntity(170,
 				new OptionGroup("ACTUAL ODDS", java.util.Arrays.asList("TRUE", "FALSE"), java.util.Arrays.asList("Display the actual odds of a hit/crit happening ", "Display the numerical result of the hit/crit calculation")),
 				FEResources.getActualOdds() ? 0 : 1
+			),
+			new OptionGroupEntity(200,
+				new OptionGroup("ANIMATION ATTACK", java.util.Arrays.asList("FULL", "MINI", "OFF"), java.util.Arrays.asList("", "")),
+				FEResources.getShowAttackAnimations().ordinal()
+			),
+			new OptionGroupEntity(230,
+				new OptionGroup("ANIMATION HEAL", java.util.Arrays.asList("FULL", "MINI", "OFF"), java.util.Arrays.asList("", "", "")),
+				FEResources.getShowHealAnimations().ordinal()
 			)
 		};
 		this.options = options;

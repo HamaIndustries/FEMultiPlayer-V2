@@ -41,8 +41,8 @@ public final class AttackCommand extends Command {
 				final UnitIdentifier unitId = new UnitIdentifier(unit);
 				final Unit other = stage.getUnit(otherId);
 				unit.setMoved(true);
-				switch (FEResources.getShowAnimations()) {
-					case FULL: {
+				switch (FEResources.getShowAttackAnimations()) {
+					case FIGHTSTAGE: {
 						// play the battle animation
 						stage.addEntity(new OverworldFightTransition(
 							stage,
