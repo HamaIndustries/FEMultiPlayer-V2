@@ -87,11 +87,11 @@ public final class OptionsStage extends Stage {
 				FEResources.getActualOdds() ? 0 : 1
 			),
 			new OptionGroupEntity(200,
-				new OptionGroup("ANIMATION ATTACK", java.util.Arrays.asList("FULL", "MINI", "OFF"), java.util.Arrays.asList("", "")),
+				new OptionGroup("ANIMATION ATTACK", java.util.Arrays.asList("FULL", "MINI", "OFF"), java.util.Arrays.asList("Display detailed combat animations", "Display short combat animations", "Show no combat animation")),
 				FEResources.getShowAttackAnimations().ordinal()
 			),
 			new OptionGroupEntity(230,
-				new OptionGroup("ANIMATION HEAL", java.util.Arrays.asList("FULL", "MINI", "OFF"), java.util.Arrays.asList("", "", "")),
+				new OptionGroup("ANIMATION HEAL", java.util.Arrays.asList("FULL", "MINI", "OFF"), java.util.Arrays.asList("Display detailed support animations", "Display short support animations", "Show no support animation")),
 				FEResources.getShowHealAnimations().ordinal()
 			)
 		};
@@ -159,7 +159,7 @@ public final class OptionsStage extends Stage {
 			// dialogue_text (?)
 			Renderer.drawString("default_med", options[currentOptionIndex].getDescription(), 17, 10, 0.2f);
 		}
-		Renderer.render(this.icons, 0, 0, 1, 1, 8, 46, 8 + 30, 46 + 150, 0.0f);
+		Renderer.render(this.icons, 0, 0, 1, 1, 8, 46, 8 + 30, 46 + 210, 0.0f);
 	}
 	
 	
