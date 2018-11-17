@@ -2,9 +2,15 @@ language: java
 
 jdk:
    - oraclejdk8
-   - oraclejdk9
-   - oraclejdk10
    - oraclejdk11
+   - openjdk11
+   - openjdk-ea
+
+matrix:
+   allow_failures:
+    - jdk: oraclejdk11
+    - jdk: openjdk11
+    - jdk: openjdk-ea
 
 script:
   - mkdir out
