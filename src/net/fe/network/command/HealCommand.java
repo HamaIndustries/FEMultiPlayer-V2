@@ -39,6 +39,7 @@ public final class HealCommand extends Command {
 			public void run() {
 				final Runnable callback2 = () -> {
 					applyAttackRecords(stage, attackRecords);
+					stage.checkEndGame();
 					callback.run();
 					stage.setControl(true);
 				};
@@ -62,7 +63,6 @@ public final class HealCommand extends Command {
 					}; break;
 					case OFF: {
 						callback2.run();
-						stage.checkEndGame();
 					}
 				}
 			}
