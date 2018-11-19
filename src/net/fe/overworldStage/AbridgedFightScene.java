@@ -139,39 +139,11 @@ public final class AbridgedFightScene extends Entity {
 				if (timer > ATTACK_HALF_TIME * 2) {
 					final Unit attacker = ((ClientOverworldStage) stage).getUnit(attackQ.get(0).attacker);
 					final Unit defender = ((ClientOverworldStage) stage).getUnit(attackQ.get(0).defender);
-					attacker.setHp(attacker.getHp() + attackQ.get(0).drain);
-					defender.setHp(defender.getHp() - attackQ.get(0).damage);
-					if (!attackQ.get(0).animation.contains("Miss") || attacker.getWeapon().isMagic()) {
-						attacker.use(attacker.getWeapon());
-					}
-					if(attackQ.get(0).damage > 0) {
-						defender.getAssisters().add(attacker);
-						attacker.addBattleStats(new BattleStats(
-							/* kills = */ 0,
-							/* assists = */ 0,
-							/* damage = */ attackQ.get(0).damage,
-							/* healing = */ attackQ.get(0).drain
-						));
-					}
-					if(attackQ.get(0).damage < 0) {
-						defender.getAssisters().add(attacker);
-						attacker.addBattleStats(new BattleStats(
-							/* kills = */ 0,
-							/* assists = */ 0,
-							/* damage = */ 0,
-							/* healing = */ -attackQ.get(0).damage
-						));
-					}
-					if (defender.getHp() == 0) {
-						attacker.addBattleStats(new BattleStats(/* kills = */ 1, 0, 0, 0));
-						defender.getAssisters().remove(attacker);
-						for(Unit u : defender.getAssisters()) {
-							u.addBattleStats(new BattleStats(0, /* assists = */ 1, 0, 0));
-						}
-					}
 					
-					u1hpTarget = u1.getHp();
-					u2hpTarget = u2.getHp();
+					if (attacker == u1) { u1hpTarget += attackQ.get(0).drain; }
+					if (attacker == u2) { u2hpTarget += attackQ.get(0).drain; }
+					if (defender == u1) { u1hpTarget -= attackQ.get(0).damage; }
+					if (defender == u2) { u2hpTarget -= attackQ.get(0).damage; }
 					
 					this.state = State.HURTING;
 				}

@@ -401,41 +401,14 @@ public class FightStage extends Stage {
 					d.sprite.setAnimation("DODGE");
 					d.sprite.setFrame(0);
 					d.sprite.setSpeed(DodgeAnimation.NORMAL_SPEED);
-					if(attacker.getWeapon().isMagic()){
-						attacker.use(attacker.getWeapon());
-					}
 				}else{
 					addEntity(new NoDamageEffect(defender == left));
-					attacker.use(attacker.getWeapon());
 				}
 				setCurrentEvent(HURTING);
 			} else {
-				// System.out.println(rec.animation + "! " + rec.defender.name
-				// + " took " + rec.damage + " damage!");
-				defender.setHp(defender.getHp() - rec.damage);
-				attacker.setHp(attacker.getHp() + rec.drain);
 				dhp.setHp(dhp.getHp() - rec.damage);
 				ahp.setHp(ahp.getHp() + rec.drain, false);
-				attacker.use(attacker.getWeapon());
 				// battle stats
-				if(!defender.getPartyColor().equals(attacker.getPartyColor())) {
-					if(rec.damage > 0) {
-						defender.getAssisters().add(attacker);
-						attacker.addBattleStats(new BattleStats(
-							/* kills = */ 0,
-							/* assists = */ 0,
-							/* damage = */ rec.damage,
-							/* healing = */ rec.drain
-						));
-					}
-				} else {
-					attacker.addBattleStats(new BattleStats(
-						/* kills = */ 0,
-						/* assists = */ 0,
-						/* damage = */ 0,
-						/* healing = */ -rec.damage
-					));
-				}
 				if(rec.damage > 0) {
 					startShaking(hitEffects.get(0).getShakeLength() * 0.05f, hitEffects.get(0).getShakeIntensity());
 				}
@@ -455,11 +428,6 @@ public class FightStage extends Stage {
 			if (dhp.getHp() == 0) {
 				d.state = FightUnit.FLASHING;
 				// battle stats
-				attacker.addBattleStats(new BattleStats(/* kills = */ 1, 0, 0, 0));
-				defender.getAssisters().remove(attacker);
-				for(Unit u : defender.getAssisters()) {
-					u.addBattleStats(new BattleStats(0, /* assists = */ 1, 0, 0));
-				}
 				AudioPlayer.playAudio("die");
 				currentEvent = DYING;//////////TODO: check here for bug, DYING->DONE illegal transition
 			} else {
