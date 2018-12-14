@@ -27,7 +27,7 @@ public class Pavise extends CombatTrigger {
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
-	public boolean attempt(Unit user, int range, Unit opponent, RNG rng) {
+	public boolean attempt(Unit user, boolean initiator, int range, Unit opponent, RNG rng) {
 		//return true;
 		return rng.test(user.getStats().skl);
 	}

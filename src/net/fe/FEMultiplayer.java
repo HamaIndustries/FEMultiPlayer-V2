@@ -44,6 +44,8 @@ import net.fe.overworldStage.ClientOverworldStage.SpectatorFogOption;
 import net.fe.overworldStage.objective.Seize;
 import net.fe.rng.SimpleRNG;
 import net.fe.rng.TrueHitRNG;
+import net.fe.unit.HealingItem;
+import net.fe.unit.SkillChargingItem;
 import net.fe.unit.Unit;
 import net.fe.unit.UnitFactory;
 import net.fe.unit.UnitIdentifier;
@@ -209,7 +211,7 @@ public class FEMultiplayer extends Game{
 		
 		// ^------- put all pre-calc stuff here
 		
-		CombatCalculator calc = new CombatCalculator(new UnitIdentifier(u1), new UnitIdentifier(u2), FEMultiplayer::getUnit, new TrueHitRNG(), new SimpleRNG(), new SimpleRNG());
+		CombatCalculator calc = new CombatCalculator(new UnitIdentifier(u1), new UnitIdentifier(u2), java.util.Collections.emptyList(), FEMultiplayer::getUnit, new TrueHitRNG(), new SimpleRNG(), new SimpleRNG());
 		System.out.println(calc.getAttackQueue());
 		
 		
@@ -239,6 +241,8 @@ public class FEMultiplayer extends Game{
 		
 		Unit u1 = UnitFactory.getUnit("Natasha");
 		u1.addToInventory(WeaponFactory.getWeapon("Physic"));
+		u1.addToInventory(SkillChargingItem.INC10);
+		u1.addToInventory(HealingItem.VULNERARY);
 		u1.setHp(1);
 		localPlayer.getParty().addUnit(u1);
 		

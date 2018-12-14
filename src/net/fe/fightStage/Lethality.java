@@ -29,7 +29,7 @@ public class Lethality extends CombatTrigger {
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
-	public boolean attempt(Unit user, int range, Unit opponent, RNG rng) {
+	public boolean attempt(Unit user, boolean initiator, int range, Unit opponent, RNG rng) {
 		return (!opponent.getTheClass().name.equals("Lord")) &&
 				rng.test(user.getStats().skl / 3);
 	}

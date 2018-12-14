@@ -1,5 +1,6 @@
 package net.fe.overworldStage.context;
 
+import net.fe.fightStage.CombatTrigger;
 import net.fe.overworldStage.*;
 import net.fe.unit.Unit;
 
@@ -9,6 +10,9 @@ import net.fe.unit.Unit;
  */
 public class AttackTarget extends SelectTargetContext {
 	
+	/** The Combat Triggers added by the attacker based on a field skill selection */
+	private final Iterable<CombatTrigger> manualTriggers;
+	
 	/**
 	 * Instantiates a new attack target.
 	 *
@@ -16,10 +20,12 @@ public class AttackTarget extends SelectTargetContext {
 	 * @param context the context
 	 * @param z the z
 	 * @param u the u
+	 * @param mt The Combat Triggers added by the attacker based on a field skill selection
 	 */
 	public AttackTarget(ClientOverworldStage stage, OverworldContext context, Zone z,
-			Unit u) {
+			Unit u, Iterable<CombatTrigger> mt) {
 		super(stage, context, z, u, false);
+		this.manualTriggers = mt;
 	}
 
 	/* (non-Javadoc)
@@ -35,7 +41,7 @@ public class AttackTarget extends SelectTargetContext {
 	 */
 	@Override
 	public void unitSelected(Unit u) {
-		new AttackPreview(stage, this, unit, u).startContext();
+		new AttackPreview(stage, this, unit, u, manualTriggers).startContext();
 	}
 
 }

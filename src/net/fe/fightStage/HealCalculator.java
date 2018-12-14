@@ -20,7 +20,7 @@ public class HealCalculator extends CombatCalculator {
 	 * @param dereference A function that converts a UnitIdentifier into a Unit
 	 */
 	public HealCalculator(UnitIdentifier u1, UnitIdentifier u2, Function<UnitIdentifier, Unit> dereference) {
-		super(u1, u2, dereference, new SimpleRNG(), new SimpleRNG(), new SimpleRNG());
+		super(u1, u2, java.util.Collections.emptyList(), dereference, new SimpleRNG(), new SimpleRNG(), new SimpleRNG());
 	}
 	
 	/* (non-Javadoc)
@@ -33,7 +33,7 @@ public class HealCalculator extends CombatCalculator {
 		
 		left.use(left.getWeapon());
 		right.setHp(right.getHp() + heal);
-		addToAttackQueue(left, right, "Heal", -heal, 0);
+		addToAttackQueue(left, right, "Heal", -heal, 0, 0, 0);
 	}
 	
 }

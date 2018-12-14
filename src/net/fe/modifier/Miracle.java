@@ -24,7 +24,7 @@ public class Miracle extends CombatTrigger {
 	 * @see net.fe.fightStage.CombatTrigger#attempt(net.fe.unit.Unit, int)
 	 */
 	@Override
-	public boolean attempt(Unit user, int range, Unit opponent, RNG rng) {
+	public boolean attempt(Unit user, boolean initiator, int range, Unit opponent, RNG rng) {
 		if(user.getHp() == 1) return false;
 		return true;
 	}

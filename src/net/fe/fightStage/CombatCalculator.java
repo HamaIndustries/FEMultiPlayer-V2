@@ -53,6 +53,9 @@ public class CombatCalculator {
 	/** The attack triggers, weapon and unit skills */
 	private ArrayList<CombatTrigger> leftTriggers, rightTriggers;
 	
+	/** the combat triggers added to left temporarily by a field skill activation */
+	private final Iterable<CombatTrigger> leftManualTriggers;
+	
 	private RNG hitRNG;
 	private RNG critRNG;
 	private RNG skillRNG;
@@ -63,12 +66,19 @@ public class CombatCalculator {
 	 * @param u1 the unit id of fighter 1
 	 * @param u2 the unit id of fighter 2
 	 * @param dereference A function that converts a UnitIdentifier into a Unit
+	 * @param u1ManualTriggers the combat triggers added to u1 temporarily by a field skill activation
 	 */
-	public CombatCalculator(UnitIdentifier u1, UnitIdentifier u2, Function<UnitIdentifier, Unit> dereference, RNG hitRNG, RNG critRNG, RNG skillRNG){
+	public CombatCalculator(
+		UnitIdentifier u1, UnitIdentifier u2,
+		Iterable<CombatTrigger> u1ManualTriggers,
+		Function<UnitIdentifier, Unit> dereference,
+		RNG hitRNG, RNG critRNG, RNG skillRNG
+	){
 		
 		this.hitRNG = hitRNG;
 		this.critRNG = critRNG;
 		this.skillRNG = skillRNG;
+		this.leftManualTriggers = u1ManualTriggers;
 		
 		left = dereference.apply(u1);
 		right = dereference.apply(u2);
@@ -116,6 +126,9 @@ public class CombatCalculator {
 		}
 		leftTriggers = new ArrayList<CombatTrigger>();
 		for(CombatTrigger t: left.getTriggers()){
+			leftTriggers.add(t.getCopy());
+		}
+		for (CombatTrigger t: leftManualTriggers) {
 			leftTriggers.add(t.getCopy());
 		}
 		
@@ -195,6 +208,8 @@ public class CombatCalculator {
 		
 		int damage = 0;
 		int drain = 0;
+		int defenderSkillCharge = 0;
+		int attackerSkillCharge = 0;
 		String animation = "Attack";
 		boolean miss = false;
 		boolean use = false;
@@ -207,9 +222,9 @@ public class CombatCalculator {
 		LinkedHashMap<CombatTrigger, Boolean> dSuccess = new LinkedHashMap<CombatTrigger, Boolean>();
 		
 		for (CombatTrigger t : aTriggers)
-			aSuccess.put(t, t.attempt(a, range, d, skillRNG));
+			aSuccess.put(t, t.attempt(a, leftAttacking, range, d, skillRNG));
 		for (CombatTrigger t : dTriggers)
-			dSuccess.put(t, t.attempt(d, range, a, skillRNG));
+			dSuccess.put(t, t.attempt(d, !leftAttacking, range, a, skillRNG));
 		
 		
 
@@ -279,16 +294,30 @@ public class CombatCalculator {
 			}
 		}
 		
+		for (CombatTrigger t : aSuccess.keySet()) {
+			if(aSuccess.get(t)){
+				attackerSkillCharge += t.runYourTurnSkillCharge();
+			}
+		}
+		
 		if(miss){
 			damage = 0;
 			drain = 0;
 			animation += " Miss";
 		}
 		
+		for (CombatTrigger t : dSuccess.keySet()) {
+			if(dSuccess.get(t)){
+				defenderSkillCharge += t.runEnemyTurnSkillCharge(damage);
+			}
+		}
+		
 		damage = Math.max(0, Math.min(damage, d.getHp()));
-		addToAttackQueue(a, d, animation, damage, drain);
+		addToAttackQueue(a, d, animation, damage, drain, defenderSkillCharge, attackerSkillCharge);
 		d.setHp(d.getHp() - damage);
 		a.setHp(a.getHp() + drain);
+		d.incrementSkillCharge(defenderSkillCharge);
+		a.incrementSkillCharge(attackerSkillCharge);
 		if(use)
 			a.use(a.getWeapon());
 		a.clearTempMods();
@@ -314,14 +343,18 @@ public class CombatCalculator {
 	 * @param animation the animation
 	 * @param damage the damage
 	 * @param drain the damage healed
+	 * @param defenderSkillCharge the amount the defender's skillCharge increases by
+	 * @param attackerSkillCharge the amount the attacker's skillCharge decreases by
 	 */
-	public void addToAttackQueue(Unit a, Unit d, String animation, int damage, int drain) {
+	public void addToAttackQueue(Unit a, Unit d, String animation, int damage, int drain, int defenderSkillCharge, int attackerSkillCharge) {
 		AttackRecord rec = new AttackRecord();
 		rec.attacker = new UnitIdentifier(a);
 		rec.defender = new UnitIdentifier(d);
 		rec.animation = animation;
 		rec.damage = damage;
 		rec.drain = drain;
+		rec.defenderSkillCharge = defenderSkillCharge;
+		rec.attackerSkillCharge = attackerSkillCharge;
 		attackQueue.add(rec);
 
 		logger.fine(rec.toString());
@@ -385,12 +418,12 @@ public class CombatCalculator {
 		// run preAttack triggers that are allowed to be shown in the preview
 		for (CombatTrigger t : a.getTriggers())
 			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) &&	((t.turnToRun & CombatTrigger.YOUR_TURN_PRE) != 0))
-				if (t.attempt(a, -1, d, new net.fe.rng.NullRNG()))
+				if (t.attempt(a, true, -1, d, new net.fe.rng.NullRNG()))
 					t.runPreAttack(null, a, d);
 		
 		for (CombatTrigger t : d.getTriggers())
 			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) &&	((t.turnToRun & CombatTrigger.ENEMY_TURN_PRE) != 0))
-				if (t.attempt(a, -1, d, new net.fe.rng.NullRNG()))
+				if (t.attempt(a, false, -1, d, new net.fe.rng.NullRNG()))
 					t.runPreAttack(null, a, d);
 		
 		int damage = CombatCalculator.calculateBaseDamage(a, d);
@@ -398,12 +431,12 @@ public class CombatCalculator {
 		// Run combat mods that are allowed to occur in the preview
 		for (CombatTrigger t : a.getTriggers())
 			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) && ((t.turnToRun & CombatTrigger.YOUR_TURN_MOD) != 0))
-				if (t.attempt(a, -1, d, new net.fe.rng.NullRNG()))
+				if (t.attempt(a, true, -1, d, new net.fe.rng.NullRNG()))
 					damage = t.runDamageMod(a, d, damage);
 		
 		for (CombatTrigger t : d.getTriggers())
 			if (((t.turnToRun & CombatTrigger.SHOW_IN_PREVIEW) != 0) && ((t.turnToRun & CombatTrigger.ENEMY_TURN_MOD) != 0))
-				if (t.attempt(a, -1, d, new net.fe.rng.NullRNG()))
+				if (t.attempt(a, false, -1, d, new net.fe.rng.NullRNG()))
 					damage = t.runDamageMod(a, d, damage);
 
 		damage = limit(0, 100, damage);

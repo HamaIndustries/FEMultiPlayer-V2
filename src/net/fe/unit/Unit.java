@@ -30,6 +30,7 @@ import net.fe.overworldStage.Grid;
 import net.fe.overworldStage.Node;
 import net.fe.overworldStage.OverworldStage;
 import net.fe.overworldStage.Path;
+import net.fe.overworldStage.StartOfPhaseEffect;
 import net.fe.overworldStage.Terrain;
 import net.fe.overworldStage.Zone;
 
@@ -59,6 +60,9 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	
 	/** The hp. */
 	private int hp;
+	
+	/** A resource that is expended to use trigger skills */
+	private int skillCharge;
 	
 	/** The clazz. */
 	private final Class clazz;
@@ -118,6 +122,8 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	
 	/** The Constant MOVE_SPEED. */
 	public static final int MOVE_SPEED = 250;
+	
+	public static final int MAX_SKILL_CHARGE = 50;
 	
 	/** The rescue. */
 	public static Texture rescue;
@@ -701,11 +707,20 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	public ArrayList<CombatTrigger> getTriggers() {
 		ArrayList<CombatTrigger> triggers = new ArrayList<CombatTrigger>();
 		triggers.addAll(skills);
-		if (clazz.masterSkill != null)
-			triggers.add(clazz.masterSkill);
+		triggers.addAll(clazz.combatSkills);
 		if(getWeapon() != null)
 			triggers.addAll(getWeapon().getTriggers());
 		return triggers;
+	}
+
+	/**
+	 * Return start-of-phase effects that apply to this unit
+	 */
+	public ArrayList<StartOfPhaseEffect> getStartOfPhaseEffects() {
+		ArrayList<StartOfPhaseEffect> retval = new ArrayList<>();
+		if(getWeapon() != null)
+			retval.addAll(getWeapon().getStartOfPhaseEffects());
+		return retval;
 	}
 	
 	//Development
@@ -1179,5 +1194,15 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	
 	public Node[] getMove() {
 		return move;
+	}
+	
+	public int getSkillCharge() {
+		return this.skillCharge;
+	}
+	public void incrementSkillCharge(int amount) {
+		this.skillCharge = Math.max(0, Math.min(MAX_SKILL_CHARGE, this.skillCharge + amount));
+	}
+	public void emptySkillCharge() {
+		this.skillCharge = 0;
 	}
 }

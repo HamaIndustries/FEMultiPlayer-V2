@@ -107,7 +107,7 @@ public final class CombatCalculatorTest {
 		left.equip(createWeapon(Weapon.Type.AXE, 8));
 		left.addSkill(new CombatTrigger(CombatTrigger.NO_NAME_MOD, CombatTrigger.YOUR_TURN_MOD | CombatTrigger.SHOW_IN_PREVIEW) {
 			public int runDamageMod(Unit a, Unit d, int damage) { return 2; }
-			public boolean attempt(Unit user, int range, Unit opponent, RNG rng) { return true; }
+			public boolean attempt(Unit user, boolean initiator, int range, Unit opponent, RNG rng) { return true; }
 			public CombatTrigger getCopy() {return this;}
 		});
 		
@@ -132,7 +132,7 @@ public final class CombatCalculatorTest {
 		left.equip(createWeapon(Weapon.Type.AXE, 8));
 		left.addSkill(new CombatTrigger(CombatTrigger.NO_NAME_MOD, CombatTrigger.YOUR_TURN_MOD) {
 			public int runDamageMod(Unit a, Unit d, int damage) { return 2; }
-			public boolean attempt(Unit user, int range, Unit opponent, RNG rng) { return true; }
+			public boolean attempt(Unit user, boolean initiator, int range, Unit opponent, RNG rng) { return true; }
 			public CombatTrigger getCopy() {return this;}
 		});
 		

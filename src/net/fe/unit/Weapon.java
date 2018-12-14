@@ -4,12 +4,16 @@ import java.util.*;
 import java.util.function.Function;
 
 import net.fe.fightStage.Brave;
+import net.fe.fightStage.ChargeSkillConstant;
 import net.fe.fightStage.CombatTrigger;
 import net.fe.fightStage.EclipseSix;
 import net.fe.fightStage.Effective;
 import net.fe.fightStage.LunaPlus;
 import net.fe.fightStage.Nosferatu;
 import net.fe.fightStage.CrossBow;
+import net.fe.overworldStage.StartOfPhaseEffect;
+import net.fe.overworldStage.startOfPhaseEffect.ChangeHp;
+import net.fe.overworldStage.startOfPhaseEffect.ChangeSkillCharge;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -174,6 +178,8 @@ public final class Weapon extends Item {
 		ArrayList<CombatTrigger> triggers = new ArrayList<CombatTrigger>();
 		if(name.contains("Brave")){
 			triggers.add(new Brave());
+		} else if (name.contains("Kill") || name.equals("Wo Dao")) {
+			triggers.add(new ChargeSkillConstant());
 		} else if (name.equals("Nosferatu")){
 			triggers.add(new Nosferatu());
 		} else if (name.equals("Lunase")){
@@ -188,6 +194,20 @@ public final class Weapon extends Item {
 			triggers.add(new Effective(multiplier, this.effective));
 		}
 		return triggers;
+	}
+	
+	/**
+	 * Returns effects that should apply to the wielder at the start of
+	 * that unit's turn, if this item is equipped
+	 */
+	public List<StartOfPhaseEffect> getStartOfPhaseEffects() {
+		ArrayList<StartOfPhaseEffect> retval = new ArrayList<>();
+		if (name.contains("Blessed")) {
+			retval.add(new ChangeHp(5, 0));
+		} else if (name.contains("Kill") || name.equals("Wo Dao")) {
+			retval.add(new ChangeSkillCharge(2));
+		}
+		return retval;
 	}
 	
 	

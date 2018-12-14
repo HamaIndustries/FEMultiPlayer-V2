@@ -4560,6 +4560,23 @@
 			]
 		},
 		{
+			"name":		"hit_effect_rage",
+			"path":		"res/battle_anim/hit_effect_critical.png",
+			"width":	240,
+			"height":	160,
+			"frames":	9,
+			"columns":	3,
+			"offsetX":	88,
+			"offsetY":	110,
+			"freeze":	-1,
+			"soundMap": [
+				{
+					"frame": 0,
+					"sound":"hit_crit"
+				}
+			]
+		},
+		{
 			"name":		"hit_effect_heal",
 			"path":		"res/battle_anim/hit_effect_heal.png",
 			"width":	72,

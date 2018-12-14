@@ -11,7 +11,7 @@ import net.fe.unit.UnitIdentifier;
 public class AttackRecord implements Serializable {
 	
 	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 2227786706936956528L;
+	private static final long serialVersionUID = -203200690242377586L;
 	
 	/** The animation. */
 	public String animation;
@@ -25,11 +25,20 @@ public class AttackRecord implements Serializable {
 	/** The drain. */
 	public int drain;
 	
+	/** The skillCharge gained by the defender */
+	public int defenderSkillCharge;
+	
+	/** The skillCharge gained by the attacker */
+	public int attackerSkillCharge;
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString(){
 		return animation + ": " + attacker.name + ", " + defender.name + ", "
-				+ damage + ", " + drain + " (drain)";
+				+ damage + ", " + drain + " (drain), "
+				+ defenderSkillCharge + " (defenderSkillCharge), "
+				+ attackerSkillCharge + " (attackerSkillCharge), "
+				;
 	}
 }

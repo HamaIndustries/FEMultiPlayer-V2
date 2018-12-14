@@ -82,11 +82,12 @@ public abstract class CombatTrigger implements Serializable {
 	 * Determine whether this trigger should take effect this combat
 	 *
 	 * @param user the user
+	 * @param initiator true if the user is initiating the attack (or, it is the unit's player's phase)
 	 * @param range the range
 	 * @param opponent the enemy
 	 * @return true, if successful
 	 */
-	public abstract boolean attempt(Unit user, int range, Unit opponent, RNG rng);
+	public abstract boolean attempt(Unit user, boolean initiator, int range, Unit opponent, RNG rng);
 	
 	/**
 	 * Something to do before the attack occurs. Modify statistics, for example.
@@ -136,6 +137,21 @@ public abstract class CombatTrigger implements Serializable {
 	 */
 	public void runPostAttack(CombatCalculator calc, boolean dir, Unit a, Unit d, int damage, String currentEffect){
 		
+	}
+	
+	/**
+	 * Returns the amount to increment this unit's skillCharge by when this unit is defending
+	 * @param damage the amount of damage inflicted on the defender (aka this unit)
+	 */
+	public int runEnemyTurnSkillCharge(int damage) {
+		return 0;
+	}
+	
+	/**
+	 * Returns the amount to increment this unit's skillCharge by when this unit is attacking
+	 */
+	public int runYourTurnSkillCharge() {
+		return 0;
 	}
 	
 	/**

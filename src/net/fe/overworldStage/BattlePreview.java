@@ -124,7 +124,7 @@ public class BattlePreview extends Entity {
 		for (CombatTrigger t : attacker.getTriggers()) {
 			aEffective = aEffective || (
 				t instanceof Effective &&
-					t.attempt(attacker, range, defender, new net.fe.rng.NullRNG())
+					t.attempt(attacker, true, range, defender, new net.fe.rng.NullRNG())
 			);
 		}
 		
@@ -147,7 +147,7 @@ public class BattlePreview extends Entity {
 			for (CombatTrigger t : defender.getTriggers()) {
 				dEffective = dEffective || (
 					t instanceof Effective &&
-						t.attempt(defender, range, attacker, new net.fe.rng.NullRNG())
+						t.attempt(defender, false, range, attacker, new net.fe.rng.NullRNG())
 				);
 			}
 		}
