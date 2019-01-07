@@ -332,6 +332,8 @@ public class FEResources {
 		defaultProps.setProperty("FOG COLOR", "DAY");
 		defaultProps.setProperty("ACTUAL ODDS", "FALSE");
 		defaultProps.setProperty("TARGETFPS", "60");
+		defaultProps.setProperty("ANIMATION HEAL", "FULL");
+		defaultProps.setProperty("ANIMATION ATTACK", "FULL");
 		
 		// music
 		defaultProps.setProperty("CURING","curing");
@@ -456,6 +458,30 @@ public class FEResources {
 		else if ("startLocal".equalsIgnoreCase(propStr)) { return AutoCursor.START_LOCAL; }
 		else if ("off".equalsIgnoreCase(propStr)) { return AutoCursor.OFF; }
 		else { return AutoCursor.OFF; }
+	}
+	
+	/**
+	 * Represents the type of animation that can be shown for a battle interaction
+	 */
+	public static enum ShowAnimations {
+		FIGHTSTAGE,
+		ABRIDGED,
+		OFF;
+	}
+	
+	public static ShowAnimations getShowAttackAnimations() {
+		return parseShowAnimations(getProperties().getProperty("ANIMATION ATTACK"));
+	}
+	
+	public static ShowAnimations getShowHealAnimations() {
+		return parseShowAnimations(getProperties().getProperty("ANIMATION HEAL"));
+	}
+	
+	private static ShowAnimations parseShowAnimations(String propStr) {
+		if ("full".equalsIgnoreCase(propStr)) { return ShowAnimations.FIGHTSTAGE; }
+		else if ("mini".equalsIgnoreCase(propStr)) { return ShowAnimations.ABRIDGED; }
+		else if ("off".equalsIgnoreCase(propStr)) { return ShowAnimations.OFF; }
+		else { return ShowAnimations.FIGHTSTAGE; }
 	}
 	
 	/**
