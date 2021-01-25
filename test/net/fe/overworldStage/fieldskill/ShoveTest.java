@@ -43,7 +43,7 @@ public final class ShoveTest {
 	public void testAllowed_whenEmptyField_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
 		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0);
-		Unit unit = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
+		Unit unit = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
 		grid.addUnit(unit, 3,3);
 		
 		assertFalse(new Shove().allowed(unit, grid));
@@ -53,8 +53,8 @@ public final class ShoveTest {
 	public void testAllowed_whenAdjacentSameConUnits_thenTrue() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
 		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
-		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
-		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
+		Unit shover = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
+		Unit shovee = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
 		grid.addUnit(shover, 3,3);
 		grid.addUnit(shovee, 2,3);
 		
@@ -65,8 +65,8 @@ public final class ShoveTest {
 	public void testAllowed_whenNonadjacentSameConUnits_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
 		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
-		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
-		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
+		Unit shover = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
+		Unit shovee = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
 		grid.addUnit(shover, 2,4);
 		grid.addUnit(shovee, 4,2);
 		
@@ -77,8 +77,8 @@ public final class ShoveTest {
 	public void testAllowed_whenTargetOffTopEdge_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
 		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
-		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
-		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
+		Unit shover = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
+		Unit shovee = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
 		grid.addUnit(shover, 3,1);
 		grid.addUnit(shovee, 3,0);
 		
@@ -89,8 +89,8 @@ public final class ShoveTest {
 	public void testAllowed_whenTargetOffLeftEdge_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
 		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
-		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
-		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
+		Unit shover = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
+		Unit shovee = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
 		grid.addUnit(shover, 1,3);
 		grid.addUnit(shovee, 0,3);
 		
@@ -101,8 +101,8 @@ public final class ShoveTest {
 	public void testAllowed_whenTargetOffRightEdge_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
 		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
-		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
-		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
+		Unit shover = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
+		Unit shovee = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
 		grid.addUnit(shover, 4,3);
 		grid.addUnit(shovee, 5,3);
 		
@@ -113,8 +113,8 @@ public final class ShoveTest {
 	public void testAllowed_whenTargetOffBottomEdge_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
 		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
-		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
-		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
+		Unit shover = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
+		Unit shovee = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
 		grid.addUnit(shover, 3,4);
 		grid.addUnit(shovee, 3,5);
 		
@@ -125,9 +125,9 @@ public final class ShoveTest {
 	public void testAllowed_whenTargetIsThirdUnit_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
 		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
-		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
-		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
-		Unit third = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
+		Unit shover = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
+		Unit shovee = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
+		Unit third = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
 		grid.addUnit(shover, 3,4);
 		grid.addUnit(shovee, 3,3);
 		grid.addUnit(third, 3,2);
@@ -139,8 +139,8 @@ public final class ShoveTest {
 	public void testAllowed_whenTargetIsSea_thenFalse() {
 		Grid grid = new Grid(6,6, Terrain.SEA);
 		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
-		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
-		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
+		Unit shover = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
+		Unit shovee = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
 		grid.addUnit(shover, 3,4);
 		grid.addUnit(shovee, 3,3);
 		
@@ -151,7 +151,7 @@ public final class ShoveTest {
 	public void testAllowed_whenTargetIsSeaAndShoveeIsFlier_thenTrue() {
 		Grid grid = new Grid(6,6, Terrain.SEA);
 		Statistics vals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
-		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
+		Unit shover = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
 		Unit shovee = new Unit("test", Class.createClass("Falconknight"), '-', vals, vals);
 		grid.addUnit(shover, 3,4);
 		grid.addUnit(shovee, 3,3);
@@ -164,8 +164,8 @@ public final class ShoveTest {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
 		Statistics shoverVals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 2, 0);
 		Statistics shoveeVals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
-		Unit shover = new Unit("test", Class.createClass("Ike"), '-', shoverVals, shoverVals);
-		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', shoveeVals, shoveeVals);
+		Unit shover = new Unit("test", Class.createClass("Chrom"), '-', shoverVals, shoverVals);
+		Unit shovee = new Unit("test", Class.createClass("Chrom"), '-', shoveeVals, shoveeVals);
 		grid.addUnit(shover, 2,4);
 		grid.addUnit(shovee, 4,2);
 		
@@ -177,8 +177,8 @@ public final class ShoveTest {
 		Grid grid = new Grid(6,6, Terrain.PLAIN);
 		Statistics shoverVals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 2, 0);
 		Statistics shoveeVals = new Statistics(20, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0);
-		Unit shover = new Unit("test", Class.createClass("Ike"), '-', shoverVals, shoverVals);
-		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', shoveeVals, shoveeVals);
+		Unit shover = new Unit("test", Class.createClass("Chrom"), '-', shoverVals, shoverVals);
+		Unit shovee = new Unit("test", Class.createClass("Chrom"), '-', shoveeVals, shoveeVals);
 		Weapon weapon = createSword(1);
 		shover.getInventory().add(weapon);
 		shover.equip(0);
@@ -195,8 +195,8 @@ public final class ShoveTest {
 		vals.put("HP", 20);
 		vals.put("Mov", 5);
 		vals.put("Con", 8);
-		Unit shover = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
-		Unit shovee = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
+		Unit shover = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
+		Unit shovee = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
 		grid.addUnit(shover, 3,3);
 		grid.addUnit(shovee, 4,3);
 		

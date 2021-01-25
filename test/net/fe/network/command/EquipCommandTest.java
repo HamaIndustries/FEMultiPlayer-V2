@@ -52,7 +52,7 @@ public final class EquipCommandTest {
 		vals = vals.copy("HP", 20);
 		vals = vals.copy("Mov", 5);
 		vals = vals.copy("Con", 8);
-		Unit unit = new Unit("unit", Class.createClass("Ike"), '-', vals, vals);
+		Unit unit = new Unit("unit", Class.createClass("Chrom"), '-', vals, vals);
 		FEMultiplayer.getLocalPlayer().getParty().addUnit(unit); // processCommands cannot find the unit without this
 		assertTrue("Failed to add unit to grid", stage.addUnit(unit, 3, 3));
 		unit.addToInventory(createAxe(0));

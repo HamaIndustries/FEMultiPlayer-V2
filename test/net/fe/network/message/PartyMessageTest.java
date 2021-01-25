@@ -32,7 +32,7 @@ public final class PartyMessageTest {
 	@Test
 	public void test_validateTeam_acceptsSingleLord() {
 		ArrayList<Unit> units = new ArrayList<>(2);
-		units.add(UnitFactory.getUnit("Ike"));
+		units.add(UnitFactory.getUnit("Chrom"));
 		
 		assertEquals(
 			Optional.empty(),

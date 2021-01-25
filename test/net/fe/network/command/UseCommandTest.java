@@ -35,7 +35,7 @@ public final class UseCommandTest {
 		vals = vals.copy("HP", 20);
 		vals = vals.copy("Mov", 5);
 		vals = vals.copy("Con", 8);
-		Unit unit = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
+		Unit unit = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
 		unit.addToInventory(new HealingItem("Blarg", 5, 0, 1));
 		unit.setHp(3);
 		
@@ -52,7 +52,7 @@ public final class UseCommandTest {
 		vals = vals.copy("HP", 20);
 		vals = vals.copy("Mov", 5);
 		vals = vals.copy("Con", 8);
-		Unit unit = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
+		Unit unit = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
 		unit.addToInventory(new HealingItem("Blarg", 15, 0, 1));
 		unit.setHp(15);
 		
@@ -69,7 +69,7 @@ public final class UseCommandTest {
 		vals = vals.copy("HP", 20);
 		vals = vals.copy("Mov", 5);
 		vals = vals.copy("Con", 8);
-		Unit unit = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
+		Unit unit = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
 		unit.addToInventory(new HealingItem("Blarg", 15, 0, 1));
 		unit.setHp(15);
 		unit.getInventory().get(0).setUsesDEBUGGING(1);
@@ -87,7 +87,7 @@ public final class UseCommandTest {
 		vals = vals.copy("HP", 20);
 		vals = vals.copy("Mov", 5);
 		vals = vals.copy("Con", 8);
-		Unit unit = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
+		Unit unit = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
 		unit.addToInventory(new HealingItem("Blarg", 15, 0, 1));
 		unit.setHp(15);
 		unit.getInventory().get(0).setUsesDEBUGGING(1);
@@ -106,7 +106,7 @@ public final class UseCommandTest {
 		vals = vals.copy("HP", 20);
 		vals = vals.copy("Mov", 5);
 		vals = vals.copy("Con", 8);
-		Unit unit = new Unit("test", Class.createClass("Ike"), '-', vals, vals);
+		Unit unit = new Unit("test", Class.createClass("Chrom"), '-', vals, vals);
 		unit.addToInventory(new RiseTome());
 		unit.setHp(3);
 		

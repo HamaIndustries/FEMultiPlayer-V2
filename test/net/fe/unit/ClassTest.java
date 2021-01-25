@@ -11,7 +11,7 @@ import java.util.HashMap;
 public final class ClassTest {
 	
 	private static final String[] classNames = {
-		"Roy", "Eliwood", "Lyn", "Hector", "Eirika", "Ephraim", "Marth", "Ike",
+		"Roy", "Eliwood", "Lyn", "Hector", "Eirika", "Ephraim", "Marth", "Chrom",
 		"Sniper", "Hero", "Berserker", "Warrior", "Assassin", "Paladin", "Sage",
 		"General", "Valkyrie", "Swordmaster", "Sorcerer", "Falconknight",
 		"Phantom"

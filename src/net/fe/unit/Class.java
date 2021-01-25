@@ -96,7 +96,7 @@ public final class Class implements Serializable {
 		if(name.equals("Roy"))
 			return new Class("Lord", 
 					"A noble youth who commands armies.",
-					0, new Aether(), Arrays.asList(new Shove()),
+					0, new Sol(false), Arrays.asList(new Shove()),
 					Weapon.Type.SWORD);
 		if(name.equals("Eliwood"))
 			return new Class("Lord", 
@@ -126,13 +126,13 @@ public final class Class implements Serializable {
 		if(name.equals("Marth"))
 			return new Class("Lord", 
 					"A legendary prince who commands armies.",
-					 0, new Aether(), Arrays.asList(new Shove()),
+					 0, new Astra(), Arrays.asList(new Shove()),
 					 Weapon.Type.SWORD);
-		if(name.equals("Ike"))
+		if(name.equals("Chrom"))
 			return new Class("Lord", 
-					"A radiant hero who commands armies.",
-					 0, new Aether(), Arrays.asList(new Shove(), new Smite()),
-					 Weapon.Type.SWORD, Weapon.Type.AXE);
+					"A skilled prince who commands the shepards.",
+					 0, new Luna(false), Arrays.asList(new Shove(), new Smite()),
+					 Weapon.Type.SWORD, Weapon.Type.LANCE);
 		
 		//Other
 		if(name.equals("Sniper"))

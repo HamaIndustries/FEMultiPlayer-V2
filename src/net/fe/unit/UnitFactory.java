@@ -117,8 +117,8 @@ public class UnitFactory {
 				u.addToInventory(WeaponFactory.getWeapon("Siegmund"));
 			} else if(name.equals("Marth")){
 				u.addToInventory(WeaponFactory.getWeapon("Falchion"));
-			} else if(name.equals("Ike")){
-				u.addToInventory(WeaponFactory.getWeapon("Ragnell"));
+			} else if(name.equals("Chrom")){
+				u.addToInventory(WeaponFactory.getWeapon("Great Falchion"));
 			}
 			
 			units.put(name, u);

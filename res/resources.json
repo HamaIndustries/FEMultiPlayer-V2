@@ -1738,8 +1738,8 @@
 		},
 		
 		{
-			"name":		"ike_sword_aether1",
-			"path":		"res/battle_anim/ike_sword_aether1.png",
+			"name":		"chrom_sword_awakening1",
+			"path":		"res/battle_anim/chrom_sword_awakening1.png",
 			"width":	240,
 			"height":	160,
 			"frames":	32,
@@ -1788,8 +1788,8 @@
 			]
 		},
 		{
-			"name":		"ike_sword_aether2",
-			"path":		"res/battle_anim/ike_sword_aether2.png",
+			"name":		"chrom_sword_awakening2",
+			"path":		"res/battle_anim/chrom_sword_awakening2.png",
 			"width":	240,
 			"height":	160,
 			"frames":	14,
@@ -1826,8 +1826,8 @@
 			]
 		},
 		{
-			"name":		"ike_rangedsword_attack",
-			"path":		"res/battle_anim/ike_rangedsword_attack.png",
+			"name":		"chrom_rangedsword_attack",
+			"path":		"res/battle_anim/chrom_sword_attack.png",
 			"width":	240,
 			"height":	160,
 			"frames":	16,
@@ -1860,8 +1860,8 @@
 			]
 		},
 		{
-			"name":		"ike_rangedsword_critical",
-			"path":		"res/battle_anim/ike_rangedsword_critical.png",
+			"name":		"chrom_rangedsword_critical",
+			"path":		"res/battle_anim/chrom_sword_critical.png",
 			"width":	240,
 			"height":	160,
 			"frames":	18,
@@ -1894,8 +1894,8 @@
 			]
 		},
 		{
-			"name":		"ike_rangedsword_dodge",
-			"path":		"res/battle_anim/ike_sword_dodge.png",
+			"name":		"chrom_rangedsword_dodge",
+			"path":		"res/battle_anim/chrom_sword_dodge.png",
 			"width":	240,
 			"height":	160,
 			"frames":	9,
@@ -1905,16 +1905,16 @@
 			"freeze":	0
 		},
 		{
-			"name":		"ike_sword_attack",
-			"path":		"res/battle_anim/ike_sword_attack.png",
-			"width":	240,
-			"height":	160,
-			"frames":	26,
-			"columns":	4,
-			"offsetX":	150,
-			"offsetY":	103,
+			"name":		"chrom_sword_attack",
+			"path":		"res/battle_anim/chrom_sword_attack.png",
+			"width":	98,
+			"height":	67,
+			"frames":	22,
+			"columns":	8,
+			"offsetX":	60,
+			"offsetY":	54,
 			"freeze":	0,
-			"hitframes":[16],
+			"hitframes":[10],
 			"soundMap": [
 				{
 					"frame":	2,
@@ -1948,16 +1948,16 @@
 			]
 		},
 		{
-			"name":		"ike_sword_critical",
-			"path":		"res/battle_anim/ike_sword_critical.png",
-			"width":	240,
-			"height":	160,
+			"name":		"chrom_sword_critical",
+			"path":		"res/battle_anim/chrom_sword_critical.png",
+			"width":	98,
+			"height":	67,
 			"frames":	42,
-			"columns":	6,
-			"offsetX":	150,
-			"offsetY":	103,
+			"columns":	8,
+			"offsetX":	60,
+			"offsetY":	54,
 			"freeze":	0,
-			"hitframes":[29],
+			"hitframes":[30],
 			"soundMap": [
 				{
 					"frame":	2,
@@ -2010,27 +2010,27 @@
 			]
 		},
 		{
-			"name":		"ike_sword_dodge",
-			"path":		"res/battle_anim/ike_sword_dodge.png",
-			"width":	240,
-			"height":	160,
-			"frames":	2,
-			"columns":	3,
-			"offsetX":	150,
-			"offsetY":	103,
+			"name":		"chrom_sword_dodge",
+			"path":		"res/battle_anim/chrom_sword_dodge.png",
+			"width":	98,
+			"height":	67,
+			"frames":	4,
+			"columns":	4,
+			"offsetX":	60,
+			"offsetY":	54,
 			"freeze":	0
 		},
 		{
-			"name":		"ike_axe_attack",
-			"path":		"res/battle_anim/ike_axe_attack.png",
-			"width":	240,
-			"height":	160,
-			"frames":	18,
-			"columns":	4,
-			"offsetX":	150,
-			"offsetY":	103,
+			"name":		"chrom_lance_attack",
+			"path":		"res/battle_anim/chrom_lance_attack.png",
+			"width":	98,
+			"height":	67,
+			"frames":	22,
+			"columns":	8,
+			"offsetX":	60,
+			"offsetY":	54,
 			"freeze":	0,
-			"hitframes":[9],
+			"hitframes":[10],
 			"soundMap": [
 				{
 					"frame":	2,
@@ -2042,7 +2042,7 @@
 				},
 				{
 					"frame":	8,
-					"sound":	"axe_swipe3"
+					"sound":	"sword_swipe3"
 				},
 				{
 					"frame":	14,
@@ -2051,16 +2051,16 @@
 			]
 		},
 		{
-			"name":		"ike_axe_critical",
-			"path":		"res/battle_anim/ike_axe_critical.png",
-			"width":	240,
-			"height":	160,
-			"frames":	39,
-			"columns":	5,
-			"offsetX":	150,
-			"offsetY":	100,
+			"name":		"chrom_lance_critical",
+			"path":		"res/battle_anim/chrom_lance_critical.png",
+			"width":	98,
+			"height":	67,
+			"frames":	22,
+			"columns":	8,
+			"offsetX":	60,
+			"offsetY":	54,
 			"freeze":	1,
-			"hitframes":[16,32],
+			"hitframes":[10],
 			"soundMap": [
 				{
 					"frame":	2,
@@ -2072,7 +2072,7 @@
 				},
 				{
 					"frame":	8,
-					"sound":	"axe_swipe3"
+					"sound":	"sword_swipe3"
 				},
 				{
 					"frame":	14,
@@ -2089,82 +2089,64 @@
 			]
 		},
 		{
-			"name":		"ike_axe_dodge",
-			"path":		"res/battle_anim/ike_axe_dodge.png",
-			"width":	240,
-			"height":	160,
-			"frames":	2,
+			"name":		"chrom_lance_dodge",
+			"path":		"res/battle_anim/chrom_lance_dodge.png",
+			"width":	98,
+			"height":	62,
+			"frames":	4,
 			"columns":	4,
-			"offsetX":	194,
-			"offsetY":	107,
+			"offsetX":	60,
+			"offsetY":	54,
 			"freeze":	0
 		},
 		{
-			"name":		"ike_handaxe_attack",
-			"path":		"res/battle_anim/ike_handaxe_attack.png",
-			"width":	240,
-			"height":	160,
-			"frames":	12,
+			"name":		"chrom_javelin_attack",
+			"path":		"res/battle_anim/chrom_lance_attack.png",
+			"width":	98,
+			"height":	62,
+			"frames":	13,
 			"columns":	4,
-			"offsetX":	150,
-			"offsetY":	103,
-			"freeze":	1,
-			"hitframes":[5],
+			"offsetX":	60,
+			"offsetY":	54,
+			"freeze":	0,
+			"hitframes":[10],
 			"soundMap": [
 				{
-					"frame":	3,
-					"sound":	"axe_throw"
-				},
-				{
-					"frame":	10,
-					"sound":	"catch"
-				},
+					"frame":	5,
+					"sound":	"lance_throw"
+				}
 			]
 		},
 		{
-			"name":		"ike_handaxe_critical",
-			"path":		"res/battle_anim/ike_handaxe_critical.png",
-			"width":	240,
-			"height":	160,
-			"frames":	14,
-			"columns":	7,
-			"offsetX":	150,
-			"offsetY":	103,
-			"freeze":	1,
-			"hitframes":[8],
+			"name":		"chrom_javelin_critical",
+			"path":		"res/battle_anim/chrom_lance_critical.png",
+			"width":	98,
+			"height":	62,
+			"frames":	13,
+			"columns":	4,
+			"offsetX":	60,
+			"offsetY":	54,
+			"freeze":	0,
+			"hitframes":[10],
 			"soundMap": [
 				{
-					"frame":	2,
-					"sound":	"axe_swipe1"
-				},
-				{
-					"frame":	3,
-					"sound":	"axe_swipe1"
-				},
-				{
-					"frame":	4,
-					"sound":	"axe_swipe1"
-				},
-				{
-					"frame":	7,
-					"sound":	"axe_throw"
-				},
-				{
-					"frame":	12,
-					"sound":	"catch"
-				},
+					"frame":	5,
+					"sound":	"lance_throw"
+				}
+
 			]
 		},
 		{
-			"name":		"ike_handaxe_dodge",
-			"path":		"res/battle_anim/ike_handaxe_dodge.png",
-			"width":	222,
-			"height":	114,
-			"frames":	3,
-			"columns":	3,
-			"offsetX":	168,
-			"offsetY":	77,
+			"name":		"chrom_javelin_dodge",
+			"path":		"res/battle_anim/chrom_lance_dodge.png",
+			"width":	98,
+			"height":	62,
+			"frames":	4,
+			"columns":	4,
+			"offsetX":	60,
+			"offsetY":	54,
 			"freeze":	0
+			
 		},
 		{
 			"name":		"lyn_sword_attack",
@@ -2390,8 +2372,8 @@
 			]
 		},
 		{
-			"name":		"marth_sword_aether1",
-			"path":		"res/battle_anim/marth_sword_aether1.png",
+			"name":		"marth_sword_awakening1",
+			"path":		"res/battle_anim/marth_sword_awakening1.png",
 			"width":	240,
 			"height":	57,
 			"offsetX":	150,
@@ -2417,8 +2399,8 @@
 			]
 		},
 		{
-			"name":		"marth_sword_aether2",
-			"path":		"res/battle_anim/marth_sword_aether2.png",
+			"name":		"marth_sword_awakening2",
+			"path":		"res/battle_anim/marth_sword_awakening2.png",
 			"width":	240,
 			"height":	57,
 			"offsetX":	150,
@@ -3175,8 +3157,8 @@
 			]
 		},
 		{
-			"name":		"roy_sword_aether1",
-			"path":		"res/battle_anim/roy_sword_aether1.png",
+			"name":		"roy_sword_awakening1",
+			"path":		"res/battle_anim/roy_sword_awakening1.png",
 			"width":	150,
 			"height":	113,
 			"offsetX":	88,
@@ -3215,8 +3197,8 @@
 			]
 		},
 		{
-			"name":		"roy_sword_aether2",
-			"path":		"res/battle_anim/roy_sword_aether2.png",
+			"name":		"roy_sword_awakening2",
+			"path":		"res/battle_anim/roy_sword_awakening2.png",
 			"width":	150,
 			"height":	113,
 			"offsetX":	89,
@@ -3340,8 +3322,8 @@
 			]
 		},
 		{
-			"name":		"roy_rangedsword_aether1",
-			"path":		"res/battle_anim/roy_sword_aether1.png",
+			"name":		"roy_rangedsword_awakening1",
+			"path":		"res/battle_anim/roy_sword_awakening1.png",
 			"width":	150,
 			"height":	113,
 			"offsetX":	88,
@@ -3357,8 +3339,8 @@
 			]
 		},
 		{
-			"name":		"roy_rangedsword_aether2",
-			"path":		"res/battle_anim/roy_sword_aether2.png",
+			"name":		"roy_rangedsword_awakening2",
+			"path":		"res/battle_anim/roy_sword_awakening2.png",
 			"width":	150,
 			"height":	113,
 			"offsetX":	88,
@@ -4525,7 +4507,7 @@
 		},
 		
 		{
-			"name":		"hit_effect_ragnell",
+			"name":		"hit_effect_Great_Fachion",
 			"path":		"res/battle_anim/hit_effect_attack.png",
 			"width":	240,
 			"height":	160,
@@ -4595,8 +4577,8 @@
 			]
 		},
 		{
-			"name":		"hit_effect_aether1",
-			"path":		"res/battle_anim/hit_effect_sol.png",
+			"name":		"hit_effect_awakening1",
+			"path":		"res/battle_anim/hit_effect_awakening.png",
 			"width":	200,
 			"height":	200,
 			"frames":	9,
@@ -4608,13 +4590,13 @@
 			"soundMap": [
 				{
 					"frame": 0,
-					"sound": "sol"
+					"sound": "awakening"
 				}
 			]
 		},
 		{
-			"name":		"hit_effect_luna",
-			"path":		"res/battle_anim/hit_effect_luna.png",
+			"name":		"hit_effect_awakening",
+			"path":		"res/battle_anim/hit_effect_awakening.png",
 			"width":	200,
 			"height":	200,
 			"frames":	9,
@@ -4626,13 +4608,13 @@
 			"soundMap": [
 				{
 					"frame": 0,
-					"sound": "luna"
+					"sound": "awakening"
 				}
 			]
 		},
 		{
-			"name":		"hit_effect_aether2",
-			"path":		"res/battle_anim/hit_effect_luna.png",
+			"name":		"hit_effect_awakening2",
+			"path":		"res/battle_anim/hit_effect_awakening.png",
 			"width":	200,
 			"height":	200,
 			"frames":	9,
@@ -5848,24 +5830,24 @@
 			"path":		"res/map_anim/hero_map_up.png"
 		},
 		{
-			"name":		"ike_map_down",
-			"path":		"res/map_anim/ike_map_down.png"
+			"name":		"chrom_map_down",
+			"path":		"res/map_anim/chrom_map_down.png"
 		},
 		{
-			"name":		"ike_map_idle",
-			"path":		"res/map_anim/ike_map_idle.png"
+			"name":		"chrom_map_idle",
+			"path":		"res/map_anim/chrom_map_idle.png"
 		},
 		{
-			"name":		"ike_map_selected",
-			"path":		"res/map_anim/ike_map_selected.png"
+			"name":		"chrom_map_selected",
+			"path":		"res/map_anim/chrom_map_selected.png"
 		},
 		{
-			"name":		"ike_map_side",
-			"path":		"res/map_anim/ike_map_side.png"
+			"name":		"chrom_map_side",
+			"path":		"res/map_anim/chrom_map_side.png"
 		},
 		{
-			"name":		"ike_map_up",
-			"path":		"res/map_anim/ike_map_up.png"
+			"name":		"chrom_map_up",
+			"path":		"res/map_anim/chrom_map_up.png"
 		},
 		{
 			"name":		"lyn_map_down",
@@ -6226,8 +6208,8 @@
 			"path":		"res/map_mugshots/hector_mugshot.png"
 		},
 		{
-			"name":		"ike_mugshot",
-			"path":		"res/map_mugshots/ike_mugshot.png"
+			"name":		"chrom_mugshot",
+			"path":		"res/map_mugshots/chrom_mugshot.png"
 		},
 		{
 			"name":		"joshua_mugshot",
