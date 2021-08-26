@@ -9,7 +9,6 @@
 	</classpathentry>
 	<classpathentry kind="src" path="res"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry exported="true" kind="lib" path="lwjgl-2.9.0/jar/lwjgl.jar">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="FEMultiplayer/lwjgl-2.9.0/native/windows"/>
@@ -20,5 +19,6 @@
 	<classpathentry exported="true" kind="lib" path="lwjgl-2.9.0/jar/jogg-0.0.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="lwjgl-2.9.0/jar/jorbis-0.0.15.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_301"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
