@@ -4761,8 +4761,8 @@
 			]
 		},
 		{
-			"name":		"hit_effect_sealed-sword",
-			"path":		"res/battle_anim/hit_effect_sealed-sword.png",
+			"name":		"hit_effect_binding-blade",
+			"path":		"res/battle_anim/hit_effect_binding-blade.png",
 			"width":	113,
 			"height":	112,
 			"offsetX":	59,

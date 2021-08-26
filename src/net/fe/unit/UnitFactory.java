@@ -104,7 +104,7 @@ public class UnitFactory {
 			}
 			Unit u = new Unit(name, clazz, gender, bases, growths);
 			if(name.equals("Roy")){
-				u.addToInventory(WeaponFactory.getWeapon("Sealed Sword"));
+				u.addToInventory(WeaponFactory.getWeapon("Binding Blade"));
 			} else if (name.equals("Lyn")){
 				u.addToInventory(WeaponFactory.getWeapon("Sol Katti"));
 			} else if (name.equals("Eliwood")){

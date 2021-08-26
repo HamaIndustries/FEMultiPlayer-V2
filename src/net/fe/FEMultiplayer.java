@@ -185,8 +185,8 @@ public class FEMultiplayer extends Game{
 		testSession.addPlayer(p2);
 		
 		final ClientOverworldStage map = new ClientOverworldStage(testSession);
-		Unit u1 = UnitFactory.getUnit("Eirika");
-		u1.getInventory().add(WeaponFactory.getWeapon("Silver Sword"));
+		Unit u1 = UnitFactory.getUnit("Roy");
+		u1.getInventory().add(WeaponFactory.getWeapon("Binding Blade"));
 		u1.equip(0);
 		map.addUnit(u1, 0, 0);
 		u1.setLevel(20);
@@ -204,7 +204,7 @@ public class FEMultiplayer extends Game{
 		map.processAddStack();
 		int u2Uses = u2.getWeapon().getMaxUses();
 
-		//u1.debugStat("Skl");
+		u1.debugStat("Skl");
 		//u1.debugStat("Str");
 		
 		// ^------- put all pre-calc stuff here
