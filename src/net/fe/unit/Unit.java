@@ -835,7 +835,7 @@ public final class Unit extends GriddedEntity implements Serializable, DoNotDest
 	 * @return the int
 	 */
 	public int avoid() {
-		return 2 * getStats().spd + getStats().lck / 2
+		return getStats().spd + getStats().lck / 2
 				+ (tempMods.get("Avo") != null ? tempMods.get("Avo") : 0)
 				+ getTerrain().getAvoidBonus(this);
 	}
