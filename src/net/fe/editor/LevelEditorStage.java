@@ -9,8 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
+
+import javax.swing.JOptionPane;
 
 import net.fe.Party;
 
@@ -163,24 +163,19 @@ public class LevelEditorStage extends Stage {
 								Mouse.getX() / 16,
 								(Game.getWindowHeight() - Mouse.getY()) / 16,
 								null));
-					} else if (ke.key == Keyboard.KEY_F1) { 
-						Level level = new Level(tiles[0].length, tiles.length, tiles, spawns);
-						File file = new File("levels/"+levelName+".lvl");
-		                FileOutputStream fo;
-		                ObjectOutputStream oos;
-		                try {
-		                        fo = new FileOutputStream(file);
-		                        oos = new ObjectOutputStream(fo);
-		                        oos.writeObject(level);
-		                        oos.close();
-		                        System.out.println("Level serialization successful.");
-		                } catch (FileNotFoundException e) {
-		                        System.out.println("Invalid file path!");
-		                        e.printStackTrace();
-		                } catch (IOException e) {
-		                        System.err.println("Failed to create object output stream");
-		                        e.printStackTrace();
-		                }
+					} else if (ke.key == Keyboard.KEY_F1) { // save
+						save();
+					} else if (ke.key == Keyboard.KEY_F2) { // save as
+						String name = JOptionPane.showInputDialog(null, "Save As");
+						if (name != null && !name.isEmpty()) {
+							levelName = name;
+							save();
+						}
+					} else if (ke.key == Keyboard.KEY_F3) { // open new
+						String name = JOptionPane.showInputDialog(null, "Open Level");
+						if (name != null && !name.isEmpty()) {
+							LevelEditor.setCurrentStage(new LevelEditorStage(name));
+						}
 					}
 				}
 			}
@@ -265,4 +260,23 @@ public class LevelEditorStage extends Stage {
 		tiles = newTiles;
 	}
 
+	private void save() {
+		Level level = new Level(tiles[0].length, tiles.length, tiles, spawns);
+		File file = new File("levels/"+levelName+".lvl");
+        FileOutputStream fo;
+        ObjectOutputStream oos;
+        try {
+                fo = new FileOutputStream(file);
+                oos = new ObjectOutputStream(fo);
+                oos.writeObject(level);
+                oos.close();
+                System.out.println("Level serialization successful. Saved as " + levelName+".lvl");
+        } catch (FileNotFoundException e) {
+                System.out.println("Invalid file path!");
+                e.printStackTrace();
+        } catch (IOException e) {
+                System.err.println("Failed to create object output stream");
+                e.printStackTrace();
+        }
+	}
 }

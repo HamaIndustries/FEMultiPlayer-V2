@@ -43,7 +43,7 @@ public class LevelEditor extends Game {
 	@Override
 	public void init(int width, int height, String name) {
 		super.init(width, height, name);
-		currentStage = new LevelEditorStage("seven?");
+		currentStage = new LevelEditorStage("stage");
 	}
 	
 	/* (non-Javadoc)
@@ -72,6 +72,10 @@ public class LevelEditor extends Game {
 		}
 		AL.destroy();
 		Display.destroy();
+	}
+	
+	public static void setCurrentStage(Stage stage) {
+		currentStage = stage;
 	}
 
 }
