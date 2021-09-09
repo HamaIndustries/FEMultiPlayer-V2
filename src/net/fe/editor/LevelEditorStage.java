@@ -261,7 +261,12 @@ public class LevelEditorStage extends Stage {
 	}
 
 	private void save() {
-		Level level = new Level(tiles[0].length, tiles.length, tiles, spawns);
+		File levels = new File("levels");
+		if(!levels.exists()) {
+			levels.mkdir();
+		}
+		
+		Level level = new Level(tiles[0].length, tiles.length, tiles, spawns);		
 		File file = new File("levels/"+levelName+".lvl");
         FileOutputStream fo;
         ObjectOutputStream oos;
