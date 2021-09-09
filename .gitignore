@@ -13,3 +13,4 @@ Thumbs.db
 .metadata
 *.prefs
 app.config
+/.settings
